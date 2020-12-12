@@ -3,16 +3,22 @@ import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 
+const nativeImage = require('electron').nativeImage;
+var image = nativeImage.createFromPath(__dirname + '/public/icon-512x512.png'); 
+
 let win: BrowserWindow | null = null;
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1179,
+    height: 754,
     webPreferences: {
       nodeIntegration: true
-    }
-  })
+    },
+    backgroundColor: 'black',
+    transparent: false,
+    icon: image
+  });
 
   if (isDev) {
     win.loadURL('http://localhost:3000/index.html');
