@@ -1,8 +1,7 @@
 {
-  "name": "my-app",
-  "version": "0.1.1",
-  "author": "Your Name",
-  "description": "React-TypeScript-Electron sample with Create React App and Electron Builder",
+  "name": "web-toolbox",
+  "version": "0.1.0",
+  "description": "Collection of web developer utilities packaged as a desktop app",
   "homepage": ".",
   "main": "build/electron/main.js",
   "private": true,
