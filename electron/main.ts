@@ -39,7 +39,7 @@ function createWindow() {
     .catch((err) => console.log('An error occurred: ', err));
 
   if (isDev) {
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
   }
 }
 
