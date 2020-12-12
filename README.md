@@ -1,5 +1,44 @@
+<div align="center">
+  <img src="public/icon-512x512.png" width="200" alt="Web Toolbox" />
+</div>
+
+<br />
+
+<div align="center"><strong>Web Toolbox</strong></div>
+<div align="center">Collection of web developer utilities</div>
+
+<br />
+
+<div align="center">
+  <sub>Powered by <a href="https://reactjs.org/docs/create-a-new-react-app.html">Create React App</a>.</sub>
+</div>
+
+## Features
+
+Completed features:
+
+- N/A
+
+Roadmap (list of items in the TODO list...):
+
+- URL Encoder/Decoder
+- Query String Parser
+- JSON Formatter/Validator
+- Base64 Encoder/Decoder
+- Unix Time Converter
+- JWT Debugger
+- HTML Entity Encoder/Decoder
+- UUID Generator/Decoder
+
+## License
+
+This project is licensed under the MIT license, Copyright (c) 2020 André Masson. For more information see `LICENSE.md`.
+
+
 React-TypeScript-Electron sample with Create React App and Electron Builder
 ===========================================================================
+
+* https://github.com/yhirose/react-typescript-electron-sample-with-create-react-app-and-electron-builder
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with `--typescript`option.
 
