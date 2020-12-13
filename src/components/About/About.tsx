@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 import AppDetail from './AppDetail';
 import Banner from './banner.jpg';
-import Counter from '../Counter/Counter';
+import Counter from '../../containers/Counter/Counter';
 
 const useStyles = makeStyles(theme => ({
   root: {
