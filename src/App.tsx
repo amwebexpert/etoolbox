@@ -20,10 +20,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import HomeIcon from '@material-ui/icons/Home';
+import LinkIcon from '@material-ui/icons/Link';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 import About from './components/About/About';
 import Home from './components/Home';
+import URLParser from './components/URLParser';
 
 const drawerWidth = 240;
 
@@ -173,10 +175,18 @@ export default function App() {
           </div>
           <Divider />
           <List>
-            <Link to="/" className={classes.link}>
+            <Link to="/" title="Home" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>
                   <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Home"} />
+              </ListItem>
+            </Link>
+            <Link to="/URLParser" title="URL parser" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <LinkIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Home"} />
               </ListItem>
@@ -186,12 +196,9 @@ export default function App() {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="/about">
-              <About />
-            </Route>
+            <Route exact path="/"><Home /></Route>
+            <Route exact path="/about"><About /></Route>
+            <Route exact path="/URLParser"><URLParser /></Route>
           </Switch>
         </main>
       </div>
