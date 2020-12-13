@@ -23,6 +23,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 import About from './components/About/About';
+import Home from './components/Home';
 
 const drawerWidth = 240;
 
@@ -186,7 +187,7 @@ export default function App() {
           <div className={classes.toolbar} />
           <Switch>
             <Route exact path="/">
-              My Home component goes here
+              <Home />
             </Route>
             <Route exact path="/about">
               <About />
