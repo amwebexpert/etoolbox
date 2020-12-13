@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
-import counterReducer from './counter-reducer';
+import counterReducer, { CounterState } from './counter-reducer';
+
+export interface AppState {
+    counter: CounterState;
+}
 
 const reducers = combineReducers({
     counter: counterReducer,

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { decrementAction, incrementAction, incrementAsyncAction } from '../../actions/counter-actions';
-import { CounterState } from '../../reducers/counter-reducer';
+import { AppState } from '../../reducers';
 
 interface Props {
     count?: number;
@@ -22,7 +22,7 @@ const Counter: React.FC<Props> = (props: Props) => {
     );
 }
 
-export function mapStateToProps(state: any, ownProps: any) {
+export function mapStateToProps(state: AppState, ownProps: any) {
     return {
         count: state.counter.count
     }
