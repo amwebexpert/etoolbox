@@ -14,7 +14,6 @@ const Home: React.FC = () => {
 
     return (
         <Paper className={classes.root}>
-            <h1>Web Toolbox</h1>
             <p>Welcome to the a collection of web developer utilities packaged as a desktop app!</p>
 
             <h2>Completed features</h2>
