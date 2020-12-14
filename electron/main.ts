@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
@@ -11,6 +11,7 @@ let win: BrowserWindow | null = null;
 app.on('ready', () => {
   createWindow();
   setupMenu();
+  setupIpcMain();
 });
 
 app.on('activate', () => {
@@ -37,6 +38,10 @@ function createWindow() {
   win.on('closed', () => win = null);
 
   loadApplication();
+}
+
+function setupIpcMain() {
+  ipcMain.on('rendererAppStarted', () => console.log('main.ts: app started'));
 }
 
 function loadApplication() {
@@ -68,7 +73,6 @@ function loadApplication() {
 }
 
 function setupMenu() {
-  console.log('Calling setApplicationMenu...');
   let menu = Menu.buildFromTemplate([
     {
       label: 'File',
@@ -93,10 +97,7 @@ function setupMenu() {
         {
           label: 'About...',
           accelerator: 'Ctrl+Alt+A',
-          click: () => {
-            console.log('Navigation to about page');
-            // mainWindow.webContents.send('navigateTo', 'about');
-          }
+          click: () => win!.webContents.send('navigateTo', 'about')
         },
         {
           type: 'separator'
