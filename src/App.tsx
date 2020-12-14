@@ -47,7 +47,7 @@ const App: React.FC = () => {
   function setupIPC() {
     if (ipc) {
       ipc.send('rendererAppStarted');
-      ipc.on('navigateTo', (_event: any, path: string) => history.push("/about"));
+      ipc.on('navigateTo', (_event: any, path: string) => history.push(path));
     }
   }
 

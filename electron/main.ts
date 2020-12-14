@@ -30,7 +30,7 @@ function createWindow() {
   win = new BrowserWindow({
     title: 'Web Toolbox',
     width: 1200,
-    height: 700,
+    height: 900,
     webPreferences: {
       nodeIntegration: true
     }
@@ -79,12 +79,22 @@ function setupMenu() {
       label: 'Web Toolbox',
       submenu: [
         {
-          label: 'Refresh',
-          accelerator: 'Ctrl+Alt+R',
-          click: loadApplication
+          label: 'URL Parser',
+          accelerator: 'Ctrl+Alt+U',
+          click: () => win!.webContents.send('navigateTo', '/URLParser')
+        },
+        {
+          label: 'JSON Formatter',
+          accelerator: 'Ctrl+Alt+J',
+          click: () => win!.webContents.send('navigateTo', '/JSONFormatter')
         },
         {
           type: 'separator'
+        },
+        {
+          label: 'Refresh',
+          accelerator: 'Ctrl+Alt+R',
+          click: loadApplication
         },
         {
           label: 'Quit',
@@ -98,7 +108,7 @@ function setupMenu() {
         {
           label: 'About...',
           accelerator: 'Ctrl+Alt+A',
-          click: () => win!.webContents.send('navigateTo', 'about')
+          click: () => win!.webContents.send('navigateTo', '/about')
         },
         {
           type: 'separator'
