@@ -20,12 +20,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import HomeIcon from '@material-ui/icons/Home';
+import WrapTextIcon from '@material-ui/icons/WrapText';
 import LinkIcon from '@material-ui/icons/Link';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 import About from './components/About/About';
 import Home from './components/Home';
 import URLParser from './components/URLParser';
+import JSONFormatter from './components/JSONFormatter';
 
 const drawerWidth = 240;
 
@@ -188,7 +190,15 @@ export default function App() {
                 <ListItemIcon>
                   <LinkIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Home"} />
+                <ListItemText primary={"URL Parser"} />
+              </ListItem>
+            </Link>
+            <Link to="/JSONFormatter" title="JSON Formatter" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <WrapTextIcon />
+                </ListItemIcon>
+                <ListItemText primary={"JSON Formatter"} />
               </ListItem>
             </Link>
           </List>
@@ -199,6 +209,7 @@ export default function App() {
             <Route exact path="/"><Home /></Route>
             <Route exact path="/about"><About /></Route>
             <Route exact path="/URLParser"><URLParser /></Route>
+            <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
           </Switch>
         </main>
       </div>
