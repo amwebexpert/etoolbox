@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import * as services from './services';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,11 +17,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
+const StyledTableCell = withStyles(() => ({
     body: {
         fontSize: 14,
     },
@@ -35,25 +31,17 @@ const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
+const DEFAULT_URL = 'http://www.upwave.com:8080/test/this?test=34&test2=this+is+my+second+param#value-added-to-url';
 
 const URLParser: React.FC = () => {
     const classes = useStyles();
-    const [value, setValue] = React.useState('http://www.upwave.com');
-    const [parts, setParts] = React.useState(new Map<string, string>());
+    const [value, setValue] = React.useState(DEFAULT_URL);
+    const [parts, setParts] = React.useState(services.parseUrl(DEFAULT_URL));
 
     const handleChange = (event: any) => {
-        const newValue = event.target.value;
-        setValue(newValue);
-        try {
-            const newUrl = new URL(newValue);
-            const parts: Map<string, string> = new Map();
-            parts.set('host', newUrl.host);
-            parts.set('protocol', newUrl.protocol);
-
-            setParts(parts);
-        } catch (e) {
-            //  do nothing user may still be typing }
-        }
+        const url = event.target.value;
+        setValue(url);
+        setParts(services.parseUrl(url));
     }
 
     return (
@@ -79,12 +67,12 @@ const URLParser: React.FC = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>Attribute</StyledTableCell>
+                            <StyledTableCell>Part</StyledTableCell>
                             <StyledTableCell>Value</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {parts && [...parts.keys()].map(key => (
+                        {parts && [...parts.keys()].sort().map(key => (
                             <StyledTableRow key={key}>
                                 <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
                                 <StyledTableCell>{parts.get(key)}</StyledTableCell>
