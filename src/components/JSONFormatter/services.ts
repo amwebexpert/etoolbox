@@ -18,3 +18,12 @@ export function formatJson(value: string) {
         return value;
     }
 }
+
+export function saveJsonAs(jsonContent: string) {
+    // Will be defined if the React App is running inside Electron
+    if (!window.require) {
+        return;
+    }
+    const ipc = window.require("electron").ipcRenderer;
+    ipc.send('saveJsonAs', jsonContent);
+}

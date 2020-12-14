@@ -43,6 +43,7 @@ function createWindow() {
 
 function setupIpcMain() {
   ipcMain.on('rendererAppStarted', () => console.log('main.ts: app started'));
+  ipcMain.on('saveJsonAs', (_event, jsonContent: string) => console.log('saving', jsonContent));
 }
 
 function loadApplication() {

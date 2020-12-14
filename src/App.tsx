@@ -30,12 +30,6 @@ import URLParser from './components/URLParser';
 import JSONFormatter from './components/JSONFormatter';
 import { useStyles } from './styles';
 
-// Will be defined if the React App is running inside Electron
-let ipc: any;
-if (window.require) {
-  ipc = window.require("electron")?.ipcRenderer;
-}
-
 const App: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
@@ -45,10 +39,13 @@ const App: React.FC = () => {
   React.useEffect(setupIPC, [history]);
 
   function setupIPC() {
-    if (ipc) {
-      ipc.send('rendererAppStarted');
-      ipc.on('navigateTo', (_event: any, path: string) => history.push(path));
+    // Will be defined if the React App is running inside Electron
+    if (!window.require) {
+      return;
     }
+    const ipc = window.require("electron").ipcRenderer;
+    ipc.send('rendererAppStarted');
+    ipc.on('navigateTo', (_event: any, path: string) => history.push(path));
   }
 
   return (

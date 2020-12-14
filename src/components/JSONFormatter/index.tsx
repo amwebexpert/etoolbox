@@ -4,10 +4,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
+import SaveIcon from '@material-ui/icons/Save';
 import TextField from '@material-ui/core/TextField';
 import * as copy from 'copy-to-clipboard';
 
 import * as services from './services';
+import { Box, Toolbar } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,7 +18,14 @@ const useStyles = makeStyles((theme) => ({
     formatted: {
         border: '1px solid grey',
         maxHeight: '500px',
-    }
+    },
+    toolbar: {
+        margin: 0,
+        padding: 0,
+        '& > *': {
+            marginLeft: theme.spacing(1),
+        },
+    },
 }));
 
 const DEFAULT_VALUE = '{ "key": "value" }';
@@ -35,6 +44,11 @@ const JSONFormatter: React.FC = () => {
     const handleCopy = (event: any) => {
         event.preventDefault();
         copy.default(formatted, { format: 'text/plain' });
+    }
+
+    const handleSaveAs = (event: any) => {
+        event.preventDefault();
+        services.saveJsonAs(formatted);
     }
 
     return (
@@ -57,8 +71,13 @@ const JSONFormatter: React.FC = () => {
                 </div>
             </form>
 
-            <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
-                variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+            <Toolbar className={classes.toolbar}>
+                <Box display='flex' flexGrow={1}></Box>
+                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
+                    variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                <Button endIcon={<SaveIcon>Save As...</SaveIcon>}
+                    variant="contained" color="primary" onClick={handleSaveAs}>Save As...</Button>
+            </Toolbar>
 
             <SyntaxHighlighter language="json" style={docco} className={classes.formatted}>
                 {formatted}
