@@ -1,18 +1,48 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 
 let win: BrowserWindow | null = null;
 
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', () => {
+  createWindow();
+  setupMenu();
+});
+
+app.on('activate', () => {
+  if (win === null) {
+    createWindow();
+  }
+});
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
 function createWindow() {
   win = new BrowserWindow({
-    width: 1179,
-    height: 754,
+    width: 1200,
+    height: 700,
     webPreferences: {
       nodeIntegration: true
     }
   });
+
+  win.on('closed', () => win = null);
+
+  loadApplication();
+}
+
+function loadApplication() {
+  if (!win) {
+    return;
+  }
 
   if (isDev) {
     win.loadURL('http://localhost:3000/index.html');
@@ -20,8 +50,6 @@ function createWindow() {
     // 'build/index.html'
     win.loadURL(`file://${__dirname}/../index.html`);
   }
-
-  win.on('closed', () => win = null);
 
   // Hot Reloading
   if (isDev) {
@@ -37,22 +65,53 @@ function createWindow() {
   installExtension(REACT_DEVELOPER_TOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log('An error occurred: ', err));
-
-  if (isDev) {
-    // win.webContents.openDevTools();
-  }
 }
 
-app.on('ready', createWindow);
+function setupMenu() {
+  console.log('Calling setApplicationMenu...');
+  let menu = Menu.buildFromTemplate([
+    {
+      label: 'File',
+      submenu: [
+        {
+          label: 'Refresh',
+          accelerator: 'Ctrl+Alt+R',
+          click: loadApplication
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Quit',
+          role: 'quit'
+        }
+      ]
+    },
+    {
+      label: '?',
+      submenu: [
+        {
+          label: 'About...',
+          accelerator: 'Ctrl+Alt+A',
+          click: () => {
+            console.log('Navigation to about page');
+            // mainWindow.webContents.send('navigateTo', 'about');
+          }
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: "Dev tools...",
+          accelerator: 'Ctrl+Alt+D',
+          click: () => {
+            win!.webContents.toggleDevTools();
+          }
+        },
+      ]
+    },
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
+  ]);
 
-app.on('activate', () => {
-  if (win === null) {
-    createWindow();
-  }
-});
+  Menu.setApplicationMenu(menu);
+}
