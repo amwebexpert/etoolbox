@@ -42,6 +42,7 @@ const JSONFormatter: React.FC = () => {
             <form noValidate autoComplete="off">
                 <div>
                     <TextField
+                        autoFocus
                         id="outlined-multiline-static"
                         label="JSON Content"
                         placeholder="Paste or type the json content here"

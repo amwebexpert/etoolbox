@@ -49,6 +49,7 @@ const URLParser: React.FC = () => {
             <form noValidate autoComplete="off">
                 <div>
                     <TextField
+                        autoFocus
                         id="outlined-multiline-static"
                         label="URL"
                         placeholder="Paste or type the url here"

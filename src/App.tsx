@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -36,25 +36,20 @@ if (window.require) {
   ipc = window.require("electron")?.ipcRenderer;
 }
 
-export default function App() {
+const App: React.FC = () => {
   const classes = useStyles();
+  const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  React.useEffect(() => {
+  React.useEffect(setupIPC, [history]);
+
+  function setupIPC() {
     if (ipc) {
       ipc.send('rendererAppStarted');
-      ipc.on('navigateTo', (_event: any, path: string) => console.log('navigateTo', path));
+      ipc.on('navigateTo', (_event: any, path: string) => history.push("/about"));
     }
-  }, []);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  }
 
   return (
     <>
@@ -76,7 +71,7 @@ export default function App() {
             <IconButton
               color="inherit"
               aria-label="open sidebar menu"
-              onClick={handleDrawerOpen}
+              onClick={() => setOpen(true)}
               edge="start"
               className={clsx(classes.menuButton, {
                 [classes.hide]: open,
@@ -110,7 +105,7 @@ export default function App() {
           }}
         >
           <div className={classes.toolbar}>
-            <IconButton onClick={handleDrawerClose}>
+            <IconButton onClick={() => setOpen(false)}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
           </div>
@@ -155,3 +150,5 @@ export default function App() {
     </>
   );
 }
+
+export default App;

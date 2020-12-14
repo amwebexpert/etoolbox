@@ -76,7 +76,7 @@ function loadApplication() {
 function setupMenu() {
   const template: any = [
     {
-      label: 'File',
+      label: 'Web Toolbox',
       submenu: [
         {
           label: 'Refresh',
@@ -113,10 +113,6 @@ function setupMenu() {
       ]
     },
   ];
-
-  if (process.platform === 'darwin') {
-    template.unshift({ label: '' });
-  }
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
