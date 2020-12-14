@@ -1,25 +1,25 @@
 export function parseUrl(value: string) {
-    const parts: Map<string, string> = new Map();
+    const fragments: Map<string, string> = new Map();
 
     try {
-        const newUrl = new URL(value);
+        const url = new URL(value);
 
-        parts.set('host', newUrl.host);
-        parts.set('protocol', newUrl.protocol);
-        parts.set('hash', newUrl.hash);
-        parts.set('origin', newUrl.origin);
-        parts.set('pathname', newUrl.pathname);
-        parts.set('port', newUrl.port ? newUrl.port : '<default>');
-        parts.set('search', newUrl.search);
+        fragments.set('host', url.host);
+        fragments.set('protocol', url.protocol);
+        fragments.set('hash', url.hash);
+        fragments.set('origin', url.origin);
+        fragments.set('pathname', url.pathname);
+        fragments.set('port', url.port ? url.port : '<default>');
+        fragments.set('search', url.search);
 
-        const searchParams: URLSearchParams = newUrl.searchParams;
+        const searchParams: URLSearchParams = url.searchParams;
         searchParams.forEach((value, key) => {
-            parts.set(`searchParam.${key}`, value);
+            fragments.set(`searchParam.${key}`, value);
         });
 
     } catch (e) {
         //  do nothing user may still be typing...
     }
 
-    return parts;
+    return fragments;
 }

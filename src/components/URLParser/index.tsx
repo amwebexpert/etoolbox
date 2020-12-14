@@ -36,12 +36,12 @@ const DEFAULT_URL = 'http://www.upwave.com:8080/test/this?test=34&test2=this+is+
 const URLParser: React.FC = () => {
     const classes = useStyles();
     const [value, setValue] = React.useState(DEFAULT_URL);
-    const [parts, setParts] = React.useState(services.parseUrl(DEFAULT_URL));
+    const [urlFragments, setUrlFragments] = React.useState(services.parseUrl(DEFAULT_URL));
 
     const handleChange = (event: any) => {
         const url = event.target.value;
         setValue(url);
-        setParts(services.parseUrl(url));
+        setUrlFragments(services.parseUrl(url));
     }
 
     return (
@@ -67,15 +67,15 @@ const URLParser: React.FC = () => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>Part</StyledTableCell>
+                            <StyledTableCell>Fragment</StyledTableCell>
                             <StyledTableCell>Value</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {parts && [...parts.keys()].sort().map(key => (
+                        {urlFragments && [...urlFragments.keys()].sort().map(key => (
                             <StyledTableRow key={key}>
                                 <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
-                                <StyledTableCell>{parts.get(key)}</StyledTableCell>
+                                <StyledTableCell>{urlFragments.get(key)}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
