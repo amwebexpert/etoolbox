@@ -17,13 +17,12 @@
 
 Completed features:
 
-- N/A
+- URL (and query string) Parser
+- JSON Formatter/Validator
 
 Roadmap (list of items in the TODO list...):
 
 - URL Encoder/Decoder
-- Query String Parser
-- JSON Formatter/Validator
 - Base64 Encoder/Decoder
 - Unix Time Converter
 - JWT Debugger
