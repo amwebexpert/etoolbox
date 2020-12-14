@@ -33,6 +33,13 @@ Roadmap (list of items in the TODO list...):
 
 This project is licensed under the MIT license, Copyright (c) 2020 André Masson. For more information see `LICENSE.md`.
 
+## Usefull links
+
+* https://github.com/electron/electron/issues/7300
+* https://stackoverflow.com/questions/41551110/unable-to-override-app-name-on-mac-os-electron-menu
+* https://apple.stackexchange.com/a/385074/364767
+* https://9to5mac.com/2019/01/17/change-mac-icons/
+
 
 React-TypeScript-Electron sample with Create React App and Electron Builder
 ===========================================================================

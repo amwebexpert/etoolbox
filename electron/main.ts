@@ -28,6 +28,7 @@ app.on('window-all-closed', () => {
 
 function createWindow() {
   win = new BrowserWindow({
+    title: 'Web Toolbox',
     width: 1200,
     height: 700,
     webPreferences: {
@@ -73,7 +74,7 @@ function loadApplication() {
 }
 
 function setupMenu() {
-  let menu = Menu.buildFromTemplate([
+  const template: any = [
     {
       label: 'File',
       submenu: [
@@ -111,8 +112,12 @@ function setupMenu() {
         },
       ]
     },
+  ];
 
-  ]);
+  if (process.platform === 'darwin') {
+    template.unshift({ label: '' });
+  }
 
+  const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 }
