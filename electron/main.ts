@@ -142,6 +142,9 @@ function setupMenu() {
 }
 
 function setupTray() {
+  // TODO Define a better icon for Mac and add a isMac condition
+  // otherwise the icon is not showing properly. Actual workaround
+  // is to use tray.setTitle('xyz')
   const appIconPath: string = isDev ?
     path.join(`${__dirname}`, '..', 'public', 'icon-512x512.png') :
     path.join(`${__dirname}`, '..', 'icon-512x512.png');
@@ -150,7 +153,6 @@ function setupTray() {
   const template: any = [
     {
       label: 'About...',
-      accelerator: 'Ctrl+Alt+A',
       click: () => {
         win!.show();
         win!.webContents.send('navigateTo', '/about');
@@ -161,7 +163,6 @@ function setupTray() {
     },
     {
       label: "Dev tools...",
-      accelerator: 'Ctrl+Alt+D',
       click: () => {
         win!.show();
         win!.webContents.toggleDevTools();
@@ -187,9 +188,13 @@ function setupIpcMain() {
 function saveJsonAs(jsonContent: string) {
   const documentsFolder = app.getPath('documents');
   const toLocalPath: string = path.resolve(documentsFolder, 'test.json');
-  const fullFilename = dialog.showSaveDialogSync(win!, { defaultPath: toLocalPath });
-  if (fullFilename) {
-    fs.writeFileSync(fullFilename, jsonContent, 'utf-8');
-    win!.webContents.send('displayAlertMessage', `File saved successfully:\n\n ${fullFilename}`);
-  }
+
+  dialog.showSaveDialog(win!, { defaultPath: toLocalPath }).then((result) => {
+    const fullFilename: string | undefined = result.filePath;
+    if (fullFilename) {
+      fs.writeFile(fullFilename, jsonContent, 'utf-8', (err) => {
+        win!.webContents.send('displayAlertMessage', `File saved successfully: [${fullFilename}]`);
+      });
+    }
+  });
 }
