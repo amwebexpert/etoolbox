@@ -27,6 +27,7 @@ const Home: React.FC = () => {
             <h2>Roadmap (list of items in the TODO list...)</h2>
             <ul>
                 <li>UUID Generator/Decoder</li>
+                <li>Regular expression builder/tester</li>
                 <li>JWT Debugger</li>
                 <li>HTML Entity Encoder/Decoder</li>
                 <li>Unix Time Converter</li>

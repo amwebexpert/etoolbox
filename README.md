@@ -26,6 +26,7 @@ Roadmap (list of items in the TODO list...):
 
 - UUID Generator/Decoder
 - JWT Debugger
+- Regular expression builder/tester
 - Unix Time Converter
 
 ## License
