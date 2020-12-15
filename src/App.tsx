@@ -6,6 +6,7 @@ import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -22,6 +23,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import WrapTextIcon from '@material-ui/icons/WrapText';
 import LinkIcon from '@material-ui/icons/Link';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 import About from './components/About/About';
@@ -29,12 +31,18 @@ import Home from './components/Home';
 import URLParser from './components/URLParser';
 import JSONFormatter from './components/JSONFormatter';
 import { useStyles } from './styles';
+import { Snackbar } from '@material-ui/core';
+import URLEncoder from './components/URLEncoder';
 
 const App: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+  // For snackbar
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState('');
 
   React.useEffect(setupIPC, [history]);
 
@@ -46,6 +54,14 @@ const App: React.FC = () => {
     const ipc = window.require("electron").ipcRenderer;
     ipc.send('rendererAppStarted');
     ipc.on('navigateTo', (_event: any, path: string) => history.push(path));
+    ipc.on('displayAlertMessage', (_event: any, message: string) => {
+      setAlertMessage(message);
+      setSnackbarOpen(true);
+    });
+  }
+
+  function Alert(props: any) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
   return (
@@ -124,6 +140,14 @@ const App: React.FC = () => {
                 <ListItemText primary={"URL Parser"} />
               </ListItem>
             </Link>
+            <Link to="/URLEncoder" title="URL Encoder" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <LinkOffIcon />
+                </ListItemIcon>
+                <ListItemText primary={"URL Encoder"} />
+              </ListItem>
+            </Link>
             <Link to="/JSONFormatter" title="JSON Formatter" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>
@@ -140,11 +164,17 @@ const App: React.FC = () => {
             <Route exact path="/"><Home /></Route>
             <Route exact path="/about"><About /></Route>
             <Route exact path="/URLParser"><URLParser /></Route>
+            <Route exact path="/URLEncoder"><URLEncoder /></Route>
             <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
           </Switch>
         </main>
       </div>
-    </>
+
+      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={() => setSnackbarOpen(false)}>
+        <Alert onClose={() => setSnackbarOpen(false)} severity="success">
+          {alertMessage}
+        </Alert>
+      </Snackbar>    </>
   );
 }
 
