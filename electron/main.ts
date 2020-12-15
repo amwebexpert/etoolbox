@@ -1,10 +1,11 @@
-import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, dialog, Tray, nativeImage, globalShortcut } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 
 let win: BrowserWindow | null = null;
+let tray: Tray;
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -13,6 +14,7 @@ app.on('ready', () => {
   createWindow();
   setupMenu();
   setupIpcMain();
+  setupTray();
 });
 
 app.on('activate', () => {
@@ -29,7 +31,7 @@ app.on('window-all-closed', () => {
 
 function createWindow() {
   win = new BrowserWindow({
-    title: 'Web Toolbox',
+    title: app.name,
     width: 1200,
     height: 900,
     webPreferences: {
@@ -40,20 +42,6 @@ function createWindow() {
   win.on('closed', () => win = null);
 
   loadApplication();
-}
-
-function setupIpcMain() {
-  ipcMain.on('rendererAppStarted', () => console.log('main.ts: app started'));
-  ipcMain.on('saveJsonAs', (_event, jsonContent: string) => saveJsonAs(jsonContent));
-}
-
-function saveJsonAs(jsonContent: string) {
-  const documentsFolder = app.getPath('documents');
-  const toLocalPath: string = path.resolve(documentsFolder, 'test.json');
-  const fullFilename = dialog.showSaveDialogSync(win!, { defaultPath: toLocalPath });
-  if (fullFilename) {
-    fs.writeFileSync(fullFilename, jsonContent, 'utf-8');
-  }
 }
 
 function loadApplication() {
@@ -87,7 +75,7 @@ function loadApplication() {
 function setupMenu() {
   const template: any = [
     {
-      label: 'Web Toolbox',
+      label: app.name,
       submenu: [
         {
           label: 'URL Parser',
@@ -113,7 +101,21 @@ function setupMenu() {
         }
       ]
     },
+    // { role: 'editMenu' }
     {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'delete' },
+        { type: 'separator' },
+        { role: 'selectAll' }
+      ]
+    }, {
       label: '?',
       submenu: [
         {
@@ -137,4 +139,57 @@ function setupMenu() {
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
+}
+
+function setupTray() {
+  const appIconPath: string = isDev ?
+    path.join(`${__dirname}`, '..', 'public', 'icon-512x512.png') :
+    path.join(`${__dirname}`, '..', 'icon-512x512.png');
+  const img = nativeImage.createFromPath(appIconPath);
+  img.setTemplateImage(true);
+  const template: any = [
+    {
+      label: 'About...',
+      accelerator: 'Ctrl+Alt+A',
+      click: () => {
+        win!.show();
+        win!.webContents.send('navigateTo', '/about');
+      }
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: "Dev tools...",
+      accelerator: 'Ctrl+Alt+D',
+      click: () => {
+        win!.show();
+        win!.webContents.toggleDevTools();
+      }
+    }
+  ];
+
+  if (tray) {
+    tray.destroy();
+  }
+
+  tray = new Tray(img);
+  tray.setContextMenu(Menu.buildFromTemplate(template));
+  tray.setToolTip(`${app.name}...`);
+  tray.setTitle('WbTbx');
+}
+
+function setupIpcMain() {
+  ipcMain.on('rendererAppStarted', () => console.log('main.ts: app started'));
+  ipcMain.on('saveJsonAs', (_event, jsonContent: string) => saveJsonAs(jsonContent));
+}
+
+function saveJsonAs(jsonContent: string) {
+  const documentsFolder = app.getPath('documents');
+  const toLocalPath: string = path.resolve(documentsFolder, 'test.json');
+  const fullFilename = dialog.showSaveDialogSync(win!, { defaultPath: toLocalPath });
+  if (fullFilename) {
+    fs.writeFileSync(fullFilename, jsonContent, 'utf-8');
+    win!.webContents.send('displayAlertMessage', `File saved successfully:\n\n ${fullFilename}`);
+  }
 }
