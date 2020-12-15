@@ -19,15 +19,14 @@ Completed features:
 
 - URL (and query string) Parser
 - JSON Formatter/Validator
+- URL Encoder/Decoder
 
 Roadmap (list of items in the TODO list...):
 
-- URL Encoder/Decoder
 - Base64 Encoder/Decoder
-- Unix Time Converter
-- JWT Debugger
-- HTML Entity Encoder/Decoder
 - UUID Generator/Decoder
+- JWT Debugger
+- Unix Time Converter
 
 ## License
 
