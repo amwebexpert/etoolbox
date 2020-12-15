@@ -25,6 +25,7 @@ import WrapTextIcon from '@material-ui/icons/WrapText';
 import LinkIcon from '@material-ui/icons/Link';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
+import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 
 import About from './components/About/About';
 import Home from './components/Home';
@@ -33,12 +34,13 @@ import JSONFormatter from './components/JSONFormatter';
 import { useStyles } from './styles';
 import { Snackbar } from '@material-ui/core';
 import URLEncoder from './components/URLEncoder';
+import Base64Encoder from './components/Base64Encoder';
 
 const App: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   // For snackbar
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -140,12 +142,20 @@ const App: React.FC = () => {
                 <ListItemText primary={"URL Parser"} />
               </ListItem>
             </Link>
-            <Link to="/URLEncoder" title="URL Encoder" className={classes.link}>
+            <Link to="/URLEncoder" title="URL Encoder/decoder" className={classes.link}>
               <ListItem button>
                 <ListItemIcon>
                   <LinkOffIcon />
                 </ListItemIcon>
                 <ListItemText primary={"URL Encoder"} />
+              </ListItem>
+            </Link>
+            <Link to="/Base64Encoder" title="Base64 Encoder/decoder" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <DeveloperBoardIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Base64 Encoder"} />
               </ListItem>
             </Link>
             <Link to="/JSONFormatter" title="JSON Formatter" className={classes.link}>
@@ -165,6 +175,7 @@ const App: React.FC = () => {
             <Route exact path="/about"><About /></Route>
             <Route exact path="/URLParser"><URLParser /></Route>
             <Route exact path="/URLEncoder"><URLEncoder /></Route>
+            <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
             <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
           </Switch>
         </main>

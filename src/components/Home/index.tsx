@@ -21,15 +21,15 @@ const Home: React.FC = () => {
                 <li>URL (and query string) Parser</li>
                 <li>JSON Formatter/Validator</li>
                 <li>URL Encoder/Decoder</li>
+                <li>Base64 Encoder/Decoder</li>
             </ul>
 
             <h2>Roadmap (list of items in the TODO list...)</h2>
             <ul>
-                <li>Base64 Encoder/Decoder</li>
-                <li>Unix Time Converter</li>
+                <li>UUID Generator/Decoder</li>
                 <li>JWT Debugger</li>
                 <li>HTML Entity Encoder/Decoder</li>
-                <li>UUID Generator/Decoder</li>
+                <li>Unix Time Converter</li>
             </ul>
         </Paper>
     );

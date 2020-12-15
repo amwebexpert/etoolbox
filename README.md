@@ -20,10 +20,10 @@ Completed features:
 - URL (and query string) Parser
 - JSON Formatter/Validator
 - URL Encoder/Decoder
+- Base64 Encoder/Decoder
 
 Roadmap (list of items in the TODO list...):
 
-- Base64 Encoder/Decoder
 - UUID Generator/Decoder
 - JWT Debugger
 - Unix Time Converter
