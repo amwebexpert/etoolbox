@@ -15,12 +15,17 @@ app.on('ready', () => {
   setupMenu();
   setupIpcMain();
   setupTray();
+  setupGlobalShortcuts();
 });
 
 app.on('activate', () => {
   if (win === null) {
     createWindow();
   }
+});
+
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
 });
 
 app.on('window-all-closed', () => {
@@ -178,6 +183,10 @@ function setupTray() {
   tray.setContextMenu(Menu.buildFromTemplate(template));
   tray.setToolTip(`${app.name}...`);
   tray.setTitle('WbTbx');
+}
+
+function setupGlobalShortcuts() {
+  globalShortcut.register('Alt+1', () => win!.show());
 }
 
 function setupIpcMain() {
