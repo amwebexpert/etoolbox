@@ -1,4 +1,5 @@
-import { app, BrowserWindow, Menu, ipcMain } from 'electron';
+import { app, BrowserWindow, Menu, ipcMain, dialog } from 'electron';
+import * as fs from 'fs';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
@@ -43,7 +44,16 @@ function createWindow() {
 
 function setupIpcMain() {
   ipcMain.on('rendererAppStarted', () => console.log('main.ts: app started'));
-  ipcMain.on('saveJsonAs', (_event, jsonContent: string) => console.log('saving', jsonContent));
+  ipcMain.on('saveJsonAs', (_event, jsonContent: string) => saveJsonAs(jsonContent));
+}
+
+function saveJsonAs(jsonContent: string) {
+  const documentsFolder = app.getPath('documents');
+  const toLocalPath: string = path.resolve(documentsFolder, 'test.json');
+  const fullFilename = dialog.showSaveDialogSync(win!, { defaultPath: toLocalPath });
+  if (fullFilename) {
+    fs.writeFileSync(fullFilename, jsonContent, 'utf-8');
+  }
 }
 
 function loadApplication() {
