@@ -1,3 +1,8 @@
+/**
+ * This provider was inspired by looking at this video tutorial:
+ * 
+ * https://www.youtube.com/watch?v=5LrDIWkK_Bc&list=PL_XXwMy-A8KlOsfndUYWUzkp3xR9LNIB8&index=8
+ */
 import React from "react";
 import { Color } from "@material-ui/lab";
 import { Toaster } from ".";
