@@ -6,7 +6,6 @@ import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Color } from "@material-ui/lab";
 
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -32,29 +31,25 @@ import Home from './components/Home';
 import URLParser from './components/URLParser';
 import JSONFormatter from './components/JSONFormatter';
 import { useStyles } from './styles';
-import { Snackbar } from '@material-ui/core';
 import URLEncoder from './components/URLEncoder';
 import Base64Encoder from './components/Base64Encoder';
-import { Toaster, ToasterState, ToasterContext } from "./components/Toaster";
+import ToasterProvider from './components/Toaster/ToasterContextProvider';
 
 const App: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [toasterState, setToasterState] = React.useState<ToasterState>({ open: false, message: '', type: 'success', autoHideDuration: 4000 });
 
   React.useEffect(setupIPC, [history]);
 
   function setupIPC() {
     // Will be defined if the React App is running inside Electron
-    if (!window.require) {
-      return;
+    if (window.require) {
+      const ipc = window.require("electron").ipcRenderer;
+      ipc.send('rendererAppStarted');
+      ipc.on('navigateTo', (_event: any, path: string) => history.push(path));
     }
-    const ipc = window.require("electron").ipcRenderer;
-    ipc.send('rendererAppStarted');
-    ipc.on('navigateTo', (_event: any, path: string) => history.push(path));
-    ipc.on('displayAlertMessage', (_event: any, toaster: ToasterState) => setToasterState(toaster));
   }
 
   return (
@@ -159,7 +154,7 @@ const App: React.FC = () => {
             </Link>
           </List>
         </Drawer>
-        <ToasterContext.Provider value={{ toasterState, setToasterState }}>
+        <ToasterProvider>
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Switch>
@@ -171,8 +166,7 @@ const App: React.FC = () => {
               <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
             </Switch>
           </main>
-          <Toaster />
-        </ToasterContext.Provider>
+        </ToasterProvider>
       </div>
     </>
   );

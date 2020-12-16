@@ -10,7 +10,7 @@ import * as copy from 'copy-to-clipboard';
 
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
-import { ToasterContext } from '../Toaster';
+import { useToasterUpdate } from '../Toaster/ToasterContextProvider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,7 +33,7 @@ const DEFAULT_VALUE = '{ "key": "value" }';
 
 const JSONFormatter: React.FC = () => {
     const classes = useStyles();
-    const { setToasterState } = React.useContext(ToasterContext)!;
+    const { setToasterState } = useToasterUpdate()!;
     const [value, setValue] = React.useState(DEFAULT_VALUE);
     const [formatted, setFormatted] = React.useState(services.formatJson(DEFAULT_VALUE));
 
