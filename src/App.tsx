@@ -54,9 +54,7 @@ const App: React.FC = () => {
     const ipc = window.require("electron").ipcRenderer;
     ipc.send('rendererAppStarted');
     ipc.on('navigateTo', (_event: any, path: string) => history.push(path));
-    ipc.on('displayAlertMessage', (_event: any, message: string) => {
-      setToasterState({ open: true, message, type: 'success', autoHideDuration: 4000 })
-    });
+    ipc.on('displayAlertMessage', (_event: any, toaster: ToasterState) => setToasterState(toaster));
   }
 
   return (

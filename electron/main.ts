@@ -202,7 +202,12 @@ function saveJsonAs(jsonContent: string) {
     const fullFilename: string | undefined = result.filePath;
     if (fullFilename) {
       fs.writeFile(fullFilename, jsonContent, 'utf-8', (err) => {
-        win!.webContents.send('displayAlertMessage', `File saved successfully: [${fullFilename}]`);
+        win!.webContents.send('displayAlertMessage', {
+          open: true,
+          message: `File saved successfully: [${fullFilename}]`,
+          type: 'success',
+          autoHideDuration: 4000
+        });
       });
     }
   });
