@@ -4,8 +4,8 @@ import { Snackbar } from "@material-ui/core";
 import { useToaster, useToasterUpdate } from "./ToasterContextProvider";
 
 export const Toaster: React.FC = () => {
-    const { toasterState } = useToaster()!;
-    const { setToasterState } = useToasterUpdate()!;
+    const { toasterState } = useToaster();
+    const { setToasterState } = useToasterUpdate();
 
     const handleClose = () => {
         setToasterState({ ...toasterState, open: false });

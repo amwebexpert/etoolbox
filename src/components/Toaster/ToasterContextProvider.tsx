@@ -25,14 +25,19 @@ const ToasterContext = React.createContext<ToasterContextType | null>(null);
 const ToasterUpdateContext = React.createContext<ToasterUpdateContextType | null>(null);
 
 export function useToaster() {
-    return React.useContext(ToasterContext);
+    return React.useContext(ToasterContext)!;
 }
 export function useToasterUpdate() {
-    return React.useContext(ToasterUpdateContext);
+    return React.useContext(ToasterUpdateContext)!;
 }
 
 const ToasterProvider: React.FC = ({ children }) => {
-    const [toasterState, setToasterState] = React.useState<ToasterState>({ open: false, message: '', type: 'success', autoHideDuration: 4000 });
+    const [toasterState, setToasterState] = React.useState<ToasterState>({
+        open: false,
+        message: '',
+        type: 'success',
+        autoHideDuration: 4000
+    });
 
     React.useEffect(setupIPC, []);
 

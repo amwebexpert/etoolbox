@@ -33,7 +33,7 @@ const DEFAULT_VALUE = '{ "key": "value" }';
 
 const JSONFormatter: React.FC = () => {
     const classes = useStyles();
-    const { setToasterState } = useToasterUpdate()!;
+    const { setToasterState } = useToasterUpdate();
     const [value, setValue] = React.useState(DEFAULT_VALUE);
     const [formatted, setFormatted] = React.useState(services.formatJson(DEFAULT_VALUE));
 
