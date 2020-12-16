@@ -10,6 +10,7 @@ import * as copy from 'copy-to-clipboard';
 
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
+import { ToasterContext } from '../Toaster';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,6 +33,7 @@ const DEFAULT_VALUE = '{ "key": "value" }';
 
 const JSONFormatter: React.FC = () => {
     const classes = useStyles();
+    const { setToasterState } = React.useContext(ToasterContext)!;
     const [value, setValue] = React.useState(DEFAULT_VALUE);
     const [formatted, setFormatted] = React.useState(services.formatJson(DEFAULT_VALUE));
 
@@ -44,6 +46,7 @@ const JSONFormatter: React.FC = () => {
     const handleCopy = (event: any) => {
         event.preventDefault();
         copy.default(formatted, { format: 'text/plain' });
+        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
     }
 
     const handleSaveAs = (event: any) => {

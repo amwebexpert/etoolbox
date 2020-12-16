@@ -6,7 +6,7 @@ import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import { Color } from "@material-ui/lab";
 
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -35,16 +35,14 @@ import { useStyles } from './styles';
 import { Snackbar } from '@material-ui/core';
 import URLEncoder from './components/URLEncoder';
 import Base64Encoder from './components/Base64Encoder';
+import { Toaster, ToasterState, ToasterContext } from "./components/Toaster";
 
 const App: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-
-  // For snackbar
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [alertMessage, setAlertMessage] = React.useState('');
+  const [toasterState, setToasterState] = React.useState<ToasterState>({ open: false, message: '', type: 'success', autoHideDuration: 4000 });
 
   React.useEffect(setupIPC, [history]);
 
@@ -57,13 +55,8 @@ const App: React.FC = () => {
     ipc.send('rendererAppStarted');
     ipc.on('navigateTo', (_event: any, path: string) => history.push(path));
     ipc.on('displayAlertMessage', (_event: any, message: string) => {
-      setAlertMessage(message);
-      setSnackbarOpen(true);
+      setToasterState({ open: true, message, type: 'success', autoHideDuration: 4000 })
     });
-  }
-
-  function Alert(props: any) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
   return (
@@ -168,24 +161,22 @@ const App: React.FC = () => {
             </Link>
           </List>
         </Drawer>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Switch>
-            <Route exact path="/"><Home /></Route>
-            <Route exact path="/about"><About /></Route>
-            <Route exact path="/URLParser"><URLParser /></Route>
-            <Route exact path="/URLEncoder"><URLEncoder /></Route>
-            <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
-            <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
-          </Switch>
-        </main>
+        <ToasterContext.Provider value={{ toasterState, setToasterState }}>
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Switch>
+              <Route exact path="/"><Home /></Route>
+              <Route exact path="/about"><About /></Route>
+              <Route exact path="/URLParser"><URLParser /></Route>
+              <Route exact path="/URLEncoder"><URLEncoder /></Route>
+              <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
+              <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
+            </Switch>
+          </main>
+          <Toaster />
+        </ToasterContext.Provider>
       </div>
-
-      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={() => setSnackbarOpen(false)}>
-        <Alert onClose={() => setSnackbarOpen(false)} severity="success">
-          {alertMessage}
-        </Alert>
-      </Snackbar>    </>
+    </>
   );
 }
 
