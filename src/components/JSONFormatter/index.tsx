@@ -5,12 +5,14 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import SaveIcon from '@material-ui/icons/Save';
+import WrapTextIcon from '@material-ui/icons/WrapText';
 import TextField from '@material-ui/core/TextField';
 import * as copy from 'copy-to-clipboard';
 
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
 import { useToasterUpdate } from '../generic/Toaster/ToasterProvider';
+import FeatureTitle from '../generic/FeatureTitle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,6 +58,8 @@ const JSONFormatter: React.FC = () => {
 
     return (
         <div className={classes.root}>
+            <FeatureTitle iconType={WrapTextIcon} title="JSON Formatter" />
+
             <form noValidate autoComplete="off">
                 <div>
                     <TextField

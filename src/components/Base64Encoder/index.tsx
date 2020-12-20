@@ -4,11 +4,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import LinkIcon from '@material-ui/icons/Link';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
+import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import TextField from '@material-ui/core/TextField';
 import * as copy from 'copy-to-clipboard';
 
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
+import FeatureTitle from '../generic/FeatureTitle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,6 +43,8 @@ const Base64Encoder: React.FC = () => {
 
     return (
         <div className={classes.root}>
+            <FeatureTitle iconType={DeveloperBoardIcon} title="Base64 Encoder/decoder" />
+
             <form noValidate autoComplete="off">
                 <div>
                     <TextField
