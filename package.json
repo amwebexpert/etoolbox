@@ -1,10 +1,15 @@
 {
   "name": "web-toolbox",
-  "version": "0.1.0",
+  "version": "1.1.0",
+  "author": {
+    "name": "Andre Masson",
+    "email": "amwebexpert@gmail.com",
+    "url": "https://www.linkedin.com/in/amwebexpert/"
+  },
   "description": "Collection of web developer utilities packaged as a desktop app",
   "homepage": ".",
   "main": "build/electron/main.js",
-  "private": true,
+  "private": false,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -13,15 +18,27 @@
     "electron:dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
     "electron:windev": "concurrently \"SET BROWSER=none && yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder",
+    "electron:build:all": "yarn build && tsc -p electron && electron-builder -mw",
     "eject": "react-scripts eject"
   },
   "build": {
+    "appId": "com.amwebexpert.etoolbox",
+    "productName": "Web Toolbox",
+    "mac": {
+      "target": "dmg",
+      "icon": "build/icon.icns",
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png"
+    },
     "extends": null,
     "files": [
       "build/**/*"
     ],
     "directories": {
-      "buildResources": "assets"
+      "buildResources": "public"
     }
   },
   "eslintConfig": {

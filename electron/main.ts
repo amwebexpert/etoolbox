@@ -157,12 +157,9 @@ function setupMenu() {
 }
 
 function setupTray() {
-  // TODO Define a better icon for Mac and add a isMac condition
-  // otherwise the icon is not showing properly. Actual workaround
-  // is to use tray.setTitle('xyz')
-  const appIconPath: string = isDev ?
-    path.join(`${__dirname}`, '..', 'public', 'icon-512x512.png') :
-    path.join(`${__dirname}`, '..', 'icon-512x512.png');
+  const isMac = process.platform === 'darwin';
+  const ext = isMac ? 'icns' : 'png';
+  const appIconPath: string = path.join(`${__dirname}`, '..', `icon.${ext}`);
   const img = nativeImage.createFromPath(appIconPath);
   img.setTemplateImage(true);
   const template: any = [
@@ -192,7 +189,6 @@ function setupTray() {
   tray = new Tray(img);
   tray.setContextMenu(Menu.buildFromTemplate(template));
   tray.setToolTip(`${app.name}...`);
-  tray.setTitle('WbTbx');
 }
 
 function setupGlobalShortcuts() {
