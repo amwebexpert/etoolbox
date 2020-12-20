@@ -41,6 +41,7 @@ This project is licensed under the MIT license, Copyright (c) 2020 André Masson
 * https://www.electron.build/icons
 * https://cloudconvert.com/png-to-icns
 * https://stackoverflow.com/a/8684009/704681
+* https://stackoverflow.com/a/52409047/704681
 
 
 React-TypeScript-Electron sample with Create React App and Electron Builder

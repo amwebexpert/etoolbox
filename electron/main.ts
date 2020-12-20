@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
 
+const isMac = process.platform === 'darwin';
 let win: BrowserWindow | null = null;
 let tray: Tray;
 
@@ -157,11 +158,6 @@ function setupMenu() {
 }
 
 function setupTray() {
-  const isMac = process.platform === 'darwin';
-  const ext = isMac ? 'icns' : 'png';
-  const appIconPath: string = path.join(`${__dirname}`, '..', `icon.${ext}`);
-  const img = nativeImage.createFromPath(appIconPath);
-  img.setTemplateImage(true);
   const template: any = [
     {
       label: 'About...',
@@ -186,9 +182,25 @@ function setupTray() {
     tray.destroy();
   }
 
-  tray = new Tray(img);
+  tray = new Tray(createTrayIcon());
   tray.setContextMenu(Menu.buildFromTemplate(template));
   tray.setToolTip(`${app.name}...`);
+  if (isMac) {
+    // Since I was not able to make tray icon showing on MacOS :-/
+    // at least this is displaying clickable title
+    tray.setTitle('WTbox');
+  }
+}
+
+function createTrayIcon() {
+  const ext = isMac ? 'icns' : 'png';
+  const appIconPath: string = path.join(__dirname, '..', `icon.${ext}`);
+  console.log('Application icon', appIconPath);
+  console.log('Application icon EXIST?', fs.existsSync(appIconPath));
+  const img = nativeImage.createFromPath(appIconPath);
+  const trayIcon = img.resize({ width: 24, height: 24 });
+
+  return trayIcon;
 }
 
 function setupGlobalShortcuts() {
