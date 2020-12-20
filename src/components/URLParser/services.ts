@@ -1,5 +1,9 @@
-export function parseUrl(value: string) {
+export function parseUrl(value?: string): Map<string, string> {
     const fragments: Map<string, string> = new Map();
+
+    if (!value) {
+        return fragments;
+    }
 
     try {
         const url = new URL(value);

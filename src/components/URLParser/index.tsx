@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 import Table from '@material-ui/core/Table';
@@ -11,6 +13,8 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import LinkIcon from '@material-ui/icons/Link';
 
+import { setTextAction } from '../../actions/text-actions';
+import { AppState } from '../../reducers';
 import * as services from './services';
 import FeatureTitle from '../generic/FeatureTitle';
 
@@ -34,18 +38,23 @@ const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-const DEFAULT_URL = 'http://www.upwave.com:8080/test/this?test=34&test2=this+is+my+second+param#value-added-to-url';
+interface Props {
+    inputText?: string;
+    storeInputText: (name: string, value: string) => void;
+}
 
-const URLParser: React.FC = () => {
+const URLParser: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(DEFAULT_URL);
-    const [urlFragments, setUrlFragments] = React.useState(services.parseUrl(DEFAULT_URL));
+    const { inputText, storeInputText } = props;
+    const [urlFragments, setUrlFragments] = React.useState(services.parseUrl(inputText));
 
     const handleChange = (event: any) => {
-        const url = event.target.value;
-        setValue(url);
-        setUrlFragments(services.parseUrl(url));
+        storeInputText('lastUrlParserValue', event.target.value);
     }
+
+    React.useEffect(() => {
+        setUrlFragments(services.parseUrl(inputText));
+    }, [inputText]);
 
     return (
         <div className={classes.root}>
@@ -63,7 +72,7 @@ const URLParser: React.FC = () => {
                         variant="outlined"
                         margin="normal"
                         fullWidth={true}
-                        value={value}
+                        value={inputText}
                         onChange={handleChange}
                     />
                 </div>
@@ -91,4 +100,16 @@ const URLParser: React.FC = () => {
     );
 }
 
-export default URLParser;
+export function mapStateToProps(state: AppState) {
+    return {
+        inputText: state.textInputs.map.get('lastUrlParserValue')
+    }
+}
+
+export function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(URLParser);
