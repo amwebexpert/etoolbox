@@ -71,6 +71,7 @@ const App: React.FC = () => {
           <Toolbar>
             <IconButton
               color="inherit"
+              title="Toggle sidebar menu"
               aria-label="open sidebar menu"
               onClick={() => setOpen(true)}
               edge="start"
@@ -85,7 +86,7 @@ const App: React.FC = () => {
               Web Toolbox
             </Typography>
 
-            <IconButton color="inherit">
+            <IconButton color="inherit" title="About this application...">
               <Link to="/about" className={classes.linkMenu}>
                 <InfoIcon />
               </Link>
@@ -106,7 +107,7 @@ const App: React.FC = () => {
           }}
         >
           <div className={classes.toolbar}>
-            <IconButton onClick={() => setOpen(false)}>
+            <IconButton onClick={() => setOpen(false)} title="Toggle sidebar menu">
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
           </div>

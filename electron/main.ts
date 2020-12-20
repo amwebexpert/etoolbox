@@ -93,6 +93,16 @@ function setupMenu() {
           click: () => win!.webContents.send('navigateTo', '/JSONFormatter')
         },
         {
+          label: 'Base64 Encoder',
+          accelerator: 'Ctrl+Alt+B',
+          click: () => win!.webContents.send('navigateTo', '/Base64Encoder')
+        },
+        {
+          label: 'JSON Formatter',
+          accelerator: 'Ctrl+Alt+F',
+          click: () => win!.webContents.send('navigateTo', '/JSONFormatter')
+        },
+        {
           type: 'separator'
         },
         {
