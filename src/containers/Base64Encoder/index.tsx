@@ -14,7 +14,7 @@ import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
-import FeatureTitle from '../../components/generic/FeatureTitle';
+import FeatureTitle from '../../components/FeatureTitle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
