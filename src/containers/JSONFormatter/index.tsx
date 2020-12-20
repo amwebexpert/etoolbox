@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
-import LinkIcon from '@material-ui/icons/Link';
-import LinkOffIcon from '@material-ui/icons/LinkOff';
-import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
+import SaveIcon from '@material-ui/icons/Save';
+import WrapTextIcon from '@material-ui/icons/WrapText';
 import TextField from '@material-ui/core/TextField';
 import * as copy from 'copy-to-clipboard';
 
@@ -14,15 +15,16 @@ import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
-import FeatureTitle from '../generic/FeatureTitle';
+import { useToasterUpdate } from '../../components/generic/Toaster/ToasterProvider';
+import FeatureTitle from '../../components/generic/FeatureTitle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
     },
     formatted: {
-        padding: theme.spacing(1),
         border: '1px solid grey',
+        maxHeight: '500px',
     },
     toolbar: {
         margin: 0,
@@ -38,34 +40,45 @@ interface Props {
     storeInputText: (name: string, value: string) => void;
 }
 
-const Base64Encoder: React.FC<Props> = (props: Props) => {
+const JSONFormatter: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { setToasterState } = useToasterUpdate();
     const { inputText, storeInputText } = props;
-    const [transformed, setTransformed] = React.useState(services.transform(inputText, true));
+    const [formatted, setFormatted] = React.useState(services.formatJson(inputText));
+
+    React.useEffect(() => {
+        setFormatted(services.formatJson(inputText));
+    }, [inputText])
 
     const handleCopy = (event: any) => {
         event.preventDefault();
-        copy.default(transformed, { format: 'text/plain' });
+        copy.default(formatted, { format: 'text/plain' });
+        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
+    }
+
+    const handleSaveAs = (event: any) => {
+        event.preventDefault();
+        services.saveJsonAs(formatted);
     }
 
     return (
         <div className={classes.root}>
-            <FeatureTitle iconType={DeveloperBoardIcon} title="Base64 Encoder/decoder" />
+            <FeatureTitle iconType={WrapTextIcon} title="JSON Formatter" />
 
             <form noValidate autoComplete="off">
                 <div>
                     <TextField
                         autoFocus
                         id="outlined-multiline-static"
-                        label="Content to Base64 encode/decode"
-                        placeholder="Paste or type the content here"
+                        label="JSON Content"
+                        placeholder="Paste or type the json content here"
                         multiline
                         rows={4}
                         variant="outlined"
                         margin="normal"
                         fullWidth={true}
                         value={inputText}
-                        onChange={(e) => storeInputText('lastBase64EncoderValue', e.target.value)}
+                        onChange={(e) => storeInputText('lastJSONFormatterValue', e.target.value)}
                     />
                 </div>
             </form>
@@ -74,22 +87,20 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
                 <Box display='flex' flexGrow={1}></Box>
                 <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
-                <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>}
-                    onClick={() => setTransformed(services.transform(inputText, true))}>Encode</Button>
-                <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>}
-                    onClick={() => setTransformed(services.transform(inputText, false))}>Decode</Button>
+                <Button endIcon={<SaveIcon>Save As...</SaveIcon>}
+                    variant="contained" color="primary" onClick={handleSaveAs}>Save As...</Button>
             </Toolbar>
 
-            <div className={classes.formatted}>
-                {transformed}
-            </div>
+            <SyntaxHighlighter language="json" style={docco} className={classes.formatted}>
+                {formatted}
+            </SyntaxHighlighter>
         </div>
     );
 }
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs.map.get('lastBase64EncoderValue')
+        inputText: state.textInputs.map.get('lastJSONFormatterValue')
     }
 }
 
@@ -99,4 +110,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Base64Encoder);
+export default connect(mapStateToProps, mapDispatchToProps)(JSONFormatter);

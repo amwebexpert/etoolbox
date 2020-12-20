@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import LinkIcon from '@material-ui/icons/Link';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
+import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import TextField from '@material-ui/core/TextField';
 import * as copy from 'copy-to-clipboard';
 
@@ -13,7 +14,7 @@ import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
-import FeatureTitle from '../generic/FeatureTitle';
+import FeatureTitle from '../../components/generic/FeatureTitle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,10 +38,10 @@ interface Props {
     storeInputText: (name: string, value: string) => void;
 }
 
-const URLEncoder: React.FC<Props> = (props: Props) => {
+const Base64Encoder: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { inputText, storeInputText } = props;
-    const [transformed, setTransformed] = React.useState(services.transform(inputText, false));
+    const [transformed, setTransformed] = React.useState(services.transform(inputText, true));
 
     const handleCopy = (event: any) => {
         event.preventDefault();
@@ -49,14 +50,14 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
 
     return (
         <div className={classes.root}>
-            <FeatureTitle iconType={LinkOffIcon} title="URL Encoder/decoder" />
+            <FeatureTitle iconType={DeveloperBoardIcon} title="Base64 Encoder/decoder" />
 
             <form noValidate autoComplete="off">
                 <div>
                     <TextField
                         autoFocus
                         id="outlined-multiline-static"
-                        label="Content to encode/decode"
+                        label="Content to Base64 encode/decode"
                         placeholder="Paste or type the content here"
                         multiline
                         rows={4}
@@ -64,7 +65,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                         margin="normal"
                         fullWidth={true}
                         value={inputText}
-                        onChange={(e) => storeInputText('lastUrlEncoderValue', e.target.value)}
+                        onChange={(e) => storeInputText('lastBase64EncoderValue', e.target.value)}
                     />
                 </div>
             </form>
@@ -74,9 +75,9 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                 <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                 <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>}
-                    onClick={() => setTransformed(services.transform(inputText, false))}>Encode</Button>
+                    onClick={() => setTransformed(services.transform(inputText, true))}>Encode</Button>
                 <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>}
-                    onClick={() => setTransformed(services.transform(inputText, true))}>Decode</Button>
+                    onClick={() => setTransformed(services.transform(inputText, false))}>Decode</Button>
             </Toolbar>
 
             <div className={classes.formatted}>
@@ -88,7 +89,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs.map.get('lastUrlEncoderValue')
+        inputText: state.textInputs.map.get('lastBase64EncoderValue')
     }
 }
 
@@ -98,4 +99,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(URLEncoder);
+export default connect(mapStateToProps, mapDispatchToProps)(Base64Encoder);

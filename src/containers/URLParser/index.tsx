@@ -16,7 +16,7 @@ import LinkIcon from '@material-ui/icons/Link';
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
-import FeatureTitle from '../generic/FeatureTitle';
+import FeatureTitle from '../../components/generic/FeatureTitle';
 
 const useStyles = makeStyles((theme) => ({
     root: {

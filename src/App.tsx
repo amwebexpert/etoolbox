@@ -28,11 +28,11 @@ import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 
 import About from './components/About/About';
 import Home from './components/Home';
-import URLParser from './components/URLParser';
-import JSONFormatter from './components/JSONFormatter';
+import URLParser from './containers/URLParser';
+import JSONFormatter from './containers/JSONFormatter';
 import { useStyles } from './styles';
-import URLEncoder from './components/URLEncoder';
-import Base64Encoder from './components/Base64Encoder';
+import URLEncoder from './containers/URLEncoder';
+import Base64Encoder from './containers/Base64Encoder';
 import ToasterProvider from './components/generic/Toaster/ToasterProvider';
 
 const App: React.FC = () => {
