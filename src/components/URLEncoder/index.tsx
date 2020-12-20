@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
@@ -7,6 +9,8 @@ import LinkOffIcon from '@material-ui/icons/LinkOff';
 import TextField from '@material-ui/core/TextField';
 import * as copy from 'copy-to-clipboard';
 
+import { setTextAction } from '../../actions/text-actions';
+import { AppState } from '../../reducers';
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
 import FeatureTitle from '../generic/FeatureTitle';
@@ -28,12 +32,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const DEFAULT_VALUE = 'this is a value';
+interface Props {
+    inputText?: string;
+    storeInputText: (name: string, value: string) => void;
+}
 
-const URLEncoder: React.FC = () => {
+const URLEncoder: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(DEFAULT_VALUE);
-    const [transformed, setTransformed] = React.useState(services.transform(DEFAULT_VALUE, false));
+    const { inputText, storeInputText } = props;
+    const [transformed, setTransformed] = React.useState(services.transform(inputText, false));
 
     const handleCopy = (event: any) => {
         event.preventDefault();
@@ -56,8 +63,8 @@ const URLEncoder: React.FC = () => {
                         variant="outlined"
                         margin="normal"
                         fullWidth={true}
-                        value={value}
-                        onChange={(e) => setValue(e.target.value)}
+                        value={inputText}
+                        onChange={(e) => storeInputText('lastUrlEncoderValue', e.target.value)}
                     />
                 </div>
             </form>
@@ -67,9 +74,9 @@ const URLEncoder: React.FC = () => {
                 <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                 <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>}
-                    onClick={() => setTransformed(services.transform(value, false))}>Encode</Button>
+                    onClick={() => setTransformed(services.transform(inputText, false))}>Encode</Button>
                 <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>}
-                    onClick={() => setTransformed(services.transform(value, true))}>Decode</Button>
+                    onClick={() => setTransformed(services.transform(inputText, true))}>Decode</Button>
             </Toolbar>
 
             <div className={classes.formatted}>
@@ -79,4 +86,16 @@ const URLEncoder: React.FC = () => {
     );
 }
 
-export default URLEncoder;
+export function mapStateToProps(state: AppState) {
+    return {
+        inputText: state.textInputs.map.get('lastUrlEncoderValue')
+    }
+}
+
+export function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(URLEncoder);

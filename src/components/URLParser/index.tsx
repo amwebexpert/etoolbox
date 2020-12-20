@@ -48,10 +48,6 @@ const URLParser: React.FC<Props> = (props: Props) => {
     const { inputText, storeInputText } = props;
     const [urlFragments, setUrlFragments] = React.useState(services.parseUrl(inputText));
 
-    const handleChange = (event: any) => {
-        storeInputText('lastUrlParserValue', event.target.value);
-    }
-
     React.useEffect(() => {
         setUrlFragments(services.parseUrl(inputText));
     }, [inputText]);
@@ -73,7 +69,7 @@ const URLParser: React.FC<Props> = (props: Props) => {
                         margin="normal"
                         fullWidth={true}
                         value={inputText}
-                        onChange={handleChange}
+                        onChange={(e) => storeInputText('lastUrlParserValue', e.target.value)}
                     />
                 </div>
             </form>
