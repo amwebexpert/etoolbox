@@ -1,4 +1,8 @@
-export function transform(value: string, encoded: boolean) {
+export function transform(value: string | undefined, encoded: boolean): string {
+    if (!value) {
+        return '';
+    }
+
     try {
         if (encoded) {
             return btoa(value);
