@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -9,6 +11,8 @@ import WrapTextIcon from '@material-ui/icons/WrapText';
 import TextField from '@material-ui/core/TextField';
 import * as copy from 'copy-to-clipboard';
 
+import { setTextAction } from '../../actions/text-actions';
+import { AppState } from '../../reducers';
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
 import { useToasterUpdate } from '../generic/Toaster/ToasterProvider';
@@ -31,19 +35,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const DEFAULT_VALUE = '{ "key": "value" }';
+interface Props {
+    inputText?: string;
+    storeInputText: (name: string, value: string) => void;
+}
 
-const JSONFormatter: React.FC = () => {
+const JSONFormatter: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { setToasterState } = useToasterUpdate();
-    const [value, setValue] = React.useState(DEFAULT_VALUE);
-    const [formatted, setFormatted] = React.useState(services.formatJson(DEFAULT_VALUE));
+    const { inputText, storeInputText } = props;
+    const [formatted, setFormatted] = React.useState(services.formatJson(inputText));
 
-    const handleChange = (event: any) => {
-        const newValue = event.target.value;
-        setValue(newValue);
-        setFormatted(services.formatJson(newValue));
-    }
+    React.useEffect(() => {
+        setFormatted(services.formatJson(inputText));
+    }, [inputText])
 
     const handleCopy = (event: any) => {
         event.preventDefault();
@@ -72,8 +77,8 @@ const JSONFormatter: React.FC = () => {
                         variant="outlined"
                         margin="normal"
                         fullWidth={true}
-                        value={value}
-                        onChange={handleChange}
+                        value={inputText}
+                        onChange={(e) => storeInputText('lastJSONFormatterValue', e.target.value)}
                     />
                 </div>
             </form>
@@ -93,4 +98,16 @@ const JSONFormatter: React.FC = () => {
     );
 }
 
-export default JSONFormatter;
+export function mapStateToProps(state: AppState) {
+    return {
+        inputText: state.textInputs.map.get('lastJSONFormatterValue')
+    }
+}
+
+export function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(JSONFormatter);

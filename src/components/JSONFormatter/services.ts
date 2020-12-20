@@ -9,7 +9,11 @@ const replacer = (_key: string, value: any) =>
             }, {}) :
         value;
 
-export function formatJson(value: string) {
+export function formatJson(value?: string): string {
+    if (!value) {
+        return '';
+    }
+
     try {
         const obj = JSON.parse(value);
         return JSON.stringify(obj, replacer, 4);
@@ -19,7 +23,7 @@ export function formatJson(value: string) {
     }
 }
 
-export function saveJsonAs(jsonContent: string) {
+export function saveJsonAs(jsonContent: string): void {
     // Will be defined if the React App is running inside Electron
     if (!window.require) {
         return;
