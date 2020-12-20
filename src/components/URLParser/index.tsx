@@ -9,7 +9,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import LinkIcon from '@material-ui/icons/Link';
+
 import * as services from './services';
+import FeatureTitle from '../generic/FeatureTitle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,6 +49,8 @@ const URLParser: React.FC = () => {
 
     return (
         <div className={classes.root}>
+            <FeatureTitle iconType={LinkIcon} title="URL Parser" />
+
             <form noValidate autoComplete="off">
                 <div>
                     <TextField

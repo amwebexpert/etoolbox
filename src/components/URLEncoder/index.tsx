@@ -9,6 +9,7 @@ import * as copy from 'copy-to-clipboard';
 
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
+import FeatureTitle from '../generic/FeatureTitle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,6 +42,8 @@ const URLEncoder: React.FC = () => {
 
     return (
         <div className={classes.root}>
+            <FeatureTitle iconType={LinkOffIcon} title="URL Encoder/decoder" />
+
             <form noValidate autoComplete="off">
                 <div>
                     <TextField

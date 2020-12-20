@@ -10,7 +10,7 @@ import * as copy from 'copy-to-clipboard';
 
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
-import { useToasterUpdate } from '../Toaster/ToasterProvider';
+import { useToasterUpdate } from '../generic/Toaster/ToasterProvider';
 
 const useStyles = makeStyles((theme) => ({
     root: {

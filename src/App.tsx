@@ -33,7 +33,7 @@ import JSONFormatter from './components/JSONFormatter';
 import { useStyles } from './styles';
 import URLEncoder from './components/URLEncoder';
 import Base64Encoder from './components/Base64Encoder';
-import ToasterProvider from './components/Toaster/ToasterProvider';
+import ToasterProvider from './components/generic/Toaster/ToasterProvider';
 
 const App: React.FC = () => {
   const classes = useStyles();
