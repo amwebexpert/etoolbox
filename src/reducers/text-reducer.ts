@@ -4,14 +4,27 @@ export interface TextInputsState {
     map: Map<string, string>;
 }
 
-const map = new Map();
-map.set('lastUrlParserValue', 'https://codesandbox.io/dashboard/home?lastProject=WowWWW&name=Smith');
-map.set('lastUrlEncoderValue', 'this is a value not yet URL encoded');
-map.set('lastJSONFormatterValue', '{ "firstName": "Chuck", "lastName": "Norris" }');
-map.set('lastBase64EncoderValue', 'This is a value to Base64 encode');
+const DEFAULT_MAP = new Map<string, string>();
+DEFAULT_MAP.set('lastUrlParserValue', 'https://codesandbox.io/dashboard/home?lastProject=WowWWW&name=Smith');
+DEFAULT_MAP.set('lastUrlEncoderValue', 'this is a value not yet URL encoded');
+DEFAULT_MAP.set('lastJSONFormatterValue', '{ "firstName": "Chuck", "lastName": "Norris" }');
+DEFAULT_MAP.set('lastBase64EncoderValue', 'This is a value to Base64 encode');
 
-const initalState: TextInputsState = {
-    map
+const initalState: TextInputsState = loadFromLocalStorage();
+
+function loadFromLocalStorage(): TextInputsState {
+    const jsonData = localStorage.getItem('textInputs');
+    if (!jsonData) {
+        return { map: DEFAULT_MAP };
+    } else {
+        // https://stackoverflow.com/a/61671167/704681
+        return { map: new Map<string, string>(JSON.parse(jsonData)) };
+    }
+}
+
+function saveToLocalStorage(map: Map<string, string>): void {
+    // https://stackoverflow.com/a/61671167/704681
+    localStorage.setItem('textInputs', JSON.stringify(Array.from(map.entries())))
 }
 
 function reducer(state: TextInputsState = initalState, action: TextInputsAction) {
@@ -19,6 +32,7 @@ function reducer(state: TextInputsState = initalState, action: TextInputsAction)
         case TextInputActionTypes.SET_INPUT_TEXT: {
             const map = new Map(state.map);
             map.set(action.name, action.value);
+            saveToLocalStorage(map);
             return { map };
         }
 
