@@ -104,6 +104,11 @@ function setupMenu() {
           click: () => win!.webContents.send('navigateTo', '/JSONFormatter')
         },
         {
+          label: 'Regular expression tester',
+          accelerator: 'Ctrl+Alt+R',
+          click: () => win!.webContents.send('navigateTo', '/RegExTester')
+        },
+        {
           type: 'separator'
         },
         {

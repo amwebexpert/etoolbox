@@ -19,6 +19,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
+import TextRotationNoneIcon from '@material-ui/icons/TextRotationNone';
 import HomeIcon from '@material-ui/icons/Home';
 import WrapTextIcon from '@material-ui/icons/WrapText';
 import LinkIcon from '@material-ui/icons/Link';
@@ -34,6 +35,7 @@ import { useStyles } from './styles';
 import URLEncoder from './containers/URLEncoder';
 import Base64Encoder from './containers/Base64Encoder';
 import ToasterProvider from './components/Toaster/ToasterProvider';
+import RegExTester from './containers/RegExTester';
 
 const App: React.FC = () => {
   const classes = useStyles();
@@ -153,6 +155,14 @@ const App: React.FC = () => {
                 <ListItemText primary={"JSON Formatter"} />
               </ListItem>
             </Link>
+            <Link to="/RegExTester" title="Regular expression tester" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <TextRotationNoneIcon />
+                </ListItemIcon>
+                <ListItemText primary="RegEx tester" />
+              </ListItem>
+            </Link>
           </List>
         </Drawer>
         <ToasterProvider>
@@ -165,6 +175,7 @@ const App: React.FC = () => {
               <Route exact path="/URLEncoder"><URLEncoder /></Route>
               <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
               <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
+              <Route exact path="/RegExTester"><RegExTester /></Route>
             </Switch>
           </main>
         </ToasterProvider>
