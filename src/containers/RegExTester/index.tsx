@@ -8,6 +8,7 @@ import TextRotationNoneIcon from '@material-ui/icons/TextRotationNone';
 import TextField from '@material-ui/core/TextField';
 import * as copy from 'copy-to-clipboard';
 import ReactHtmlParser from 'react-html-parser';
+import { useDebouncedCallback } from 'use-debounce';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     formatted: {
         padding: theme.spacing(1),
         border: '1px solid grey',
-        '& span' : {
+        '& span': {
             backgroundColor: 'yellow',
             fontWeight: 'bold',
         }
@@ -47,14 +48,23 @@ const RegExTester: React.FC<Props> = (props: Props) => {
     const { regularExpression, inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState('');
 
+    // https://www.npmjs.com/package/use-debounce
+    const debounced = useDebouncedCallback(
+        (regularExpression, inputText) =>
+            setTransformed(services.transform(regularExpression, inputText)),
+        300
+    );
+
     const handleCopy = (event: any) => {
         event.preventDefault();
         copy.default(transformed, { format: 'text/plain' });
     }
 
-    React.useEffect(() => {
-        setTransformed(services.transform(regularExpression, inputText));
-    }, [regularExpression, inputText]);
+    React.useEffect(
+        // https://www.npmjs.com/package/use-debounce
+        () => debounced.callback(regularExpression, inputText),
+        [regularExpression, inputText, debounced]
+    );
 
     return (
         <div className={classes.root}>
