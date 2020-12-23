@@ -9,6 +9,8 @@ DEFAULT_MAP.set('lastUrlParserValue', 'https://codesandbox.io/dashboard/home?las
 DEFAULT_MAP.set('lastUrlEncoderValue', 'this is a value not yet URL encoded');
 DEFAULT_MAP.set('lastJSONFormatterValue', '{ "firstName": "Chuck", "lastName": "Norris" }');
 DEFAULT_MAP.set('lastBase64EncoderValue', 'This is a value to Base64 encode');
+DEFAULT_MAP.set('lastRegEx', '/(ing|eer|THIS)/gi');
+DEFAULT_MAP.set('lastRegExTextSample', 'This is a string and engineer playing with text. A super test.');
 
 const initalState: TextInputsState = loadFromLocalStorage();
 
