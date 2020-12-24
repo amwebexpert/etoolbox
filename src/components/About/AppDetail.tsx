@@ -43,7 +43,23 @@ export default function AppDetail() {
               Last version date
             </StyledTableCell>
             <StyledTableCell align="right">
-              2020-12-20
+              2020-12-24
+            </StyledTableCell>
+          </StyledTableRow>
+          <StyledTableRow key="iconMadeBy">
+            <StyledTableCell component="th" scope="row">
+              Author
+            </StyledTableCell>
+            <StyledTableCell align="right">
+              <a href="mailto:amwebexpert@gmail.com">amwebexpert@gmail.com</a>
+            </StyledTableCell>
+          </StyledTableRow>
+          <StyledTableRow key="iconMadeBy">
+            <StyledTableCell component="th" scope="row">
+              Icon author
+            </StyledTableCell>
+            <StyledTableCell align="right">
+              <a href="https://therealjerrylow.com/">Jerry Low</a>
             </StyledTableCell>
           </StyledTableRow>
         </TableBody>

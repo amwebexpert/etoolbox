@@ -57,7 +57,9 @@ const RegExTester: React.FC<Props> = (props: Props) => {
 
     const handleCopy = (event: any) => {
         event.preventDefault();
-        copy.default(transformed, { format: 'text/plain' });
+        if (regularExpression) {
+            copy.default(regularExpression, { format: 'text/plain' });
+        }
     }
 
     React.useEffect(
@@ -74,7 +76,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
                 <div>
                     <TextField
                         autoFocus
-                        id="outlined-multiline-static"
+                        id="regex"
                         label="Regular expression"
                         placeholder="Type the regular expression. Example: /example/g"
                         variant="outlined"
@@ -84,7 +86,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
                         onChange={(e) => storeInputText('lastRegEx', e.target.value)}
                     />
                     <TextField
-                        id="outlined-multiline-static"
+                        id="content"
                         label="Content to test the regular expression against"
                         placeholder="Paste or type the content here"
                         multiline
