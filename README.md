@@ -24,10 +24,10 @@ Completed features:
 - URL Encoder/Decoder
 - Base64 Encoder/Decoder
 - Regular expression builder/tester
+- UUID Generator
 
 Roadmap (list of items in the TODO list...):
 
-- UUID Generator/Decoder
 - JWT Debugger
 - Unix Time Converter
 

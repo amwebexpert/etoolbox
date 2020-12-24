@@ -18,12 +18,12 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
 import TextRotationNoneIcon from '@material-ui/icons/TextRotationNone';
 import HomeIcon from '@material-ui/icons/Home';
 import WrapTextIcon from '@material-ui/icons/WrapText';
 import LinkIcon from '@material-ui/icons/Link';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
+import SimCardIcon from '@material-ui/icons/SimCard';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 
@@ -36,6 +36,7 @@ import URLEncoder from './containers/URLEncoder';
 import Base64Encoder from './containers/Base64Encoder';
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import RegExTester from './containers/RegExTester';
+import UUIDGenerator from './containers/UUIDGenerator';
 
 const App: React.FC = () => {
   const classes = useStyles();
@@ -163,6 +164,14 @@ const App: React.FC = () => {
                 <ListItemText primary="RegEx tester" />
               </ListItem>
             </Link>
+            <Link to="/UUIDGenerator" title="UUID generator" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <SimCardIcon />
+                </ListItemIcon>
+                <ListItemText primary="UUID generator" />
+              </ListItem>
+            </Link>
           </List>
         </Drawer>
         <ToasterProvider>
@@ -176,6 +185,7 @@ const App: React.FC = () => {
               <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
               <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
               <Route exact path="/RegExTester"><RegExTester /></Route>
+              <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
             </Switch>
           </main>
         </ToasterProvider>
