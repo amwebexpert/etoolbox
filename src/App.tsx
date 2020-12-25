@@ -22,6 +22,7 @@ import TextRotationNoneIcon from '@material-ui/icons/TextRotationNone';
 import HomeIcon from '@material-ui/icons/Home';
 import WrapTextIcon from '@material-ui/icons/WrapText';
 import LinkIcon from '@material-ui/icons/Link';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
 import SimCardIcon from '@material-ui/icons/SimCard';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
@@ -37,6 +38,7 @@ import Base64Encoder from './containers/Base64Encoder';
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import RegExTester from './containers/RegExTester';
 import UUIDGenerator from './containers/UUIDGenerator';
+import JWTDecoder from './containers/JWTDecoder';
 
 const App: React.FC = () => {
   const classes = useStyles();
@@ -172,6 +174,14 @@ const App: React.FC = () => {
                 <ListItemText primary="UUID generator" />
               </ListItem>
             </Link>
+            <Link to="/JWTDecoder" title="JSON Web Token decoder" className={classes.link}>
+              <ListItem button>
+                <ListItemIcon>
+                  <LockOpenIcon />
+                </ListItemIcon>
+                <ListItemText primary="JWT decoder" />
+              </ListItem>
+            </Link>
           </List>
         </Drawer>
         <ToasterProvider>
@@ -186,6 +196,7 @@ const App: React.FC = () => {
               <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
               <Route exact path="/RegExTester"><RegExTester /></Route>
               <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
+              <Route exact path="/JWTDecoder"><JWTDecoder /></Route>
             </Switch>
           </main>
         </ToasterProvider>
