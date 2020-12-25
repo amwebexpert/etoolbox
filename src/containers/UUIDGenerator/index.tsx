@@ -4,7 +4,6 @@ import { Box, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, T
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
-import LinkIcon from '@material-ui/icons/Link';
 import SimCardIcon from '@material-ui/icons/SimCard';
 
 import * as copy from 'copy-to-clipboard';
@@ -65,9 +64,7 @@ const UUIDGenerator: React.FC = () => {
                                     onChange={(e: any) => setVersion(e.target.value)}
                                 >
                                     <MenuItem value={1}>1</MenuItem>
-                                    <MenuItem value={3}>3</MenuItem>
                                     <MenuItem value={4}>4</MenuItem>
-                                    <MenuItem value={5}>5</MenuItem>
                                 </Select>
                                 <FormHelperText>RFC4122 version</FormHelperText>
                             </FormControl>
