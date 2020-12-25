@@ -38,7 +38,7 @@ const UUIDGenerator: React.FC = () => {
     const classes = useStyles();
     const [version, setVersion] = React.useState(4);
     const [quantity, setQuantity] = React.useState(1);
-    const [generated, setGenerated] = React.useState('');
+    const [generated, setGenerated] = React.useState(services.generate(version, quantity));
 
     const handleCopy = (event: any) => {
         event.preventDefault();
