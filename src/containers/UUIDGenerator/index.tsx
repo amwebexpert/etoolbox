@@ -52,7 +52,7 @@ const UUIDGenerator: React.FC = () => {
             <form noValidate autoComplete="off" className={classes.form}>
                 <Grid container direction="row" justify="flex-start" alignItems="flex-start" spacing={1}>
                     <Grid container spacing={1}>
-                        <Grid item sm={2}>
+                        <Grid item md={1} sm={2} xs={3}>
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="uuidVersionLabel">Version</InputLabel>
                                 <Select
@@ -68,13 +68,11 @@ const UUIDGenerator: React.FC = () => {
                                 <FormHelperText>RFC4122 version</FormHelperText>
                             </FormControl>
                         </Grid>
-                        <Grid item sm={2}>
+                        <Grid item md={1} sm={2} xs={3}>
                             <FormControl className={classes.formControl}>
                                 <TextField id="quantity" label="Quantity" value={quantity}
                                     onChange={(e) => setQuantity(+e.target.value)} type="number" />
                             </FormControl>
-                        </Grid>
-                        <Grid item sm={6}>
                         </Grid>
                     </Grid>
                 </Grid>
