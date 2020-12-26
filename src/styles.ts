@@ -68,6 +68,12 @@ export const useStyles = makeStyles((theme) => ({
         textDecoration: 'none',
         color: theme.palette.text.primary,
     },
+    linkActive: {
+        color: theme.palette.info.dark,
+        '& .MuiListItem-root': {
+            backgroundColor: theme.palette.grey[300],
+        }
+    },
     linkMenu: {
         textDecoration: 'none',
         color: 'inherit',

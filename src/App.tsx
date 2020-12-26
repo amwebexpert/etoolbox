@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Switch, Route, Link, useHistory } from 'react-router-dom';
+import { Switch, Route, NavLink, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -92,9 +92,9 @@ const App: React.FC = () => {
             </Typography>
 
             <IconButton color="inherit" title="About this application...">
-              <Link to="/about" className={classes.linkMenu}>
+              <NavLink to="/about" className={classes.linkMenu}>
                 <InfoIcon />
-              </Link>
+              </NavLink>
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -118,70 +118,70 @@ const App: React.FC = () => {
           </div>
           <Divider />
           <List>
-            <Link to="/" title="Home" className={classes.link}>
+            <NavLink to="/" title="Home" exact={true} className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <HomeIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Home"} />
               </ListItem>
-            </Link>
-            <Link to="/URLParser" title="URL parser" className={classes.link}>
+            </NavLink>
+            <NavLink to="/URLParser" title="URL parser" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <LinkIcon />
                 </ListItemIcon>
                 <ListItemText primary={"URL Parser"} />
               </ListItem>
-            </Link>
-            <Link to="/URLEncoder" title="URL Encoder/decoder" className={classes.link}>
+            </NavLink>
+            <NavLink to="/URLEncoder" title="URL Encoder/decoder" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <LinkOffIcon />
                 </ListItemIcon>
                 <ListItemText primary={"URL Encoder"} />
               </ListItem>
-            </Link>
-            <Link to="/Base64Encoder" title="Base64 Encoder/decoder" className={classes.link}>
+            </NavLink>
+            <NavLink to="/Base64Encoder" title="Base64 Encoder/decoder" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <DeveloperBoardIcon />
                 </ListItemIcon>
                 <ListItemText primary={"Base64 Encoder"} />
               </ListItem>
-            </Link>
-            <Link to="/JSONFormatter" title="JSON Formatter" className={classes.link}>
+            </NavLink>
+            <NavLink to="/JSONFormatter" title="JSON Formatter" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <WrapTextIcon />
                 </ListItemIcon>
                 <ListItemText primary={"JSON Formatter"} />
               </ListItem>
-            </Link>
-            <Link to="/RegExTester" title="Regular expression tester" className={classes.link}>
+            </NavLink>
+            <NavLink to="/RegExTester" title="Regular expression tester" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <TextRotationNoneIcon />
                 </ListItemIcon>
                 <ListItemText primary="RegEx tester" />
               </ListItem>
-            </Link>
-            <Link to="/UUIDGenerator" title="UUID generator" className={classes.link}>
+            </NavLink>
+            <NavLink to="/UUIDGenerator" title="UUID generator" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <SimCardIcon />
                 </ListItemIcon>
                 <ListItemText primary="UUID generator" />
               </ListItem>
-            </Link>
-            <Link to="/JWTDecoder" title="JSON Web Token decoder" className={classes.link}>
+            </NavLink>
+            <NavLink to="/JWTDecoder" title="JSON Web Token decoder" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <LockOpenIcon />
                 </ListItemIcon>
                 <ListItemText primary="JWT decoder" />
               </ListItem>
-            </Link>
+            </NavLink>
           </List>
         </Drawer>
         <ToasterProvider>
