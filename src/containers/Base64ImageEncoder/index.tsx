@@ -107,12 +107,15 @@ const Base64ImageEncoder: React.FC = () => {
                     </div>
                 }
             </div>
+
             {encodedFiles && encodedFiles.map((file: EncodedFile, idx: number) => (
                 <div key={idx}>
                     <Card>
-                        <img src={file.encoded} alt={file.name} className={classes.cardContent} />
+                        <Box display="flex" alignItems="center" justifyContent="center">
+                            <img src={file.encoded} alt={file.name} className={classes.cardContent} />
+                        </Box>
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Typography gutterBottom align="center" variant="h5" component="h2">
                                 <b>{file.name}</b> ({file.size} bytes)
                             </Typography>
                             <TextField
@@ -127,9 +130,6 @@ const Base64ImageEncoder: React.FC = () => {
                                 fullWidth
                                 value={file.encoded}
                                 margin="normal"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                                 variant="outlined"
                                 multiline
                                 rows="8"
