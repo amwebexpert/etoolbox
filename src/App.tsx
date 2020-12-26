@@ -39,6 +39,7 @@ import ToasterProvider from './components/Toaster/ToasterProvider';
 import RegExTester from './containers/RegExTester';
 import UUIDGenerator from './containers/UUIDGenerator';
 import JWTDecoder from './containers/JWTDecoder';
+import Base64ImageEncoder from './containers/Base64ImageEncoder';
 
 const App: React.FC = () => {
   const classes = useStyles();
@@ -150,6 +151,14 @@ const App: React.FC = () => {
                 <ListItemText primary={"Base64 Encoder"} />
               </ListItem>
             </NavLink>
+            <NavLink to="/Base64ImageEncoder" title="Base64 image encoder" className={classes.link} activeClassName={classes.linkActive}>
+              <ListItem button>
+                <ListItemIcon>
+                  <DeveloperBoardIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Base64 image encoder"} />
+              </ListItem>
+            </NavLink>
             <NavLink to="/JSONFormatter" title="JSON Formatter" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
@@ -193,6 +202,7 @@ const App: React.FC = () => {
               <Route exact path="/URLParser"><URLParser /></Route>
               <Route exact path="/URLEncoder"><URLEncoder /></Route>
               <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
+              <Route exact path="/Base64ImageEncoder"><Base64ImageEncoder /></Route>
               <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
               <Route exact path="/RegExTester"><RegExTester /></Route>
               <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
