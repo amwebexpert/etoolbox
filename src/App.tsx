@@ -208,6 +208,9 @@ const App: React.FC = () => {
               <Route exact path="/RegExTester"><RegExTester /></Route>
               <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
               <Route exact path="/JWTDecoder"><JWTDecoder /></Route>
+
+              {/** Default route is the home */}
+              <Route component={Home} />
             </Switch>
           </main>
         </ToasterProvider>
