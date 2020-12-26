@@ -15,6 +15,7 @@ import { AppState } from '../../reducers';
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
 import FeatureTitle from '../../components/FeatureTitle';
+import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,6 +46,7 @@ interface Props {
 
 const RegExTester: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { setToasterState } = useToasterUpdate();
     const { regularExpression, inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState('');
 
@@ -59,6 +61,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
         event.preventDefault();
         if (regularExpression) {
             copy.default(regularExpression, { format: 'text/plain' });
+            setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
         }
     }
 

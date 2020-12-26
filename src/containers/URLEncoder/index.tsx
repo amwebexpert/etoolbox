@@ -14,6 +14,7 @@ import { AppState } from '../../reducers';
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
 import FeatureTitle from '../../components/FeatureTitle';
+import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,12 +40,14 @@ interface Props {
 
 const URLEncoder: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { setToasterState } = useToasterUpdate();
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState(services.transform(inputText, false));
 
     const handleCopy = (event: any) => {
         event.preventDefault();
         copy.default(transformed, { format: 'text/plain' });
+        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
     }
 
     return (

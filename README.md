@@ -17,19 +17,16 @@
 
 ## Features
 
-Completed features:
+Some features:
 
 - URL (and query string) Parser
 - JSON Formatter/Validator
 - URL Encoder/Decoder
-- Base64 Encoder/Decoder
+- Base64 string encoder/decoder
+- Base64 image encoder
 - Regular expression builder/tester
 - UUID Generator
 
-Roadmap (list of items in the TODO list...):
-
-- JWT Debugger
-- Unix Time Converter
 
 ## License
 

@@ -16,21 +16,16 @@ const Home: React.FC = () => {
         <Paper className={classes.root}>
             <p>Welcome to the a collection of web developer utilities packaged as a desktop app!</p>
 
-            <h2>Completed features</h2>
+            <h2>Some features</h2>
             <ul>
                 <li>URL (and query string) Parser</li>
                 <li>JSON Formatter/Validator</li>
                 <li>URL Encoder/Decoder</li>
-                <li>Base64 Encoder/Decoder</li>
+                <li>Base64 string encoder/decoder</li>
+                <li>Base64 image encoder</li>
                 <li>Regular expression builder/tester</li>
                 <li>UUID Generator</li>
-            </ul>
-
-            <h2>Roadmap (list of items in the TODO list...)</h2>
-            <ul>
                 <li>JWT Debugger</li>
-                <li>HTML Entity Encoder/Decoder</li>
-                <li>Unix Time Converter</li>
             </ul>
         </Paper>
     );

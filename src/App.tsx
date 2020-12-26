@@ -23,6 +23,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import WrapTextIcon from '@material-ui/icons/WrapText';
 import LinkIcon from '@material-ui/icons/Link';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import PanoramaIcon from '@material-ui/icons/Panorama';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
 import SimCardIcon from '@material-ui/icons/SimCard';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
@@ -154,9 +155,9 @@ const App: React.FC = () => {
             <NavLink to="/Base64ImageEncoder" title="Base64 image encoder" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
-                  <DeveloperBoardIcon />
+                  <PanoramaIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Base64 image encoder"} />
+                <ListItemText primary={"Image encoder"} />
               </ListItem>
             </NavLink>
             <NavLink to="/JSONFormatter" title="JSON Formatter" className={classes.link} activeClassName={classes.linkActive}>

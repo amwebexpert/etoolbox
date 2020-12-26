@@ -10,6 +10,7 @@ import * as copy from 'copy-to-clipboard';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
+import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UUIDGenerator: React.FC = () => {
     const classes = useStyles();
+    const { setToasterState } = useToasterUpdate();
     const [version, setVersion] = React.useState(4);
     const [quantity, setQuantity] = React.useState(1);
     const [generated, setGenerated] = React.useState(services.generate(version, quantity));
@@ -43,6 +45,7 @@ const UUIDGenerator: React.FC = () => {
     const handleCopy = (event: any) => {
         event.preventDefault();
         copy.default(generated, { format: 'text/plain' });
+        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
     }
 
     return (
