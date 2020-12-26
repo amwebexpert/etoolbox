@@ -2,6 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Switch, Route, NavLink, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
+
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -42,11 +45,15 @@ import UUIDGenerator from './containers/UUIDGenerator';
 import JWTDecoder from './containers/JWTDecoder';
 import Base64ImageEncoder from './containers/Base64ImageEncoder';
 
-const App: React.FC = () => {
+interface Props {
+  width: Breakpoint;
+}
+
+const App: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(isWidthUp('md', props.width));
 
   React.useEffect(setupIPC, [history]);
 
@@ -219,4 +226,4 @@ const App: React.FC = () => {
   );
 }
 
-export default App;
+export default withWidth()(App);
