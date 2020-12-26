@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -41,6 +43,7 @@ const StyledTableRow = withStyles((theme) => ({
 interface Props {
     inputText?: string;
     storeInputText: (name: string, value: string) => void;
+    width: Breakpoint;
 }
 
 const URLParser: React.FC<Props> = (props: Props) => {
@@ -59,7 +62,7 @@ const URLParser: React.FC<Props> = (props: Props) => {
             <form noValidate autoComplete="off">
                 <div>
                     <TextField
-                        autoFocus
+                        autoFocus={isWidthUp('md', props.width)}
                         id="outlined-multiline-static"
                         label="URL"
                         placeholder="Paste or type the url here"
@@ -108,4 +111,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(URLParser);
+export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(URLParser));

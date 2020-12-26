@@ -27,6 +27,12 @@ Some features:
 - Regular expression builder/tester
 - UUID Generator
 
+## Live DEMO
+
+The app has been deployed and you can test it right here:
+
+* https://amwebexpert.github.io/etoolbox/
+
 
 ## License
 
@@ -41,6 +47,8 @@ This project is licensed under the MIT license, Copyright (c) 2020 André Masson
 * https://cloudconvert.com/png-to-icns
 * https://stackoverflow.com/a/8684009/704681
 * https://stackoverflow.com/a/52409047/704681
+* https://omakoleg.gitlab.io/posts/spa-image-base64-react/
+
 
 
 React-TypeScript-Electron sample with Create React App and Electron Builder

@@ -46,7 +46,7 @@ const App: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(setupIPC, [history]);
 

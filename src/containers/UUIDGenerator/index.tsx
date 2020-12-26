@@ -1,5 +1,7 @@
 import React from 'react';
 
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { Box, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField, Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,7 +37,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const UUIDGenerator: React.FC = () => {
+interface Props {
+    width: Breakpoint;
+}
+
+const UUIDGenerator: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { setToasterState } = useToasterUpdate();
     const [version, setVersion] = React.useState(4);
@@ -60,7 +66,7 @@ const UUIDGenerator: React.FC = () => {
                                 <InputLabel id="uuidVersionLabel">Version</InputLabel>
                                 <Select
                                     labelId="uuidVersionLabel"
-                                    autoFocus
+                                    autoFocus={isWidthUp('md', props.width)}
                                     id="uuidVersion"
                                     value={version}
                                     onChange={(e: any) => setVersion(e.target.value)}
@@ -96,4 +102,4 @@ const UUIDGenerator: React.FC = () => {
     );
 }
 
-export default UUIDGenerator;
+export default withWidth()(UUIDGenerator);

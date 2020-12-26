@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
@@ -39,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
+    width: Breakpoint;
     inputText?: string;
     regularExpression?: string;
     storeInputText: (name: string, value: string) => void;
@@ -78,7 +82,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
             <form noValidate autoComplete="off">
                 <div>
                     <TextField
-                        autoFocus
+                        autoFocus={isWidthUp('md', props.width)}
                         id="regex"
                         label="Regular expression"
                         placeholder="Type the regular expression. Example: /example/g"
@@ -129,4 +133,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegExTester);
+export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(RegExTester));

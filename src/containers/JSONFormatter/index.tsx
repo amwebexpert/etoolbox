@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -36,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
+    width: Breakpoint;
     inputText?: string;
     storeInputText: (name: string, value: string) => void;
 }
@@ -68,7 +72,7 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
             <form noValidate autoComplete="off">
                 <div>
                     <TextField
-                        autoFocus
+                        autoFocus={isWidthUp('md', props.width)}
                         id="outlined-multiline-static"
                         label="JSON Content"
                         placeholder="Paste or type the json content here"
@@ -110,4 +114,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(JSONFormatter);
+export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(JSONFormatter));
