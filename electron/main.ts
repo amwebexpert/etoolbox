@@ -109,6 +109,16 @@ function setupMenu() {
           click: () => win!.webContents.send('navigateTo', '/RegExTester')
         },
         {
+          label: 'UUID Generator',
+          accelerator: 'Ctrl+Alt+D',
+          click: () => win!.webContents.send('navigateTo', '/UUIDGenerator')
+        },
+        {
+          label: 'JWT Decoder',
+          accelerator: 'Ctrl+Alt+T',
+          click: () => win!.webContents.send('navigateTo', '/JWTDecoder')
+        },
+        {
           type: 'separator'
         },
         {
