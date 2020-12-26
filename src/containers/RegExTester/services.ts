@@ -5,13 +5,37 @@ export function transform(regularExpression: string | undefined, inputText: stri
         return '';
     }
 
+    const text = inputText.replaceAll('\n', '<br />')
+
     try {
         const regex = regexParser(regularExpression);
         if (regex.global) {
-            return inputText.replaceAll(regex, replacer);
+            return text.replaceAll(regex, replacer);
         } else {
-            return inputText.replace(regex, replacer);
+            return text.replace(regex, replacer);
         }
+    } catch (e) {
+        return e.toString();
+    }
+}
+
+export function extract(regularExpression: string | undefined, inputText: string | undefined): string {
+    let extracted = '';
+
+    if (!regularExpression || !inputText) {
+        return extracted;
+    }
+
+    try {
+        const regex = regexParser(regularExpression);
+
+        let result;
+        while ((result = regex.exec(inputText)) !== null) {
+            extracted += `${result[0]}, `;
+        }
+
+        // Return result without last line feed
+        return extracted.slice(0, -2);
     } catch (e) {
         return e.toString();
     }

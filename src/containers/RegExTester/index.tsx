@@ -53,18 +53,21 @@ const RegExTester: React.FC<Props> = (props: Props) => {
     const { setToasterState } = useToasterUpdate();
     const { regularExpression, inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState('');
+    const [extracted, setExtracted] = React.useState('');
 
     // https://www.npmjs.com/package/use-debounce
     const debounced = useDebouncedCallback(
-        (regularExpression, inputText) =>
-            setTransformed(services.transform(regularExpression, inputText)),
+        (regularExpression, inputText) => {
+            setTransformed(services.transform(regularExpression, inputText));
+            setExtracted(services.extract(regularExpression, inputText));
+        },
         300
     );
 
-    const handleCopy = (event: any) => {
+    const handleCopy = (event: any, data: string | undefined) => {
         event.preventDefault();
-        if (regularExpression) {
-            copy.default(regularExpression, { format: 'text/plain' });
+        if (data) {
+            copy.default(data, { format: 'text/plain' });
             setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
         }
     }
@@ -97,7 +100,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
                         label="Content to test the regular expression against"
                         placeholder="Paste or type the content here"
                         multiline
-                        rows={4}
+                        rows={6}
                         variant="outlined"
                         margin="normal"
                         fullWidth={true}
@@ -110,12 +113,26 @@ const RegExTester: React.FC<Props> = (props: Props) => {
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
                 <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
-                    variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                    variant="contained" color="primary" onClick={(e) => handleCopy(e, regularExpression)}>Copy</Button>
             </Toolbar>
 
             <div className={classes.formatted}>
                 {ReactHtmlParser(transformed)}
             </div>
+
+            <p>
+                Collection of values. Could be usefull for Jira tickets numbers with expressions like:
+                <strong>issueKey in (FS-3456, WS-3213, FS-9988)</strong>
+            </p>
+            <div className={classes.formatted}>
+                {extracted}
+            </div>
+            <Toolbar className={classes.toolbar}>
+                <Box display='flex' flexGrow={1}></Box>
+                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
+                    variant="contained" color="primary" onClick={(e) => handleCopy(e, extracted)}>Copy</Button>
+            </Toolbar>
+
         </div>
     );
 }
