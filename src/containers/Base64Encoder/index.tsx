@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     formatted: {
         padding: theme.spacing(1),
         border: '1px solid grey',
+        wordWrap: 'break-word',
     },
     toolbar: {
         margin: 0,
@@ -82,9 +83,9 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
                 <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                 <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>}
-                    onClick={() => setTransformed(services.transform(inputText, true))}>Encode</Button>
+                    onClick={() => setTransformed(services.transform(inputText, true))}>Enc.</Button>
                 <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>}
-                    onClick={() => setTransformed(services.transform(inputText, false))}>Decode</Button>
+                    onClick={() => setTransformed(services.transform(inputText, false))}>Dec.</Button>
             </Toolbar>
 
             <div className={classes.formatted}>

@@ -66,7 +66,7 @@ const Base64ImageEncoder: React.FC = () => {
     }, []);
 
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-        accept: ["image/jpeg", "image/png", "image/gif", "image/*"],
+        accept: ['image/jpeg', 'image/png', 'image/gif', 'image/*'],
         maxSize: 100000000,
         multiple: true,
         onDrop
@@ -80,7 +80,7 @@ const Base64ImageEncoder: React.FC = () => {
 
     return (
         <div className={classes.root}>
-            <FeatureTitle iconType={PanoramaIcon} title="Base 64 encode image to be used inline" />
+            <FeatureTitle iconType={PanoramaIcon} title="Base64 image encoder" />
 
             <div {...getRootProps({ className: classes.dropzone })}>
                 <input {...getInputProps()} />

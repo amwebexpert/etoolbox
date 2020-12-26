@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     formatted: {
         padding: theme.spacing(1),
         border: '1px solid grey',
+        wordWrap: 'break-word',
     },
     toolbar: {
         margin: 0,
@@ -81,9 +82,9 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                 <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                 <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>}
-                    onClick={() => setTransformed(services.transform(inputText, false))}>Encode</Button>
+                    onClick={() => setTransformed(services.transform(inputText, false))}>Enc.</Button>
                 <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>}
-                    onClick={() => setTransformed(services.transform(inputText, true))}>Decode</Button>
+                    onClick={() => setTransformed(services.transform(inputText, true))}>Dec.</Button>
             </Toolbar>
 
             <div className={classes.formatted}>
