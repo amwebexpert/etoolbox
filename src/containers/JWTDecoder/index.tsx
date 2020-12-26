@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import TextField from '@material-ui/core/TextField';
 import * as copy from 'copy-to-clipboard';
 import SyntaxHighlighter from 'react-syntax-highlighter';
