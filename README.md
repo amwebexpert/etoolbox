@@ -29,10 +29,19 @@ Some features:
 
 ## Live DEMO
 
-The app has been deployed and you can test it right here:
+The app has been deployed and you can test it right [here](https://amwebexpert.github.io/etoolbox/). However the browser refresh button is not supported (yet) for the demo :-)
 
-* https://amwebexpert.github.io/etoolbox/
+## Windows, Linux and MacOS versions
 
+Look under the `releases/` folder for the Windows version. For other platforms just get the source code and run the following command, which will package the installers for all the platforms:
+
+    npm run electron:build:all
+
+This creates the following installers:
+
+* Windows: `build/Web Toolbox Setup <version>.exe`
+* Linux: `build/Web Toolbox-<version>.AppImage`
+* MacOS: `build/Web Toolbox-<version>.dmg`
 
 ## License
 

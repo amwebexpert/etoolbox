@@ -18,7 +18,7 @@
     "electron:dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
     "electron:windev": "concurrently \"SET BROWSER=none && yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder",
-    "electron:build:all": "yarn build && tsc -p electron && electron-builder -mw",
+    "electron:build:all": "yarn build && tsc -p electron && electron-builder -mwl",
     "eject": "react-scripts eject"
   },
   "build": {
@@ -27,11 +27,33 @@
     "mac": {
       "target": "dmg",
       "icon": "build/icon.icns",
-      "category": "public.app-category.developer-tools"
+      "category": "public.app-category.developer-tools",
+      "type": "distribution",
+      "hardenedRuntime": true
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
     },
     "win": {
       "target": "nsis",
       "icon": "build/icon.png"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Development"
     },
     "extends": null,
     "files": [
