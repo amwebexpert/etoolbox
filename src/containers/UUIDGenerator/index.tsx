@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useForm, Controller } from 'react-hook-form';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { Box, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField, Toolbar } from '@material-ui/core';
@@ -37,22 +38,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+interface UUIDForm {
+    version: number;
+    quantity: number;
+}
+
 interface Props {
     width: Breakpoint;
 }
 
 const UUIDGenerator: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const { handleSubmit, errors, control } = useForm();
     const { setToasterState } = useToasterUpdate();
-    const [version, setVersion] = React.useState(4);
-    const [quantity, setQuantity] = React.useState(1);
-    const [generated, setGenerated] = React.useState(services.generate(version, quantity));
+    const [generated, setGenerated] = React.useState('');
 
     const handleCopy = (event: any) => {
         event.preventDefault();
         copy.default(generated, { format: 'text/plain' });
         setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
     }
+
+    const onSubmit = (data: UUIDForm) => {
+        setGenerated(services.generate(data.version, data.quantity));
+    };
 
     return (
         <div className={classes.root}>
@@ -64,23 +73,43 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                         <Grid item md={1} sm={2} xs={3}>
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="uuidVersionLabel">Version</InputLabel>
-                                <Select
-                                    labelId="uuidVersionLabel"
-                                    autoFocus={isWidthUp('md', props.width)}
-                                    id="uuidVersion"
-                                    value={version}
-                                    onChange={(e: any) => setVersion(e.target.value)}
-                                >
-                                    <MenuItem value={1}>1</MenuItem>
-                                    <MenuItem value={4}>4</MenuItem>
-                                </Select>
+                                <Controller
+                                    control={control}
+                                    name="version"
+                                    defaultValue="4"
+                                    as={
+                                        <Select labelId="uuidVersionLabel" autoFocus={isWidthUp('md', props.width)}>
+                                            <MenuItem value={1}>1</MenuItem>
+                                            <MenuItem value={4}>4</MenuItem>
+                                        </Select>
+                                    }
+                                    rules={{
+                                        required: true,
+                                        valueAsNumber: true,
+                                        min: 1,
+                                        max: 5,
+                                    }}
+                                />
                                 <FormHelperText>RFC4122 version</FormHelperText>
                             </FormControl>
                         </Grid>
                         <Grid item md={1} sm={2} xs={3}>
                             <FormControl className={classes.formControl}>
-                                <TextField id="quantity" label="Quantity" value={quantity}
-                                    onChange={(e) => setQuantity(+e.target.value)} type="number" />
+                                <Controller
+                                    name="quantity"
+                                    as={
+                                        <TextField label="Quantity" error={!!errors.quantity} type="number"
+                                            helperText={errors.quantity ? 'valid range: [1..9999]' : null} />
+                                    }
+                                    control={control}
+                                    defaultValue="10"
+                                    rules={{
+                                        required: true,
+                                        valueAsNumber: true,
+                                        min: 1,
+                                        max: 9999,
+                                    }}
+                                />
                             </FormControl>
                         </Grid>
                     </Grid>
@@ -91,8 +120,9 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                 <Box display='flex' flexGrow={1}></Box>
                 <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
-                <Button variant="contained" color="primary" endIcon={<SimCardIcon>Generate</SimCardIcon>}
-                    onClick={() => setGenerated(services.generate(version, quantity))}>Generate</Button>
+                <Button variant="contained" color="primary"
+                    onClick={handleSubmit(onSubmit)}
+                    endIcon={<SimCardIcon>Generate</SimCardIcon>}>Generate</Button>
             </Toolbar>
 
             <div className={classes.formatted}>

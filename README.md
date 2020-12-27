@@ -27,7 +27,7 @@ Some features:
 - Regular expression builder/tester
 - UUID Generator
 
-## Live DEMO
+## Online demo
 
 The app has been deployed and you can test it right [here](https://amwebexpert.github.io/etoolbox/). However the browser refresh button is not supported (yet) for the demo :-)
 
