@@ -7,13 +7,12 @@
     "url": "https://www.linkedin.com/in/amwebexpert/"
   },
   "description": "Collection of web developer utilities packaged as a desktop app",
-  "homepage": "/etoolbox/",
+  "homepage": ".",
   "main": "build/electron/main.js",
   "private": false,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:prod": "PUBLIC_PATH=/etoolbox/ && react-scripts build",
     "test": "react-scripts test",
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
