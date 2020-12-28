@@ -17,15 +17,33 @@
 
 ## Features
 
-Some features:
+Some screen captures of the implemented features...
 
-- URL (and query string) Parser
-- JSON Formatter/Validator
-- URL Encoder/Decoder
-- Base64 string encoder/decoder
-- Base64 image encoder
-- Regular expression builder/tester
-- UUID Generator
+
+<div align="center">
+
+  <p>JSON Formatter/Validator:</p>
+  <img src="public/screen-captures/JSONFormatter-demo.gif" />
+
+  <p>Base64 image encoder:</p>
+  <img src="public/screen-captures/ImageEncoder-demo.gif" />
+
+  <p>Regular expression builder/tester:</p>
+  <img src="public/screen-captures/RegexTester-demo.gif" />
+
+  <p>URL (and query string) Parser:</p>
+  <img src="public/screen-captures/screen-URLParser.png" />
+
+  <p>URL Encoder/Decoder:</p>
+  <img src="public/screen-captures/screen-URLEncoder.png" />
+
+  <p>Base64 string encoder/decoder:</p>
+  <img src="public/screen-captures/screen-Base64Encoder.png" />
+
+  <p>UUID Generator:</p>
+  <img src="public/screen-captures/screen-UUIDGenerator.png" />
+
+</div>
 
 ## Online demo
 
