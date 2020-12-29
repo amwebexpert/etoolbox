@@ -43,6 +43,7 @@ Again feel free to try ot the online [demo](https://amwebexpert.github.io/etoolb
 Also look under the `releases/` folder for the pre-packaged Windows version. For other platforms just get the source code and run the following command, which will package the installers for all the platforms:
 
     npm install -g yarn
+    npm install
     npm run electron:build:all
 
 This creates the following installers:
