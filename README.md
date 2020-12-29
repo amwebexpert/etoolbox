@@ -36,8 +36,13 @@ The app has been deployed and you can test it right [here](https://amwebexpert.g
 
 ## Windows, Linux and MacOS versions
 
-Look under the `releases/` folder for the Windows version. For other platforms just get the source code and run the following command, which will package the installers for all the platforms:
+Since 95% of the features do not require desktop capabilities, Electron is actually not really required. However having a desktop application gives nice things like global OS shortcuts and a dedicated OS window.
 
+Again feel free to try ot the online [demo](https://amwebexpert.github.io/etoolbox/) before trying to package the Electron app for your platform :-)
+
+Also look under the `releases/` folder for the pre-packaged Windows version. For other platforms just get the source code and run the following command, which will package the installers for all the platforms:
+
+    npm install -g yarn
     npm run electron:build:all
 
 This creates the following installers:
