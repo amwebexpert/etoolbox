@@ -1,4 +1,12 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core';
+
+export const imageResizer = {
+    marginTop: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: 'solid 1px #ddd'
+};
 
 export const useStyles = makeStyles((theme) => ({
     root: {
@@ -11,12 +19,8 @@ export const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         minWidth: 120,
     },
-    cardContent: {
-        minHeight: 50,
-        minWidth: 50,
-        maxWidth: 100,
-        maxHeight: 100,
-        margin: 20
+    image: {
+        width: '100%',
     },
     toolbar: {
         margin: 0,

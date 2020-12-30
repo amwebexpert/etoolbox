@@ -12,11 +12,12 @@ import TextFieldsIcon from '@material-ui/icons/TextFields';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import * as copy from 'copy-to-clipboard';
+import { Resizable } from "re-resizable";
 
 import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
-import { useStyles } from './styled';
+import { useStyles, imageResizer } from './styled';
 
 interface Props {
     width: Breakpoint;
@@ -98,7 +99,9 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                         <div>Paste image from clipboard...</div>
                     )}
                     {imgDataURL && (
-                        <img src={imgDataURL} alt="Clipboard content" className={classes.cardContent} />
+                        <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
+                            <img src={imgDataURL} alt="Clipboard content" className={classes.image} />
+                        </Resizable>
                     )}
                 </Box>
                 <CardContent>

@@ -93,6 +93,7 @@
     "electron-reload": "^1.5.0",
     "file-saver": "^2.0.5",
     "jwt-decode": "^3.1.2",
+    "re-resizable": "^6.9.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.4",
