@@ -1,17 +1,16 @@
-import { v1, v4 } from 'uuid';
 
-const GENERATORS_MAP = new Map<Number, Function>();
-GENERATORS_MAP.set(1, v1);
-GENERATORS_MAP.set(4, v4);
-
-export function generate(version: number, quantity: number): string {
-    const uuidGenerator = GENERATORS_MAP.get(version)!;
-
-    let result = '';
-    for (let i = 0; i < quantity; i++) {
-        result += `${uuidGenerator()}\n`;
+export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: ProgressEvent<FileReader>) => void): void {
+    if (!items) {
+        return;
     }
 
-    // Return result without last line feed
-    return result.slice(0, -1);
+    for (let i = 0; i < items.length; i++) {
+        const item: DataTransferItem = items[i];
+        if (item.type.startsWith('image')) {
+            const reader = new FileReader();
+            reader.onload = onLoad;
+            reader.readAsDataURL(item.getAsFile() as Blob);
+            break;
+        }
+    }
 }

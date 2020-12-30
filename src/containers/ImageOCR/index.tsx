@@ -110,16 +110,8 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
 
     function onPasteFromClipboard(e: any) {
         const clipboardData = e.clipboardData || e.originalEvent.clipboardData || e.originalEvent.clipboard;
-        const items: DataTransferItemList = clipboardData.items;
-        for (let i = 0; i < items.length; i++) {
-            const item: DataTransferItem = items[i];
-            if (item.type.startsWith('image')) {
-                const reader = new FileReader();
-                reader.onload = (e: any) => setImgDataURL(e.target.result);
-                reader.readAsDataURL(item.getAsFile() as Blob);
-                break;
-            }
-        }
+        services.clipboardToDataURL(clipboardData.items, 
+            (ev: ProgressEvent<FileReader>) => setImgDataURL(ev.target!.result as string));
     }
 
     return (
