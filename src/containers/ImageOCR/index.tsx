@@ -6,6 +6,7 @@ import { Box, Card, CardContent, FormControl, FormHelperText, Grid, InputLabel, 
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
+import DeleteIcon from '@material-ui/icons/Delete';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: theme.spacing(1),
+        width: '100%',
     },
     cardContent: {
         minHeight: 50,
@@ -65,6 +67,13 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
         event.preventDefault();
         copy.default(generated, { format: 'text/plain' });
         setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
+    }
+
+    const handleClear = (event: any) => {
+        event.preventDefault();
+        setLogs('');
+        setImgDataURL('');
+        setGenerated('');
     }
 
     const handleProcess = (event: any) => {
@@ -123,7 +132,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                         <Grid item md={1} sm={2} xs={3}>
                             <FormControl className={classes.formControl}>
                                 <InputLabel shrink id="languageLabel">
-                                    Language
+                                    Image language
                                 </InputLabel>
                                 <Select labelId="languageLabel" id="language"
                                     value={language} autoFocus={isWidthUp('md', props.width)}
@@ -132,7 +141,6 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                                     <MenuItem value="eng">English</MenuItem>
                                     <MenuItem value="fra">French</MenuItem>
                                 </Select>
-                                <FormHelperText>Image language</FormHelperText>
                             </FormControl>
                         </Grid>
                         <Grid item md={1} sm={2} xs={3}>
@@ -160,8 +168,10 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                         multiline
                         rows="8"
                     />
-                    <Toolbar>
+                    <Toolbar className={classes.toolbar}>
                         <Box display='flex' flexGrow={1}></Box>
+                        <Button endIcon={<DeleteIcon>Clear</DeleteIcon>}
+                            variant="contained" color="primary" onClick={handleClear}>Clear</Button>
                         <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
                             variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                         <Button variant="contained" color="primary"

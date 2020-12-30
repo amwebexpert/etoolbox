@@ -41,7 +41,14 @@ const useStyles = makeStyles(theme => ({
         maxWidth: 100,
         maxHeight: 100,
         margin: 20
-    }
+    },
+    toolbar: {
+        margin: 0,
+        padding: 0,
+        '& > *': {
+            marginLeft: theme.spacing(1),
+        },
+    },
 }));
 
 const Base64ImageEncoder: React.FC = () => {
@@ -134,7 +141,7 @@ const Base64ImageEncoder: React.FC = () => {
                                 multiline
                                 rows="8"
                             />
-                            <Toolbar>
+                            <Toolbar className={classes.toolbar}>
                                 <Box display='flex' flexGrow={1}></Box>
                                 <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
                                     onClick={(e) => handleCopy(e, file.encoded)}
