@@ -1,55 +1,19 @@
 import React, { useCallback, useState } from 'react';
+
 import { useDropzone, FileRejection } from 'react-dropzone';
 import * as copy from 'copy-to-clipboard';
+import { Resizable } from 're-resizable';
 
-import { makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography, TextField, LinearProgress, Toolbar, Box, Button } from '@material-ui/core';
-
 import PanoramaIcon from '@material-ui/icons/Panorama';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import { EncodedFile, ErrorFile, loadFile, rejectFiles } from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
+import { useStyles, imageResizer } from './styled';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        margin: theme.spacing(1),
-        flexGrow: 1,
-    },
-    header: {
-        padding: '20px 0'
-    },
-    dropzone: {
-        flex: '1',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '20px',
-        borderWidth: '2px',
-        borderRadius: '2px',
-        borderColor: '#eeeeee',
-        borderStyle: 'dashed',
-        backgroundColor: '#fafafa',
-        color: '#bdbdbd',
-        outline: 'none',
-        transition: 'border .24s ease-in-out'
-    },
-    cardContent: {
-        minHeight: 50,
-        minWidth: 50,
-        maxWidth: 100,
-        maxHeight: 100,
-        margin: 20
-    },
-    toolbar: {
-        margin: 0,
-        padding: 0,
-        '& > *': {
-            marginLeft: theme.spacing(1),
-        },
-    },
-}));
+
 
 const Base64ImageEncoder: React.FC = () => {
     const classes = useStyles();
@@ -119,7 +83,9 @@ const Base64ImageEncoder: React.FC = () => {
                 <div key={idx}>
                     <Card>
                         <Box display="flex" alignItems="center" justifyContent="center">
-                            <img src={file.encoded} alt={file.name} className={classes.cardContent} />
+                            <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
+                                <img src={file.encoded} alt={file.name} className={classes.image} />
+                            </Resizable>
                         </Box>
                         <CardContent>
                             <Typography gutterBottom align="center" variant="h5" component="h2">
