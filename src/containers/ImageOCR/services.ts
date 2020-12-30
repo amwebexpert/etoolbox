@@ -1,3 +1,4 @@
+const { createWorker } = require('tesseract.js');
 
 export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: ProgressEvent<FileReader>) => void): void {
     if (!items) {
@@ -13,4 +14,21 @@ export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: Pro
             break;
         }
     }
+}
+
+export async function processOCR(
+    language: string,
+    imageBuffer: Buffer,
+    logger: (log: any) => void,
+    onCompleted: (text: string) => void) {
+
+    const worker = createWorker({ logger });
+    await worker.load();
+    await worker.loadLanguage(language);
+    await worker.initialize(language);
+
+    const result = await worker.recognize(imageBuffer);
+    onCompleted(result.data.text);
+
+    await worker.terminate();
 }

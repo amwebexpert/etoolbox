@@ -45,7 +45,6 @@ import RegExTester from './containers/RegExTester';
 import UUIDGenerator from './containers/UUIDGenerator';
 import JWTDecoder from './containers/JWTDecoder';
 import Base64ImageEncoder from './containers/Base64ImageEncoder';
-import { ImageOutlined } from '@material-ui/icons';
 import ImageOCR from './containers/ImageOCR';
 
 interface Props {

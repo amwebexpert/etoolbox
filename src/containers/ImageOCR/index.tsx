@@ -2,7 +2,7 @@ import React from 'react';
 
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { Box, Card, CardContent, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField, Toolbar } from '@material-ui/core';
+import { Box, Card, CardContent, FormControl, InputLabel, MenuItem, Select, TextField, Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
@@ -16,7 +16,6 @@ import * as copy from 'copy-to-clipboard';
 import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
-const { createWorker } = require('tesseract.js');
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        width: '100%',
+        minWidth: 120,
     },
     cardContent: {
         minHeight: 50,
@@ -87,19 +86,13 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
         setLogs('Recognizing...');
         setGenerated('Processing the image, please wait...');
 
-        (async () => {
-            const worker = createWorker({
-                logger: (log: any) => setLogs(JSON.stringify(log, null, 2))
-            });
-            await worker.load();
-            await worker.loadLanguage(language);
-            await worker.initialize(language);
-            const result = await worker.recognize(imageBuffer);
-            setGenerated(result.data.text);
-            await worker.terminate();
-        })();
+        services.processOCR(
+            language,
+            imageBuffer,
+            (log: any) => setLogs(JSON.stringify(log, null, 2)),
+            setGenerated
+        ).then();
     }
-
 
     React.useEffect(() => {
         document.onpaste = onPasteFromClipboard;
@@ -110,7 +103,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
 
     function onPasteFromClipboard(e: any) {
         const clipboardData = e.clipboardData || e.originalEvent.clipboardData || e.originalEvent.clipboard;
-        services.clipboardToDataURL(clipboardData.items, 
+        services.clipboardToDataURL(clipboardData.items,
             (ev: ProgressEvent<FileReader>) => setImgDataURL(ev.target!.result as string));
     }
 
@@ -119,26 +112,16 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
             <FeatureTitle iconType={TextFieldsIcon} title="Image OCR" />
 
             <form noValidate autoComplete="off" className={classes.form}>
-                <Grid container direction="row" justify="flex-start" alignItems="flex-start" spacing={1}>
-                    <Grid container spacing={1}>
-                        <Grid item md={1} sm={2} xs={3}>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel shrink id="languageLabel">
-                                    Image language
-                                </InputLabel>
-                                <Select labelId="languageLabel" id="language"
-                                    value={language} autoFocus={isWidthUp('md', props.width)}
-                                    onChange={(e: any) => setLanguage(e.target.value)}
-                                >
-                                    <MenuItem value="eng">English</MenuItem>
-                                    <MenuItem value="fra">French</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item md={1} sm={2} xs={3}>
-                        </Grid>
-                    </Grid>
-                </Grid>
+                <FormControl className={classes.formControl}>
+                    <InputLabel shrink id="languageLabel">Image language</InputLabel>
+                    <Select labelId="languageLabel" id="language"
+                        value={language} autoFocus={isWidthUp('md', props.width)}
+                        onChange={(e: any) => setLanguage(e.target.value)}
+                    >
+                        <MenuItem value="eng">English</MenuItem>
+                        <MenuItem value="fra">French</MenuItem>
+                    </Select>
+                </FormControl>
             </form>
 
             <Card>
