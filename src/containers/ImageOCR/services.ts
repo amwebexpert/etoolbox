@@ -1,4 +1,4 @@
-const { createWorker } = require('tesseract.js');
+import { createWorker } from 'tesseract.js';
 
 export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: ProgressEvent<FileReader>) => void): void {
     if (!items) {

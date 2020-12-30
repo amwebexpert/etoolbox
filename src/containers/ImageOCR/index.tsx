@@ -16,39 +16,7 @@ import * as copy from 'copy-to-clipboard';
 import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        margin: theme.spacing(1),
-    },
-    form: {
-        marginTop: theme.spacing(2),
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    cardContent: {
-        minHeight: 50,
-        minWidth: 50,
-        maxWidth: 100,
-        maxHeight: 100,
-        margin: 20
-    },
-    toolbar: {
-        margin: 0,
-        padding: 0,
-        '& > *': {
-            marginLeft: theme.spacing(1),
-        },
-    },
-    formatted: {
-        padding: theme.spacing(1),
-        border: '1px solid grey',
-        wordWrap: 'break-word',
-        height: 116,
-    },
-}));
+import { useStyles } from './styled';
 
 interface Props {
     width: Breakpoint;
@@ -62,36 +30,42 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
     const [imgDataURL, setImgDataURL] = React.useState('');
     const [generated, setGenerated] = React.useState('');
 
-    const handleCopy = (event: any) => {
+    function handleCopy(event: any) {
         event.preventDefault();
         copy.default(generated, { format: 'text/plain' });
         setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
     }
 
-    const handleClear = (event: any) => {
+    function handleClear(event: any) {
         event.preventDefault();
         setLogs('');
         setImgDataURL('');
         setGenerated('');
     }
 
-    const handleProcess = (event: any) => {
+    function handleProcess(event: any) {
         event.preventDefault();
         if (!imgDataURL) {
             setToasterState({ open: true, message: 'There is image to process', type: 'error', autoHideDuration: 2000 });
             return;
         }
 
-        const imageBuffer = Buffer.from(imgDataURL.split(',')[1], 'base64');
         setLogs('Recognizing...');
         setGenerated('Processing the image, please wait...');
 
-        services.processOCR(
-            language,
-            imageBuffer,
-            (log: any) => setLogs(JSON.stringify(log, null, 2)),
-            setGenerated
-        ).then();
+        const imageBuffer = Buffer.from(imgDataURL.split(',')[1], 'base64');
+        services.processOCR(language, imageBuffer, logger, setGenerated)
+            .then();
+    }
+
+    function logger(log: any) {
+        setLogs(JSON.stringify(log, null, 2));
+    }
+
+    function onPasteFromClipboard(e: any) {
+        const clipboardData = e.clipboardData || e.originalEvent.clipboardData || e.originalEvent.clipboard;
+        services.clipboardToDataURL(clipboardData.items,
+            (ev: ProgressEvent<FileReader>) => setImgDataURL(ev.target!.result as string));
     }
 
     React.useEffect(() => {
@@ -101,15 +75,9 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
         };
     }, []);
 
-    function onPasteFromClipboard(e: any) {
-        const clipboardData = e.clipboardData || e.originalEvent.clipboardData || e.originalEvent.clipboard;
-        services.clipboardToDataURL(clipboardData.items,
-            (ev: ProgressEvent<FileReader>) => setImgDataURL(ev.target!.result as string));
-    }
-
     return (
         <div className={classes.root}>
-            <FeatureTitle iconType={TextFieldsIcon} title="Image OCR" />
+            <FeatureTitle iconType={TextFieldsIcon} title="Image OCR (image text extraction)" />
 
             <form noValidate autoComplete="off" className={classes.form}>
                 <FormControl className={classes.formControl}>
