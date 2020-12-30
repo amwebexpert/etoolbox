@@ -48,7 +48,7 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { setToasterState } = useToasterUpdate();
     const { inputText, storeInputText } = props;
-    const [formatted, setFormatted] = React.useState(services.formatJson(inputText));
+    const [formatted, setFormatted] = React.useState('');
 
     React.useEffect(() => {
         setFormatted(services.formatJson(inputText));

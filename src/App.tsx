@@ -31,6 +31,7 @@ import LinkOffIcon from '@material-ui/icons/LinkOff';
 import SimCardIcon from '@material-ui/icons/SimCard';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
+import TextFieldsIcon from '@material-ui/icons/TextFields';
 
 import About from './components/About/About';
 import Home from './components/Home';
@@ -44,6 +45,8 @@ import RegExTester from './containers/RegExTester';
 import UUIDGenerator from './containers/UUIDGenerator';
 import JWTDecoder from './containers/JWTDecoder';
 import Base64ImageEncoder from './containers/Base64ImageEncoder';
+import { ImageOutlined } from '@material-ui/icons';
+import ImageOCR from './containers/ImageOCR';
 
 interface Props {
   width: Breakpoint;
@@ -199,6 +202,14 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary="JWT decoder" />
               </ListItem>
             </NavLink>
+            <NavLink to="/ImageOCR" title="Image text extractor" className={classes.link} activeClassName={classes.linkActive}>
+              <ListItem button>
+                <ListItemIcon>
+                  <TextFieldsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Image OCR" />
+              </ListItem>
+            </NavLink>
           </List>
         </Drawer>
         <ToasterProvider>
@@ -215,6 +226,7 @@ const App: React.FC<Props> = (props: Props) => {
               <Route exact path="/RegExTester"><RegExTester /></Route>
               <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
               <Route exact path="/JWTDecoder"><JWTDecoder /></Route>
+              <Route exact path="/ImageOCR"><ImageOCR /></Route>
 
               {/** Default route is the home */}
               <Route component={Home} />
