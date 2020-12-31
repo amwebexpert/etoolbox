@@ -124,6 +124,11 @@ function setupMenu() {
           click: () => win!.webContents.send('navigateTo', '/JWTDecoder')
         },
         {
+          label: 'Image OCR (text extract)',
+          accelerator: 'Ctrl+Alt+O',
+          click: () => win!.webContents.send('navigateTo', '/ImageOCR')
+        },
+        {
           type: 'separator'
         },
         {
