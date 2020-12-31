@@ -23,6 +23,7 @@ Some screen captures of the implemented features...
   <img src="public/screen-captures/JSONFormatter-demo.gif" />
   <img src="public/screen-captures/ImageEncoder-demo.gif" />
   <img src="public/screen-captures/RegexTester-demo.gif" />
+  <img src="public/screen-captures/ImageOCR-demo.gif" />
   <img src="public/screen-captures/screen-URLParser.png" />
   <img src="public/screen-captures/screen-URLEncoder.png" />
   <img src="public/screen-captures/screen-Base64Encoder.png" />
