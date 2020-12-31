@@ -32,6 +32,7 @@ import SimCardIcon from '@material-ui/icons/SimCard';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
+import PaletteIcon from '@material-ui/icons/Palette';
 
 import About from './components/About/About';
 import Home from './components/Home';
@@ -46,6 +47,7 @@ import UUIDGenerator from './containers/UUIDGenerator';
 import JWTDecoder from './containers/JWTDecoder';
 import Base64ImageEncoder from './containers/Base64ImageEncoder';
 import ImageOCR from './containers/ImageOCR';
+import ColorPicker from './containers/ColorPicker';
 
 interface Props {
   width: Breakpoint;
@@ -209,6 +211,14 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary="Image OCR" />
               </ListItem>
             </NavLink>
+            <NavLink to="/ColorPicker" title="Image color picker" className={classes.link} activeClassName={classes.linkActive}>
+              <ListItem button>
+                <ListItemIcon>
+                  <PaletteIcon />
+                </ListItemIcon>
+                <ListItemText primary="Color picker" />
+              </ListItem>
+            </NavLink>
           </List>
         </Drawer>
         <ToasterProvider>
@@ -226,6 +236,7 @@ const App: React.FC<Props> = (props: Props) => {
               <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
               <Route exact path="/JWTDecoder"><JWTDecoder /></Route>
               <Route exact path="/ImageOCR"><ImageOCR /></Route>
+              <Route exact path="/ColorPicker"><ColorPicker /></Route>
 
               {/** Default route is the home */}
               <Route component={Home} />
