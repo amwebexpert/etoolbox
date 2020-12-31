@@ -19,7 +19,8 @@
     "electron:windev": "concurrently \"SET BROWSER=none && yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder",
     "electron:build:all": "yarn build && tsc -p electron && electron-builder -mwl",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "check-licences": "license-checker --direct --production --exclude MIT,Apache-2.0,BSD-2-Clause,BSD-3-Clause,ISC,CC0-1.0"
   },
   "build": {
     "appId": "com.amwebexpert.etoolbox",
