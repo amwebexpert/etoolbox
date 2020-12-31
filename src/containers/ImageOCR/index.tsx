@@ -2,14 +2,12 @@ import React from 'react';
 
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { Box, Card, CardContent, FormControl, InputLabel, MenuItem, Select, TextField, Toolbar } from '@material-ui/core';
+import { Box, Card, CardContent, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField, Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from "re-resizable";
 
@@ -22,11 +20,22 @@ interface Props {
     width: Breakpoint;
 }
 
+interface WorkerStatus {
+    workerId: string;
+    jobId: string;
+    status: string;
+    progress: number;
+}
+
+const INITIAL_WORKER_STATUS: WorkerStatus = {
+    workerId: '', jobId: '', status: '', progress: 0
+}
+
 const ImageOCR: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { setToasterState } = useToasterUpdate();
     const [language, setLanguage] = React.useState('eng');
-    const [logs, setLogs] = React.useState('');
+    const [workerStatus, setWorkerStatus] = React.useState<WorkerStatus>(INITIAL_WORKER_STATUS);
     const [imgDataURL, setImgDataURL] = React.useState('');
     const [generated, setGenerated] = React.useState('');
 
@@ -38,7 +47,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
 
     function handleClear(event: any) {
         event.preventDefault();
-        setLogs('');
+        setWorkerStatus(INITIAL_WORKER_STATUS);
         setImgDataURL('');
         setGenerated('');
     }
@@ -50,7 +59,6 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
             return;
         }
 
-        setLogs('Recognizing...');
         setGenerated('Processing the image, please wait...');
 
         const imageBuffer = Buffer.from(imgDataURL.split(',')[1], 'base64');
@@ -58,8 +66,9 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
             .then();
     }
 
-    function logger(log: any) {
-        setLogs(JSON.stringify(log, null, 2));
+    function logger(workerStatus: WorkerStatus) {
+        setWorkerStatus(workerStatus);
+        setGenerated(`Processing the image\n    ----> ${workerStatus.status}...`);
     }
 
     function onPasteFromClipboard(e: any) {
@@ -122,6 +131,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                         multiline
                         rows="8"
                     />
+                    <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
                     <Toolbar className={classes.toolbar}>
                         <Box display='flex' flexGrow={1}></Box>
                         <Button endIcon={<DeleteIcon>Clear</DeleteIcon>}
@@ -134,10 +144,6 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                     </Toolbar>
                 </CardContent>
             </Card>
-
-            <SyntaxHighlighter language="json" style={docco} className={classes.formatted}>
-                {logs}
-            </SyntaxHighlighter>
         </div>
     );
 }
