@@ -4,7 +4,6 @@ import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { Box, Card, CardContent, FormControl, InputLabel, MenuItem, Select, TextField, Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
@@ -69,6 +68,12 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
             (ev: ProgressEvent<FileReader>) => setImgDataURL(ev.target!.result as string));
     }
 
+    function onFileSelected(file: File) {
+        const reader = new FileReader();
+        reader.onload = (ev: ProgressEvent<FileReader>) => setImgDataURL(ev.target!.result as string);
+        reader.readAsDataURL(file);
+    }
+
     React.useEffect(() => {
         document.onpaste = onPasteFromClipboard;
         return () => {
@@ -96,7 +101,10 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
             <Card>
                 <Box display="flex" alignItems="center" justifyContent="center">
                     {!imgDataURL && (
-                        <div>Paste image from clipboard...</div>
+                        <div>
+                            <p>Paste image from clipboard... Or select a file...</p>
+                            <input type="file" onChange={(e: any) => onFileSelected(e.target.files[0])} />
+                        </div>
                     )}
                     {imgDataURL && (
                         <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
