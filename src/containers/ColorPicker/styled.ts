@@ -14,6 +14,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     image: {
         width: '100%',
+        margin: 5,
+        border: 'dashed 1px grey'
     },
     toolbar: {
         margin: 0,
@@ -21,5 +23,14 @@ export const useStyles = makeStyles((theme) => ({
         '& > *': {
             marginLeft: theme.spacing(1),
         },
+    },
+    sample: {
+        width: '80%',
+        height: 40,
+        paddingTop: 10,
+        marginBottom: 20,
+        border: 'solid 1px grey',
+        textAlign: 'center',
+        textShadow: '1px 1px lightgrey',
     },
 }));

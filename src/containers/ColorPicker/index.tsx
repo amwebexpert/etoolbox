@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { Box, Card, CardContent, Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
@@ -9,7 +8,7 @@ import TextFieldsIcon from '@material-ui/icons/TextFields';
 
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from "re-resizable";
-import { ColorResult, SketchPicker } from 'react-color';
+import { ColorResult, PhotoshopPicker, SketchPicker } from 'react-color';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
@@ -52,10 +51,24 @@ const ColorPicker: React.FC = () => {
 
     React.useEffect(() => {
         document.onpaste = onPasteFromClipboard;
+
+        // Unmount cleanup
         return () => {
             document.removeEventListener('onpaste', onPasteFromClipboard);
         };
     }, []);
+
+    React.useEffect(() => {
+        if (imgDataURL) {
+            document.getElementById('image')!.addEventListener('click', onImageClick);
+        }
+    }, [imgDataURL]);
+
+    function onImageClick(event: MouseEvent) {
+        const image = document.getElementById('image')! as HTMLImageElement;
+        const color = services.retrieveClickedColor(event, image);
+        setBackground(color);
+    }
 
     return (
         <div className={classes.root}>
@@ -71,11 +84,17 @@ const ColorPicker: React.FC = () => {
                     )}
                     {imgDataURL && (
                         <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
-                            <img src={imgDataURL} alt="Clipboard content" className={classes.image} />
+                            <img id="image" src={imgDataURL} alt="Clipboard content" className={classes.image} />
                         </Resizable>
                     )}
                 </Box>
                 <CardContent>
+
+                    <Box display="flex" alignItems="center" justifyContent="center">
+                        <div className={classes.sample} style={{ backgroundColor: background }}>
+                            {background}
+                        </div>
+                    </Box>
 
                     <Box display="flex" alignItems="center" justifyContent="center">
                         <SketchPicker color={background}
