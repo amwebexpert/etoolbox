@@ -24,11 +24,6 @@ Some screen captures of the implemented features...
   <img src="public/screen-captures/ImageEncoder-demo.gif" />
   <img src="public/screen-captures/RegexTester-demo.gif" />
   <img src="public/screen-captures/ImageOCR-demo.gif" />
-  <img src="public/screen-captures/screen-URLParser.png" />
-  <img src="public/screen-captures/screen-URLEncoder.png" />
-  <img src="public/screen-captures/screen-Base64Encoder.png" />
-  <img src="public/screen-captures/screen-UUIDGenerator.png" />
-  <img src="public/screen-captures/screen-JWTDecoder.png" />
 </div>
 
 ## Online demo

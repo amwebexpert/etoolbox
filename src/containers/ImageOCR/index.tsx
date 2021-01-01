@@ -101,6 +101,10 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                         value={language} autoFocus={isWidthUp('md', props.width)}
                         onChange={(e: any) => setLanguage(e.target.value)}
                     >
+                        {/**
+                         * TODO: Add all Tesseract.js supported languages:
+                         * https://tesseract-ocr.github.io/tessdoc/Data-Files#data-files-for-version-400-november-29-2016
+                         */}
                         <MenuItem value="eng">English</MenuItem>
                         <MenuItem value="fra">French</MenuItem>
                     </Select>

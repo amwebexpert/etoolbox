@@ -16,7 +16,7 @@ const Home: React.FC = () => {
         <Paper className={classes.root}>
             <p>Welcome to the a collection of web developer utilities packaged as a desktop app!</p>
 
-            <h2>Some features...</h2>
+            <h2>Features:</h2>
             <ul>
                 <li>URL (and query string) Parser</li>
                 <li>JSON Formatter/Validator</li>
