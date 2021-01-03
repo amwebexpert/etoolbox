@@ -36,6 +36,16 @@ Since 95% of the features do not require desktop capabilities, Electron is actua
 
 Again feel free to try ot the online [demo](https://amwebexpert.github.io/etoolbox/) before trying to package the Electron app for your platform :-)
 
+### Builded releases
+
+The following installers are available under `releases` folder:
+
+* Windows: `releases/Web Toolbox Setup <version>.exe`
+* Linux: `releases/Web Toolbox-<version>.AppImage`
+* MacOS: `releases/Web Toolbox-<version>.dmg`
+
+### Build releases from source
+
 To build a desktop version just get the source code and run the following command, which will package the installers for all the platforms:
 
     npm install -g yarn
