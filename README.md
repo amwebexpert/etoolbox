@@ -28,7 +28,7 @@ Some screen captures of the implemented features...
 
 ## Online demo
 
-The app has been deployed and you can test it right [here](https://amwebexpert.github.io/etoolbox/). However the browser refresh button is not supported (yet) for the demo :-)
+The app has been deployed and you can test it right [here](https://amwebexpert.github.io/etoolbox/index.html).
 
 ## Windows, Linux and MacOS versions
 

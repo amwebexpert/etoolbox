@@ -4,11 +4,11 @@ import { Box, Card, CardContent, Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TextFieldsIcon from '@material-ui/icons/TextFields';
+import PaletteIcon from '@material-ui/icons/Palette';
 
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from "re-resizable";
-import { ColorResult, PhotoshopPicker, SketchPicker } from 'react-color';
+import { ColorResult, SketchPicker } from 'react-color';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
@@ -72,7 +72,7 @@ const ColorPicker: React.FC = () => {
 
     return (
         <div className={classes.root}>
-            <FeatureTitle iconType={TextFieldsIcon} title="Color picker" />
+            <FeatureTitle iconType={PaletteIcon} title="Color picker" />
 
             <Card>
                 <Box display="flex" alignItems="center" justifyContent="center">

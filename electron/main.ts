@@ -86,47 +86,52 @@ function setupMenu() {
         {
           label: 'URL Parser',
           accelerator: 'Ctrl+Alt+U',
-          click: () => win!.webContents.send('navigateTo', '/URLParser')
+          click: () => win!.webContents.send('navigateTo', '/#URLParser')
         },
         {
           label: 'URL Encoder/decoder',
           accelerator: 'Ctrl+Alt+R',
-          click: () => win!.webContents.send('navigateTo', '/URLEncoder')
+          click: () => win!.webContents.send('navigateTo', '/#URLEncoder')
         },
         {
           label: 'Base64 Encoder/decoder',
           accelerator: 'Ctrl+Alt+B',
-          click: () => win!.webContents.send('navigateTo', '/Base64Encoder')
+          click: () => win!.webContents.send('navigateTo', '/#Base64Encoder')
         },
         {
           label: 'Base64 Image encoder',
           accelerator: 'Ctrl+Alt+I',
-          click: () => win!.webContents.send('navigateTo', '/Base64ImageEncoder')
+          click: () => win!.webContents.send('navigateTo', '/#Base64ImageEncoder')
         },
         {
           label: 'JSON Formatter',
           accelerator: 'Ctrl+Alt+J',
-          click: () => win!.webContents.send('navigateTo', '/JSONFormatter')
+          click: () => win!.webContents.send('navigateTo', '/#JSONFormatter')
         },
         {
           label: 'Regular expression tester',
           accelerator: 'Ctrl+Alt+X',
-          click: () => win!.webContents.send('navigateTo', '/RegExTester')
+          click: () => win!.webContents.send('navigateTo', '/#RegExTester')
         },
         {
           label: 'UUID Generator',
           accelerator: 'Ctrl+Alt+D',
-          click: () => win!.webContents.send('navigateTo', '/UUIDGenerator')
+          click: () => win!.webContents.send('navigateTo', '/#UUIDGenerator')
         },
         {
           label: 'JWT Decoder',
           accelerator: 'Ctrl+Alt+T',
-          click: () => win!.webContents.send('navigateTo', '/JWTDecoder')
+          click: () => win!.webContents.send('navigateTo', '/#JWTDecoder')
         },
         {
           label: 'Image OCR (text extract)',
           accelerator: 'Ctrl+Alt+O',
-          click: () => win!.webContents.send('navigateTo', '/ImageOCR')
+          click: () => win!.webContents.send('navigateTo', '/#ImageOCR')
+        },
+        {
+          label: 'Color picker',
+          accelerator: 'Ctrl+Alt+C',
+          click: () => win!.webContents.send('navigateTo', '/#ColorPicker')
         },
         {
           type: 'separator'
@@ -162,7 +167,7 @@ function setupMenu() {
         {
           label: 'About...',
           accelerator: 'Ctrl+Alt+A',
-          click: () => win!.webContents.send('navigateTo', '/about')
+          click: () => win!.webContents.send('navigateTo', '/#/about')
         },
         {
           type: 'separator'
@@ -188,7 +193,7 @@ function setupTray() {
       label: 'About...',
       click: () => {
         win!.show();
-        win!.webContents.send('navigateTo', '/about');
+        win!.webContents.send('navigateTo', '/#about');
       }
     },
     {
