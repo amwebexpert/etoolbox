@@ -75,7 +75,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 On the top of it, the following features have been added with realatively small changes:
 
 * TypeScript supports for Electron main process source code
-* Hot-relaod support for Electron app
+* Hot-reload support for Electron app
 * Electron Bulder support
 
 ## Available Scripts in addition to the existing ones
