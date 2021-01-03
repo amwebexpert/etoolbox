@@ -167,7 +167,7 @@ function setupMenu() {
         {
           label: 'About...',
           accelerator: 'Ctrl+Alt+A',
-          click: () => win!.webContents.send('navigateTo', '/#/about')
+          click: () => win!.webContents.send('navigateTo', '/#about')
         },
         {
           type: 'separator'
