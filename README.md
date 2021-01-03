@@ -28,11 +28,16 @@ Some screen captures of the implemented features...
 
 ## Online demo
 
-The app has been deployed and you can test it right [here](https://amwebexpert.github.io/etoolbox/index.html).
+The app has been deployed and you can test it right [here!](https://amwebexpert.github.io/etoolbox). Whenever a feature is only available under Electron the UI element will be disabled or a corresponding popup message will be displayed. But most of the time we will try to make the feature available online.
 
 ## Windows, Linux and MacOS versions
 
-Since 95% of the features do not require desktop capabilities, Electron is actually not really required. However having a desktop application gives nice things like global OS shortcuts and a dedicated OS window.
+Since most of the features don't need to access desktop capabilities, Electron is actually not absolutely required. However, having a desktop application gives nice things like:
+
+- global OS shortcuts
+- dedicated OS window
+- ability to select exactly where a file will be stored whenever the SPA offers a `Save As...` button
+- etc.
 
 Again feel free to try ot the online [demo](https://amwebexpert.github.io/etoolbox/) before trying to package the Electron app for your platform :-)
 

@@ -87,61 +87,53 @@ function setupMenu() {
           label: 'URL Parser',
           accelerator: 'Ctrl+Alt+U',
           click: () => win!.webContents.send('navigateTo', '/#URLParser')
-        },
-        {
+        }, {
           label: 'URL Encoder/decoder',
           accelerator: 'Ctrl+Alt+R',
           click: () => win!.webContents.send('navigateTo', '/#URLEncoder')
-        },
-        {
+        }, {
+          type: 'separator'
+        }, {
           label: 'Base64 Encoder/decoder',
           accelerator: 'Ctrl+Alt+B',
           click: () => win!.webContents.send('navigateTo', '/#Base64Encoder')
-        },
-        {
-          label: 'Base64 Image encoder',
-          accelerator: 'Ctrl+Alt+I',
-          click: () => win!.webContents.send('navigateTo', '/#Base64ImageEncoder')
-        },
-        {
+        }, {
           label: 'JSON Formatter',
           accelerator: 'Ctrl+Alt+J',
           click: () => win!.webContents.send('navigateTo', '/#JSONFormatter')
-        },
-        {
+        }, {
           label: 'Regular expression tester',
           accelerator: 'Ctrl+Alt+X',
           click: () => win!.webContents.send('navigateTo', '/#RegExTester')
-        },
-        {
+        }, {
           label: 'UUID Generator',
           accelerator: 'Ctrl+Alt+D',
           click: () => win!.webContents.send('navigateTo', '/#UUIDGenerator')
-        },
-        {
+        }, {
           label: 'JWT Decoder',
           accelerator: 'Ctrl+Alt+T',
           click: () => win!.webContents.send('navigateTo', '/#JWTDecoder')
-        },
-        {
+        }, {
+          type: 'separator'
+        }, {
+          label: 'Base64 Image encoder',
+          accelerator: 'Ctrl+Alt+I',
+          click: () => win!.webContents.send('navigateTo', '/#Base64ImageEncoder')
+        }, {
           label: 'Image OCR (text extract)',
           accelerator: 'Ctrl+Alt+O',
           click: () => win!.webContents.send('navigateTo', '/#ImageOCR')
-        },
-        {
+        }, {
           label: 'Color picker',
           accelerator: 'Ctrl+Alt+C',
           click: () => win!.webContents.send('navigateTo', '/#ColorPicker')
-        },
-        {
+        }, {
           type: 'separator'
-        },
-        {
+        }, {
           label: 'Refresh',
           accelerator: 'Ctrl+Alt+R',
           click: loadApplication
-        },
-        {
+        }, {
           label: 'Quit',
           role: 'quit'
         }
