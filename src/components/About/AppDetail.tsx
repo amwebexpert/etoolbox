@@ -43,7 +43,7 @@ export default function AppDetail() {
               Last version date
             </StyledTableCell>
             <StyledTableCell align="right">
-              2020-12-24
+              2021-01-03
             </StyledTableCell>
           </StyledTableRow>
           <StyledTableRow key="iconMadeBy">
