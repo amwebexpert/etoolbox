@@ -67,7 +67,7 @@ This creates the following installers:
 
 This project is licensed under the MIT license, Copyright (c) 2020 André Masson. For more information see `LICENSE.md`.
 
-## Usefull links
+## Useful links
 
 * https://github.com/electron/electron/issues/7300
 * https://stackoverflow.com/questions/41551110/unable-to-override-app-name-on-mac-os-electron-menu
@@ -87,7 +87,7 @@ React-TypeScript-Electron sample with Create React App and Electron Builder
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with `--typescript`option.
 
-On the top of it, the following features have been added with realatively small changes:
+On the top of it, the following features have been added with relatively small changes:
 
 * TypeScript supports for Electron main process source code
 * Hot-reload support for Electron app
