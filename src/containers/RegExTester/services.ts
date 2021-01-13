@@ -21,6 +21,7 @@ export function transform(regularExpression: string | undefined, inputText: stri
 
 export function extract(regularExpression: string | undefined, inputText: string | undefined): string {
     let extracted = '';
+    const extratedItemsList = [];
 
     if (!regularExpression || !inputText) {
         return extracted;
@@ -32,9 +33,12 @@ export function extract(regularExpression: string | undefined, inputText: string
         let result;
         while ((result = regex.exec(inputText)) !== null) {
             extracted += `${result[0]}, `;
+            extratedItemsList.push(result[0]);
         }
 
         // Return result without last line feed
+        const set = new Set(extratedItemsList);
+        console.log(`List contains ${extratedItemsList.length} items. Unique count: ${set.size}`, [...set].join(', '));
         return extracted.slice(0, -2);
     } catch (e) {
         return e.toString();
