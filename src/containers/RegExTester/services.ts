@@ -34,10 +34,10 @@ export function extract(regularExpression: string | undefined, inputText: string
             extratedItemsList.push(result[0]);
         }
 
+        // Log some stats
         const set = new Set(extratedItemsList);
-        console.log(`List contains ${extratedItemsList.length} items (${set.size} unique entries)`, [...set].join(', '));
+        console.log(`Sorted set of unique ${set.size} entries:`, [...set].sort().join(', '));
 
-        // Return result without last line feed
         return extratedItemsList.join(', ');
     } catch (e) {
         return e.toString();
@@ -45,6 +45,6 @@ export function extract(regularExpression: string | undefined, inputText: string
 }
 
 function replacer(match: string, capture: string): string {
-    console.log(`match: ${match}, at position ${capture}`);
+    // console.log(`match: ${match}, at position ${capture}`);
     return `<span>${match}</span>`;
 }
