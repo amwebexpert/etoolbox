@@ -139,12 +139,12 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                     <Toolbar className={classes.toolbar}>
                         <Box display='flex' flexGrow={1}></Box>
                         <Button endIcon={<DeleteIcon>Clear</DeleteIcon>}
-                            variant="contained" color="primary" onClick={handleClear}>Clear</Button>
+                            variant="contained" color="primary" onClick={handleClear}></Button>
                         <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
-                            variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                            variant="contained" color="primary" onClick={handleCopy}></Button>
                         <Button variant="contained" color="primary"
                             onClick={handleProcess}
-                            endIcon={<TextFieldsIcon>Run</TextFieldsIcon>}>Run</Button>
+                            endIcon={<TextFieldsIcon>Extract</TextFieldsIcon>}>Extract</Button>
                     </Toolbar>
                 </CardContent>
             </Card>
