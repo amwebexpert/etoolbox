@@ -138,10 +138,10 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                     <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
                     <Toolbar className={classes.toolbar}>
                         <Box display='flex' flexGrow={1}></Box>
-                        <Button endIcon={<DeleteIcon>Clear</DeleteIcon>}
-                            variant="contained" color="primary" onClick={handleClear}></Button>
-                        <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
-                            variant="contained" color="primary" onClick={handleCopy}></Button>
+                        <Button endIcon={<DeleteIcon />}
+                            variant="contained" color="primary" onClick={handleClear} />
+                        <Button endIcon={<AssignmentTurnedIn />}
+                            variant="contained" color="primary" onClick={handleCopy} />
                         <Button variant="contained" color="primary"
                             onClick={handleProcess}
                             endIcon={<TextFieldsIcon>Extract</TextFieldsIcon>}>Extract</Button>
