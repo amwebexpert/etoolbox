@@ -17,12 +17,12 @@ export const useStyles = makeStyles((theme) => ({
         margin: 5,
         border: 'dashed 1px grey'
     },
+    imageSelector: {
+        margin: theme.spacing(2),
+        textAlign: 'center',
+    },
     toolbar: {
-        margin: 0,
-        padding: 0,
-        '& > *': {
-            marginLeft: theme.spacing(1),
-        },
+        margin: theme.spacing(2),
     },
     sample: {
         width: '80%',

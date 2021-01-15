@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { Box, Card, CardContent, Toolbar } from '@material-ui/core';
+import { Box, Card, CardContent, Toolbar, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PaletteIcon from '@material-ui/icons/Palette';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from "re-resizable";
@@ -75,11 +76,20 @@ const ColorPicker: React.FC = () => {
             <FeatureTitle iconType={PaletteIcon} title="Color picker" />
 
             <Card>
-                <Box display="flex" alignItems="center" justifyContent="center">
+                <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
                     {!imgDataURL && (
                         <div>
-                            <p>Paste image from clipboard... Or select a file...</p>
-                            <input type="file" onChange={(e: any) => onFileSelected(e.target.files[0])} />
+                            <Typography>paste image from clipboard</Typography>
+                            <Typography>or select a file</Typography>
+                            <input type="file" color="primary" accept="image/*"
+                                onChange={(e: any) => onFileSelected(e.target.files[0])}
+                                id="icon-button-file" style={{ display: 'none', }}
+                            />
+                            <label htmlFor="icon-button-file">
+                                <Button variant="contained" component="span" color="primary">
+                                    <PhotoCameraIcon />
+                                </Button>
+                            </label>
                         </div>
                     )}
                     {imgDataURL && (
@@ -88,6 +98,13 @@ const ColorPicker: React.FC = () => {
                         </Resizable>
                     )}
                 </Box>
+
+                {imgDataURL && (
+                    <Box display="flex" alignItems="center" justifyContent="center">
+                        <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>Clear</Button>
+                    </Box>
+                )}
+
                 <CardContent>
 
                     <Box display="flex" alignItems="center" justifyContent="center">
@@ -101,13 +118,10 @@ const ColorPicker: React.FC = () => {
                             onChangeComplete={(color: ColorResult) => setBackground(color.hex)} />
                     </Box>
 
-                    <Toolbar className={classes.toolbar}>
-                        <Box display='flex' flexGrow={1}></Box>
-                        <Button endIcon={<DeleteIcon>Clear</DeleteIcon>}
-                            variant="contained" color="primary" onClick={handleClear}>Clear</Button>
+                    <Box display="flex" alignItems="center" justifyContent="center" className={classes.toolbar}>
                         <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
                             variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
-                    </Toolbar>
+                    </Box>
                 </CardContent>
             </Card>
         </div>
