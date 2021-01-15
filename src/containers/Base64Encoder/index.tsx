@@ -27,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
     formatted: {
         padding: theme.spacing(1),
         border: '1px solid grey',
-        wordWrap: 'break-word',
+        whiteSpace: 'normal',
+        wordBreak: 'break-word',
     },
     toolbar: {
         margin: 0,

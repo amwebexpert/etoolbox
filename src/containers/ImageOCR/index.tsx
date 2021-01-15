@@ -144,7 +144,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                             variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                         <Button variant="contained" color="primary"
                             onClick={handleProcess}
-                            endIcon={<TextFieldsIcon>Process</TextFieldsIcon>}>Process</Button>
+                            endIcon={<TextFieldsIcon>Run</TextFieldsIcon>}>Run</Button>
                     </Toolbar>
                 </CardContent>
             </Card>
