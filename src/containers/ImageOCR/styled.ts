@@ -22,6 +22,10 @@ export const useStyles = makeStyles((theme) => ({
     image: {
         width: '100%',
     },
+    imageSelector: {
+        margin: theme.spacing(2),
+        textAlign: 'center',
+    },
     toolbar: {
         margin: 0,
         padding: 0,

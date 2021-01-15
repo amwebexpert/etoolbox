@@ -2,11 +2,12 @@ import React from 'react';
 
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { Box, Card, CardContent, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField, Toolbar } from '@material-ui/core';
+import { Box, Card, CardContent, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField, Toolbar, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from "re-resizable";
@@ -92,7 +93,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
 
     return (
         <div className={classes.root}>
-            <FeatureTitle iconType={TextFieldsIcon} title="Image OCR (image text extraction)" />
+            <FeatureTitle iconType={TextFieldsIcon} title="Image OCR (text extraction)" />
 
             <form noValidate autoComplete="off" className={classes.form}>
                 <FormControl className={classes.formControl}>
@@ -112,11 +113,20 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
             </form>
 
             <Card>
-                <Box display="flex" alignItems="center" justifyContent="center">
+                <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
                     {!imgDataURL && (
                         <div>
-                            <p>Paste image from clipboard... Or select a file...</p>
-                            <input type="file" onChange={(e: any) => onFileSelected(e.target.files[0])} />
+                            <Typography>paste image from clipboard</Typography>
+                            <Typography>or select a file</Typography>
+                            <input type="file" color="primary" accept="image/*"
+                                onChange={(e: any) => onFileSelected(e.target.files[0])}
+                                id="icon-button-file" style={{ display: 'none', }}
+                            />
+                            <label htmlFor="icon-button-file">
+                                <Button variant="contained" component="span" color="primary">
+                                    <PhotoCameraIcon />
+                                </Button>
+                            </label>
                         </div>
                     )}
                     {imgDataURL && (
@@ -125,6 +135,11 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                         </Resizable>
                     )}
                 </Box>
+                {imgDataURL && (
+                    <Box display="flex" alignItems="center" justifyContent="center">
+                        <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>Clear</Button>
+                    </Box>
+                )}
                 <CardContent>
                     <TextField
                         label="Extracted text"
@@ -138,13 +153,11 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                     <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
                     <Toolbar className={classes.toolbar}>
                         <Box display='flex' flexGrow={1}></Box>
-                        <Button endIcon={<DeleteIcon />}
-                            variant="contained" color="primary" onClick={handleClear} />
                         <Button endIcon={<AssignmentTurnedIn />}
-                            variant="contained" color="primary" onClick={handleCopy} />
+                            variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                         <Button variant="contained" color="primary"
                             onClick={handleProcess}
-                            endIcon={<TextFieldsIcon>Extract</TextFieldsIcon>}>Extract</Button>
+                            endIcon={<TextFieldsIcon />}>Run</Button>
                     </Toolbar>
                 </CardContent>
             </Card>
