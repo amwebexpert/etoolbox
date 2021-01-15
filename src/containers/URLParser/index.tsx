@@ -23,18 +23,26 @@ import FeatureTitle from '../../components/FeatureTitle';
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
+        '& > *': {
+            marginBottom: theme.spacing(2),
+        },
     },
+    tableHeader: {
+        backgroundColor: theme.palette.grey[300],
+    }
 }));
 
 const StyledTableCell = withStyles(() => ({
     body: {
         fontSize: 14,
+        whiteSpace: 'normal',
+        wordBreak: 'break-word',
     },
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
-        '&:nth-of-type(odd)': {
+        '&:nth-of-type(even)': {
             backgroundColor: theme.palette.action.hover,
         },
     },
@@ -49,10 +57,12 @@ interface Props {
 const URLParser: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { inputText, storeInputText } = props;
-    const [urlFragments, setUrlFragments] = React.useState(services.parseUrl(inputText));
+    const [urlFragments, setUrlFragments] = React.useState(new Map());
+    const [urlParams, setUrlParams] = React.useState(new Map());
 
     React.useEffect(() => {
         setUrlFragments(services.parseUrl(inputText));
+        setUrlParams(services.parseUrlParams(inputText));
     }, [inputText]);
 
     return (
@@ -79,17 +89,36 @@ const URLParser: React.FC<Props> = (props: Props) => {
 
             <TableContainer component={Paper}>
                 <Table>
-                    <TableHead>
+                    <TableHead className={classes.tableHeader}>
                         <TableRow>
                             <StyledTableCell>Fragment</StyledTableCell>
                             <StyledTableCell>Value</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {urlFragments && [...urlFragments.keys()].sort().map(key => (
+                        {[...urlFragments.keys()].sort().map(key => (
                             <StyledTableRow key={key}>
                                 <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
                                 <StyledTableCell>{urlFragments.get(key)}</StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead className={classes.tableHeader}>
+                        <TableRow>
+                            <StyledTableCell>Parameter</StyledTableCell>
+                            <StyledTableCell>Value</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {[...urlParams.keys()].sort().map(key => (
+                            <StyledTableRow key={key}>
+                                <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
+                                <StyledTableCell>{urlParams.get(key)}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
