@@ -26,14 +26,14 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
     },
     formatted: {
+        marginTop: theme.spacing(2),
         padding: theme.spacing(1),
         border: '1px solid grey',
     },
     toolbar: {
-        margin: 0,
-        padding: 0,
         '& > *': {
             marginLeft: theme.spacing(1),
+            marginTop: theme.spacing(1),
         },
     },
 }));
@@ -68,9 +68,9 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
             <FeatureTitle iconType={SimCardIcon} title="UUID Generator" />
 
             <form noValidate autoComplete="off" className={classes.form}>
-                <Grid container direction="row" justify="flex-start" alignItems="flex-start" spacing={1}>
+                <Grid container spacing={1}>
                     <Grid container spacing={1}>
-                        <Grid item md={1} sm={2} xs={3}>
+                        <Grid item md={2} sm={3}>
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="uuidVersionLabel">Version</InputLabel>
                                 <Controller
@@ -93,7 +93,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                                 <FormHelperText>RFC4122 version</FormHelperText>
                             </FormControl>
                         </Grid>
-                        <Grid item md={1} sm={2} xs={3}>
+                        <Grid item md={2} sm={3}>
                             <FormControl className={classes.formControl}>
                                 <Controller
                                     name="quantity"
@@ -110,20 +110,21 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                                         max: 9999,
                                     }}
                                 />
+                                <FormHelperText>Number of UUIDs</FormHelperText>
                             </FormControl>
+                        </Grid>
+                        <Grid item md={8} sm={6}>
+                            <Grid container justify="flex-end" className={classes.toolbar}>
+                                <Button endIcon={<AssignmentTurnedIn />}
+                                    variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                                <Button variant="contained" color="primary"
+                                    onClick={handleSubmit(onSubmit)}
+                                    endIcon={<SimCardIcon />}>Generate</Button>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
             </form>
-
-            <Toolbar className={classes.toolbar}>
-                <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
-                    variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
-                <Button variant="contained" color="primary"
-                    onClick={handleSubmit(onSubmit)}
-                    endIcon={<SimCardIcon>Generate</SimCardIcon>}>Generate</Button>
-            </Toolbar>
 
             <div className={classes.formatted}>
                 <pre>{generated}</pre>
