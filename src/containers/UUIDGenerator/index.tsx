@@ -69,58 +69,56 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
 
             <form noValidate autoComplete="off" className={classes.form}>
                 <Grid container spacing={1}>
-                    <Grid container spacing={1}>
-                        <Grid item md={2} sm={3}>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id="uuidVersionLabel">Version</InputLabel>
-                                <Controller
-                                    control={control}
-                                    name="version"
-                                    defaultValue="4"
-                                    as={
-                                        <Select labelId="uuidVersionLabel" autoFocus={isWidthUp('md', props.width)}>
-                                            <MenuItem value={1}>1</MenuItem>
-                                            <MenuItem value={4}>4</MenuItem>
-                                        </Select>
-                                    }
-                                    rules={{
-                                        required: true,
-                                        valueAsNumber: true,
-                                        min: 1,
-                                        max: 5,
-                                    }}
-                                />
-                                <FormHelperText>RFC4122 version</FormHelperText>
-                            </FormControl>
-                        </Grid>
-                        <Grid item md={2} sm={3}>
-                            <FormControl className={classes.formControl}>
-                                <Controller
-                                    name="quantity"
-                                    as={
-                                        <TextField label="Quantity" error={!!errors.quantity} type="number"
-                                            helperText={errors.quantity ? 'valid range: [1..9999]' : null} />
-                                    }
-                                    control={control}
-                                    defaultValue="10"
-                                    rules={{
-                                        required: true,
-                                        valueAsNumber: true,
-                                        min: 1,
-                                        max: 9999,
-                                    }}
-                                />
-                                <FormHelperText>Number of UUIDs</FormHelperText>
-                            </FormControl>
-                        </Grid>
-                        <Grid item md={8} sm={6}>
-                            <Grid container justify="flex-end" className={classes.toolbar}>
-                                <Button endIcon={<AssignmentTurnedIn />}
-                                    variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
-                                <Button variant="contained" color="primary"
-                                    onClick={handleSubmit(onSubmit)}
-                                    endIcon={<SimCardIcon />}>Generate</Button>
-                            </Grid>
+                    <Grid item md={2} sm={3}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="uuidVersionLabel">Version</InputLabel>
+                            <Controller
+                                control={control}
+                                name="version"
+                                defaultValue="4"
+                                as={
+                                    <Select labelId="uuidVersionLabel" autoFocus={isWidthUp('md', props.width)}>
+                                        <MenuItem value={1}>1</MenuItem>
+                                        <MenuItem value={4}>4</MenuItem>
+                                    </Select>
+                                }
+                                rules={{
+                                    required: true,
+                                    valueAsNumber: true,
+                                    min: 1,
+                                    max: 5,
+                                }}
+                            />
+                            <FormHelperText>RFC4122 version</FormHelperText>
+                        </FormControl>
+                    </Grid>
+                    <Grid item md={2} sm={3}>
+                        <FormControl className={classes.formControl}>
+                            <Controller
+                                name="quantity"
+                                as={
+                                    <TextField label="Quantity" error={!!errors.quantity} type="number"
+                                        helperText={errors.quantity ? 'valid range: [1..9999]' : null} />
+                                }
+                                control={control}
+                                defaultValue="10"
+                                rules={{
+                                    required: true,
+                                    valueAsNumber: true,
+                                    min: 1,
+                                    max: 9999,
+                                }}
+                            />
+                            <FormHelperText>Number of UUIDs</FormHelperText>
+                        </FormControl>
+                    </Grid>
+                    <Grid item md={8} sm={6}>
+                        <Grid container justify="flex-end" className={classes.toolbar}>
+                            <Button endIcon={<AssignmentTurnedIn />}
+                                variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                            <Button variant="contained" color="primary"
+                                onClick={handleSubmit(onSubmit)}
+                                endIcon={<SimCardIcon />}>Generate</Button>
                         </Grid>
                     </Grid>
                 </Grid>
