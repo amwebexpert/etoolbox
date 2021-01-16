@@ -94,6 +94,7 @@
     "electron-reload": "^1.5.0",
     "file-saver": "^2.0.5",
     "jwt-decode": "^3.1.2",
+    "qrcode": "^1.4.4",
     "re-resizable": "^6.9.0",
     "react": "^17.0.1",
     "react-color": "^2.19.3",
@@ -140,6 +141,6 @@
     "electron": "^11.1.0",
     "electron-builder": "^22.9.1",
     "redux-devtools-extension": "^2.13.8",
-    "wait-on": "^5.2.0"
+    "wait-on": "^5.2.1"
   }
 }

@@ -33,6 +33,7 @@ import InfoIcon from '@material-ui/icons/InfoOutlined';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import PaletteIcon from '@material-ui/icons/Palette';
+import SelectAllIcon from '@material-ui/icons/SelectAll';
 
 import About from './components/About/About';
 import Home from './components/Home';
@@ -48,6 +49,7 @@ import JWTDecoder from './containers/JWTDecoder';
 import Base64ImageEncoder from './containers/Base64ImageEncoder';
 import ImageOCR from './containers/ImageOCR';
 import ColorPicker from './containers/ColorPicker';
+import QRCodeGenerator from './containers/QRCodeGenerator';
 
 interface Props {
   width: Breakpoint;
@@ -203,6 +205,14 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary="JWT decoder" />
               </ListItem>
             </NavLink>
+            <NavLink to="/QRCodeGenerator" title="QR Code generator" className={classes.link} activeClassName={classes.linkActive}>
+              <ListItem button>
+                <ListItemIcon>
+                  <SelectAllIcon />
+                </ListItemIcon>
+                <ListItemText primary="QR Code generator" />
+              </ListItem>
+            </NavLink>
             <NavLink to="/ImageOCR" title="Image text extractor" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
@@ -235,6 +245,7 @@ const App: React.FC<Props> = (props: Props) => {
               <Route exact path="/RegExTester"><RegExTester /></Route>
               <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
               <Route exact path="/JWTDecoder"><JWTDecoder /></Route>
+              <Route exact path="/QRCodeGenerator"><QRCodeGenerator /></Route>
               <Route exact path="/ImageOCR"><ImageOCR /></Route>
               <Route exact path="/ColorPicker"><ColorPicker /></Route>
 
