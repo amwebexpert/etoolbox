@@ -5,7 +5,7 @@ import { Dispatch } from 'redux';
 import QRCode from 'qrcode';
 import * as copy from 'copy-to-clipboard';
 
-import { Box, Button, Card, CardContent, Grid, TextField, Toolbar } from '@material-ui/core';
+import { Box, Button, Card, CardContent, Grid, TextField, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
     },
+    doc: {
+        margin: theme.spacing(2),
+    },
     toolbar: {
         margin: 0,
         padding: 0,
@@ -38,6 +41,19 @@ interface Props {
     inputOptions?: string;
     storeInputText: (name: string, value: string) => void;
 }
+
+const DEFAULT_OPTIONS = {
+    errorCorrectionLevel: 'H',
+    type: 'image/png',
+    width: 200,
+    quality: 0.3,
+    margin: 1,
+    color: {
+        dark: '#000000FF',
+        light: '#FFFFFFFF'
+    }
+};
+
 
 const QRCodeGenerator: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
@@ -56,23 +72,26 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
             return;
         }
 
-        const opts = inputOptions ? JSON.parse(inputOptions) : null;
+        const opts = inputOptions ? JSON.parse(inputOptions) : DEFAULT_OPTIONS;
         QRCode.toDataURL(inputText, opts, (err, url) => {
             if (err) {
                 throw err;
             }
 
             setImgDataURL(url);
-
-            if (inputOptions) {
-                storeInputText('lastQRCodeOptions', services.jsonFormat(inputOptions));
-            }
+            storeInputText('lastQRCodeOptions', services.jsonFormat(JSON.stringify(opts)));
         })
     }
 
     return (
         <div className={classes.root}>
             <FeatureTitle iconType={SelectAllIcon} title="QR Code generator" />
+
+            <Typography align="center" className={classes.doc}>
+                <a target="_blank" rel='noreferrer' href="https://www.npmjs.com/package/qrcode#qr-code-options">
+                    Generation options documentation available here!
+                </a>
+            </Typography>
 
             <form noValidate autoComplete="off">
                 <Grid container spacing={1}>
