@@ -2,33 +2,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
-import LinkIcon from '@material-ui/icons/Link';
-import LinkOffIcon from '@material-ui/icons/LinkOff';
-import SelectAllIcon from '@material-ui/icons/SelectAll';
-import TextField from '@material-ui/core/TextField';
+import QRCode from 'qrcode';
 import * as copy from 'copy-to-clipboard';
 
+import { Box, Button, Card, CardContent, Grid, TextField, Toolbar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
+import SelectAllIcon from '@material-ui/icons/SelectAll';
+
 import { setTextAction } from '../../actions/text-actions';
-import { AppState } from '../../reducers';
-import * as services from './services';
-import { Box, Grid, Toolbar } from '@material-ui/core';
 import FeatureTitle from '../../components/FeatureTitle';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
+import { AppState } from '../../reducers';
+
+import * as services from './services';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
-    },
-    formatted: {
-        padding: theme.spacing(1),
-        border: '1px solid grey',
-        whiteSpace: 'normal',
-        wordBreak: 'break-word',
     },
     toolbar: {
         margin: 0,
@@ -50,13 +43,31 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { setToasterState } = useToasterUpdate();
     const { inputText, inputOptions, storeInputText } = props;
-    const formattedInputOptions = services.jsonFormat(inputOptions);
-    const [transformed, setTransformed] = React.useState('');
+    const [imgDataURL, setImgDataURL] = React.useState('');
 
-    const handleCopy = (event: any) => {
+    function handleCopy(event: any) {
         event.preventDefault();
-        // copy.default(transformed, { format: 'text/plain' });
+        copy.default(imgDataURL, { format: 'text/plain' });
         setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
+    }
+
+    function generate() {
+        if (!inputText) {
+            return;
+        }
+
+        const opts = inputOptions ? JSON.parse(inputOptions) : null;
+        QRCode.toDataURL(inputText, opts, (err, url) => {
+            if (err) {
+                throw err;
+            }
+
+            setImgDataURL(url);
+
+            if (inputOptions) {
+                storeInputText('lastQRCodeOptions', services.jsonFormat(inputOptions));
+            }
+        })
     }
 
     return (
@@ -87,22 +98,44 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                             variant="outlined"
                             margin="normal"
                             fullWidth={true}
-                            value={formattedInputOptions}
+                            value={inputOptions}
                             onChange={(e) => storeInputText('lastQRCodeOptions', e.target.value)}
                         />
                     </Grid>
                 </Grid>
             </form>
-
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
                 <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                <Button variant="contained" color="primary"
+                    onClick={generate}
+                    endIcon={<SelectAllIcon />}>Generate</Button>
             </Toolbar>
 
-            <div className={classes.formatted}>
-                {transformed}
-            </div>
+            {imgDataURL && (<Card>
+                <Box display="flex" alignItems="center" justifyContent="center">
+                    <img src={imgDataURL} alt="QR Code" />
+                </Box>
+                <CardContent>
+                    <TextField
+                        label="Full img tag"
+                        fullWidth
+                        value={`<img alt="QR Code" src="${imgDataURL}"/>`}
+                        margin="normal"
+                        variant="outlined"
+                    />
+                    <TextField
+                        label="QR Code. Copy-paste into 'src' attribute"
+                        fullWidth
+                        value={imgDataURL}
+                        margin="normal"
+                        variant="outlined"
+                        multiline
+                        rows="8"
+                    />
+                </CardContent>
+            </Card>)}
         </div>
     );
 }
