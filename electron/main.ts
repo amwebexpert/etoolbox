@@ -12,7 +12,7 @@ let tray: Tray;
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  createWindow();
+  getOrCreateWindow();
   setupMenu();
   setupIpcMain();
   setupTray();
@@ -20,9 +20,7 @@ app.on('ready', () => {
 });
 
 app.on('activate', () => {
-  if (win === null) {
-    createWindow();
-  }
+  getOrCreateWindow();
 });
 
 app.on('will-quit', () => {
@@ -35,9 +33,9 @@ app.on('window-all-closed', () => {
   }
 });
 
-function createWindow() {
+function getOrCreateWindow(): BrowserWindow {
   if (win !== null) {
-    return;
+    return win;
   }
 
   win = new BrowserWindow({
@@ -52,6 +50,8 @@ function createWindow() {
   win.on('closed', () => win = null);
 
   loadApplication();
+
+  return win;
 }
 
 function loadApplication() {
@@ -90,53 +90,53 @@ function setupMenu() {
         {
           label: 'URL Parser',
           accelerator: 'Ctrl+Alt+U',
-          click: () => win!.webContents.send('navigateTo', '/URLParser')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/URLParser')
         }, {
           label: 'URL Encoder/decoder',
-          accelerator: 'Ctrl+Alt+R',
-          click: () => win!.webContents.send('navigateTo', '/URLEncoder')
+          accelerator: 'Ctrl+Alt+E',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/URLEncoder')
         }, {
           type: 'separator'
         }, {
           label: 'Base64 Encoder/decoder',
           accelerator: 'Ctrl+Alt+B',
-          click: () => win!.webContents.send('navigateTo', '/Base64Encoder')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64Encoder')
         }, {
           label: 'JSON Formatter',
           accelerator: 'Ctrl+Alt+J',
-          click: () => win!.webContents.send('navigateTo', '/JSONFormatter')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSONFormatter')
         }, {
           label: 'Regular expression tester',
           accelerator: 'Ctrl+Alt+X',
-          click: () => win!.webContents.send('navigateTo', '/RegExTester')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/RegExTester')
         }, {
           label: 'UUID Generator',
           accelerator: 'Ctrl+Alt+D',
-          click: () => win!.webContents.send('navigateTo', '/UUIDGenerator')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/UUIDGenerator')
         }, {
           label: 'JWT Decoder',
           accelerator: 'Ctrl+Alt+T',
-          click: () => win!.webContents.send('navigateTo', '/JWTDecoder')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JWTDecoder')
         }, {
           type: 'separator'
         }, {
           label: 'Base64 Image encoder',
           accelerator: 'Ctrl+Alt+I',
-          click: () => win!.webContents.send('navigateTo', '/Base64ImageEncoder')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64ImageEncoder')
         }, {
           label: 'Image OCR (text extract)',
           accelerator: 'Ctrl+Alt+O',
-          click: () => win!.webContents.send('navigateTo', '/ImageOCR')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/ImageOCR')
         }, {
           label: 'Color picker',
           accelerator: 'Ctrl+Alt+C',
-          click: () => win!.webContents.send('navigateTo', '/ColorPicker')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/ColorPicker')
         }, {
           type: 'separator'
         }, {
           label: 'Refresh',
           accelerator: 'Ctrl+Alt+R',
-          click: loadApplication
+          click: getOrCreateWindow().show()
         }, {
           label: 'Quit',
           role: 'quit'
@@ -164,8 +164,8 @@ function setupMenu() {
           label: 'About...',
           accelerator: 'Ctrl+Alt+A',
           click: () => {
-            createWindow();
-            win!.webContents.send('navigateTo', '/about');
+            getOrCreateWindow();
+            getOrCreateWindow().webContents.send('navigateTo', '/about');
           }
         },
         {
@@ -175,8 +175,8 @@ function setupMenu() {
           label: "Dev tools...",
           accelerator: 'Ctrl+Alt+D',
           click: () => {
-            createWindow();
-            win!.webContents.toggleDevTools();
+            getOrCreateWindow();
+            getOrCreateWindow().webContents.toggleDevTools();
           }
         },
       ]
@@ -192,8 +192,8 @@ function setupTray() {
     {
       label: 'About...',
       click: () => {
-        win!.show();
-        win!.webContents.send('navigateTo', '/about');
+        getOrCreateWindow().show();
+        getOrCreateWindow().webContents.send('navigateTo', '/about');
       }
     },
     {
@@ -202,8 +202,8 @@ function setupTray() {
     {
       label: "Dev tools...",
       click: () => {
-        win!.show();
-        win!.webContents.toggleDevTools();
+        getOrCreateWindow().show();
+        getOrCreateWindow().webContents.toggleDevTools();
       }
     }
   ];
@@ -234,7 +234,7 @@ function createTrayIcon() {
 }
 
 function setupGlobalShortcuts() {
-  globalShortcut.register('Alt+1', () => win!.show());
+  globalShortcut.register('Alt+1', () => getOrCreateWindow().show());
 }
 
 function setupIpcMain() {
