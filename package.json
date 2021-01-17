@@ -108,6 +108,7 @@
     "react-router-dom": "^5.2.0",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "4.0.1",
+    "react-spinners": "^0.10.4",
     "react-syntax-highlighter": "^15.4.3",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",

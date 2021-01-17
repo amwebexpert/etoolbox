@@ -78,6 +78,11 @@ This project is licensed under the MIT license, Copyright (c) 2020 André Masson
 * https://stackoverflow.com/a/52409047/704681
 * https://omakoleg.gitlab.io/posts/spa-image-base64-react/
 
+### Spinner
+
+* https://www.npmjs.com/package/react-loading-overlay
+* https://www.npmjs.com/package/react-spinners
+* https://www.davidhu.io/react-spinners/
 
 
 React-TypeScript-Electron sample with Create React App and Electron Builder

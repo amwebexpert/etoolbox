@@ -4,7 +4,6 @@
  * https://www.youtube.com/watch?v=5LrDIWkK_Bc&list=PL_XXwMy-A8KlOsfndUYWUzkp3xR9LNIB8&index=8
  */
 import React from "react";
-import LoadingOverlay from 'react-loading-overlay';
 import { GlobalSpinner } from ".";
 
 // -------------------------------
@@ -12,7 +11,6 @@ import { GlobalSpinner } from ".";
 // -------------------------------
 export interface GlobalSpinnerState {
     open: boolean;
-    message: string;
 };
 export type GlobalSpinnerContextType = {
     globalSpinnerState: GlobalSpinnerState;
@@ -35,10 +33,7 @@ export function useGlobalSpinnerUpdate() {
 }
 
 const GlobalSpinnerProvider: React.FC = ({ children }) => {
-    const [globalSpinnerState, setGlobalSpinnerState] = React.useState<GlobalSpinnerState>({
-        open: false,
-        message: '',
-    });
+    const [globalSpinnerState, setGlobalSpinnerState] = React.useState<GlobalSpinnerState>({ open: false });
 
     return (
         <SpinnerContext.Provider value={{ globalSpinnerState }}>
