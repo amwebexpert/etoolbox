@@ -16,6 +16,7 @@ import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useStyles, imageResizer } from './styled';
+import { useGlobalSpinnerUpdate } from '../../components/GlobalSpinner/GlobalSpinnerProvider';
 
 interface Props {
     width: Breakpoint;
@@ -39,6 +40,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
     const [workerStatus, setWorkerStatus] = React.useState<WorkerStatus>(INITIAL_WORKER_STATUS);
     const [imgDataURL, setImgDataURL] = React.useState('');
     const [generated, setGenerated] = React.useState('');
+    const { setGlobalSpinnerState } = useGlobalSpinnerUpdate();
 
     function handleCopy(event: any) {
         event.preventDefault();
@@ -85,6 +87,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
     }
 
     React.useEffect(() => {
+        setGlobalSpinnerState({ open: true, message: 'Please wait again...' });
         document.onpaste = onPasteFromClipboard;
         return () => {
             document.removeEventListener('onpaste', onPasteFromClipboard);

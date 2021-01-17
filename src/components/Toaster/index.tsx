@@ -16,6 +16,7 @@ export const Toaster: React.FC = () => {
             open={toasterState.open}
             autoHideDuration={toasterState.autoHideDuration}
             onClose={handleClose}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
             <Alert
                 elevation={6}
