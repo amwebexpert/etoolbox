@@ -11,6 +11,8 @@ import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from "re-resizable";
+import LoadingOverlay from 'react-loading-overlay';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
@@ -38,11 +40,11 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
     const [language, setLanguage] = React.useState('eng');
     const [workerStatus, setWorkerStatus] = React.useState<WorkerStatus>(INITIAL_WORKER_STATUS);
     const [imgDataURL, setImgDataURL] = React.useState('');
-    const [generated, setGenerated] = React.useState('');
+    const [imgExtractedText, setImgExtractedText] = React.useState('');
 
     function handleCopy(event: any) {
         event.preventDefault();
-        copy.default(generated, { format: 'text/plain' });
+        copy.default(imgExtractedText, { format: 'text/plain' });
         setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
     }
 
@@ -50,7 +52,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
         event.preventDefault();
         setWorkerStatus(INITIAL_WORKER_STATUS);
         setImgDataURL('');
-        setGenerated('');
+        setImgExtractedText('');
     }
 
     function handleProcess(event: any) {
@@ -60,16 +62,16 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
             return;
         }
 
-        setGenerated('Processing the image, please wait...');
+        setImgExtractedText('Processing the image, please wait...');
 
         const imageBuffer = Buffer.from(imgDataURL.split(',')[1], 'base64');
-        services.processOCR(language, imageBuffer, logger, setGenerated)
+        services.processOCR(language, imageBuffer, logger, setImgExtractedText)
             .then();
     }
 
     function logger(workerStatus: WorkerStatus) {
         setWorkerStatus(workerStatus);
-        setGenerated(`Processing the image\n    ----> ${workerStatus.status}...`);
+        setImgExtractedText(`Processing the image\n    ----> ${workerStatus.status}...`);
     }
 
     function onPasteFromClipboard(e: any) {
@@ -141,15 +143,19 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                     </Box>
                 )}
                 <CardContent>
-                    <TextField
-                        label="Extracted text"
-                        fullWidth
-                        value={generated}
-                        margin="normal"
-                        variant="outlined"
-                        multiline
-                        rows="8"
-                    />
+                    <LoadingOverlay 
+                        active={imgExtractedText.startsWith('Processing')} 
+                        spinner={<ScaleLoader />}>
+                        <TextField
+                            label="Extracted text"
+                            fullWidth
+                            value={imgExtractedText}
+                            margin="normal"
+                            variant="outlined"
+                            multiline
+                            rows="8"
+                        />
+                    </LoadingOverlay>
                     <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
                     <Toolbar className={classes.toolbar}>
                         <Box display='flex' flexGrow={1}></Box>

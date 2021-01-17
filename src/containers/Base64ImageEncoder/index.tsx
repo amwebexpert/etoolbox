@@ -12,29 +12,34 @@ import FeatureTitle from '../../components/FeatureTitle';
 import { EncodedFile, ErrorFile, loadFile, rejectFiles } from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useStyles, imageResizer } from './styled';
-
-
+import { useGlobalSpinnerUpdate } from '../../components/GlobalSpinner/GlobalSpinnerProvider';
 
 const Base64ImageEncoder: React.FC = () => {
     const classes = useStyles();
     const { setToasterState } = useToasterUpdate();
     const [encodedFiles, setEncodedFiles] = useState<EncodedFile[]>([]);
     const [errors, setErrors] = useState<ErrorFile[]>([]);
+    const { setGlobalSpinnerState } = useGlobalSpinnerUpdate();
 
     const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
+        setGlobalSpinnerState({ open: true });
         setErrors(rejectFiles(rejectedFiles)); // set/reset errors
         setEncodedFiles([]); // reset UI
 
         acceptedFiles.forEach((file: File) =>
             loadFile(file)
-                .then(encFile => setEncodedFiles(list => [...list, encFile]))
+                .then(encFile =>
+                    setEncodedFiles(list => {
+                        setGlobalSpinnerState({ open: false });
+                        return [...list, encFile]
+                    }))
                 .catch(error => setErrors(list => [...list, {
                     name: file.name,
                     size: file.size,
                     error
                 }]))
         );
-    }, []);
+    }, [setGlobalSpinnerState]);
 
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
         accept: ['image/jpeg', 'image/png', 'image/gif', 'image/*'],
@@ -70,7 +75,7 @@ const Base64ImageEncoder: React.FC = () => {
                 {acceptedFiles.length !== encodedFiles.length &&
                     <div>
                         <Typography color="secondary" variant="h5">
-                            Processing {acceptedFiles.length - encodedFiles.length} files. Wait a moment ...
+                            Processing {acceptedFiles.length - encodedFiles.length} file(s)
                         </Typography>
                         <br />
                         <LinearProgress />
