@@ -95,7 +95,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
 
             <form noValidate autoComplete="off">
                 <Grid container spacing={1}>
-                    <Grid item md={6} sm={12}>
+                    <Grid item md={6} sm={12} xs={12}>
                         <TextField
                             autoFocus={isWidthUp('md', props.width)}
                             label="Text to store into QR Code"
@@ -109,7 +109,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                             onChange={(e) => storeInputText('lastQRCodeTextValue', e.target.value)}
                         />
                     </Grid>
-                    <Grid item md={6} sm={12}>
+                    <Grid item md={6} sm={12} xs={12}>
                         <TextField
                             label="QR Code generation options"
                             multiline

@@ -103,7 +103,7 @@ const App: React.FC<Props> = (props: Props) => {
             </IconButton>
 
             <Typography variant="h6" noWrap className={classes.title}>
-              Web Toolbox
+              Web Toolbox {process.env.REACT_APP_VERSION}
             </Typography>
 
             <IconButton color="inherit" title="About this application...">
@@ -111,6 +111,11 @@ const App: React.FC<Props> = (props: Props) => {
                 <InfoIcon />
               </NavLink>
             </IconButton>
+            
+            <Typography variant="body2" title="Device size" className={classes.deviceInfo}>
+              {props.width}
+            </Typography>
+
           </Toolbar>
         </AppBar>
         <Drawer

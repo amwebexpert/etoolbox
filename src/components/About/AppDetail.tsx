@@ -35,7 +35,7 @@ export default function AppDetail() {
               Version
             </StyledTableCell>
             <StyledTableCell align="right">
-              1.0.0
+              {process.env.REACT_APP_VERSION}
             </StyledTableCell>
           </StyledTableRow>
           <StyledTableRow key="versionDate">
@@ -43,7 +43,7 @@ export default function AppDetail() {
               Last version date
             </StyledTableCell>
             <StyledTableCell align="right">
-              2021-01-03
+              2021-01-18
             </StyledTableCell>
           </StyledTableRow>
           <StyledTableRow key="iconMadeBy">

@@ -1,6 +1,6 @@
 {
   "name": "web-toolbox",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": {
     "name": "Andre Masson",
     "email": "amwebexpert@gmail.com",
@@ -11,8 +11,8 @@
   "main": "build/electron/main.js",
   "private": false,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_VERSION=$npm_package_version react-scripts start",
+    "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
     "test": "react-scripts test",
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",

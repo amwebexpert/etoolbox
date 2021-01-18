@@ -60,6 +60,9 @@ export const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
     },
+    deviceInfo: {
+        cursor: 'pointer',
+    },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),

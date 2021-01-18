@@ -69,7 +69,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
 
             <form noValidate autoComplete="off" className={classes.form}>
                 <Grid container spacing={1}>
-                    <Grid item md={2} sm={3}>
+                    <Grid item md={2} sm={3} xs={6}>
                         <FormControl className={classes.formControl}>
                             <InputLabel id="uuidVersionLabel">Version</InputLabel>
                             <Controller
@@ -92,7 +92,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                             <FormHelperText>RFC4122 version</FormHelperText>
                         </FormControl>
                     </Grid>
-                    <Grid item md={2} sm={3}>
+                    <Grid item md={2} sm={3} xs={6}>
                         <FormControl className={classes.formControl}>
                             <Controller
                                 name="quantity"
@@ -112,7 +112,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                             <FormHelperText>Number of UUIDs</FormHelperText>
                         </FormControl>
                     </Grid>
-                    <Grid item md={8} sm={6}>
+                    <Grid item md={8} sm={6} xs={12}>
                         <Grid container justify="flex-end" className={classes.toolbar}>
                             <Button endIcon={<AssignmentTurnedIn />}
                                 variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
