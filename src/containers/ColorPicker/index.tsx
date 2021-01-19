@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Card, CardContent, Toolbar, Typography } from '@material-ui/core';
+import { Box, Card, CardContent, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import DeleteIcon from '@material-ui/icons/Delete';

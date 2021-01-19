@@ -4,7 +4,7 @@ import { useDropzone, FileRejection } from 'react-dropzone';
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from 're-resizable';
 
-import { Card, CardContent, Typography, TextField, LinearProgress, Toolbar, Box, Button } from '@material-ui/core';
+import { Card, CardContent, Typography, TextField, Toolbar, Box, Button } from '@material-ui/core';
 import PanoramaIcon from '@material-ui/icons/Panorama';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 
@@ -22,24 +22,19 @@ const Base64ImageEncoder: React.FC = () => {
     const { setGlobalSpinnerState } = useGlobalSpinnerUpdate();
 
     const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-        setGlobalSpinnerState({ open: true });
         setErrors(rejectFiles(rejectedFiles)); // set/reset errors
         setEncodedFiles([]); // reset UI
 
         acceptedFiles.forEach((file: File) =>
             loadFile(file)
-                .then(encFile =>
-                    setEncodedFiles(list => {
-                        setGlobalSpinnerState({ open: false });
-                        return [...list, encFile]
-                    }))
+                .then(encFile => setEncodedFiles(list => [...list, encFile]))
                 .catch(error => setErrors(list => [...list, {
                     name: file.name,
                     size: file.size,
                     error
                 }]))
         );
-    }, [setGlobalSpinnerState]);
+    }, []);
 
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
         accept: ['image/jpeg', 'image/png', 'image/gif', 'image/*'],
@@ -48,11 +43,20 @@ const Base64ImageEncoder: React.FC = () => {
         onDrop
     });
 
+    const filesSelected = acceptedFiles.length && acceptedFiles.length > 0;
+    const processing = acceptedFiles.length !== encodedFiles.length;
+
     const handleCopy = (event: any, data: string) => {
         event.preventDefault();
         copy.default(data, { format: 'text/plain' });
         setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
     }
+
+    React.useEffect(() => {
+        if (filesSelected) {
+            setGlobalSpinnerState({ open: processing });
+        }
+    }, [filesSelected, processing, setGlobalSpinnerState]);
 
     return (
         <div className={classes.root}>
@@ -66,21 +70,16 @@ const Base64ImageEncoder: React.FC = () => {
                 {errors && errors.map((err: ErrorFile, idx: number) => (
                     <div key={idx}>
                         <Typography color="secondary" variant="h5">
-                            <b>{err.name}</b> ({err.size} bytes): {err.error}
+                            <strong>{err.name}</strong> ({err.size} bytes): {err.error}
                         </Typography>
                     </div>
                 ))}
             </div>
             <div>
-                {acceptedFiles.length !== encodedFiles.length &&
-                    <div>
-                        <Typography color="secondary" variant="h5">
-                            Processing {acceptedFiles.length - encodedFiles.length} file(s)
-                        </Typography>
-                        <br />
-                        <LinearProgress />
-                        <br />
-                    </div>
+                {processing &&
+                    <Typography color="secondary" variant="h5">
+                        Processing {acceptedFiles.length - encodedFiles.length} file(s)
+                    </Typography>
                 }
             </div>
 
