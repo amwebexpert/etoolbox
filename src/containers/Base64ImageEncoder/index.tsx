@@ -12,7 +12,7 @@ import FeatureTitle from '../../components/FeatureTitle';
 import { EncodedFile, ErrorFile, loadFile, rejectFiles } from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useStyles, imageResizer } from './styled';
-import { useGlobalSpinnerUpdate } from '../../components/GlobalSpinner/GlobalSpinnerProvider';
+import { useGlobalSpinnerUpdate } from '../../components/Spinner/GlobalSpinnerProvider';
 
 const Base64ImageEncoder: React.FC = () => {
     const classes = useStyles();

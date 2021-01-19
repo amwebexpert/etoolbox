@@ -16,7 +16,7 @@ import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useStyles, imageResizer } from './styled';
-import { Spinner } from '../../components/GlobalSpinner/Spinner';
+import { Spinner } from '../../components/Spinner/Spinner';
 
 interface Props {
     width: Breakpoint;

@@ -10,7 +10,7 @@ import App from './App';
 import GlobalStyle from './global-styles';
 import store from './store';
 import theme from './theme';
-import GlobalSpinnerProvider from './components/GlobalSpinner/GlobalSpinnerProvider';
+import GlobalSpinnerProvider from './components/Spinner/GlobalSpinnerProvider';
 
 
 
