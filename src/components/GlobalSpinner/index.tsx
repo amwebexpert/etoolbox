@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
         '& .globalSpinner_overlay': {
             height: '100vh',
             zIndex: theme.zIndex.drawer + 2,
+            background: 'rgba(0, 0, 0, 0.3)',
         },
     },
 }));
@@ -22,7 +23,7 @@ export const GlobalSpinner: React.FC = ({ children }) => {
 
     return (
         <LoadingOverlay classNamePrefix='globalSpinner_' className={classes.root} 
-            spinner={<ScaleLoader />} active={globalSpinnerState.open}>
+            spinner={<ScaleLoader color="#586ecf" />} active={globalSpinnerState.open}>
             {children}
         </LoadingOverlay>
     );

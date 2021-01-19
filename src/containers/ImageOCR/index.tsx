@@ -11,13 +11,12 @@ import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from "re-resizable";
-import LoadingOverlay from 'react-loading-overlay';
-import ScaleLoader from 'react-spinners/ScaleLoader';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useStyles, imageResizer } from './styled';
+import { Spinner } from '../../components/GlobalSpinner/Spinner';
 
 interface Props {
     width: Breakpoint;
@@ -143,9 +142,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                     </Box>
                 )}
                 <CardContent>
-                    <LoadingOverlay 
-                        active={imgExtractedText.startsWith('Processing')} 
-                        spinner={<ScaleLoader />}>
+                    <Spinner active={imgExtractedText.startsWith('Processing')}>
                         <TextField
                             label="Extracted text"
                             fullWidth
@@ -155,7 +152,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                             multiline
                             rows="8"
                         />
-                    </LoadingOverlay>
+                    </Spinner>
                     <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
                     <Toolbar className={classes.toolbar}>
                         <Box display='flex' flexGrow={1}></Box>
