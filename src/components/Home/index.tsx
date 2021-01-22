@@ -26,6 +26,7 @@ const Home: React.FC = () => {
                 <li>Regular expression builder/tester</li>
                 <li>UUID Generator</li>
                 <li>JWT Debugger</li>
+                <li>QR Code generator (barcodes)</li>
                 <li>Image OCR (text extraction)</li>
                 <li>Color picker</li>
             </ul>
