@@ -1,9 +1,16 @@
 import React from "react";
 import { Alert } from "@material-ui/lab";
-import { Snackbar } from "@material-ui/core";
+import { makeStyles, Snackbar } from "@material-ui/core";
 import { useToaster, useToasterUpdate } from "./ToasterProvider";
 
+const useStyles = makeStyles(() => ({
+    root: {
+        marginTop: 10
+    },
+}));
+
 export const Toaster: React.FC = () => {
+    const classes = useStyles();
     const { toasterState } = useToaster();
     const { setToasterState } = useToasterUpdate();
 
@@ -13,6 +20,7 @@ export const Toaster: React.FC = () => {
 
     return (
         <Snackbar
+            className={classes.root}
             open={toasterState.open}
             autoHideDuration={toasterState.autoHideDuration}
             onClose={handleClose}

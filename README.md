@@ -76,7 +76,12 @@ This project is licensed under the MIT license, Copyright (c) 2020 André Masson
 * https://cloudconvert.com/png-to-icns
 * https://stackoverflow.com/a/8684009/704681
 * https://stackoverflow.com/a/52409047/704681
+
+### Interesting posts this app has been inspired by
+
 * https://omakoleg.gitlab.io/posts/spa-image-base64-react/
+* https://stackoverflow.com/questions/53028778/how-to-show-build-datetime-on-my-react-web-app-using-create-react-app
+
 
 ### Spinner
 

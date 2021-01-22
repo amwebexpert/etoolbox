@@ -14,7 +14,7 @@ export interface ToasterState {
     open: boolean;
     type: Color;
     message: string;
-    autoHideDuration: number;
+    autoHideDuration?: number;
 };
 export type ToasterContextType = {
     toasterState: ToasterState;

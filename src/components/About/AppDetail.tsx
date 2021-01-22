@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -6,6 +7,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+
+import { useToasterUpdate } from '../Toaster/ToasterProvider';
+import { getBuildUTCDate, getBuildUTCTimestamp } from '../../services/utils';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -26,6 +30,13 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 export default function AppDetail() {
+  const { setToasterState } = useToasterUpdate();
+
+  function onBuildDateClick() {
+    const message = `Build UTC timestamp: [${getBuildUTCTimestamp()}]`;
+    setToasterState({ open: true, message, type: 'info' });
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="about this application">
@@ -40,13 +51,13 @@ export default function AppDetail() {
           </StyledTableRow>
           <StyledTableRow key="versionDate">
             <StyledTableCell component="th" scope="row">
-              Last version date
+              Build UTC date
             </StyledTableCell>
-            <StyledTableCell align="right">
-              2021-01-18
+            <StyledTableCell align="right" title={getBuildUTCTimestamp()} onClick={onBuildDateClick}>
+              {getBuildUTCDate()}
             </StyledTableCell>
           </StyledTableRow>
-          <StyledTableRow key="iconMadeBy">
+          <StyledTableRow key="author">
             <StyledTableCell component="th" scope="row">
               Author
             </StyledTableCell>
