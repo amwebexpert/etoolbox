@@ -3,22 +3,15 @@ import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import SearchIcon from '@material-ui/icons/Search';
-
 import TocIcon from '@material-ui/icons/Toc';
-import TextField from '@material-ui/core/TextField';
-import * as copy from 'copy-to-clipboard';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
-import { Box, FormControl, IconButton, Input, InputAdornment, InputLabel, Toolbar } from '@material-ui/core';
+import { AppBar, FormControl, IconButton, Input, InputAdornment, InputLabel, Tab, Tabs, Typography } from '@material-ui/core';
 import FeatureTitle from '../../components/FeatureTitle';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
+import { TabPanel } from './TabPanel';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,27 +30,30 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: theme.spacing(1),
         },
     },
+    tabsPanel: {
+        flexGrow: 1,
+        width: '100%',
+        marginTop: theme.spacing(3),
+        backgroundColor: theme.palette.background.paper,
+    },
 }));
 
 interface Props {
-    width: Breakpoint;
     inputText?: string;
     storeInputText: (name: string, value: string) => void;
 }
 
 const CommonLists: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { setToasterState } = useToasterUpdate();
+    const [selectedTab, setSelectedTab] = React.useState(0);
     const { inputText, storeInputText } = props;
 
-    const handleCopy = (event: any) => {
-        event.preventDefault();
-        copy.default('Not implemented yet!', { format: 'text/plain' });
-        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
-    }
+    const handleTabSelection = (_e: any, newTab: number) => {
+        setSelectedTab(newTab);
+    };
 
-    function handleFilter(value: string) {
-        storeInputText('lastSearchValue', value);
+    function handleFilter(searchText: string) {
+        storeInputText('lastSearchValue', searchText);
     }
 
     return (
@@ -71,7 +67,6 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         <Input
                             id="searchField"
                             type="text"
-                            autoFocus={isWidthUp('md', props.width)}
                             value={inputText}
                             onChange={e => handleFilter(e.target.value)}
                             endAdornment={
@@ -84,11 +79,28 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                 </div>
             </form>
 
-            <Toolbar className={classes.toolbar}>
-                <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
-                    variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
-            </Toolbar>
+            <div className={classes.tabsPanel}>
+                <AppBar position="static" color="default">
+                    <Tabs
+                        value={selectedTab}
+                        onChange={handleTabSelection}
+                        indicatorColor="primary"
+                        textColor="primary"
+                        variant="scrollable"
+                        scrollButtons="on"
+                        aria-label="common web lists"
+                    >
+                        <Tab label="Mime-types" id="mime-types" aria-controls="tab-mime-types" />
+                        <Tab label="HTML Entities" id="html-entities" aria-controls="tab-html-entities" />
+                    </Tabs>
+                </AppBar>
+                <TabPanel value={selectedTab} index={0}>
+                    <Typography>Mime-types</Typography>
+                </TabPanel>
+                <TabPanel value={selectedTab} index={1}>
+                    <Typography>HTML Entities</Typography>
+                </TabPanel>
+            </div>
         </div>
     );
 }
@@ -105,4 +117,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(CommonLists));
+export default connect(mapStateToProps, mapDispatchToProps)(CommonLists);
