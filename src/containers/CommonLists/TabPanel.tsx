@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { Box } from "@material-ui/core";
 
 export function TabPanel(props: any) {
     const { children, value, index, ...other } = props;
@@ -13,9 +12,9 @@ export function TabPanel(props: any) {
             {...other}
         >
             {isTabSelected && (
-                <Box p={3}>
+                <>
                     {children}
-                </Box>
+                </>
             )}
         </div>
     );

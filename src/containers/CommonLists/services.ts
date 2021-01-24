@@ -1,11 +1,13 @@
-export function transform(value: string | undefined, encoded: boolean): string {
-    if (!value) {
-        return '';
-    }
+import mime from 'mime-types';
 
-    if (encoded) {
-        return decodeURIComponent(value);
+export function filterMimeTypes(filter: string | undefined): Map<string, any> {
+    const entries: any[] = Object.entries(mime.extensions);
+
+    if (filter) {
+        const filteredEntries: any[] = entries
+            .filter((mimeType: string[]) => mimeType[0].indexOf(filter) !== -1);
+        return new Map(filteredEntries);
     } else {
-        return encodeURIComponent(value);
+        return new Map(entries);
     }
 }

@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -19,34 +18,7 @@ import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        margin: theme.spacing(1),
-        '& > *': {
-            marginBottom: theme.spacing(2),
-        },
-    },
-    tableHeader: {
-        backgroundColor: theme.palette.grey[300],
-    }
-}));
-
-const StyledTableCell = withStyles(() => ({
-    body: {
-        fontSize: 14,
-        whiteSpace: 'normal',
-        wordBreak: 'break-word',
-    },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(even)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
-}))(TableRow);
+import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
 interface Props {
     inputText?: string;
