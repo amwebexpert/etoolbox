@@ -34,6 +34,7 @@ import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import PaletteIcon from '@material-ui/icons/Palette';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
+import TocIcon from '@material-ui/icons/Toc';
 
 import About from './components/About/About';
 import Home from './components/Home';
@@ -50,6 +51,7 @@ import Base64ImageEncoder from './containers/Base64ImageEncoder';
 import ImageOCR from './containers/ImageOCR';
 import ColorPicker from './containers/ColorPicker';
 import QRCodeGenerator from './containers/QRCodeGenerator';
+import CommonLists from './containers/CommonLists';
 
 interface Props {
   width: Breakpoint;
@@ -154,7 +156,7 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary={"URL Parser"} />
               </ListItem>
             </NavLink>
-            <NavLink to="/URLEncoder" title="URL Encoder/decoder" className={classes.link} activeClassName={classes.linkActive}>
+            <NavLink to="/URLEncoder" title="URL encoder/decoder" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <LinkOffIcon />
@@ -162,12 +164,12 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary={"URL Encoder"} />
               </ListItem>
             </NavLink>
-            <NavLink to="/Base64Encoder" title="Base64 Encoder/decoder" className={classes.link} activeClassName={classes.linkActive}>
+            <NavLink to="/Base64Encoder" title="Base64 encoder/decoder" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <DeveloperBoardIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Base64 Encoder"} />
+                <ListItemText primary={"Base64 String"} />
               </ListItem>
             </NavLink>
             <NavLink to="/Base64ImageEncoder" title="Base64 image encoder" className={classes.link} activeClassName={classes.linkActive}>
@@ -175,7 +177,7 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemIcon>
                   <PanoramaIcon />
                 </ListItemIcon>
-                <ListItemText primary={"Image encoder"} />
+                <ListItemText primary={"Base64 Image"} />
               </ListItem>
             </NavLink>
             <NavLink to="/JSONFormatter" title="JSON Formatter" className={classes.link} activeClassName={classes.linkActive}>
@@ -234,6 +236,14 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary="Color picker" />
               </ListItem>
             </NavLink>
+            <NavLink to="/CommonLists" title="Html entities, Mime-types, and more..." className={classes.link} activeClassName={classes.linkActive}>
+              <ListItem button>
+                <ListItemIcon>
+                  <TocIcon />
+                </ListItemIcon>
+                <ListItemText primary="Mime-types, HTML" />
+              </ListItem>
+            </NavLink>
           </List>
         </Drawer>
         <ToasterProvider>
@@ -253,6 +263,7 @@ const App: React.FC<Props> = (props: Props) => {
               <Route exact path="/QRCodeGenerator"><QRCodeGenerator /></Route>
               <Route exact path="/ImageOCR"><ImageOCR /></Route>
               <Route exact path="/ColorPicker"><ColorPicker /></Route>
+              <Route exact path="/CommonLists"><CommonLists /></Route>
 
               {/** Default route is the home */}
               <Route component={Home} />
