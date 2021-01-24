@@ -12,74 +12,45 @@ import { AppState } from '../../reducers';
 import FeatureTitle from '../../components/FeatureTitle';
 import { TabPanel } from './TabPanel';
 import { useStyles, StyledTableCell, StyledTableRow } from './styles';
-import useDebounce from '../../services/use-debounce';
-import { filterMimeTypes } from './services';
-import { useGlobalSpinnerUpdate } from '../../components/Spinner/GlobalSpinnerProvider';
+import { applyMimeTypesFilter } from '../../actions/mime-type-actions';
 
 interface Props {
     inputText?: string;
+    mimeTypes: Map<string, string>;
     storeInputText: (name: string, value: string) => void;
+    applyMimeTypesFilter: (searchTerm: string) => void;
 }
 
 const CommonLists: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { setGlobalSpinnerState } = useGlobalSpinnerUpdate();
     const [selectedTab, setSelectedTab] = React.useState(0);
-    const { inputText, storeInputText } = props;
-
-    // State and setter for search term
-    const [searchTerm, setSearchTerm] = React.useState(inputText);
-    // State and setter for search results
-    const [results, setResults] = React.useState<Map<string, any>>(new Map());
-    // State for search status (whether there is a pending API request)
-    const [isSearching, setIsSearching] = React.useState(false);
-
-    // Now we call our hook, passing in the current searchTerm value.
-    // The hook will only return the latest value (what we passed in) ...
-    // ... if it's been more than 500ms since it was last called.
-    // Otherwise, it will return the previous value of searchTerm.
-    // The goal is to only have the API call fire when user stops typing ...
-    // ... so that we aren't hitting our API rapidly.
-    const debouncedSearchTerm = useDebounce(searchTerm, 200);
-
-    // Here's where the API call happens
-    // We use useEffect since this is an asynchronous action
-    React.useEffect(() => {
-        // Set isSearching state
-        setIsSearching(true);
-
-        setTimeout(() => {
-            setResults(filterMimeTypes(debouncedSearchTerm));
-            setIsSearching(false);
-        }, 200);
-    }, [debouncedSearchTerm]);
-
-    React.useEffect(() => {
-            setGlobalSpinnerState({ open: isSearching });
-    }, [debouncedSearchTerm, isSearching, setGlobalSpinnerState]);
+    const { inputText, storeInputText, mimeTypes, applyMimeTypesFilter } = props;
 
     const handleTabSelection = (_e: any, newTab: number) => {
         setSelectedTab(newTab);
     };
 
     function handleFilter(newSearchTerm: string) {
-        setSearchTerm(newSearchTerm);
         storeInputText('lastSearchValue', newSearchTerm);
     }
+
+    React.useEffect(() => {
+        applyMimeTypesFilter(inputText || '');
+    }, [inputText, applyMimeTypesFilter]);
 
     return (
         <div className={classes.root}>
             <FeatureTitle iconType={TocIcon} title="Mime-types, HTML Entities..." />
 
             <Toolbar className={classes.toolbar}>
-                <Typography>Elements: <strong>{results.size}</strong></Typography>
+                <Typography>Elements: <strong>{mimeTypes.size}</strong></Typography>
                 <Box display='flex' flexGrow={1}></Box>
                 <FormControl className={clsx(classes.margin, classes.textField)} variant="filled">
                     <InputLabel htmlFor="searchField">Search</InputLabel>
                     <Input
                         id="searchField"
                         type="text"
-                        value={searchTerm}
+                        value={inputText}
                         onChange={e => handleFilter(e.target.value)}
                         endAdornment={
                             <InputAdornment position="end">
@@ -116,10 +87,10 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {[...results.keys()].sort().map(key => (
+                                {[...mimeTypes.keys()].sort().map(key => (
                                     <StyledTableRow key={key}>
                                         <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
-                                        <StyledTableCell>{results.get(key)}</StyledTableCell>
+                                        <StyledTableCell>{mimeTypes.get(key)}</StyledTableCell>
                                     </StyledTableRow>
                                 ))}
                             </TableBody>
@@ -137,13 +108,15 @@ const CommonLists: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs.map.get('lastSearchValue')
+        inputText: state.textInputs.map.get('lastSearchValue'),
+        mimeTypes: state.mimeTypes.elements
     }
 }
 
 export function mapDispatchToProps(dispatch: Dispatch) {
     return {
         storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
+        applyMimeTypesFilter: (searchTerm: string) => dispatch(applyMimeTypesFilter(searchTerm)),
     }
 }
 
