@@ -1,14 +1,15 @@
 import mime from 'mime-types';
 
-export function filterMimeTypes(filter: string | undefined): Map<string, string> {
-    const entries: any[] = Object.entries(mime.extensions);
+const MIME_TYPES_ARRAY: any[] = Object.entries(mime.extensions);
+const MIME_TYPES_MAP = new Map<string, string>(MIME_TYPES_ARRAY);
 
+export function filterMimeTypes(filter: string | undefined): Map<string, string> {
     if (filter) {
-        const filteredEntries: any[] = entries
+        const filteredEntries: any[] = MIME_TYPES_ARRAY
             .filter(mimeType => matchFilter(mimeType, filter));
         return new Map(filteredEntries);
     } else {
-        return new Map(entries);
+        return MIME_TYPES_MAP;
     }
 }
 

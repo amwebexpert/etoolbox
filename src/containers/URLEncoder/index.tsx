@@ -97,7 +97,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs.map.get('lastUrlEncoderValue')
+        inputText: state.textInputs['lastUrlEncoderValue']
     }
 }
 

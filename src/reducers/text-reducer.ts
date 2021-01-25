@@ -1,7 +1,7 @@
-import { TextInputsAction, TextInputActionTypes } from './../actions/text-actions';
+import { TextInputActionTypes, TextInputsAction } from './../actions/text-actions';
 
 export interface TextInputsState {
-    map: Map<string, string>;
+    [key: string]: string;
 }
 
 const DEFAULT_MAP = new Map<string, string>();
@@ -19,27 +19,29 @@ DEFAULT_MAP.set('lastSearchValue', '');
 const initalState: TextInputsState = loadFromLocalStorage();
 
 function loadFromLocalStorage(): TextInputsState {
-    const jsonData = localStorage.getItem('textInputs');
-    if (!jsonData) {
-        return { map: DEFAULT_MAP };
-    } else {
-        // https://stackoverflow.com/a/61671167/704681
-        return { map: new Map<string, string>(JSON.parse(jsonData)) };
-    }
-}
+    const state: TextInputsState = {};
 
-function saveToLocalStorage(map: Map<string, string>): void {
-    // https://stackoverflow.com/a/61671167/704681
-    localStorage.setItem('textInputs', JSON.stringify(Array.from(map.entries())))
+    const testValue = localStorage.getItem('lastUrlParserValue');
+    if (!testValue) {
+        DEFAULT_MAP.forEach((value: string, key: string) => {
+            state[key] = value;
+        });
+    } else {
+        const keys = [...DEFAULT_MAP.keys()];
+        keys.forEach(key => {
+            state[key] = localStorage.getItem(key) || '';
+        });
+    }
+
+    return state;
 }
 
 function reducer(state: TextInputsState = initalState, action: TextInputsAction) {
     switch (action.type) {
         case TextInputActionTypes.SET_INPUT_TEXT: {
-            const map = new Map(state.map);
-            map.set(action.name, action.value);
-            saveToLocalStorage(map);
-            return { map };
+            const newState = { ...state };
+            newState[action.name] = action.value;
+            return newState;
         }
 
         default:

@@ -161,8 +161,8 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs.map.get('lastQRCodeTextValue'),
-        inputOptions: state.textInputs.map.get('lastQRCodeOptions')
+        inputText: state.textInputs['lastQRCodeTextValue'],
+        inputOptions: state.textInputs['lastQRCodeOptions']
     }
 }
 

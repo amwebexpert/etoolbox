@@ -101,7 +101,7 @@ const URLParser: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs.map.get('lastUrlParserValue')
+        inputText: state.textInputs['lastUrlParserValue'],
     }
 }
 

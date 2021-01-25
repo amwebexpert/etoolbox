@@ -98,7 +98,7 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs.map.get('lastBase64EncoderValue')
+        inputText: state.textInputs['lastBase64EncoderValue']
     }
 }
 

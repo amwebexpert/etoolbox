@@ -139,8 +139,8 @@ const RegExTester: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        regularExpression: state.textInputs.map.get('lastRegEx'),
-        inputText: state.textInputs.map.get('lastRegExTextSample'),
+        regularExpression: state.textInputs['lastRegEx'],
+        inputText: state.textInputs['lastRegExTextSample'],
     }
 }
 

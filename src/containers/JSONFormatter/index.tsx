@@ -104,7 +104,7 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs.map.get('lastJSONFormatterValue')
+        inputText: state.textInputs['lastJSONFormatterValue']
     }
 }
 
