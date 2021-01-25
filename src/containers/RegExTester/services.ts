@@ -28,6 +28,9 @@ export function extract(regularExpression: string | undefined, inputText: string
 
     try {
         const regex = regexParser(regularExpression);
+        if (!regex.global) {
+            return '';
+        }
 
         let result;
         while ((result = regex.exec(inputText)) !== null) {
