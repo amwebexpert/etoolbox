@@ -24,7 +24,7 @@ export const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
     },
     textField: {
-        width: '25ch',
+        width: '15ch',
     },
     toolbar: {
         margin: 0,

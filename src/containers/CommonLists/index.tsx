@@ -29,6 +29,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = React.useState(0);
     const { inputText, filtering, storeInputText, mimeTypes, applyMimeTypesFilter } = props;
+    const status = filtering ? 'filtering...' : '\u00A0';
 
     const handleTabSelection = (_e: any, newTab: number) => {
         setSelectedTab(newTab);
@@ -54,10 +55,12 @@ const CommonLists: React.FC<Props> = (props: Props) => {
             <FeatureTitle iconType={TocIcon} title="Mime-types, HTML Entities..." />
 
             <Toolbar className={classes.toolbar}>
-                <Typography>Elements: <strong>{mimeTypes.size}</strong></Typography>
-                {filtering && (<Typography>filtering...</Typography>)}
+                <div>
+                    <Typography>Count: <strong>{mimeTypes.size}</strong></Typography>
+                    <Typography>{status}</Typography>
+                </div>
                 <Box display='flex' flexGrow={1}></Box>
-                <FormControl className={clsx(classes.margin, classes.textField)} variant="filled">
+                <FormControl className={clsx(classes.margin, classes.textField)}>
                     <InputLabel htmlFor="searchField">Search</InputLabel>
                     <Input
                         id="searchField"
