@@ -95,6 +95,7 @@
     "file-saver": "^2.0.5",
     "jwt-decode": "^3.1.2",
     "mime-types": "^2.1.28",
+    "pretty-bytes": "^5.5.0",
     "preval.macro": "^5.0.0",
     "qrcode": "^1.4.4",
     "re-resizable": "^6.9.0",

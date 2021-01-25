@@ -3,23 +3,23 @@ import React, { useCallback, useState } from 'react';
 import { useDropzone, FileRejection } from 'react-dropzone';
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from 're-resizable';
+import prettyBytes from 'pretty-bytes';
 
 import { Card, CardContent, Typography, TextField, Toolbar, Box, Button } from '@material-ui/core';
 import PanoramaIcon from '@material-ui/icons/Panorama';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 
 import FeatureTitle from '../../components/FeatureTitle';
-import { EncodedFile, ErrorFile, loadFile, rejectFiles } from './services';
+import { EncodedFile, ErrorFile, loadFile, rejectFiles, MAX_FILE_SIZE_BYTES } from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useStyles, imageResizer } from './styled';
-import { useGlobalSpinnerUpdate } from '../../components/Spinner/GlobalSpinnerProvider';
+import { Spinner } from '../../components/Spinner/Spinner';
 
 const Base64ImageEncoder: React.FC = () => {
     const classes = useStyles();
     const { setToasterState } = useToasterUpdate();
     const [encodedFiles, setEncodedFiles] = useState<EncodedFile[]>([]);
     const [errors, setErrors] = useState<ErrorFile[]>([]);
-    const { setGlobalSpinnerState } = useGlobalSpinnerUpdate();
 
     const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
         setErrors(rejectFiles(rejectedFiles)); // set/reset errors
@@ -38,12 +38,11 @@ const Base64ImageEncoder: React.FC = () => {
 
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
         accept: ['image/jpeg', 'image/png', 'image/gif', 'image/*'],
-        maxSize: 100000000,
+        maxSize: MAX_FILE_SIZE_BYTES,
         multiple: true,
         onDrop
     });
 
-    const filesSelected = acceptedFiles.length && acceptedFiles.length > 0;
     const processing = acceptedFiles.length !== encodedFiles.length;
 
     const handleCopy = (event: any, data: string) => {
@@ -52,28 +51,27 @@ const Base64ImageEncoder: React.FC = () => {
         setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
     }
 
-    React.useEffect(() => {
-        if (filesSelected) {
-            setGlobalSpinnerState({ open: processing });
-        }
-    }, [filesSelected, processing, setGlobalSpinnerState]);
-
     return (
         <div className={classes.root}>
             <FeatureTitle iconType={PanoramaIcon} title="Base64 image encoder" />
 
-            <div {...getRootProps({ className: classes.dropzone })}>
-                <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
-            </div>
+            <Spinner active={processing}>
+                <div {...getRootProps({ className: classes.dropzone })}>
+                    <input {...getInputProps()} />
+                    <p>Drag 'n' drop some files here, or click to select files</p>
+                </div>
+            </Spinner>
             <div>
-                {errors && errors.map((err: ErrorFile, idx: number) => (
-                    <div key={idx}>
-                        <Typography color="secondary" variant="h5">
-                            <strong>{err.name}</strong> ({err.size} bytes): {err.error}
-                        </Typography>
-                    </div>
-                ))}
+                {errors && errors.map((errFile: ErrorFile, idx: number) => {
+                    const size = prettyBytes(errFile.size);
+                    return (
+                        <div key={idx}>
+                            <Typography variant="body1">
+                                <strong>{errFile.name}</strong> ({size} bytes): {errFile.error}
+                            </Typography>
+                        </div>
+                    )
+                })}
             </div>
             <div>
                 {processing &&

@@ -1,4 +1,5 @@
 import { FileRejection } from 'react-dropzone';
+import prettyBytes from 'pretty-bytes';
 
 export interface EncodedFile {
     name: string;
@@ -11,6 +12,8 @@ export interface ErrorFile {
     size: number;
     error: string;
 }
+
+export const MAX_FILE_SIZE_BYTES = 250000;
 
 export function loadFile(file: File): Promise<EncodedFile> {
     return new Promise((resolve, reject) => {
@@ -35,6 +38,6 @@ export function rejectFiles(fileRejections: FileRejection[]): ErrorFile[] {
     return fileRejections.map(rejection => ({
         name: rejection.file.name,
         size: rejection.file.size,
-        error: 'File rejected'
+        error: `Exceeds size limit: ${prettyBytes(MAX_FILE_SIZE_BYTES)}`
     }));
 }
