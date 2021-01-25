@@ -41,6 +41,7 @@ function reducer(state: TextInputsState = initalState, action: TextInputsAction)
         case TextInputActionTypes.SET_INPUT_TEXT: {
             const newState = { ...state };
             newState[action.name] = action.value;
+            localStorage.setItem(action.name, action.value);
             return newState;
         }
 

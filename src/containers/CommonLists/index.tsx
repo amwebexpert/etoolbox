@@ -128,7 +128,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs['lastSearchValue'] || '',
+        inputText: state.textInputs['lastSearchValue'],
         mimeTypes: state.mimeTypes.elements,
         filtering: state.mimeTypes.filtering,
     }
