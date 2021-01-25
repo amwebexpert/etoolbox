@@ -124,6 +124,10 @@ function setupMenu() {
           accelerator: 'Ctrl+Alt+I',
           click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64ImageEncoder')
         }, {
+          label: 'QR Code generator',
+          accelerator: 'Ctrl+Alt+Q',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/QRCodeGenerator')
+        }, {
           label: 'Image OCR (text extract)',
           accelerator: 'Ctrl+Alt+O',
           click: () => getOrCreateWindow().webContents.send('navigateTo', '/ImageOCR')
@@ -131,6 +135,12 @@ function setupMenu() {
           label: 'Color picker',
           accelerator: 'Ctrl+Alt+C',
           click: () => getOrCreateWindow().webContents.send('navigateTo', '/ColorPicker')
+        }, {
+          type: 'separator'
+        }, {
+          label: 'Common web lists',
+          accelerator: 'Ctrl+Alt+W',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/CommonLists')
         }, {
           type: 'separator'
         }, {

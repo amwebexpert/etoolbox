@@ -7,6 +7,9 @@ import { AppBar, Box, FormControl, IconButton, Input, InputAdornment, InputLabel
 import SearchIcon from '@material-ui/icons/Search';
 import TocIcon from '@material-ui/icons/Toc';
 
+import Highlighter from 'react-highlight-words';
+import { useDebouncedCallback } from 'use-debounce/lib';
+
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import FeatureTitle from '../../components/FeatureTitle';
@@ -15,8 +18,9 @@ import { useStyles, StyledTableCell, StyledTableRow } from './styles';
 import { applyMimeTypesFilter } from '../../actions/mime-type-actions';
 
 interface Props {
-    inputText?: string;
-    mimeTypes: Map<string, string>;
+    inputText: string;
+    filtering: boolean;
+    mimeTypes: Map<string, string[]>;
     storeInputText: (name: string, value: string) => void;
     applyMimeTypesFilter: (searchTerm: string) => void;
 }
@@ -24,7 +28,7 @@ interface Props {
 const CommonLists: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = React.useState(0);
-    const { inputText, storeInputText, mimeTypes, applyMimeTypesFilter } = props;
+    const { inputText, filtering, storeInputText, mimeTypes, applyMimeTypesFilter } = props;
 
     const handleTabSelection = (_e: any, newTab: number) => {
         setSelectedTab(newTab);
@@ -34,9 +38,16 @@ const CommonLists: React.FC<Props> = (props: Props) => {
         storeInputText('lastSearchValue', newSearchTerm);
     }
 
-    React.useEffect(() => {
-        applyMimeTypesFilter(inputText || '');
-    }, [inputText, applyMimeTypesFilter]);
+    // https://www.npmjs.com/package/use-debounce
+    const debounced = useDebouncedCallback(
+        (inputText: string) => applyMimeTypesFilter(inputText),
+        300
+    );
+
+    React.useEffect(
+        () => debounced.callback(inputText),
+        [inputText, debounced]
+    );
 
     return (
         <div className={classes.root}>
@@ -44,6 +55,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
 
             <Toolbar className={classes.toolbar}>
                 <Typography>Elements: <strong>{mimeTypes.size}</strong></Typography>
+                {filtering && (<Typography>filtering...</Typography>)}
                 <Box display='flex' flexGrow={1}></Box>
                 <FormControl className={clsx(classes.margin, classes.textField)} variant="filled">
                     <InputLabel htmlFor="searchField">Search</InputLabel>
@@ -82,17 +94,25 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         <Table>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
-                                    <StyledTableCell>Mime Type</StyledTableCell>
-                                    <StyledTableCell>File extension</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">Mime Type</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">File extension</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {[...mimeTypes.keys()].sort().map(key => (
-                                    <StyledTableRow key={key}>
-                                        <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
-                                        <StyledTableCell>{mimeTypes.get(key)}</StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
+                                {[...mimeTypes.keys()].map(key => {
+                                    const extensions: string[] = mimeTypes.get(key) || [];
+                                    const value = extensions.join(', ');
+                                    return (
+                                        <StyledTableRow key={key}>
+                                            <StyledTableCell>
+                                                <Highlighter searchWords={[inputText]} textToHighlight={key} />
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <Highlighter searchWords={[inputText]} textToHighlight={value} />
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    )
+                                })}
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -108,8 +128,9 @@ const CommonLists: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs['lastSearchValue'],
-        mimeTypes: state.mimeTypes.elements
+        inputText: state.textInputs['lastSearchValue'] || '',
+        mimeTypes: state.mimeTypes.elements,
+        filtering: state.mimeTypes.filtering,
     }
 }
 

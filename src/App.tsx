@@ -172,14 +172,6 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary={"Base64 String"} />
               </ListItem>
             </NavLink>
-            <NavLink to="/Base64ImageEncoder" title="Base64 image encoder" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <PanoramaIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Base64 Image"} />
-              </ListItem>
-            </NavLink>
             <NavLink to="/JSONFormatter" title="JSON Formatter" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
@@ -210,6 +202,14 @@ const App: React.FC<Props> = (props: Props) => {
                   <LockOpenIcon />
                 </ListItemIcon>
                 <ListItemText primary="JWT decoder" />
+              </ListItem>
+            </NavLink>
+            <NavLink to="/Base64ImageEncoder" title="Base64 image encoder" className={classes.link} activeClassName={classes.linkActive}>
+              <ListItem button>
+                <ListItemIcon>
+                  <PanoramaIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Base64 Image"} />
               </ListItem>
             </NavLink>
             <NavLink to="/QRCodeGenerator" title="QR Code generator" className={classes.link} activeClassName={classes.linkActive}>
