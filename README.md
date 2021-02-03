@@ -39,7 +39,7 @@ Since most of the features don't need to access desktop capabilities, Electron i
 - ability to select exactly where a file will be stored whenever the SPA offers a `Save As...` button
 - etc.
 
-Again feel free to try ot the online [demo](https://amwebexpert.github.io/etoolbox/) before trying to package the Electron app for your platform :-)
+Again feel free to try out the online [demo](https://amwebexpert.github.io/etoolbox/) before trying to package the Electron app for your platform :-)
 
 ### Builded releases
 
