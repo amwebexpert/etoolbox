@@ -1,5 +1,6 @@
 import mime from 'mime-types';
-import { HtmlEntity, HTML_ENTITIES } from './html-entities';
+import { HtmlEntity } from '../../actions/html-entitie-actions';
+import { HTML_ENTITIES } from './html-entities';
 
 const MIME_TYPES_ARRAY: any[] = Object.entries(mime.extensions);
 const MIME_TYPES_MAP = new Map<string, string[]>(MIME_TYPES_ARRAY);
@@ -30,25 +31,25 @@ function isMimeTypeMatchFilter(mimeType: any[], filter: string): boolean {
     return false;
 }
 
-export function htmlEntitiesTypes(filter: string | undefined): HtmlEntity[] {
+export function filterHtmlEntities(filter: string | undefined): HtmlEntity[] {
     if (filter) {
         return HTML_ENTITIES
             .filter(htmlEntity => isHtmlEntityMatchFilter(htmlEntity, filter));
     } else {
-        return [];
+        return HTML_ENTITIES;
     }
 }
 
 function isHtmlEntityMatchFilter(htmlEntity: HtmlEntity, filter: string) {
-    if (htmlEntity.description.indexOf(filter) !== -1) {
+    if (htmlEntity.description.toLowerCase().indexOf(filter.toLowerCase()) !== -1) {
         return true;
     }
 
-    if (htmlEntity.entityName.indexOf(filter) !== -1) {
+    if (htmlEntity.entityName.toLowerCase().indexOf(filter.toLowerCase()) !== -1) {
         return true;
     }
 
-    if (htmlEntity.entityNumber.indexOf(filter) !== -1) {
+    if (htmlEntity.entityNumber.toLowerCase().indexOf(filter.toLowerCase()) !== -1) {
         return true;
     }
 

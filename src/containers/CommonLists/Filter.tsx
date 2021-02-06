@@ -7,13 +7,12 @@ import { useStyles } from './styles';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
 interface Props {
-    initialFilter: string;
     onFilterChange: (newValue: string) => void;
 }
 
 export const Filter: React.FC<Props> = (props: Props) => {
-    const { initialFilter, onFilterChange } = props;
-    const [filter, setFilter] = React.useState(initialFilter);
+    const { onFilterChange } = props;
+    const [filter, setFilter] = React.useState('');
     const classes = useStyles();
 
     // https://www.npmjs.com/package/use-debounce

@@ -1,10 +1,4 @@
-
-export interface HtmlEntity {
-    character: string;
-    entityName: string;
-    entityNumber: string;
-    description: string;
-}
+import { HtmlEntity } from "../../actions/html-entitie-actions";
 
 export const HTML_ENTITIES: HtmlEntity[] = [
     {
