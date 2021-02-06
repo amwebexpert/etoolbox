@@ -1,14 +1,11 @@
 import React from 'react';
-import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { AppBar, Box, FormControl, IconButton, Input, InputAdornment, InputLabel, Paper, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Tabs, Toolbar, Typography } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import { AppBar, Box, Paper, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Tabs, Toolbar, Typography } from '@material-ui/core';
 import TocIcon from '@material-ui/icons/Toc';
 
 import Highlighter from 'react-highlight-words';
-import { useDebouncedCallback } from 'use-debounce/lib';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
@@ -16,6 +13,7 @@ import FeatureTitle from '../../components/FeatureTitle';
 import { TabPanel } from './TabPanel';
 import { useStyles, StyledTableCell, StyledTableRow } from './styles';
 import { applyMimeTypesFilter } from '../../actions/mime-type-actions';
+import { Filter } from './Filter';
 
 interface Props {
     inputText: string;
@@ -37,18 +35,8 @@ const CommonLists: React.FC<Props> = (props: Props) => {
 
     function handleFilter(newSearchTerm: string) {
         storeInputText('lastSearchValue', newSearchTerm);
+        applyMimeTypesFilter(newSearchTerm);
     }
-
-    // https://www.npmjs.com/package/use-debounce
-    const debounced = useDebouncedCallback(
-        (inputText: string) => applyMimeTypesFilter(inputText),
-        300
-    );
-
-    React.useEffect(
-        () => debounced.callback(inputText),
-        [inputText, debounced]
-    );
 
     return (
         <div className={classes.root}>
@@ -60,20 +48,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                     <Typography>{status}</Typography>
                 </div>
                 <Box display='flex' flexGrow={1}></Box>
-                <FormControl className={clsx(classes.margin, classes.textField)}>
-                    <InputLabel htmlFor="searchField">Search</InputLabel>
-                    <Input
-                        id="searchField"
-                        type="text"
-                        value={inputText}
-                        onChange={e => handleFilter(e.target.value)}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton><SearchIcon /></IconButton>
-                            </InputAdornment>
-                        }
-                    />
-                </FormControl>
+                <Filter initialFilter={inputText} onFilterChange={handleFilter} />
             </Toolbar>
 
             <div className={classes.tabsPanel}>
