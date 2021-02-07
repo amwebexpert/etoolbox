@@ -32,7 +32,7 @@ function isMimeTypeMatchFilter(mimeType: any[], filter: string): boolean {
 }
 
 export function filterHtmlEntities(filter: string | undefined): HtmlEntity[] {
-    if (filter) {
+    if (filter && filter.length > 0) {
         return HTML_ENTITIES
             .filter(htmlEntity => isHtmlEntityMatchFilter(htmlEntity, filter));
     } else {

@@ -1,19 +1,19 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-
 import { AppBar, Box, Paper, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Tabs, Toolbar, Typography } from '@material-ui/core';
 import TocIcon from '@material-ui/icons/Toc';
-
+import React from 'react';
 import Highlighter from 'react-highlight-words';
-
-import { AppState } from '../../reducers';
-import FeatureTitle from '../../components/FeatureTitle';
-import { TabPanel } from './TabPanel';
-import { useStyles, StyledTableCell, StyledTableRow } from './styles';
-import { applyMimeTypesFilter } from '../../actions/mime-type-actions';
-import { Filter } from './Filter';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { applyHtmlEntitiesFilter, HtmlEntity } from '../../actions/html-entitie-actions';
+import { applyMimeTypesFilter } from '../../actions/mime-type-actions';
+import FeatureTitle from '../../components/FeatureTitle';
+import { AppState } from '../../reducers';
+import { Filter } from './Filter';
+import { StyledTableCell, StyledTableRow, useStyles } from './styles';
+import { TabPanel } from './TabPanel';
+
+
+
 
 interface Props {
     mimeTypes: Map<string, string[]>;
@@ -29,12 +29,12 @@ const CommonLists: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = React.useState(0);
     const [inputText, setInputText] = React.useState('');
+    const [status, setStatus] = React.useState('\u00A0');
     const { filteringMimeTypes, mimeTypes, filteringHtmlEntities, htmlEntities, applyMimeTypesFilter, applyHtmlEntitiesFilter } = props;
-    const status = filteringMimeTypes || filteringHtmlEntities ? 'filtering...' : '\u00A0';
 
     const handleTabSelection = (_e: any, newTab: number) => {
+        handleFilter('');
         setSelectedTab(newTab);
-        setInputText('');
     };
 
     function handleFilter(newFilter: string) {
@@ -54,6 +54,10 @@ const CommonLists: React.FC<Props> = (props: Props) => {
         }
     }
 
+    React.useEffect(() => {
+        setStatus(filteringMimeTypes || filteringHtmlEntities ? 'filtering...' : '\u00A0');
+    }, [filteringHtmlEntities, filteringMimeTypes])
+
     return (
         <div className={classes.root}>
             <FeatureTitle iconType={TocIcon} title="Mime-types, HTML Entities..." />
@@ -64,7 +68,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                     <Typography>{status}</Typography>
                 </div>
                 <Box display='flex' flexGrow={1}></Box>
-                <Filter onFilterChange={handleFilter} />
+                <Filter initialFilter={inputText} onFilterChange={handleFilter} />
             </Toolbar>
 
             <div className={classes.tabsPanel}>
@@ -124,21 +128,21 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                                 </TableRow>
                             </TableHead>
                             {htmlEntities && htmlEntities.map(htmlEntity => (
-                                    <StyledTableRow key={htmlEntity.entityNumber}>
-                                        <StyledTableCell>
-                                            <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.character} />
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.entityName} />
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.entityNumber} />
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.description} />
-                                        </StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
+                                <StyledTableRow key={htmlEntity.entityNumber}>
+                                    <StyledTableCell>
+                                        <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.character} />
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.entityName} />
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.entityNumber} />
+                                    </StyledTableCell>
+                                    <StyledTableCell>
+                                        <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.description} />
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                            ))}
                         </Table>
                     </TableContainer>
                 </TabPanel>
