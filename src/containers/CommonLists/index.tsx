@@ -12,8 +12,10 @@ import { Filter } from './Filter';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 import { TabPanel } from './TabPanel';
 
-
-
+enum TABS {
+    MIME_TYPES = 0,
+    HTML_ENTITIES = 1,
+}
 
 interface Props {
     mimeTypes: Map<string, string[]>;
@@ -39,7 +41,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
 
     function handleFilter(newFilter: string) {
         setInputText(newFilter);
-        if (selectedTab === 0) {
+        if (selectedTab === TABS.MIME_TYPES) {
             applyMimeTypesFilter(newFilter);
         } else {
             applyHtmlEntitiesFilter(newFilter);
@@ -47,7 +49,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
     }
 
     function getElementsCount(): number {
-        if (selectedTab === 0) {
+        if (selectedTab === TABS.MIME_TYPES) {
             return mimeTypes.size;
         } else {
             return htmlEntities.length;
@@ -87,7 +89,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                     </Tabs>
                 </AppBar>
 
-                <TabPanel value={selectedTab} index={0}>
+                <TabPanel value={selectedTab} index={TABS.MIME_TYPES}>
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead className={classes.tableHeader}>
@@ -116,7 +118,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                     </TableContainer>
                 </TabPanel>
 
-                <TabPanel value={selectedTab} index={1}>
+                <TabPanel value={selectedTab} index={TABS.HTML_ENTITIES}>
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead className={classes.tableHeader}>
