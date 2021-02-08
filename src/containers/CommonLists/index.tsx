@@ -30,21 +30,21 @@ interface Props {
 const CommonLists: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = React.useState(0);
-    const [inputText, setInputText] = React.useState('');
-    const [status, setStatus] = React.useState('\u00A0');
+    const [inputFilter, setInputFilter] = React.useState('');
     const { filteringMimeTypes, mimeTypes, filteringHtmlEntities, htmlEntities, applyMimeTypesFilter, applyHtmlEntitiesFilter } = props;
+    const [status, setStatus] = React.useState('\u00A0');
 
     const handleTabSelection = (_e: any, newTab: number) => {
-        handleFilter('');
         setSelectedTab(newTab);
+        applyFilter('');
     };
 
-    function handleFilter(newFilter: string) {
-        setInputText(newFilter);
+    function applyFilter(newInputFilter: string) {
+        setInputFilter(newInputFilter);
         if (selectedTab === TABS.MIME_TYPES) {
-            applyMimeTypesFilter(newFilter);
+            applyMimeTypesFilter(newInputFilter);
         } else {
-            applyHtmlEntitiesFilter(newFilter);
+            applyHtmlEntitiesFilter(newInputFilter);
         }
     }
 
@@ -65,12 +65,12 @@ const CommonLists: React.FC<Props> = (props: Props) => {
             <FeatureTitle iconType={TocIcon} title="Mime-types, HTML Entities..." />
 
             <Toolbar className={classes.toolbar}>
-                <div>
+                <Box>
                     <Typography>Count: <strong>{getElementsCount()}</strong></Typography>
                     <Typography>{status}</Typography>
-                </div>
+                </Box>
                 <Box display='flex' flexGrow={1}></Box>
-                <Filter initialFilter={inputText} onFilterChange={handleFilter} />
+                <Filter initialFilter={inputFilter} onFilterChange={applyFilter} />
             </Toolbar>
 
             <div className={classes.tabsPanel}>
@@ -105,10 +105,10 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                                     return (
                                         <StyledTableRow key={key}>
                                             <StyledTableCell>
-                                                <Highlighter searchWords={[inputText]} textToHighlight={key} />
+                                                <Highlighter searchWords={[inputFilter]} textToHighlight={key} />
                                             </StyledTableCell>
                                             <StyledTableCell>
-                                                <Highlighter searchWords={[inputText]} textToHighlight={value} />
+                                                <Highlighter searchWords={[inputFilter]} textToHighlight={value} />
                                             </StyledTableCell>
                                         </StyledTableRow>
                                     )
@@ -132,16 +132,16 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                             {htmlEntities && htmlEntities.map(htmlEntity => (
                                 <StyledTableRow key={htmlEntity.entityNumber}>
                                     <StyledTableCell>
-                                        <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.character} />
+                                        <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.character} />
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.entityName} />
+                                        <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityName} />
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.entityNumber} />
+                                        <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityNumber} />
                                     </StyledTableCell>
                                     <StyledTableCell>
-                                        <Highlighter searchWords={[inputText]} textToHighlight={htmlEntity.description} />
+                                        <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.description} />
                                     </StyledTableCell>
                                 </StyledTableRow>
                             ))}

@@ -1,4 +1,3 @@
-import { HTML_ENTITIES } from '../containers/CommonLists/html-entities';
 import { HtmlEntity, HtmlEntityAction, HtmlEntityActionTypes } from './../actions/html-entitie-actions';
 
 export interface HtmlEntitiesState {
@@ -8,7 +7,7 @@ export interface HtmlEntitiesState {
 
 const initalState: HtmlEntitiesState = {
     filtering: false,
-    elements: HTML_ENTITIES
+    elements: []
 }
 
 function reducer(state: HtmlEntitiesState = initalState, action: HtmlEntityAction): HtmlEntitiesState {
