@@ -81,11 +81,11 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
 
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
+                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!transformed}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
-                <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>}
+                <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
                     onClick={() => setTransformed(services.transform(inputText, true))}>Enc.</Button>
-                <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>}
+                <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!transformed}
                     onClick={() => setTransformed(services.transform(inputText, false))}>Dec.</Button>
             </Toolbar>
 

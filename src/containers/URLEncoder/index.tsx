@@ -80,11 +80,11 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
 
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
+                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!transformed}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
-                <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>}
+                <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
                     onClick={() => setTransformed(services.transform(inputText, false))}>Enc.</Button>
-                <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>}
+                <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!transformed}
                     onClick={() => setTransformed(services.transform(inputText, true))}>Dec.</Button>
             </Toolbar>
 
