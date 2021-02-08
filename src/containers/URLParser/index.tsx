@@ -18,6 +18,7 @@ import { AppState } from '../../reducers';
 import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
+import { Helmet } from 'react-helmet';
 
 interface Props {
     inputText?: string;
@@ -26,6 +27,7 @@ interface Props {
 }
 
 const URLParser: React.FC<Props> = (props: Props) => {
+    const title = 'URL Parser';
     const classes = useStyles();
     const { inputText, storeInputText } = props;
     const [urlFragments, setUrlFragments] = React.useState(new Map());
@@ -37,64 +39,63 @@ const URLParser: React.FC<Props> = (props: Props) => {
     }, [inputText]);
 
     return (
-        <div className={classes.root}>
-            <FeatureTitle iconType={LinkIcon} title="URL Parser" />
+        <>
+            <Helmet title={title} />
+            <div className={classes.root}>
+                <FeatureTitle iconType={LinkIcon} title={title} />
 
-            <form noValidate autoComplete="off">
-                <div>
-                    <TextField
-                        autoFocus={isWidthUp('md', props.width)}
-                        label="URL"
-                        placeholder="Paste or type the url here"
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth={true}
-                        value={inputText}
-                        onChange={(e) => storeInputText('lastUrlParserValue', e.target.value)}
-                    />
-                </div>
-            </form>
+                <TextField
+                    autoFocus={isWidthUp('md', props.width)}
+                    label="URL"
+                    placeholder="Paste or type the url here"
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth={true}
+                    value={inputText}
+                    onChange={(e) => storeInputText('lastUrlParserValue', e.target.value)}
+                />
 
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead className={classes.tableHeader}>
-                        <TableRow>
-                            <StyledTableCell>Fragment</StyledTableCell>
-                            <StyledTableCell>Value</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {[...urlFragments.keys()].sort().map(key => (
-                            <StyledTableRow key={key}>
-                                <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
-                                <StyledTableCell>{urlFragments.get(key)}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead className={classes.tableHeader}>
+                            <TableRow>
+                                <StyledTableCell>Fragment</StyledTableCell>
+                                <StyledTableCell>Value</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {[...urlFragments.keys()].sort().map(key => (
+                                <StyledTableRow key={key}>
+                                    <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
+                                    <StyledTableCell>{urlFragments.get(key)}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead className={classes.tableHeader}>
-                        <TableRow>
-                            <StyledTableCell>Parameter</StyledTableCell>
-                            <StyledTableCell>Value</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {[...urlParams.keys()].sort().map(key => (
-                            <StyledTableRow key={key}>
-                                <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
-                                <StyledTableCell>{urlParams.get(key)}</StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </div>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead className={classes.tableHeader}>
+                            <TableRow>
+                                <StyledTableCell>Parameter</StyledTableCell>
+                                <StyledTableCell>Value</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {[...urlParams.keys()].sort().map(key => (
+                                <StyledTableRow key={key}>
+                                    <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
+                                    <StyledTableCell>{urlParams.get(key)}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
+        </>
     );
 }
 

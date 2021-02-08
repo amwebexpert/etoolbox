@@ -16,12 +16,13 @@ import { AppState } from '../../reducers';
 import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
     },
-    formatted: {
+    matches: {
         padding: theme.spacing(1),
         border: '1px solid grey',
         '& span': {
@@ -46,6 +47,7 @@ interface Props {
 }
 
 const RegExTester: React.FC<Props> = (props: Props) => {
+    const title = 'Regular expressions tester';
     const classes = useStyles();
     const { regularExpression, inputText, storeInputText } = props;
     const [highlithedMatches, setHighlithedMatches] = React.useState('');
@@ -67,59 +69,59 @@ const RegExTester: React.FC<Props> = (props: Props) => {
     );
 
     return (
-        <div className={classes.root}>
-            <FeatureTitle iconType={TextRotationNoneIcon} title="Regular expressions tester" />
+        <>
+            <Helmet title={title} />
+            <div className={classes.root}>
+                <FeatureTitle iconType={TextRotationNoneIcon} title={title} />
 
-            <form noValidate autoComplete="off">
-                <div>
-                    <TextField
-                        autoFocus={isWidthUp('md', props.width)}
-                        id="regex"
-                        label="Regular expression"
-                        placeholder="Type the regular expression. Example: /example/g"
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth={true}
-                        value={regularExpression}
-                        onChange={(e) => storeInputText('lastRegEx', e.target.value)}
-                    />
-                    <TextField
-                        id="content"
-                        label="Content to test the regular expression against"
-                        placeholder="Paste or type the content here"
-                        multiline
-                        rows={6}
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth={true}
-                        value={inputText}
-                        onChange={(e) => storeInputText('lastRegExTextSample', e.target.value)}
-                    />
+                <TextField
+                    autoFocus={isWidthUp('md', props.width)}
+                    id="regex"
+                    label="Regular expression"
+                    placeholder="Type the regular expression. Example: /example/g"
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth={true}
+                    value={regularExpression}
+                    onChange={(e) => storeInputText('lastRegEx', e.target.value)}
+                />
+
+                <Toolbar className={classes.toolbar}>
+                    <Box display='flex' flexGrow={1}></Box>
+                    <CopyButton data={regularExpression} />
+                </Toolbar>
+
+                <TextField
+                    id="content"
+                    label="Content to test the regular expression against"
+                    placeholder="Paste or type the content here"
+                    multiline
+                    rows={6}
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth={true}
+                    value={inputText}
+                    onChange={(e) => storeInputText('lastRegExTextSample', e.target.value)}
+                />
+
+                <div className={classes.matches}>
+                    {ReactHtmlParser(highlithedMatches)}
                 </div>
-            </form>
 
-            <Toolbar className={classes.toolbar}>
-                <Box display='flex' flexGrow={1}></Box>
-                <CopyButton data={regularExpression} />
-            </Toolbar>
+                <p>
+                    Collection of values. Could be usefull for Jira tickets numbers with expressions like:<br />
+                    <strong>issueKey in (FS-3456, WS-3213, FS-9988)</strong>
+                </p>
+                <div className={classes.matches}>
+                    {extracted}
+                </div>
+                <Toolbar className={classes.toolbar}>
+                    <Box display='flex' flexGrow={1}></Box>
+                    <CopyButton data={extracted} />
+                </Toolbar>
 
-            <div className={classes.formatted}>
-                {ReactHtmlParser(highlithedMatches)}
             </div>
-
-            <p>
-                Collection of values. Could be usefull for Jira tickets numbers with expressions like:<br />
-                <strong>issueKey in (FS-3456, WS-3213, FS-9988)</strong>
-            </p>
-            <div className={classes.formatted}>
-                {extracted}
-            </div>
-            <Toolbar className={classes.toolbar}>
-                <Box display='flex' flexGrow={1}></Box>
-                <CopyButton data={extracted} />
-            </Toolbar>
-
-        </div>
+        </>
     );
 }
 

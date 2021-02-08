@@ -16,6 +16,7 @@ import { AppState } from '../../reducers';
 import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,44 +44,44 @@ interface Props {
 }
 
 const URLEncoder: React.FC<Props> = (props: Props) => {
+    const title = 'URL Encoder/decoder';
     const classes = useStyles();
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState(services.transform(inputText, false));
 
     return (
-        <div className={classes.root}>
-            <FeatureTitle iconType={LinkOffIcon} title="URL Encoder/decoder" />
+        <>
+            <Helmet title={title} />
+            <div className={classes.root}>
+                <FeatureTitle iconType={LinkOffIcon} title={title} />
 
-            <form noValidate autoComplete="off">
-                <div>
-                    <TextField
-                        autoFocus={isWidthUp('md', props.width)}
-                        label="Content to encode/decode"
-                        placeholder="Paste or type the content here"
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth={true}
-                        value={inputText}
-                        onChange={(e) => storeInputText('lastUrlEncoderValue', e.target.value)}
-                    />
+                <TextField
+                    autoFocus={isWidthUp('md', props.width)}
+                    label="Content to encode/decode"
+                    placeholder="Paste or type the content here"
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth={true}
+                    value={inputText}
+                    onChange={(e) => storeInputText('lastUrlEncoderValue', e.target.value)}
+                />
+
+                <Toolbar className={classes.toolbar}>
+                    <Box display='flex' flexGrow={1}></Box>
+                    <CopyButton data={transformed} />
+                    <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
+                        onClick={() => setTransformed(services.transform(inputText, false))}>Enc.</Button>
+                    <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!transformed}
+                        onClick={() => setTransformed(services.transform(inputText, true))}>Dec.</Button>
+                </Toolbar>
+
+                <div className={classes.formatted}>
+                    {transformed}
                 </div>
-            </form>
-
-            <Toolbar className={classes.toolbar}>
-                <Box display='flex' flexGrow={1}></Box>
-                <CopyButton data={transformed} />
-                <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
-                    onClick={() => setTransformed(services.transform(inputText, false))}>Enc.</Button>
-                <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!transformed}
-                    onClick={() => setTransformed(services.transform(inputText, true))}>Dec.</Button>
-            </Toolbar>
-
-            <div className={classes.formatted}>
-                {transformed}
             </div>
-        </div>
+        </>
     );
 }
 

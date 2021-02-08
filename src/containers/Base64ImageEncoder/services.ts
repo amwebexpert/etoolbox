@@ -23,7 +23,7 @@ export function loadFile(file: File): Promise<EncodedFile> {
             size: file.size,
         }
 
-        reader.addEventListener('abort', e => reject(`File upload aborted:${e}`));
+        reader.addEventListener('abort', e => reject(`File upload aborted: ${e}`));
         reader.addEventListener('error', e => reject(`File upload error: ${e}`));
         reader.addEventListener('load', () => resolve({
             ...base,

@@ -16,6 +16,7 @@ import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useStyles, imageResizer } from './styled';
 import { Spinner } from '../../components/Spinner/Spinner';
 import CopyButton from '../../components/CopyButton';
+import { Helmet } from 'react-helmet';
 
 interface Props {
     width: Breakpoint;
@@ -33,6 +34,7 @@ const INITIAL_WORKER_STATUS: WorkerStatus = {
 }
 
 const ImageOCR: React.FC<Props> = (props: Props) => {
+    const title = 'Image OCR (text extraction)';
     const classes = useStyles();
     const { setToasterState } = useToasterUpdate();
     const [language, setLanguage] = React.useState('eng');
@@ -63,7 +65,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
 
     function logger(workerStatus: WorkerStatus) {
         setWorkerStatus(workerStatus);
-        setImgExtractedText(`Processing the image\n    ----> ${workerStatus.status}...`);
+        setImgExtractedText(`Processing the image\n\t → ${workerStatus.status}…`);
     }
 
     function onPasteFromClipboard(e: any) {
@@ -86,77 +88,80 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
     }, []);
 
     return (
-        <div className={classes.root}>
-            <FeatureTitle iconType={TextFieldsIcon} title="Image OCR (text extraction)" />
+        <>
+            <Helmet title={title} />
+            <div className={classes.root}>
+                <FeatureTitle iconType={TextFieldsIcon} title={title} />
 
-            <form noValidate autoComplete="off" className={classes.form}>
-                <FormControl className={classes.formControl}>
-                    <InputLabel shrink id="languageLabel">Image language</InputLabel>
-                    <Select labelId="languageLabel" id="language"
-                        value={language} autoFocus={isWidthUp('md', props.width)}
-                        onChange={(e: any) => setLanguage(e.target.value)}
-                    >
-                        {/**
+                <form noValidate autoComplete="off" className={classes.form}>
+                    <FormControl className={classes.formControl}>
+                        <InputLabel shrink id="languageLabel">Image language</InputLabel>
+                        <Select labelId="languageLabel" id="language"
+                            value={language} autoFocus={isWidthUp('md', props.width)}
+                            onChange={(e: any) => setLanguage(e.target.value)}
+                        >
+                            {/**
                          * TODO: Add all Tesseract.js supported languages:
                          * https://tesseract-ocr.github.io/tessdoc/Data-Files#data-files-for-version-400-november-29-2016
                          */}
-                        <MenuItem value="eng">English</MenuItem>
-                        <MenuItem value="fra">French</MenuItem>
-                    </Select>
-                </FormControl>
-            </form>
+                            <MenuItem value="eng">English</MenuItem>
+                            <MenuItem value="fra">French</MenuItem>
+                        </Select>
+                    </FormControl>
+                </form>
 
-            <Card>
-                <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
-                    {!imgDataURL && (
-                        <div>
-                            <Typography>paste image from clipboard</Typography>
-                            <Typography>or select a file</Typography>
-                            <input type="file" color="primary" accept="image/*"
-                                onChange={(e: any) => onFileSelected(e.target.files[0])}
-                                id="icon-button-file" style={{ display: 'none', }}
-                            />
-                            <label htmlFor="icon-button-file">
-                                <Button variant="contained" component="span" color="primary">
-                                    <PhotoCameraIcon />
-                                </Button>
-                            </label>
-                        </div>
-                    )}
-                    {imgDataURL && (
-                        <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
-                            <img src={imgDataURL} alt="Clipboard content" className={classes.image} />
-                        </Resizable>
-                    )}
-                </Box>
-                {imgDataURL && (
-                    <Box display="flex" alignItems="center" justifyContent="center">
-                        <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>Clear</Button>
+                <Card>
+                    <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
+                        {!imgDataURL && (
+                            <div>
+                                <Typography>paste image from clipboard</Typography>
+                                <Typography>or select a file</Typography>
+                                <input type="file" color="primary" accept="image/*"
+                                    onChange={(e: any) => onFileSelected(e.target.files[0])}
+                                    id="icon-button-file" style={{ display: 'none', }}
+                                />
+                                <label htmlFor="icon-button-file">
+                                    <Button variant="contained" component="span" color="primary">
+                                        <PhotoCameraIcon />
+                                    </Button>
+                                </label>
+                            </div>
+                        )}
+                        {imgDataURL && (
+                            <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
+                                <img src={imgDataURL} alt="Clipboard content" className={classes.image} />
+                            </Resizable>
+                        )}
                     </Box>
-                )}
-                <CardContent>
-                    <Spinner active={imgExtractedText.startsWith('Processing')}>
-                        <TextField
-                            label="Extracted text"
-                            fullWidth
-                            value={imgExtractedText}
-                            margin="normal"
-                            variant="outlined"
-                            multiline
-                            rows="8"
-                        />
-                    </Spinner>
-                    <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
-                    <Toolbar className={classes.toolbar}>
-                        <Box display='flex' flexGrow={1}></Box>
-                        <CopyButton data={imgExtractedText} />
-                        <Button variant="contained" color="primary"
-                            onClick={handleProcess}  disabled={!imgDataURL}
-                            endIcon={<TextFieldsIcon />}>Run</Button>
-                    </Toolbar>
-                </CardContent>
-            </Card>
-        </div>
+                    {imgDataURL && (
+                        <Box display="flex" alignItems="center" justifyContent="center">
+                            <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>Clear</Button>
+                        </Box>
+                    )}
+                    <CardContent>
+                        <Spinner active={imgExtractedText.startsWith('Processing')}>
+                            <TextField
+                                label="Extracted text"
+                                fullWidth
+                                value={imgExtractedText}
+                                margin="normal"
+                                variant="outlined"
+                                multiline
+                                rows="8"
+                            />
+                        </Spinner>
+                        <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
+                        <Toolbar className={classes.toolbar}>
+                            <Box display='flex' flexGrow={1}></Box>
+                            <CopyButton data={imgExtractedText} />
+                            <Button variant="contained" color="primary"
+                                onClick={handleProcess} disabled={!imgDataURL}
+                                endIcon={<TextFieldsIcon />}>Run</Button>
+                        </Toolbar>
+                    </CardContent>
+                </Card>
+            </div>
+        </>
     );
 }
 

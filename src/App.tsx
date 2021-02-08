@@ -58,6 +58,7 @@ interface Props {
 }
 
 const App: React.FC<Props> = (props: Props) => {
+  const desc = 'Web Toolbox app. A collection of utilities for developers.';
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
@@ -76,11 +77,8 @@ const App: React.FC<Props> = (props: Props) => {
 
   return (
     <>
-      <Helmet
-        titleTemplate="%s - Web Toolbox"
-        defaultTitle="Web Toolbox"
-      >
-        <meta name="description" content="Web Toolbox app. A collection of utilities for developers." />
+      <Helmet titleTemplate="Web Toolbox - %s" defaultTitle="Web Toolbox">
+        <meta name="description" content={desc} />
       </Helmet>
       <div className={classes.root}>
         <CssBaseline />

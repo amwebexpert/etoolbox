@@ -1,3 +1,9 @@
+interface ClickCoordinates {
+    px: number;
+    py: number;
+    width: number;
+    height: number;
+}
 
 export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: ProgressEvent<FileReader>) => void): void {
     if (!items) {
@@ -13,13 +19,6 @@ export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: Pro
             break;
         }
     }
-}
-
-interface ClickCoordinates {
-    px: number;
-    py: number;
-    width: number;
-    height: number;
 }
 
 export function retrieveClickedColor(event: MouseEvent, image: HTMLImageElement): string {

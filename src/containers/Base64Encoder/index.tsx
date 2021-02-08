@@ -17,6 +17,7 @@ import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,44 +45,48 @@ interface Props {
 }
 
 const Base64Encoder: React.FC<Props> = (props: Props) => {
+    const title = 'Base64 Encoder/decoder';
     const classes = useStyles();
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState(services.transform(inputText, true));
 
     return (
-        <div className={classes.root}>
-            <FeatureTitle iconType={DeveloperBoardIcon} title="Base64 Encoder/decoder" />
+        <>
+            <Helmet title={title} />
+            <div className={classes.root}>
+                <FeatureTitle iconType={DeveloperBoardIcon} title={title} />
 
-            <form noValidate autoComplete="off">
-                <div>
-                    <TextField
-                        autoFocus={isWidthUp('md', props.width)}
-                        label="Content to Base64 encode/decode"
-                        placeholder="Paste or type the content here"
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth={true}
-                        value={inputText}
-                        onChange={(e) => storeInputText('lastBase64EncoderValue', e.target.value)}
-                    />
+                <form noValidate autoComplete="off">
+                    <div>
+                        <TextField
+                            autoFocus={isWidthUp('md', props.width)}
+                            label="Content to Base64 encode/decode"
+                            placeholder="Paste or type the content here"
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth={true}
+                            value={inputText}
+                            onChange={(e) => storeInputText('lastBase64EncoderValue', e.target.value)}
+                        />
+                    </div>
+                </form>
+
+                <Toolbar className={classes.toolbar}>
+                    <Box display='flex' flexGrow={1}></Box>
+                    <CopyButton data={transformed} />
+                    <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
+                        onClick={() => setTransformed(services.transform(inputText, true))}>Enc.</Button>
+                    <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!transformed}
+                        onClick={() => setTransformed(services.transform(inputText, false))}>Dec.</Button>
+                </Toolbar>
+
+                <div className={classes.encodedResult}>
+                    {transformed}
                 </div>
-            </form>
-
-            <Toolbar className={classes.toolbar}>
-                <Box display='flex' flexGrow={1}></Box>
-                <CopyButton data={transformed} />
-                <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
-                    onClick={() => setTransformed(services.transform(inputText, true))}>Enc.</Button>
-                <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!transformed}
-                    onClick={() => setTransformed(services.transform(inputText, false))}>Dec.</Button>
-            </Toolbar>
-
-            <div className={classes.encodedResult}>
-                {transformed}
             </div>
-        </div>
+        </>
     );
 }
 

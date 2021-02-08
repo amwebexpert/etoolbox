@@ -11,8 +11,10 @@ import FeatureTitle from '../../components/FeatureTitle';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { EncodedFile, ErrorFile, loadFile, MAX_FILE_SIZE_BYTES, rejectFiles } from './services';
 import { imageResizer, useStyles } from './styled';
+import { Helmet } from 'react-helmet';
 
 const Base64ImageEncoder: React.FC = () => {
+    const title = 'Base64 image encoder';
     const classes = useStyles();
     const [encodedFiles, setEncodedFiles] = useState<EncodedFile[]>([]);
     const [errors, setErrors] = useState<ErrorFile[]>([]);
@@ -42,72 +44,75 @@ const Base64ImageEncoder: React.FC = () => {
     const processing = acceptedFiles.length !== encodedFiles.length;
 
     return (
-        <div className={classes.root}>
-            <FeatureTitle iconType={PanoramaIcon} title="Base64 image encoder" />
+        <>
+            <Helmet title={title} />
+            <div className={classes.root}>
+                <FeatureTitle iconType={PanoramaIcon} title={title} />
 
-            <Spinner active={processing}>
-                <div {...getRootProps({ className: classes.dropzone })}>
-                    <input {...getInputProps()} />
-                    <p>Drag 'n' drop some files here, or click to select files</p>
+                <Spinner active={processing}>
+                    <div {...getRootProps({ className: classes.dropzone })}>
+                        <input {...getInputProps()} />
+                        <p>Drag 'n' drop some files here, or click to select files</p>
+                    </div>
+                </Spinner>
+                <div>
+                    {errors && errors.map((errFile: ErrorFile, idx: number) => {
+                        const size = prettyBytes(errFile.size);
+                        return (
+                            <div key={idx}>
+                                <Typography variant="body1">
+                                    <strong>{errFile.name}</strong> ({size} bytes): {errFile.error}
+                                </Typography>
+                            </div>
+                        )
+                    })}
                 </div>
-            </Spinner>
-            <div>
-                {errors && errors.map((errFile: ErrorFile, idx: number) => {
-                    const size = prettyBytes(errFile.size);
-                    return (
-                        <div key={idx}>
-                            <Typography variant="body1">
-                                <strong>{errFile.name}</strong> ({size} bytes): {errFile.error}
-                            </Typography>
-                        </div>
-                    )
-                })}
-            </div>
-            <div>
-                {processing &&
-                    <Typography color="secondary" variant="h5">
-                        Processing {acceptedFiles.length - encodedFiles.length} file(s)
+                <div>
+                    {processing &&
+                        <Typography color="secondary" variant="h5">
+                            Processing {acceptedFiles.length - encodedFiles.length} file(s)
                     </Typography>
-                }
-            </div>
-
-            {encodedFiles && encodedFiles.map((file: EncodedFile, idx: number) => (
-                <div key={idx}>
-                    <Card>
-                        <Box display="flex" alignItems="center" justifyContent="center">
-                            <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
-                                <img src={file.encoded} alt={file.name} className={classes.image} />
-                            </Resizable>
-                        </Box>
-                        <CardContent>
-                            <Typography gutterBottom align="center" variant="h5" component="h2">
-                                <b>{file.name}</b> ({file.size} bytes)
-                            </Typography>
-                            <TextField
-                                label="Full img tag"
-                                fullWidth
-                                value={`<img alt="${file.name}" src="${file.encoded}"/>`}
-                                margin="normal"
-                                variant="outlined"
-                            />
-                            <TextField
-                                label="Base64 encoded. Copy-paste into 'src' attribute"
-                                fullWidth
-                                value={file.encoded}
-                                margin="normal"
-                                variant="outlined"
-                                multiline
-                                rows="8"
-                            />
-                            <Toolbar className={classes.toolbar}>
-                                <Box display='flex' flexGrow={1}></Box>
-                                <CopyButton data={file.encoded} />
-                            </Toolbar>
-                        </CardContent>
-                    </Card>
+                    }
                 </div>
-            ))}
-        </div>
+
+                {encodedFiles.map((file: EncodedFile, idx: number) => (
+                    <div key={idx}>
+                        <Card>
+                            <Box display="flex" alignItems="center" justifyContent="center">
+                                <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
+                                    <img src={file.encoded} alt={file.name} className={classes.image} />
+                                </Resizable>
+                            </Box>
+                            <CardContent>
+                                <Typography gutterBottom align="center" variant="h5" component="h2">
+                                    <b>{file.name}</b> ({file.size} bytes)
+                            </Typography>
+                                <TextField
+                                    label="Full img tag"
+                                    fullWidth
+                                    value={`<img alt="${file.name}" src="${file.encoded}"/>`}
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    label="Base64 encoded. Copy-paste into 'src' attribute"
+                                    fullWidth
+                                    value={file.encoded}
+                                    margin="normal"
+                                    variant="outlined"
+                                    multiline
+                                    rows="8"
+                                />
+                                <Toolbar className={classes.toolbar}>
+                                    <Box display='flex' flexGrow={1}></Box>
+                                    <CopyButton data={file.encoded} />
+                                </Toolbar>
+                            </CardContent>
+                        </Card>
+                    </div>
+                ))}
+            </div>
+        </>
     );
 }
 

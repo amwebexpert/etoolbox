@@ -13,8 +13,10 @@ import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
 import { useStyles, imageResizer } from './styled';
 import CopyButton from '../../components/CopyButton';
+import { Helmet } from 'react-helmet';
 
 const ColorPicker: React.FC = () => {
+    const title = 'Color picker';
     const classes = useStyles();
     const [imgDataURL, setImgDataURL] = React.useState('');
     const [background, setBackground] = React.useState('');
@@ -59,58 +61,61 @@ const ColorPicker: React.FC = () => {
     }
 
     return (
-        <div className={classes.root}>
-            <FeatureTitle iconType={PaletteIcon} title="Color picker" />
+        <>
+            <Helmet title={title} />
+            <div className={classes.root}>
+                <FeatureTitle iconType={PaletteIcon} title={title} />
 
-            <Card>
-                <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
-                    {!imgDataURL && (
-                        <div>
-                            <Typography>paste image from clipboard</Typography>
-                            <Typography>or select a file</Typography>
-                            <input type="file" color="primary" accept="image/*"
-                                onChange={(e: any) => onFileSelected(e.target.files[0])}
-                                id="icon-button-file" style={{ display: 'none', }}
-                            />
-                            <label htmlFor="icon-button-file">
-                                <Button variant="contained" component="span" color="primary">
-                                    <PhotoCameraIcon />
-                                </Button>
-                            </label>
-                        </div>
-                    )}
+                <Card>
+                    <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
+                        {!imgDataURL && (
+                            <div>
+                                <Typography>paste image from clipboard</Typography>
+                                <Typography>or select a file</Typography>
+                                <input type="file" color="primary" accept="image/*"
+                                    onChange={(e: any) => onFileSelected(e.target.files[0])}
+                                    id="icon-button-file" style={{ display: 'none', }}
+                                />
+                                <label htmlFor="icon-button-file">
+                                    <Button variant="contained" component="span" color="primary">
+                                        <PhotoCameraIcon />
+                                    </Button>
+                                </label>
+                            </div>
+                        )}
+                        {imgDataURL && (
+                            <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
+                                <img id="image" src={imgDataURL} alt="Clipboard content" className={classes.image} />
+                            </Resizable>
+                        )}
+                    </Box>
+
                     {imgDataURL && (
-                        <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
-                            <img id="image" src={imgDataURL} alt="Clipboard content" className={classes.image} />
-                        </Resizable>
+                        <Box display="flex" alignItems="center" justifyContent="center">
+                            <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>Clear</Button>
+                        </Box>
                     )}
-                </Box>
 
-                {imgDataURL && (
-                    <Box display="flex" alignItems="center" justifyContent="center">
-                        <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>Clear</Button>
-                    </Box>
-                )}
+                    <CardContent>
 
-                <CardContent>
+                        <Box display="flex" alignItems="center" justifyContent="center">
+                            <div className={classes.sample} style={{ backgroundColor: background }}>
+                                {background}
+                            </div>
+                        </Box>
 
-                    <Box display="flex" alignItems="center" justifyContent="center">
-                        <div className={classes.sample} style={{ backgroundColor: background }}>
-                            {background}
-                        </div>
-                    </Box>
+                        <Box display="flex" alignItems="center" justifyContent="center">
+                            <SketchPicker color={background}
+                                onChangeComplete={(color: ColorResult) => setBackground(color.hex)} />
+                        </Box>
 
-                    <Box display="flex" alignItems="center" justifyContent="center">
-                        <SketchPicker color={background}
-                            onChangeComplete={(color: ColorResult) => setBackground(color.hex)} />
-                    </Box>
-
-                    <Box display="flex" alignItems="center" justifyContent="center" className={classes.toolbar}>
-                        <CopyButton data={background} />
-                    </Box>
-                </CardContent>
-            </Card>
-        </div>
+                        <Box display="flex" alignItems="center" justifyContent="center" className={classes.toolbar}>
+                            <CopyButton data={background} />
+                        </Box>
+                    </CardContent>
+                </Card>
+            </div>
+        </>
     );
 }
 

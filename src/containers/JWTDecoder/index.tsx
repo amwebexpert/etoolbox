@@ -18,6 +18,7 @@ import { AppState } from '../../reducers';
 import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,6 +44,7 @@ interface Props {
 }
 
 const JWTDecoder: React.FC<Props> = (props: Props) => {
+    const title = 'JWT decoder…';
     const classes = useStyles();
     const { inputText, storeInputText } = props;
     const [header, setHeader] = React.useState(services.decode(inputText, true));
@@ -54,11 +56,12 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
     }
 
     return (
-        <div className={classes.root}>
-            <FeatureTitle iconType={LockOpenIcon} title="JWT decoder" />
+        <>
+            <Helmet title={title} />
+            <div className={classes.root}>
+                <FeatureTitle iconType={LockOpenIcon} title={title} />
 
-            <form noValidate autoComplete="off">
-                <div>
+                <form noValidate autoComplete="off">
                     <TextField
                         autoFocus={isWidthUp('md', props.width)}
                         id="jwt"
@@ -72,25 +75,25 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
                         value={inputText}
                         onChange={(e) => storeInputText('lastJWT', e.target.value)}
                     />
-                </div>
-            </form>
+                </form>
 
-            <Toolbar className={classes.toolbar}>
-                <Box display='flex' flexGrow={1}></Box>
-                <CopyButton data={transformed} />
-                <Button variant="contained" color="primary" endIcon={<LockOpenIcon>Decode</LockOpenIcon>}
-                    disabled={!inputText}
-                    onClick={handleDecode}>Decode</Button>
-            </Toolbar>
+                <Toolbar className={classes.toolbar}>
+                    <Box display='flex' flexGrow={1}></Box>
+                    <CopyButton data={transformed} />
+                    <Button variant="contained" color="primary" endIcon={<LockOpenIcon>Decode</LockOpenIcon>}
+                        disabled={!inputText}
+                        onClick={handleDecode}>Decode</Button>
+                </Toolbar>
 
-            <SyntaxHighlighter language="json" style={docco} className={classes.decoded}>
-                {header}
-            </SyntaxHighlighter>
+                <SyntaxHighlighter language="json" style={docco} className={classes.decoded}>
+                    {header}
+                </SyntaxHighlighter>
 
-            <SyntaxHighlighter language="json" style={docco} className={classes.decoded}>
-                {transformed}
-            </SyntaxHighlighter>
-        </div>
+                <SyntaxHighlighter language="json" style={docco} className={classes.decoded}>
+                    {transformed}
+                </SyntaxHighlighter>
+            </div>
+        </>
     );
 }
 

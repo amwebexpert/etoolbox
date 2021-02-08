@@ -18,6 +18,7 @@ import { AppState } from '../../reducers';
 import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,6 +44,7 @@ interface Props {
 }
 
 const JSONFormatter: React.FC<Props> = (props: Props) => {
+    const title = 'JSON Formatter';
     const classes = useStyles();
     const { inputText, storeInputText } = props;
     const [formatted, setFormatted] = React.useState('');
@@ -57,37 +59,40 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
     }
 
     return (
-        <div className={classes.root}>
-            <FeatureTitle iconType={WrapTextIcon} title="JSON Formatter" />
+        <>
+            <Helmet title={title} />
+            <div className={classes.root}>
+                <FeatureTitle iconType={WrapTextIcon} title={title} />
 
-            <form noValidate autoComplete="off">
-                <div>
-                    <TextField
-                        autoFocus={isWidthUp('md', props.width)}
-                        label="JSON Content"
-                        placeholder="Paste or type the json content here"
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth={true}
-                        value={inputText}
-                        onChange={(e) => storeInputText('lastJSONFormatterValue', e.target.value)}
-                    />
-                </div>
-            </form>
+                <form noValidate autoComplete="off">
+                    <div>
+                        <TextField
+                            autoFocus={isWidthUp('md', props.width)}
+                            label="JSON Content"
+                            placeholder="Paste or type the json content here"
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth={true}
+                            value={inputText}
+                            onChange={(e) => storeInputText('lastJSONFormatterValue', e.target.value)}
+                        />
+                    </div>
+                </form>
 
-            <Toolbar className={classes.toolbar}>
-                <Box display='flex' flexGrow={1}></Box>
-                <CopyButton data={formatted} />
-                <Button endIcon={<SaveIcon>Save As...</SaveIcon>} disabled={!formatted}
-                    variant="contained" color="primary" onClick={handleSaveAs}>Save As...</Button>
-            </Toolbar>
+                <Toolbar className={classes.toolbar}>
+                    <Box display='flex' flexGrow={1}></Box>
+                    <CopyButton data={formatted} />
+                    <Button endIcon={<SaveIcon>Save As...</SaveIcon>} disabled={!formatted}
+                        variant="contained" color="primary" onClick={handleSaveAs}>Save As...</Button>
+                </Toolbar>
 
-            <SyntaxHighlighter language="json" style={docco} className={classes.formatted}>
-                {formatted}
-            </SyntaxHighlighter>
-        </div>
+                <SyntaxHighlighter language="json" style={docco} className={classes.formatted}>
+                    {formatted}
+                </SyntaxHighlighter>
+            </div>
+        </>
     );
 }
 
