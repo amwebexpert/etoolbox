@@ -1,6 +1,6 @@
 export enum MimeTypeActionTypes {
-    APPLY_FILTER = 'APPLY_FILTER',
-    APPLY_FILTER_SUCCEEDED = 'APPLY_FILTER_SUCCEEDED',
+    APPLY_FILTER = 'MimeTypeActionTypes.APPLY_FILTER',
+    APPLY_FILTER_SUCCEEDED = 'MimeTypeActionTypes.APPLY_FILTER_SUCCEEDED',
 }
 
 export interface MimeTypeApplyFilterAction {
