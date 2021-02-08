@@ -44,7 +44,6 @@ const URLParser: React.FC<Props> = (props: Props) => {
                 <div>
                     <TextField
                         autoFocus={isWidthUp('md', props.width)}
-                        id="outlined-multiline-static"
                         label="URL"
                         placeholder="Paste or type the url here"
                         multiline

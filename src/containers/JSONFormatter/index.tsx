@@ -64,7 +64,6 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
                 <div>
                     <TextField
                         autoFocus={isWidthUp('md', props.width)}
-                        id="outlined-multiline-static"
                         label="JSON Content"
                         placeholder="Paste or type the json content here"
                         multiline

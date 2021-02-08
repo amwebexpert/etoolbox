@@ -55,7 +55,6 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                 <div>
                     <TextField
                         autoFocus={isWidthUp('md', props.width)}
-                        id="outlined-multiline-static"
                         label="Content to encode/decode"
                         placeholder="Paste or type the content here"
                         multiline
