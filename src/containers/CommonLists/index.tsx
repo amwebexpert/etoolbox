@@ -17,6 +17,9 @@ enum TABS {
     HTML_ENTITIES = 1,
 }
 
+const FILTERING = 'filtering...';
+const SPACE = '\u00A0';
+
 interface Props {
     mimeTypes: Map<string, string[]>;
     filteringMimeTypes: boolean;
@@ -29,10 +32,10 @@ interface Props {
 
 const CommonLists: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const [selectedTab, setSelectedTab] = React.useState(0);
+    const [selectedTab, setSelectedTab] = React.useState(TABS.MIME_TYPES);
     const [inputFilter, setInputFilter] = React.useState('');
     const { filteringMimeTypes, mimeTypes, filteringHtmlEntities, htmlEntities, applyMimeTypesFilter, applyHtmlEntitiesFilter } = props;
-    const [status, setStatus] = React.useState('\u00A0');
+    const [status, setStatus] = React.useState(FILTERING);
 
     const handleTabSelection = (_e: any, newTab: number) => {
         setSelectedTab(newTab);
@@ -57,7 +60,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
     }
 
     React.useEffect(() => {
-        setStatus(filteringMimeTypes || filteringHtmlEntities ? 'filtering...' : '\u00A0');
+        setStatus(filteringMimeTypes || filteringHtmlEntities ? FILTERING : SPACE);
     }, [filteringHtmlEntities, filteringMimeTypes])
 
     return (
@@ -129,22 +132,24 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                                     <StyledTableCell component="th" scope="row">Description</StyledTableCell>
                                 </TableRow>
                             </TableHead>
-                            {htmlEntities && htmlEntities.map(htmlEntity => (
-                                <StyledTableRow key={htmlEntity.entityNumber}>
-                                    <StyledTableCell>
-                                        <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.character} />
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityName} />
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityNumber} />
-                                    </StyledTableCell>
-                                    <StyledTableCell>
-                                        <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.description} />
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            ))}
+                            <TableBody>
+                                {htmlEntities.map(htmlEntity => (
+                                    <StyledTableRow key={htmlEntity.entityNumber}>
+                                        <StyledTableCell>
+                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.character} />
+                                        </StyledTableCell>
+                                        <StyledTableCell>
+                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityName} />
+                                        </StyledTableCell>
+                                        <StyledTableCell>
+                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityNumber} />
+                                        </StyledTableCell>
+                                        <StyledTableCell>
+                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.description} />
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
                         </Table>
                     </TableContainer>
                 </TabPanel>

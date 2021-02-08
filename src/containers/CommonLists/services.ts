@@ -3,7 +3,7 @@ import { HtmlEntity } from '../../actions/html-entitie-actions';
 import { HTML_ENTITIES } from './html-entities';
 
 const MIME_TYPES_ARRAY: any[] = Object.entries(mime.extensions);
-const MIME_TYPES_MAP = new Map<string, string[]>(MIME_TYPES_ARRAY);
+export const MIME_TYPES_MAP = new Map<string, string[]>(MIME_TYPES_ARRAY);
 
 export function filterMimeTypes(filter: string | undefined): Map<string, string[]> {
     if (filter) {

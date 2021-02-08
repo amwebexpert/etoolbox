@@ -1,3 +1,4 @@
+import { MIME_TYPES_MAP } from './../containers/CommonLists/services';
 import { MimeTypeAction, MimeTypeActionTypes } from './../actions/mime-type-actions';
 
 export interface MimeTypesState {
@@ -7,7 +8,7 @@ export interface MimeTypesState {
 
 const initalState: MimeTypesState = {
     filtering: false,
-    elements: new Map()
+    elements: MIME_TYPES_MAP
 }
 
 function reducer(state: MimeTypesState = initalState, action: MimeTypeAction): MimeTypesState {
