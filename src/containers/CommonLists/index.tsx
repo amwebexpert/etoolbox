@@ -8,7 +8,7 @@ import { applyHtmlEntitiesFilter, HtmlEntity } from '../../actions/html-entitie-
 import { applyMimeTypesFilter } from '../../actions/mime-type-actions';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
-import { Filter } from './Filter';
+import Filter from '../../components/Filter';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 import { TabPanel } from './TabPanel';
 
@@ -37,7 +37,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
     const { filteringMimeTypes, mimeTypes, filteringHtmlEntities, htmlEntities, applyMimeTypesFilter, applyHtmlEntitiesFilter } = props;
     const [status, setStatus] = React.useState(FILTERING);
 
-    const handleTabSelection = (_e: any, newTab: number) => {
+    const onTabSelected = (_e: any, newTab: number) => {
         setSelectedTab(newTab);
         applyFilter('');
     };
@@ -80,7 +80,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                 <AppBar position="static" color="default" className={classes.tabsBar}>
                     <Tabs
                         value={selectedTab}
-                        onChange={handleTabSelection}
+                        onChange={onTabSelected}
                         indicatorColor="primary"
                         textColor="primary"
                         variant="scrollable"

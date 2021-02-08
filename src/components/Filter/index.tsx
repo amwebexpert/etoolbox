@@ -11,7 +11,7 @@ interface Props {
     onFilterChange: (newValue: string) => void;
 }
 
-export const Filter: React.FC<Props> = (props: Props) => {
+const Filter: React.FC<Props> = (props: Props) => {
     const { initialFilter, onFilterChange } = props;
     const [filter, setFilter] = React.useState('');
     const classes = useStyles();
@@ -42,3 +42,5 @@ export const Filter: React.FC<Props> = (props: Props) => {
         </FormControl>
     );
 }
+
+export default Filter;
