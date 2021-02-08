@@ -125,10 +125,10 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
             </form>
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
+                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!imgDataURL}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                 <Button variant="contained" color="primary"
-                    onClick={generate}
+                    onClick={generate} disabled={!inputText}
                     endIcon={<SelectAllIcon />}>Generate</Button>
             </Toolbar>
 

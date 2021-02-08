@@ -114,7 +114,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                     </Grid>
                     <Grid item md={8} sm={6} xs={12}>
                         <Grid container justify="flex-end" className={classes.toolbar}>
-                            <Button endIcon={<AssignmentTurnedIn />}
+                            <Button endIcon={<AssignmentTurnedIn />} disabled={!generated}
                                 variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                             <Button variant="contained" color="primary"
                                 onClick={handleSubmit(onSubmit)}

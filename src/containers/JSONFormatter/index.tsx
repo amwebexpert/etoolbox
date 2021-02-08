@@ -89,9 +89,9 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
 
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
+                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!formatted}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
-                <Button endIcon={<SaveIcon>Save As...</SaveIcon>}
+                <Button endIcon={<SaveIcon>Save As...</SaveIcon>} disabled={!formatted}
                     variant="contained" color="primary" onClick={handleSaveAs}>Save As...</Button>
             </Toolbar>
 

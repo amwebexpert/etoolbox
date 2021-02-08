@@ -80,9 +80,10 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
 
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
+                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!transformed}
                     variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                 <Button variant="contained" color="primary" endIcon={<LockOpenIcon>Decode</LockOpenIcon>}
+                    disabled={!inputText}
                     onClick={() => {
                         setHeader(services.decode(inputText, true));
                         setTransformed(services.decode(inputText, false));

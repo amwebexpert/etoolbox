@@ -57,7 +57,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
     function handleProcess(event: any) {
         event.preventDefault();
         if (!imgDataURL) {
-            setToasterState({ open: true, message: 'There is image to process', type: 'error', autoHideDuration: 2000 });
+            setToasterState({ open: true, message: 'There is no image to process', type: 'error', autoHideDuration: 2000 });
             return;
         }
 
@@ -156,10 +156,10 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                     <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
                     <Toolbar className={classes.toolbar}>
                         <Box display='flex' flexGrow={1}></Box>
-                        <Button endIcon={<AssignmentTurnedIn />}
+                        <Button endIcon={<AssignmentTurnedIn />} disabled={!imgExtractedText}
                             variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
                         <Button variant="contained" color="primary"
-                            onClick={handleProcess}
+                            onClick={handleProcess}  disabled={!imgDataURL}
                             endIcon={<TextFieldsIcon />}>Run</Button>
                     </Toolbar>
                 </CardContent>

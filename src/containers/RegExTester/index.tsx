@@ -112,7 +112,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
 
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
+                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}  disabled={!regularExpression}
                     variant="contained" color="primary" onClick={(e) => handleCopy(e, regularExpression)}>Copy</Button>
             </Toolbar>
 
@@ -129,7 +129,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
             </div>
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
+                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!extracted}
                     variant="contained" color="primary" onClick={(e) => handleCopy(e, extracted)}>Copy</Button>
             </Toolbar>
 
