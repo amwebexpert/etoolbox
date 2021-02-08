@@ -2,23 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { Box, Toolbar } from '@material-ui/core';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import TextRotationNoneIcon from '@material-ui/icons/TextRotationNone';
 import TextField from '@material-ui/core/TextField';
-import * as copy from 'copy-to-clipboard';
 import ReactHtmlParser from 'react-html-parser';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
-import { Box, Toolbar } from '@material-ui/core';
 import FeatureTitle from '../../components/FeatureTitle';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
+import CopyButton from '../../components/CopyButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,27 +47,18 @@ interface Props {
 
 const RegExTester: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { setToasterState } = useToasterUpdate();
     const { regularExpression, inputText, storeInputText } = props;
-    const [transformed, setTransformed] = React.useState('');
+    const [highlithedMatches, setHighlithedMatches] = React.useState('');
     const [extracted, setExtracted] = React.useState('');
 
     // https://www.npmjs.com/package/use-debounce
     const debounced = useDebouncedCallback(
         (regularExpression, inputText) => {
-            setTransformed(services.transform(regularExpression, inputText));
+            setHighlithedMatches(services.transform(regularExpression, inputText));
             setExtracted(services.extract(regularExpression, inputText));
         },
         300
     );
-
-    const handleCopy = (event: any, data: string | undefined) => {
-        event.preventDefault();
-        if (data) {
-            copy.default(data, { format: 'text/plain' });
-            setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
-        }
-    }
 
     React.useEffect(
         // https://www.npmjs.com/package/use-debounce
@@ -112,16 +100,15 @@ const RegExTester: React.FC<Props> = (props: Props) => {
 
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}  disabled={!regularExpression}
-                    variant="contained" color="primary" onClick={(e) => handleCopy(e, regularExpression)}>Copy</Button>
+                <CopyButton data={regularExpression} />
             </Toolbar>
 
             <div className={classes.formatted}>
-                {ReactHtmlParser(transformed)}
+                {ReactHtmlParser(highlithedMatches)}
             </div>
 
             <p>
-                Collection of values. Could be usefull for Jira tickets numbers with expressions like:
+                Collection of values. Could be usefull for Jira tickets numbers with expressions like:<br />
                 <strong>issueKey in (FS-3456, WS-3213, FS-9988)</strong>
             </p>
             <div className={classes.formatted}>
@@ -129,8 +116,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
             </div>
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!extracted}
-                    variant="contained" color="primary" onClick={(e) => handleCopy(e, extracted)}>Copy</Button>
+                <CopyButton data={extracted} />
             </Toolbar>
 
         </div>

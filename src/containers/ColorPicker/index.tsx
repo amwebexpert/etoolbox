@@ -2,35 +2,22 @@ import React from 'react';
 
 import { Box, Card, CardContent, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PaletteIcon from '@material-ui/icons/Palette';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
-import * as copy from 'copy-to-clipboard';
 import { Resizable } from "re-resizable";
 import { ColorResult, SketchPicker } from 'react-color';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useStyles, imageResizer } from './styled';
+import CopyButton from '../../components/CopyButton';
 
 const ColorPicker: React.FC = () => {
     const classes = useStyles();
-    const { setToasterState } = useToasterUpdate();
     const [imgDataURL, setImgDataURL] = React.useState('');
     const [background, setBackground] = React.useState('');
-
-    function handleCopy(event: any) {
-        event.preventDefault();
-        if (!background) {
-            return;
-        }
-
-        copy.default(background, { format: 'text/plain' });
-        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
-    }
 
     function handleClear(event: any) {
         event.preventDefault();
@@ -119,8 +106,7 @@ const ColorPicker: React.FC = () => {
                     </Box>
 
                     <Box display="flex" alignItems="center" justifyContent="center" className={classes.toolbar}>
-                        <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
-                            variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                        <CopyButton data={background} />
                     </Box>
                 </CardContent>
             </Card>

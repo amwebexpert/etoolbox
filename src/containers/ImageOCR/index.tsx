@@ -4,12 +4,10 @@ import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { Box, Card, CardContent, FormControl, InputLabel, LinearProgress, MenuItem, Select, TextField, Toolbar, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
-import * as copy from 'copy-to-clipboard';
 import { Resizable } from "re-resizable";
 
 import FeatureTitle from '../../components/FeatureTitle';
@@ -17,6 +15,7 @@ import * as services from './services';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useStyles, imageResizer } from './styled';
 import { Spinner } from '../../components/Spinner/Spinner';
+import CopyButton from '../../components/CopyButton';
 
 interface Props {
     width: Breakpoint;
@@ -40,12 +39,6 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
     const [workerStatus, setWorkerStatus] = React.useState<WorkerStatus>(INITIAL_WORKER_STATUS);
     const [imgDataURL, setImgDataURL] = React.useState('');
     const [imgExtractedText, setImgExtractedText] = React.useState('');
-
-    function handleCopy(event: any) {
-        event.preventDefault();
-        copy.default(imgExtractedText, { format: 'text/plain' });
-        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
-    }
 
     function handleClear(event: any) {
         event.preventDefault();
@@ -156,8 +149,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                     <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
                     <Toolbar className={classes.toolbar}>
                         <Box display='flex' flexGrow={1}></Box>
-                        <Button endIcon={<AssignmentTurnedIn />} disabled={!imgExtractedText}
-                            variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                        <CopyButton data={imgExtractedText} />
                         <Button variant="contained" color="primary"
                             onClick={handleProcess}  disabled={!imgDataURL}
                             endIcon={<TextFieldsIcon />}>Run</Button>

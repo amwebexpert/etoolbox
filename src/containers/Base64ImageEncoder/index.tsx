@@ -1,23 +1,19 @@
 import React, { useCallback, useState } from 'react';
+import { FileRejection, useDropzone } from 'react-dropzone';
 
-import { useDropzone, FileRejection } from 'react-dropzone';
-import * as copy from 'copy-to-clipboard';
-import { Resizable } from 're-resizable';
-import prettyBytes from 'pretty-bytes';
-
-import { Card, CardContent, Typography, TextField, Toolbar, Box, Button } from '@material-ui/core';
+import { Box, Card, CardContent, TextField, Toolbar, Typography } from '@material-ui/core';
 import PanoramaIcon from '@material-ui/icons/Panorama';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
+import prettyBytes from 'pretty-bytes';
+import { Resizable } from 're-resizable';
 
+import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
-import { EncodedFile, ErrorFile, loadFile, rejectFiles, MAX_FILE_SIZE_BYTES } from './services';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
-import { useStyles, imageResizer } from './styled';
 import { Spinner } from '../../components/Spinner/Spinner';
+import { EncodedFile, ErrorFile, loadFile, MAX_FILE_SIZE_BYTES, rejectFiles } from './services';
+import { imageResizer, useStyles } from './styled';
 
 const Base64ImageEncoder: React.FC = () => {
     const classes = useStyles();
-    const { setToasterState } = useToasterUpdate();
     const [encodedFiles, setEncodedFiles] = useState<EncodedFile[]>([]);
     const [errors, setErrors] = useState<ErrorFile[]>([]);
 
@@ -44,12 +40,6 @@ const Base64ImageEncoder: React.FC = () => {
     });
 
     const processing = acceptedFiles.length !== encodedFiles.length;
-
-    const handleCopy = (event: any, data: string) => {
-        event.preventDefault();
-        copy.default(data, { format: 'text/plain' });
-        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
-    }
 
     return (
         <div className={classes.root}>
@@ -111,9 +101,7 @@ const Base64ImageEncoder: React.FC = () => {
                             />
                             <Toolbar className={classes.toolbar}>
                                 <Box display='flex' flexGrow={1}></Box>
-                                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
-                                    onClick={(e) => handleCopy(e, file.encoded)}
-                                    variant="contained" color="primary">Copy</Button>
+                                <CopyButton data={file.encoded} />
                             </Toolbar>
                         </CardContent>
                     </Card>

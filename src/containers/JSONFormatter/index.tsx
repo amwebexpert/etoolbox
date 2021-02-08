@@ -2,24 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { Box, Toolbar } from '@material-ui/core';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import SaveIcon from '@material-ui/icons/Save';
 import WrapTextIcon from '@material-ui/icons/WrapText';
 import TextField from '@material-ui/core/TextField';
-import * as copy from 'copy-to-clipboard';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
-import { Box, Toolbar } from '@material-ui/core';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import FeatureTitle from '../../components/FeatureTitle';
+import CopyButton from '../../components/CopyButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,19 +44,12 @@ interface Props {
 
 const JSONFormatter: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { setToasterState } = useToasterUpdate();
     const { inputText, storeInputText } = props;
     const [formatted, setFormatted] = React.useState('');
 
     React.useEffect(() => {
         setFormatted(services.formatJson(inputText));
     }, [inputText])
-
-    const handleCopy = (event: any) => {
-        event.preventDefault();
-        copy.default(formatted, { format: 'text/plain' });
-        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
-    }
 
     const handleSaveAs = (event: any) => {
         event.preventDefault();
@@ -89,8 +80,7 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
 
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!formatted}
-                    variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                <CopyButton data={formatted} />
                 <Button endIcon={<SaveIcon>Save As...</SaveIcon>} disabled={!formatted}
                     variant="contained" color="primary" onClick={handleSaveAs}>Save As...</Button>
             </Toolbar>

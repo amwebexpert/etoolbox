@@ -3,21 +3,19 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import QRCode from 'qrcode';
-import * as copy from 'copy-to-clipboard';
 
 import { Box, Button, Card, CardContent, Grid, TextField, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
 
 import { setTextAction } from '../../actions/text-actions';
 import FeatureTitle from '../../components/FeatureTitle';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { AppState } from '../../reducers';
 
 import * as services from './services';
+import CopyButton from '../../components/CopyButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,15 +55,8 @@ const DEFAULT_OPTIONS = {
 
 const QRCodeGenerator: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { setToasterState } = useToasterUpdate();
     const { inputText, inputOptions, storeInputText } = props;
     const [imgDataURL, setImgDataURL] = React.useState('');
-
-    function handleCopy(event: any) {
-        event.preventDefault();
-        copy.default(imgDataURL, { format: 'text/plain' });
-        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
-    }
 
     function generate() {
         if (!inputText) {
@@ -125,8 +116,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
             </form>
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!imgDataURL}
-                    variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                <CopyButton data={imgDataURL} />
                 <Button variant="contained" color="primary"
                     onClick={generate} disabled={!inputText}
                     endIcon={<SelectAllIcon />}>Generate</Button>

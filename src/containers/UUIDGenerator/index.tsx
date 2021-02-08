@@ -6,14 +6,11 @@ import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import SimCardIcon from '@material-ui/icons/SimCard';
-
-import * as copy from 'copy-to-clipboard';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
+import CopyButton from '../../components/CopyButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
     },
-    formatted: {
+    generated: {
         marginTop: theme.spacing(2),
         padding: theme.spacing(1),
         border: '1px solid grey',
@@ -50,14 +47,7 @@ interface Props {
 const UUIDGenerator: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { handleSubmit, errors, control } = useForm();
-    const { setToasterState } = useToasterUpdate();
     const [generated, setGenerated] = React.useState(services.generate(4, 1));
-
-    const handleCopy = (event: any) => {
-        event.preventDefault();
-        copy.default(generated, { format: 'text/plain' });
-        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
-    }
 
     const onSubmit = (data: UUIDForm) => {
         setGenerated(services.generate(data.version, data.quantity));
@@ -114,8 +104,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                     </Grid>
                     <Grid item md={8} sm={6} xs={12}>
                         <Grid container justify="flex-end" className={classes.toolbar}>
-                            <Button endIcon={<AssignmentTurnedIn />} disabled={!generated}
-                                variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                            <CopyButton data={generated} />
                             <Button variant="contained" color="primary"
                                 onClick={handleSubmit(onSubmit)}
                                 endIcon={<SimCardIcon />}>Generate</Button>
@@ -124,7 +113,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                 </Grid>
             </form>
 
-            <div className={classes.formatted}>
+            <div className={classes.generated}>
                 <pre>{generated}</pre>
             </div>
         </div>

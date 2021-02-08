@@ -6,25 +6,23 @@ import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import LinkIcon from '@material-ui/icons/Link';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import TextField from '@material-ui/core/TextField';
-import * as copy from 'copy-to-clipboard';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
 import { Box, Toolbar } from '@material-ui/core';
 import FeatureTitle from '../../components/FeatureTitle';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
+import CopyButton from '../../components/CopyButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
     },
-    formatted: {
+    encodedResult: {
         padding: theme.spacing(1),
         border: '1px solid grey',
         whiteSpace: 'normal',
@@ -47,15 +45,8 @@ interface Props {
 
 const Base64Encoder: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { setToasterState } = useToasterUpdate();
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState(services.transform(inputText, true));
-
-    const handleCopy = (event: any) => {
-        event.preventDefault();
-        copy.default(transformed, { format: 'text/plain' });
-        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
-    }
 
     return (
         <div className={classes.root}>
@@ -81,15 +72,14 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
 
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!transformed}
-                    variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                <CopyButton data={transformed} />
                 <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
                     onClick={() => setTransformed(services.transform(inputText, true))}>Enc.</Button>
                 <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!transformed}
                     onClick={() => setTransformed(services.transform(inputText, false))}>Dec.</Button>
             </Toolbar>
 
-            <div className={classes.formatted}>
+            <div className={classes.encodedResult}>
                 {transformed}
             </div>
         </div>

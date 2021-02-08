@@ -2,29 +2,28 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
+import { Box, Toolbar } from '@material-ui/core';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import TextField from '@material-ui/core/TextField';
-import * as copy from 'copy-to-clipboard';
+
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
-import { Box, Toolbar } from '@material-ui/core';
 import FeatureTitle from '../../components/FeatureTitle';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
+import CopyButton from '../../components/CopyButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
     },
-    formatted: {
+    decoded: {
         padding: theme.spacing(1),
         border: '1px solid grey',
     },
@@ -45,15 +44,13 @@ interface Props {
 
 const JWTDecoder: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const { setToasterState } = useToasterUpdate();
     const { inputText, storeInputText } = props;
     const [header, setHeader] = React.useState(services.decode(inputText, true));
     const [transformed, setTransformed] = React.useState(services.decode(inputText, false));
 
-    const handleCopy = (event: any) => {
-        event.preventDefault();
-        copy.default(transformed, { format: 'text/plain' });
-        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
+    function handleDecode() {
+        setHeader(services.decode(inputText, true));
+        setTransformed(services.decode(inputText, false));
     }
 
     return (
@@ -80,21 +77,17 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
 
             <Toolbar className={classes.toolbar}>
                 <Box display='flex' flexGrow={1}></Box>
-                <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>} disabled={!transformed}
-                    variant="contained" color="primary" onClick={handleCopy}>Copy</Button>
+                <CopyButton data={transformed} />
                 <Button variant="contained" color="primary" endIcon={<LockOpenIcon>Decode</LockOpenIcon>}
                     disabled={!inputText}
-                    onClick={() => {
-                        setHeader(services.decode(inputText, true));
-                        setTransformed(services.decode(inputText, false));
-                    }}>Decode</Button>
+                    onClick={handleDecode}>Decode</Button>
             </Toolbar>
 
-            <SyntaxHighlighter language="json" style={docco} className={classes.formatted}>
+            <SyntaxHighlighter language="json" style={docco} className={classes.decoded}>
                 {header}
             </SyntaxHighlighter>
 
-            <SyntaxHighlighter language="json" style={docco} className={classes.formatted}>
+            <SyntaxHighlighter language="json" style={docco} className={classes.decoded}>
                 {transformed}
             </SyntaxHighlighter>
         </div>
