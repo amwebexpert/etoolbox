@@ -18,8 +18,11 @@ const CopyButton: React.FC<Props> = (props: Props) => {
             return;
         }
 
+        const feedback = data.substr(0, 20);
+        const message = `Content copied into clipboard: ${feedback} …`;
+
         copy.default(data, { format: 'text/plain' });
-        setToasterState({ open: true, message: 'Content copied into clipboard', type: 'success', autoHideDuration: 2000 });
+        setToasterState({ open: true, message, type: 'success', autoHideDuration: 2000 });
     }
 
     return (
