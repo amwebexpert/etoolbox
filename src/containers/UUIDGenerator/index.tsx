@@ -51,7 +51,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { handleSubmit, errors, control } = useForm();
     const { setToasterState } = useToasterUpdate();
-    const [generated, setGenerated] = React.useState('');
+    const [generated, setGenerated] = React.useState(services.generate(4, 1));
 
     const handleCopy = (event: any) => {
         event.preventDefault();
@@ -101,7 +101,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                                         helperText={errors.quantity ? 'valid range: [1..9999]' : null} />
                                 }
                                 control={control}
-                                defaultValue="10"
+                                defaultValue="1"
                                 rules={{
                                     required: true,
                                     valueAsNumber: true,

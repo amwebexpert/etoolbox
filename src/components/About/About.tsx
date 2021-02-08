@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 
 import AppDetail from './AppDetail';
 import Banner from './icon.png';
-import Counter from '../../containers/Counter/Counter';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,7 +51,6 @@ export default function About() {
 
           </CardContent>
         </CardActionArea>
-        <Counter />
       </Card>
     </Grid>
   );
