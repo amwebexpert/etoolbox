@@ -16,7 +16,13 @@ const FilterStats: React.FC<Props> = (props: Props) => {
     const [working, setWorking] = React.useState(SPACE);
     const { count, searching } = props;
 
-    React.useEffect(() => setWorking(searching ? FILTERING : SPACE), [searching]);
+    React.useEffect(() => {
+        if (searching) {
+            setWorking(FILTERING);
+        } else {
+            setTimeout(() => setWorking(SPACE), 800);
+        }
+    }, [searching]);
 
     return (
         <div className={classes.root}>

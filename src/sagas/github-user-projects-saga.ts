@@ -6,9 +6,14 @@ import { listGithubUserProjectsSucceeded, GithubUserProjectsActionTypes,
 import { GithubUserProject } from '../types/github-types';
 
 function* listGithubUserProjects(action: ListGithubUserProjectsRequestedAction) {
-  const url = `https://api.github.com/users/${action.username}/repos?type=all&sort=updated`;
+  const username = action.username;
+  if (!username || username.trim().length === 0) {
+    yield put(listGithubUserProjectsSucceeded([]));
+    return;
+  }
 
   try {
+    const url = `https://api.github.com/users/${username}/repos?type=all&sort=updated`;
     const response: AxiosResponse<GithubUserProject[]> = yield call(axios.get, url);
     yield put(listGithubUserProjectsSucceeded(response.data));
 
