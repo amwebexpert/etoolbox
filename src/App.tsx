@@ -36,6 +36,7 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
 import TocIcon from '@material-ui/icons/Toc';
 import GithubIcon from '@material-ui/icons/GitHub';
+import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
 
 import About from './components/About/About';
 import Home from './components/Home';
@@ -54,6 +55,7 @@ import ColorPicker from './containers/ColorPicker';
 import QRCodeGenerator from './containers/QRCodeGenerator';
 import CommonLists from './containers/CommonLists';
 import GithubUserProjects from './containers/GithubUserProjects';
+import JSONConverter from './containers/JSONConverter';
 
 interface Props {
   width: Breakpoint;
@@ -180,6 +182,14 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary={"JSON Formatter"} />
               </ListItem>
             </NavLink>
+            <NavLink to="/JSONConverter" title="JSON Converter" className={classes.link} activeClassName={classes.linkActive}>
+              <ListItem button>
+                <ListItemIcon>
+                  <DeveloperModeIcon />
+                </ListItemIcon>
+                <ListItemText primary={"JSON Converter"} />
+              </ListItem>
+            </NavLink>
             <NavLink to="/RegExTester" title="Regular expression tester" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
@@ -265,6 +275,7 @@ const App: React.FC<Props> = (props: Props) => {
               <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
               <Route exact path="/Base64ImageEncoder"><Base64ImageEncoder /></Route>
               <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
+              <Route exact path="/JSONConverter"><JSONConverter /></Route>
               <Route exact path="/RegExTester"><RegExTester /></Route>
               <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
               <Route exact path="/JWTDecoder"><JWTDecoder /></Route>
