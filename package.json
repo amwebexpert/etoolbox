@@ -99,6 +99,7 @@
     "pretty-bytes": "^5.5.0",
     "preval.macro": "^5.0.0",
     "qrcode": "^1.4.4",
+    "quicktype-core": "^6.0.69",
     "re-resizable": "^6.9.0",
     "react": "^17.0.1",
     "react-color": "^2.19.3",

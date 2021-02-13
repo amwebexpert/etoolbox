@@ -51,7 +51,7 @@ export default function AppDetail() {
           </StyledTableRow>
           <StyledTableRow key="versionDate">
             <StyledTableCell component="th" scope="row">
-              Build UTC date
+              Updated
             </StyledTableCell>
             <StyledTableCell align="right" title={getBuildUTCTimestamp()} onClick={onBuildDateClick}>
               {getBuildUTCDate()}
