@@ -23,7 +23,7 @@ export const Spinner: React.FC<Props> = (props: Props) => {
 
     return (
         <LoadingOverlay classNamePrefix='spinner_' className={classes.root}
-            active={props.active} spinner={<ScaleLoader color="#586ecf" />}>
+            active={props.active} spinner={<ScaleLoader color="#bf3a2b" />}>
             {props.children}
         </LoadingOverlay>
     );

@@ -1,10 +1,17 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(1.5),
+    },
+    description: {
+        margin: theme.spacing(3),
+    },
+    featuresList: {
+        margin: theme.spacing(3),
     },
 }));
 
@@ -14,23 +21,30 @@ const Home: React.FC = () => {
 
     return (
         <Paper className={classes.root}>
-            <p>Welcome to the a collection of web developer utilities packaged as a desktop app!</p>
+            <Typography variant="body1" align="center" className={classes.description}>
+                Welcome to the a collection of web developer utilities packaged as a desktop app!
+            </Typography>
 
-            <h2>Features:</h2>
-            <ul>
-                <li>URL (and query string) Parser</li>
-                <li>JSON Formatter/Validator</li>
-                <li>URL Encoder/Decoder</li>
-                <li>Base64 string encoder/decoder</li>
-                <li>Regular expression builder/tester</li>
-                <li>UUID Generator</li>
-                <li>JWT Debugger</li>
-                <li>Base64 image encoder</li>
-                <li>QR Code generator (barcodes)</li>
-                <li>Image OCR (text extraction)</li>
-                <li>Color picker</li>
-                <li>Common web lists like HTML Entities, Mime-Types, ...</li>
-            </ul>
+            <div className={classes.featuresList}>
+
+                <Typography variant="h5">Features…</Typography>
+
+                <ul>
+                    <li>URL (and query string) Parser</li>
+                    <li>JSON Formatter/Validator</li>
+                    <li>URL Encoder/Decoder</li>
+                    <li>Base64 string encoder/decoder</li>
+                    <li>Regular expression builder/tester</li>
+                    <li>UUID Generator</li>
+                    <li>JWT Debugger</li>
+                    <li>Base64 image encoder</li>
+                    <li>QR Code generator (barcodes)</li>
+                    <li>Image OCR (text extraction)</li>
+                    <li>Color picker</li>
+                    <li>Common web lists like HTML Entities, Mime-Types, ...</li>
+                    <li>Github search user projects</li>
+                </ul>
+            </div>
         </Paper>
     );
 }

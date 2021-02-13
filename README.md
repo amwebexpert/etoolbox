@@ -68,7 +68,6 @@ TODOs
 List of future tools:
 
 * JSON to Javascript Object
-* List Github projects of a given username
 
 ## License
 

@@ -23,7 +23,7 @@ export const GlobalSpinner: React.FC = ({ children }) => {
 
     return (
         <LoadingOverlay classNamePrefix='globalSpinner_' className={classes.root} 
-            spinner={<ScaleLoader color="#586ecf" />} active={globalSpinnerState.open}>
+            spinner={<ScaleLoader color="#bf3a2b" />} active={globalSpinnerState.open}>
             {children}
         </LoadingOverlay>
     );
