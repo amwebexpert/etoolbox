@@ -56,7 +56,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
             return;
         }
 
-        setImgExtractedText('Processing the image, please wait...');
+        setImgExtractedText('Processing the image, please wait…');
 
         const imageBuffer = Buffer.from(imgDataURL.split(',')[1], 'base64');
         services.processOCR(language, imageBuffer, logger, setImgExtractedText)

@@ -87,6 +87,7 @@
     "@types/node": "^14.14.13",
     "@types/react": "17.0.0",
     "@types/react-dom": "17.0.0",
+    "axios": "^0.21.1",
     "connected-react-router": "^6.8.0",
     "copy-to-clipboard": "^3.3.1",
     "electron-devtools-installer": "^3.1.1",

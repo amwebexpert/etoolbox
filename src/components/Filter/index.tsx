@@ -7,14 +7,16 @@ import { useStyles } from './styles';
 import { useDebouncedCallback } from 'use-debounce/lib';
 
 interface Props {
+    label?: string;
     initialFilter: string;
     onFilterChange: (newValue: string) => void;
 }
 
 const Filter: React.FC<Props> = (props: Props) => {
-    const { initialFilter, onFilterChange } = props;
+    const { initialFilter, label, onFilterChange } = props;
     const [filter, setFilter] = React.useState('');
     const classes = useStyles();
+    const inputLabel = label ? label : 'Search';
 
     // https://www.npmjs.com/package/use-debounce
     const debounced = useDebouncedCallback(
@@ -27,7 +29,7 @@ const Filter: React.FC<Props> = (props: Props) => {
 
     return (
         <FormControl className={clsx(classes.margin, classes.textField)}>
-            <InputLabel htmlFor="searchField">Search</InputLabel>
+            <InputLabel htmlFor="searchField">{inputLabel}</InputLabel>
             <Input
                 id="searchField"
                 type="text"

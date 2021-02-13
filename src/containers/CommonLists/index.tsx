@@ -18,7 +18,7 @@ enum TABS {
     HTML_ENTITIES = 1,
 }
 
-const FILTERING = 'filtering...';
+const FILTERING = 'filtering…';
 const SPACE = '\u00A0';
 
 interface Props {

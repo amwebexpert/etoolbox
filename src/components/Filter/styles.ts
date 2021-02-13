@@ -5,6 +5,6 @@ export const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
     },
     textField: {
-        width: '15ch',
+        width: '25ch',
     },
 }));

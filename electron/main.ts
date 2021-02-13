@@ -171,7 +171,7 @@ function setupMenu() {
       label: '?',
       submenu: [
         {
-          label: 'About...',
+          label: 'About…',
           accelerator: 'Ctrl+Alt+A',
           click: () => {
             getOrCreateWindow();
@@ -182,7 +182,7 @@ function setupMenu() {
           type: 'separator'
         },
         {
-          label: "Dev tools...",
+          label: "Dev tools…",
           accelerator: 'Ctrl+Alt+D',
           click: () => {
             getOrCreateWindow();
@@ -200,7 +200,7 @@ function setupMenu() {
 function setupTray() {
   const template: any = [
     {
-      label: 'About...',
+      label: 'About…',
       click: () => {
         getOrCreateWindow().show();
         getOrCreateWindow().webContents.send('navigateTo', '/about');
@@ -210,7 +210,7 @@ function setupTray() {
       type: 'separator'
     },
     {
-      label: "Dev tools...",
+      label: "Dev tools…",
       click: () => {
         getOrCreateWindow().show();
         getOrCreateWindow().webContents.toggleDevTools();

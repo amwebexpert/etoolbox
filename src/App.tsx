@@ -35,6 +35,7 @@ import TextFieldsIcon from '@material-ui/icons/TextFields';
 import PaletteIcon from '@material-ui/icons/Palette';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
 import TocIcon from '@material-ui/icons/Toc';
+import GithubIcon from '@material-ui/icons/GitHub';
 
 import About from './components/About/About';
 import Home from './components/Home';
@@ -52,6 +53,7 @@ import ImageOCR from './containers/ImageOCR';
 import ColorPicker from './containers/ColorPicker';
 import QRCodeGenerator from './containers/QRCodeGenerator';
 import CommonLists from './containers/CommonLists';
+import GithubUserProjects from './containers/GithubUserProjects';
 
 interface Props {
   width: Breakpoint;
@@ -106,7 +108,7 @@ const App: React.FC<Props> = (props: Props) => {
               Web Toolbox {process.env.REACT_APP_VERSION}
             </Typography>
 
-            <IconButton color="inherit" title="About this application...">
+            <IconButton color="inherit" title="About this application…">
               <NavLink to="/about" className={classes.linkMenu}>
                 <InfoIcon />
               </NavLink>
@@ -234,12 +236,20 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary="Color picker" />
               </ListItem>
             </NavLink>
-            <NavLink to="/CommonLists" title="Html entities, Mime-types, and more..." className={classes.link} activeClassName={classes.linkActive}>
+            <NavLink to="/CommonLists" title="Html entities, Mime-types, and more…" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <TocIcon />
                 </ListItemIcon>
                 <ListItemText primary="Mime-types, HTML" />
+              </ListItem>
+            </NavLink>
+            <NavLink to="/GithubUserProjects" title="Github user projects" className={classes.link} activeClassName={classes.linkActive}>
+              <ListItem button>
+                <ListItemIcon>
+                  <GithubIcon />
+                </ListItemIcon>
+                <ListItemText primary="Github search" />
               </ListItem>
             </NavLink>
           </List>
@@ -262,6 +272,7 @@ const App: React.FC<Props> = (props: Props) => {
               <Route exact path="/ImageOCR"><ImageOCR /></Route>
               <Route exact path="/ColorPicker"><ColorPicker /></Route>
               <Route exact path="/CommonLists"><CommonLists /></Route>
+              <Route exact path="/GithubUserProjects"><GithubUserProjects /></Route>
 
               {/** Default route is the home */}
               <Route component={Home} />

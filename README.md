@@ -63,6 +63,13 @@ This creates the following installers:
 * Linux: `build/Web Toolbox-<version>.AppImage`
 * MacOS: `build/Web Toolbox-<version>.dmg`
 
+TODOs
+
+List of future tools:
+
+* JSON to Javascript Object
+* List Github projects of a given username
+
 ## License
 
 This project is licensed under the MIT license, Copyright (c) 2020 André Masson. For more information see `LICENSE.md`.
