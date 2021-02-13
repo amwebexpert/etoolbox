@@ -10,7 +10,15 @@ async function quicktypeJSON(targetLanguage: string, typeName: string, jsonStrin
     const inputData = new InputData();
     inputData.addInput(jsonInput);
 
-    return await quicktype({ inputData, lang: targetLanguage });
+    return await quicktype({
+        inputData,
+        lang: targetLanguage,
+        rendererOptions: {
+            'just-types': 'true',
+            'acronym-style': 'original',
+            'lombok': 'true',
+        },
+    });
 }
 
 export async function transform(jsonString: string | undefined, targetLanguage: string): Promise<string> {
