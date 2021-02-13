@@ -28,7 +28,7 @@ const Filter: React.FC<Props> = (props: Props) => {
     React.useEffect(() => debounced.callback(filter), [filter, debounced]);
 
     return (
-        <FormControl className={clsx(classes.margin, classes.textField)}>
+        <FormControl className={classes.root}>
             <InputLabel htmlFor="searchField">{inputLabel}</InputLabel>
             <Input
                 id="searchField"

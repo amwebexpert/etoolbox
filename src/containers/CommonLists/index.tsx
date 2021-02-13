@@ -1,4 +1,4 @@
-import { AppBar, Box, Paper, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Tabs, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Box, Paper, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Tabs, Toolbar } from '@material-ui/core';
 import TocIcon from '@material-ui/icons/Toc';
 import React from 'react';
 import Highlighter from 'react-highlight-words';
@@ -12,14 +12,12 @@ import Filter from '../../components/Filter';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 import { TabPanel } from './TabPanel';
 import { Helmet } from 'react-helmet';
+import FilterStats from '../../components/FilterStats';
 
 enum TABS {
     MIME_TYPES = 0,
     HTML_ENTITIES = 1,
 }
-
-const FILTERING = 'filtering…';
-const SPACE = '\u00A0';
 
 interface Props {
     mimeTypes: Map<string, string[]>;
@@ -37,7 +35,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
     const [selectedTab, setSelectedTab] = React.useState(TABS.MIME_TYPES);
     const [inputFilter, setInputFilter] = React.useState('');
     const { filteringMimeTypes, mimeTypes, filteringHtmlEntities, htmlEntities, applyMimeTypesFilter, applyHtmlEntitiesFilter } = props;
-    const [status, setStatus] = React.useState(FILTERING);
+    const searching = filteringMimeTypes || filteringHtmlEntities;
 
     const onTabSelected = (_e: any, newTab: number) => {
         setSelectedTab(newTab);
@@ -61,10 +59,6 @@ const CommonLists: React.FC<Props> = (props: Props) => {
         }
     }
 
-    React.useEffect(() => {
-        setStatus(filteringMimeTypes || filteringHtmlEntities ? FILTERING : SPACE);
-    }, [filteringHtmlEntities, filteringMimeTypes])
-
     return (
         <>
             <Helmet title={title} />
@@ -72,12 +66,9 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                 <FeatureTitle iconType={TocIcon} title={title} />
 
                 <Toolbar className={classes.toolbar}>
-                    <Box>
-                        <Typography>Count: <strong>{getElementsCount()}</strong></Typography>
-                        <Typography>{status}</Typography>
-                    </Box>
-                    <Box display='flex' flexGrow={1}></Box>
                     <Filter initialFilter={inputFilter} onFilterChange={applyFilter} />
+                    <Box display='flex' flexGrow={1}></Box>
+                    <FilterStats count={getElementsCount()} searching={searching} />
                 </Toolbar>
 
                 <div className={classes.tabsPanel}>

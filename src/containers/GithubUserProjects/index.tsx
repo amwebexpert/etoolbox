@@ -13,6 +13,8 @@ import { listGithubUserProjectsRequested } from '../../actions/github-userprojec
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 import { GithubUserProject } from '../../types/github-types';
 import { useGlobalSpinnerUpdate } from '../../components/Spinner/GlobalSpinnerProvider';
+import { SPACE } from '../../constants';
+import FilterStats from '../../components/FilterStats';
 
 interface Props {
     projects: GithubUserProject[];
@@ -48,9 +50,9 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
                 <FeatureTitle iconType={GithubIcon} title={title} />
 
                 <Toolbar className={classes.toolbar}>
-                    <Typography>Count: <strong>{projects.length}</strong></Typography>
-                    <Box display='flex' flexGrow={1}></Box>
                     <Filter label="Username" initialFilter={inputFilter} onFilterChange={applyFilter} />
+                    <Box display='flex' flexGrow={1}></Box>
+                    <FilterStats count={projects.length} searching={searching} />
                 </Toolbar>
 
                 <TableContainer component={Paper}>
