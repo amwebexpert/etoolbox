@@ -1,5 +1,12 @@
 import { quicktype, InputData, jsonInputForTargetLanguage } from 'quicktype-core';
 
+export interface ConvertionContext {
+    inputText: string;
+    sourceType: string;
+    targetLanguage: string;
+    rootClassName: string;
+}
+
 async function quicktypeJSON(targetLanguage: string, typeName: string, jsonString: string) {
     // We could add multiple samples for the same desired
     // type, or many sources for other types. Here we're
@@ -21,13 +28,16 @@ async function quicktypeJSON(targetLanguage: string, typeName: string, jsonStrin
     });
 }
 
-export async function transform(jsonString: string | undefined, targetLanguage: string): Promise<string> {
-    if (!jsonString) {
+export async function transform(data: ConvertionContext): Promise<string> {
+    if (!data.inputText || data.inputText.trim().length === 0) {
         return '';
     }
 
+    // Current version only handle JSON:
+    // TODO handle data.sourceType
+
     try {
-        const { lines } = await quicktypeJSON(targetLanguage, 'GeneratedParentNode', jsonString);
+        const { lines } = await quicktypeJSON(data.targetLanguage, data.rootClassName, data.inputText);
         return lines.join('\n');
     } catch (e) {
         return e.toString();

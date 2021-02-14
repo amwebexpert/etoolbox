@@ -15,13 +15,20 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
-import { Box, Toolbar } from '@material-ui/core';
+import { Box, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, Toolbar } from '@material-ui/core';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
+import { Controller, useForm } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        margin: theme.spacing(1),
+    },
+    form: {
+        marginTop: theme.spacing(2),
+    },
+    formControl: {
         margin: theme.spacing(1),
     },
     encodedResult: {
@@ -48,13 +55,15 @@ interface Props {
 const JSONConverter: React.FC<Props> = (props: Props) => {
     const title = 'JSON Converter';
     const classes = useStyles();
+    const { handleSubmit, errors, control } = useForm();
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState('');
 
-    function handleTransform() {
-        services.transform(inputText, 'java')
-            .then(setTransformed);
-    }
+    const onSubmit = (data: services.ConvertionContext) => {
+        services.transform(data).then(setTransformed);
+        console.log(data);
+        console.log(control.getValues().targetLanguage);
+    };
 
     return (
         <>
@@ -62,31 +71,108 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
             <div className={classes.root}>
                 <FeatureTitle iconType={DeveloperModeIcon} title={title} />
 
-                <form noValidate autoComplete="off">
-                    <div>
-                        <TextField
-                            autoFocus={isWidthUp('md', props.width)}
-                            label="JSON data"
-                            placeholder="Paste or type the JSON here"
-                            multiline
-                            rows={4}
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth={true}
-                            value={inputText}
-                            onChange={(e) => storeInputText('lastJSON2Convert', e.target.value)}
+                <div className={classes.form}>
+                    <Grid container spacing={3}>
+                        <Grid item>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="sourceType">Source type</InputLabel>
+                                <Controller
+                                    control={control}
+                                    name="sourceType"
+                                    defaultValue="json"
+                                    as={
+                                        <Select labelId="sourceType">
+                                            <MenuItem value="json">JSON</MenuItem>
+                                        </Select>
+                                    }
+                                />
+                                <FormHelperText>Input format or language</FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        <Grid item>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="targetLanguage">Target language</InputLabel>
+                                <Controller
+                                    control={control}
+                                    name="targetLanguage"
+                                    defaultValue="java"
+                                    as={
+                                        <Select labelId="targetLanguage">
+                                            <MenuItem value="csharp">C#</MenuItem>
+                                            <MenuItem value="cpp">C++</MenuItem>
+                                            <MenuItem value="dart">Dart</MenuItem>
+                                            <MenuItem value="elm">Elm</MenuItem>
+                                            <MenuItem value="flow">Flow</MenuItem>
+                                            <MenuItem value="go">Go</MenuItem>
+                                            <MenuItem value="java">Java</MenuItem>
+                                            <MenuItem value="kotlin">Kotlin</MenuItem>
+                                            <MenuItem value="objectivec">ObjectiveC</MenuItem>
+                                            <MenuItem value="python">Python</MenuItem>
+                                            <MenuItem value="rust">Rust</MenuItem>
+                                            <MenuItem value="typescript">TypeScript</MenuItem>
+                                            <MenuItem value="swift">Swift</MenuItem>
+                                        </Select>
+                                    }
+                                />
+                                <FormHelperText>The target language of the convertion</FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        <Grid item>
+                            <FormControl className={classes.formControl}>
+                                <Controller
+                                    name="rootClassName"
+                                    as={
+                                        <TextField label="Root class name" error={!!errors.rootClassName} type="text"
+                                            helperText={errors.rootClassName ? 'field is required' : null} />
+                                    }
+                                    control={control}
+                                    defaultValue="Root"
+                                    rules={{
+                                        required: true,
+                                    }}
+                                />
+                                <FormHelperText>Name of the parent class</FormHelperText>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+
+                    <FormControl className={classes.formControl} fullWidth={true}>
+                        <Controller
+                            name="inputText"
+                            as={
+                                <TextField
+                                    autoFocus={isWidthUp('md', props.width)}
+                                    label="JSON data"
+                                    placeholder="Paste or type the JSON here"
+                                    multiline
+                                    rows={4}
+                                    variant="outlined"
+                                    margin="normal"
+                                    value={inputText}
+                                    error={!!errors.rootClassName}
+                                    helperText={errors.rootClassName ? 'field is required' : null}
+                                    onChange={(e) => storeInputText('lastJSON2Convert', e.target.value)}
+                                />
+                            }
+                            control={control}
+                            defaultValue={inputText || 'Root'}
+                            rules={{
+                                required: true,
+                            }}
                         />
-                    </div>
-                </form>
+                        <FormHelperText>Data to convert into the target language</FormHelperText>
+                    </FormControl>
+
+                </div>
 
                 <Toolbar className={classes.toolbar}>
                     <Box display='flex' flexGrow={1}></Box>
                     <CopyButton data={transformed} />
                     <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
-                        onClick={handleTransform}>Enc.</Button>
+                        onClick={handleSubmit(onSubmit)}>Enc.</Button>
                 </Toolbar>
 
-                <SyntaxHighlighter language="java" className={classes.encodedResult}>
+                <SyntaxHighlighter language={control.getValues().targetLanguage} className={classes.encodedResult}>
                     {transformed}
                 </SyntaxHighlighter>
             </div>

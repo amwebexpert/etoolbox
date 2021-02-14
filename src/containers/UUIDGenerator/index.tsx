@@ -63,7 +63,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
             <div className={classes.root}>
                 <FeatureTitle iconType={SimCardIcon} title={title} />
 
-                <form noValidate autoComplete="off" className={classes.form}>
+                <div className={classes.form}>
                     <Grid container spacing={1}>
                         <Grid item md={2} sm={3} xs={6}>
                             <FormControl className={classes.formControl}>
@@ -117,7 +117,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                             </Grid>
                         </Grid>
                     </Grid>
-                </form>
+                </div>
 
                 <div className={classes.generated}>
                     <pre>{generated}</pre>
