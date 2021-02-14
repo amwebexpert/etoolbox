@@ -27,6 +27,8 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
         padding: theme.spacing(1),
         border: '1px solid grey',
+        width: '100%',
+        overflow: 'auto',
     },
     toolbar: {
         '& > *': {

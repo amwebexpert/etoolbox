@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
     formatted: {
         border: '1px solid grey',
         maxHeight: '500px',
+        width: '100%',
+        overflow: 'auto',
     },
     toolbar: {
         margin: 0,

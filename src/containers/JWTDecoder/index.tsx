@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
     decoded: {
         padding: theme.spacing(1),
         border: '1px solid grey',
+        width: '100%',
+        overflow: 'auto',
     },
     toolbar: {
         margin: 0,
@@ -84,13 +86,17 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
                         onClick={handleDecode}>Decode</Button>
                 </Toolbar>
 
-                <SyntaxHighlighter language="json" className={classes.decoded}>
-                    {header}
-                </SyntaxHighlighter>
+                <div className={classes.decoded}>
+                    <div>
+                        <SyntaxHighlighter language="json">
+                            {header}
+                        </SyntaxHighlighter>
 
-                <SyntaxHighlighter language="json" className={classes.decoded}>
-                    {transformed}
-                </SyntaxHighlighter>
+                        <SyntaxHighlighter language="json">
+                            {transformed}
+                        </SyntaxHighlighter>
+                    </div>
+                </div>
             </div>
         </>
     );
