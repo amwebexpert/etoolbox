@@ -8,7 +8,6 @@ import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import SaveIcon from '@material-ui/icons/Save';
 import WrapTextIcon from '@material-ui/icons/WrapText';
 import TextField from '@material-ui/core/TextField';
@@ -88,7 +87,7 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
                         variant="contained" color="primary" onClick={handleSaveAs}>Save As...</Button>
                 </Toolbar>
 
-                <SyntaxHighlighter language="json" style={docco} className={classes.formatted}>
+                <SyntaxHighlighter language="json" className={classes.formatted}>
                     {formatted}
                 </SyntaxHighlighter>
             </div>

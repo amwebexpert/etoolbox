@@ -30,4 +30,11 @@ export const useStyles = makeStyles((theme) => ({
     tableHeader: {
         backgroundColor: theme.palette.grey[300],
     },
+    dateColumn: {
+        textAlign: 'center',
+        minWidth: 120,
+    },
+    watchColumn: {
+        textAlign: 'center',
+    },
 }));

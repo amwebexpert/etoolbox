@@ -44,7 +44,7 @@ interface Props {
 }
 
 const URLEncoder: React.FC<Props> = (props: Props) => {
-    const title = 'URL Encoder/decoder';
+    const title = 'URL Encoder / decoder';
     const classes = useStyles();
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState(services.transform(inputText, false));
@@ -73,7 +73,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                     <CopyButton data={transformed} />
                     <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
                         onClick={() => setTransformed(services.transform(inputText, false))}>Enc.</Button>
-                    <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!transformed}
+                    <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!inputText}
                         onClick={() => setTransformed(services.transform(inputText, true))}>Dec.</Button>
                 </Toolbar>
 

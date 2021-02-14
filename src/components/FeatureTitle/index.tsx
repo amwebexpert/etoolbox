@@ -4,6 +4,9 @@ import { Typography, Grid } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
+    title: {
+        wordBreak: 'break-word',
+    },
     icon: {
         height: '40px',
         width: '40px',
@@ -22,7 +25,12 @@ const FeatureTitle: React.FC<Props> = (props: Props) => {
 
     return (
         <Grid container direction="row" alignItems="center">
-            <FeatureIcon className={classes.icon} /> <Typography variant="h5">{props.title}</Typography>
+            <div className={classes.icon}>
+                <FeatureIcon /> 
+            </div>
+            <Typography variant="h5" className={classes.title}>
+                {props.title}
+            </Typography>
         </Grid>
     );
 }

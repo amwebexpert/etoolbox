@@ -7,6 +7,7 @@ import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { Box, Paper, Table, TableBody, TableContainer, TableHead, TableRow, Toolbar } from '@material-ui/core';
 import GithubIcon from '@material-ui/icons/GitHub';
+import WatchIcon from '@material-ui/icons/Visibility';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
@@ -66,10 +67,10 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
                     <Table>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
-                                <StyledTableCell component="th" scope="row">Name</StyledTableCell>
+                                <StyledTableCell component="th" scope="row">Project</StyledTableCell>
                                 <StyledTableCell component="th" scope="row">Description</StyledTableCell>
-                                <StyledTableCell component="th" scope="row">Updated</StyledTableCell>
-                                <StyledTableCell component="th" scope="row">Watchers</StyledTableCell>
+                                <StyledTableCell component="th" scope="row" className={classes.dateColumn}>Updated</StyledTableCell>
+                                <StyledTableCell component="th" scope="row"><WatchIcon /></StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -82,10 +83,10 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
                                         <StyledTableCell>
                                             {project.description}
                                         </StyledTableCell>
-                                        <StyledTableCell>
-                                            {project.updated_at}
+                                        <StyledTableCell className={classes.dateColumn}>
+                                            {new Date(project.updated_at).toLocaleDateString()}
                                         </StyledTableCell>
-                                        <StyledTableCell>
+                                        <StyledTableCell className={classes.watchColumn}>
                                             {project.watchers_count}
                                         </StyledTableCell>
                                     </StyledTableRow>

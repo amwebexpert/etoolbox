@@ -11,7 +11,6 @@ import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
 import TextField from '@material-ui/core/TextField';
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
@@ -87,7 +86,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                         onClick={handleTransform}>Enc.</Button>
                 </Toolbar>
 
-                <SyntaxHighlighter language="java" style={docco} className={classes.encodedResult}>
+                <SyntaxHighlighter language="java" className={classes.encodedResult}>
                     {transformed}
                 </SyntaxHighlighter>
             </div>

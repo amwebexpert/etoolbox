@@ -11,7 +11,6 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import TextField from '@material-ui/core/TextField';
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
@@ -85,11 +84,11 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
                         onClick={handleDecode}>Decode</Button>
                 </Toolbar>
 
-                <SyntaxHighlighter language="json" style={docco} className={classes.decoded}>
+                <SyntaxHighlighter language="json" className={classes.decoded}>
                     {header}
                 </SyntaxHighlighter>
 
-                <SyntaxHighlighter language="json" style={docco} className={classes.decoded}>
+                <SyntaxHighlighter language="json" className={classes.decoded}>
                     {transformed}
                 </SyntaxHighlighter>
             </div>

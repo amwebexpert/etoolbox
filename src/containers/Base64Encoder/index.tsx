@@ -45,7 +45,7 @@ interface Props {
 }
 
 const Base64Encoder: React.FC<Props> = (props: Props) => {
-    const title = 'Base64 Encoder/decoder';
+    const title = 'Base64 Encoder / decoder';
     const classes = useStyles();
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState('');
@@ -56,22 +56,18 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
             <div className={classes.root}>
                 <FeatureTitle iconType={DeveloperBoardIcon} title={title} />
 
-                <form noValidate autoComplete="off">
-                    <div>
-                        <TextField
-                            autoFocus={isWidthUp('md', props.width)}
-                            label="Content to Base64 encode/decode"
-                            placeholder="Paste or type the content here"
-                            multiline
-                            rows={4}
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth={true}
-                            value={inputText}
-                            onChange={(e) => storeInputText('lastBase64EncoderValue', e.target.value)}
-                        />
-                    </div>
-                </form>
+                <TextField
+                    autoFocus={isWidthUp('md', props.width)}
+                    label="Content to Base64 encode/decode"
+                    placeholder="Paste or type the content here"
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth={true}
+                    value={inputText}
+                    onChange={(e) => storeInputText('lastBase64EncoderValue', e.target.value)}
+                />
 
                 <Toolbar className={classes.toolbar}>
                     <Box display='flex' flexGrow={1}></Box>
