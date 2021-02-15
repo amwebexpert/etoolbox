@@ -1,4 +1,5 @@
 import { quicktype, InputData, jsonInputForTargetLanguage } from 'quicktype-core';
+import * as StringUtils from '../../services/string-utils';
 
 export interface ConvertionContext {
     source: string;
@@ -28,8 +29,25 @@ async function quicktypeJSON(targetLanguage: string, typeName: string, jsonStrin
     });
 }
 
+function isValid(data: ConvertionContext) {
+    if (StringUtils.isBlank(data.source)) {
+        return false;
+    }
+    if (StringUtils.isBlank(data.sourceType)) {
+        return false;
+    }
+    if (StringUtils.isBlank(data.rootClassName)) {
+        return false;
+    }
+    if (StringUtils.isBlank(data.targetLanguage)) {
+        return false;
+    }
+
+    return true;
+}
+
 export async function transform(data: ConvertionContext): Promise<string> {
-    if (!data.source || data.source.trim().length === 0) {
+    if (!isValid(data)) {
         return '';
     }
 
