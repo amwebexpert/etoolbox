@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { Tab, Tabs } from '@material-ui/core';
 
-import { Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
+import { Link, Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
 import URLParser from '../../containers/URLParser';
 import URLEncoder from '../../containers/URLEncoder';
 
@@ -51,14 +51,16 @@ const FeaturesGroup: React.FC = () => {
         <>
             <Paper className={classes.root}>
                 <Tabs
-                    value={value} centered
+                    value={value}
                     indicatorColor="primary"
                     textColor="primary"
+                    variant="scrollable"
+                    scrollButtons="on"
                     onChange={(_e: any, newValue: number) => setValue(newValue)}
                 >
                     { /** TODO Make this generic so we can reuse the FeaturesGroup */}
-                    <Tab label="URL parser" to={`${url}/URLParser`} component={Link} />
-                    <Tab label="URL encoder/decoder" to={`${url}/URLEncoder`} component={Link} />
+                    <Tab label="Parser" to={`${url}/URLParser`} component={Link} />
+                    <Tab label="Encoder" to={`${url}/URLEncoder`} component={Link} />
                 </Tabs>
             </Paper>
 
@@ -66,6 +68,9 @@ const FeaturesGroup: React.FC = () => {
                 { /** TODO Make this generic so we can reuse the FeaturesGroup */}
                 <Route exact path={`${path}/URLParser`}><URLParser /></Route>
                 <Route exact path={`${path}/URLEncoder`}><URLEncoder /></Route>
+
+                {/** Default route is the first tab */}
+                <Redirect to={`${path}/URLParser`} />
             </Switch>
         </>
     );

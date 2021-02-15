@@ -148,7 +148,7 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary={"Home"} />
               </ListItem>
             </NavLink>
-            <NavLink to="/URL/URLParser" title="URL parser, encoder…" className={classes.link} activeClassName={classes.linkActive}>
+            <NavLink to="/URL" title="URL parser, encoder…" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <LinkIcon />
