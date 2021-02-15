@@ -1,7 +1,7 @@
 import { quicktype, InputData, jsonInputForTargetLanguage } from 'quicktype-core';
 
 export interface ConvertionContext {
-    inputText: string;
+    source: string;
     sourceType: string;
     targetLanguage: string;
     rootClassName: string;
@@ -29,7 +29,7 @@ async function quicktypeJSON(targetLanguage: string, typeName: string, jsonStrin
 }
 
 export async function transform(data: ConvertionContext): Promise<string> {
-    if (!data.inputText || data.inputText.trim().length === 0) {
+    if (!data.source || data.source.trim().length === 0) {
         return '';
     }
 
@@ -37,7 +37,7 @@ export async function transform(data: ConvertionContext): Promise<string> {
     // TODO handle data.sourceType
 
     try {
-        const { lines } = await quicktypeJSON(data.targetLanguage, data.rootClassName, data.inputText);
+        const { lines } = await quicktypeJSON(data.targetLanguage, data.rootClassName, data.source);
         return lines.join('\n');
     } catch (e) {
         return e.toString();

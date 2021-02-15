@@ -55,14 +55,20 @@ interface Props {
 const JSONConverter: React.FC<Props> = (props: Props) => {
     const title = 'JSON Converter';
     const classes = useStyles();
-    const { handleSubmit, errors, control } = useForm();
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState('');
+    const defaultValues = {
+        source: inputText,
+        sourceType: 'json',
+        rootClassName: 'Parent',
+        targetLanguage: 'java',
+    };
+    const { handleSubmit, errors, control } = useForm({ defaultValues });
 
     const onSubmit = (data: services.ConvertionContext) => {
         services.transform(data).then(setTransformed);
+        storeInputText('lastJSON2Convert', data.source);
         console.log(data);
-        console.log(control.getValues().targetLanguage);
     };
 
     return (
@@ -79,7 +85,6 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                 <Controller
                                     control={control}
                                     name="sourceType"
-                                    defaultValue="json"
                                     as={
                                         <Select labelId="sourceType">
                                             <MenuItem value="json">JSON</MenuItem>
@@ -95,7 +100,6 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                 <Controller
                                     control={control}
                                     name="targetLanguage"
-                                    defaultValue="java"
                                     as={
                                         <Select labelId="targetLanguage">
                                             <MenuItem value="csharp">C#</MenuItem>
@@ -126,7 +130,6 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                             helperText={errors.rootClassName ? 'field is required' : null} />
                                     }
                                     control={control}
-                                    defaultValue="Root"
                                     rules={{
                                         required: true,
                                     }}
@@ -138,7 +141,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
 
                     <FormControl className={classes.formControl} fullWidth={true}>
                         <Controller
-                            name="inputText"
+                            name="source"
                             as={
                                 <TextField
                                     autoFocus={isWidthUp('md', props.width)}
@@ -148,14 +151,11 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                     rows={4}
                                     variant="outlined"
                                     margin="normal"
-                                    value={inputText}
-                                    error={!!errors.rootClassName}
-                                    helperText={errors.rootClassName ? 'field is required' : null}
-                                    onChange={(e) => storeInputText('lastJSON2Convert', e.target.value)}
+                                    error={!!errors.source}
+                                    helperText={errors.source ? 'field is required' : null}
                                 />
                             }
                             control={control}
-                            defaultValue={inputText || 'Root'}
                             rules={{
                                 required: true,
                             }}
@@ -168,7 +168,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                 <Toolbar className={classes.toolbar}>
                     <Box display='flex' flexGrow={1}></Box>
                     <CopyButton data={transformed} />
-                    <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
+                    <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>}
                         onClick={handleSubmit(onSubmit)}>Enc.</Button>
                 </Toolbar>
 

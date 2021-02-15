@@ -16,7 +16,7 @@ DEFAULT_MAP.set('lastQRCodeTextValue', 'This is a value to store as QR Code');
 DEFAULT_MAP.set('lastQRCodeOptions', '');
 DEFAULT_MAP.set('lastSearchValue', '');
 DEFAULT_MAP.set('lastGithubUsernameValue', '');
-DEFAULT_MAP.set('lastJSON2Convert', '');
+DEFAULT_MAP.set('lastJSON2Convert', '{ "firstName": "Chuck", "lastName": "Norris" }');
 
 const initalState: TextInputsState = loadFromLocalStorage();
 
