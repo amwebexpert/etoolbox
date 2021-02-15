@@ -108,13 +108,16 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                             <MenuItem value="elm">Elm</MenuItem>
                                             <MenuItem value="flow">Flow</MenuItem>
                                             <MenuItem value="go">Go</MenuItem>
+                                            <MenuItem value="haskell">Haskell</MenuItem>
                                             <MenuItem value="java">Java</MenuItem>
+                                            <MenuItem value="json-schema">JSON Schema</MenuItem>
                                             <MenuItem value="kotlin">Kotlin</MenuItem>
                                             <MenuItem value="objectivec">ObjectiveC</MenuItem>
+                                            <MenuItem value="pike">Pike</MenuItem>
                                             <MenuItem value="python">Python</MenuItem>
                                             <MenuItem value="rust">Rust</MenuItem>
-                                            <MenuItem value="typescript">TypeScript</MenuItem>
                                             <MenuItem value="swift">Swift</MenuItem>
+                                            <MenuItem value="typescript">TypeScript</MenuItem>
                                         </Select>
                                     }
                                 />
