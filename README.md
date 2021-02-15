@@ -63,11 +63,6 @@ This creates the following installers:
 * Linux: `build/Web Toolbox-<version>.AppImage`
 * MacOS: `build/Web Toolbox-<version>.dmg`
 
-TODOs
-
-List of future tools:
-
-* JSON to Javascript Object
 
 ## License
 
@@ -82,6 +77,10 @@ This project is licensed under the MIT license, Copyright (c) 2020 André Masson
 * https://cloudconvert.com/png-to-icns
 * https://stackoverflow.com/a/8684009/704681
 * https://stackoverflow.com/a/52409047/704681
+
+### react-router-dom
+
+* https://medium.com/swlh/defining-nested-routes-with-react-router-8f140e87b360
 
 ### Interesting posts this app has been inspired by
 

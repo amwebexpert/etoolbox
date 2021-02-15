@@ -25,9 +25,7 @@ const FeatureTitle: React.FC<Props> = (props: Props) => {
 
     return (
         <Grid container direction="row" alignItems="center">
-            <div className={classes.icon}>
-                <FeatureIcon /> 
-            </div>
+            <FeatureIcon className={classes.icon} />
             <Typography variant="h5" className={classes.title}>
                 {props.title}
             </Typography>

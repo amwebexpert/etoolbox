@@ -27,7 +27,6 @@ import WrapTextIcon from '@material-ui/icons/WrapText';
 import LinkIcon from '@material-ui/icons/Link';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PanoramaIcon from '@material-ui/icons/Panorama';
-import LinkOffIcon from '@material-ui/icons/LinkOff';
 import SimCardIcon from '@material-ui/icons/SimCard';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
@@ -40,10 +39,8 @@ import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
 
 import About from './components/About/About';
 import Home from './components/Home';
-import URLParser from './containers/URLParser';
 import JSONFormatter from './containers/JSONFormatter';
 import { useStyles } from './styles';
-import URLEncoder from './containers/URLEncoder';
 import Base64Encoder from './containers/Base64Encoder';
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import RegExTester from './containers/RegExTester';
@@ -56,6 +53,7 @@ import QRCodeGenerator from './containers/QRCodeGenerator';
 import CommonLists from './containers/CommonLists';
 import GithubUserProjects from './containers/GithubUserProjects';
 import JSONConverter from './containers/JSONConverter';
+import FeaturesGroup from './components/FeaturesGroup';
 
 interface Props {
   width: Breakpoint;
@@ -150,20 +148,12 @@ const App: React.FC<Props> = (props: Props) => {
                 <ListItemText primary={"Home"} />
               </ListItem>
             </NavLink>
-            <NavLink to="/URLParser" title="URL parser" className={classes.link} activeClassName={classes.linkActive}>
+            <NavLink to="/URL/URLParser" title="URL parser, encoder…" className={classes.link} activeClassName={classes.linkActive}>
               <ListItem button>
                 <ListItemIcon>
                   <LinkIcon />
                 </ListItemIcon>
-                <ListItemText primary={"URL Parser"} />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/URLEncoder" title="URL encoder/decoder" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <LinkOffIcon />
-                </ListItemIcon>
-                <ListItemText primary={"URL Encoder"} />
+                <ListItemText primary={"URL utilities"} />
               </ListItem>
             </NavLink>
             <NavLink to="/Base64Encoder" title="Base64 encoder/decoder" className={classes.link} activeClassName={classes.linkActive}>
@@ -270,8 +260,7 @@ const App: React.FC<Props> = (props: Props) => {
             <Switch>
               <Route exact path="/"><Home /></Route>
               <Route exact path="/about"><About /></Route>
-              <Route exact path="/URLParser"><URLParser /></Route>
-              <Route exact path="/URLEncoder"><URLEncoder /></Route>
+              <Route path="/URL"><FeaturesGroup /></Route>
               <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
               <Route exact path="/Base64ImageEncoder"><Base64ImageEncoder /></Route>
               <Route exact path="/JSONFormatter"><JSONFormatter /></Route>

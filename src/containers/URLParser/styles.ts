@@ -19,9 +19,6 @@ export const StyledTableRow = withStyles((theme) => ({
 export const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
-        '& > *': {
-            marginBottom: theme.spacing(2),
-        },
     },
     tableHeader: {
         backgroundColor: theme.palette.grey[300],

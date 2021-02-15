@@ -35,9 +35,8 @@ const Home: React.FC = () => {
                 <Typography variant="h5">Features…</Typography>
 
                 <ul>
-                    <li>URL (and query string) Parser</li>
-                    <li>JSON Formatter/Validator</li>
-                    <li>URL Encoder/Decoder</li>
+                    <li>URL (and query string) Parser, Encoder</li>
+                    <li>JSON Formatter, Validator, Converter</li>
                     <li>Base64 string encoder/decoder</li>
                     <li>Regular expression builder/tester</li>
                     <li>UUID Generator</li>
