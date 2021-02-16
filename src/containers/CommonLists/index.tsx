@@ -1,4 +1,4 @@
-import { AppBar, Box, Paper, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Tabs, Toolbar } from '@material-ui/core';
+import { Box, Paper, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Tabs, Toolbar } from '@material-ui/core';
 import TocIcon from '@material-ui/icons/Toc';
 import React from 'react';
 import Highlighter from 'react-highlight-words';

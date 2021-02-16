@@ -42,7 +42,9 @@ const FeaturesGroup: React.FC = () => {
     React.useEffect(
         () => {
             const tabIndex = TABS.get(location.pathname);
-            setValue(tabIndex!);
+            if (tabIndex) {
+                setValue(tabIndex!);
+            }
         },
         [location, setValue]
     );
