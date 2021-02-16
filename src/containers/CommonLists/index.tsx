@@ -1,12 +1,10 @@
 import { Box, Paper, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Tabs, Toolbar } from '@material-ui/core';
-import TocIcon from '@material-ui/icons/Toc';
 import React from 'react';
 import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { applyHtmlEntitiesFilter, HtmlEntity } from '../../actions/html-entitie-actions';
 import { applyMimeTypesFilter } from '../../actions/mime-type-actions';
-import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import Filter from '../../components/Filter';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
@@ -78,7 +76,6 @@ const CommonLists: React.FC<Props> = (props: Props) => {
             </Paper>
 
             <div className={classes.root}>
-                <FeatureTitle iconType={TocIcon} title={title} />
 
                 <Toolbar className={classes.toolbar}>
                     <Filter initialFilter={inputFilter} onFilterChange={applyFilter} />
@@ -120,7 +117,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         <Table>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
-                                    <StyledTableCell component="th" scope="row">Html Entity</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">Entity</StyledTableCell>
                                     <StyledTableCell component="th" scope="row">Name</StyledTableCell>
                                     <StyledTableCell component="th" scope="row">Number</StyledTableCell>
                                     <StyledTableCell component="th" scope="row">Description</StyledTableCell>
