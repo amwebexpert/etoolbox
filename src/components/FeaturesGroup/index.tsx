@@ -49,7 +49,7 @@ const FeaturesGroup: React.FC = () => {
 
     return (
         <>
-            <Paper className={classes.root}>
+            <Paper square className={classes.root}>
                 <Tabs
                     value={value}
                     indicatorColor="primary"

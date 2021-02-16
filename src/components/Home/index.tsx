@@ -7,7 +7,8 @@ import { getBuildUTCDate } from '../../services/utils';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: theme.spacing(1.5),
+        margin: theme.spacing(2),
+        padding: theme.spacing(2),
     },
     description: {
         margin: theme.spacing(3),

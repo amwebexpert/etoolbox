@@ -62,6 +62,21 @@ const CommonLists: React.FC<Props> = (props: Props) => {
     return (
         <>
             <Helmet title={title} />
+            <Paper square>
+                <Tabs
+                    value={selectedTab}
+                    onChange={onTabSelected}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    variant="scrollable"
+                    scrollButtons="on"
+                    aria-label="Common web lists"
+                >
+                    <Tab label="Mime-types" id="mime-types" aria-controls="tab-mime-types" />
+                    <Tab label="HTML Entities" id="html-entities" aria-controls="tab-html-entities" />
+                </Tabs>
+            </Paper>
+
             <div className={classes.root}>
                 <FeatureTitle iconType={TocIcon} title={title} />
 
@@ -71,84 +86,67 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                     <FilterStats count={getElementsCount()} searching={searching} />
                 </Toolbar>
 
-                <div className={classes.tabsPanel}>
-                    <AppBar position="static" color="default" className={classes.tabsBar}>
-                        <Tabs
-                            value={selectedTab}
-                            onChange={onTabSelected}
-                            indicatorColor="primary"
-                            textColor="primary"
-                            variant="scrollable"
-                            scrollButtons="on"
-                            aria-label="Common web lists"
-                        >
-                            <Tab label="Mime-types" id="mime-types" aria-controls="tab-mime-types" />
-                            <Tab label="HTML Entities" id="html-entities" aria-controls="tab-html-entities" />
-                        </Tabs>
-                    </AppBar>
-
-                    <TabPanel value={selectedTab} index={TABS.MIME_TYPES}>
-                        <TableContainer component={Paper}>
-                            <Table>
-                                <TableHead className={classes.tableHeader}>
-                                    <TableRow>
-                                        <StyledTableCell component="th" scope="row">Mime Type</StyledTableCell>
-                                        <StyledTableCell component="th" scope="row">File extension</StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {[...mimeTypes.keys()].map(key => {
-                                        const extensions: string[] = mimeTypes.get(key) || [];
-                                        const value = extensions.join(', ');
-                                        return (
-                                            <StyledTableRow key={key}>
-                                                <StyledTableCell>
-                                                    <Highlighter searchWords={[inputFilter]} textToHighlight={key} />
-                                                </StyledTableCell>
-                                                <StyledTableCell>
-                                                    <Highlighter searchWords={[inputFilter]} textToHighlight={value} />
-                                                </StyledTableCell>
-                                            </StyledTableRow>
-                                        )
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </TabPanel>
-
-                    <TabPanel value={selectedTab} index={TABS.HTML_ENTITIES}>
-                        <TableContainer component={Paper}>
-                            <Table>
-                                <TableHead className={classes.tableHeader}>
-                                    <TableRow>
-                                        <StyledTableCell component="th" scope="row">Html Entity</StyledTableCell>
-                                        <StyledTableCell component="th" scope="row">Name</StyledTableCell>
-                                        <StyledTableCell component="th" scope="row">Number</StyledTableCell>
-                                        <StyledTableCell component="th" scope="row">Description</StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {htmlEntities.map(htmlEntity => (
-                                        <StyledTableRow key={htmlEntity.entityNumber}>
+                <TabPanel value={selectedTab} index={TABS.MIME_TYPES}>
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHead className={classes.tableHeader}>
+                                <TableRow>
+                                    <StyledTableCell component="th" scope="row">Mime Type</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">File extension</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {[...mimeTypes.keys()].map(key => {
+                                    const extensions: string[] = mimeTypes.get(key) || [];
+                                    const value = extensions.join(', ');
+                                    return (
+                                        <StyledTableRow key={key}>
                                             <StyledTableCell>
-                                                <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.character} />
+                                                <Highlighter searchWords={[inputFilter]} textToHighlight={key} />
                                             </StyledTableCell>
                                             <StyledTableCell>
-                                                <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityName} />
-                                            </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityNumber} />
-                                            </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.description} />
+                                                <Highlighter searchWords={[inputFilter]} textToHighlight={value} />
                                             </StyledTableCell>
                                         </StyledTableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </TabPanel>
-                </div>
+                                    )
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </TabPanel>
+
+                <TabPanel value={selectedTab} index={TABS.HTML_ENTITIES}>
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHead className={classes.tableHeader}>
+                                <TableRow>
+                                    <StyledTableCell component="th" scope="row">Html Entity</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">Name</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">Number</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">Description</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {htmlEntities.map(htmlEntity => (
+                                    <StyledTableRow key={htmlEntity.entityNumber}>
+                                        <StyledTableCell>
+                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.character} />
+                                        </StyledTableCell>
+                                        <StyledTableCell>
+                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityName} />
+                                        </StyledTableCell>
+                                        <StyledTableCell>
+                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityNumber} />
+                                        </StyledTableCell>
+                                        <StyledTableCell>
+                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.description} />
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </TabPanel>
             </div>
         </>
     );
