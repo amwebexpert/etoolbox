@@ -97,7 +97,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                                             helperText={errors.quantity ? 'valid range: [1..9999]' : null} />
                                     }
                                     control={control}
-                                    defaultValue="1"
+                                    defaultValue="5"
                                     rules={{
                                         required: true,
                                         valueAsNumber: true,
