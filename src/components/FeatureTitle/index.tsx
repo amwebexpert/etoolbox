@@ -7,6 +7,14 @@ const useStyles = makeStyles((theme) => ({
     title: {
         wordBreak: 'break-word',
     },
+    titleWithIcon: {
+        display: 'flex',
+        alignItems: 'center',
+    },
+    titleContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+    },
     icon: {
         height: '40px',
         width: '40px',
@@ -24,12 +32,14 @@ const FeatureTitle: React.FC<Props> = (props: Props) => {
     const FeatureIcon = props.iconType;
 
     return (
-        <Grid container direction="row" alignItems="center">
-            <FeatureIcon className={classes.icon} />
-            <Typography variant="h5" className={classes.title}>
-                {props.title}
-            </Typography>
-        </Grid>
+        <div className={classes.titleContainer}>
+            <div className={classes.titleWithIcon}>
+                <FeatureIcon className={classes.icon} />
+                <Typography variant="h5" className={classes.title}>
+                    {props.title}
+                </Typography>
+            </div>
+        </div>
     );
 }
 
