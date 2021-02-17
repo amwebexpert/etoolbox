@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Web Toolbox",
+  "name": "Web Toolbox - Collection of web developer utilities",
   "icons": [
     {
       "src": "favicon.ico",
