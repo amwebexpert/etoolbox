@@ -71,6 +71,7 @@ This project is licensed under the MIT license, Copyright (c) 2020 André Masson
 ## Useful links
 
 * https://github.com/electron/electron/issues/7300
+* https://askubuntu.com/a/935249/990301 (to setup *.AppImage in Ubuntu and make it auto discoverable inside your ~/.local/bin/ folder)
 * https://stackoverflow.com/questions/41551110/unable-to-override-app-name-on-mac-os-electron-menu
 * https://apple.stackexchange.com/a/385074/364767
 * https://www.electron.build/icons
