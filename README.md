@@ -64,6 +64,10 @@ This creates the following installers:
 * MacOS: `build/Web Toolbox-<version>.dmg`
 
 
+## TODO (Roadmap of next features)
+
+- Integrate [Js to JSON](https://github.com/WHenderson/to-json) API into the convert feature
+
 ## License
 
 This project is licensed under the MIT license, Copyright (c) 2020 André Masson. For more information see `LICENSE.md`.
