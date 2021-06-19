@@ -67,6 +67,8 @@ This creates the following installers:
 ## TODO (Roadmap of next features)
 
 - Integrate [Js to JSON](https://github.com/WHenderson/to-json) API into the convert feature
+- Lazy loading (good tutorial about `lazy` and `Suspense` here: https://www.youtube.com/watch?v=Ef3nvKLS4no)
+- 
 
 ## License
 
