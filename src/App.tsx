@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Helmet } from 'react-helmet';
 import { Switch, Route, NavLink, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
@@ -37,23 +37,10 @@ import TocIcon from '@material-ui/icons/Toc';
 import GithubIcon from '@material-ui/icons/GitHub';
 import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
 
-import About from './components/About/About';
 import Home from './components/Home';
-import JSONFormatter from './containers/JSONFormatter';
 import { useStyles } from './styles';
-import Base64Encoder from './containers/Base64Encoder';
 import ToasterProvider from './components/Toaster/ToasterProvider';
-import RegExTester from './containers/RegExTester';
-import UUIDGenerator from './containers/UUIDGenerator';
-import JWTDecoder from './containers/JWTDecoder';
-import Base64ImageEncoder from './containers/Base64ImageEncoder';
-import ImageOCR from './containers/ImageOCR';
-import ColorPicker from './containers/ColorPicker';
-import QRCodeGenerator from './containers/QRCodeGenerator';
-import CommonLists from './containers/CommonLists';
-import GithubUserProjects from './containers/GithubUserProjects';
-import JSONConverter from './containers/JSONConverter';
-import FeaturesGroup from './components/FeaturesGroup';
+import { FullCenteredContent } from './components/FullCenteredContent/FullCenteredContent';
 
 interface Props {
   width: Breakpoint;
@@ -65,6 +52,21 @@ const App: React.FC<Props> = (props: Props) => {
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(isWidthUp('md', props.width));
+
+  const About = lazy(() => import('./components/About/About'));
+  const JSONFormatter = lazy(() => import('./containers/JSONFormatter'));
+  const Base64Encoder = lazy(() => import('./containers/Base64Encoder'));
+  const RegExTester = lazy(() => import('./containers/RegExTester'));
+  const UUIDGenerator = lazy(() => import('./containers/UUIDGenerator'));
+  const JWTDecoder = lazy(() => import('./containers/JWTDecoder'));
+  const Base64ImageEncoder = lazy(() => import('./containers/Base64ImageEncoder'));
+  const ImageOCR = lazy(() => import('./containers/ImageOCR'));
+  const ColorPicker = lazy(() => import('./containers/ColorPicker'));
+  const QRCodeGenerator = lazy(() => import('./containers/QRCodeGenerator'));
+  const CommonLists = lazy(() => import('./containers/CommonLists'));
+  const GithubUserProjects = lazy(() => import('./containers/GithubUserProjects'));
+  const JSONConverter = lazy(() => import('./containers/JSONConverter'));
+  const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
 
   React.useEffect(setupIPC, [history]);
 
@@ -257,26 +259,28 @@ const App: React.FC<Props> = (props: Props) => {
         <ToasterProvider>
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            <Switch>
-              <Route exact path="/"><Home /></Route>
-              <Route exact path="/about"><About /></Route>
-              <Route path="/URL"><FeaturesGroup /></Route>
-              <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
-              <Route exact path="/Base64ImageEncoder"><Base64ImageEncoder /></Route>
-              <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
-              <Route exact path="/JSONConverter"><JSONConverter /></Route>
-              <Route exact path="/RegExTester"><RegExTester /></Route>
-              <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
-              <Route exact path="/JWTDecoder"><JWTDecoder /></Route>
-              <Route exact path="/QRCodeGenerator"><QRCodeGenerator /></Route>
-              <Route exact path="/ImageOCR"><ImageOCR /></Route>
-              <Route exact path="/ColorPicker"><ColorPicker /></Route>
-              <Route exact path="/CommonLists"><CommonLists /></Route>
-              <Route exact path="/GithubUserProjects"><GithubUserProjects /></Route>
+            <Suspense fallback={<FullCenteredContent>Loading…</FullCenteredContent>}>
+              <Switch>
+                <Route exact path="/"><Home /></Route>
+                <Route exact path="/about"><About /></Route>
+                <Route path="/URL"><FeaturesGroup /></Route>
+                <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
+                <Route exact path="/Base64ImageEncoder"><Base64ImageEncoder /></Route>
+                <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
+                <Route exact path="/JSONConverter"><JSONConverter /></Route>
+                <Route exact path="/RegExTester"><RegExTester /></Route>
+                <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
+                <Route exact path="/JWTDecoder"><JWTDecoder /></Route>
+                <Route exact path="/QRCodeGenerator"><QRCodeGenerator /></Route>
+                <Route exact path="/ImageOCR"><ImageOCR /></Route>
+                <Route exact path="/ColorPicker"><ColorPicker /></Route>
+                <Route exact path="/CommonLists"><CommonLists /></Route>
+                <Route exact path="/GithubUserProjects"><GithubUserProjects /></Route>
 
-              {/** Default route is the home */}
-              <Route component={Home} />
-            </Switch>
+                {/** Default route is the home */}
+                <Route component={Home} />
+              </Switch>
+            </Suspense>
           </main>
         </ToasterProvider>
       </div>

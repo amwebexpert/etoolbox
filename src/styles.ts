@@ -79,5 +79,5 @@ export const useStyles = makeStyles((theme) => ({
     linkMenu: {
         textDecoration: 'none',
         color: 'inherit',
-    }
+    },
 }));
