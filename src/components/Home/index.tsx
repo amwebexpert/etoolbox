@@ -33,6 +33,11 @@ const Home: React.FC = () => {
 
             <div className={classes.featuresList}>
 
+                <Typography variant="body1">
+                    v1.4.0 - Now allowing Javascript source to be converted to a target language. Also added lazy loading for modules.
+                </Typography>
+
+
                 <Typography variant="h5">Features…</Typography>
 
                 <ul>
