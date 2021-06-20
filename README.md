@@ -66,7 +66,7 @@ This creates the following installers:
 
 ## TODO (Roadmap of next features)
 
-- Add 
+- Add md5 checksum utilities mechanism
 
 ## License
 
