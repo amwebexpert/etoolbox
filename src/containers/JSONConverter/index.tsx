@@ -88,6 +88,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                     as={
                                         <Select labelId="sourceType">
                                             <MenuItem value="json">JSON</MenuItem>
+                                            <MenuItem value="jsObject">Javascript</MenuItem>
                                         </Select>
                                     }
                                 />
@@ -118,6 +119,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                             <MenuItem value="rust">Rust</MenuItem>
                                             <MenuItem value="swift">Swift</MenuItem>
                                             <MenuItem value="typescript">TypeScript</MenuItem>
+                                            <MenuItem value="json">JSON</MenuItem>
                                         </Select>
                                     }
                                 />
@@ -148,8 +150,8 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                             as={
                                 <TextField
                                     autoFocus={isWidthUp('md', props.width)}
-                                    label="JSON data"
-                                    placeholder="Paste or type the JSON here"
+                                    label="Source data"
+                                    placeholder="Paste or type the source data here"
                                     multiline
                                     rows={4}
                                     variant="outlined"

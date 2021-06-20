@@ -51,9 +51,35 @@ export async function transform(data: ConvertionContext): Promise<string> {
         return '';
     }
 
-    // Current version only handle JSON:
-    // TODO handle data.sourceType
+    if (data.sourceType === data.targetLanguage) {
+        return data.source;
+    }
 
+    switch (data.sourceType) {
+        case 'json':
+            return transformJSON(data);
+
+        case 'jsObject':
+            return transformJsObject(data);
+
+        default:
+            return data.source;
+    }
+}
+
+async function transformJsObject(data: ConvertionContext): Promise<string> {
+    try {
+        // eslint-disable-next-line no-eval
+        eval(`window.eToolBoxTemp = ${data.source}`);
+        const jsonData = JSON.stringify((window as any).eToolBoxTemp, null, 4);
+        const newData: ConvertionContext = { ...data, sourceType: 'json', source: jsonData };
+        return transform(newData);
+    } catch (e) {
+        return e.toString();
+    }
+}
+
+async function transformJSON(data: ConvertionContext): Promise<string> {
     try {
         const { lines } = await quicktypeJSON(data.targetLanguage, data.rootClassName, data.source);
         return lines.join('\n');
