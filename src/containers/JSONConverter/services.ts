@@ -69,9 +69,9 @@ export async function transform(data: ConvertionContext): Promise<string> {
 
 async function transformJsObject(data: ConvertionContext): Promise<string> {
     try {
-        // eslint-disable-next-line no-eval
-        eval(`window.eToolBoxTemp = ${data.source}`);
-        const jsonData = JSON.stringify((window as any).eToolBoxTemp, null, 4);
+        const fn = new Function(`return ${data.source};`);
+        const result = fn();
+        const jsonData = JSON.stringify(result, null, 4);
         const newData: ConvertionContext = { ...data, sourceType: 'json', source: jsonData };
         return transform(newData);
     } catch (e) {
