@@ -52,27 +52,37 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
     width: Breakpoint;
     inputText?: string;
+    optionSource?: string;
+    optionTarget?: string;
+    optionRootClassname?: string;
     storeInputText: (name: string, value: string) => void;
 }
 
 const JSONConverter: React.FC<Props> = (props: Props) => {
     const title = 'JSON Converter';
     const classes = useStyles();
-    const { inputText, storeInputText } = props;
+    const { inputText, optionSource, optionTarget, optionRootClassname, storeInputText } = props;
     const [transformed, setTransformed] = React.useState('');
     const defaultValues = {
         source: inputText,
-        sourceType: 'json',
-        rootClassName: 'Parent',
-        targetLanguage: 'java',
+        sourceType: optionSource,
+        targetLanguage: optionTarget,
+        rootClassName: optionRootClassname,
     };
-    const { handleSubmit, errors, control } = useForm({ defaultValues });
-
-    const onSubmit = (data: services.ConvertionContext) => {
-        services.transform(data).then(setTransformed);
-        storeInputText('lastJSON2Convert', data.source);
+    const { handleSubmit, errors, control, getValues } = useForm({ defaultValues });
+    const onSubmit = async (data: services.ConvertionContext) => {
         console.log(data);
+        const result = await services.transform(data);
+        setTransformed(result);
     };
+
+    React.useEffect(() => {
+        const data = getValues();
+        storeInputText('lastJSON2ConvertOptionSource', data.sourceType!);
+        storeInputText('lastJSON2ConvertOptionTarget', data.targetLanguage!);
+        storeInputText('lastJSON2ConvertOptionRootClassname', data.rootClassName!);
+        storeInputText('lastJSON2Convert', data.source!);
+    }, [storeInputText, getValues, transformed]);
 
     return (
         <>
@@ -190,7 +200,10 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs['lastJSON2Convert']
+        inputText: state.textInputs['lastJSON2Convert'],
+        optionSource: state.textInputs['lastJSON2ConvertOptionSource'],
+        optionTarget: state.textInputs['lastJSON2ConvertOptionTarget'],
+        optionRootClassname: state.textInputs['lastJSON2ConvertOptionRootClassname'],
     }
 }
 

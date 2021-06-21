@@ -69,7 +69,8 @@ export async function transform(data: ConvertionContext): Promise<string> {
 
 async function transformJsObject(data: ConvertionContext): Promise<string> {
     try {
-        const fn = new Function(`return ${data.source};`);
+        // eslint-disable-next-line no-new-func
+        const fn = new Function(`return ${data.source}`);
         const result = fn();
         const jsonData = JSON.stringify(result, null, 4);
         const newData: ConvertionContext = { ...data, sourceType: 'json', source: jsonData };
