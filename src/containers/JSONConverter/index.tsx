@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
     formControl: {
-        margin: theme.spacing(1),
+        margin: theme.spacing(0),
+    },
+    converterOptions: {
+        width: '100%',
     },
     encodedResult: {
         padding: theme.spacing(1),
@@ -78,7 +81,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                 <FeatureTitle iconType={DeveloperModeIcon} title={title} />
 
                 <div className={classes.form}>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={3} className={classes.converterOptions}>
                         <Grid item>
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="sourceType">Source type</InputLabel>
