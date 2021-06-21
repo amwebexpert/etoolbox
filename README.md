@@ -67,6 +67,8 @@ This creates the following installers:
 ## TODO (Roadmap of next features)
 
 - Add md5 checksum utilities mechanism
+- Add dark mode
+- Add preferences screen accessible from app top navigation bar
 
 ## License
 
