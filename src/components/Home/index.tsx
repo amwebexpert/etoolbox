@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     description: {
         margin: theme.spacing(3),
     },
+    changes: {
+        marginBottom: theme.spacing(3),
+    },
     featuresList: {
         margin: theme.spacing(3),
     },
@@ -33,7 +36,7 @@ const Home: React.FC = () => {
 
             <div className={classes.featuresList}>
 
-                <Typography variant="body1">
+                <Typography variant="body1" className={classes.changes}>
                     v1.4.0 - Now allowing Javascript source to be converted to a target language. Also added lazy loading for modules.
                 </Typography>
 
