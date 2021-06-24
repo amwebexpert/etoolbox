@@ -1,46 +1,37 @@
-import React, { Suspense, lazy } from 'react';
-import { Helmet } from 'react-helmet';
-import { Switch, Route, NavLink, useHistory } from 'react-router-dom';
-import clsx from 'clsx';
-
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-
-import List from '@material-ui/core/List';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import List from '@material-ui/core/List';
+import { useTheme } from '@material-ui/core/styles';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import TextRotationNoneIcon from '@material-ui/icons/TextRotationNone';
+import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
+import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
+import GithubIcon from '@material-ui/icons/GitHub';
 import HomeIcon from '@material-ui/icons/Home';
-import WrapTextIcon from '@material-ui/icons/WrapText';
 import LinkIcon from '@material-ui/icons/Link';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import PanoramaIcon from '@material-ui/icons/Panorama';
-import SimCardIcon from '@material-ui/icons/SimCard';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
-import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
-import TextFieldsIcon from '@material-ui/icons/TextFields';
 import PaletteIcon from '@material-ui/icons/Palette';
+import PanoramaIcon from '@material-ui/icons/Panorama';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
+import SimCardIcon from '@material-ui/icons/SimCard';
+import TextFieldsIcon from '@material-ui/icons/TextFields';
+import TextRotationNoneIcon from '@material-ui/icons/TextRotationNone';
 import TocIcon from '@material-ui/icons/Toc';
-import GithubIcon from '@material-ui/icons/GitHub';
-import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
-
-import Home from './components/Home';
-import { useStyles } from './styles';
-import ToasterProvider from './components/Toaster/ToasterProvider';
+import WrapTextIcon from '@material-ui/icons/WrapText';
+import clsx from 'clsx';
+import React, { lazy, Suspense } from 'react';
+import { Helmet } from 'react-helmet';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import ApplicationBar from './components/ApplicationBar/ApplicationBar';
 import { FullCenteredContent } from './components/FullCenteredContent/FullCenteredContent';
+import Home from './components/Home';
+import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink';
+import ToasterProvider from './components/Toaster/ToasterProvider';
+import { useStyles } from './styles';
+
 
 interface Props {
   width: Breakpoint;
@@ -85,43 +76,7 @@ const App: React.FC<Props> = (props: Props) => {
         <meta name="description" content={desc} />
       </Helmet>
       <div className={classes.root}>
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          className={clsx(classes.appBar, {
-            [classes.appBarShift]: open,
-          })}
-        >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              title="Toggle sidebar menu"
-              aria-label="open sidebar menu"
-              onClick={() => setOpen(true)}
-              edge="start"
-              className={clsx(classes.menuButton, {
-                [classes.hide]: open,
-              })}
-            >
-              <MenuIcon />
-            </IconButton>
-
-            <Typography variant="h6" noWrap className={classes.title}>
-              Web Toolbox {process.env.REACT_APP_VERSION}
-            </Typography>
-
-            <IconButton color="inherit" title="About this application…">
-              <NavLink to="/about" className={classes.linkMenu}>
-                <InfoIcon />
-              </NavLink>
-            </IconButton>
-            
-            <Typography variant="body2" title="Device size" className={classes.deviceInfo}>
-              {props.width}
-            </Typography>
-
-          </Toolbar>
-        </AppBar>
+        <ApplicationBar open={open} setOpen={setOpen} />
         <Drawer
           variant="permanent"
           className={clsx(classes.drawer, {
@@ -142,118 +97,20 @@ const App: React.FC<Props> = (props: Props) => {
           </div>
           <Divider />
           <List>
-            <NavLink to="/" title="Home" exact={true} className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <HomeIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Home"} />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/URL" title="URL parser, encoder…" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <LinkIcon />
-                </ListItemIcon>
-                <ListItemText primary={"URL utilities"} />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/Base64Encoder" title="Base64 encoder/decoder" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <DeveloperBoardIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Base64 String"} />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/JSONFormatter" title="JSON Formatter" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <WrapTextIcon />
-                </ListItemIcon>
-                <ListItemText primary={"JSON Formatter"} />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/JSONConverter" title="JSON Converter" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <DeveloperModeIcon />
-                </ListItemIcon>
-                <ListItemText primary={"JSON Converter"} />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/RegExTester" title="Regular expression tester" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <TextRotationNoneIcon />
-                </ListItemIcon>
-                <ListItemText primary="RegEx tester" />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/UUIDGenerator" title="UUID generator" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <SimCardIcon />
-                </ListItemIcon>
-                <ListItemText primary="UUID generator" />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/JWTDecoder" title="JSON Web Token decoder" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <LockOpenIcon />
-                </ListItemIcon>
-                <ListItemText primary="JWT decoder" />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/Base64ImageEncoder" title="Base64 image encoder" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <PanoramaIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Base64 Image"} />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/QRCodeGenerator" title="QR Code generator" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <SelectAllIcon />
-                </ListItemIcon>
-                <ListItemText primary="QR Code generator" />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/ImageOCR" title="Image text extractor" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <TextFieldsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Image OCR" />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/ColorPicker" title="Image color picker" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <PaletteIcon />
-                </ListItemIcon>
-                <ListItemText primary="Color picker" />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/CommonLists" title="Html entities, Mime-types, and more…" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <TocIcon />
-                </ListItemIcon>
-                <ListItemText primary="Mime-types, HTML" />
-              </ListItem>
-            </NavLink>
-            <NavLink to="/GithubUserProjects" title="Github user projects" className={classes.link} activeClassName={classes.linkActive}>
-              <ListItem button>
-                <ListItemIcon>
-                  <GithubIcon />
-                </ListItemIcon>
-                <ListItemText primary="Github search" />
-              </ListItem>
-            </NavLink>
+            <NavbarButtonLink icon={<HomeIcon />} to="/" title="Home" detail="Home" exact={true} />
+            <NavbarButtonLink icon={<LinkIcon />} to="/URL" title="URL parse, encode" detail="URL utilities for parsing and encoding url parameters" />
+            <NavbarButtonLink icon={<DeveloperBoardIcon />} to="/Base64Encoder" title="Base64 String" detail="Base64 encoder/decoder" />
+            <NavbarButtonLink icon={<WrapTextIcon />} to="/JSONFormatter" title="JSON Formatter" detail="JSON Formatter" />
+            <NavbarButtonLink icon={<DeveloperModeIcon />} to="/JSONConverter" title="JSON Converter" detail="Convert json into multiple output languages" />
+            <NavbarButtonLink icon={<TextRotationNoneIcon />} to="/RegExTester" title="RegEx tester" detail="Regular expression tester" />
+            <NavbarButtonLink icon={<SimCardIcon />} to="/UUIDGenerator" title="UUID generator" detail="UUID generator" />
+            <NavbarButtonLink icon={<LockOpenIcon />} to="/JWTDecoder" title="JWT decoder" detail="JSON Web Token decoder" />
+            <NavbarButtonLink icon={<PanoramaIcon />} to="/Base64ImageEncoder" title="Base64 image" detail="Base64 image encoder" />
+            <NavbarButtonLink icon={<SelectAllIcon />} to="/QRCodeGenerator" title="QR Code generator" detail="QR Code generator" />
+            <NavbarButtonLink icon={<TextFieldsIcon />} to="/ImageOCR" title="Image OCR" detail="Image text extractor" />
+            <NavbarButtonLink icon={<PaletteIcon />} to="/ColorPicker" title="Color picker" detail="Image color picker" />
+            <NavbarButtonLink icon={<TocIcon />} to="/CommonLists" title="Mime-types, HTML" detail="Html entities, Mime-types, and more…" />
+            <NavbarButtonLink icon={<GithubIcon />} to="/GithubUserProjects" title="Github search" detail="Github user projects" />
           </List>
         </Drawer>
         <ToasterProvider>
