@@ -1,31 +1,37 @@
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
-
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { ThemeProvider } from '@material-ui/core/styles';
-
 import App from './App';
+import {
+  PreferencesContext,
+  PreferencesProvider,
+} from './components/Preferences/PreferencesProvider';
+import GlobalSpinnerProvider from './components/Spinner/GlobalSpinnerProvider';
 import GlobalStyle from './global-styles';
 import store from './store';
-import theme from './theme';
-import GlobalSpinnerProvider from './components/Spinner/GlobalSpinnerProvider';
-
-
+import { darkTheme, lightTheme } from './theme';
 
 ReactDOM.render(
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-      <CssBaseline />
-      <HashRouter>
-        <GlobalSpinnerProvider>
-          <App />
-        </GlobalSpinnerProvider>
-      </HashRouter>
-    </ThemeProvider>
+    <PreferencesProvider>
+      <PreferencesContext.Consumer>
+        {({ isDark }) => (
+          <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <HashRouter>
+              <GlobalSpinnerProvider>
+                <App />
+              </GlobalSpinnerProvider>
+            </HashRouter>
+          </ThemeProvider>
+        )}
+      </PreferencesContext.Consumer>
+    </PreferencesProvider>
     <GlobalStyle />
   </Provider>,
-  document.querySelector('#root'),
+  document.querySelector('#root')
 );

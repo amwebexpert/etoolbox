@@ -9,6 +9,7 @@ import InfoIcon from '@material-ui/icons/InfoOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
+import {usePreferenceTheme} from '../Preferences/PreferencesProvider';
 
 const drawerWidth = 240;
 
@@ -54,6 +55,7 @@ interface Props {
 
 const ApplicationBar = ({ open, setOpen, width }: Props) => {
     const classes = useStyles();
+    const {toggleTheme} = usePreferenceTheme();
 
     return (
         <AppBar
@@ -86,7 +88,7 @@ const ApplicationBar = ({ open, setOpen, width }: Props) => {
                     </NavLink>
                 </IconButton>
 
-                <Typography variant="body2" title="Device size" className={classes.deviceInfo}>
+                <Typography onClick={toggleTheme} variant="body2" title="Device size" className={classes.deviceInfo}>
                     {width}
                 </Typography>
 
