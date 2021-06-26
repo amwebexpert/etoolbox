@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 import AppDetail from './AppDetail';
 import Banner from './icon.png';
+import { Link } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,7 +47,7 @@ export default function About() {
             <AppDetail />
 
             <Typography variant="subtitle2" className={classes.openSource}>
-              Open source app powered by <a href="https://reactjs.org/docs/create-a-new-react-app.html">Create React App</a>
+              Open source app powered by <Link href="https://reactjs.org/docs/create-a-new-react-app.html">Create React App</Link>
             </Typography>
 
           </CardContent>

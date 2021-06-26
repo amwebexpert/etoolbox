@@ -25,12 +25,17 @@ const Base64ImageEncoder: React.FC = () => {
 
         acceptedFiles.forEach((file: File) =>
             loadFile(file)
-                .then(encFile => setEncodedFiles(list => [...list, encFile]))
-                .catch(error => setErrors(list => [...list, {
-                    name: file.name,
-                    size: file.size,
-                    error
-                }]))
+                .then((encFile) => setEncodedFiles((list) => [...list, encFile]))
+                .catch((error) =>
+                    setErrors((list) => [
+                        ...list,
+                        {
+                            name: file.name,
+                            size: file.size,
+                            error,
+                        },
+                    ])
+                )
         );
     }, []);
 
@@ -38,7 +43,7 @@ const Base64ImageEncoder: React.FC = () => {
         accept: ['image/jpeg', 'image/png', 'image/gif', 'image/*'],
         maxSize: MAX_FILE_SIZE_BYTES,
         multiple: true,
-        onDrop
+        onDrop,
     });
 
     const processing = acceptedFiles.length !== encodedFiles.length;
@@ -50,58 +55,60 @@ const Base64ImageEncoder: React.FC = () => {
                 <FeatureTitle iconType={PanoramaIcon} title={title} />
 
                 <Spinner active={processing}>
-                    <div {...getRootProps({ className: classes.dropzone })}>
+                    <Card {...getRootProps({ className: classes.dropzone })}>
                         <input {...getInputProps()} />
-                        <p>Drag 'n' drop some files here, or click to select files</p>
-                    </div>
+                        <Typography variant='body1'>Drag 'n' drop some files here</Typography>
+                        <Typography variant='body1'>or just click to select files</Typography>
+                    </Card>
                 </Spinner>
                 <div>
-                    {errors && errors.map((errFile: ErrorFile, idx: number) => {
-                        const size = prettyBytes(errFile.size);
-                        return (
-                            <div key={idx}>
-                                <Typography variant="body1">
-                                    <strong>{errFile.name}</strong> ({size} bytes): {errFile.error}
-                                </Typography>
-                            </div>
-                        )
-                    })}
+                    {errors &&
+                        errors.map((errFile: ErrorFile, idx: number) => {
+                            const size = prettyBytes(errFile.size);
+                            return (
+                                <div key={idx}>
+                                    <Typography variant='body1'>
+                                        <strong>{errFile.name}</strong> ({size} bytes): {errFile.error}
+                                    </Typography>
+                                </div>
+                            );
+                        })}
                 </div>
                 <div>
-                    {processing &&
-                        <Typography color="secondary" variant="h5">
+                    {processing && (
+                        <Typography color='secondary' variant='h5'>
                             Processing {acceptedFiles.length - encodedFiles.length} file(s)
-                    </Typography>
-                    }
+                        </Typography>
+                    )}
                 </div>
 
                 {encodedFiles.map((file: EncodedFile, idx: number) => (
                     <div key={idx}>
                         <Card>
-                            <Box display="flex" alignItems="center" justifyContent="center">
+                            <Box display='flex' alignItems='center' justifyContent='center'>
                                 <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
                                     <img src={file.encoded} alt={file.name} className={classes.image} />
                                 </Resizable>
                             </Box>
                             <CardContent>
-                                <Typography gutterBottom align="center" variant="h5" component="h2">
+                                <Typography gutterBottom align='center' variant='h5' component='h2'>
                                     <b>{file.name}</b> ({file.size} bytes)
-                            </Typography>
+                                </Typography>
                                 <TextField
-                                    label="Full img tag"
+                                    label='Full img tag'
                                     fullWidth
                                     value={`<img alt="${file.name}" src="${file.encoded}"/>`}
-                                    margin="normal"
-                                    variant="outlined"
+                                    margin='normal'
+                                    variant='outlined'
                                 />
                                 <TextField
                                     label="Base64 encoded. Copy-paste into 'src' attribute"
                                     fullWidth
                                     value={file.encoded}
-                                    margin="normal"
-                                    variant="outlined"
+                                    margin='normal'
+                                    variant='outlined'
                                     multiline
-                                    rows="8"
+                                    rows='8'
                                 />
                                 <Toolbar className={classes.toolbar}>
                                     <Box display='flex' flexGrow={1}></Box>
@@ -114,6 +121,6 @@ const Base64ImageEncoder: React.FC = () => {
             </div>
         </>
     );
-}
+};
 
 export default Base64ImageEncoder;

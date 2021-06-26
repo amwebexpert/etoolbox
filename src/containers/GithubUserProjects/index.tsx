@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { Box, Paper, Table, TableBody, TableContainer, TableHead, TableRow, Toolbar } from '@material-ui/core';
+import { Box, Link, Paper, Table, TableBody, TableContainer, TableHead, TableRow, Toolbar } from '@material-ui/core';
 import GithubIcon from '@material-ui/icons/GitHub';
 import WatchIcon from '@material-ui/icons/Visibility';
 
@@ -78,7 +78,7 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
                                 return (
                                     <StyledTableRow key={project.id}>
                                         <StyledTableCell>
-                                            <a href={project.html_url} target="_blank" rel="noreferrer">{project.name}</a>
+                                            <Link href={project.html_url} target="_blank" rel="noreferrer">{project.name}</Link>
                                         </StyledTableCell>
                                         <StyledTableCell>
                                             {project.description}

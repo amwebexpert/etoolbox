@@ -23,14 +23,6 @@ export const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         padding: '20px',
-        borderWidth: '2px',
-        borderRadius: '2px',
-        borderColor: '#eeeeee',
-        borderStyle: 'dashed',
-        backgroundColor: '#fafafa',
-        color: '#bdbdbd',
-        outline: 'none',
-        transition: 'border .24s ease-in-out'
     },
     image: {
         width: '100%',

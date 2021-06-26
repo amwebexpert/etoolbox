@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 
 import { useToasterUpdate } from '../Toaster/ToasterProvider';
 import { getBuildUTCDate, getBuildUTCTimestamp } from '../../services/utils';
+import { Link } from '@material-ui/core';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -62,7 +63,7 @@ export default function AppDetail() {
               Author
             </StyledTableCell>
             <StyledTableCell align="right">
-              <a href="mailto:amwebexpert@gmail.com">amwebexpert@gmail.com</a>
+              <Link href="mailto:amwebexpert@gmail.com">amwebexpert@gmail.com</Link>
             </StyledTableCell>
           </StyledTableRow>
           <StyledTableRow key="iconMadeBy">
@@ -70,7 +71,7 @@ export default function AppDetail() {
               Icon author
             </StyledTableCell>
             <StyledTableCell align="right">
-              <a href="https://therealjerrylow.com/">Jerry Low</a>
+              <Link href="https://therealjerrylow.com/">Jerry Low</Link>
             </StyledTableCell>
           </StyledTableRow>
         </TableBody>
