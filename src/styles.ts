@@ -25,7 +25,7 @@ export const useStyles = makeStyles((theme) => ({
         overflowX: 'hidden',
         width: theme.spacing(7) + 1,
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9) + 1,
+            width: theme.spacing(8) + 1,
         },
     },
     toolbar: {
@@ -41,6 +41,9 @@ export const useStyles = makeStyles((theme) => ({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    menu: {
+        paddingTop: 0,
     },
     content: {
         flexGrow: 1,

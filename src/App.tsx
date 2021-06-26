@@ -100,7 +100,7 @@ const App: React.FC<Props> = (props: Props) => {
             </IconButton>
           </div>
           <Divider />
-          <List>
+          <List className={classes.menu}>
             <NavbarButtonLink icon={<HomeIcon />} to="/" title="Home" detail="Home" exact={true} />
             <NavbarButtonLink icon={<LinkIcon />} to="/URL" title="URL parse, encode" detail="URL utilities for parsing and encoding url parameters" />
             <NavbarButtonLink icon={<DeveloperBoardIcon />} to="/Base64Encoder" title="Base64 String" detail="Base64 encoder/decoder" />
