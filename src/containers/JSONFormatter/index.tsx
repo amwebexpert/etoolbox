@@ -18,6 +18,7 @@ import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
+import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,6 +51,7 @@ interface Props {
 const JSONFormatter: React.FC<Props> = (props: Props) => {
     const title = 'JSON Formatter';
     const classes = useStyles();
+    const syntaxTheme = useSyntaxHighlightTheme();
     const { inputText, storeInputText } = props;
     const [formatted, setFormatted] = React.useState('');
 
@@ -92,7 +94,7 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
                         variant="contained" color="primary" onClick={handleSaveAs}>Save As...</Button>
                 </Toolbar>
 
-                <SyntaxHighlighter language="json" className={classes.formatted}>
+                <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.formatted}>
                     {formatted}
                 </SyntaxHighlighter>
             </div>

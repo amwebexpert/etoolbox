@@ -20,6 +20,7 @@ import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
 import { Controller, useForm } from 'react-hook-form';
+import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,6 +65,7 @@ interface Props {
 const JSONConverter: React.FC<Props> = (props: Props) => {
     const title = 'JSON Converter';
     const classes = useStyles();
+    const syntaxTheme = useSyntaxHighlightTheme();
     const { inputText, optionSource, optionTarget, optionRootClassname, storeInputText } = props;
     const [transformed, setTransformed] = React.useState('');
     const defaultValues = {
@@ -193,7 +195,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                         onClick={handleSubmit(onSubmit)}>Enc.</Button>
                 </Toolbar>
 
-                <SyntaxHighlighter language={control.getValues().targetLanguage} className={classes.encodedResult}>
+                <SyntaxHighlighter style={syntaxTheme} language={control.getValues().targetLanguage} className={classes.encodedResult}>
                     {transformed}
                 </SyntaxHighlighter>
             </div>
