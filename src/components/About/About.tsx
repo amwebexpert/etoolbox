@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
   media: {
     height: 240,
-    margin: 20,
+    margin: theme.spacing(3),
   },
   appDescription: {
     marginBottom: theme.spacing(4),
