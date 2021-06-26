@@ -54,10 +54,11 @@ const URLParser: React.FC<Props> = (props: Props) => {
                     margin="normal"
                     fullWidth={true}
                     value={inputText}
+                    className={classes.panel}
                     onChange={(e) => storeInputText('lastUrlParserValue', e.target.value)}
                 />
 
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} className={classes.panel}>
                     <Table>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>

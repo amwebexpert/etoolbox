@@ -1,8 +1,8 @@
 import { makeStyles, TableCell, TableRow, withStyles } from "@material-ui/core";
 
-export const StyledTableCell = withStyles(() => ({
+export const StyledTableCell = withStyles((theme) => ({
     body: {
-        fontSize: 14,
+        fontSize: theme.spacing(1.75),
         whiteSpace: 'normal',
         wordBreak: 'break-word',
     },
@@ -19,6 +19,9 @@ export const StyledTableRow = withStyles((theme) => ({
 export const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
+    },
+    panel: {
+        marginBottom: theme.spacing(3),
     },
     tableHeader: {
         backgroundColor: theme.palette.primary.main,
