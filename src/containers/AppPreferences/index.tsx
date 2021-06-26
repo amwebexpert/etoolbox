@@ -1,11 +1,11 @@
-import { FormControlLabel, Switch, Typography } from '@material-ui/core';
+import { FormControlLabel, Switch } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
-import { usePreferenceTheme } from '../../components/Preferences/PreferencesProvider';
 import SettingsIcon from '@material-ui/icons/Settings';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import FeatureTitle from '../../components/FeatureTitle';
+import { usePreferenceTheme } from '../../components/Preferences/PreferencesProvider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
