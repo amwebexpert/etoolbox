@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
         '& span': {
             backgroundColor: 'yellow',
             fontWeight: 'bold',
+            color: 'black',
         }
     },
     toolbar: {
