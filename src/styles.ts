@@ -1,17 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
-const drawerWidth = 240;
+import { DRAWER_WIDTH } from './constants';
 
 export const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
     drawer: {
-        width: drawerWidth,
+        width: DRAWER_WIDTH,
         flexShrink: 0,
         whiteSpace: 'nowrap',
     },
     drawerOpen: {
-        width: drawerWidth,
+        width: DRAWER_WIDTH,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,

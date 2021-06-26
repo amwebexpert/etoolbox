@@ -9,9 +9,8 @@ import InfoIcon from '@material-ui/icons/InfoOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
+import { DRAWER_WIDTH } from '../../constants';
 import {usePreferenceTheme} from '../Preferences/PreferencesProvider';
-
-const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -22,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
         }),
     },
     appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: DRAWER_WIDTH,
+        width: `calc(100% - ${DRAWER_WIDTH}px)`,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
