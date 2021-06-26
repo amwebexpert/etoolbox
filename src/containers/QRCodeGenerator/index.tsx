@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: theme.spacing(1),
         },
     },
+    generatedQR : {
+        padding: theme.spacing(2),
+    },
 }));
 
 interface Props {
@@ -127,7 +130,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                         endIcon={<SelectAllIcon />}>Generate</Button>
                 </Toolbar>
 
-                {imgDataURL && (<Card>
+                {imgDataURL && (<Card className={classes.generatedQR}>
                     <Box display="flex" alignItems="center" justifyContent="center">
                         <img src={imgDataURL} alt="QR Code" />
                     </Box>
