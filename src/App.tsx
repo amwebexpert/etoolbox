@@ -31,6 +31,7 @@ import Home from './components/Home';
 import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink';
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import { useStyles } from './styles';
+import Banner from './images/icon.png';
 
 
 interface Props {
@@ -91,6 +92,9 @@ const App: React.FC<Props> = (props: Props) => {
           }}
         >
           <div className={classes.toolbar}>
+            <div className={classes.toolbarIcon}>
+              <img src={Banner} alt='Web Toolbox' title='Web Toolbox' height={50} />
+            </div>
             <IconButton onClick={() => setOpen(false)} title="Toggle sidebar menu">
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>

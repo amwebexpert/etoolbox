@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import AppDetail from './AppDetail';
-import Banner from './icon.png';
+import Banner from '../../images/icon.png';
 import { Link } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
