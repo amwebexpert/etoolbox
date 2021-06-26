@@ -37,6 +37,9 @@ const Home: React.FC = () => {
             <div className={classes.featuresList}>
 
                 <Typography variant="body1" className={classes.changes}>
+                    v1.4.3 - New dark mode and preferences screen
+                    v1.4.2 - Bug fixes
+                    v1.4.1 - Bug fixes
                     v1.4.0 - Now allowing Javascript source to be converted to a target language. Also added lazy loading for modules.
                 </Typography>
 
