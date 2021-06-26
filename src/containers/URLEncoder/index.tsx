@@ -24,7 +24,10 @@ const useStyles = makeStyles((theme) => ({
     },
     formatted: {
         padding: theme.spacing(1),
-        border: '1px solid grey',
+        borderColor: theme.palette.text.disabled,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderRadius: theme.shape.borderRadius,
         whiteSpace: 'normal',
         wordBreak: 'break-word',
     },

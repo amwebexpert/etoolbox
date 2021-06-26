@@ -24,7 +24,10 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
     },
     formatted: {
-        border: '1px solid grey',
+        borderColor: theme.palette.text.disabled,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderRadius: theme.shape.borderRadius,
         maxHeight: '500px',
         width: '100%',
         overflow: 'auto',

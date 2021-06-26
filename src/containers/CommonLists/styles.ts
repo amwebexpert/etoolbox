@@ -37,6 +37,6 @@ export const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(2),
     },
     tableHeader: {
-        backgroundColor: theme.palette.grey[300],
+        backgroundColor: theme.palette.primary.main,
     },
 }));

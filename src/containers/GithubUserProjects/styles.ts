@@ -28,7 +28,7 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     tableHeader: {
-        backgroundColor: theme.palette.grey[300],
+        backgroundColor: theme.palette.primary.main,
     },
     dateColumn: {
         textAlign: 'center',

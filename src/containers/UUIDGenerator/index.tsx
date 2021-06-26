@@ -26,7 +26,10 @@ const useStyles = makeStyles((theme) => ({
     generated: {
         marginTop: theme.spacing(2),
         padding: theme.spacing(1),
-        border: '1px solid grey',
+        borderColor: theme.palette.text.disabled,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderRadius: theme.shape.borderRadius,
         width: '100%',
         overflow: 'auto',
     },

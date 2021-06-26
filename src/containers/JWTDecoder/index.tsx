@@ -11,6 +11,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import TextField from '@material-ui/core/TextField';
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco, dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
@@ -18,6 +19,7 @@ import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
+import { usePreferenceTheme } from '../../components/Preferences/PreferencesProvider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +27,10 @@ const useStyles = makeStyles((theme) => ({
     },
     decoded: {
         padding: theme.spacing(1),
-        border: '1px solid grey',
+        borderColor: theme.palette.text.disabled,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderRadius: theme.shape.borderRadius,
         width: '100%',
         overflow: 'auto',
     },
@@ -47,6 +52,7 @@ interface Props {
 const JWTDecoder: React.FC<Props> = (props: Props) => {
     const title = 'JWT decoder…';
     const classes = useStyles();
+    const {isDark} = usePreferenceTheme();
     const { inputText, storeInputText } = props;
     const [header, setHeader] = React.useState(services.decode(inputText, true));
     const [transformed, setTransformed] = React.useState(services.decode(inputText, false));
@@ -88,11 +94,11 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
 
                 <div className={classes.decoded}>
                     <div>
-                        <SyntaxHighlighter language="json">
+                        <SyntaxHighlighter language="json" style={isDark ? dark : docco}>
                             {header}
                         </SyntaxHighlighter>
 
-                        <SyntaxHighlighter language="json">
+                        <SyntaxHighlighter language="json" style={isDark ? dark : docco}>
                             {transformed}
                         </SyntaxHighlighter>
                     </div>
