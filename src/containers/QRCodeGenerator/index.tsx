@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 
 import QRCode from 'qrcode';
 
-import { Box, Button, Card, CardContent, Grid, TextField, Toolbar, Typography } from '@material-ui/core';
+import { Box, Button, Card, CardContent, Grid, Link, TextField, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: theme.spacing(1),
         },
     },
-    generatedQR : {
+    generatedQR: {
         padding: theme.spacing(2),
     },
 }));
@@ -52,10 +52,9 @@ const DEFAULT_OPTIONS = {
     margin: 1,
     color: {
         dark: '#000000FF',
-        light: '#FFFFFFFF'
-    }
+        light: '#FFFFFFFF',
+    },
 };
-
 
 const QRCodeGenerator: React.FC<Props> = (props: Props) => {
     const title = 'QR Code generator';
@@ -76,7 +75,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
 
             setImgDataURL(url);
             storeInputText('lastQRCodeOptions', services.jsonFormat(JSON.stringify(opts)));
-        })
+        });
     }
 
     return (
@@ -85,23 +84,23 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
             <div className={classes.root}>
                 <FeatureTitle iconType={SelectAllIcon} title={title} />
 
-                <Typography align="center" className={classes.doc}>
-                    <a target="_blank" rel='noreferrer' href="https://www.npmjs.com/package/qrcode#qr-code-options">
+                <Typography align='center' className={classes.doc}>
+                    <Link target='_blank' rel='noreferrer' href='https://www.npmjs.com/package/qrcode#qr-code-options'>
                         Generation options documentation available here!
-                </a>
+                    </Link>
                 </Typography>
 
-                <form noValidate autoComplete="off">
+                <form noValidate autoComplete='off'>
                     <Grid container spacing={1}>
                         <Grid item md={6} sm={12} xs={12}>
                             <TextField
                                 autoFocus={isWidthUp('md', props.width)}
-                                label="Text to store into QR Code"
-                                placeholder="Paste or type the content here"
+                                label='Text to store into QR Code'
+                                placeholder='Paste or type the content here'
                                 multiline
                                 rows={10}
-                                variant="outlined"
-                                margin="normal"
+                                variant='outlined'
+                                margin='normal'
                                 fullWidth={true}
                                 value={inputText}
                                 onChange={(e) => storeInputText('lastQRCodeTextValue', e.target.value)}
@@ -109,11 +108,11 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                         </Grid>
                         <Grid item md={6} sm={12} xs={12}>
                             <TextField
-                                label="QR Code generation options"
+                                label='QR Code generation options'
                                 multiline
                                 rows={10}
-                                variant="outlined"
-                                margin="normal"
+                                variant='outlined'
+                                margin='normal'
                                 fullWidth={true}
                                 value={inputOptions}
                                 onChange={(e) => storeInputText('lastQRCodeOptions', e.target.value)}
@@ -125,50 +124,58 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                 <Toolbar className={classes.toolbar}>
                     <Box display='flex' flexGrow={1}></Box>
                     <CopyButton data={imgDataURL} />
-                    <Button variant="contained" color="primary"
-                        onClick={generate} disabled={!inputText}
-                        endIcon={<SelectAllIcon />}>Generate</Button>
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        onClick={generate}
+                        disabled={!inputText}
+                        endIcon={<SelectAllIcon />}
+                    >
+                        Generate
+                    </Button>
                 </Toolbar>
 
-                {imgDataURL && (<Card className={classes.generatedQR}>
-                    <Box display="flex" alignItems="center" justifyContent="center">
-                        <img src={imgDataURL} alt="QR Code" />
-                    </Box>
-                    <CardContent>
-                        <TextField
-                            label="Full img tag"
-                            fullWidth
-                            value={`<img alt="QR Code" src="${imgDataURL}"/>`}
-                            margin="normal"
-                            variant="outlined"
-                        />
-                        <TextField
-                            label="QR Code. Copy-paste into 'src' attribute"
-                            fullWidth
-                            value={imgDataURL}
-                            margin="normal"
-                            variant="outlined"
-                            multiline
-                            rows="8"
-                        />
-                    </CardContent>
-                </Card>)}
+                {imgDataURL && (
+                    <Card className={classes.generatedQR}>
+                        <Box display='flex' alignItems='center' justifyContent='center'>
+                            <img src={imgDataURL} alt='QR Code' />
+                        </Box>
+                        <CardContent>
+                            <TextField
+                                label='Full img tag'
+                                fullWidth
+                                value={`<img alt="QR Code" src="${imgDataURL}"/>`}
+                                margin='normal'
+                                variant='outlined'
+                            />
+                            <TextField
+                                label="QR Code. Copy-paste into 'src' attribute"
+                                fullWidth
+                                value={imgDataURL}
+                                margin='normal'
+                                variant='outlined'
+                                multiline
+                                rows='8'
+                            />
+                        </CardContent>
+                    </Card>
+                )}
             </div>
         </>
     );
-}
+};
 
 export function mapStateToProps(state: AppState) {
     return {
         inputText: state.textInputs['lastQRCodeTextValue'],
-        inputOptions: state.textInputs['lastQRCodeOptions']
-    }
+        inputOptions: state.textInputs['lastQRCodeOptions'],
+    };
 }
 
 export function mapDispatchToProps(dispatch: Dispatch) {
     return {
         storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
-    }
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(QRCodeGenerator));
