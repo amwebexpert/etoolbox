@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
     linkMenu: {
         textDecoration: 'none',
         color: 'inherit',
+        paddingRight: theme.spacing(1.5),
     },
 }));
 
@@ -80,19 +81,15 @@ const ApplicationBar = ({ open, setOpen, width }: Props) => {
                     Web Toolbox {process.env.REACT_APP_VERSION}
                 </Typography>
 
-                <IconButton color='inherit' title='Settings'>
-                    <NavLink to='/preferences' className={classes.linkMenu}>
-                        <SettingsIcon />
-                    </NavLink>
-                </IconButton>
+                <NavLink to='/preferences' className={classes.linkMenu} title='Settings'>
+                    <SettingsIcon />
+                </NavLink>
 
-                <IconButton color='inherit' title='About this application…'>
-                    <NavLink to='/about' className={classes.linkMenu}>
-                        <InfoIcon />
-                    </NavLink>
-                </IconButton>
+                <NavLink to='/about' className={classes.linkMenu} title='About this application…'>
+                    <InfoIcon />
+                </NavLink>
 
-                <Typography variant='body2' title='Device size' className={classes.deviceInfo}>
+                <Typography variant='body2' title={`Device size actually detected as [${width}]`} className={classes.deviceInfo}>
                     {width}
                 </Typography>
             </Toolbar>
