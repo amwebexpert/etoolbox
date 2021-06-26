@@ -15,6 +15,9 @@ export const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.primary.main,
         }
     },
+    listItemIcon: {
+        minWidth: theme.spacing(6),
+    },
 }));
 
 interface Props {
@@ -31,7 +34,7 @@ export const NavbarButtonLink = ({title, detail, to, icon, exact = false} : Prop
     return (
         <NavLink exact={exact} to={to} title={detail} className={classes.link} activeClassName={classes.linkActive}>
             <ListItem button>
-                <ListItemIcon>
+                <ListItemIcon className={classes.listItemIcon}>
                     {icon}
                 </ListItemIcon>
                 <ListItemText primary={title} />
