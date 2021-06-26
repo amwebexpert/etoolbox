@@ -46,6 +46,7 @@ const App: React.FC<Props> = (props: Props) => {
   const [open, setOpen] = React.useState(isWidthUp('md', props.width));
 
   const About = lazy(() => import('./components/About/About'));
+  const AppPreferences = lazy(() => import('./containers/AppPreferences'));
   const JSONFormatter = lazy(() => import('./containers/JSONFormatter'));
   const Base64Encoder = lazy(() => import('./containers/Base64Encoder'));
   const RegExTester = lazy(() => import('./containers/RegExTester'));
@@ -123,7 +124,10 @@ const App: React.FC<Props> = (props: Props) => {
             <Suspense fallback={<FullCenteredContent>Loading…</FullCenteredContent>}>
               <Switch>
                 <Route exact path="/"><Home /></Route>
+
                 <Route exact path="/about"><About /></Route>
+                <Route exact path="/preferences"><AppPreferences /></Route>
+
                 <Route path="/URL"><FeaturesGroup /></Route>
                 <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
                 <Route exact path="/Base64ImageEncoder"><Base64ImageEncoder /></Route>
