@@ -73,7 +73,7 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
                         onClick={() => setTransformed(services.transform(inputText, false))}>Dec.</Button>
                 </Toolbar>
 
-                <ResultMonospace result={transformed} />
+                <ResultMonospace label="Result" result={transformed} />
             </div>
         </>
     );

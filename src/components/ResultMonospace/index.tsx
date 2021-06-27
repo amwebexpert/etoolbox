@@ -1,32 +1,38 @@
+import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        marginTop: theme.spacing(2),
-        padding: theme.spacing(1),
-        borderColor: theme.palette.text.disabled,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderRadius: theme.shape.borderRadius,
-        width: '100%',
-    },
-    code: {
-        whiteSpace: 'pre-wrap',
+    result: {
+        fontFamily: 'monospace',
+        height: 'auto',
     },
 }));
 
 interface Props {
+    label?: string;
     result?: string;
+    rows?: number;
 }
 
-export const ResultMonospace = ({ result = '' }: Props) => {
+export const ResultMonospace = ({ label, result, rows = 10 }: Props) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            <pre className={classes.code}>{result}</pre>
-        </div>
+        <TextField
+            multiline
+            rows={rows}
+            label={label}
+            variant='outlined'
+            margin='normal'
+            fullWidth={true}
+            value={result}
+            InputProps={{
+                classes: {
+                    input: classes.result,
+                },
+            }}
+        />
     );
 };
 

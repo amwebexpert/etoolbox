@@ -113,7 +113,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                     </Grid>
                 </div>
 
-                <ResultMonospace result={generated} />
+                <ResultMonospace label="Result" result={generated} />
             </div>
         </>
     );

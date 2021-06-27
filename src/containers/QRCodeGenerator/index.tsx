@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: theme.spacing(1),
         },
     },
+    qrOptions :{
+        fontFamily: 'monospace',
+    },
     generatedQR: {
         padding: theme.spacing(2),
     },
@@ -114,6 +117,11 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                                 variant='outlined'
                                 margin='normal'
                                 fullWidth={true}
+                                InputProps={{
+                                    classes: {
+                                        input: classes.qrOptions,
+                                    },
+                                }}
                                 value={inputOptions}
                                 onChange={(e) => storeInputText('lastQRCodeOptions', e.target.value)}
                             />

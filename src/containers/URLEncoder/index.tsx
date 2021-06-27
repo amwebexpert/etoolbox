@@ -72,7 +72,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                         onClick={() => setTransformed(services.transform(inputText, true))}>Dec.</Button>
                 </Toolbar>
 
-                <ResultMonospace result={transformed} />
+                <ResultMonospace label="Result" result={transformed} />
             </div>
         </>
     );
