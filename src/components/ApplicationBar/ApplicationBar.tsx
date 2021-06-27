@@ -77,8 +77,8 @@ const ApplicationBar = ({ open, setOpen, width }: Props) => {
                     <MenuIcon />
                 </IconButton>
 
-                <Typography variant='h6' noWrap className={classes.title}>
-                    Web Toolbox {process.env.REACT_APP_VERSION}
+                <Typography variant='body1' noWrap className={classes.title}>
+                    Web Toolbox
                 </Typography>
 
                 <NavLink to='/preferences' className={classes.linkMenu} title='Settings'>

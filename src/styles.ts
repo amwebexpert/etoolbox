@@ -36,11 +36,12 @@ export const useStyles = makeStyles((theme) => ({
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
     },
-    toolbarIcon: {
+    toolbarIconContainer: {
         display: 'flex',
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    },
+    toolbarIcon: {
+        height: 42,
     },
     menu: {
         paddingTop: 0,

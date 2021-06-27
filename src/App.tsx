@@ -32,6 +32,7 @@ import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import { useStyles } from './styles';
 import Banner from './images/icon.png';
+import { Link } from '@material-ui/core';
 
 
 interface Props {
@@ -93,8 +94,8 @@ const App: React.FC<Props> = (props: Props) => {
           }}
         >
           <div className={classes.toolbar}>
-            <div className={classes.toolbarIcon}>
-              <img src={Banner} alt='Web Toolbox' title='Web Toolbox' height={50} />
+            <div className={classes.toolbarIconContainer}>
+              <Link href='/#/about'><img src={Banner} alt='Web Toolbox' title='Web Toolbox' className={classes.toolbarIcon} /></Link>
             </div>
             <IconButton onClick={() => setOpen(false)} title="Toggle sidebar menu">
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
