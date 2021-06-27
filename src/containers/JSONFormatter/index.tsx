@@ -57,12 +57,12 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
 
     React.useEffect(() => {
         setFormatted(services.formatJson(inputText));
-    }, [inputText])
+    }, [inputText]);
 
     const handleSaveAs = (event: any) => {
         event.preventDefault();
         services.saveJsonAs(formatted);
-    }
+    };
 
     return (
         <>
@@ -70,16 +70,16 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
             <div className={classes.root}>
                 <FeatureTitle iconType={WrapTextIcon} title={title} />
 
-                <form noValidate autoComplete="off">
+                <form noValidate autoComplete='off'>
                     <div>
                         <TextField
                             autoFocus={isWidthUp('md', props.width)}
-                            label="JSON Content"
-                            placeholder="Paste or type the json content here"
+                            label='JSON Content'
+                            placeholder='Paste or type the json content here'
                             multiline
                             rows={10}
-                            variant="outlined"
-                            margin="normal"
+                            variant='outlined'
+                            margin='normal'
                             fullWidth={true}
                             value={inputText}
                             onChange={(e) => storeInputText('lastJSONFormatterValue', e.target.value)}
@@ -90,28 +90,35 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
                 <Toolbar className={classes.toolbar}>
                     <Box display='flex' flexGrow={1}></Box>
                     <CopyButton data={formatted} />
-                    <Button endIcon={<SaveIcon>Save As...</SaveIcon>} disabled={!formatted}
-                        variant="contained" color="primary" onClick={handleSaveAs}>Save As...</Button>
+                    <Button
+                        endIcon={<SaveIcon>Save As...</SaveIcon>}
+                        disabled={!formatted}
+                        variant='contained'
+                        color='primary'
+                        onClick={handleSaveAs}
+                    >
+                        Save As...
+                    </Button>
                 </Toolbar>
 
-                <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.formatted}>
+                <SyntaxHighlighter style={syntaxTheme} language='json' className={classes.formatted}>
                     {formatted}
                 </SyntaxHighlighter>
             </div>
         </>
     );
-}
+};
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs['lastJSONFormatterValue']
-    }
+        inputText: state.textInputs['lastJSONFormatterValue'],
+    };
 }
 
 export function mapDispatchToProps(dispatch: Dispatch) {
     return {
         storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
-    }
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(JSONFormatter));
