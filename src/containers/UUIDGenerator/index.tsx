@@ -12,6 +12,7 @@ import FeatureTitle from '../../components/FeatureTitle';
 import * as services from './services';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
+import ResultMonospace from '../../components/ResultMonospace';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,16 +23,6 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: theme.spacing(1),
-    },
-    generated: {
-        marginTop: theme.spacing(2),
-        padding: theme.spacing(1),
-        borderColor: theme.palette.text.disabled,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderRadius: theme.shape.borderRadius,
-        width: '100%',
-        overflow: 'auto',
     },
     toolbar: {
         '& > *': {
@@ -122,9 +113,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                     </Grid>
                 </div>
 
-                <div className={classes.generated}>
-                    <pre>{generated}</pre>
-                </div>
+                <ResultMonospace result={generated} />
             </div>
         </>
     );

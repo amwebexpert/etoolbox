@@ -18,19 +18,11 @@ import { Box, Toolbar } from '@material-ui/core';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
+import ResultMonospace from '../../components/ResultMonospace';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
-    },
-    encodedResult: {
-        padding: theme.spacing(1),
-        borderColor: theme.palette.text.disabled,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderRadius: theme.shape.borderRadius,
-        whiteSpace: 'normal',
-        wordBreak: 'break-word',
     },
     toolbar: {
         margin: 0,
@@ -81,9 +73,7 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
                         onClick={() => setTransformed(services.transform(inputText, false))}>Dec.</Button>
                 </Toolbar>
 
-                <div className={classes.encodedResult}>
-                    {transformed}
-                </div>
+                <ResultMonospace result={transformed} />
             </div>
         </>
     );

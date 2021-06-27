@@ -17,19 +17,11 @@ import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
+import ResultMonospace from '../../components/ResultMonospace';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: theme.spacing(1),
-    },
-    formatted: {
-        padding: theme.spacing(1),
-        borderColor: theme.palette.text.disabled,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderRadius: theme.shape.borderRadius,
-        whiteSpace: 'normal',
-        wordBreak: 'break-word',
     },
     toolbar: {
         margin: 0,
@@ -80,9 +72,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                         onClick={() => setTransformed(services.transform(inputText, true))}>Dec.</Button>
                 </Toolbar>
 
-                <div className={classes.formatted}>
-                    {transformed}
-                </div>
+                <ResultMonospace result={transformed} />
             </div>
         </>
     );

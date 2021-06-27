@@ -17,6 +17,7 @@ import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
+import ResultMonospace from '../../components/ResultMonospace';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -116,9 +117,9 @@ const RegExTester: React.FC<Props> = (props: Props) => {
                     Collection of values. Could be usefull for Jira tickets numbers with expressions like:<br />
                     <strong>issueKey in (FS-3456, WS-3213, FS-9988)</strong>
                 </p>
-                <div className={classes.matches}>
-                    {extracted}
-                </div>
+
+                <ResultMonospace result={extracted} />
+
                 <Toolbar className={classes.toolbar}>
                     <Box display='flex' flexGrow={1}></Box>
                     <CopyButton data={extracted} />
