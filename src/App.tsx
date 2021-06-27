@@ -24,7 +24,7 @@ import WrapTextIcon from '@material-ui/icons/WrapText';
 import clsx from 'clsx';
 import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { NavLink, Route, Switch, useHistory } from 'react-router-dom';
 import ApplicationBar from './components/ApplicationBar/ApplicationBar';
 import { FullCenteredContent } from './components/FullCenteredContent/FullCenteredContent';
 import Home from './components/Home';
@@ -95,7 +95,7 @@ const App: React.FC<Props> = (props: Props) => {
         >
           <div className={classes.toolbar}>
             <div className={classes.toolbarIconContainer}>
-              <Link href='/#/about'><img src={Banner} alt='Web Toolbox' title='Web Toolbox' className={classes.toolbarIcon} /></Link>
+              <NavLink exact to='/about' title='About Web Toolbox…'><img src={Banner} alt='Web Toolbox' className={classes.toolbarIcon} /></NavLink>
             </div>
             <IconButton onClick={() => setOpen(false)} title="Toggle sidebar menu">
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
