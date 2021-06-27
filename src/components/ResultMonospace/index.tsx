@@ -10,7 +10,9 @@ const useStyles = makeStyles((theme) => ({
         borderWidth: 1,
         borderRadius: theme.shape.borderRadius,
         width: '100%',
-        overflow: 'auto',
+    },
+    code: {
+        whiteSpace: 'pre-wrap',
     },
 }));
 
@@ -23,7 +25,7 @@ export const ResultMonospace = ({ result = '' }: Props) => {
 
     return (
         <div className={classes.root}>
-            <pre>{result}</pre>
+            <pre className={classes.code}>{result}</pre>
         </div>
     );
 };
