@@ -23,3 +23,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .eslintcache
+.idea/etoolbox.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml

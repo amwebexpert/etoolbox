@@ -23,8 +23,12 @@ export const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         overflowX: 'hidden',
-        // change width to zero (0) here to completely hide the left menu bar
         width: theme.spacing(7) + 1,
+        [theme.breakpoints.down('sm')]: {
+            // change width to zero (0) here to completely hide the
+            // left menu bar (drawer) for small devices
+            width: 0,
+        },
     },
     toolbar: {
         display: 'flex',

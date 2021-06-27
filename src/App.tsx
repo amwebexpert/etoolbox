@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import { useTheme } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
+import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
@@ -73,6 +73,12 @@ const App: React.FC<Props> = (props: Props) => {
     }
   }
 
+  const menuClick = () => {
+    if (open && isWidthDown('sm', props.width)) {
+      setOpen(false);
+    }
+  }
+
   return (
     <>
       <Helmet titleTemplate="Web Toolbox - %s" defaultTitle="Web Toolbox">
@@ -103,20 +109,20 @@ const App: React.FC<Props> = (props: Props) => {
           </div>
           <Divider />
           <List className={classes.menu}>
-            <NavbarButtonLink icon={<HomeIcon />} to="/" title="Home" detail="Home" exact={true} />
-            <NavbarButtonLink icon={<LinkIcon />} to="/URL" title="URL parse, encode" detail="URL utilities for parsing and encoding url parameters" />
-            <NavbarButtonLink icon={<DeveloperBoardIcon />} to="/Base64Encoder" title="Base64 String" detail="Base64 encoder/decoder" />
-            <NavbarButtonLink icon={<WrapTextIcon />} to="/JSONFormatter" title="JSON Formatter" detail="JSON Formatter" />
-            <NavbarButtonLink icon={<DeveloperModeIcon />} to="/JSONConverter" title="JSON Converter" detail="Convert json into multiple output languages" />
-            <NavbarButtonLink icon={<TextRotationNoneIcon />} to="/RegExTester" title="RegEx tester" detail="Regular expression tester" />
-            <NavbarButtonLink icon={<SimCardIcon />} to="/UUIDGenerator" title="UUID generator" detail="UUID generator" />
-            <NavbarButtonLink icon={<LockOpenIcon />} to="/JWTDecoder" title="JWT decoder" detail="JSON Web Token decoder" />
-            <NavbarButtonLink icon={<PanoramaIcon />} to="/Base64ImageEncoder" title="Base64 image" detail="Base64 image encoder" />
-            <NavbarButtonLink icon={<SelectAllIcon />} to="/QRCodeGenerator" title="QR Code generator" detail="QR Code generator" />
-            <NavbarButtonLink icon={<TextFieldsIcon />} to="/ImageOCR" title="Image OCR" detail="Image text extractor" />
-            <NavbarButtonLink icon={<PaletteIcon />} to="/ColorPicker" title="Color picker" detail="Image color picker" />
-            <NavbarButtonLink icon={<TocIcon />} to="/CommonLists" title="Mime-types, HTML" detail="Html entities, Mime-types, and more…" />
-            <NavbarButtonLink icon={<GithubIcon />} to="/GithubUserProjects" title="Github search" detail="Github user projects" />
+            <NavbarButtonLink icon={<HomeIcon />} to="/" title="Home" detail="Home" exact={true} onClick={menuClick} />
+            <NavbarButtonLink icon={<LinkIcon />} to="/URL" title="URL parse, encode" detail="URL utilities for parsing and encoding url parameters" onClick={menuClick} />
+            <NavbarButtonLink icon={<DeveloperBoardIcon />} to="/Base64Encoder" title="Base64 String" detail="Base64 encoder/decoder" onClick={menuClick} />
+            <NavbarButtonLink icon={<WrapTextIcon />} to="/JSONFormatter" title="JSON Formatter" detail="JSON Formatter" onClick={menuClick} />
+            <NavbarButtonLink icon={<DeveloperModeIcon />} to="/JSONConverter" title="JSON Converter" detail="Convert json into multiple output languages" onClick={menuClick} />
+            <NavbarButtonLink icon={<TextRotationNoneIcon />} to="/RegExTester" title="RegEx tester" detail="Regular expression tester" onClick={menuClick} />
+            <NavbarButtonLink icon={<SimCardIcon />} to="/UUIDGenerator" title="UUID generator" detail="UUID generator" onClick={menuClick} />
+            <NavbarButtonLink icon={<LockOpenIcon />} to="/JWTDecoder" title="JWT decoder" detail="JSON Web Token decoder" onClick={menuClick} />
+            <NavbarButtonLink icon={<PanoramaIcon />} to="/Base64ImageEncoder" title="Base64 image" detail="Base64 image encoder" onClick={menuClick} />
+            <NavbarButtonLink icon={<SelectAllIcon />} to="/QRCodeGenerator" title="QR Code generator" detail="QR Code generator" onClick={menuClick} />
+            <NavbarButtonLink icon={<TextFieldsIcon />} to="/ImageOCR" title="Image OCR" detail="Image text extractor" onClick={menuClick} />
+            <NavbarButtonLink icon={<PaletteIcon />} to="/ColorPicker" title="Color picker" detail="Image color picker" onClick={menuClick} />
+            <NavbarButtonLink icon={<TocIcon />} to="/CommonLists" title="Mime-types, HTML" detail="Html entities, Mime-types, and more…" onClick={menuClick} />
+            <NavbarButtonLink icon={<GithubIcon />} to="/GithubUserProjects" title="Github search" detail="Github user projects" onClick={menuClick} />
           </List>
         </Drawer>
         <ToasterProvider>

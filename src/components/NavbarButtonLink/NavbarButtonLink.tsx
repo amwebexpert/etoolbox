@@ -26,14 +26,15 @@ interface Props {
     to: string;
     icon: React.ReactNode;
     exact?: boolean;
+    onClick?: () => void;
 }
 
-export const NavbarButtonLink = ({title, detail, to, icon, exact = false} : Props) => {
+export const NavbarButtonLink = ({title, detail, to, icon, exact = false, onClick} : Props) => {
     const classes = useStyles();
 
     return (
         <NavLink exact={exact} to={to} title={detail} className={classes.link} activeClassName={classes.linkActive}>
-            <ListItem button>
+            <ListItem button onClick={onClick}>
                 <ListItemIcon className={classes.listItemIcon}>
                     {icon}
                 </ListItemIcon>
