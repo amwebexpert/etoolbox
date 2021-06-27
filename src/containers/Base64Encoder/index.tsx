@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import LinkIcon from '@material-ui/icons/Link';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 import TextField from '@material-ui/core/TextField';
 
 import { setTextAction } from '../../actions/text-actions';
@@ -45,6 +46,11 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState('');
 
+    const flip = () => {
+        storeInputText('lastBase64EncoderValue', transformed);
+        setTransformed('');
+    }
+
     return (
         <>
             <Helmet title={title} />
@@ -65,6 +71,15 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
                 />
 
                 <Toolbar className={classes.toolbar}>
+                <Button
+                        variant='contained'
+                        color='primary'
+                        endIcon={<ImportExportIcon>Flip</ImportExportIcon>}
+                        disabled={!transformed}
+                        onClick={flip}
+                    >
+                        Flip
+                    </Button>
                     <Box display='flex' flexGrow={1}></Box>
                     <CopyButton data={transformed} />
                     <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}

@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import LinkIcon from '@material-ui/icons/Link';
 import LinkOffIcon from '@material-ui/icons/LinkOff';
 import TextField from '@material-ui/core/TextField';
-
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
@@ -44,6 +44,11 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState(services.transform(inputText, false));
 
+    const flip = () => {
+        storeInputText('lastUrlEncoderValue', transformed);
+        setTransformed('');
+    }
+
     return (
         <>
             <Helmet title={title} />
@@ -52,42 +57,65 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
 
                 <TextField
                     autoFocus={isWidthUp('md', props.width)}
-                    label="Content to encode/decode"
-                    placeholder="Paste or type the content here"
+                    label='Content to encode/decode'
+                    placeholder='Paste or type the content here'
                     multiline
                     rows={4}
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth={true}
                     value={inputText}
                     onChange={(e) => storeInputText('lastUrlEncoderValue', e.target.value)}
                 />
 
                 <Toolbar className={classes.toolbar}>
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        endIcon={<ImportExportIcon>Flip</ImportExportIcon>}
+                        disabled={!transformed}
+                        onClick={flip}
+                    >
+                        Flip
+                    </Button>
                     <Box display='flex' flexGrow={1}></Box>
                     <CopyButton data={transformed} />
-                    <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
-                        onClick={() => setTransformed(services.transform(inputText, false))}>Enc.</Button>
-                    <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!inputText}
-                        onClick={() => setTransformed(services.transform(inputText, true))}>Dec.</Button>
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        endIcon={<LinkIcon>Encode</LinkIcon>}
+                        disabled={!inputText}
+                        onClick={() => setTransformed(services.transform(inputText, false))}
+                    >
+                        Enc.
+                    </Button>
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        endIcon={<LinkOffIcon>Decode</LinkOffIcon>}
+                        disabled={!inputText}
+                        onClick={() => setTransformed(services.transform(inputText, true))}
+                    >
+                        Dec.
+                    </Button>
                 </Toolbar>
 
-                <ResultMonospace label="Result" result={transformed} />
+                <ResultMonospace label='Result' result={transformed} />
             </div>
         </>
     );
-}
+};
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs['lastUrlEncoderValue']
-    }
+        inputText: state.textInputs['lastUrlEncoderValue'],
+    };
 }
 
 export function mapDispatchToProps(dispatch: Dispatch) {
     return {
         storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
-    }
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(URLEncoder));
