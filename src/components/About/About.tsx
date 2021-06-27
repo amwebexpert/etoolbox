@@ -13,7 +13,10 @@ import { Link } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    textAlign: 'center'
+    marginTop: 10,
+  },
+  rootCard: {
+    textAlign: 'center',
   },
   media: {
     height: 240,
@@ -31,8 +34,8 @@ export default function About() {
   const classes = useStyles();
 
   return (
-    <Grid container justify="center">
-      <Card className={classes.root}>
+    <Grid container justify="center" className={classes.root}>
+      <Card className={classes.rootCard}>
         <CardActionArea>
           <CardMedia className={classes.media} image={Banner} title="Web Toolbox" />
           <CardContent>
