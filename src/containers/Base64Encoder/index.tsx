@@ -49,7 +49,7 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
     const flip = () => {
         storeInputText('lastBase64EncoderValue', transformed);
         setTransformed('');
-    }
+    };
 
     return (
         <>
@@ -59,51 +59,57 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
 
                 <TextField
                     autoFocus={isWidthUp('md', props.width)}
-                    label="Content to Base64 encode/decode"
-                    placeholder="Paste or type the content here"
+                    label='Content to Base64 encode/decode'
+                    placeholder='Paste or type the content here'
                     multiline
                     rows={4}
-                    variant="outlined"
-                    margin="normal"
+                    variant='outlined'
+                    margin='normal'
                     fullWidth={true}
                     value={inputText}
                     onChange={(e) => storeInputText('lastBase64EncoderValue', e.target.value)}
                 />
 
                 <Toolbar className={classes.toolbar}>
-                <Button
-                        variant='contained'
-                        color='primary'
-                        endIcon={<ImportExportIcon>Flip</ImportExportIcon>}
-                        disabled={!transformed}
-                        onClick={flip}
-                    >
-                        Flip
+                    <Button variant='contained' color='primary' disabled={!transformed} onClick={flip}>
+                        <ImportExportIcon />
                     </Button>
                     <Box display='flex' flexGrow={1}></Box>
                     <CopyButton data={transformed} />
-                    <Button variant="contained" color="primary" endIcon={<LinkIcon>Encode</LinkIcon>} disabled={!inputText}
-                        onClick={() => setTransformed(services.transform(inputText, true))}>Enc.</Button>
-                    <Button variant="contained" color="primary" endIcon={<LinkOffIcon>Decode</LinkOffIcon>} disabled={!inputText}
-                        onClick={() => setTransformed(services.transform(inputText, false))}>Dec.</Button>
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        disabled={!inputText}
+                        onClick={() => setTransformed(services.transform(inputText, true))}
+                    >
+                        <LinkIcon />
+                    </Button>
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        disabled={!inputText}
+                        onClick={() => setTransformed(services.transform(inputText, false))}
+                    >
+                        <LinkOffIcon />
+                    </Button>
                 </Toolbar>
 
-                <ResultMonospace label="Result" result={transformed} />
+                <ResultMonospace label='Result' result={transformed} />
             </div>
         </>
     );
-}
+};
 
 export function mapStateToProps(state: AppState) {
     return {
-        inputText: state.textInputs['lastBase64EncoderValue']
-    }
+        inputText: state.textInputs['lastBase64EncoderValue'],
+    };
 }
 
 export function mapDispatchToProps(dispatch: Dispatch) {
     return {
         storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
-    }
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(Base64Encoder));

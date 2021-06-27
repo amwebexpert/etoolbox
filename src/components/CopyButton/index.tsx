@@ -23,13 +23,13 @@ const CopyButton: React.FC<Props> = (props: Props) => {
 
         copy.default(data, { format: 'text/plain' });
         setToasterState({ open: true, message, type: 'success', autoHideDuration: 2000 });
-    }
+    };
 
     return (
-        <Button endIcon={<AssignmentTurnedIn>Copy</AssignmentTurnedIn>}
-            onClick={handleCopy} disabled={!data}
-            variant="contained" color="primary">Copy</Button>
+        <Button onClick={handleCopy} disabled={!data} title="Copy to clipboard" variant='contained' color='primary'>
+            <AssignmentTurnedIn />
+        </Button>
     );
-}
+};
 
 export default CopyButton;

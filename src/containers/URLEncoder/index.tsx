@@ -47,7 +47,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
     const flip = () => {
         storeInputText('lastUrlEncoderValue', transformed);
         setTransformed('');
-    }
+    };
 
     return (
         <>
@@ -69,34 +69,26 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                 />
 
                 <Toolbar className={classes.toolbar}>
-                    <Button
-                        variant='contained'
-                        color='primary'
-                        endIcon={<ImportExportIcon>Flip</ImportExportIcon>}
-                        disabled={!transformed}
-                        onClick={flip}
-                    >
-                        Flip
+                    <Button variant='contained' component='span' color='primary' disabled={!transformed} onClick={flip}>
+                        <ImportExportIcon />
                     </Button>
                     <Box display='flex' flexGrow={1}></Box>
                     <CopyButton data={transformed} />
                     <Button
                         variant='contained'
                         color='primary'
-                        endIcon={<LinkIcon>Encode</LinkIcon>}
                         disabled={!inputText}
                         onClick={() => setTransformed(services.transform(inputText, false))}
                     >
-                        Enc.
+                        <LinkIcon />
                     </Button>
                     <Button
                         variant='contained'
                         color='primary'
-                        endIcon={<LinkOffIcon>Decode</LinkOffIcon>}
                         disabled={!inputText}
                         onClick={() => setTransformed(services.transform(inputText, true))}
                     >
-                        Dec.
+                        <LinkOffIcon />
                     </Button>
                 </Toolbar>
 
