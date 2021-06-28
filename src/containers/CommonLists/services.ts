@@ -6,7 +6,7 @@ const MIME_TYPES_ARRAY: any[] = Object.entries(mime.extensions);
 export const MIME_TYPES_MAP = new Map<string, string[]>(MIME_TYPES_ARRAY);
 
 export function filterMimeTypes(filter: string | undefined): Map<string, string[]> {
-    if (filter) {
+    if (filter && filter.length > 0) {
         const filteredEntries: any[] = MIME_TYPES_ARRAY
             .filter(mimeType => isMimeTypeMatchFilter(mimeType, filter));
         return new Map(filteredEntries);

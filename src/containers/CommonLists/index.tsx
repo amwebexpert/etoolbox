@@ -1,4 +1,4 @@
-import { Box, Paper, Tab, Table, TableBody, TableContainer, TableHead, TableRow, Tabs, Toolbar } from '@material-ui/core';
+import { Box, Paper, Tab, Table, TableBody, TableContainer, TableHead, TablePagination, TableRow, Tabs, Toolbar } from '@material-ui/core';
 import React from 'react';
 import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
@@ -34,10 +34,18 @@ const CommonLists: React.FC<Props> = (props: Props) => {
     const [inputFilter, setInputFilter] = React.useState('');
     const { filteringMimeTypes, mimeTypes, filteringHtmlEntities, htmlEntities, applyMimeTypesFilter, applyHtmlEntitiesFilter } = props;
     const searching = filteringMimeTypes || filteringHtmlEntities;
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  
+    const handleChangeRowsPerPage = (evt: any) => {
+      setRowsPerPage(+evt.target.value);
+      setPage(0);
+    };
 
     const onTabSelected = (_e: any, newTab: number) => {
         setSelectedTab(newTab);
         applyFilter('');
+        setPage(0);
     };
 
     function applyFilter(newInputFilter: string) {
@@ -84,6 +92,15 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                 </Toolbar>
 
                 <TabPanel value={selectedTab} index={TABS.MIME_TYPES}>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25, 50]}
+                        component='div'
+                        count={[...mimeTypes.keys()].length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={(_, page) => setPage(page)}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead className={classes.tableHeader}>
@@ -93,7 +110,9 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {[...mimeTypes.keys()].map(key => {
+                                {[...mimeTypes.keys()]
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map(key => {
                                     const extensions: string[] = mimeTypes.get(key) || [];
                                     const value = extensions.join(', ');
                                     return (
@@ -113,6 +132,15 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                 </TabPanel>
 
                 <TabPanel value={selectedTab} index={TABS.HTML_ENTITIES}>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25, 50]}
+                        component='div'
+                        count={htmlEntities.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={(_, page) => setPage(page)}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead className={classes.tableHeader}>
@@ -124,7 +152,9 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {htmlEntities.map(htmlEntity => (
+                                {htmlEntities
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map(htmlEntity => (
                                     <StyledTableRow key={htmlEntity.entityNumber}>
                                         <StyledTableCell>
                                             <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.character} />

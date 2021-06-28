@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { Box, Link, Paper, Table, TableBody, TableContainer, TableHead, TableRow, Toolbar } from '@material-ui/core';
+import { Box, Link, Paper, Table, TableBody, TableContainer, TableHead, TablePagination, TableRow, Toolbar } from '@material-ui/core';
 import GithubIcon from '@material-ui/icons/GitHub';
 import WatchIcon from '@material-ui/icons/Visibility';
 
@@ -35,6 +35,13 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
     const { inputText, searching, projects, listGithubUserProjectsRequested, storeInputText } = props;
     const [inputFilter, setInputFilter] = React.useState(inputText);
     const { setGlobalSpinnerState } = useGlobalSpinnerUpdate();
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  
+    const handleChangeRowsPerPage = (evt: any) => {
+      setRowsPerPage(+evt.target.value);
+      setPage(0);
+    };
 
     function applyFilter(newInputFilter: string) {
         setInputFilter(newInputFilter);
@@ -63,6 +70,15 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
                     <FilterStats count={projects.length} searching={searching} />
                 </Toolbar>
 
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, 50]}
+                    component='div'
+                    count={projects.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={(_, page) => setPage(page)}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead className={classes.tableHeader}>
@@ -74,7 +90,9 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {projects.map(project => {
+                            {projects
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map(project => {
                                 return (
                                     <StyledTableRow key={project.id}>
                                         <StyledTableCell>
