@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     },
     featuresList: {
         margin: theme.spacing(0),
+        fontFamily: 'monospace',
     },
     panelTitle: {
         marginTop: theme.spacing(3),
@@ -47,7 +48,9 @@ const Home: React.FC = () => {
                         v1.4.0 - Allow javascript source to be converted to many target languages. Also added lazy loading for
                         modules.
                     </li>
-                    <li>v1.4.1..2 - Bug fixes</li>
+                    <li>v1.3.0 - Added Mime-Types and HTML entities collections</li>
+                    <li>v1.2.0 - Image features: OCR, Base64 encoding, color picker</li>
+                    <li>v1.0.0 - Initial revision</li>
                 </ul>
             </div>
         </Paper>
