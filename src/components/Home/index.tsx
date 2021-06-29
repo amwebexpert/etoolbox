@@ -40,13 +40,14 @@ const Home: React.FC = () => {
 
             <div className={classes.featuresList}>
                 <ul>
-                    <li>v1.4.3 - New dark mode and preferences screen</li>
-                    <li>v1.4.2 - Bug fixes</li>
-                    <li>v1.4.1 - Bug fixes</li>
+                    <li>v1.6.0 - Added pagination for mime-types, html entities and GitHub search screens</li>
+                    <li>v1.5.0 - New dark mode and preferences screen</li>
+                    <li>v1.4.1..2 - Bug fixes</li>
                     <li>
-                        v1.4.0 - Now allowing Javascript source to be converted to a target language. Also added lazy
-                        loading for modules.
+                        v1.4.0 - Allow javascript source to be converted to many target languages. Also added lazy loading for
+                        modules.
                     </li>
+                    <li>v1.4.1..2 - Bug fixes</li>
                 </ul>
             </div>
         </Paper>
