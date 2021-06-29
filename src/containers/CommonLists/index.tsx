@@ -50,6 +50,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
 
     function applyFilter(newInputFilter: string) {
         setInputFilter(newInputFilter);
+        setPage(0);
         if (selectedTab === TABS.MIME_TYPES) {
             applyMimeTypesFilter(newInputFilter);
         } else {
@@ -93,7 +94,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
 
                 <TabPanel value={selectedTab} index={TABS.MIME_TYPES}>
                     <TablePagination
-                        rowsPerPageOptions={[5, 10, 25, 50]}
+                        rowsPerPageOptions={[5, 10, 25, 50, 100]}
                         component='div'
                         count={[...mimeTypes.keys()].length}
                         rowsPerPage={rowsPerPage}
@@ -133,7 +134,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
 
                 <TabPanel value={selectedTab} index={TABS.HTML_ENTITIES}>
                     <TablePagination
-                        rowsPerPageOptions={[5, 10, 25, 50]}
+                        rowsPerPageOptions={[5, 10, 25, 50, 100]}
                         component='div'
                         count={htmlEntities.length}
                         rowsPerPage={rowsPerPage}
