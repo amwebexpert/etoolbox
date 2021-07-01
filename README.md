@@ -112,7 +112,7 @@ On the top of it, the following features have been added with relatively small c
 
 * TypeScript supports for Electron main process source code
 * Hot-reload support for Electron app
-* Electron Bulder support
+* Electron Builder support
 
 ## Available Scripts in addition to the existing ones
 
