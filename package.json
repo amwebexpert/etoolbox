@@ -11,6 +11,7 @@
   "main": "build/electron/main.js",
   "private": false,
   "scripts": {
+    "release": "standard-version",
     "start": "REACT_APP_VERSION=$npm_package_version react-scripts start",
     "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
     "test": "react-scripts test",
@@ -154,6 +155,7 @@
     "electron": "^11.3.0",
     "electron-builder": "^22.9.1",
     "redux-devtools-extension": "^2.13.8",
+    "standard-version": "^9.3.0",
     "wait-on": "^5.2.1"
   }
 }
