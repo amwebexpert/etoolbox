@@ -1,3 +1,7 @@
+# Project Title
+
+Collection of web developer utilities
+
 <div align="center">
   <img src="public/icon-512x512.png" width="200" alt="Web Toolbox" />
   <div>Code author: <a href="mailto:amwebexpert@gmail.com">amwebexpert@gmail.com</a></div>
@@ -28,7 +32,7 @@ Some screen captures of the implemented features...
 
 ## Online demo
 
-The app has been deployed and you can test it right [here!](https://amwebexpert.github.io/etoolbox). Whenever a feature is only available under Electron the UI element will be disabled or a corresponding popup message will be displayed. But most of the time we will try to make the feature available online.
+The app has been deployed and you can test it [right here!](https://amwebexpert.github.io/etoolbox). Whenever a feature is only available under Electron the UI element will be disabled or a corresponding popup message will be displayed. But most of the time we will try to make the feature available online.
 
 ## Windows, Linux and MacOS versions
 
@@ -41,9 +45,9 @@ Since most of the features don't need to access desktop capabilities, Electron i
 
 Again feel free to try out the online [demo](https://amwebexpert.github.io/etoolbox/) before trying to package the Electron app for your platform :-)
 
-### Builded releases
+### Builded desktop releases
 
-The following installers are available under `releases` folder:
+The following installers (may be old release in some cases) are available under `releases` folder:
 
 * Windows: `releases/Web Toolbox Setup <version>.exe`
 * Linux: `releases/Web Toolbox-<version>.AppImage`
@@ -162,3 +166,8 @@ This project is licensed under the MIT license, Copyright (c) 2020 André Masson
 * https://www.npmjs.com/package/react-spinners
 * https://www.davidhu.io/react-spinners/
 
+
+## Authors
+
+- [amwebexpert@gmail.com](https://github.com/amwebexpert)
+  
