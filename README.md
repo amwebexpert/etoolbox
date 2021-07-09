@@ -32,18 +32,18 @@ Some screen captures of the implemented features...
 
 ## Online demo
 
-The app has been deployed and you can test it [right here!](https://amwebexpert.github.io/etoolbox). Whenever a feature is only available under Electron the UI element will be disabled or a corresponding popup message will be displayed. But most of the time we will try to make the feature available online.
+The app has been deployed and you can test it [right here!](https://amwebexpert.github.io/etoolbox). Whenever a feature is only available under `Electron` the UI element will be disabled or a corresponding popup message will be displayed. But most of the time we will try to make the feature available online.
 
 ## Windows, Linux and MacOS versions
 
-Since most of the features don't need to access desktop capabilities, Electron is actually not absolutely required. However, having a desktop application gives nice things like:
+Since most of the features don't need to access desktop capabilities, `Electron` is actually not absolutely required. However, having a desktop application gives nice things like:
 
 - global OS shortcuts
 - dedicated OS window
 - ability to select exactly where a file will be stored whenever the SPA offers a `Save As...` button
 - etc.
 
-Again feel free to try out the online [demo](https://amwebexpert.github.io/etoolbox/) before trying to package the Electron app for your platform :-)
+Again feel free to try out the [online demo](https://amwebexpert.github.io/etoolbox/) before trying to package the `Electron` app for your platform :-)
 
 ### Builded desktop releases
 
@@ -70,13 +70,13 @@ This creates the following installers:
 
 ## Project detail
 
-This project is originaly a fork of [React-TypeScript-Electron sample with Create React App and Electron Builder](https://github.com/yhirose/react-typescript-electron-sample-with-create-react-app-and-electron-builder)
+This project is originaly a fork of [React-TypeScript-`Electron` sample with Create React App and `Electron` Builder](https://github.com/yhirose/react-typescript-electron-sample-with-create-react-app-and-electron-builder)
 
 Also bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with `--typescript`option. On the top of it, the following features have been added with relatively small changes:
 
-* TypeScript supports for Electron main process source code
-* Hot-reload support for Electron app
-* Electron Builder support
+* TypeScript supports for `Electron` main process source code
+* Hot-reload support for `Electron` app
+* `Electron` Builder support
 
 ### Project directory structure
 
@@ -115,16 +115,16 @@ my-app/
 
 #### `yarn run electron:dev`
 
-Runs the Electron app in the development mode.
+Runs the `Electron` app in the development mode.
 
-The Electron app will reload if you make edits in the `electron` directory.<br>
+The `Electron` app will reload if you make edits in the `electron` directory.<br>
 You will also see any lint errors in the console.
 
 #### `yarn run electron:build`
 
-Builds the Electron app package for production to the `dist` folder.
+Builds the `Electron` app package for production to the `dist` folder.
 
-Your Electron app is ready to be distributed!
+Your `Electron` app is ready to be distributed!
 
 #### `yarn run release`
 
