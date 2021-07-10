@@ -151,6 +151,7 @@
     "@types/redux-logger": "^3.0.8",
     "@types/styled-components": "^5.1.7",
     "@types/uuid": "^8.3.0",
+    "@welldone-software/why-did-you-render": "^6.2.0",
     "concurrently": "^6.0.0",
     "electron": "^11.3.0",
     "electron-builder": "^22.9.1",

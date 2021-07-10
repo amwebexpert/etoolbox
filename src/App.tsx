@@ -32,7 +32,6 @@ import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import { useStyles } from './styles';
 import Banner from './images/icon.png';
-import { Link } from '@material-ui/core';
 
 
 interface Props {
