@@ -32,6 +32,8 @@ import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import { useStyles } from './styles';
 import Banner from './images/icon.png';
+import URLParser from './containers/URLParser';
+import URLEncoder from './containers/URLEncoder';
 
 
 interface Props {
@@ -60,6 +62,8 @@ const App: React.FC<Props> = (props: Props) => {
   const GithubUserProjects = lazy(() => import('./containers/GithubUserProjects'));
   const JSONConverter = lazy(() => import('./containers/JSONConverter'));
   const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
+
+  const featureGroupTabsURL = [{ type: URLParser, path: '/URLParser', label: 'Parser'}, { type: URLEncoder, path: '/URLEncoder', label: 'Encoder'}];
 
   React.useEffect(setupIPC, [history]);
 
@@ -134,7 +138,7 @@ const App: React.FC<Props> = (props: Props) => {
                 <Route exact path="/about"><About /></Route>
                 <Route exact path="/preferences"><AppPreferences /></Route>
 
-                <Route path="/URL"><FeaturesGroup /></Route>
+                <Route path="/URL"><FeaturesGroup tabs={featureGroupTabsURL} /></Route>
                 <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
                 <Route exact path="/Base64ImageEncoder"><Base64ImageEncoder /></Route>
                 <Route exact path="/JSONFormatter"><JSONFormatter /></Route>

@@ -4,8 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Tab, Tabs } from '@material-ui/core';
 
 import { Link, Redirect, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
-import URLParser from '../../containers/URLParser';
-import URLEncoder from '../../containers/URLEncoder';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,63 +17,73 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.info.dark,
         '& .MuiListItem-root': {
             backgroundColor: theme.palette.grey[300],
-        }
+        },
     },
     linkMenu: {
         textDecoration: 'none',
         color: 'inherit',
-    }
+    },
 }));
 
-// TODO Make this generic so we can reuse the FeaturesGroup
-const TABS: Map<String, number> = new Map([
-    ['/URL/URLParser', 0],
-    ['/URL/URLEncoder', 1]]
-);
+type FeatureGroupTab = {
+    type: any;
+    path: string;
+    label: string;
+};
 
-const FeaturesGroup: React.FC = () => {
+export type Props = {
+    tabs: FeatureGroupTab[];
+};
+
+const FeaturesGroup = ({ tabs }: Props) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-    const { path, url } = useRouteMatch();
+    const { path: parentPath, url } = useRouteMatch();
     const location = useLocation();
+    const TABS = tabs.reduce((acc, tab, i) => {
+        acc.set(`${parentPath}${tab.path}`, i);
+        return acc;
+    }, new Map<string, number>());
 
-    React.useEffect(
-        () => {
-            const tabIndex = TABS.get(location.pathname);
-            if (tabIndex) {
-                setValue(tabIndex!);
-            }
-        },
-        [location, setValue]
-    );
+    React.useEffect(() => {
+        const tabIndex = TABS.get(location.pathname);
+        if (tabIndex) {
+            setValue(tabIndex!);
+        } else {
+            setValue(0);
+        }
+    }, [location, setValue, TABS]);
 
     return (
         <>
             <Paper square className={classes.root}>
                 <Tabs
                     value={value}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="scrollable"
-                    scrollButtons="on"
+                    indicatorColor='primary'
+                    textColor='primary'
+                    variant='scrollable'
+                    scrollButtons='on'
                     onChange={(_e: any, newValue: number) => setValue(newValue)}
                 >
-                    { /** TODO Make this generic so we can reuse the FeaturesGroup */}
-                    <Tab label="Parser" to={`${url}/URLParser`} component={Link} />
-                    <Tab label="Encoder" to={`${url}/URLEncoder`} component={Link} />
+                    {tabs.map((tab) => (
+                        <Tab key={tab.path} label={tab.label} to={`${parentPath}${tab.path}`} component={Link} />
+                    ))}
                 </Tabs>
             </Paper>
 
             <Switch>
-                { /** TODO Make this generic so we can reuse the FeaturesGroup */}
-                <Route exact path={`${path}/URLParser`}><URLParser /></Route>
-                <Route exact path={`${path}/URLEncoder`}><URLEncoder /></Route>
+                {tabs.map((tab) => {
+                    const VisualComponent = tab.type;
+                    return (
+                        <Route key={tab.path} exact path={`${parentPath}${tab.path}`}><VisualComponent /></Route>
+                    );
+                })}
 
-                {/** Default route is the first tab */}
-                <Redirect to={`${path}/URLParser`} />
+                {/** Default route is the 1st one */}
+                <Redirect exact to={`${parentPath}${tabs[0].path}`} />
             </Switch>
         </>
     );
-}
+};
 
 export default FeaturesGroup;
