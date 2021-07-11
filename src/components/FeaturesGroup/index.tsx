@@ -43,7 +43,7 @@ const FeaturesGroup = ({ tabs }: Props) => {
 
     React.useEffect(() => {
         // https://github.com/mui-org/material-ui/issues/14077
-        // Because of this issue, Suspense is breaking the tab selection
+        // Because of this issue, Suspense is breaking the tab selection (fix will be part of React 18)
         const tabIndex = tabs.findIndex(tab => `${parentPath}${tab.path}` === location.pathname);
         console.log('Found tabIndex', tabIndex, location.pathname);
         setValue(tabIndex === -1 ? 0 : tabIndex);

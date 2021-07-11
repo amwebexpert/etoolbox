@@ -62,7 +62,7 @@ const App: React.FC<Props> = (props: Props) => {
   const GithubUserProjects = lazy(() => import('./containers/GithubUserProjects'));
   const JSONConverter = lazy(() => import('./containers/JSONConverter'));
 
-  // Because of the following issue, Suspense is breaking the tab selection
+  // Because of the following issue, Suspense is breaking the tab selection (fix will be part of React 18)
   // @see https://github.com/mui-org/material-ui/issues/14077
   // const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
   // const URLParser = lazy(() => import('./containers/URLParser'));
