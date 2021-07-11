@@ -41,6 +41,9 @@ const Home: React.FC = () => {
 
             <div className={classes.featuresList}>
                 <ul>
+                    <li>v1.9.1 - lazy loading suspense fixed tab underline selector</li>
+                    <li>v1.8.0 - Tab base navigation for Base64 features</li>
+                    <li>v1.7.0 - lazy loading of all features</li>
                     <li>v1.6.0 - Added pagination for mime-types, html entities and GitHub search screens</li>
                     <li>v1.5.0 - New dark mode and preferences screen</li>
                     <li>v1.4.1..2 - Bug fixes</li>
