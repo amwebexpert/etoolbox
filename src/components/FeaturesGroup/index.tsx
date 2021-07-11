@@ -38,21 +38,17 @@ export type Props = {
 const FeaturesGroup = ({ tabs }: Props) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-    const { path: parentPath, url } = useRouteMatch();
+    const { path: parentPath } = useRouteMatch();
     const location = useLocation();
-    const TABS = tabs.reduce((acc, tab, i) => {
-        acc.set(`${parentPath}${tab.path}`, i);
-        return acc;
-    }, new Map<string, number>());
+    const tabsIndexMap = tabs.reduce(
+        (acc, tab, i) => acc.set(`${parentPath}${tab.path}`, i),
+        new Map<string, number>()
+    );
 
     React.useEffect(() => {
-        const tabIndex = TABS.get(location.pathname);
-        if (tabIndex) {
-            setValue(tabIndex!);
-        } else {
-            setValue(0);
-        }
-    }, [location, setValue, TABS]);
+        const tabIndex = tabsIndexMap.get(location.pathname);
+        setValue(tabIndex ?? 0);
+    }, [location, setValue, tabsIndexMap]);
 
     return (
         <>
@@ -75,7 +71,9 @@ const FeaturesGroup = ({ tabs }: Props) => {
                 {tabs.map((tab) => {
                     const VisualComponent = tab.type;
                     return (
-                        <Route key={tab.path} exact path={`${parentPath}${tab.path}`}><VisualComponent /></Route>
+                        <Route key={tab.path} exact path={`${parentPath}${tab.path}`}>
+                            <VisualComponent />
+                        </Route>
                     );
                 })}
 
