@@ -14,7 +14,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import LinkIcon from '@material-ui/icons/Link';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PaletteIcon from '@material-ui/icons/Palette';
-import PanoramaIcon from '@material-ui/icons/Panorama';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
 import SimCardIcon from '@material-ui/icons/SimCard';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
@@ -30,10 +29,8 @@ import { FullCenteredContent } from './components/FullCenteredContent/FullCenter
 import Home from './components/Home';
 import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink';
 import ToasterProvider from './components/Toaster/ToasterProvider';
-import { useStyles } from './styles';
 import Banner from './images/icon.png';
-import URLParser from './containers/URLParser';
-import URLEncoder from './containers/URLEncoder';
+import { useStyles } from './styles';
 
 
 interface Props {
@@ -50,6 +47,8 @@ const App: React.FC<Props> = (props: Props) => {
   const About = lazy(() => import('./components/About/About'));
   const AppPreferences = lazy(() => import('./containers/AppPreferences'));
   const JSONFormatter = lazy(() => import('./containers/JSONFormatter'));
+  const URLParser = lazy(() => import('./containers/URLParser'));
+  const URLEncoder = lazy(() => import('./containers/URLEncoder'));
   const Base64Encoder = lazy(() => import('./containers/Base64Encoder'));
   const RegExTester = lazy(() => import('./containers/RegExTester'));
   const UUIDGenerator = lazy(() => import('./containers/UUIDGenerator'));
@@ -63,7 +62,14 @@ const App: React.FC<Props> = (props: Props) => {
   const JSONConverter = lazy(() => import('./containers/JSONConverter'));
   const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
 
-  const featureGroupTabsURL = [{ type: URLParser, path: '/URLParser', label: 'Parser'}, { type: URLEncoder, path: '/URLEncoder', label: 'Encoder'}];
+  const featuresGroupURL = [
+    { type: URLParser, path: '/URLParser', label: 'Parser'}, 
+    { type: URLEncoder, path: '/URLEncoder', label: 'Encoder'}
+  ];
+  const featuresGroupBase64 = [
+    { type: Base64Encoder, path: '/Base64Encoder', label: 'String'}, 
+    { type: Base64ImageEncoder, path: '/Base64ImageEncoder', label: 'Image'}
+  ];
 
   React.useEffect(setupIPC, [history]);
 
@@ -113,14 +119,18 @@ const App: React.FC<Props> = (props: Props) => {
           <Divider />
           <List className={classes.menu}>
             <NavbarButtonLink icon={<HomeIcon />} to="/" title="Home" detail="Home" exact={true} onClick={menuClick} />
+
+            {/** Features group so exact={false} */}
             <NavbarButtonLink icon={<LinkIcon />} to="/URL" title="URL parse, encode" detail="URL utilities for parsing and encoding url parameters" onClick={menuClick} />
-            <NavbarButtonLink icon={<DeveloperBoardIcon />} to="/Base64Encoder" title="Base64 String" detail="Base64 encoder/decoder" onClick={menuClick} />
+
+            {/** Features group so exact={false} */}
+            <NavbarButtonLink icon={<DeveloperBoardIcon />} to="/Base64" title="Base64" detail="Base64 encoders/decoders" onClick={menuClick} />
+ 
             <NavbarButtonLink icon={<WrapTextIcon />} to="/JSONFormatter" title="JSON Formatter" detail="JSON Formatter" onClick={menuClick} />
             <NavbarButtonLink icon={<DeveloperModeIcon />} to="/JSONConverter" title="JSON Converter" detail="Convert json into multiple output languages" onClick={menuClick} />
             <NavbarButtonLink icon={<TextRotationNoneIcon />} to="/RegExTester" title="RegEx tester" detail="Regular expression tester" onClick={menuClick} />
             <NavbarButtonLink icon={<SimCardIcon />} to="/UUIDGenerator" title="UUID generator" detail="UUID generator" onClick={menuClick} />
             <NavbarButtonLink icon={<LockOpenIcon />} to="/JWTDecoder" title="JWT decoder" detail="JSON Web Token decoder" onClick={menuClick} />
-            <NavbarButtonLink icon={<PanoramaIcon />} to="/Base64ImageEncoder" title="Base64 image" detail="Base64 image encoder" onClick={menuClick} />
             <NavbarButtonLink icon={<SelectAllIcon />} to="/QRCodeGenerator" title="QR Code generator" detail="QR Code generator" onClick={menuClick} />
             <NavbarButtonLink icon={<TextFieldsIcon />} to="/ImageOCR" title="Image OCR" detail="Image text extractor" onClick={menuClick} />
             <NavbarButtonLink icon={<PaletteIcon />} to="/ColorPicker" title="Color picker" detail="Image color picker" onClick={menuClick} />
@@ -138,7 +148,9 @@ const App: React.FC<Props> = (props: Props) => {
                 <Route exact path="/about"><About /></Route>
                 <Route exact path="/preferences"><AppPreferences /></Route>
 
-                <Route path="/URL"><FeaturesGroup tabs={featureGroupTabsURL} /></Route>
+                <Route path="/URL"><FeaturesGroup tabs={featuresGroupURL} /></Route>
+                <Route path="/Base64"><FeaturesGroup tabs={featuresGroupBase64} /></Route>
+
                 <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
                 <Route exact path="/Base64ImageEncoder"><Base64ImageEncoder /></Route>
                 <Route exact path="/JSONFormatter"><JSONFormatter /></Route>

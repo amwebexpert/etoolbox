@@ -34,7 +34,7 @@ export default function About() {
   const classes = useStyles();
 
   return (
-    <Grid container justify="center" className={classes.root}>
+    <Grid container justifyContent="center" className={classes.root}>
       <Card className={classes.rootCard}>
         <CardActionArea>
           <CardMedia className={classes.media} image={Banner} title="Web Toolbox" />

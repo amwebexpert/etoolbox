@@ -69,7 +69,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
 
     React.useEffect(
         // https://www.npmjs.com/package/use-debounce
-        () => debounced.callback(regularExpression, inputText),
+        () => debounced(regularExpression, inputText),
         [regularExpression, inputText, debounced]
     );
 

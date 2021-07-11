@@ -37,18 +37,17 @@ export type Props = {
 
 const FeaturesGroup = ({ tabs }: Props) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
     const { path: parentPath } = useRouteMatch();
     const location = useLocation();
-    const tabsIndexMap = tabs.reduce(
-        (acc, tab, i) => acc.set(`${parentPath}${tab.path}`, i),
-        new Map<string, number>()
-    );
+    const [value, setValue] = React.useState(0);
 
     React.useEffect(() => {
-        const tabIndex = tabsIndexMap.get(location.pathname);
-        setValue(tabIndex ?? 0);
-    }, [location, setValue, tabsIndexMap]);
+        // https://github.com/mui-org/material-ui/issues/14077
+        // Because of this issue, Suspense is breaking the tab selection
+        const tabIndex = tabs.findIndex(tab => `${parentPath}${tab.path}` === location.pathname);
+        console.log('Found tabIndex', tabIndex, location.pathname);
+        setValue(tabIndex === -1 ? 0 : tabIndex);
+    }, [location, setValue, parentPath, tabs]);
 
     return (
         <>
@@ -61,8 +60,8 @@ const FeaturesGroup = ({ tabs }: Props) => {
                     scrollButtons='on'
                     onChange={(_e: any, newValue: number) => setValue(newValue)}
                 >
-                    {tabs.map((tab) => (
-                        <Tab key={tab.path} label={tab.label} to={`${parentPath}${tab.path}`} component={Link} />
+                    {tabs.map((tab, i) => (
+                        <Tab value={i} key={i} label={tab.label} to={`${parentPath}${tab.path}`} component={Link} />
                     ))}
                 </Tabs>
             </Paper>
@@ -71,9 +70,7 @@ const FeaturesGroup = ({ tabs }: Props) => {
                 {tabs.map((tab) => {
                     const VisualComponent = tab.type;
                     return (
-                        <Route key={tab.path} exact path={`${parentPath}${tab.path}`}>
-                            <VisualComponent />
-                        </Route>
+                        <Route key={tab.path} exact path={`${parentPath}${tab.path}`}><VisualComponent /></Route>
                     );
                 })}
 

@@ -74,7 +74,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
         targetLanguage: optionTarget,
         rootClassName: optionRootClassname,
     };
-    const { handleSubmit, errors, control, getValues } = useForm({ defaultValues });
+    const { handleSubmit, control, getValues } = useForm({ defaultValues });
     const onSubmit = async (data: services.ConvertionContext) => {
         console.log(data);
         const result = await services.transform(data);
@@ -103,12 +103,12 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                 <Controller
                                     control={control}
                                     name="sourceType"
-                                    as={
-                                        <Select labelId="sourceType">
+                                    render={({field: { value, name, onChange }}) => (
+                                        <Select labelId={name} value={value} onChange={e => onChange(e.target.value)}>
                                             <MenuItem value="json">JSON</MenuItem>
                                             <MenuItem value="jsObject">Javascript</MenuItem>
                                         </Select>
-                                    }
+                                    )}
                                 />
                                 <FormHelperText>Input format or language</FormHelperText>
                             </FormControl>
@@ -119,8 +119,8 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                 <Controller
                                     control={control}
                                     name="targetLanguage"
-                                    as={
-                                        <Select labelId="targetLanguage">
+                                    render={({field: { value, name, onChange }}) => (
+                                        <Select labelId={name} value={value} onChange={e => onChange(e.target.value)}>
                                             <MenuItem value="csharp">C#</MenuItem>
                                             <MenuItem value="cpp">C++</MenuItem>
                                             <MenuItem value="dart">Dart</MenuItem>
@@ -139,7 +139,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                             <MenuItem value="typescript">TypeScript</MenuItem>
                                             <MenuItem value="json">JSON</MenuItem>
                                         </Select>
-                                    }
+                                    )}
                                 />
                                 <FormHelperText>The target language of the convertion</FormHelperText>
                             </FormControl>
@@ -148,10 +148,13 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                             <FormControl className={classes.formControl}>
                                 <Controller
                                     name="rootClassName"
-                                    as={
-                                        <TextField label="Root class name" error={!!errors.rootClassName} type="text"
-                                            helperText={errors.rootClassName ? 'field is required' : null} />
-                                    }
+                                    render={({
+                                        field: { value, onChange },
+                                        fieldState: { invalid },
+                                    }) => (
+                                        <TextField value={value} onChange={e => onChange(e.target.value)} label="Root class name" 
+                                            error={invalid} type="text" helperText={invalid ? 'field is required' : null} />
+                                    )}
                                     control={control}
                                     rules={{
                                         required: true,
@@ -165,8 +168,15 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                     <FormControl className={classes.formControl} fullWidth={true}>
                         <Controller
                             name="source"
-                            as={
+                            control={control}
+                            render={({
+                                field: { value, name, onChange },
+                                fieldState: { invalid },
+                            }) => (
                                 <TextField
+                                    name={name}
+                                    onChange={e => onChange(e.target.value)}
+                                    value={value}
                                     autoFocus={isWidthUp('md', props.width)}
                                     label="Source data"
                                     placeholder="Paste or type the source data here"
@@ -174,11 +184,10 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                     rows={4}
                                     variant="outlined"
                                     margin="normal"
-                                    error={!!errors.source}
-                                    helperText={errors.source ? 'field is required' : null}
+                                    error={invalid}
+                                    helperText={invalid ? 'field is required' : null}
                                 />
-                            }
-                            control={control}
+                            )}
                             rules={{
                                 required: true,
                             }}
@@ -195,7 +204,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                         onClick={handleSubmit(onSubmit)}>Enc.</Button>
                 </Toolbar>
 
-                <SyntaxHighlighter style={syntaxTheme} language={control.getValues().targetLanguage} className={classes.encodedResult}>
+                <SyntaxHighlighter style={syntaxTheme} language={getValues().targetLanguage} className={classes.encodedResult}>
                     {transformed}
                 </SyntaxHighlighter>
             </div>

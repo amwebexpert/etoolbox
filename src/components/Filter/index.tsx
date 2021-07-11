@@ -25,7 +25,7 @@ const Filter: React.FC<Props> = (props: Props) => {
     );
 
     React.useEffect(() => { setFilter(initialFilter) }, [initialFilter]);
-    React.useEffect(() => debounced.callback(filter), [filter, debounced]);
+    React.useEffect(() => debounced(filter), [filter, debounced]);
 
     return (
         <FormControl className={classes.root}>

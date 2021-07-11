@@ -99,8 +99,8 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         count={[...mimeTypes.keys()].length}
                         rowsPerPage={rowsPerPage}
                         page={page}
-                        onChangePage={(_, page) => setPage(page)}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                        onPageChange={(_, page) => setPage(page)}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                     <TableContainer component={Paper}>
                         <Table>
@@ -139,8 +139,8 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         count={htmlEntities.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
-                        onChangePage={(_, page) => setPage(page)}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                        onPageChange={(_, page) => setPage(page)}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                     <TableContainer component={Paper}>
                         <Table>

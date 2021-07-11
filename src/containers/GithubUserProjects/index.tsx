@@ -76,8 +76,8 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
                     count={projects.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
-                    onChangePage={(_, page) => setPage(page)}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    onPageChange={(_, page) => setPage(page)}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
                 />
                 <TableContainer component={Paper}>
                     <Table>
