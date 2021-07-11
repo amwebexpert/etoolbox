@@ -88,7 +88,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                                         field: { value, name, onChange },
                                         fieldState: { invalid, error },
                                     }) => (
-                                        <TextField value={value} label="Quantity" error={invalid} type="number"
+                                        <TextField name={name} value={value} label="Quantity" error={invalid} type="number"
                                             onChange={e => onChange(e.target.value)}
                                             helperText={invalid ? 'valid range: [1..9999]' : null} />
                                     )}

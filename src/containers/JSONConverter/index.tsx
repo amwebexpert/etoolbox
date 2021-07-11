@@ -104,7 +104,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                     control={control}
                                     name="sourceType"
                                     render={({field: { value, name, onChange }}) => (
-                                        <Select labelId={name} value={value} onChange={e => onChange(e.target.value)}>
+                                        <Select name={name} labelId="sourceType" value={value} onChange={e => onChange(e.target.value)}>
                                             <MenuItem value="json">JSON</MenuItem>
                                             <MenuItem value="jsObject">Javascript</MenuItem>
                                         </Select>
@@ -120,7 +120,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                     control={control}
                                     name="targetLanguage"
                                     render={({field: { value, name, onChange }}) => (
-                                        <Select labelId={name} value={value} onChange={e => onChange(e.target.value)}>
+                                        <Select name={name} labelId="targetLanguage" value={value} onChange={e => onChange(e.target.value)}>
                                             <MenuItem value="csharp">C#</MenuItem>
                                             <MenuItem value="cpp">C++</MenuItem>
                                             <MenuItem value="dart">Dart</MenuItem>
@@ -149,10 +149,10 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                 <Controller
                                     name="rootClassName"
                                     render={({
-                                        field: { value, onChange },
+                                        field: { name, value, onChange },
                                         fieldState: { invalid },
                                     }) => (
-                                        <TextField value={value} onChange={e => onChange(e.target.value)} label="Root class name" 
+                                        <TextField name={name} value={value} onChange={e => onChange(e.target.value)} label="Root class name" 
                                             error={invalid} type="text" helperText={invalid ? 'field is required' : null} />
                                     )}
                                     control={control}
