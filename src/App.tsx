@@ -25,10 +25,15 @@ import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { NavLink, Route, Switch, useHistory } from 'react-router-dom';
 import ApplicationBar from './components/ApplicationBar/ApplicationBar';
+import FeaturesGroup from './components/FeaturesGroup';
 import { FullCenteredContent } from './components/FullCenteredContent/FullCenteredContent';
 import Home from './components/Home';
 import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink';
 import ToasterProvider from './components/Toaster/ToasterProvider';
+import Base64Encoder from './containers/Base64Encoder';
+import Base64ImageEncoder from './containers/Base64ImageEncoder';
+import URLEncoder from './containers/URLEncoder';
+import URLParser from './containers/URLParser';
 import Banner from './images/icon.png';
 import { useStyles } from './styles';
 
@@ -47,20 +52,23 @@ const App: React.FC<Props> = (props: Props) => {
   const About = lazy(() => import('./components/About/About'));
   const AppPreferences = lazy(() => import('./containers/AppPreferences'));
   const JSONFormatter = lazy(() => import('./containers/JSONFormatter'));
-  const URLParser = lazy(() => import('./containers/URLParser'));
-  const URLEncoder = lazy(() => import('./containers/URLEncoder'));
-  const Base64Encoder = lazy(() => import('./containers/Base64Encoder'));
   const RegExTester = lazy(() => import('./containers/RegExTester'));
   const UUIDGenerator = lazy(() => import('./containers/UUIDGenerator'));
   const JWTDecoder = lazy(() => import('./containers/JWTDecoder'));
-  const Base64ImageEncoder = lazy(() => import('./containers/Base64ImageEncoder'));
   const ImageOCR = lazy(() => import('./containers/ImageOCR'));
   const ColorPicker = lazy(() => import('./containers/ColorPicker'));
   const QRCodeGenerator = lazy(() => import('./containers/QRCodeGenerator'));
   const CommonLists = lazy(() => import('./containers/CommonLists'));
   const GithubUserProjects = lazy(() => import('./containers/GithubUserProjects'));
   const JSONConverter = lazy(() => import('./containers/JSONConverter'));
-  const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
+
+  // Because of the following issue, Suspense is breaking the tab selection
+  // @see https://github.com/mui-org/material-ui/issues/14077
+  // const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
+  // const URLParser = lazy(() => import('./containers/URLParser'));
+  // const URLEncoder = lazy(() => import('./containers/URLEncoder'));
+  // const Base64Encoder = lazy(() => import('./containers/Base64Encoder'));
+  // const Base64ImageEncoder = lazy(() => import('./containers/Base64ImageEncoder'));
 
   const featuresGroupURL = [
     { type: URLParser, path: '/URLParser', label: 'Parser'}, 
