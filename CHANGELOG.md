@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.9.1](https://github.com/amwebexpert/etoolbox/compare/v1.9.0...v1.9.1) (2021-07-11)
+
+
+### Bug Fixes
+
+* lazy loading suspense fixed ([4eae7f8](https://github.com/amwebexpert/etoolbox/commit/4eae7f8c3ca6b45570b7c7bcb906b35c5b1535fa))
+
 ## 1.9.0 (2021-07-02)
 
 
