@@ -32,6 +32,8 @@ import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import Base64Encoder from './containers/Base64Encoder';
 import Base64ImageEncoder from './containers/Base64ImageEncoder';
+import ColorPicker from './containers/ColorPicker';
+import NamedColors from './containers/NamedColors';
 import URLEncoder from './containers/URLEncoder';
 import URLParser from './containers/URLParser';
 import Banner from './images/icon.png';
@@ -56,7 +58,6 @@ const App: React.FC<Props> = (props: Props) => {
   const UUIDGenerator = lazy(() => import('./containers/UUIDGenerator'));
   const JWTDecoder = lazy(() => import('./containers/JWTDecoder'));
   const ImageOCR = lazy(() => import('./containers/ImageOCR'));
-  const ColorPicker = lazy(() => import('./containers/ColorPicker'));
   const QRCodeGenerator = lazy(() => import('./containers/QRCodeGenerator'));
   const CommonLists = lazy(() => import('./containers/CommonLists'));
   const GithubUserProjects = lazy(() => import('./containers/GithubUserProjects'));
@@ -69,6 +70,8 @@ const App: React.FC<Props> = (props: Props) => {
   // const URLEncoder = lazy(() => import('./containers/URLEncoder'));
   // const Base64Encoder = lazy(() => import('./containers/Base64Encoder'));
   // const Base64ImageEncoder = lazy(() => import('./containers/Base64ImageEncoder'));
+  // const NamedColors = lazy(() => import('./containers/NamedColors'));
+  // const ColorPicker = lazy(() => import('./containers/ColorPicker'));
 
   const featuresGroupURL = [
     { type: URLParser, path: '/URLParser', label: 'Parser'}, 
@@ -77,6 +80,10 @@ const App: React.FC<Props> = (props: Props) => {
   const featuresGroupBase64 = [
     { type: Base64Encoder, path: '/Base64Encoder', label: 'String'}, 
     { type: Base64ImageEncoder, path: '/Base64ImageEncoder', label: 'Image'}
+  ];
+  const featuresGroupColors = [
+    { type: ColorPicker, path: '/ColorPicker', label: 'Picker'},
+    { type: NamedColors, path: '/NamedColors', label: 'Named colors'}, 
   ];
 
   React.useEffect(setupIPC, [history]);
@@ -128,11 +135,9 @@ const App: React.FC<Props> = (props: Props) => {
           <List className={classes.menu}>
             <NavbarButtonLink icon={<HomeIcon />} to="/" title="Home" detail="Home" exact={true} onClick={menuClick} />
 
-            {/** Features group so exact={false} */}
             <NavbarButtonLink icon={<LinkIcon />} to="/URL" title="URL parse, encode" detail="URL utilities for parsing and encoding url parameters" onClick={menuClick} />
-
-            {/** Features group so exact={false} */}
             <NavbarButtonLink icon={<DeveloperBoardIcon />} to="/Base64" title="Base64" detail="Base64 encoders/decoders" onClick={menuClick} />
+            <NavbarButtonLink icon={<PaletteIcon />} to="/Colors" title="Color picker" detail="Image color picker" onClick={menuClick} />
  
             <NavbarButtonLink icon={<WrapTextIcon />} to="/JSONFormatter" title="JSON Formatter" detail="JSON Formatter" onClick={menuClick} />
             <NavbarButtonLink icon={<DeveloperModeIcon />} to="/JSONConverter" title="JSON Converter" detail="Convert json into multiple output languages" onClick={menuClick} />
@@ -141,7 +146,6 @@ const App: React.FC<Props> = (props: Props) => {
             <NavbarButtonLink icon={<LockOpenIcon />} to="/JWTDecoder" title="JWT decoder" detail="JSON Web Token decoder" onClick={menuClick} />
             <NavbarButtonLink icon={<SelectAllIcon />} to="/QRCodeGenerator" title="QR Code generator" detail="QR Code generator" onClick={menuClick} />
             <NavbarButtonLink icon={<TextFieldsIcon />} to="/ImageOCR" title="Image OCR" detail="Image text extractor" onClick={menuClick} />
-            <NavbarButtonLink icon={<PaletteIcon />} to="/ColorPicker" title="Color picker" detail="Image color picker" onClick={menuClick} />
             <NavbarButtonLink icon={<TocIcon />} to="/CommonLists" title="Mime-types, HTML" detail="Html entities, Mime-types, and more…" onClick={menuClick} />
             <NavbarButtonLink icon={<GithubIcon />} to="/GithubUserProjects" title="Github search" detail="Github user projects" onClick={menuClick} />
           </List>
@@ -158,6 +162,7 @@ const App: React.FC<Props> = (props: Props) => {
 
                 <Route path="/URL"><FeaturesGroup tabs={featuresGroupURL} /></Route>
                 <Route path="/Base64"><FeaturesGroup tabs={featuresGroupBase64} /></Route>
+                <Route path="/Colors"><FeaturesGroup tabs={featuresGroupColors} /></Route>
 
                 <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
                 <Route exact path="/Base64ImageEncoder"><Base64ImageEncoder /></Route>
@@ -168,7 +173,6 @@ const App: React.FC<Props> = (props: Props) => {
                 <Route exact path="/JWTDecoder"><JWTDecoder /></Route>
                 <Route exact path="/QRCodeGenerator"><QRCodeGenerator /></Route>
                 <Route exact path="/ImageOCR"><ImageOCR /></Route>
-                <Route exact path="/ColorPicker"><ColorPicker /></Route>
                 <Route exact path="/CommonLists"><CommonLists /></Route>
                 <Route exact path="/GithubUserProjects"><GithubUserProjects /></Route>
 
