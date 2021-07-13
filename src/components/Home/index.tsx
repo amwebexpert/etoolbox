@@ -41,6 +41,7 @@ const Home: React.FC = () => {
 
             <div className={classes.featuresList}>
                 <ul>
+                    <li>v1.10.0 - Added named colors (colors picker section)</li>
                     <li>v1.9.1 - lazy loading suspense fixed tab underline selector</li>
                     <li>v1.8.0 - Tab base navigation for Base64 features</li>
                     <li>v1.7.0 - lazy loading of all features</li>
