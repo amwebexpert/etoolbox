@@ -117,7 +117,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                                 <Typography>paste image from clipboard</Typography>
                                 <Typography>or select a file</Typography>
                                 <input type="file" color="primary" accept="image/*"
-                                    onChange={(e: any) => onFileSelected(e.target.files[0])}
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFileSelected(e.target.files![0])}
                                     id="icon-button-file" style={{ display: 'none', }}
                                 />
                                 <label htmlFor="icon-button-file">

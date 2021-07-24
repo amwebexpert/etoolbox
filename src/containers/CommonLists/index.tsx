@@ -42,7 +42,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
       setPage(0);
     };
 
-    const onTabSelected = (_e: any, newTab: number) => {
+    const onTabSelected = (_e: unknown, newTab: number) => {
         setSelectedTab(newTab);
         applyFilter('');
         setPage(0);

@@ -57,7 +57,7 @@ const FeaturesGroup = ({ tabs }: Props) => {
                     textColor='primary'
                     variant='scrollable'
                     scrollButtons='on'
-                    onChange={(_e: any, newValue: number) => setValue(newValue)}
+                    onChange={(_e: unknown, newValue: number) => setValue(newValue)}
                 >
                     {tabs.map((tab, i) => (
                         <Tab value={i} key={i} label={tab.label} to={`${parentPath}${tab.path}`} component={Link} />
