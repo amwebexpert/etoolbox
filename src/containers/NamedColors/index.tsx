@@ -9,7 +9,7 @@ import { Helmet } from 'react-helmet';
 import { useDebouncedCallback } from 'use-debounce/lib';
 import FeatureTitle from '../../components/FeatureTitle';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
-import { usePagination } from './hooks/usePagination';
+import { usePagination } from '../../hooks/usePagination';
 import * as services from './services';
 
 

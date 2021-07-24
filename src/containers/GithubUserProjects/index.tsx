@@ -18,6 +18,7 @@ import { GithubUserProject } from '../../types/github-types';
 import { useGlobalSpinnerUpdate } from '../../components/Spinner/GlobalSpinnerProvider';
 import FilterStats from '../../components/FilterStats';
 import { setTextAction } from '../../actions/text-actions';
+import { usePagination } from '../../hooks/usePagination';
 
 interface Props {
     width: Breakpoint;
@@ -35,13 +36,7 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
     const { inputText, searching, projects, listGithubUserProjectsRequested, storeInputText } = props;
     const [inputFilter, setInputFilter] = React.useState(inputText);
     const { setGlobalSpinnerState } = useGlobalSpinnerUpdate();
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  
-    const handleChangeRowsPerPage = (evt: any) => {
-      setRowsPerPage(+evt.target.value);
-      setPage(0);
-    };
+    const { page, setPage, rowsPerPage, handleChangeRowsPerPage } = usePagination();
 
     function applyFilter(newInputFilter: string) {
         setInputFilter(newInputFilter);

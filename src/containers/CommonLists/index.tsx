@@ -11,6 +11,7 @@ import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 import { TabPanel } from './TabPanel';
 import { Helmet } from 'react-helmet';
 import FilterStats from '../../components/FilterStats';
+import { usePagination } from '../../hooks/usePagination';
 
 enum TABS {
     MIME_TYPES = 0,
@@ -34,13 +35,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
     const [inputFilter, setInputFilter] = React.useState('');
     const { filteringMimeTypes, mimeTypes, filteringHtmlEntities, htmlEntities, applyMimeTypesFilter, applyHtmlEntitiesFilter } = props;
     const searching = filteringMimeTypes || filteringHtmlEntities;
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  
-    const handleChangeRowsPerPage = (evt: any) => {
-      setRowsPerPage(+evt.target.value);
-      setPage(0);
-    };
+    const { page, setPage, rowsPerPage, handleChangeRowsPerPage } = usePagination();
 
     const onTabSelected = (_e: unknown, newTab: number) => {
         setSelectedTab(newTab);
