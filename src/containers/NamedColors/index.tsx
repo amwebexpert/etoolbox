@@ -6,6 +6,7 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import * as copy from 'copy-to-clipboard';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { useDebouncedCallback } from 'use-debounce/lib';
 import FeatureTitle from '../../components/FeatureTitle';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import * as services from './services';
@@ -47,6 +48,15 @@ const NamedColors = (props: Props) => {
     const [family, setFamily] = useState('-');
     const [filter, setFilter] = useState('');
 
+    // https://www.npmjs.com/package/use-debounce
+    const debounced = useDebouncedCallback(
+        (family: string, filter: string) => setColors(services.applyFiltering(family, filter)), 300
+    );
+
+    React.useEffect(() => debounced(family, filter), [filter, family, debounced]);
+
+    useEffect(() => setColors(services.applyFiltering(family)), [family, setColors]);
+
     const handleCopy = (data: string) => {
         const feedback = data.substr(0, 20);
         const message = `Content copied into clipboard: ${feedback} …`;
@@ -54,14 +64,6 @@ const NamedColors = (props: Props) => {
         copy.default(data, { format: 'text/plain' });
         setToasterState({ open: true, message, type: 'success', autoHideDuration: 2000 });
     };
-
-    useEffect(()=>{
-        if (family === '-') {
-            setColors(services.NAMED_COLORS);
-        } else {
-            setColors(services.NAMED_COLORS.filter(it => it.family === family));
-        }
-    }, [family, setColors]);
 
     return (
         <>
@@ -100,28 +102,27 @@ const NamedColors = (props: Props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {colors.map(colors =>
-                                colors.colors.map(c => {
-                                    const name = c.htmlName;
-                                    const hexCode = '#' + c.hexCode.split(' ').join('').toLowerCase();
-                                    const rgbCode = `rgb(${c.rgbDecimal.split(' ').join(',')})`;
+                            {colors.map(c => {
+                                const name = c.htmlName;
+                                const hexCode = '#' + c.hexCode.split(' ').join('').toLowerCase();
+                                const rgbCode = `rgb(${c.rgbDecimal.split(' ').join(',')})`;
 
-                                    return (
-                                        <TableRow key={c.htmlName + c.hexCode}>
-                                            <TableCell className={classes.colorCell} onClick={() => handleCopy(name)} title="Copy name to clipboard">
-                                                <strong>{name}</strong><br />({colors.family})
-                                            </TableCell>
-                                            <TableCell className={classes.colorCell} style={{ backgroundColor: hexCode, width: '30%' }}
-                                                onClick={() => handleCopy(rgbCode)} title="Copy RGB code to clipboard">
-                                                <Badge badgeContent={rgbCode} color="primary" />
-                                            </TableCell>
-                                            <TableCell className={classes.colorCell} style={{ backgroundColor: hexCode, width: '30%' }}
-                                                onClick={() => handleCopy(hexCode)} title="Copy HEX code to clipboard">
-                                                <Badge badgeContent={hexCode} color="primary" />
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                }))}
+                                return (
+                                    <TableRow key={c.htmlName + c.hexCode}>
+                                        <TableCell className={classes.colorCell} onClick={() => handleCopy(name)} title="Copy name to clipboard">
+                                            <strong>{name}</strong><br />({c.family})
+                                        </TableCell>
+                                        <TableCell className={classes.colorCell} style={{ backgroundColor: hexCode, width: '30%' }}
+                                            onClick={() => handleCopy(rgbCode)} title="Copy RGB code to clipboard">
+                                            <Badge badgeContent={rgbCode} color="primary" />
+                                        </TableCell>
+                                        <TableCell className={classes.colorCell} style={{ backgroundColor: hexCode, width: '30%' }}
+                                            onClick={() => handleCopy(hexCode)} title="Copy HEX code to clipboard">
+                                            <Badge badgeContent={hexCode} color="primary" />
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            })}
                         </TableBody>
                     </Table>
                 </TableContainer>
