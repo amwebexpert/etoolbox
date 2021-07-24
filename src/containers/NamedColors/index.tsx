@@ -1,4 +1,4 @@
-import { Badge, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@material-ui/core';
+import { Badge, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet';
 import { useDebouncedCallback } from 'use-debounce/lib';
 import FeatureTitle from '../../components/FeatureTitle';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
+import { usePagination } from './hooks/usePagination';
 import * as services from './services';
 
 
@@ -47,15 +48,22 @@ const NamedColors = (props: Props) => {
     const [colors, setColors] = useState(services.NAMED_COLORS);
     const [family, setFamily] = useState('-');
     const [filter, setFilter] = useState('');
+    const { page, setPage, rowsPerPage, handleChangeRowsPerPage } = usePagination();
 
     // https://www.npmjs.com/package/use-debounce
     const debounced = useDebouncedCallback(
-        (family: string, filter: string) => setColors(services.applyFiltering(family, filter)), 300
+        (family: string, filter: string) => {
+            setPage(0);
+            setColors(services.applyFiltering(family, filter))
+        }, 300
     );
 
     React.useEffect(() => debounced(family, filter), [filter, family, debounced]);
 
-    useEffect(() => setColors(services.applyFiltering(family)), [family, setColors]);
+    useEffect(() => {
+        setPage(0);
+        setColors(services.applyFiltering(family))
+    }, [family, setColors, setPage]);
 
     const handleCopy = (data: string) => {
         const feedback = data.substr(0, 20);
@@ -92,6 +100,15 @@ const NamedColors = (props: Props) => {
                     </Grid>
                 </div>
 
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, 50, 100, 200]}
+                    component='div'
+                    count={colors.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={(_, page) => setPage(page)}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead className={classes.tableHeader}>
@@ -102,27 +119,29 @@ const NamedColors = (props: Props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {colors.map(c => {
-                                const name = c.htmlName;
-                                const hexCode = '#' + c.hexCode.split(' ').join('').toLowerCase();
-                                const rgbCode = `rgb(${c.rgbDecimal.split(' ').join(',')})`;
+                            {colors
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map(c => {
+                                    const name = c.htmlName;
+                                    const hexCode = '#' + c.hexCode.split(' ').join('').toLowerCase();
+                                    const rgbCode = `rgb(${c.rgbDecimal.split(' ').join(',')})`;
 
-                                return (
-                                    <TableRow key={c.htmlName + c.hexCode}>
-                                        <TableCell className={classes.colorCell} onClick={() => handleCopy(name)} title="Copy name to clipboard">
-                                            <strong>{name}</strong><br />({c.family})
-                                        </TableCell>
-                                        <TableCell className={classes.colorCell} style={{ backgroundColor: hexCode, width: '30%' }}
-                                            onClick={() => handleCopy(rgbCode)} title="Copy RGB code to clipboard">
-                                            <Badge badgeContent={rgbCode} color="primary" />
-                                        </TableCell>
-                                        <TableCell className={classes.colorCell} style={{ backgroundColor: hexCode, width: '30%' }}
-                                            onClick={() => handleCopy(hexCode)} title="Copy HEX code to clipboard">
-                                            <Badge badgeContent={hexCode} color="primary" />
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            })}
+                                    return (
+                                        <TableRow key={c.htmlName + c.hexCode}>
+                                            <TableCell className={classes.colorCell} onClick={() => handleCopy(name)} title="Copy name to clipboard">
+                                                <strong>{name}</strong><br />({c.family})
+                                            </TableCell>
+                                            <TableCell className={classes.colorCell} style={{ backgroundColor: hexCode, width: '30%' }}
+                                                onClick={() => handleCopy(rgbCode)} title="Copy RGB code to clipboard">
+                                                <Badge badgeContent={rgbCode} color="primary" />
+                                            </TableCell>
+                                            <TableCell className={classes.colorCell} style={{ backgroundColor: hexCode, width: '30%' }}
+                                                onClick={() => handleCopy(hexCode)} title="Copy HEX code to clipboard">
+                                                <Badge badgeContent={hexCode} color="primary" />
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })}
                         </TableBody>
                     </Table>
                 </TableContainer>
