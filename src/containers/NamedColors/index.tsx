@@ -71,7 +71,7 @@ const NamedColors = (props: Props) => {
 
                 <div className={classes.form}>
                     <Grid container spacing={1}>
-                        <Grid item md={2} sm={3} xs={6}>
+                        <Grid item md={6} sm={12}>
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="family">Family</InputLabel>
                                 <Select name="family" value={family} labelId="family" autoFocus={isWidthUp('md', props.width)}
@@ -81,16 +81,11 @@ const NamedColors = (props: Props) => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item md={2} sm={3} xs={6}>
+                        <Grid item md={6} sm={12}>
                             <FormControl className={classes.formControl}>
                                 <TextField name={filter} value={filter} label="Filter" type="text"
                                     onChange={(e: any) => setFilter(e.target.value)} />
                             </FormControl>
-                        </Grid>
-                        <Grid item md={8} sm={6} xs={12}>
-                            <Grid container justifyContent="flex-end" className={classes.toolbar}>
-                                ?
-                            </Grid>
                         </Grid>
                     </Grid>
                 </div>
