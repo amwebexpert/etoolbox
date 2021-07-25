@@ -8,12 +8,13 @@ import { useDebouncedCallback } from 'use-debounce/lib';
 interface Props {
     label?: string;
     autofocus?: boolean;
+    fullWidth?: boolean;
     initialFilter: string;
     onFilterChange: (newValue: string) => void;
 }
 
 const Filter: React.FC<Props> = (props: Props) => {
-    const { autofocus, initialFilter, label, onFilterChange } = props;
+    const { autofocus, initialFilter, label, onFilterChange, fullWidth } = props;
     const [filter, setFilter] = React.useState('');
     const classes = useStyles();
     const inputLabel = label ? label : 'Search';
@@ -28,7 +29,7 @@ const Filter: React.FC<Props> = (props: Props) => {
     React.useEffect(() => debounced(filter), [filter, debounced]);
 
     return (
-        <FormControl className={classes.root}>
+        <FormControl fullWidth={fullWidth} className={classes.root}>
             <InputLabel htmlFor="searchField">{inputLabel}</InputLabel>
             <Input
                 id="searchField"

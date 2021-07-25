@@ -5,19 +5,12 @@ export interface ColorInfo {
     rgbDecimal: string;
 }
 
-export function filterColors(filter: string) {
-    if (!filter) {
-        return NAMED_COLORS;
-    }
+export function formatHexCode(c: ColorInfo) {
+    return '#' + c.hexCode.split(' ').join('').toLowerCase();
+}
 
-    const filterLowercase = filter.toLowerCase();
-
-    return NAMED_COLORS.filter(c => {
-        return c.family.toLowerCase().indexOf(filterLowercase) !== -1
-            || c.htmlName.toLowerCase().indexOf(filterLowercase) !== -1
-            || c.rgbDecimal.toLowerCase().indexOf(filterLowercase) !== -1
-            || c.hexCode.toLowerCase().indexOf(filterLowercase) !== -1;
-    });
+export function formatRGB(c: ColorInfo) {
+    return `rgb(${c.rgbDecimal.split(' ').join(',')})`;
 }
 
 export function applyFiltering(family?: string, filter?: string) {
@@ -31,9 +24,11 @@ export function applyFiltering(family?: string, filter?: string) {
         const filterLowercase = filter.toLowerCase();
 
         results = results.filter(c => {
+            const hexCode = formatHexCode(c);
+            const rgbCode = formatRGB(c);
             return c.htmlName.toLowerCase().indexOf(filterLowercase) !== -1
-                || c.rgbDecimal.toLowerCase().indexOf(filterLowercase) !== -1
-                || c.hexCode.toLowerCase().indexOf(filterLowercase) !== -1;
+                || rgbCode.toLowerCase().indexOf(filterLowercase) !== -1
+                || hexCode.toLowerCase().indexOf(filterLowercase) !== -1;
         });
     }
 

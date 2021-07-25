@@ -1,4 +1,4 @@
-import { Badge, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField } from '@material-ui/core';
+import { Badge, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
@@ -6,8 +6,10 @@ import PaletteIcon from '@material-ui/icons/Palette';
 import * as copy from 'copy-to-clipboard';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import Highlighter from 'react-highlight-words';
 import { useDebouncedCallback } from 'use-debounce/lib';
 import FeatureTitle from '../../components/FeatureTitle';
+import Filter from '../../components/Filter';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { usePagination } from '../../hooks/usePagination';
 import * as services from './services';
@@ -29,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1),
     },
-    toolbar: {
-        '& > *': {
-            marginLeft: theme.spacing(1),
-            marginTop: theme.spacing(1),
+    searchFilter: {
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+            justifyContent: 'flex-end',
         },
     },
 }));
@@ -81,7 +83,7 @@ const NamedColors = (props: Props) => {
 
                 <div className={classes.form}>
                     <Grid container spacing={1}>
-                        <Grid item md={6} sm={12}>
+                        <Grid item md={6} sm={12} xs={12}>
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="family">Family</InputLabel>
                                 <Select name="family" value={family} labelId="family" autoFocus={isWidthUp('md', props.width)}
@@ -91,11 +93,10 @@ const NamedColors = (props: Props) => {
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid item md={6} sm={12}>
-                            <FormControl className={classes.formControl}>
-                                <TextField name={filter} value={filter} label="Filter" type="text"
-                                    onChange={(e: any) => setFilter(e.target.value)} />
-                            </FormControl>
+                        <Grid item md={6} sm={12} xs={12}>
+                            <div className={classes.searchFilter}>
+                                <Filter initialFilter={filter} label="Filter" onFilterChange={setFilter} />
+                            </div>
                         </Grid>
                     </Grid>
                 </div>
@@ -122,22 +123,23 @@ const NamedColors = (props: Props) => {
                             {colors
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(c => {
-                                    const name = c.htmlName;
-                                    const hexCode = '#' + c.hexCode.split(' ').join('').toLowerCase();
-                                    const rgbCode = `rgb(${c.rgbDecimal.split(' ').join(',')})`;
+                                    const hexCode = services.formatHexCode(c);
+                                    const rgbCode = services.formatRGB(c);
 
                                     return (
                                         <TableRow key={c.htmlName + c.hexCode}>
-                                            <TableCell className={classes.colorCell} onClick={() => handleCopy(name)} title="Copy name to clipboard">
-                                                <strong>{name}</strong><br />({c.family})
+                                            <TableCell className={classes.colorCell} onClick={() => handleCopy(c.htmlName)} title="Copy name to clipboard">
+                                                <strong><Highlighter searchWords={[filter]} textToHighlight={c.htmlName} /></strong>
+                                                <br />
+                                                ({c.family})
                                             </TableCell>
                                             <TableCell className={classes.colorCell} style={{ backgroundColor: hexCode, width: '30%' }}
                                                 onClick={() => handleCopy(rgbCode)} title="Copy RGB code to clipboard">
-                                                <Badge badgeContent={rgbCode} color="primary" />
+                                                <Badge badgeContent={<Highlighter searchWords={[filter]} textToHighlight={rgbCode} />} color="primary" />
                                             </TableCell>
                                             <TableCell className={classes.colorCell} style={{ backgroundColor: hexCode, width: '30%' }}
                                                 onClick={() => handleCopy(hexCode)} title="Copy HEX code to clipboard">
-                                                <Badge badgeContent={hexCode} color="primary" />
+                                                <Badge badgeContent={<Highlighter searchWords={[filter]} textToHighlight={hexCode} />} color="primary" />
                                             </TableCell>
                                         </TableRow>
                                     )
