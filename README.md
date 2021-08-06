@@ -133,6 +133,9 @@ CHANGELOG generation powered by Conventional Commits. Detail here: https://www.n
 ## TODO (Roadmap of next features)
 
 - Add this list: https://gist.github.com/rxaviers/7360908 with search filtering capabilities
+- JSON to Javascript object
+- Epoch converter
+- TextArea autosize capabilities
 - Add md5 checksum utilities mechanism
 - Convert CSV & TAB Delimited files to JSON
 - Suggests something! ==> just email me at [amwebexpert@gmail.com](mailto:amwebexpert@gmail.com)
