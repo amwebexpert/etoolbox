@@ -138,6 +138,7 @@ CHANGELOG generation powered by Conventional Commits. Detail here: https://www.n
 - Epoch converter
 - TextArea autosize capabilities
 - Add md5 checksum utilities mechanism
+- CSV Parser, see this nice wrapper for displaying CSV data in a formatted table: https://github.com/phaniteja1/react-csv-viewer/blob/master/src/CsvInterface.js
 - Convert CSV & TAB Delimited files to JSON
 - Suggests something! ==> just email me at [amwebexpert@gmail.com](mailto:amwebexpert@gmail.com)
 
