@@ -134,6 +134,7 @@ CHANGELOG generation powered by Conventional Commits. Detail here: https://www.n
 
 - Add this list: https://gist.github.com/rxaviers/7360908 with search filtering capabilities
 - JSON to Javascript object
+- Convert any input file as Base64 and not just Images: PDF, CSV, docx, ...
 - Epoch converter
 - TextArea autosize capabilities
 - Add md5 checksum utilities mechanism
