@@ -41,6 +41,7 @@ const Home: React.FC = () => {
 
             <div className={classes.featuresList}>
                 <ul>
+                    <li>v1.13.0 - Convert any input file as Base64 and not just Images: PDF, CSV, docx, ...</li>
                     <li>v1.12.0 - transform JSON to JS obj code, added more textarea lines for MD devices</li>
                     <li>v1.11.0 - Added named color filters and pagination</li>
                     <li>v1.10.0 - Added named colors (colors picker section)</li>

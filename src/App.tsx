@@ -31,7 +31,7 @@ import Home from './components/Home';
 import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink';
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import Base64Encoder from './containers/Base64Encoder';
-import Base64ImageEncoder from './containers/Base64ImageEncoder';
+import Base64FileEncoder from './containers/Base64FileEncoder';
 import ColorPicker from './containers/ColorPicker';
 import NamedColors from './containers/NamedColors';
 import URLEncoder from './containers/URLEncoder';
@@ -79,7 +79,7 @@ const App: React.FC<Props> = (props: Props) => {
   ];
   const featuresGroupBase64 = [
     { type: Base64Encoder, path: '/Base64Encoder', label: 'String'}, 
-    { type: Base64ImageEncoder, path: '/Base64ImageEncoder', label: 'Image'}
+    { type: Base64FileEncoder, path: '/Base64FileEncoder', label: 'File'}
   ];
   const featuresGroupColors = [
     { type: ColorPicker, path: '/ColorPicker', label: 'Picker'},
@@ -165,7 +165,7 @@ const App: React.FC<Props> = (props: Props) => {
                 <Route path="/Colors"><FeaturesGroup tabs={featuresGroupColors} /></Route>
 
                 <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
-                <Route exact path="/Base64ImageEncoder"><Base64ImageEncoder /></Route>
+                <Route exact path="/Base64FileEncoder"><Base64FileEncoder /></Route>
                 <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
                 <Route exact path="/JSONConverter"><JSONConverter /></Route>
                 <Route exact path="/RegExTester"><RegExTester /></Route>

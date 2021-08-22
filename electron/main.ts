@@ -120,7 +120,7 @@ function setupMenu() {
         }, {
           type: 'separator'
         }, {
-          label: 'Base64 Image encoder',
+          label: 'Base64 File encoder',
           accelerator: 'Ctrl+Alt+I',
           click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64ImageEncoder')
         }, {

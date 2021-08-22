@@ -132,10 +132,8 @@ CHANGELOG generation powered by Conventional Commits. Detail here: https://www.n
 
 ## TODO (Roadmap of next features)
 
-- Add this list: https://gist.github.com/rxaviers/7360908 with search filtering capabilities
-- Convert any input file as Base64 and not just Images: PDF, CSV, docx, ...
 - Epoch converter
-- TextArea autosize capabilities
+- Add this list: https://gist.github.com/rxaviers/7360908 with search filtering capabilities
 - Add md5 checksum utilities mechanism
 - CSV Parser, see this nice wrapper for displaying CSV data in a formatted table: https://github.com/phaniteja1/react-csv-viewer/blob/master/src/CsvInterface.js
 - Convert CSV & TAB Delimited files to JSON

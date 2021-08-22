@@ -13,8 +13,8 @@ import { EncodedFile, ErrorFile, loadFile, MAX_FILE_SIZE_BYTES, rejectFiles } fr
 import { imageResizer, useStyles } from './styled';
 import { Helmet } from 'react-helmet';
 
-const Base64ImageEncoder: React.FC = () => {
-    const title = 'Base64 image encoder';
+const Base64FileEncoder: React.FC = () => {
+    const title = 'Base64 file encoder';
     const classes = useStyles();
     const [encodedFiles, setEncodedFiles] = useState<EncodedFile[]>([]);
     const [errors, setErrors] = useState<ErrorFile[]>([]);
@@ -40,7 +40,6 @@ const Base64ImageEncoder: React.FC = () => {
     }, []);
 
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-        accept: ['image/jpeg', 'image/png', 'image/gif', 'image/*'],
         maxSize: MAX_FILE_SIZE_BYTES,
         multiple: true,
         onDrop,
@@ -85,22 +84,26 @@ const Base64ImageEncoder: React.FC = () => {
                 {encodedFiles.map((file: EncodedFile, idx: number) => (
                     <div key={idx}>
                         <Card>
-                            <Box display='flex' alignItems='center' justifyContent='center'>
-                                <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
-                                    <img src={file.encoded} alt={file.name} className={classes.image} />
-                                </Resizable>
-                            </Box>
+                            {file.encoded.startsWith('data:image/') && (
+                                <Box display='flex' alignItems='center' justifyContent='center'>
+                                    <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
+                                        <img src={file.encoded} alt={file.name} className={classes.image} />
+                                    </Resizable>
+                                </Box>
+                            )}
                             <CardContent>
                                 <Typography gutterBottom align='center' variant='h5' component='h2'>
                                     <b>{file.name}</b> ({file.size} bytes)
                                 </Typography>
-                                <TextField
-                                    label='Full img tag'
-                                    fullWidth
-                                    value={`<img alt="${file.name}" src="${file.encoded}"/>`}
-                                    margin='normal'
-                                    variant='outlined'
-                                />
+                                {file.encoded.startsWith('data:image/') && (
+                                    <TextField
+                                        label='Full img tag'
+                                        fullWidth
+                                        value={`<img alt="${file.name}" src="${file.encoded}"/>`}
+                                        margin='normal'
+                                        variant='outlined'
+                                    />
+                                )}
                                 <TextField
                                     label="Base64 encoded. Copy-paste into 'src' attribute"
                                     fullWidth
@@ -123,4 +126,4 @@ const Base64ImageEncoder: React.FC = () => {
     );
 };
 
-export default Base64ImageEncoder;
+export default Base64FileEncoder;
