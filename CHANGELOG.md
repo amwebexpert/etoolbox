@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/amwebexpert/etoolbox/compare/v1.9.1...v1.12.0) (2021-08-22)
+
+
+### Features
+
+* added colors family filter ([babed98](https://github.com/amwebexpert/etoolbox/commit/babed9811d42bd7207db059227f8f6d30cbdc3f9))
+* added colors family filter ([5b8a92b](https://github.com/amwebexpert/etoolbox/commit/5b8a92bab963e294ca075a182013ddef89a3e8ce))
+* added pagination hook ([52446e5](https://github.com/amwebexpert/etoolbox/commit/52446e591cb1e551aeb122cc4153b592595e6113))
+* added pagination hook ([0c7ed2b](https://github.com/amwebexpert/etoolbox/commit/0c7ed2b5f1ce1a2977e0aa32d90a8a9fe9d8f6ba))
+* named colors ([1e81036](https://github.com/amwebexpert/etoolbox/commit/1e81036d1d90bcfb00267a2499023704ce5388df))
+* starting color codes screen ([9682a1e](https://github.com/amwebexpert/etoolbox/commit/9682a1ebb00741e2279d998aeaf3e9f78d5b034b))
+* transform JSON to JS obj code ([05e0bea](https://github.com/amwebexpert/etoolbox/commit/05e0beaf1c142c637cbd74c56b368e9f49d74bca))
+
 ## [1.11.0](https://github.com/amwebexpert/etoolbox/compare/v1.10.0...v1.11.0) (2021-07-25)
 
 
