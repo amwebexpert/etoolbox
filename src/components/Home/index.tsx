@@ -41,6 +41,7 @@ const Home: React.FC = () => {
 
             <div className={classes.featuresList}>
                 <ul>
+                    <li>v1.12.0 - transform JSON to JS obj code, added more textarea lines for MD devices</li>
                     <li>v1.11.0 - Added named color filters and pagination</li>
                     <li>v1.10.0 - Added named colors (colors picker section)</li>
                     <li>v1.9.1 - lazy loading suspense fixed tab underline selector</li>
@@ -50,8 +51,8 @@ const Home: React.FC = () => {
                     <li>v1.5.0 - New dark mode and preferences screen</li>
                     <li>v1.4.1..2 - Bug fixes</li>
                     <li>
-                        v1.4.0 - Allow javascript source to be converted to many target languages. Also added lazy loading for
-                        modules.
+                        v1.4.0 - Allow javascript source to be converted to many target languages. Also added lazy
+                        loading for modules.
                     </li>
                     <li>v1.3.0 - Added Mime-Types and HTML entities collections</li>
                     <li>v1.2.0 - Image features: OCR, Base64 encoding, color picker</li>
