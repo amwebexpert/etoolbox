@@ -1,4 +1,5 @@
 import { quicktype, InputData, jsonInputForTargetLanguage } from 'quicktype-core';
+import beautify from 'js-beautify';
 import * as StringUtils from '../../services/string-utils';
 
 export interface ConvertionContext {
@@ -24,7 +25,7 @@ async function quicktypeJSON(targetLanguage: string, typeName: string, jsonStrin
         rendererOptions: {
             'just-types': 'true',
             'acronym-style': 'original',
-            'lombok': 'true',
+            lombok: 'false',
         },
     });
 }
@@ -81,10 +82,48 @@ async function transformJsObject(data: ConvertionContext): Promise<string> {
 }
 
 async function transformJSON(data: ConvertionContext): Promise<string> {
+    if (data.targetLanguage === 'javascript') {
+        const jsCode = objToSource(JSON.parse(data.source));
+        return beautify(jsCode, { indent_size: 2, space_in_empty_paren: true });
+    }
+
     try {
         const { lines } = await quicktypeJSON(data.targetLanguage, data.rootClassName, data.source);
         return lines.join('\n');
     } catch (e) {
         return e.toString();
+    }
+}
+
+function objToSource(o: any): string {
+    if (!o) {
+        return 'null';
+    }
+
+    let key = '';
+    let notAnArray = typeof o.length == 'undefined' ? 1 : 0;
+    let str = '';
+    for (var p in o) {
+        if (notAnArray) {
+            if (p.indexOf(' ') === -1) {
+                key = p + ': ';
+            } else {
+                key = "'" + p + "': ";
+            }
+        }
+
+        if (typeof o[p] == 'string') {
+            str += key + "'" + o[p] + "',";
+        } else if (typeof o[p] == 'object') {
+            str += key + objToSource(o[p]) + ',';
+        } else {
+            str += key + o[p] + ',';
+        }
+    }
+
+    if (notAnArray) {
+        return '{' + str.slice(0, -1) + '}';
+    } else {
+        return '[' + str.slice(0, -1) + ']';
     }
 }

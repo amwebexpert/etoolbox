@@ -129,6 +129,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                             <MenuItem value="go">Go</MenuItem>
                                             <MenuItem value="haskell">Haskell</MenuItem>
                                             <MenuItem value="java">Java</MenuItem>
+                                            <MenuItem value="javascript">Javascript object</MenuItem>
                                             <MenuItem value="json-schema">JSON Schema</MenuItem>
                                             <MenuItem value="kotlin">Kotlin</MenuItem>
                                             <MenuItem value="objectivec">ObjectiveC</MenuItem>

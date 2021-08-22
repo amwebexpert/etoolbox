@@ -96,6 +96,7 @@
     "electron-is-dev": "^2.0.0",
     "electron-reload": "^1.5.0",
     "file-saver": "^2.0.5",
+    "js-beautify": "^1.14.0",
     "jwt-decode": "^3.1.2",
     "mime-types": "^2.1.31",
     "pretty-bytes": "^5.6.0",
@@ -133,6 +134,7 @@
   "devDependencies": {
     "@types/file-saver": "^2.0.3",
     "@types/jest": "^26.0.24",
+    "@types/js-beautify": "^1.13.2",
     "@types/mime-types": "^2.1.0",
     "@types/preval.macro": "^3.0.0",
     "@types/qrcode": "^1.4.1",
