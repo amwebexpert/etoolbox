@@ -101,7 +101,8 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                                 label='Text to store into QR Code'
                                 placeholder='Paste or type the content here'
                                 multiline
-                                rows={10}
+                                rows={12}
+                                maxRows={isWidthUp('md', props.width) ? 20 : 12}
                                 variant='outlined'
                                 margin='normal'
                                 fullWidth={true}
@@ -113,7 +114,8 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                             <TextField
                                 label='QR Code generation options'
                                 multiline
-                                rows={10}
+                                rows={12}
+                                maxRows={isWidthUp('md', props.width) ? 20 : 12}
                                 variant='outlined'
                                 margin='normal'
                                 fullWidth={true}

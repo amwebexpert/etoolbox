@@ -102,6 +102,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
                     placeholder="Paste or type the content here"
                     multiline
                     rows={6}
+                    maxRows={isWidthUp('md', props.width) ? 20 : 6}
                     variant="outlined"
                     margin="normal"
                     fullWidth={true}

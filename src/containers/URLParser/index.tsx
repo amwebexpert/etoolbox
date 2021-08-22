@@ -50,6 +50,7 @@ const URLParser: React.FC<Props> = (props: Props) => {
                     placeholder="Paste or type the url here"
                     multiline
                     rows={4}
+                    maxRows={isWidthUp('md', props.width) ? 20 : 4}
                     variant="outlined"
                     margin="normal"
                     fullWidth={true}

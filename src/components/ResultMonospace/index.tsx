@@ -13,15 +13,17 @@ interface Props {
     label?: string;
     result?: string;
     rows?: number;
+    maxRows?: number;
 }
 
-export const ResultMonospace = ({ label, result, rows = 10 }: Props) => {
+export const ResultMonospace = ({ label, result, rows = 10, maxRows = 15 }: Props) => {
     const classes = useStyles();
 
     return (
         <TextField
             multiline
             rows={rows}
+            maxRows={maxRows}
             label={label}
             variant='outlined'
             margin='normal'

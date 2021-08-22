@@ -72,6 +72,7 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
                         placeholder='Paste or type the content here'
                         multiline
                         rows={10}
+                        maxRows={isWidthUp('md', props.width) ? 20 : 10}
                         variant='outlined'
                         margin='normal'
                         fullWidth={true}

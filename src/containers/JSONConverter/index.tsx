@@ -183,6 +183,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                     placeholder="Paste or type the source data here"
                                     multiline
                                     rows={4}
+                                    maxRows={isWidthUp('md', props.width) ? 20 : 4}
                                     variant="outlined"
                                     margin="normal"
                                     error={invalid}
