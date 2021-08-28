@@ -35,12 +35,13 @@ const Home: React.FC = () => {
             <Alert severity='success'>
                 <AlertTitle>Last build: {getBuildUTCDate()}</AlertTitle>
                 <Typography variant='body1'>
-                    Welcome to the a collection of web developer utilities packaged as a desktop app!
+                    Welcome to a collection of web developer utilities packaged as a desktop app!
                 </Typography>
             </Alert>
 
             <div className={classes.featuresList}>
                 <ul>
+                    <li>v1.14.0 - Epoch converter and date/time utilities</li>
                     <li>v1.13.0 - Convert any input file as Base64 and not just Images: PDF, CSV, docx, ...</li>
                     <li>v1.12.0 - transform JSON to JS obj code, added more textarea lines for MD devices</li>
                     <li>v1.11.0 - Added named color filters and pagination</li>
