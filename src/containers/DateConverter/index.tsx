@@ -1,9 +1,9 @@
-import { Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Box, Button, Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import EventIcon from '@material-ui/icons/Event';
+import TimerIcon from '@material-ui/icons/Timer';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -12,7 +12,6 @@ import { setTextAction } from '../../actions/text-actions';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
-import * as services from './services';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
@@ -50,16 +49,26 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                 <form className={classes.form} noValidate>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Grid container justifyContent='space-between'>
-                            <TextField
-                                autoFocus={isWidthUp('md', props.width)}
-                                label='Epoch value'
-                                placeholder='Epoch value'
-                                type='number'
-                                variant='outlined'
-                                margin='normal'
-                                value={inputText}
-                                onChange={(e) => storeInputText('lastEpochValue', e.target.value)}
-                            />
+                            <Box display='flex' alignItems='center'>
+                                <TextField
+                                    autoFocus={isWidthUp('md', props.width)}
+                                    label='Epoch value'
+                                    placeholder='Epoch value'
+                                    type='number'
+                                    variant='outlined'
+                                    margin='normal'
+                                    value={inputText}
+                                    onChange={(e) => storeInputText('lastEpochValue', e.target.value)}
+                                />
+                                <Button
+                                    variant='contained'
+                                    title="Update value with 'Now' value"
+                                    color='primary'
+                                    onClick={() => handleDateChange(new Date())}
+                                >
+                                    <TimerIcon />
+                                </Button>
+                            </Box>
                             <div>
                                 <KeyboardDatePicker
                                     margin='normal'
