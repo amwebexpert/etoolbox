@@ -132,7 +132,7 @@ CHANGELOG generation powered by Conventional Commits. Detail here: https://www.n
 
 ## TODO (Roadmap of next features)
 
-- Epoch converter
+- Epoch, date, time utilities (base implementation done but there is more to come!)
 - Add this list: https://gist.github.com/rxaviers/7360908 with search filtering capabilities
 - Add md5 checksum utilities mechanism
 - CSV Parser, see this nice wrapper for displaying CSV data in a formatted table: https://github.com/phaniteja1/react-csv-viewer/blob/master/src/CsvInterface.js
