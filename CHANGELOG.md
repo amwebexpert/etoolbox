@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://github.com/amwebexpert/etoolbox/compare/v1.13.0...v1.14.0) (2021-08-28)
+
+
+### Features
+
+* added epoch + date + time utilities ([02143ef](https://github.com/amwebexpert/etoolbox/commit/02143ef07622bc6801d175aed6335035abb8dbc6))
+* added epoch + date + time utilities ([cd06a9c](https://github.com/amwebexpert/etoolbox/commit/cd06a9c43da3957dd7e9a94e7d92ca72e246805c))
+
 ## [1.13.0](https://github.com/amwebexpert/etoolbox/compare/v1.12.1...v1.13.0) (2021-08-22)
 
 
