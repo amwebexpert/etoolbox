@@ -103,7 +103,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
                                 <StyledTableCell>Description</StyledTableCell>
-                                <StyledTableCell>Value and js code examples</StyledTableCell>
+                                <StyledTableCell>Value and js code examples using date-fns library</StyledTableCell>
                                 <StyledTableCell></StyledTableCell>
                             </TableRow>
                         </TableHead>
