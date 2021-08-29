@@ -1,4 +1,4 @@
-export const SAMPLE_DATEFNS_TZ_CONVERT = `import { zonedTimeToUtc, utcToZonedTime, format } from 'date-fns-tz';
+export const SAMPLE_DATEFNS_TZ_CONVERT = `import { utcToZonedTime } from 'date-fns-tz';
 
 // Obtain a Date instance that will render the equivalent Berlin time for the UTC date
 const date = new Date('#utc_value#');
