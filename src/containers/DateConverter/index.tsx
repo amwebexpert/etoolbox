@@ -15,6 +15,10 @@ import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
+import CopyButton from '../../components/CopyButton';
+import { SAMPLE_DATEFNS_FORMAT, SAMPLE_DATEFNS_TZ_CONVERT } from './constants';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 
 interface Props {
     width: Breakpoint;
@@ -25,12 +29,12 @@ interface Props {
 const DateConverter: React.FC<Props> = (props: Props) => {
     const title = 'Date & Epoch';
     const classes = useStyles();
+    const syntaxTheme = useSyntaxHighlightTheme();
     const { inputText, storeInputText } = props;
-    const [date, setDate] = useState<Date>(new Date());
-    const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
+    const [date, setDate] = useState<Date | null>(null);
 
     const handleDateChange = (date: Date | null) => {
-        setSelectedDate(date);
+        setDate(date);
         storeInputText('lastEpochValue', `${date?.getTime()}`);
     };
 
@@ -74,7 +78,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                     margin='normal'
                                     label='Date'
                                     format='yyyy-MM-dd'
-                                    value={selectedDate}
+                                    value={date}
                                     onChange={handleDateChange}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
@@ -83,7 +87,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                 <KeyboardTimePicker
                                     margin='normal'
                                     label='Time'
-                                    value={selectedDate}
+                                    value={date}
                                     onChange={handleDateChange}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change time',
@@ -100,6 +104,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                             <TableRow>
                                 <StyledTableCell>Description</StyledTableCell>
                                 <StyledTableCell>Value</StyledTableCell>
+                                <StyledTableCell>Actions</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -108,7 +113,10 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                     ISO string / JSON
                                 </StyledTableCell>
                                 <StyledTableCell>
-                                    <span className={classes.value}>{date.toISOString()}</span>
+                                    <span className={classes.value}>{date?.toISOString()}</span>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <CopyButton data={date?.toISOString()} />
                                 </StyledTableCell>
                             </StyledTableRow>
                             <StyledTableRow>
@@ -117,8 +125,55 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                 </StyledTableCell>
                                 <StyledTableCell>
                                     <span className={classes.value}>
-                                        {date.toLocaleDateString()} {date.toLocaleTimeString()}
+                                        {date?.toLocaleDateString()} {date?.toLocaleTimeString()}
                                     </span>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <CopyButton data={date?.toLocaleDateString() + ' ' + date?.toLocaleTimeString()} />
+                                </StyledTableCell>
+                            </StyledTableRow>
+                            <StyledTableRow>
+                                <StyledTableCell component='th' scope='row'>
+                                    Js code using epoch
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <span className={classes.value}>const dt = new Date({inputText});</span>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <CopyButton data={`const dt = new Date(${inputText});`} />
+                                </StyledTableCell>
+                            </StyledTableRow>
+                            <StyledTableRow>
+                                <StyledTableCell component='th' scope='row'>
+                                    Js code using ISO 8601
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <span className={classes.value}>const dt = new Date('{date?.toISOString()}');</span>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <CopyButton data={`const dt = new Date(${inputText});`} />
+                                </StyledTableCell>
+                            </StyledTableRow>
+                            <StyledTableRow>
+                                <StyledTableCell component='th' scope='row'>
+                                    date-fns timezone convertion example
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <SyntaxHighlighter
+                                        style={syntaxTheme}
+                                        language='javascript'
+                                        className={classes.formatted}
+                                    >
+                                        {SAMPLE_DATEFNS_TZ_CONVERT.replace('#utc_value#', date?.toISOString() ?? '')}
+                                    </SyntaxHighlighter>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <CopyButton
+                                        data={SAMPLE_DATEFNS_TZ_CONVERT.replace(
+                                            '#utc_value#',
+                                            date?.toISOString() ?? ''
+                                        )}
+                                    />
                                 </StyledTableCell>
                             </StyledTableRow>
                             <StyledTableRow>
@@ -126,14 +181,38 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                     Timezone offset
                                 </StyledTableCell>
                                 <StyledTableCell>
-                                    {date.getTimezoneOffset()} minutes ({date.getTimezoneOffset() / 60} hours)
+                                    {date?.getTimezoneOffset()} min ({(date?.getTimezoneOffset() ?? 0) / 60} hrs)
+                                </StyledTableCell>
+                                <StyledTableCell></StyledTableCell>
+                            </StyledTableRow>
+                            <StyledTableRow>
+                                <StyledTableCell component='th' scope='row'>
+                                    date-fns format example
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <SyntaxHighlighter
+                                        style={syntaxTheme}
+                                        language='javascript'
+                                        className={classes.formatted}
+                                    >
+                                        {SAMPLE_DATEFNS_FORMAT.replace('#utc_value#', date?.toISOString() ?? '')}
+                                    </SyntaxHighlighter>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <CopyButton
+                                        data={SAMPLE_DATEFNS_FORMAT.replace(
+                                            '#utc_value#',
+                                            date?.toISOString() ?? ''
+                                        )}
+                                    />
                                 </StyledTableCell>
                             </StyledTableRow>
                             <StyledTableRow>
                                 <StyledTableCell component='th' scope='row'>
                                     UTC string
                                 </StyledTableCell>
-                                <StyledTableCell>{date.toUTCString()}</StyledTableCell>
+                                <StyledTableCell>{date?.toUTCString()}</StyledTableCell>
+                                <StyledTableCell></StyledTableCell>
                             </StyledTableRow>
                         </TableBody>
                     </Table>

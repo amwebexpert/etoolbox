@@ -77,7 +77,7 @@ async function transformJsObject(data: ConvertionContext): Promise<string> {
         const newData: ConvertionContext = { ...data, sourceType: 'json', source: jsonData };
         return transform(newData);
     } catch (e) {
-        return e.toString();
+        return JSON.stringify(e);
     }
 }
 
@@ -91,7 +91,7 @@ async function transformJSON(data: ConvertionContext): Promise<string> {
         const { lines } = await quicktypeJSON(data.targetLanguage, data.rootClassName, data.source);
         return lines.join('\n');
     } catch (e) {
-        return e.toString();
+        return JSON.stringify(e);
     }
 }
 

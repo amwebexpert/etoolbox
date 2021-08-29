@@ -21,6 +21,7 @@ export const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
     },
     panel: {
+        marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),
     },
     form: {
@@ -37,5 +38,11 @@ export const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         width: 260,
+    },
+    formatted: {
+        width: '100%',
+        overflow: 'auto',
+        padding: 0,
+        margin: 0,
     },
 }));

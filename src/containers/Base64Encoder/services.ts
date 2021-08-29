@@ -10,6 +10,6 @@ export function transform(value: string | undefined, encoded: boolean): string {
             return atob(value);
         }
     } catch (e) {
-        return e.toString();
+        return JSON.stringify(e);
     }
 }

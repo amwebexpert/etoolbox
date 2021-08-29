@@ -9,6 +9,6 @@ export function decode(value: string | undefined, header: boolean): string {
         const obj = jwt_decode(value, { header });
         return JSON.stringify(obj, null, 4);
     } catch (e) {
-        return e.toString();
+        return JSON.stringify(e);
     }
 }

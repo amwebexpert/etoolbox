@@ -20,7 +20,7 @@ DEFAULT_MAP.set('lastJSON2Convert', '{ "firstName": "Chuck", "lastName": "Norris
 DEFAULT_MAP.set('lastJSON2ConvertOptionSource', 'json');
 DEFAULT_MAP.set('lastJSON2ConvertOptionTarget', 'csharp');
 DEFAULT_MAP.set('lastJSON2ConvertOptionRootClassname', 'RootClass');
-DEFAULT_MAP.set('lastEpochValue', '1630178031');
+DEFAULT_MAP.set('lastEpochValue', '1630238149875');
 
 const initalState: TextInputsState = loadFromLocalStorage();
 

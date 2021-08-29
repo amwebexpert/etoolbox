@@ -15,7 +15,7 @@ export function transform(regularExpression: string | undefined, inputText: stri
             return text.replace(regex, replacer);
         }
     } catch (e) {
-        return e.toString();
+        return JSON.stringify(e);
     }
 }
 
@@ -43,7 +43,7 @@ export function extract(regularExpression: string | undefined, inputText: string
 
         return extratedItemsList.join(', ');
     } catch (e) {
-        return e.toString();
+        return JSON.stringify(e);
     }
 }
 
