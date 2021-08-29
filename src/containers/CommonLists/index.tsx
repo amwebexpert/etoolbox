@@ -1,4 +1,4 @@
-import { Box, Paper, Tab, Table, TableBody, TableContainer, TableHead, TablePagination, TableRow, Tabs, Toolbar } from '@material-ui/core';
+import { Box, isWidthUp, Paper, Tab, Table, TableBody, TableContainer, TableHead, TablePagination, TableRow, Tabs, Toolbar, withWidth } from '@material-ui/core';
 import React from 'react';
 import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import { TabPanel } from './TabPanel';
 import { Helmet } from 'react-helmet';
 import FilterStats from '../../components/FilterStats';
 import { usePagination } from '../../hooks/usePagination';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 enum TABS {
     MIME_TYPES = 0,
@@ -19,6 +20,7 @@ enum TABS {
 }
 
 interface Props {
+    width: Breakpoint;
     mimeTypes: Map<string, string[]>;
     filteringMimeTypes: boolean;
     htmlEntities: HtmlEntity[];
@@ -98,7 +100,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                     <TableContainer component={Paper}>
-                        <Table>
+                        <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
                                     <StyledTableCell component="th" scope="row">Mime Type</StyledTableCell>
@@ -138,7 +140,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                     <TableContainer component={Paper}>
-                        <Table>
+                        <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
                                     <StyledTableCell component="th" scope="row">Entity</StyledTableCell>
@@ -192,4 +194,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommonLists);
+export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(CommonLists));

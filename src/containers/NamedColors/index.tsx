@@ -111,7 +111,7 @@ const NamedColors = (props: Props) => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
                 <TableContainer component={Paper}>
-                    <Table>
+                    <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
                                 <TableCell component="th" scope="row">Name</TableCell>

@@ -99,12 +99,12 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                 </form>
 
                 <TableContainer component={Paper} className={classes.panel}>
-                    <Table>
+                    <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
                                 <StyledTableCell>Description</StyledTableCell>
-                                <StyledTableCell>Value</StyledTableCell>
-                                <StyledTableCell>Actions</StyledTableCell>
+                                <StyledTableCell>Value and js code examples</StyledTableCell>
+                                <StyledTableCell></StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

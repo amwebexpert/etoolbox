@@ -11,7 +11,8 @@ import GithubIcon from '@material-ui/icons/GitHub';
 
 import { useToasterUpdate } from '../Toaster/ToasterProvider';
 import { getBuildUTCDate, getBuildUTCTimestamp } from '../../services/utils';
-import { Link } from '@material-ui/core';
+import { isWidthUp, Link, withWidth } from '@material-ui/core';
+import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -31,7 +32,11 @@ const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-export default function AppDetail() {
+interface Props {
+    width: Breakpoint;
+}
+
+const AppDetail: React.FC<Props> = (props: Props) => {
     const { setToasterState } = useToasterUpdate();
 
     function onBuildDateClick() {
@@ -41,7 +46,7 @@ export default function AppDetail() {
 
     return (
         <TableContainer component={Paper}>
-            <Table aria-label='about this application'>
+            <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'} aria-label='about this application'>
                 <TableBody>
                     <StyledTableRow key='github'>
                         <StyledTableCell component='th' scope='row'>
@@ -86,3 +91,5 @@ export default function AppDetail() {
         </TableContainer>
     );
 }
+
+export default (withWidth()(AppDetail));

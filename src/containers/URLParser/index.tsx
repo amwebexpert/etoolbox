@@ -60,7 +60,7 @@ const URLParser: React.FC<Props> = (props: Props) => {
                 />
 
                 <TableContainer component={Paper} className={classes.panel}>
-                    <Table>
+                    <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
                                 <StyledTableCell>Fragment</StyledTableCell>
@@ -79,7 +79,7 @@ const URLParser: React.FC<Props> = (props: Props) => {
                 </TableContainer>
 
                 <TableContainer component={Paper}>
-                    <Table>
+                    <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
                                 <StyledTableCell>Parameter</StyledTableCell>

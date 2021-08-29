@@ -75,7 +75,7 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
                 <TableContainer component={Paper}>
-                    <Table>
+                    <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
                                 <StyledTableCell component="th" scope="row">Project</StyledTableCell>
