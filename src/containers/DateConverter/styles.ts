@@ -30,6 +30,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     value: {
         fontFamily: 'monospace',
+        marginLeft: theme.spacing(1),
     },
     tableHeader: {
         backgroundColor: theme.palette.primary.main,
@@ -44,5 +45,11 @@ export const useStyles = makeStyles((theme) => ({
         overflow: 'auto',
         padding: 0,
         margin: 0,
+    },
+    card: {
+        marginBottom: theme.spacing(1),
+    },
+    otherSubtitle: {
+        marginTop: theme.spacing(1),
     },
 }));
