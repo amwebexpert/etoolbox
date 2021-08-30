@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.14.1](https://github.com/amwebexpert/etoolbox/compare/v1.14.0...v1.14.1) (2021-08-30)
+
+
+### Bug Fixes
+
+* timezone example with date-fns ([471c492](https://github.com/amwebexpert/etoolbox/commit/471c49248952763daa38c4946a6784172512c546))
+
 ## [1.14.0](https://github.com/amwebexpert/etoolbox/compare/v1.13.0...v1.14.0) (2021-08-28)
 
 
