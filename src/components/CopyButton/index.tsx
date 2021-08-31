@@ -1,6 +1,6 @@
 import React from 'react';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
-import { Button, isWidthDown, isWidthUp, withWidth } from '@material-ui/core';
+import { Button, isWidthUp, withWidth } from '@material-ui/core';
 
 import * as copy from 'copy-to-clipboard';
 import { useToasterUpdate } from '../Toaster/ToasterProvider';
