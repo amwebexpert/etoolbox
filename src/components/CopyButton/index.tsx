@@ -1,17 +1,15 @@
-import React from 'react';
+import { Button } from '@material-ui/core';
 import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
-import { Button, isWidthUp, withWidth } from '@material-ui/core';
-
 import * as copy from 'copy-to-clipboard';
+import React from 'react';
 import { useToasterUpdate } from '../Toaster/ToasterProvider';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+
 
 interface Props {
-    width: Breakpoint;
     data?: string;
 }
 
-const CopyButton: React.FC<Props> = ({ data, width }: Props) => {
+const CopyButton: React.FC<Props> = ({ data }: Props) => {
     const { setToasterState } = useToasterUpdate();
 
     const handleCopy = () => {
@@ -27,10 +25,10 @@ const CopyButton: React.FC<Props> = ({ data, width }: Props) => {
     };
 
     return (
-        <Button size={isWidthUp('md', width) ? 'medium' : 'small'} onClick={handleCopy} disabled={!data} title="Copy to clipboard" variant='contained' color='primary'>
+        <Button onClick={handleCopy} disabled={!data} title="Copy to clipboard" variant='contained' color='primary'>
             <AssignmentTurnedIn />
         </Button>
     );
 };
 
-export default withWidth()(CopyButton);
+export default CopyButton;
