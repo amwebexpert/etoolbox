@@ -30,6 +30,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     value: {
         fontFamily: 'monospace',
+        marginTop: theme.spacing(1),
         marginLeft: theme.spacing(1),
     },
     tableHeader: {

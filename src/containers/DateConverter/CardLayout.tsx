@@ -33,7 +33,9 @@ export const CardLayout: React.FC<Props> = ({ date, epochString }: Props) => {
                     <div className={classes.value}>
                         {date?.toLocaleDateString()} {date?.toLocaleTimeString()}
                     </div>
-                    <Typography variant='subtitle1' className={classes.otherSubtitle}>Timezone offset: </Typography>
+                    <Typography variant='subtitle1' className={classes.otherSubtitle}>
+                        Timezone offset:{' '}
+                    </Typography>
                     <div className={classes.value}>
                         {date?.getTimezoneOffset()} min ({(date?.getTimezoneOffset() ?? 0) / 60} hrs)
                     </div>
@@ -46,20 +48,24 @@ export const CardLayout: React.FC<Props> = ({ date, epochString }: Props) => {
             <Card className={classes.card}>
                 <CardContent>
                     <Typography variant='subtitle1'>Js code using epoch:</Typography>
-                    <span className={classes.value}>const dt = new Date({epochString});</span>
+                    <SyntaxHighlighter style={syntaxTheme} language='javascript' className={classes.formatted}>
+                        {`const date = new Date(${epochString});`}
+                    </SyntaxHighlighter>
                 </CardContent>
                 <CardActions>
-                    <CopyButton data={`const dt = new Date(${epochString});`} />
+                    <CopyButton data={`const date = new Date(${epochString});`} />
                 </CardActions>
             </Card>
 
             <Card className={classes.card}>
                 <CardContent>
                     <Typography variant='subtitle1'>Js code using ISO 8601:</Typography>
-                    <span className={classes.value}>const dt = new Date('{date?.toISOString()}');</span>
+                    <SyntaxHighlighter style={syntaxTheme} language='javascript' className={classes.formatted}>
+                        {`const date = new Date('${date?.toISOString()}');`}
+                    </SyntaxHighlighter>
                 </CardContent>
                 <CardActions>
-                    <CopyButton data={`const dt = new Date(${epochString});`} />
+                    <CopyButton data={`const date = new Date(${epochString});`} />
                 </CardActions>
             </Card>
 
