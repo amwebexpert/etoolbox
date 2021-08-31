@@ -43,7 +43,11 @@ Since most of the features don't need to access desktop capabilities, `Electron`
 - ability to select exactly where a file will be stored whenever the SPA offers a `Save As...` button
 - etc.
 
-Again feel free to try out the [online demo](https://amwebexpert.github.io/etoolbox/) before trying to package the `Electron` app for your platform :-)
+Again feel free to try out the [online demo](https://amwebexpert.github.io/etoolbox/) before trying to package the `Electron` app for your platform :-) since you will enjoy:
+
+- live updates
+- usage as a progressive web app (PWA)
+- or just add bookmark(s) to the specific feature(s) of the app you use the most
 
 ### Builded desktop releases
 
