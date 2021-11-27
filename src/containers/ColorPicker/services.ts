@@ -1,8 +1,18 @@
+import { RGBColor } from "react-color";
+
 interface ClickCoordinates {
     px: number;
     py: number;
     width: number;
     height: number;
+}
+
+export function getOpacityHexValue(opacity: number): string {
+    if (opacity < 0 || opacity > 1) {
+        throw new Error('Invalid opacity value');
+    }
+
+    return Math.round(opacity * 255).toString(16);
 }
 
 export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: ProgressEvent<FileReader>) => void): void {
@@ -21,7 +31,7 @@ export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: Pro
     }
 }
 
-export function retrieveClickedColor(event: MouseEvent, image: HTMLImageElement): string {
+export function retrieveClickedColor(event: MouseEvent, image: HTMLImageElement): RGBColor {
     const coordinates = computeImageClickCoordinates(event);
 
     // Create a canvas with same image dimension and draw the image on it
@@ -33,10 +43,17 @@ export function retrieveClickedColor(event: MouseEvent, image: HTMLImageElement)
 
     // Get the clicked pixel info
     const p = context.getImageData(coordinates.px, coordinates.py, 1, 1).data;
-    const hex = '#' + ('000000' + rgbToHex(p[0], p[1], p[2])).slice(-6);
 
-    return hex;
+    return {
+        r: +p[0] ?? 0,
+        g: +p[1] ?? 0,
+        b: +p[2] ?? 0,
+        a: 1,
+    };
 }
+
+export const rgbColorToHex = (color: RGBColor): string =>
+    '#' + ('000000' + rgbToHex(color.r, color.g, color.b)).slice(-6);
 
 function rgbToHex(r: number, g: number, b: number): string {
     if (r > 255 || g > 255 || b > 255) {
