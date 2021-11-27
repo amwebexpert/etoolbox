@@ -25,7 +25,7 @@ export const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(2),
     },
     sample: {
-        width: '50%',
+        width: '100%',
         height: 100,
         marginTop: 20,
         marginBottom: 20,

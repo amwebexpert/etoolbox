@@ -147,7 +147,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                                 margin="normal"
                                 variant="outlined"
                                 multiline
-                                rows="8"
+                                minRows="8"
                             />
                         </Spinner>
                         <LinearProgress variant="determinate" value={workerStatus.progress * 100} />

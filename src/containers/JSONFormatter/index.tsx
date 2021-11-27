@@ -78,7 +78,7 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
                             label='JSON Content'
                             placeholder='Paste or type the json content here'
                             multiline
-                            rows={10}
+                            minRows={10}
                             maxRows={isWidthUp('md', props.width) ? 20 : 10}
                             variant='outlined'
                             margin='normal'

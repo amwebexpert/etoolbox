@@ -62,7 +62,7 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
                     label='Content to Base64 encode/decode'
                     placeholder='Paste or type the content here'
                     multiline
-                    rows={4}
+                    minRows={4}
                     maxRows={isWidthUp('md', props.width) ? 20 : 4}
                     variant='outlined'
                     margin='normal'

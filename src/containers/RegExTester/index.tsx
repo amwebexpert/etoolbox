@@ -101,7 +101,7 @@ const RegExTester: React.FC<Props> = (props: Props) => {
                     label="Content to test the regular expression against"
                     placeholder="Paste or type the content here"
                     multiline
-                    rows={6}
+                    minRows={6}
                     maxRows={isWidthUp('md', props.width) ? 20 : 6}
                     variant="outlined"
                     margin="normal"

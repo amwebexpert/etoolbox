@@ -22,7 +22,7 @@ export const ResultMonospace = ({ label, result, rows = 10, maxRows = 15 }: Prop
     return (
         <TextField
             multiline
-            rows={rows}
+            minRows={rows}
             maxRows={maxRows}
             label={label}
             variant='outlined'

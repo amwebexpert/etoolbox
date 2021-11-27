@@ -71,7 +71,7 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
                         label='JSON web token to decode'
                         placeholder='Paste or type the content here'
                         multiline
-                        rows={10}
+                        minRows={10}
                         maxRows={isWidthUp('md', props.width) ? 20 : 10}
                         variant='outlined'
                         margin='normal'
