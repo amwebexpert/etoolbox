@@ -1,0 +1,21 @@
+export const CHANGE_LOGS = [
+  {version: 'v1.15.0', desc: 'feat: CSV Parser Papaparse implementation'},
+  {version: 'v1.14.0', desc: 'Epoch converter and date/time utilities'},
+  {version: 'v1.13.0', desc: 'Convert any input file as Base64 and not just Images: PDF, CSV, docx, ...'},
+  {version: 'v1.12.0', desc: 'transform JSON to JS obj code, added more textarea lines for MD devices'},
+  {version: 'v1.11.0', desc: 'Added named color filters and pagination'},
+  {version: 'v1.10.0', desc: 'Added named colors (colors picker section)'},
+  {version: 'v1.9.1', desc: 'lazy loading suspense fixed tab underline selector'},
+  {version: 'v1.8.0', desc: 'Tab base navigation for Base64 features'},
+  {version: 'v1.7.0', desc: 'lazy loading of all features'},
+  {version: 'v1.6.0', desc: 'Added pagination for mime-types, html entities and GitHub search screens'},
+  {version: 'v1.5.0', desc: 'New dark mode and preferences screen'},
+  {version: 'v1.4.1..2', desc: 'Bug fixes'},
+  {
+    version: 'v1.4.0',
+    desc: 'Allow javascript source to be converted to many target languages. Also added lazy loading for modules.',
+  },
+  {version: 'v1.3.0', desc: 'Added Mime-Types and HTML entities collections'},
+  {version: 'v1.2.0', desc: 'Image features: OCR, Base64 encoding, color picker'},
+  {version: 'v1.0.0', desc: 'Initial revision'},
+];
