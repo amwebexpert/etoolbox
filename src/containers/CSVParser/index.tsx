@@ -100,22 +100,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
         <FeatureTitle iconType={CSVParserIcon} title={title} />
 
         <Toolbar className={classes.toolbar}>
-          <Typography>Encoding:</Typography>
-          <FormControl className={classes.formControl}>
-            <Select
-              labelId="encodingLabel"
-              id="encoding"
-              value={inputEncoding}
-              autoFocus={isMdUp}
-              onChange={(e: any) => storeInputText('lastCSVInputContentEncoding', e.target.value)}>
-              {FILE_ENCODING_LABELS_SORTED.map((label, index) => (
-                <MenuItem key={`${index}-${label}`} value={label}>
-                  {label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
+          <Box display="flex" flexGrow={1}></Box>
           <div>
             <input
               type="file"
@@ -131,6 +116,22 @@ const CSVParser: React.FC<Props> = (props: Props) => {
               </Button>
             </label>
           </div>
+
+          <Typography>Encoding:</Typography>
+          <FormControl className={classes.formControl}>
+            <Select
+              labelId="encodingLabel"
+              id="encoding"
+              value={inputEncoding}
+              autoFocus={isMdUp}
+              onChange={(e: any) => storeInputText('lastCSVInputContentEncoding', e.target.value)}>
+              {FILE_ENCODING_LABELS_SORTED.map((label, index) => (
+                <MenuItem key={`${index}-${label}`} value={label}>
+                  {label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Toolbar>
 
         <form noValidate autoComplete="off">
@@ -202,12 +203,8 @@ const CSVParser: React.FC<Props> = (props: Props) => {
             onClick={onSubmit}>
             Run
           </Button>
-          <Button 
-            variant="contained"
-            color="primary"
-            disabled={!inputText}
-            onClick={handleClear}>
-                <DeleteIcon />
+          <Button variant="contained" color="primary" disabled={!inputText} onClick={handleClear}>
+            <DeleteIcon />
           </Button>
           <CopyButton data={transformed} />
           <Button
