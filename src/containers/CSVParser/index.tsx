@@ -49,6 +49,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
   const [transformed, setTransformed] = React.useState('');
   const [rawParsedResult, setRawParsedResult] = React.useState('');
   const [fileInfo, setFileInfo] = React.useState('');
+  const [isRunning, setIsRunning] = React.useState(false);
   const isMdUp = isWidthUp('md', props.width);
   const displayedRowsCount = isMdUp ? 10 : 4;
 
@@ -80,17 +81,25 @@ const CSVParser: React.FC<Props> = (props: Props) => {
     reader.readAsText(file, inputEncoding);
   }
 
-  const onSubmit = async () => {
-    if (!inputText) {
-      return;
+  React.useEffect(() => {
+    async function parse() {
+      try {
+        const opts = inputOptions ? JSON.parse(inputOptions) : services.DEFAULT_OPTIONS;
+        const result = await services.transform(inputText!, opts);
+        setTransformed(JSON.stringify(result.data, null, 2));
+        setRawParsedResult(JSON.stringify(result, null, 2));
+        storeInputText('lastCSVInputOptions', JSON.stringify(opts, null, 2));
+        setIsRunning(false);
+      } catch (e) {
+        setIsRunning(false);
+      }
     }
 
-    const opts = inputOptions ? JSON.parse(inputOptions) : services.DEFAULT_OPTIONS;
-    const result = await services.transform(inputText, opts);
-    setTransformed(JSON.stringify(result.data, null, 2));
-    setRawParsedResult(JSON.stringify(result, null, 2));
-    storeInputText('lastCSVInputOptions', JSON.stringify(opts, null, 2));
-  };
+    if (isRunning && inputText) {
+      parse();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRunning, inputText]);
 
   return (
     <>
@@ -199,9 +208,9 @@ const CSVParser: React.FC<Props> = (props: Props) => {
             variant="contained"
             color="primary"
             endIcon={<AccountTreeIcon>Run</AccountTreeIcon>}
-            disabled={!inputText}
-            onClick={onSubmit}>
-            Run
+            disabled={!inputText || isRunning}
+            onClick={() => setIsRunning(true)}>
+            {isRunning ? 'Wait…' : 'Run'}
           </Button>
           <Button variant="contained" color="primary" disabled={!inputText} onClick={handleClear}>
             <DeleteIcon />
@@ -219,7 +228,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
 
         {transformed && (
           <>
-            <Typography>Parsed result with metadata:</Typography>
+            <Typography>Parsed rows:</Typography>
             <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.encodedResult}>
               {transformed}
             </SyntaxHighlighter>
