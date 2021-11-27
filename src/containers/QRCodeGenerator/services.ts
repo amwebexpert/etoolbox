@@ -1,13 +1,12 @@
-export function jsonFormat(value: string | undefined): string {
-    if (!value) {
-        return '{}';
-    }
+export const DEFAULT_OPTIONS = {
+    errorCorrectionLevel: 'H',
+    type: 'image/png',
+    width: 200,
+    quality: 0.3,
+    margin: 1,
+    color: {
+        dark: '#000000FF',
+        light: '#FFFFFFFF',
+    },
 
-    try {
-        const options = JSON.parse(value);
-        return JSON.stringify(options, null, 2);
-    } catch (e) {
-        console.error(e, value);
-        return '{}';
-    }
-}
+};

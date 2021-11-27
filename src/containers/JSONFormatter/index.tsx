@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
+import * as fileService from '../../services/file-utils';
 import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
@@ -61,7 +62,7 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
 
     const handleSaveAs = (event: any) => {
         event.preventDefault();
-        services.saveJsonAs(formatted);
+        fileService.saveJsonAs(formatted);
     };
 
     return (

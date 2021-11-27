@@ -11,6 +11,7 @@ import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
 import GithubIcon from '@material-ui/icons/GitHub';
 import EventIcon from '@material-ui/icons/Event';
+import CSVParserIcon from '@material-ui/icons/GridOn';
 import HomeIcon from '@material-ui/icons/Home';
 import LinkIcon from '@material-ui/icons/Link';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
@@ -64,6 +65,7 @@ const App: React.FC<Props> = (props: Props) => {
   const GithubUserProjects = lazy(() => import('./containers/GithubUserProjects'));
   const JSONConverter = lazy(() => import('./containers/JSONConverter'));
   const DateConverter = lazy(() => import('./containers/DateConverter'));
+  const CSVParser = lazy(() => import('./containers/CSVParser'));
 
   // Because of the following issue, Suspense is breaking the tab selection (fix will be part of React 18)
   // @see https://github.com/mui-org/material-ui/issues/14077
@@ -151,6 +153,7 @@ const App: React.FC<Props> = (props: Props) => {
             <NavbarButtonLink icon={<TocIcon />} to="/CommonLists" title="Mime-types, HTML" detail="Html entities, Mime-types, and more…" onClick={menuClick} />
             <NavbarButtonLink icon={<GithubIcon />} to="/GithubUserProjects" title="Github search" detail="Github user projects" onClick={menuClick} />
             <NavbarButtonLink icon={<EventIcon />} to="/DateConverter" title="Date & Epoch" detail="Date and Epoch utilities" onClick={menuClick} />
+            <NavbarButtonLink icon={<CSVParserIcon />} to="/CSVParser" title="CSV Parser" detail="CSV utilities" onClick={menuClick} />
           </List>
         </Drawer>
         <ToasterProvider>
@@ -179,6 +182,7 @@ const App: React.FC<Props> = (props: Props) => {
                 <Route exact path="/CommonLists"><CommonLists /></Route>
                 <Route exact path="/GithubUserProjects"><GithubUserProjects /></Route>
                 <Route exact path="/DateConverter"><DateConverter /></Route>
+                <Route exact path="/CSVParser"><CSVParser /></Route>
 
                 {/** Default route is the home */}
                 <Route component={Home} />
