@@ -164,10 +164,6 @@ const ColorPicker: React.FC = () => {
         <Box display="flex" alignItems="center" justifyContent="center">
           <SketchPicker color={rgb} onChangeComplete={(color: ColorResult) => setRgb(color.rgb)} />
         </Box>
-
-        <Box display="flex" alignItems="center" justifyContent="center" className={classes.toolbar}>
-          <CopyButton data={background} />
-        </Box>
       </div>
     </>
   );
