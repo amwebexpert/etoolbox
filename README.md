@@ -134,12 +134,10 @@ Your `Electron` app is ready to be distributed!
 
 CHANGELOG generation powered by Conventional Commits. Detail here: https://www.npmjs.com/package/standard-version
 
-## TODO (Roadmap of next features)
+## Roadmap (of next features)
 
-- Add this list: https://gist.github.com/rxaviers/7360908 with search filtering capabilities
-- Add md5 checksum utilities mechanism
-- CSV Parser, see this nice wrapper for displaying CSV data in a formatted table: https://github.com/phaniteja1/react-csv-viewer/blob/master/src/CsvInterface.js
-- Convert CSV & TAB Delimited files to JSON
+- CSV Viewer, see this [nice wrapper for displaying CSV data in a formatted table](https://github.com/phaniteja1/react-csv-viewer/blob/master/src/CsvInterface.js)
+- Code snippets online store with text search capatilities on keywords and programming language type
 - Suggests something or add your pull request!
 
 ## License
