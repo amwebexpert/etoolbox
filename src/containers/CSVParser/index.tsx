@@ -1,37 +1,37 @@
 import {
-    Box,
-    FormControl,
-    Grid,
-    isWidthUp,
-    Link,
-    MenuItem,
-    Select,
-    TextField,
-    Toolbar,
-    Typography,
-    withWidth
+  Box,
+  FormControl,
+  Grid,
+  isWidthUp,
+  Link,
+  MenuItem,
+  Select,
+  TextField,
+  Toolbar,
+  Typography,
+  withWidth,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+import {Breakpoint} from '@material-ui/core/styles/createBreakpoints';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import FileIcon from '@material-ui/icons/AttachmentOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CSVParserIcon from '@material-ui/icons/GridOn';
 import SaveIcon from '@material-ui/icons/Save';
 import React from 'react';
-import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
+import {Helmet} from 'react-helmet';
+import {connect} from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { Dispatch } from 'redux';
-import { setTextAction } from '../../actions/text-actions';
+import {Dispatch} from 'redux';
+import {setTextAction} from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
-import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
-import { AppState } from '../../reducers';
-import { FILE_ENCODING_LABELS_SORTED } from '../../services/encodings';
+import {useSyntaxHighlightTheme} from '../../hooks/useSyntaxHighlightTheme';
+import {AppState} from '../../reducers';
+import {FILE_ENCODING_LABELS_SORTED} from '../../services/encodings';
 import * as fileService from '../../services/file-utils';
 import * as services from './services';
-import { useStyles } from './styled';
+import {useStyles} from './styled';
 
 interface Props {
   width: Breakpoint;
@@ -98,6 +98,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
 
       <div className={classes.root}>
         <FeatureTitle iconType={CSVParserIcon} title={title} />
+
         <Toolbar className={classes.toolbar}>
           <Typography>Encoding:</Typography>
           <FormControl className={classes.formControl}>
@@ -130,26 +131,8 @@ const CSVParser: React.FC<Props> = (props: Props) => {
               </Button>
             </label>
           </div>
-
-          <Box display="flex" flexGrow={1}></Box>
-
-          <Button
-            endIcon={<DeleteIcon />}
-            variant="contained"
-            color="primary"
-            disabled={!inputText}
-            onClick={handleClear}>
-            Clear
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            endIcon={<AccountTreeIcon>Process</AccountTreeIcon>}
-            disabled={!inputText}
-            onClick={onSubmit}>
-            Process
-          </Button>
         </Toolbar>
+
         <form noValidate autoComplete="off">
           <Grid container spacing={1}>
             <Grid item md={8} sm={12} xs={12}>
@@ -208,8 +191,24 @@ const CSVParser: React.FC<Props> = (props: Props) => {
             </Grid>
           </Grid>
         </form>
+
         <Toolbar className={classes.toolbar}>
           <Box display="flex" flexGrow={1}></Box>
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={<AccountTreeIcon>Run</AccountTreeIcon>}
+            disabled={!inputText}
+            onClick={onSubmit}>
+            Run
+          </Button>
+          <Button 
+            variant="contained"
+            color="primary"
+            disabled={!inputText}
+            onClick={handleClear}>
+                <DeleteIcon />
+          </Button>
           <CopyButton data={transformed} />
           <Button
             endIcon={<SaveIcon>Save As...</SaveIcon>}
@@ -217,9 +216,10 @@ const CSVParser: React.FC<Props> = (props: Props) => {
             variant="contained"
             color="primary"
             onClick={handleSaveAs}>
-            Save As...
+            Save…
           </Button>
         </Toolbar>
+
         {transformed && (
           <>
             <Typography>Parsed result with metadata:</Typography>
