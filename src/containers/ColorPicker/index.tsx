@@ -1,21 +1,18 @@
-import React, {useEffect} from 'react';
-
 import {Box, Typography} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PaletteIcon from '@material-ui/icons/Palette';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
-
-import {Resizable} from 're-resizable';
-import {ColorResult, RGBColor, SketchPicker} from 'react-color';
-
-import FeatureTitle from '../../components/FeatureTitle';
-import * as services from './services';
-import {useStyles, imageResizer} from './styled';
-import CopyButton from '../../components/CopyButton';
-import {Helmet} from 'react-helmet';
-import {useToasterUpdate} from '../../components/Toaster/ToasterProvider';
+import {styles} from '@material-ui/pickers/views/Calendar/Calendar';
 import * as copy from 'copy-to-clipboard';
+import {Resizable} from 're-resizable';
+import React, {useEffect} from 'react';
+import {ColorResult, RGBColor, SketchPicker} from 'react-color';
+import {Helmet} from 'react-helmet';
+import FeatureTitle from '../../components/FeatureTitle';
+import {useToasterUpdate} from '../../components/Toaster/ToasterProvider';
+import * as services from './services';
+import {imageResizer, useStyles} from './styled';
 
 const ColorPicker: React.FC = () => {
   const title = 'Color picker';
@@ -101,20 +98,22 @@ const ColorPicker: React.FC = () => {
         <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
           {!imgDataURL && (
             <div>
-              <Typography>paste image from clipboard or select a file</Typography>
-              <input
-                type="file"
-                color="primary"
-                accept="image/*"
-                onChange={(e: any) => onFileSelected(e.target.files[0])}
-                id="icon-button-file"
-                style={{display: 'none'}}
-              />
-              <label htmlFor="icon-button-file">
-                <Button variant="contained" component="span" color="primary">
-                  <PhotoCameraIcon />
-                </Button>
-              </label>
+              <Typography>
+                paste image or select a file: {' '}
+                <input
+                  type="file"
+                  color="primary"
+                  accept="image/*"
+                  onChange={(e: any) => onFileSelected(e.target.files[0])}
+                  id="icon-button-file"
+                  style={{display: 'none'}}
+                />
+                <label htmlFor="icon-button-file">
+                  <Button variant="contained" component="span" color="primary">
+                    <PhotoCameraIcon />
+                  </Button>
+                </label>
+              </Typography>
             </div>
           )}
           {imgDataURL && (
@@ -158,10 +157,15 @@ const ColorPicker: React.FC = () => {
               onClick={() => handleCopy(backgroundRgbWithAlpha)}>
               {backgroundRgbWithAlpha}
             </div>
+
+            <Typography variant="body1">Opacity to hexadecimal</Typography>
+            <Typography variant="body2">
+              {rgb?.a ?? 1} = {(rgb?.a ?? 1) * 100}% = {services.getOpacityHexValue(rgb?.a ?? 1)}
+            </Typography>
           </Box>
         )}
 
-        <Box display="flex" alignItems="center" justifyContent="center">
+        <Box display="flex" alignItems="center" justifyContent="center" className={classes.colorPicker}>
           <SketchPicker color={rgb} onChangeComplete={(color: ColorResult) => setRgb(color.rgb)} />
         </Box>
       </div>

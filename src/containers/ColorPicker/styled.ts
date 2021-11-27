@@ -38,4 +38,7 @@ export const useStyles = makeStyles(theme => ({
     fontFamily: 'monospace',
     textShadow: '1px 1px lightgrey',
   },
+  colorPicker: {
+    marginTop: theme.spacing(2),
+  },
 }));
