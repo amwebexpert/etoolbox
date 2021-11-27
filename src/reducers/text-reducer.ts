@@ -22,8 +22,8 @@ DEFAULT_MAP.set('lastJSON2ConvertOptionTarget', 'csharp');
 DEFAULT_MAP.set('lastJSON2ConvertOptionRootClassname', 'RootClass');
 DEFAULT_MAP.set('lastEpochValue', '1630238149875');
 DEFAULT_MAP.set('lastCSVInputContent', '');
-DEFAULT_MAP.set('lastCSVInputContentEncoding', '');
-DEFAULT_MAP.set('lastCSVInputOptions', 'utf-8');
+DEFAULT_MAP.set('lastCSVInputContentEncoding', 'utf-8');
+DEFAULT_MAP.set('lastCSVInputOptions', '');
 
 const initalState: TextInputsState = loadFromLocalStorage();
 
