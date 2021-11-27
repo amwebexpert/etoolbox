@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.16.0](https://github.com/amwebexpert/etoolbox/compare/v1.15.1...v1.16.0) (2021-11-27)
+
+
+### Features
+
+* improved color picker with hex opacity value ([c50923b](https://github.com/amwebexpert/etoolbox/commit/c50923b517f9d3e8b1c59f2a05325e99d635165f))
+* improved color picker with hex opacity value ([2f196b5](https://github.com/amwebexpert/etoolbox/commit/2f196b5cefa985873900d02a9c6b757ba49e88c9))
+
+
+### Bug Fixes
+
+* usage of minRows to replace rows ([136105b](https://github.com/amwebexpert/etoolbox/commit/136105b4029bc487e99c5496289936a90effb7fb))
+
 ### [1.15.1](https://github.com/amwebexpert/etoolbox/compare/v1.15.0...v1.15.1) (2021-11-27)
 
 ## 1.15.0 (2021-11-27)
