@@ -1,18 +1,17 @@
-import {Box, Typography} from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PaletteIcon from '@material-ui/icons/Palette';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
-import {styles} from '@material-ui/pickers/views/Calendar/Calendar';
 import * as copy from 'copy-to-clipboard';
-import {Resizable} from 're-resizable';
-import React, {useEffect} from 'react';
-import {ColorResult, RGBColor, SketchPicker} from 'react-color';
-import {Helmet} from 'react-helmet';
+import { Resizable } from 're-resizable';
+import React, { useEffect } from 'react';
+import { ColorResult, RGBColor, SketchPicker } from 'react-color';
+import { Helmet } from 'react-helmet';
 import FeatureTitle from '../../components/FeatureTitle';
-import {useToasterUpdate} from '../../components/Toaster/ToasterProvider';
+import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import * as services from './services';
-import {imageResizer, useStyles} from './styled';
+import { imageResizer, useStyles } from './styled';
 
 const ColorPicker: React.FC = () => {
   const title = 'Color picker';
