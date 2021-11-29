@@ -1,17 +1,19 @@
-import { Box, Typography } from '@material-ui/core';
+import {Box, Typography} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PaletteIcon from '@material-ui/icons/Palette';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import * as copy from 'copy-to-clipboard';
-import { Resizable } from 're-resizable';
-import React, { useEffect } from 'react';
-import { ColorResult, RGBColor, SketchPicker } from 'react-color';
-import { Helmet } from 'react-helmet';
+import {Resizable} from 're-resizable';
+import React, {useEffect} from 'react';
+import {ColorResult, RGBColor, SketchPicker} from 'react-color';
+import {Helmet} from 'react-helmet';
 import FeatureTitle from '../../components/FeatureTitle';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
+import {useToasterUpdate} from '../../components/Toaster/ToasterProvider';
 import * as services from './services';
-import { imageResizer, useStyles } from './styled';
+import {imageResizer, useStyles} from './styled';
+
+const DEFAULT_BACKGROUND = '';
 
 const ColorPicker: React.FC = () => {
   const title = 'Color picker';
@@ -21,10 +23,10 @@ const ColorPicker: React.FC = () => {
   const [rgb, setRgb] = React.useState<RGBColor>();
 
   // Derived values (recomputed on rgb change)
-  const [background, setBackground] = React.useState('');
-  const [backgroundWithAlpha, setBackgroundWithAlpha] = React.useState('');
-  const [backgroundRgb, setBackgroundRgb] = React.useState('');
-  const [backgroundRgbWithAlpha, setBackgroundRgbWithAlpha] = React.useState('');
+  const [background, setBackground] = React.useState(DEFAULT_BACKGROUND);
+  const [backgroundWithAlpha, setBackgroundWithAlpha] = React.useState(DEFAULT_BACKGROUND);
+  const [backgroundRgb, setBackgroundRgb] = React.useState(DEFAULT_BACKGROUND);
+  const [backgroundRgbWithAlpha, setBackgroundRgbWithAlpha] = React.useState(DEFAULT_BACKGROUND);
 
   useEffect(() => {
     if (rgb) {
@@ -33,10 +35,10 @@ const ColorPicker: React.FC = () => {
       setBackgroundRgb(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
       setBackgroundRgbWithAlpha(`rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a ?? 1})`);
     } else {
-      setBackground('');
-      setBackgroundWithAlpha('');
-      setBackgroundRgb('');
-      setBackgroundRgbWithAlpha('');
+      setBackground(DEFAULT_BACKGROUND);
+      setBackgroundWithAlpha(DEFAULT_BACKGROUND);
+      setBackgroundRgb(DEFAULT_BACKGROUND);
+      setBackgroundRgbWithAlpha(DEFAULT_BACKGROUND);
     }
   }, [rgb]);
 
@@ -97,8 +99,8 @@ const ColorPicker: React.FC = () => {
         <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
           {!imgDataURL && (
             <div>
-              <Typography>
-                paste image or select a file: {' '}
+              <Typography variant="body2">
+                paste image or select a file:{' '}
                 <input
                   type="file"
                   color="primary"
@@ -122,6 +124,20 @@ const ColorPicker: React.FC = () => {
           )}
         </Box>
 
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          className={classes.colorPicker}>
+          <Typography variant="body2">or just pick a color:</Typography>
+          <SketchPicker color={rgb} onChangeComplete={(color: ColorResult) => setRgb(color.rgb)} />
+
+          <pre>
+            Opacity to hexa: {(rgb?.a ?? 1) * 100}% = {rgb?.a ?? 1} = {services.getOpacityHexValue(rgb?.a ?? 1)}
+          </pre>
+        </Box>
+
         {imgDataURL && (
           <Box display="flex" alignItems="center" justifyContent="center">
             <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>
@@ -130,42 +146,28 @@ const ColorPicker: React.FC = () => {
           </Box>
         )}
 
-        {rgb && (
-          <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-            <div
-              className={classes.sample}
-              style={{backgroundColor: background}}
-              onClick={() => handleCopy(background)}>
-              {background}
-            </div>
-            <div
-              className={classes.sample}
-              style={{backgroundColor: backgroundWithAlpha}}
-              onClick={() => handleCopy(backgroundWithAlpha)}>
-              {backgroundWithAlpha}
-            </div>
-            <div
-              className={classes.sample}
-              style={{backgroundColor: backgroundRgb}}
-              onClick={() => handleCopy(backgroundRgb)}>
-              {backgroundRgb}
-            </div>
-            <div
-              className={classes.sample}
-              style={{backgroundColor: backgroundRgbWithAlpha}}
-              onClick={() => handleCopy(backgroundRgbWithAlpha)}>
-              {backgroundRgbWithAlpha}
-            </div>
-
-            <Typography variant="body1">Opacity to hexadecimal</Typography>
-            <Typography variant="body2">
-              {rgb?.a ?? 1} = {(rgb?.a ?? 1) * 100}% = {services.getOpacityHexValue(rgb?.a ?? 1)}
-            </Typography>
-          </Box>
-        )}
-
-        <Box display="flex" alignItems="center" justifyContent="center" className={classes.colorPicker}>
-          <SketchPicker color={rgb} onChangeComplete={(color: ColorResult) => setRgb(color.rgb)} />
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+          <div className={classes.sample} style={{backgroundColor: background}} onClick={() => handleCopy(background)}>
+            {background}
+          </div>
+          <div
+            className={classes.sample}
+            style={{backgroundColor: backgroundWithAlpha}}
+            onClick={() => handleCopy(backgroundWithAlpha)}>
+            {backgroundWithAlpha}
+          </div>
+          <div
+            className={classes.sample}
+            style={{backgroundColor: backgroundRgb}}
+            onClick={() => handleCopy(backgroundRgb)}>
+            {backgroundRgb}
+          </div>
+          <div
+            className={classes.sample}
+            style={{backgroundColor: backgroundRgbWithAlpha}}
+            onClick={() => handleCopy(backgroundRgbWithAlpha)}>
+            {backgroundRgbWithAlpha}
+          </div>
         </Box>
       </div>
     </>

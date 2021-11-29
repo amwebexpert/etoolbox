@@ -27,7 +27,7 @@ export const useStyles = makeStyles(theme => ({
   sample: {
     cursor: 'pointer',
     width: '100%',
-    height: 60,
+    height: 50,
     marginBottom: theme.spacing(1),
     borderColor: theme.palette.text.disabled,
     borderStyle: 'solid',

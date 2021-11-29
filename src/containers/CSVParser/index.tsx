@@ -1,7 +1,9 @@
 import {
   Box,
   FormControl,
+  FormHelperText,
   Grid,
+  InputLabel,
   isWidthUp,
   Link,
   MenuItem,
@@ -126,8 +128,8 @@ const CSVParser: React.FC<Props> = (props: Props) => {
             </label>
           </div>
 
-          <Typography>Encoding:</Typography>
           <FormControl className={classes.formControl}>
+            <InputLabel shrink id="encodingLabel">Encoding</InputLabel>
             <Select
               labelId="encodingLabel"
               id="encoding"
@@ -140,6 +142,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                 </MenuItem>
               ))}
             </Select>
+            <FormHelperText>Specify the file encoding</FormHelperText>
           </FormControl>
         </Toolbar>
 
