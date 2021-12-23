@@ -2255,16 +2255,6 @@
     "@types/react" "*"
     "@types/react-router" "*"
 
-"@types/react-router-redux@^5.0.20":
-  version "5.0.20"
-  resolved "https://registry.npmjs.org/@types/react-router-redux/-/react-router-redux-5.0.20.tgz"
-  integrity sha512-2TFSRXk1dvEbG5jfbkyU8HB6Ezhbql582S4AsMa2mo59DFZD6VszXd6DLhT6gY1tWj4H/AkLh334rrtf20uH0Q==
-  dependencies:
-    "@types/history" "*"
-    "@types/react" "*"
-    "@types/react-router" "*"
-    redux ">= 3.7.2"
-
 "@types/react-router@*":
   version "5.1.11"
   resolved "https://registry.npmjs.org/@types/react-router/-/react-router-5.1.11.tgz"
@@ -12014,7 +12004,7 @@ redux-saga@^1.1.3:
   dependencies:
     "@redux-saga/core" "^1.1.3"
 
-"redux@>= 3.7.2", redux@^4.0.0, redux@^4.0.4, redux@^4.1.2:
+redux@^4.0.0, redux@^4.0.4, redux@^4.1.2:
   version "4.1.2"
   resolved "https://registry.npmjs.org/redux/-/redux-4.1.2.tgz"
   integrity sha512-SH8PglcebESbd/shgf6mii6EIoRM0zrQyjcuQ+ojmfxjTtE0z9Y8pa62iA/OJ58qjP6j27uyW4kUF4jl/jd6sw==
