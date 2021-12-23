@@ -118,7 +118,6 @@
     "react-loading-overlay": "^1.0.1",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.2.1",
-    "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "4.0.3",
     "react-spinners": "^0.11.0",
     "react-syntax-highlighter": "^15.4.5",
