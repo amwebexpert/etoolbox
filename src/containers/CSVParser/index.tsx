@@ -136,9 +136,9 @@ const CSVParser: React.FC<Props> = (props: Props) => {
               value={inputEncoding}
               autoFocus={isMdUp}
               onChange={(e: any) => storeInputText('lastCSVInputContentEncoding', e.target.value)}>
-              {FILE_ENCODING_LABELS_SORTED.map((label, index) => (
-                <MenuItem key={`${index}-${label}`} value={label}>
-                  {label}
+              {FILE_ENCODING_LABELS_SORTED.map((item, index) => (
+                <MenuItem key={`${index}-${item.label}`} value={item.label}>
+                  {item.label} ({item.name})
                 </MenuItem>
               ))}
             </Select>
