@@ -30,7 +30,7 @@ import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import {useSyntaxHighlightTheme} from '../../hooks/useSyntaxHighlightTheme';
 import {AppState} from '../../reducers';
-import {FILE_ENCODING_LABELS_SORTED} from '../../services/encodings';
+import {FILE_ENCODING_LABELS_SORTED, LabelAndName} from '../../services/encodings';
 import * as fileService from '../../services/file-utils';
 import * as services from './services';
 import {useStyles} from './styled';
@@ -80,7 +80,8 @@ const CSVParser: React.FC<Props> = (props: Props) => {
       setFileInfo(`${file.name} (${file.size} bytes)`);
       e.target.value = '';
     };
-    reader.readAsText(file, inputEncoding);
+    const encoding: LabelAndName = FILE_ENCODING_LABELS_SORTED.find(enc => enc.label === inputEncoding)!;
+    reader.readAsText(file, encoding?.name ?? 'utf-8');
   }
 
   React.useEffect(() => {
@@ -129,7 +130,9 @@ const CSVParser: React.FC<Props> = (props: Props) => {
           </div>
 
           <FormControl className={classes.formControl}>
-            <InputLabel shrink id="encodingLabel">Encoding</InputLabel>
+            <InputLabel shrink id="encodingLabel">
+              Encoding
+            </InputLabel>
             <Select
               labelId="encodingLabel"
               id="encoding"

@@ -327,7 +327,7 @@ export const FILE_ENCODING_ENTRIES = [
   },
 ];
 
-type LabelAndName = {
+export type LabelAndName = {
   label: string;
   name: string;
 };
