@@ -76,7 +76,7 @@ This creates the following installers:
 
 This project is originaly a fork of [React-TypeScript-`Electron` sample with Create React App and `Electron` Builder](https://github.com/yhirose/react-typescript-electron-sample-with-create-react-app-and-electron-builder)
 
-Also bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with `--typescript`option. On the top of it, the following features have been added with relatively small changes:
+Also bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with `--typescript` option. On the top of it, the following features have been added with relatively small changes:
 
 * TypeScript supports for `Electron` main process source code
 * Hot-reload support for `Electron` app
@@ -137,12 +137,12 @@ CHANGELOG generation powered by Conventional Commits. Detail here: https://www.n
 ## Roadmap (of next features)
 
 - CSV Viewer, see this [nice wrapper for displaying CSV data in a formatted table](https://github.com/phaniteja1/react-csv-viewer/blob/master/src/CsvInterface.js)
-- Code snippets online store with text search capatilities on keywords and programming language type
+- Code snippets online store with text search capabilities on keywords and programming language type
 - Suggests something or add your pull request!
 
 ## License
 
-This project is licensed under the MIT license, Copyright (c) 2020 André Masson. For more information see `LICENSE.md`.
+This project is licensed under the MIT license. For more information see `LICENSE.md`.
 
 ## Useful links
 
