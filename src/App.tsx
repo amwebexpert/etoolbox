@@ -25,7 +25,7 @@ import WrapTextIcon from '@material-ui/icons/WrapText';
 import clsx from 'clsx';
 import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
-import { NavLink, Route, Switch, useHistory } from 'react-router-dom';
+import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import ApplicationBar from './components/ApplicationBar/ApplicationBar';
 import FeaturesGroup from './components/FeaturesGroup';
 import { FullCenteredContent } from './components/FullCenteredContent/FullCenteredContent';
@@ -49,7 +49,7 @@ interface Props {
 const App: React.FC<Props> = (props: Props) => {
   const desc = 'Web Toolbox app. A collection of utilities for developers.';
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = React.useState(isWidthUp('md', props.width));
 
@@ -90,14 +90,14 @@ const App: React.FC<Props> = (props: Props) => {
     { type: NamedColors, path: '/NamedColors', label: 'Named colors'}, 
   ];
 
-  React.useEffect(setupIPC, [history]);
+  React.useEffect(setupIPC, [navigate]);
 
   function setupIPC() {
     // Will be defined if the React App is running inside Electron
     if (window.require) {
       const ipc = window.require("electron").ipcRenderer;
       ipc.send('rendererAppStarted');
-      ipc.on('navigateTo', (_event: any, path: string) => history.push(path));
+      ipc.on('navigateTo', (_event: any, path: string) => navigate(path));
     }
   }
 
@@ -129,7 +129,7 @@ const App: React.FC<Props> = (props: Props) => {
         >
           <div className={classes.toolbar}>
             <div className={classes.toolbarIconContainer}>
-              <NavLink exact to='/about' title='About Web Toolbox…'><img src={Banner} alt='Web Toolbox' className={classes.toolbarIcon} /></NavLink>
+              <NavLink to='/about' title='About Web Toolbox…'><img src={Banner} alt='Web Toolbox' className={classes.toolbarIcon} /></NavLink>
             </div>
             <IconButton onClick={() => setOpen(false)} title="Toggle sidebar menu">
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -137,7 +137,7 @@ const App: React.FC<Props> = (props: Props) => {
           </div>
           <Divider />
           <List className={classes.menu}>
-            <NavbarButtonLink icon={<HomeIcon />} to="/" title="Home" detail="Home" exact={true} onClick={menuClick} />
+            <NavbarButtonLink icon={<HomeIcon />} to="/" title="Home" detail="Home" onClick={menuClick} />
 
             <NavbarButtonLink icon={<LinkIcon />} to="/URL" title="URL parse, encode" detail="URL utilities for parsing and encoding url parameters" onClick={menuClick} />
             <NavbarButtonLink icon={<DeveloperBoardIcon />} to="/Base64" title="Base64" detail="Base64 encoders/decoders" onClick={menuClick} />
@@ -160,33 +160,33 @@ const App: React.FC<Props> = (props: Props) => {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Suspense fallback={<FullCenteredContent>Loading…</FullCenteredContent>}>
-              <Switch>
-                <Route exact path="/"><Home /></Route>
+              <Routes>
+                <Route path="/" element={<Home />} />
 
-                <Route exact path="/about"><About /></Route>
-                <Route exact path="/preferences"><AppPreferences /></Route>
+                <Route path="/about" element={<About />} />
+                <Route path="/preferences" element={<AppPreferences />} />
 
-                <Route path="/URL"><FeaturesGroup tabs={featuresGroupURL} /></Route>
-                <Route path="/Base64"><FeaturesGroup tabs={featuresGroupBase64} /></Route>
-                <Route path="/Colors"><FeaturesGroup tabs={featuresGroupColors} /></Route>
+                <Route path="/URL/*" element={<FeaturesGroup tabs={featuresGroupURL} />} />
+                <Route path="/Base64/*" element={<FeaturesGroup tabs={featuresGroupBase64} />} />
+                <Route path="/Colors/*" element={<FeaturesGroup tabs={featuresGroupColors} />} />
 
-                <Route exact path="/Base64Encoder"><Base64Encoder /></Route>
-                <Route exact path="/Base64FileEncoder"><Base64FileEncoder /></Route>
-                <Route exact path="/JSONFormatter"><JSONFormatter /></Route>
-                <Route exact path="/JSONConverter"><JSONConverter /></Route>
-                <Route exact path="/RegExTester"><RegExTester /></Route>
-                <Route exact path="/UUIDGenerator"><UUIDGenerator /></Route>
-                <Route exact path="/JWTDecoder"><JWTDecoder /></Route>
-                <Route exact path="/QRCodeGenerator"><QRCodeGenerator /></Route>
-                <Route exact path="/ImageOCR"><ImageOCR /></Route>
-                <Route exact path="/CommonLists"><CommonLists /></Route>
-                <Route exact path="/GithubUserProjects"><GithubUserProjects /></Route>
-                <Route exact path="/DateConverter"><DateConverter /></Route>
-                <Route exact path="/CSVParser"><CSVParser /></Route>
+                <Route path="/Base64Encoder" element={<Base64Encoder />} />
+                <Route path="/Base64FileEncoder" element={<Base64FileEncoder />} />
+                <Route path="/JSONFormatter" element={<JSONFormatter />} />
+                <Route path="/JSONConverter" element={<JSONConverter />} />
+                <Route path="/RegExTester" element={<RegExTester />} />
+                <Route path="/UUIDGenerator" element={<UUIDGenerator />} />
+                <Route path="/JWTDecoder" element={<JWTDecoder />} />
+                <Route path="/QRCodeGenerator" element={<QRCodeGenerator />} />
+                <Route path="/ImageOCR" element={<ImageOCR />} />
+                <Route path="/CommonLists" element={<CommonLists />} />
+                <Route path="/GithubUserProjects" element={<GithubUserProjects />} />
+                <Route path="/DateConverter" element={<DateConverter />} />
+                <Route path="/CSVParser" element={<CSVParser />} />
 
                 {/** Default route is the home */}
-                <Route component={Home} />
-              </Switch>
+                <Route element={<Home />} />
+              </Routes>
             </Suspense>
           </main>
         </ToasterProvider>
