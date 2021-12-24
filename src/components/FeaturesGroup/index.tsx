@@ -1,9 +1,8 @@
-import { Tab, Tabs } from '@material-ui/core';
+import {Tab, Tabs} from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
-import { Link, Route, Routes, useLocation, useResolvedPath } from 'react-router-dom';
-
+import {makeStyles} from '@material-ui/core/styles';
+import React, {useCallback} from 'react';
+import {Link, useLocation, useResolvedPath} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,7 +36,7 @@ export type Props = {
 
 const FeaturesGroup = ({tabs}: Props) => {
   const classes = useStyles();
-  const parentPath = useResolvedPath('').pathname;
+  const {pathname: parentPath} = useResolvedPath('');
   const location = useLocation();
   const [value, setValue] = React.useState(0);
 
@@ -47,7 +46,11 @@ const FeaturesGroup = ({tabs}: Props) => {
     const tabIndex = tabs.findIndex(tab => `${parentPath}${tab.path}` === location.pathname);
     setValue(tabIndex === -1 ? 0 : tabIndex);
   }, [location, setValue, parentPath, tabs]);
-  const FirstTab = tabs[0].type;
+
+  const renderSelectedTabComponent = useCallback(() => {
+    const VisualComponent = tabs[value].type;
+    return <VisualComponent />;
+  }, [value, tabs]);
 
   return (
     <>
@@ -65,18 +68,7 @@ const FeaturesGroup = ({tabs}: Props) => {
         </Tabs>
       </Paper>
 
-      <Routes>
-        {tabs.map(tab => {
-          const VisualComponent = tab.type;
-          console.log('Preparing component path', `${parentPath}${tab.path}`);
-          return (
-            <Route key={tab.path} path={`${parentPath}${tab.path}`} element={<VisualComponent />} />
-          );
-        })}
-
-        {/** Default route is the 1st one */}
-        <Route path={`${parentPath}`} element={<FirstTab />} />
-      </Routes>
+      {renderSelectedTabComponent()}
     </>
   );
 };
