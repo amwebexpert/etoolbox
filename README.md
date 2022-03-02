@@ -1,6 +1,6 @@
 # Web Toolbox
 
-Collection of web developer utilities
+Collection of web developer utilities 
 
 <div align="center">
   <img src="public/icon-512x512.png" width="200" alt="Web Toolbox" />
