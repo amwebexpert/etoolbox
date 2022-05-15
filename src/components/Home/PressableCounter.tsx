@@ -11,15 +11,20 @@ interface PressableCounterState {
   counter: number;
 }
 
-const styles = (theme: Theme) => ({
-  root: {
-    borderColor: theme.palette.text.disabled,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: theme.shape.borderRadius,
-    width: '100%',
-  },
-});
+const styles = (theme: Theme) =>
+  ({
+    root: {
+      borderColor: theme.palette.text.disabled,
+      borderStyle: 'solid',
+      borderWidth: 1,
+      borderRadius: theme.shape.borderRadius,
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  } as const);
 
 class PressableCounter extends React.Component<PressableCounterProps, PressableCounterState> {
   static defaultProps = {
@@ -76,19 +81,22 @@ class PressableCounter extends React.Component<PressableCounterProps, PressableC
 
   render() {
     return (
-      <div className={this.props.classes}>
+      <div className={this.props.classes.root}>
         <h3>Number of CLicks: {this.state.counter}</h3>
-        <Button variant="contained" color="primary" onClick={() => this.onClickInc()}>
-          +
-        </Button>
-        &nbsp;
-        <Button
-          variant="contained"
-          disabled={this.state.counter <= 0}
-          color="primary"
-          onClick={() => this.onClickDec()}>
-          -
-        </Button>
+
+        <div>
+          <Button variant="contained" color="primary" onClick={() => this.onClickInc()}>
+            +
+          </Button>
+          &nbsp;
+          <Button
+            variant="contained"
+            disabled={this.state.counter <= 0}
+            color="primary"
+            onClick={() => this.onClickDec()}>
+            -
+          </Button>
+        </div>
       </div>
     );
   }
