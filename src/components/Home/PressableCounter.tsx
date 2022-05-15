@@ -29,10 +29,12 @@ type PressableCounterProps = {
 
 type PressableCounterState = {
   counter: number;
-  startedAt: Date;
+  startedAt: string;
 };
 
-class PressableCounter extends React.Component<PressableCounterProps, PressableCounterState> {
+type PressableCounterSnapshot = string;
+
+class PressableCounter extends React.Component<PressableCounterProps, PressableCounterState, PressableCounterSnapshot> {
   static defaultProps = {
     initialCounterValue: 0,
   };
@@ -42,10 +44,14 @@ class PressableCounter extends React.Component<PressableCounterProps, PressableC
 
     this.state = {
       counter: props.initialCounterValue ?? 0,
-      startedAt: new Date(),
+      startedAt: new Date().toISOString(),
     };
 
     console.log('PressableCounter constructor', {props, state: this.state});
+  }
+
+  componentDidCatch?(error: Error, errorInfo: React.ErrorInfo) {
+    console.log('PressableCounter componentDidCatch', {error, errorInfo});
   }
 
   componentDidMount() {
@@ -61,21 +67,17 @@ class PressableCounter extends React.Component<PressableCounterProps, PressableC
     }
   }
 
-  componentDidCatch?(error: Error, errorInfo: React.ErrorInfo) {
-    console.log('PressableCounter componentDidCatch', {error, errorInfo});
-  }
-
   componentWillUnmount() {
     console.log('PressableCounter componentWillUnmount');
   }
 
-  componentDidUpdate(prevProps: PressableCounterProps, prevState: PressableCounterState) {
-    console.log('PressableCounter componentDidUpdate', {prevProps, prevState});
-  }
-
   getSnapshotBeforeUpdate(prevProps: PressableCounterProps, prevState: PressableCounterState): any {
     console.log('PressableCounter getSnapshotBeforeUpdate', {prevProps, prevState});
-    return null;
+    return JSON.stringify({prevProps, prevState}).replaceAll('"', "'");
+  }
+
+  componentDidUpdate(_prevProps: PressableCounterProps, _prevState: PressableCounterState, snapshot: PressableCounterSnapshot) {
+    console.log('PressableCounter componentDidUpdate', {snapshot});
   }
 
   onClickInc(): void {
@@ -89,7 +91,7 @@ class PressableCounter extends React.Component<PressableCounterProps, PressableC
   render() {
     return (
       <div className={this.props.classes.root}>
-        <h3>Number of CLicks: {this.state.counter}</h3>
+        <h3>Number of press events: {this.state.counter}</h3>
 
         <div className={this.props.classes.actions}>
           <Button variant="contained" color="primary" onClick={() => this.onClickInc()}>
