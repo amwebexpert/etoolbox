@@ -58,6 +58,7 @@ interface Props {
   width: Breakpoint;
 }
 
+// activate this flag to play with the PressableCounter class component life cycle methods
 const isDebugClassComponent = false;
 
 const Home: React.FC<Props> = (props: Props) => {
