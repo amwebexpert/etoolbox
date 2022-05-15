@@ -58,7 +58,7 @@ interface Props {
   width: Breakpoint;
 }
 
-const isDebugClassComponent = true;
+const isDebugClassComponent = false;
 
 const Home: React.FC<Props> = (props: Props) => {
   const classes = useStyles();
