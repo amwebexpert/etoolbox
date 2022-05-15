@@ -1,18 +1,8 @@
-import {Button, Theme, withStyles} from '@material-ui/core';
+import {Button, Theme, withStyles, createStyles, WithStyles} from '@material-ui/core';
 import * as React from 'react';
 
-interface PressableCounterProps {
-  initialCounterValue?: number;
-  onDispose?: () => void;
-  classes: any;
-}
-
-interface PressableCounterState {
-  counter: number;
-}
-
 const styles = (theme: Theme) =>
-  ({
+  createStyles({
     root: {
       borderColor: theme.palette.text.disabled,
       borderStyle: 'solid',
@@ -30,7 +20,17 @@ const styles = (theme: Theme) =>
       flexDirection: 'row',
       justifyContent: 'space-between',
     },
-  } as const);
+  });
+
+type PressableCounterProps = {
+  initialCounterValue?: number;
+  onDispose?: () => void;
+} & WithStyles<typeof styles>;
+
+type PressableCounterState = {
+  counter: number;
+  startedAt: Date;
+};
 
 class PressableCounter extends React.Component<PressableCounterProps, PressableCounterState> {
   static defaultProps = {
@@ -42,6 +42,7 @@ class PressableCounter extends React.Component<PressableCounterProps, PressableC
 
     this.state = {
       counter: props.initialCounterValue ?? 0,
+      startedAt: new Date(),
     };
 
     console.log('PressableCounter constructor', {props, state: this.state});
