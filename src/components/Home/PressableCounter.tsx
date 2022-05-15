@@ -24,6 +24,12 @@ const styles = (theme: Theme) =>
       justifyContent: 'center',
       alignItems: 'center',
     },
+    actions: {
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
   } as const);
 
 class PressableCounter extends React.Component<PressableCounterProps, PressableCounterState> {
@@ -84,11 +90,21 @@ class PressableCounter extends React.Component<PressableCounterProps, PressableC
       <div className={this.props.classes.root}>
         <h3>Number of CLicks: {this.state.counter}</h3>
 
-        <div>
+        <div className={this.props.classes.actions}>
           <Button variant="contained" color="primary" onClick={() => this.onClickInc()}>
             +
           </Button>
-          &nbsp;
+
+          {this.props.onDispose && (
+            <Button
+              variant="contained"
+              disabled={this.state.counter <= 0}
+              color="primary"
+              onClick={() => this.props.onDispose?.()}>
+              Dispose me!
+            </Button>
+          )}
+
           <Button
             variant="contained"
             disabled={this.state.counter <= 0}
