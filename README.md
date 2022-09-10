@@ -49,15 +49,7 @@ Again feel free to try out the [online demo](https://amwebexpert.github.io/etool
 - usage as a progressive web app (PWA)
 - or just add bookmark(s) to the specific feature(s) of the app you use the most
 
-### Builded desktop releases
-
-The following installers (may be old release in some cases) are available under `releases` folder:
-
-* Windows: `releases/Web Toolbox Setup <version>.exe`
-* Linux: `releases/Web Toolbox-<version>.AppImage`
-* MacOS: `releases/Web Toolbox-<version>.dmg`
-
-### Build releases from source
+### Build desktop releases from source
 
 To build a desktop version just get the source code and run the following command, which will package the installers for all the platforms:
 
@@ -126,7 +118,9 @@ You will also see any lint errors in the console.
 
 #### `yarn run electron:build`
 
-Builds the `Electron` app package for production to the `dist` folder.
+Builds the `Electron` app package for production to the `dist` folder. See also the following script:
+
+    rebuildMacRelease.sh
 
 Your `Electron` app is ready to be distributed!
 

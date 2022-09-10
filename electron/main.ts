@@ -78,8 +78,8 @@ function loadApplication() {
 
   // DevTools
   installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
+    .then((name) => console.log(`Added Extension: ${name}`))
+    .catch((err) => console.error('An error occurred: ', err));
 }
 
 function setupMenu() {
@@ -88,30 +88,30 @@ function setupMenu() {
       label: app.name,
       submenu: [
         {
-          label: 'URL Parser',
+          label: 'URL Parser/encoder',
           accelerator: 'Ctrl+Alt+U',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/URLParser')
-        }, {
-          label: 'URL Encoder/decoder',
-          accelerator: 'Ctrl+Alt+E',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/URLEncoder')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/URL')
         }, {
           type: 'separator'
         }, {
           label: 'Base64 Encoder/decoder',
           accelerator: 'Ctrl+Alt+B',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64Encoder')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64')
         }, {
           label: 'JSON Formatter',
           accelerator: 'Ctrl+Alt+J',
           click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSONFormatter')
+        }, {
+          label: 'JSON JSONConverter',
+          accelerator: 'Ctrl+Alt+V',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSONConverter')
         }, {
           label: 'Regular expression tester',
           accelerator: 'Ctrl+Alt+X',
           click: () => getOrCreateWindow().webContents.send('navigateTo', '/RegExTester')
         }, {
           label: 'UUID Generator',
-          accelerator: 'Ctrl+Alt+D',
+          accelerator: 'Ctrl+Alt+I',
           click: () => getOrCreateWindow().webContents.send('navigateTo', '/UUIDGenerator')
         }, {
           label: 'JWT Decoder',
@@ -119,10 +119,6 @@ function setupMenu() {
           click: () => getOrCreateWindow().webContents.send('navigateTo', '/JWTDecoder')
         }, {
           type: 'separator'
-        }, {
-          label: 'Base64 File encoder',
-          accelerator: 'Ctrl+Alt+I',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64ImageEncoder')
         }, {
           label: 'QR Code generator',
           accelerator: 'Ctrl+Alt+Q',
@@ -134,13 +130,27 @@ function setupMenu() {
         }, {
           label: 'Color picker',
           accelerator: 'Ctrl+Alt+C',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/ColorPicker')
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Colors')
         }, {
           type: 'separator'
         }, {
-          label: 'Common web lists',
+          label: 'Common WEB lists',
           accelerator: 'Ctrl+Alt+W',
           click: () => getOrCreateWindow().webContents.send('navigateTo', '/CommonLists')
+        }, {
+          label: 'Github search',
+          accelerator: 'Ctrl+Alt+G',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/GithubUserProjects')
+        }, {
+          type: 'separator'
+        }, {
+          label: 'Date converter',
+          accelerator: 'Ctrl+Alt+D',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/DateConverter')
+        }, {
+          label: 'CSV Parser',
+          accelerator: 'Ctrl+Alt+S',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/CSVParser')
         }, {
           type: 'separator'
         }, {
