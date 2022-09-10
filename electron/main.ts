@@ -1,8 +1,8 @@
-import { app, BrowserWindow, Menu, ipcMain, dialog, Tray, nativeImage, globalShortcut } from 'electron';
+import {app, BrowserWindow, Menu, ipcMain, dialog, Tray, nativeImage, globalShortcut} from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
-import installExtension, { REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
+import installExtension, {REACT_DEVELOPER_TOOLS} from 'electron-devtools-installer';
 
 const isMac = process.platform === 'darwin';
 let win: BrowserWindow | null = null;
@@ -43,11 +43,12 @@ function getOrCreateWindow(): BrowserWindow {
     width: 1200,
     height: 900,
     webPreferences: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
   });
 
-  win.on('closed', () => win = null);
+  win.on('closed', () => (win = null));
 
   loadApplication();
 
@@ -72,14 +73,14 @@ function loadApplication() {
     require('electron-reload')(__dirname, {
       electron: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'electron'),
       forceHardReset: true,
-      hardResetMethod: 'exit'
+      hardResetMethod: 'exit',
     });
   }
 
   // DevTools
   installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension: ${name}`))
-    .catch((err) => console.error('An error occurred: ', err));
+    .then(name => console.log(`Added Extension: ${name}`))
+    .catch(err => console.error('An error occurred: ', err));
 }
 
 function setupMenu() {
@@ -90,94 +91,115 @@ function setupMenu() {
         {
           label: 'URL Parser/encoder',
           accelerator: 'Ctrl+Alt+U',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/URL')
-        }, {
-          type: 'separator'
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/URL'),
+        },
+        {
+          type: 'separator',
+        },
+        {
           label: 'Base64 Encoder/decoder',
           accelerator: 'Ctrl+Alt+B',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64')
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64'),
+        },
+        {
           label: 'JSON Formatter',
           accelerator: 'Ctrl+Alt+J',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSONFormatter')
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSONFormatter'),
+        },
+        {
           label: 'JSON JSONConverter',
           accelerator: 'Ctrl+Alt+V',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSONConverter')
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSONConverter'),
+        },
+        {
           label: 'Regular expression tester',
           accelerator: 'Ctrl+Alt+X',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/RegExTester')
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/RegExTester'),
+        },
+        {
           label: 'UUID Generator',
           accelerator: 'Ctrl+Alt+I',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/UUIDGenerator')
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/UUIDGenerator'),
+        },
+        {
           label: 'JWT Decoder',
           accelerator: 'Ctrl+Alt+T',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JWTDecoder')
-        }, {
-          type: 'separator'
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JWTDecoder'),
+        },
+        {
+          type: 'separator',
+        },
+        {
           label: 'QR Code generator',
           accelerator: 'Ctrl+Alt+Q',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/QRCodeGenerator')
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/QRCodeGenerator'),
+        },
+        {
           label: 'Image OCR (text extract)',
           accelerator: 'Ctrl+Alt+O',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/ImageOCR')
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/ImageOCR'),
+        },
+        {
           label: 'Color picker',
           accelerator: 'Ctrl+Alt+C',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Colors')
-        }, {
-          type: 'separator'
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Colors'),
+        },
+        {
+          type: 'separator',
+        },
+        {
           label: 'Common WEB lists',
           accelerator: 'Ctrl+Alt+W',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/CommonLists')
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/CommonLists'),
+        },
+        {
           label: 'Github search',
           accelerator: 'Ctrl+Alt+G',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/GithubUserProjects')
-        }, {
-          type: 'separator'
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/GithubUserProjects'),
+        },
+        {
+          type: 'separator',
+        },
+        {
           label: 'Date converter',
-          accelerator: 'Ctrl+Alt+D',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/DateConverter')
-        }, {
+          accelerator: 'Ctrl+Alt+E',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/DateConverter'),
+        },
+        {
           label: 'CSV Parser',
           accelerator: 'Ctrl+Alt+S',
-          click: () => getOrCreateWindow().webContents.send('navigateTo', '/CSVParser')
-        }, {
-          type: 'separator'
-        }, {
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/CSVParser'),
+        },
+        {
+          type: 'separator',
+        },
+        {
           label: 'Refresh',
           accelerator: 'Ctrl+Alt+R',
-          click: getOrCreateWindow().show()
-        }, {
+          click: getOrCreateWindow().show(),
+        },
+        {
           label: 'Quit',
-          role: 'quit'
-        }
-      ]
+          role: 'quit',
+        },
+      ],
     },
     // { role: 'editMenu' }
     {
       label: 'Edit',
       submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        { role: 'delete' },
-        { type: 'separator' },
-        { role: 'selectAll' }
-      ]
-    }, {
+        {role: 'undo'},
+        {role: 'redo'},
+        {type: 'separator'},
+        {role: 'cut'},
+        {role: 'copy'},
+        {role: 'paste'},
+        {role: 'delete'},
+        {type: 'separator'},
+        {role: 'selectAll'},
+      ],
+    },
+    {
       label: '?',
       submenu: [
         {
@@ -186,20 +208,20 @@ function setupMenu() {
           click: () => {
             getOrCreateWindow();
             getOrCreateWindow().webContents.send('navigateTo', '/about');
-          }
+          },
         },
         {
-          type: 'separator'
+          type: 'separator',
         },
         {
-          label: "Dev tools…",
+          label: 'Dev tools…',
           accelerator: 'Ctrl+Alt+D',
           click: () => {
             getOrCreateWindow();
             getOrCreateWindow().webContents.toggleDevTools();
-          }
+          },
         },
-      ]
+      ],
     },
   ];
 
@@ -214,18 +236,18 @@ function setupTray() {
       click: () => {
         getOrCreateWindow().show();
         getOrCreateWindow().webContents.send('navigateTo', '/about');
-      }
+      },
     },
     {
-      type: 'separator'
+      type: 'separator',
     },
     {
-      label: "Dev tools…",
+      label: 'Dev tools…',
       click: () => {
         getOrCreateWindow().show();
         getOrCreateWindow().webContents.toggleDevTools();
-      }
-    }
+      },
+    },
   ];
 
   if (tray) {
@@ -248,7 +270,7 @@ function createTrayIcon() {
   console.log('Application icon', appIconPath);
   console.log('Application icon EXIST?', fs.existsSync(appIconPath));
   const img = nativeImage.createFromPath(appIconPath);
-  const trayIcon = img.resize({ width: 24, height: 24 });
+  const trayIcon = img.resize({width: 24, height: 24});
 
   return trayIcon;
 }
@@ -266,15 +288,15 @@ function saveJsonAs(jsonContent: string) {
   const documentsFolder = app.getPath('documents');
   const toLocalPath: string = path.resolve(documentsFolder, 'test.json');
 
-  dialog.showSaveDialog(win!, { defaultPath: toLocalPath }).then((result) => {
+  dialog.showSaveDialog(win!, {defaultPath: toLocalPath}).then(result => {
     const fullFilename: string | undefined = result.filePath;
     if (fullFilename) {
-      fs.writeFile(fullFilename, jsonContent, 'utf-8', (err) => {
+      fs.writeFile(fullFilename, jsonContent, 'utf-8', err => {
         win!.webContents.send('displayAlertMessage', {
           open: true,
           message: `File saved successfully: [${fullFilename}]`,
           type: 'success',
-          autoHideDuration: 4000
+          autoHideDuration: 4000,
         });
       });
     }
