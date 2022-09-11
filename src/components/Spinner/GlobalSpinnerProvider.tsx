@@ -1,17 +1,17 @@
 /**
  * This provider was inspired by looking at this video tutorial:
- * 
+ *
  * https://www.youtube.com/watch?v=5LrDIWkK_Bc&list=PL_XXwMy-A8KlOsfndUYWUzkp3xR9LNIB8&index=8
  */
-import React, { PropsWithChildren } from "react";
-import { GlobalSpinner } from "./GlobalSpinner";
+import React, { PropsWithChildren } from 'react';
+import { GlobalSpinner } from './GlobalSpinner';
 
 // -------------------------------
 // Interfaces and types
 // -------------------------------
 export interface GlobalSpinnerState {
     open: boolean;
-};
+}
 export type GlobalSpinnerContextType = {
     globalSpinnerState: GlobalSpinnerState;
 };
@@ -32,7 +32,7 @@ export function useGlobalSpinnerUpdate() {
     return React.useContext(SpinnerUpdateContext)!;
 }
 
-type GlobalSpinnerProviderProps = PropsWithChildren<{}>;
+type GlobalSpinnerProviderProps = PropsWithChildren<unknown>;
 
 const GlobalSpinnerProvider: React.FC<GlobalSpinnerProviderProps> = ({ children }) => {
     const [globalSpinnerState, setGlobalSpinnerState] = React.useState<GlobalSpinnerState>({ open: false });
@@ -40,12 +40,10 @@ const GlobalSpinnerProvider: React.FC<GlobalSpinnerProviderProps> = ({ children 
     return (
         <SpinnerContext.Provider value={{ globalSpinnerState }}>
             <SpinnerUpdateContext.Provider value={{ setGlobalSpinnerState }}>
-                <GlobalSpinner>
-                    {children}
-                </GlobalSpinner>
+                <GlobalSpinner>{children}</GlobalSpinner>
             </SpinnerUpdateContext.Provider>
         </SpinnerContext.Provider>
     );
-}
+};
 
 export default GlobalSpinnerProvider;

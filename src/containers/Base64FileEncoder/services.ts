@@ -21,14 +21,19 @@ export function loadFile(file: File): Promise<EncodedFile> {
         const base = {
             name: file.name,
             size: file.size,
-        }
+        };
 
         reader.addEventListener('abort', e => reject(`File upload aborted: ${e}`));
         reader.addEventListener('error', e => reject(`File upload error: ${e}`));
-        reader.addEventListener('load', () => resolve({
-            ...base,
-            encoded: reader.result as string
-        }), false);
+        reader.addEventListener(
+            'load',
+            () =>
+                resolve({
+                    ...base,
+                    encoded: reader.result as string,
+                }),
+            false,
+        );
 
         reader.readAsDataURL(file);
     });
@@ -38,6 +43,6 @@ export function rejectFiles(fileRejections: FileRejection[]): ErrorFile[] {
     return fileRejections.map(rejection => ({
         name: rejection.file.name,
         size: rejection.file.size,
-        error: `Exceeds size limit: ${prettyBytes(MAX_FILE_SIZE_BYTES)}`
+        error: `Exceeds size limit: ${prettyBytes(MAX_FILE_SIZE_BYTES)}`,
     }));
 }

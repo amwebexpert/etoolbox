@@ -16,15 +16,17 @@ export interface MimeTypeApplyFilterSucceededAction {
 export function applyMimeTypesFilter(searchTerm: string): MimeTypeApplyFilterAction {
     return {
         type: MimeTypeActionTypes.APPLY_FILTER,
-        searchTerm
-    }
+        searchTerm,
+    };
 }
 
-export function applyMimeTypesFilterSucceeded(elements: Map<string, readonly string[]>): MimeTypeApplyFilterSucceededAction {
+export function applyMimeTypesFilterSucceeded(
+    elements: Map<string, readonly string[]>,
+): MimeTypeApplyFilterSucceededAction {
     return {
         type: MimeTypeActionTypes.APPLY_FILTER_SUCCEEDED,
-        elements
-    }
+        elements,
+    };
 }
 
 export type MimeTypeAction = MimeTypeApplyFilterAction | MimeTypeApplyFilterSucceededAction;

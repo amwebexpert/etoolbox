@@ -23,15 +23,15 @@ export interface HtmlEntityApplyFilterSucceededAction {
 export function applyHtmlEntitiesFilter(searchTerm: string): HtmlEntityApplyFilterAction {
     return {
         type: HtmlEntityActionTypes.APPLY_FILTER,
-        searchTerm
-    }
+        searchTerm,
+    };
 }
 
 export function applyHtmlEntitiesFilterSucceeded(elements: HtmlEntity[]): HtmlEntityApplyFilterSucceededAction {
     return {
         type: HtmlEntityActionTypes.APPLY_FILTER_SUCCEEDED,
-        elements
-    }
+        elements,
+    };
 }
 
 export type HtmlEntityAction = HtmlEntityApplyFilterAction | HtmlEntityApplyFilterSucceededAction;

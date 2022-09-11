@@ -101,9 +101,9 @@ function objToSource(o: any): string {
     }
 
     let key = '';
-    let notAnArray = typeof o.length == 'undefined' ? 1 : 0;
+    const notAnArray = typeof o.length == 'undefined' ? 1 : 0;
     let str = '';
-    for (var p in o) {
+    for (const p in o) {
         if (notAnArray) {
             if (p.indexOf(' ') === -1) {
                 key = p + ': ';

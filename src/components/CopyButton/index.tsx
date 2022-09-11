@@ -4,7 +4,6 @@ import * as copy from 'copy-to-clipboard';
 import React from 'react';
 import { useToasterUpdate } from '../Toaster/ToasterProvider';
 
-
 interface Props {
     data?: string;
 }
@@ -25,7 +24,7 @@ const CopyButton: React.FC<Props> = ({ data }: Props) => {
     };
 
     return (
-        <Button onClick={handleCopy} disabled={!data} title="Copy to clipboard" variant='contained' color='primary'>
+        <Button onClick={handleCopy} disabled={!data} title="Copy to clipboard" variant="contained" color="primary">
             <AssignmentTurnedIn />
         </Button>
     );

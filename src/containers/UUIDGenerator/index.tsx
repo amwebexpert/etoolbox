@@ -12,7 +12,7 @@ import FeatureTitle from '../../components/FeatureTitle';
 import ResultMonospace from '../../components/ResultMonospace';
 import * as services from './services';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(1),
     },
@@ -68,8 +68,12 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                                     control={control}
                                     name="version"
                                     defaultValue={4}
-                                    render={({field: { value, name, onChange }}) => (
-                                        <Select name={name} value={value} labelId="uuidVersionLabel" autoFocus={isWidthUp('md', props.width)} 
+                                    render={({ field: { value, name, onChange } }) => (
+                                        <Select
+                                            name={name}
+                                            value={value}
+                                            labelId="uuidVersionLabel"
+                                            autoFocus={isWidthUp('md', props.width)}
                                             onChange={e => onChange(e.target.value)}>
                                             <MenuItem value={1}>1</MenuItem>
                                             <MenuItem value={4}>4</MenuItem>
@@ -88,13 +92,16 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                             <FormControl className={classes.formControl}>
                                 <Controller
                                     name="quantity"
-                                    render={({
-                                        field: { value, name, onChange },
-                                        fieldState: { invalid, error },
-                                    }) => (
-                                        <TextField name={name} value={value} label="Quantity" error={invalid} type="number"
+                                    render={({ field: { value, name, onChange }, fieldState: { invalid, error } }) => (
+                                        <TextField
+                                            name={name}
+                                            value={value}
+                                            label="Quantity"
+                                            error={invalid}
+                                            type="number"
                                             onChange={e => onChange(e.target.value)}
-                                            helperText={invalid ? 'valid range: [1..9999]' : null} />
+                                            helperText={invalid ? 'valid range: [1..9999]' : null}
+                                        />
                                     )}
                                     control={control}
                                     defaultValue={5}
@@ -110,9 +117,13 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                         <Grid item md={8} sm={6} xs={12}>
                             <Grid container justifyContent="flex-end" className={classes.toolbar}>
                                 <CopyButton data={generated} />
-                                <Button variant="contained" color="primary"
+                                <Button
+                                    variant="contained"
+                                    color="primary"
                                     onClick={handleSubmit(onSubmit)}
-                                    endIcon={<SimCardIcon />}>Generate</Button>
+                                    endIcon={<SimCardIcon />}>
+                                    Generate
+                                </Button>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -122,6 +133,6 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
             </div>
         </>
     );
-}
+};
 
 export default withWidth()(UUIDGenerator);

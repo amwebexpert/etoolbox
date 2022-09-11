@@ -9,7 +9,7 @@ export interface HtmlEntitiesState {
 const initalState: HtmlEntitiesState = {
     filtering: false,
     elements: HTML_ENTITIES,
-}
+};
 
 function reducer(state: HtmlEntitiesState = initalState, action: HtmlEntityAction): HtmlEntitiesState {
     switch (action.type) {

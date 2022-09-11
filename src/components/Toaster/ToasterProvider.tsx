@@ -1,11 +1,11 @@
 /**
  * This provider was inspired by looking at this video tutorial:
- * 
+ *
  * https://www.youtube.com/watch?v=5LrDIWkK_Bc&list=PL_XXwMy-A8KlOsfndUYWUzkp3xR9LNIB8&index=8
  */
-import React from "react";
-import { Color } from "@material-ui/lab";
-import { Toaster } from ".";
+import React from 'react';
+import { Color } from '@material-ui/lab';
+import { Toaster } from '.';
 
 // -------------------------------
 // Interfaces and types
@@ -15,7 +15,7 @@ export interface ToasterState {
     type: Color;
     message: string;
     autoHideDuration?: number;
-};
+}
 export type ToasterContextType = {
     toasterState: ToasterState;
 };
@@ -26,14 +26,14 @@ const defaultToasterState: ToasterState = {
     open: false,
     message: '',
     type: 'success',
-    autoHideDuration: 4000
-}
+    autoHideDuration: 4000,
+};
 
 // -------------------------------
 // Implementation code
 // -------------------------------
 const ToasterContext = React.createContext<ToasterContextType>({ toasterState: defaultToasterState });
-const ToasterUpdateContext = React.createContext<ToasterUpdateContextType>({ setToasterState: (_) => { } });
+const ToasterUpdateContext = React.createContext<ToasterUpdateContextType>({ setToasterState: _ => {} });
 
 export function useToaster() {
     return React.useContext(ToasterContext)!;
@@ -65,6 +65,6 @@ const ToasterProvider: React.FC = ({ children }: { children?: React.ReactNode })
             </ToasterUpdateContext.Provider>
         </ToasterContext.Provider>
     );
-}
+};
 
 export default ToasterProvider;

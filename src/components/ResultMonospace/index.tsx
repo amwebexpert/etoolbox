@@ -2,7 +2,7 @@ import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     result: {
         fontFamily: 'monospace',
         height: 'auto',
@@ -25,8 +25,8 @@ export const ResultMonospace = ({ label, result, rows = 10, maxRows = 15 }: Prop
             minRows={rows}
             maxRows={maxRows}
             label={label}
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            margin="normal"
             fullWidth={true}
             value={result}
             InputProps={{

@@ -17,7 +17,7 @@ import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 import { AppState } from '../../reducers';
 import * as services from './services';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(1),
     },
@@ -64,44 +64,43 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
             <div className={classes.root}>
                 <FeatureTitle iconType={LockOpenIcon} title={title} />
 
-                <form noValidate autoComplete='off'>
+                <form noValidate autoComplete="off">
                     <TextField
                         autoFocus={isWidthUp('md', props.width)}
-                        id='jwt'
-                        label='JSON web token to decode'
-                        placeholder='Paste or type the content here'
+                        id="jwt"
+                        label="JSON web token to decode"
+                        placeholder="Paste or type the content here"
                         multiline
                         minRows={10}
                         maxRows={isWidthUp('md', props.width) ? 20 : 10}
-                        variant='outlined'
-                        margin='normal'
+                        variant="outlined"
+                        margin="normal"
                         fullWidth={true}
                         value={inputText}
-                        onChange={(e) => storeInputText('lastJWT', e.target.value)}
+                        onChange={e => storeInputText('lastJWT', e.target.value)}
                     />
                 </form>
 
                 <Toolbar className={classes.toolbar}>
-                    <Box display='flex' flexGrow={1}></Box>
+                    <Box display="flex" flexGrow={1}></Box>
                     <CopyButton data={transformed} />
                     <Button
-                        variant='contained'
-                        color='primary'
+                        variant="contained"
+                        color="primary"
                         endIcon={<LockOpenIcon>Decode</LockOpenIcon>}
                         disabled={!inputText}
-                        onClick={handleDecode}
-                    >
+                        onClick={handleDecode}>
                         Decode
                     </Button>
                 </Toolbar>
 
                 <div className={classes.decoded}>
                     <div>
-                        <SyntaxHighlighter language='json' style={syntaxTheme}>
+                        <SyntaxHighlighter language="json" style={syntaxTheme}>
                             {header}
                         </SyntaxHighlighter>
 
-                        <SyntaxHighlighter language='json' style={syntaxTheme}>
+                        <SyntaxHighlighter language="json" style={syntaxTheme}>
                             {transformed}
                         </SyntaxHighlighter>
                     </div>

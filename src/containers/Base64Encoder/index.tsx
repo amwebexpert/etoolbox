@@ -21,7 +21,7 @@ import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
 import ResultMonospace from '../../components/ResultMonospace';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(1),
     },
@@ -59,43 +59,41 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
 
                 <TextField
                     autoFocus={isWidthUp('md', props.width)}
-                    label='Content to Base64 encode/decode'
-                    placeholder='Paste or type the content here'
+                    label="Content to Base64 encode/decode"
+                    placeholder="Paste or type the content here"
                     multiline
                     minRows={4}
                     maxRows={isWidthUp('md', props.width) ? 20 : 4}
-                    variant='outlined'
-                    margin='normal'
+                    variant="outlined"
+                    margin="normal"
                     fullWidth={true}
                     value={inputText}
-                    onChange={(e) => storeInputText('lastBase64EncoderValue', e.target.value)}
+                    onChange={e => storeInputText('lastBase64EncoderValue', e.target.value)}
                 />
 
                 <Toolbar className={classes.toolbar}>
-                    <Button variant='contained' color='primary' disabled={!transformed} onClick={flip}>
+                    <Button variant="contained" color="primary" disabled={!transformed} onClick={flip}>
                         <ImportExportIcon />
                     </Button>
-                    <Box display='flex' flexGrow={1}></Box>
+                    <Box display="flex" flexGrow={1}></Box>
                     <CopyButton data={transformed} />
                     <Button
-                        variant='contained'
-                        color='primary'
+                        variant="contained"
+                        color="primary"
                         disabled={!inputText}
-                        onClick={() => setTransformed(services.transform(inputText, true))}
-                    >
+                        onClick={() => setTransformed(services.transform(inputText, true))}>
                         <LinkIcon />
                     </Button>
                     <Button
-                        variant='contained'
-                        color='primary'
+                        variant="contained"
+                        color="primary"
                         disabled={!inputText}
-                        onClick={() => setTransformed(services.transform(inputText, false))}
-                    >
+                        onClick={() => setTransformed(services.transform(inputText, false))}>
                         <LinkOffIcon />
                     </Button>
                 </Toolbar>
 
-                <ResultMonospace label='Result' result={transformed} />
+                <ResultMonospace label="Result" result={transformed} />
             </div>
         </>
     );

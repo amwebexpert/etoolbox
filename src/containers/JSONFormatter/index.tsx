@@ -21,7 +21,7 @@ import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(1),
     },
@@ -71,39 +71,38 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
             <div className={classes.root}>
                 <FeatureTitle iconType={WrapTextIcon} title={title} />
 
-                <form noValidate autoComplete='off'>
+                <form noValidate autoComplete="off">
                     <div>
                         <TextField
                             autoFocus={isWidthUp('md', props.width)}
-                            label='JSON Content'
-                            placeholder='Paste or type the json content here'
+                            label="JSON Content"
+                            placeholder="Paste or type the json content here"
                             multiline
                             minRows={10}
                             maxRows={isWidthUp('md', props.width) ? 20 : 10}
-                            variant='outlined'
-                            margin='normal'
+                            variant="outlined"
+                            margin="normal"
                             fullWidth={true}
                             value={inputText}
-                            onChange={(e) => storeInputText('lastJSONFormatterValue', e.target.value)}
+                            onChange={e => storeInputText('lastJSONFormatterValue', e.target.value)}
                         />
                     </div>
                 </form>
 
                 <Toolbar className={classes.toolbar}>
-                    <Box display='flex' flexGrow={1}></Box>
+                    <Box display="flex" flexGrow={1}></Box>
                     <CopyButton data={formatted} />
                     <Button
                         endIcon={<SaveIcon>Save As...</SaveIcon>}
                         disabled={!formatted}
-                        variant='contained'
-                        color='primary'
-                        onClick={handleSaveAs}
-                    >
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSaveAs}>
                         Save As...
                     </Button>
                 </Toolbar>
 
-                <SyntaxHighlighter style={syntaxTheme} language='json' className={classes.formatted}>
+                <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.formatted}>
                     {formatted}
                 </SyntaxHighlighter>
             </div>

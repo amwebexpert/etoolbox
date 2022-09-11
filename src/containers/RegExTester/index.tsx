@@ -19,7 +19,7 @@ import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
 import ResultMonospace from '../../components/ResultMonospace';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(1),
     },
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: 'yellow',
             fontWeight: 'bold',
             color: 'black',
-        }
+        },
     },
     toolbar: {
         margin: 0,
@@ -59,18 +59,15 @@ const RegExTester: React.FC<Props> = (props: Props) => {
     const [extracted, setExtracted] = React.useState('');
 
     // https://www.npmjs.com/package/use-debounce
-    const debounced = useDebouncedCallback(
-        (regularExpression, inputText) => {
-            setHighlithedMatches(services.transform(regularExpression, inputText));
-            setExtracted(services.extract(regularExpression, inputText));
-        },
-        300
-    );
+    const debounced = useDebouncedCallback((regularExpression, inputText) => {
+        setHighlithedMatches(services.transform(regularExpression, inputText));
+        setExtracted(services.extract(regularExpression, inputText));
+    }, 300);
 
     React.useEffect(
         // https://www.npmjs.com/package/use-debounce
         () => debounced(regularExpression, inputText),
-        [regularExpression, inputText, debounced]
+        [regularExpression, inputText, debounced],
     );
 
     return (
@@ -88,11 +85,11 @@ const RegExTester: React.FC<Props> = (props: Props) => {
                     margin="normal"
                     fullWidth={true}
                     value={regularExpression}
-                    onChange={(e) => storeInputText('lastRegEx', e.target.value)}
+                    onChange={e => storeInputText('lastRegEx', e.target.value)}
                 />
 
                 <Toolbar className={classes.toolbar}>
-                    <Box display='flex' flexGrow={1}></Box>
+                    <Box display="flex" flexGrow={1}></Box>
                     <CopyButton data={regularExpression} />
                 </Toolbar>
 
@@ -107,41 +104,39 @@ const RegExTester: React.FC<Props> = (props: Props) => {
                     margin="normal"
                     fullWidth={true}
                     value={inputText}
-                    onChange={(e) => storeInputText('lastRegExTextSample', e.target.value)}
+                    onChange={e => storeInputText('lastRegExTextSample', e.target.value)}
                 />
 
-                <div className={classes.matches}>
-                    {ReactHtmlParser(highlithedMatches)}
-                </div>
+                <div className={classes.matches}>{ReactHtmlParser(highlithedMatches)}</div>
 
                 <p>
-                    Collection of values. Could be usefull for Jira tickets numbers with expressions like:<br />
+                    Collection of values. Could be usefull for Jira tickets numbers with expressions like:
+                    <br />
                     <strong>issueKey in (FS-3456, WS-3213, FS-9988)</strong>
                 </p>
 
                 <ResultMonospace result={extracted} />
 
                 <Toolbar className={classes.toolbar}>
-                    <Box display='flex' flexGrow={1}></Box>
+                    <Box display="flex" flexGrow={1}></Box>
                     <CopyButton data={extracted} />
                 </Toolbar>
-
             </div>
         </>
     );
-}
+};
 
 export function mapStateToProps(state: AppState) {
     return {
         regularExpression: state.textInputs['lastRegEx'],
         inputText: state.textInputs['lastRegExTextSample'],
-    }
+    };
 }
 
 export function mapDispatchToProps(dispatch: Dispatch) {
     return {
         storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
-    }
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(RegExTester));

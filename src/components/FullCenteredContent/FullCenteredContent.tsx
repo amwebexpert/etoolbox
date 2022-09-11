@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
-import React from "react";
+import { makeStyles } from '@material-ui/core';
+import React from 'react';
 
 const useStyles = makeStyles(() => ({
     content: {
@@ -13,9 +13,5 @@ const useStyles = makeStyles(() => ({
 export const FullCenteredContent: React.FC = ({ children }: { children?: React.ReactNode }) => {
     const classes = useStyles();
 
-    return (
-        <div className={classes.content}>
-            {children}
-        </div>
-    );
-}
+    return <div className={classes.content}>{children}</div>;
+};

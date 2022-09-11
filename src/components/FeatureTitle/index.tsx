@@ -2,8 +2,7 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     title: {
         wordBreak: 'break-word',
     },
@@ -41,6 +40,6 @@ const FeatureTitle: React.FC<Props> = (props: Props) => {
             </div>
         </div>
     );
-}
+};
 
 export default FeatureTitle;

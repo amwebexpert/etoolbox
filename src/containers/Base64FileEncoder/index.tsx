@@ -25,17 +25,17 @@ const Base64FileEncoder: React.FC = () => {
 
         acceptedFiles.forEach((file: File) =>
             loadFile(file)
-                .then((encFile) => setEncodedFiles((list) => [...list, encFile]))
-                .catch((error) =>
-                    setErrors((list) => [
+                .then(encFile => setEncodedFiles(list => [...list, encFile]))
+                .catch(error =>
+                    setErrors(list => [
                         ...list,
                         {
                             name: file.name,
                             size: file.size,
                             error,
                         },
-                    ])
-                )
+                    ]),
+                ),
         );
     }, []);
 
@@ -56,8 +56,8 @@ const Base64FileEncoder: React.FC = () => {
                 <Spinner active={processing}>
                     <Card {...getRootProps({ className: classes.dropzone })}>
                         <input {...getInputProps()} />
-                        <Typography variant='body1'>Drag 'n' drop some files here</Typography>
-                        <Typography variant='body1'>or just click to select files</Typography>
+                        <Typography variant="body1">Drag 'n' drop some files here</Typography>
+                        <Typography variant="body1">or just click to select files</Typography>
                     </Card>
                 </Spinner>
                 <div>
@@ -66,7 +66,7 @@ const Base64FileEncoder: React.FC = () => {
                             const size = prettyBytes(errFile.size);
                             return (
                                 <div key={idx}>
-                                    <Typography variant='body1'>
+                                    <Typography variant="body1">
                                         <strong>{errFile.name}</strong> ({size} bytes): {errFile.error}
                                     </Typography>
                                 </div>
@@ -75,7 +75,7 @@ const Base64FileEncoder: React.FC = () => {
                 </div>
                 <div>
                     {processing && (
-                        <Typography color='secondary' variant='h5'>
+                        <Typography color="secondary" variant="h5">
                             Processing {acceptedFiles.length - encodedFiles.length} file(s)
                         </Typography>
                     )}
@@ -85,36 +85,36 @@ const Base64FileEncoder: React.FC = () => {
                     <div key={idx}>
                         <Card>
                             {file.encoded.startsWith('data:image/') && (
-                                <Box display='flex' alignItems='center' justifyContent='center'>
+                                <Box display="flex" alignItems="center" justifyContent="center">
                                     <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
                                         <img src={file.encoded} alt={file.name} className={classes.image} />
                                     </Resizable>
                                 </Box>
                             )}
                             <CardContent>
-                                <Typography gutterBottom align='center' variant='h5' component='h2'>
+                                <Typography gutterBottom align="center" variant="h5" component="h2">
                                     <b>{file.name}</b> ({prettyBytes(file.size)})
                                 </Typography>
                                 {file.encoded.startsWith('data:image/') && (
                                     <TextField
-                                        label='Full img tag'
+                                        label="Full img tag"
                                         fullWidth
                                         value={`<img alt="${file.name}" src="${file.encoded}"/>`}
-                                        margin='normal'
-                                        variant='outlined'
+                                        margin="normal"
+                                        variant="outlined"
                                     />
                                 )}
                                 <TextField
                                     label="Base64 encoded. Copy-paste into 'src' attribute"
                                     fullWidth
                                     value={file.encoded}
-                                    margin='normal'
-                                    variant='outlined'
+                                    margin="normal"
+                                    variant="outlined"
                                     multiline
-                                    minRows='8'
+                                    minRows="8"
                                 />
                                 <Toolbar className={classes.toolbar}>
-                                    <Box display='flex' flexGrow={1}></Box>
+                                    <Box display="flex" flexGrow={1}></Box>
                                     <CopyButton data={file.encoded} />
                                 </Toolbar>
                             </CardContent>

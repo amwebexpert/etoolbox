@@ -1,4 +1,3 @@
-
 export function isBlank(str: string | undefined | null) {
     if (!str || str.trim().length === 0) {
         return true;

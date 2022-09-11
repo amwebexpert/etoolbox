@@ -8,8 +8,8 @@ export interface MimeTypesState {
 
 const initalState: MimeTypesState = {
     filtering: false,
-    elements: MIME_TYPES_MAP
-}
+    elements: MIME_TYPES_MAP,
+};
 
 function reducer(state: MimeTypesState = initalState, action: MimeTypeAction): MimeTypesState {
     switch (action.type) {

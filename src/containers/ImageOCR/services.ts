@@ -20,8 +20,8 @@ export async function processOCR(
     language: string,
     imageBuffer: Buffer,
     logger: (log: any) => void,
-    onCompleted: (text: string) => void) {
-
+    onCompleted: (text: string) => void,
+) {
     const worker = createWorker({ logger });
     await worker.load();
     await worker.loadLanguage(language);

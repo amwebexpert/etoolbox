@@ -1,4 +1,4 @@
-import { GithubUserProject } from "../types/github-types";
+import { GithubUserProject } from '../types/github-types';
 
 export enum GithubUserProjectsActionTypes {
     LIST_PROJECTS_REQUESTED = 'GithubUserProjectsActionTypes.LIST_PROJECTS_REQUESTED',
@@ -24,22 +24,25 @@ export interface ListGithubUserProjectsFailedAction {
 export function listGithubUserProjectsRequested(username: string): ListGithubUserProjectsRequestedAction {
     return {
         type: GithubUserProjectsActionTypes.LIST_PROJECTS_REQUESTED,
-        username
-    }
+        username,
+    };
 }
 
 export function listGithubUserProjectsSucceeded(elements: GithubUserProject[]): ListGithubUserProjectsSucceededAction {
     return {
         type: GithubUserProjectsActionTypes.LIST_PROJECTS_SUCCEEDED,
-        projects: elements
-    }
+        projects: elements,
+    };
 }
 
 export function listGithubUserProjectsFailed(error: any): ListGithubUserProjectsFailedAction {
     return {
         type: GithubUserProjectsActionTypes.LIST_PROJECTS_FAILED,
-        error
-    }
+        error,
+    };
 }
 
-export type ListGithubUserProjectsAction = ListGithubUserProjectsRequestedAction | ListGithubUserProjectsSucceededAction | ListGithubUserProjectsFailedAction;
+export type ListGithubUserProjectsAction =
+    | ListGithubUserProjectsRequestedAction
+    | ListGithubUserProjectsSucceededAction
+    | ListGithubUserProjectsFailedAction;

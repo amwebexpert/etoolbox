@@ -12,4 +12,4 @@ export const SAMPLE_DATEFNS_FORMAT = `import { format } from "date-fns";
 const utcValue = '#utc_value#';
 const date = new Date(utcValue);
 const format = 'yyyy-MM-dd-HH-mm-ss';
-const formattedDate = format(date, format);`
+const formattedDate = format(date, format);`;

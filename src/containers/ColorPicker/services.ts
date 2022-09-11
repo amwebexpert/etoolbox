@@ -1,4 +1,4 @@
-import { RGBColor } from "react-color";
+import { RGBColor } from 'react-color';
 
 interface ClickCoordinates {
     px: number;
@@ -63,10 +63,9 @@ function rgbToHex(r: number, g: number, b: number): string {
     return ((r << 16) | (g << 8) | b).toString(16);
 }
 
-
 /**
  * Compute clicked pixel coordinates based on natural image size
- * 
+ *
  * @see https://stackoverflow.com/questions/34867066/javascript-mouse-click-coordinates-for-image
  * @see https://stackoverflow.com/a/288731/1497139
  *
@@ -85,13 +84,13 @@ export function computeImageClickCoordinates(event: MouseEvent): ClickCoordinate
     const iw = image.naturalWidth;
     const ih = image.naturalHeight;
 
-    const px = Math.round(x / cw * iw);
-    const py = Math.round(y / ch * ih);
+    const px = Math.round((x / cw) * iw);
+    const py = Math.round((y / ch) * ih);
 
     return {
         px,
         py,
         width: iw,
-        height: ih
+        height: ih,
     };
 }

@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "sourceMap": true,
+    "noImplicitAny": false,
     "downlevelIteration": true,
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "removeComments": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -19,9 +22,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
   },
   "include": [
-    "src"
+    "./src",
+    "./electron",
+    "./webpack.config.ts"
   ]
 }

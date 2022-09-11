@@ -49,32 +49,31 @@ const DateConverter: React.FC<Props> = (props: Props) => {
 
                 <form className={classes.form} noValidate>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid container justifyContent='space-between'>
-                            <Box display='flex' alignItems='center'>
+                        <Grid container justifyContent="space-between">
+                            <Box display="flex" alignItems="center">
                                 <TextField
                                     autoFocus={isWidthUp('md', props.width)}
-                                    label='Epoch value'
-                                    placeholder='Epoch value'
-                                    type='number'
-                                    variant='outlined'
-                                    margin='normal'
+                                    label="Epoch value"
+                                    placeholder="Epoch value"
+                                    type="number"
+                                    variant="outlined"
+                                    margin="normal"
                                     value={inputText}
-                                    onChange={(e) => storeInputText('lastEpochValue', e.target.value)}
+                                    onChange={e => storeInputText('lastEpochValue', e.target.value)}
                                 />
                                 <Button
-                                    variant='contained'
+                                    variant="contained"
                                     title="Update value with 'Now' value"
-                                    color='primary'
-                                    onClick={() => handleDateChange(new Date())}
-                                >
+                                    color="primary"
+                                    onClick={() => handleDateChange(new Date())}>
                                     <TimerIcon />
                                 </Button>
                             </Box>
                             <div>
                                 <KeyboardDatePicker
-                                    margin='normal'
-                                    label='Date'
-                                    format='yyyy-MM-dd'
+                                    margin="normal"
+                                    label="Date"
+                                    format="yyyy-MM-dd"
                                     value={date}
                                     onChange={handleDateChange}
                                     KeyboardButtonProps={{
@@ -82,8 +81,8 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                     }}
                                 />
                                 <KeyboardTimePicker
-                                    margin='normal'
-                                    label='Time'
+                                    margin="normal"
+                                    label="Time"
                                     value={date}
                                     onChange={handleDateChange}
                                     KeyboardButtonProps={{

@@ -20,12 +20,11 @@ const Filter: React.FC<Props> = (props: Props) => {
     const inputLabel = label ? label : 'Search';
 
     // https://www.npmjs.com/package/use-debounce
-    const debounced = useDebouncedCallback(
-        (filter: string) => onFilterChange(filter),
-        300
-    );
+    const debounced = useDebouncedCallback((filter: string) => onFilterChange(filter), 300);
 
-    React.useEffect(() => { setFilter(initialFilter) }, [initialFilter]);
+    React.useEffect(() => {
+        setFilter(initialFilter);
+    }, [initialFilter]);
     React.useEffect(() => debounced(filter), [filter, debounced]);
 
     return (
@@ -39,12 +38,14 @@ const Filter: React.FC<Props> = (props: Props) => {
                 onChange={e => setFilter(e.target.value)}
                 endAdornment={
                     <InputAdornment position="end">
-                        <IconButton><SearchIcon /></IconButton>
+                        <IconButton>
+                            <SearchIcon />
+                        </IconButton>
                     </InputAdornment>
                 }
             />
         </FormControl>
     );
-}
+};
 
 export default Filter;

@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 
 export function TabPanel(props: any) {
@@ -5,17 +6,13 @@ export function TabPanel(props: any) {
     const isTabSelected = value === index;
 
     return (
-        <div role="tabpanel"
+        <div
+            role="tabpanel"
             hidden={!isTabSelected}
             id={`scrollable-auto-tabpanel-${index}`}
             aria-labelledby={`scrollable-auto-tab-${index}`}
-            {...other}
-        >
-            {isTabSelected && (
-                <>
-                    {children}
-                </>
-            )}
+            {...other}>
+            {isTabSelected && <>{children}</>}
         </div>
     );
 }

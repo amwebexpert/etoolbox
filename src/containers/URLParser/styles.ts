@@ -1,6 +1,6 @@
-import { makeStyles, TableCell, TableRow, withStyles } from "@material-ui/core";
+import { makeStyles, TableCell, TableRow, withStyles } from '@material-ui/core';
 
-export const StyledTableCell = withStyles((theme) => ({
+export const StyledTableCell = withStyles(theme => ({
     body: {
         fontSize: theme.spacing(1.75),
         whiteSpace: 'normal',
@@ -8,7 +8,7 @@ export const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
-export const StyledTableRow = withStyles((theme) => ({
+export const StyledTableRow = withStyles(theme => ({
     root: {
         '&:nth-of-type(even)': {
             backgroundColor: theme.palette.action.hover,
@@ -16,7 +16,7 @@ export const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(1),
     },
@@ -25,5 +25,5 @@ export const useStyles = makeStyles((theme) => ({
     },
     tableHeader: {
         backgroundColor: theme.palette.primary.main,
-    }
+    },
 }));

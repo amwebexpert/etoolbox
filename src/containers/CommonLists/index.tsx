@@ -1,4 +1,18 @@
-import { Box, isWidthUp, Paper, Tab, Table, TableBody, TableContainer, TableHead, TablePagination, TableRow, Tabs, Toolbar, withWidth } from '@material-ui/core';
+import {
+    Box,
+    isWidthUp,
+    Paper,
+    Tab,
+    Table,
+    TableBody,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+    Tabs,
+    Toolbar,
+    withWidth,
+} from '@material-ui/core';
 import React from 'react';
 import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
@@ -35,7 +49,14 @@ const CommonLists: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = React.useState(TABS.MIME_TYPES);
     const [inputFilter, setInputFilter] = React.useState('');
-    const { filteringMimeTypes, mimeTypes, filteringHtmlEntities, htmlEntities, applyMimeTypesFilter, applyHtmlEntitiesFilter } = props;
+    const {
+        filteringMimeTypes,
+        mimeTypes,
+        filteringHtmlEntities,
+        htmlEntities,
+        applyMimeTypesFilter,
+        applyHtmlEntitiesFilter,
+    } = props;
     const searching = filteringMimeTypes || filteringHtmlEntities;
     const { page, setPage, rowsPerPage, handleChangeRowsPerPage } = usePagination();
 
@@ -74,25 +95,23 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                     textColor="primary"
                     variant="scrollable"
                     scrollButtons="on"
-                    aria-label="Common web lists"
-                >
+                    aria-label="Common web lists">
                     <Tab label="Mime-types" id="mime-types" aria-controls="tab-mime-types" />
                     <Tab label="HTML Entities" id="html-entities" aria-controls="tab-html-entities" />
                 </Tabs>
             </Paper>
 
             <div className={classes.root}>
-
                 <Toolbar className={classes.toolbar}>
                     <Filter initialFilter={inputFilter} onFilterChange={applyFilter} />
-                    <Box display='flex' flexGrow={1}></Box>
+                    <Box display="flex" flexGrow={1}></Box>
                     <FilterStats count={getElementsCount()} searching={searching} />
                 </Toolbar>
 
                 <TabPanel value={selectedTab} index={TABS.MIME_TYPES}>
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25, 50, 100]}
-                        component='div'
+                        component="div"
                         count={[...mimeTypes.keys()].length}
                         rowsPerPage={rowsPerPage}
                         page={page}
@@ -103,27 +122,31 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
-                                    <StyledTableCell component="th" scope="row">Mime Type</StyledTableCell>
-                                    <StyledTableCell component="th" scope="row">File extension</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
+                                        Mime Type
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
+                                        File extension
+                                    </StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {[...mimeTypes.keys()]
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map(key => {
-                                    const extensions: readonly string[] = mimeTypes.get(key) ?? [];
-                                    const value = extensions.join(', ');
-                                    return (
-                                        <StyledTableRow key={key}>
-                                            <StyledTableCell>
-                                                <Highlighter searchWords={[inputFilter]} textToHighlight={key} />
-                                            </StyledTableCell>
-                                            <StyledTableCell>
-                                                <Highlighter searchWords={[inputFilter]} textToHighlight={value} />
-                                            </StyledTableCell>
-                                        </StyledTableRow>
-                                    )
-                                })}
+                                        const extensions: readonly string[] = mimeTypes.get(key) ?? [];
+                                        const value = extensions.join(', ');
+                                        return (
+                                            <StyledTableRow key={key}>
+                                                <StyledTableCell>
+                                                    <Highlighter searchWords={[inputFilter]} textToHighlight={key} />
+                                                </StyledTableCell>
+                                                <StyledTableCell>
+                                                    <Highlighter searchWords={[inputFilter]} textToHighlight={value} />
+                                                </StyledTableCell>
+                                            </StyledTableRow>
+                                        );
+                                    })}
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -132,7 +155,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                 <TabPanel value={selectedTab} index={TABS.HTML_ENTITIES}>
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25, 50, 100]}
-                        component='div'
+                        component="div"
                         count={htmlEntities.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
@@ -143,31 +166,51 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
-                                    <StyledTableCell component="th" scope="row">Entity</StyledTableCell>
-                                    <StyledTableCell component="th" scope="row">Name</StyledTableCell>
-                                    <StyledTableCell component="th" scope="row">Number</StyledTableCell>
-                                    <StyledTableCell component="th" scope="row">Description</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
+                                        Entity
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
+                                        Name
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
+                                        Number
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
+                                        Description
+                                    </StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {htmlEntities
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map(htmlEntity => (
-                                    <StyledTableRow key={htmlEntity.entityNumber}>
-                                        <StyledTableCell>
-                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.character} />
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityName} />
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.entityNumber} />
-                                        </StyledTableCell>
-                                        <StyledTableCell>
-                                            <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.description} />
-                                        </StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
+                                        <StyledTableRow key={htmlEntity.entityNumber}>
+                                            <StyledTableCell>
+                                                <Highlighter
+                                                    searchWords={[inputFilter]}
+                                                    textToHighlight={htmlEntity.character}
+                                                />
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <Highlighter
+                                                    searchWords={[inputFilter]}
+                                                    textToHighlight={htmlEntity.entityName}
+                                                />
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <Highlighter
+                                                    searchWords={[inputFilter]}
+                                                    textToHighlight={htmlEntity.entityNumber}
+                                                />
+                                            </StyledTableCell>
+                                            <StyledTableCell>
+                                                <Highlighter
+                                                    searchWords={[inputFilter]}
+                                                    textToHighlight={htmlEntity.description}
+                                                />
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    ))}
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -175,7 +218,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
             </div>
         </>
     );
-}
+};
 
 export function mapStateToProps(state: AppState) {
     return {
@@ -184,14 +227,14 @@ export function mapStateToProps(state: AppState) {
 
         htmlEntities: state.htmlEntities.elements,
         filteringHtmlEntities: state.htmlEntities.filtering,
-    }
+    };
 }
 
 export function mapDispatchToProps(dispatch: Dispatch) {
     return {
         applyMimeTypesFilter: (searchTerm: string) => dispatch(applyMimeTypesFilter(searchTerm)),
         applyHtmlEntitiesFilter: (searchTerm: string) => dispatch(applyHtmlEntitiesFilter(searchTerm)),
-    }
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(CommonLists));

@@ -1,4 +1,4 @@
-import { makeStyles, TableCell, TableRow, withStyles } from "@material-ui/core";
+import { makeStyles, TableCell, TableRow, withStyles } from '@material-ui/core';
 
 export const StyledTableCell = withStyles(() => ({
     body: {
@@ -8,7 +8,7 @@ export const StyledTableCell = withStyles(() => ({
     },
 }))(TableCell);
 
-export const StyledTableRow = withStyles((theme) => ({
+export const StyledTableRow = withStyles(theme => ({
     root: {
         '&:nth-of-type(even)': {
             backgroundColor: theme.palette.action.hover,
@@ -16,7 +16,7 @@ export const StyledTableRow = withStyles((theme) => ({
     },
 }))(TableRow);
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(1),
     },

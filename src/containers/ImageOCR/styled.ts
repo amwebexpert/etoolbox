@@ -5,10 +5,10 @@ export const imageResizer = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    border: 'solid 1px blue'
+    border: 'solid 1px blue',
 };
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(1),
     },

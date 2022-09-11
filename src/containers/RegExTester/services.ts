@@ -5,7 +5,7 @@ export function transform(regularExpression: string | undefined, inputText: stri
         return '';
     }
 
-    const text = inputText.replaceAll('\n', '<br />')
+    const text = inputText.replaceAll('\n', '<br />');
 
     try {
         const regex = regexParser(regularExpression);
@@ -20,7 +20,7 @@ export function transform(regularExpression: string | undefined, inputText: stri
 }
 
 export function extract(regularExpression: string | undefined, inputText: string | undefined): string {
-    const extratedItemsList = [];
+    const extratedItemsList: string[] = [];
 
     if (!regularExpression || !inputText) {
         return '';
@@ -32,7 +32,7 @@ export function extract(regularExpression: string | undefined, inputText: string
             return '';
         }
 
-        let result;
+        let result: RegExpExecArray | null;
         while ((result = regex.exec(inputText)) !== null) {
             extratedItemsList.push(result[0]);
         }

@@ -1,11 +1,4 @@
-import {
-    Paper,
-    Table,
-    TableBody,
-    TableContainer,
-    TableHead,
-    TableRow
-} from '@material-ui/core';
+import { Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { isWidthUp } from '@material-ui/core/withWidth';
 import React from 'react';
@@ -37,7 +30,7 @@ export const TableLayout: React.FC<Props> = ({ date, epochString, width }: Props
                 </TableHead>
                 <TableBody>
                     <StyledTableRow>
-                        <StyledTableCell component='th' scope='row'>
+                        <StyledTableCell component="th" scope="row">
                             ISO string / JSON
                         </StyledTableCell>
                         <StyledTableCell>
@@ -48,7 +41,7 @@ export const TableLayout: React.FC<Props> = ({ date, epochString, width }: Props
                         </StyledTableCell>
                     </StyledTableRow>
                     <StyledTableRow>
-                        <StyledTableCell component='th' scope='row'>
+                        <StyledTableCell component="th" scope="row">
                             Locale date string
                         </StyledTableCell>
                         <StyledTableCell>
@@ -61,7 +54,7 @@ export const TableLayout: React.FC<Props> = ({ date, epochString, width }: Props
                         </StyledTableCell>
                     </StyledTableRow>
                     <StyledTableRow>
-                        <StyledTableCell component='th' scope='row'>
+                        <StyledTableCell component="th" scope="row">
                             Js code using epoch
                         </StyledTableCell>
                         <StyledTableCell>
@@ -72,7 +65,7 @@ export const TableLayout: React.FC<Props> = ({ date, epochString, width }: Props
                         </StyledTableCell>
                     </StyledTableRow>
                     <StyledTableRow>
-                        <StyledTableCell component='th' scope='row'>
+                        <StyledTableCell component="th" scope="row">
                             Js code using ISO 8601
                         </StyledTableCell>
                         <StyledTableCell>
@@ -83,11 +76,11 @@ export const TableLayout: React.FC<Props> = ({ date, epochString, width }: Props
                         </StyledTableCell>
                     </StyledTableRow>
                     <StyledTableRow>
-                        <StyledTableCell component='th' scope='row'>
+                        <StyledTableCell component="th" scope="row">
                             date-fns timezone convertion example
                         </StyledTableCell>
                         <StyledTableCell>
-                            <SyntaxHighlighter style={syntaxTheme} language='javascript' className={classes.formatted}>
+                            <SyntaxHighlighter style={syntaxTheme} language="javascript" className={classes.formatted}>
                                 {SAMPLE_DATEFNS_TZ_CONVERT.replace('#utc_value#', date?.toISOString() ?? '')}
                             </SyntaxHighlighter>
                         </StyledTableCell>
@@ -98,7 +91,7 @@ export const TableLayout: React.FC<Props> = ({ date, epochString, width }: Props
                         </StyledTableCell>
                     </StyledTableRow>
                     <StyledTableRow>
-                        <StyledTableCell component='th' scope='row'>
+                        <StyledTableCell component="th" scope="row">
                             Timezone offset
                         </StyledTableCell>
                         <StyledTableCell>
@@ -107,11 +100,11 @@ export const TableLayout: React.FC<Props> = ({ date, epochString, width }: Props
                         <StyledTableCell></StyledTableCell>
                     </StyledTableRow>
                     <StyledTableRow>
-                        <StyledTableCell component='th' scope='row'>
+                        <StyledTableCell component="th" scope="row">
                             date-fns format example
                         </StyledTableCell>
                         <StyledTableCell>
-                            <SyntaxHighlighter style={syntaxTheme} language='javascript' className={classes.formatted}>
+                            <SyntaxHighlighter style={syntaxTheme} language="javascript" className={classes.formatted}>
                                 {SAMPLE_DATEFNS_FORMAT.replace('#utc_value#', date?.toISOString() ?? '')}
                             </SyntaxHighlighter>
                         </StyledTableCell>
@@ -122,7 +115,7 @@ export const TableLayout: React.FC<Props> = ({ date, epochString, width }: Props
                         </StyledTableCell>
                     </StyledTableRow>
                     <StyledTableRow>
-                        <StyledTableCell component='th' scope='row'>
+                        <StyledTableCell component="th" scope="row">
                             UTC string
                         </StyledTableCell>
                         <StyledTableCell>{date?.toUTCString()}</StyledTableCell>

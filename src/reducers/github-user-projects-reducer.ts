@@ -9,22 +9,25 @@ export interface GithubUserProjectsState {
 
 const initalState: GithubUserProjectsState = {
     searching: false,
-    projects: []
-}
+    projects: [],
+};
 
-function reducer(state: GithubUserProjectsState = initalState, action: ListGithubUserProjectsAction): GithubUserProjectsState {
+function reducer(
+    state: GithubUserProjectsState = initalState,
+    action: ListGithubUserProjectsAction,
+): GithubUserProjectsState {
     switch (action.type) {
         case GithubUserProjectsActionTypes.LIST_PROJECTS_REQUESTED: {
             return {
                 ...state,
-                searching: true
+                searching: true,
             };
         }
 
         case GithubUserProjectsActionTypes.LIST_PROJECTS_SUCCEEDED: {
             return {
                 searching: false,
-                projects: action.projects
+                projects: action.projects,
             };
         }
 
@@ -32,7 +35,7 @@ function reducer(state: GithubUserProjectsState = initalState, action: ListGithu
             return {
                 searching: false,
                 error: action.error,
-                projects: []
+                projects: [],
             };
         }
 

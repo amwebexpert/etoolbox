@@ -30,6 +30,6 @@ const FilterStats: React.FC<Props> = (props: Props) => {
             <Typography align="right">{count}</Typography>
         </div>
     );
-}
+};
 
 export default FilterStats;

@@ -19,7 +19,7 @@ export const CardLayout: React.FC<Props> = ({ date, epochString }: Props) => {
         <>
             <Card className={classes.card}>
                 <CardContent>
-                    <Typography variant='subtitle1'>ISO string / JSON</Typography>
+                    <Typography variant="subtitle1">ISO string / JSON</Typography>
                     <span className={classes.value}>{date?.toISOString()}</span>
                 </CardContent>
                 <CardActions>
@@ -29,11 +29,11 @@ export const CardLayout: React.FC<Props> = ({ date, epochString }: Props) => {
 
             <Card className={classes.card}>
                 <CardContent>
-                    <Typography variant='subtitle1'>Locale date string</Typography>
+                    <Typography variant="subtitle1">Locale date string</Typography>
                     <div className={classes.value}>
                         {date?.toLocaleDateString()} {date?.toLocaleTimeString()}
                     </div>
-                    <Typography variant='subtitle1' className={classes.otherSubtitle}>
+                    <Typography variant="subtitle1" className={classes.otherSubtitle}>
                         Timezone offset:{' '}
                     </Typography>
                     <div className={classes.value}>
@@ -47,8 +47,8 @@ export const CardLayout: React.FC<Props> = ({ date, epochString }: Props) => {
 
             <Card className={classes.card}>
                 <CardContent>
-                    <Typography variant='subtitle1'>Js code using epoch:</Typography>
-                    <SyntaxHighlighter style={syntaxTheme} language='javascript' className={classes.formatted}>
+                    <Typography variant="subtitle1">Js code using epoch:</Typography>
+                    <SyntaxHighlighter style={syntaxTheme} language="javascript" className={classes.formatted}>
                         {`const date = new Date(${epochString});`}
                     </SyntaxHighlighter>
                 </CardContent>
@@ -59,8 +59,8 @@ export const CardLayout: React.FC<Props> = ({ date, epochString }: Props) => {
 
             <Card className={classes.card}>
                 <CardContent>
-                    <Typography variant='subtitle1'>Js code using ISO 8601:</Typography>
-                    <SyntaxHighlighter style={syntaxTheme} language='javascript' className={classes.formatted}>
+                    <Typography variant="subtitle1">Js code using ISO 8601:</Typography>
+                    <SyntaxHighlighter style={syntaxTheme} language="javascript" className={classes.formatted}>
                         {`const date = new Date('${date?.toISOString()}');`}
                     </SyntaxHighlighter>
                 </CardContent>
@@ -71,8 +71,8 @@ export const CardLayout: React.FC<Props> = ({ date, epochString }: Props) => {
 
             <Card className={classes.card}>
                 <CardContent>
-                    <Typography variant='subtitle1'>date-fns timezone convertion example:</Typography>
-                    <SyntaxHighlighter style={syntaxTheme} language='javascript' className={classes.formatted}>
+                    <Typography variant="subtitle1">date-fns timezone convertion example:</Typography>
+                    <SyntaxHighlighter style={syntaxTheme} language="javascript" className={classes.formatted}>
                         {SAMPLE_DATEFNS_TZ_CONVERT.replace('#utc_value#', date?.toISOString() ?? '')}
                     </SyntaxHighlighter>
                 </CardContent>
@@ -83,8 +83,8 @@ export const CardLayout: React.FC<Props> = ({ date, epochString }: Props) => {
 
             <Card className={classes.card}>
                 <CardContent>
-                    <Typography variant='subtitle1'>date-fns format example:</Typography>
-                    <SyntaxHighlighter style={syntaxTheme} language='javascript' className={classes.formatted}>
+                    <Typography variant="subtitle1">date-fns format example:</Typography>
+                    <SyntaxHighlighter style={syntaxTheme} language="javascript" className={classes.formatted}>
                         {SAMPLE_DATEFNS_FORMAT.replace('#utc_value#', date?.toISOString() ?? '')}
                     </SyntaxHighlighter>
                 </CardContent>

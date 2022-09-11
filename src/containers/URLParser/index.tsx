@@ -56,7 +56,7 @@ const URLParser: React.FC<Props> = (props: Props) => {
                     fullWidth={true}
                     value={inputText}
                     className={classes.panel}
-                    onChange={(e) => storeInputText('lastUrlParserValue', e.target.value)}
+                    onChange={e => storeInputText('lastUrlParserValue', e.target.value)}
                 />
 
                 <TableContainer component={Paper} className={classes.panel}>
@@ -70,7 +70,9 @@ const URLParser: React.FC<Props> = (props: Props) => {
                         <TableBody>
                             {[...urlFragments.keys()].sort().map(key => (
                                 <StyledTableRow key={key}>
-                                    <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
+                                        {key}
+                                    </StyledTableCell>
                                     <StyledTableCell>{urlFragments.get(key)}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
@@ -89,7 +91,9 @@ const URLParser: React.FC<Props> = (props: Props) => {
                         <TableBody>
                             {[...urlParams.keys()].sort().map(key => (
                                 <StyledTableRow key={key}>
-                                    <StyledTableCell component="th" scope="row">{key}</StyledTableCell>
+                                    <StyledTableCell component="th" scope="row">
+                                        {key}
+                                    </StyledTableCell>
                                     <StyledTableCell>{urlParams.get(key)}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
@@ -99,18 +103,18 @@ const URLParser: React.FC<Props> = (props: Props) => {
             </div>
         </>
     );
-}
+};
 
 export function mapStateToProps(state: AppState) {
     return {
         inputText: state.textInputs['lastUrlParserValue'],
-    }
+    };
 }
 
 export function mapDispatchToProps(dispatch: Dispatch) {
     return {
         storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
-    }
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(URLParser));

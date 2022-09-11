@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 import FeatureTitle from '../../components/FeatureTitle';
 import { usePreferenceTheme } from '../../components/Preferences/PreferencesProvider';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(2),
         padding: theme.spacing(2),
@@ -37,9 +37,9 @@ const AppPreferences: React.FC = () => {
 
                 <div className={classes.switch}>
                     <FormControlLabel
-                        control={<Switch checked={isDark} onChange={toggleTheme} />}
-                        label='Activate the Dark theme mode'
-                        labelPlacement='end'
+                        control={<Switch checked={isDark} onChange={() => toggleTheme()} />}
+                        label="Activate the Dark theme mode"
+                        labelPlacement="end"
                     />
                 </div>
             </Paper>

@@ -1,5 +1,5 @@
 export enum TextInputActionTypes {
-    SET_INPUT_TEXT = 'TextInputActionTypes.SET_INPUT_TEXT'
+    SET_INPUT_TEXT = 'TextInputActionTypes.SET_INPUT_TEXT',
 }
 
 export interface SetTextInputAction {
@@ -12,8 +12,8 @@ export function setTextAction(name: string, value: string): SetTextInputAction {
     return {
         type: TextInputActionTypes.SET_INPUT_TEXT,
         name,
-        value
-    }
+        value,
+    };
 }
 
 export type TextInputsAction = SetTextInputAction;

@@ -7,8 +7,8 @@ import gitHubUserProjectsReducer, { GithubUserProjectsState } from './github-use
 export interface AppState {
     textInputs: TextInputsState;
     mimeTypes: MimeTypesState;
-    htmlEntities: HtmlEntitiesState,
-    githubUserProjects: GithubUserProjectsState,
+    htmlEntities: HtmlEntitiesState;
+    githubUserProjects: GithubUserProjectsState;
 }
 
 const reducers = combineReducers({

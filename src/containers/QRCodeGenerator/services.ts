@@ -8,5 +8,4 @@ export const DEFAULT_OPTIONS = {
         dark: '#000000FF',
         light: '#FFFFFFFF',
     },
-
 };

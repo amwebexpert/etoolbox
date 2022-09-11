@@ -1,13 +1,13 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from 'react';
 
 import LoadingOverlay from 'react-loading-overlay';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 
-import { useGlobalSpinner } from "./GlobalSpinnerProvider";
+import { useGlobalSpinner } from './GlobalSpinnerProvider';
 
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     root: {
         '& .globalSpinner_overlay': {
             height: '100vh',
@@ -17,16 +17,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-type GlobalSpinnerProps = PropsWithChildren<{}>;
+type GlobalSpinnerProps = PropsWithChildren<unknown>;
 
 export const GlobalSpinner: React.FC<GlobalSpinnerProps> = ({ children }) => {
     const classes = useStyles();
     const { globalSpinnerState } = useGlobalSpinner();
 
     return (
-        <LoadingOverlay classNamePrefix='globalSpinner_' className={classes.root} 
-            spinner={<ScaleLoader color="#bf3a2b" />} active={globalSpinnerState.open}>
+        <LoadingOverlay
+            classNamePrefix="globalSpinner_"
+            className={classes.root}
+            spinner={<ScaleLoader color="#bf3a2b" />}
+            active={globalSpinnerState.open}>
             {children}
         </LoadingOverlay>
     );
-}
+};

@@ -1,11 +1,11 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core';
 
 export const imageResizer = {
     marginTop: 10,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    border: 'solid 1px blue'
+    border: 'solid 1px blue',
 };
 
 export const useStyles = makeStyles(theme => ({
@@ -14,7 +14,7 @@ export const useStyles = makeStyles(theme => ({
         flexGrow: 1,
     },
     header: {
-        padding: '20px 0'
+        padding: '20px 0',
     },
     dropzone: {
         flex: '1',
