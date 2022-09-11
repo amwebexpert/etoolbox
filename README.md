@@ -27,8 +27,8 @@ Collection of web developer utilities
 
 Some screen captures of the implemented features...
 
-JSON Format | File Encoder | RegEx Tester | Image OCR
------------ | ------------ | ------------ | ---------
+JSON format | File encoder | RegEx tester | Imaging OCR
+----------- | ------------ | ------------ | -----------
 <img src="public/screen-captures/JSONFormatter-demo.gif" /> | <img src="public/screen-captures/ImageEncoder-demo.gif" /> | <img src="public/screen-captures/RegexTester-demo.gif" /> | <img src="public/screen-captures/ImageOCR-demo.gif" />
 
 ## Online demo
