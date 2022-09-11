@@ -1,4 +1,5 @@
 export const CHANGE_LOGS = [
+  {version: 'v1.16.0', desc: 'Bug fixes, broken links fixed, dependencies update'},
   {version: 'v1.15.0', desc: 'feat: CSV Parser Papaparse implementation'},
   {version: 'v1.14.0', desc: 'Epoch converter and date/time utilities'},
   {version: 'v1.13.0', desc: 'Convert any input file as Base64 and not just Images: PDF, CSV, docx, ...'},
