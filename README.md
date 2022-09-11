@@ -2,7 +2,7 @@
 
 Collection of web developer utilities
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/amwebexpert/etoolbox) ![GitHub Release Date](https://img.shields.io/github/release-date/amwebexpert/etoolbox) ![GitHub last commit](https://img.shields.io/github/last-commit/amwebexpert/etoolbox) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/amwebexpert/etoolbox) ![GitHub Release Date](https://img.shields.io/github/release-date/amwebexpert/etoolbox) ![GitHub last commit](https://img.shields.io/github/last-commit/amwebexpert/etoolbox) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/react) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/typescript) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/@material-ui/core)
 
 
 <div align="center">
