@@ -133,7 +133,7 @@
   "devDependencies": {
     "@types/electron-devtools-installer": "^2.2.2",
     "@types/file-saver": "^2.0.5",
-    "@types/jest": "^29.0.0",
+    "@types/jest": "^29.0.1",
     "@types/js-beautify": "^1.13.3",
     "@types/mime-db": "^1.43.1",
     "@types/node": "^18.7.16",
