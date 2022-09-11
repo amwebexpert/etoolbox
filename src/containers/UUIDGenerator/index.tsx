@@ -42,7 +42,11 @@ interface Props {
 const UUIDGenerator: React.FC<Props> = (props: Props) => {
     const title = 'UUID Generator';
     const classes = useStyles();
-    const { handleSubmit, control } = useForm();
+    const defaultValues = {
+        version: 4,
+        quantity: 5,
+    };
+    const { handleSubmit, control } = useForm({ defaultValues });
     const [generated, setGenerated] = React.useState(services.generate(4, 1));
 
     const onSubmit = (data: UUIDForm) => {
@@ -63,7 +67,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                                 <Controller
                                     control={control}
                                     name="version"
-                                    defaultValue="4"
+                                    defaultValue={4}
                                     render={({field: { value, name, onChange }}) => (
                                         <Select name={name} value={value} labelId="uuidVersionLabel" autoFocus={isWidthUp('md', props.width)} 
                                             onChange={e => onChange(e.target.value)}>
@@ -93,7 +97,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                                             helperText={invalid ? 'valid range: [1..9999]' : null} />
                                     )}
                                     control={control}
-                                    defaultValue="5"
+                                    defaultValue={5}
                                     rules={{
                                         required: true,
                                         min: 1,

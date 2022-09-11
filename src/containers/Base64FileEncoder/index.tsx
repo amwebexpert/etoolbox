@@ -93,7 +93,7 @@ const Base64FileEncoder: React.FC = () => {
                             )}
                             <CardContent>
                                 <Typography gutterBottom align='center' variant='h5' component='h2'>
-                                    <b>{file.name}</b> ({file.size} bytes)
+                                    <b>{file.name}</b> ({prettyBytes(file.size)})
                                 </Typography>
                                 {file.encoded.startsWith('data:image/') && (
                                     <TextField

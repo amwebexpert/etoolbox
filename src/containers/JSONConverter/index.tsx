@@ -69,10 +69,10 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
     const { inputText, optionSource, optionTarget, optionRootClassname, storeInputText } = props;
     const [transformed, setTransformed] = React.useState('');
     const defaultValues = {
-        source: inputText,
-        sourceType: optionSource,
-        targetLanguage: optionTarget,
-        rootClassName: optionRootClassname,
+        source: inputText ?? '',
+        sourceType: optionSource ?? '',
+        targetLanguage: optionTarget ?? '',
+        rootClassName: optionRootClassname ?? '',
     };
     const { handleSubmit, control, getValues } = useForm({ defaultValues });
     const onSubmit = async (data: services.ConvertionContext) => {

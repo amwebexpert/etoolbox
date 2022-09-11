@@ -34,6 +34,7 @@ import {FILE_ENCODING_LABELS_SORTED, LabelAndName} from '../../services/encoding
 import * as fileService from '../../services/file-utils';
 import * as services from './services';
 import {useStyles} from './styled';
+import prettyBytes from 'pretty-bytes';
 
 interface Props {
   width: Breakpoint;
@@ -77,7 +78,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
     const reader = new FileReader();
     reader.onload = (ev: ProgressEvent<FileReader>) => {
       storeInputText('lastCSVInputContent', ev.target!.result as string);
-      setFileInfo(`${file.name} (${file.size} bytes)`);
+      setFileInfo(`${file.name} (${prettyBytes(file.size)})`);
       e.target.value = '';
     };
     const encoding: LabelAndName = FILE_ENCODING_LABELS_SORTED.find(enc => enc.label === inputEncoding)!;
