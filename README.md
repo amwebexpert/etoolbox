@@ -6,7 +6,7 @@ Collection of web developer utilities
 
 
 <div align="center">
-  <img src="public/icon-512x512.png" width="200" alt="Web Toolbox" />
+  <img src="public/icon-512x512.png" width="100" alt="Web Toolbox" />
   <div>Code author: <a href="mailto:amwebexpert@gmail.com">amwebexpert@gmail.com</a></div>
   <div>Icon made by: <a href="https://therealjerrylow.com/">Jerry Low</a></div>
 </div>
