@@ -136,7 +136,7 @@ CHANGELOG generation powered by Conventional Commits. Detail here: https://www.n
 
 ## License
 
-This project is licensed under the MIT license. For more information see `LICENSE.md`.
+This project is licensed under the MIT license. For more information see [`LICENSE`](./LICENSE) file.
 
 ## Useful links
 
