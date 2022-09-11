@@ -10,7 +10,7 @@ export interface MimeTypeApplyFilterAction {
 
 export interface MimeTypeApplyFilterSucceededAction {
     type: MimeTypeActionTypes.APPLY_FILTER_SUCCEEDED;
-    elements: Map<string, string[]>;
+    elements: Map<string, readonly string[]>;
 }
 
 export function applyMimeTypesFilter(searchTerm: string): MimeTypeApplyFilterAction {
@@ -20,7 +20,7 @@ export function applyMimeTypesFilter(searchTerm: string): MimeTypeApplyFilterAct
     }
 }
 
-export function applyMimeTypesFilterSucceeded(elements: Map<string, string[]>): MimeTypeApplyFilterSucceededAction {
+export function applyMimeTypesFilterSucceeded(elements: Map<string, readonly string[]>): MimeTypeApplyFilterSucceededAction {
     return {
         type: MimeTypeActionTypes.APPLY_FILTER_SUCCEEDED,
         elements

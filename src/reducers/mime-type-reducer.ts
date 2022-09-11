@@ -3,7 +3,7 @@ import { MimeTypeAction, MimeTypeActionTypes } from './../actions/mime-type-acti
 
 export interface MimeTypesState {
     filtering: boolean;
-    elements: Map<string, string[]>;
+    elements: Map<string, readonly string[]>;
 }
 
 const initalState: MimeTypesState = {

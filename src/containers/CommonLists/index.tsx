@@ -21,7 +21,7 @@ enum TABS {
 
 interface Props {
     width: Breakpoint;
-    mimeTypes: Map<string, string[]>;
+    mimeTypes: Map<string, readonly string[]>;
     filteringMimeTypes: boolean;
     htmlEntities: HtmlEntity[];
     filteringHtmlEntities: boolean;
@@ -111,7 +111,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                                 {[...mimeTypes.keys()]
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map(key => {
-                                    const extensions: string[] = mimeTypes.get(key) || [];
+                                    const extensions: readonly string[] = mimeTypes.get(key) ?? [];
                                     const value = extensions.join(', ');
                                     return (
                                         <StyledTableRow key={key}>

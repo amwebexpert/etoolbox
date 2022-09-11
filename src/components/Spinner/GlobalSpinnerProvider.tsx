@@ -3,7 +3,7 @@
  * 
  * https://www.youtube.com/watch?v=5LrDIWkK_Bc&list=PL_XXwMy-A8KlOsfndUYWUzkp3xR9LNIB8&index=8
  */
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { GlobalSpinner } from "./GlobalSpinner";
 
 // -------------------------------
@@ -32,7 +32,9 @@ export function useGlobalSpinnerUpdate() {
     return React.useContext(SpinnerUpdateContext)!;
 }
 
-const GlobalSpinnerProvider: React.FC = ({ children }) => {
+type GlobalSpinnerProviderProps = PropsWithChildren<{}>;
+
+const GlobalSpinnerProvider: React.FC<GlobalSpinnerProviderProps> = ({ children }) => {
     const [globalSpinnerState, setGlobalSpinnerState] = React.useState<GlobalSpinnerState>({ open: false });
 
     return (

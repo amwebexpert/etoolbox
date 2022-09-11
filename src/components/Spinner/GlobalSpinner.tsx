@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
 import LoadingOverlay from 'react-loading-overlay';
 import ScaleLoader from 'react-spinners/ScaleLoader';
@@ -17,7 +17,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const GlobalSpinner: React.FC = ({ children }) => {
+type GlobalSpinnerProps = PropsWithChildren<{}>;
+
+export const GlobalSpinner: React.FC<GlobalSpinnerProps> = ({ children }) => {
     const classes = useStyles();
     const { globalSpinnerState } = useGlobalSpinner();
 

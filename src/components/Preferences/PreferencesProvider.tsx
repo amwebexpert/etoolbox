@@ -1,4 +1,4 @@
-import React, {createContext, FC, useCallback, useContext, useState} from 'react';
+import React, {createContext, FC, PropsWithChildren, useCallback, useContext, useState} from 'react';
 
 const defaultDarkModeValue = localStorage.getItem('darkMode') === 'true';
 
@@ -7,7 +7,9 @@ export const PreferencesContext = createContext({
   toggleTheme: () => {},
 });
 
-export const PreferencesProvider: FC = ({children}) => {
+type PreferencesProviderProps = PropsWithChildren<{}>;
+
+export const PreferencesProvider: FC<PreferencesProviderProps> = ({children}) => {
   const [isDark, setIsDark] = useState<boolean>(defaultDarkModeValue);
 
   const toggleTheme = useCallback(() => {
