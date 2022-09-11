@@ -2,6 +2,10 @@
 
 Collection of web developer utilities
 
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/amwebexpert/etoolbox) ![GitHub Release Date](https://img.shields.io/github/release-date/amwebexpert/etoolbox) ![GitHub last commit](https://img.shields.io/github/last-commit/amwebexpert/etoolbox)![GitHub](https://img.shields.io/github/license/amwebexpert/etoolbox)
+
+
 <div align="center">
   <img src="public/icon-512x512.png" width="200" alt="Web Toolbox" />
   <div>Code author: <a href="mailto:amwebexpert@gmail.com">amwebexpert@gmail.com</a></div>
@@ -23,12 +27,9 @@ Collection of web developer utilities
 
 Some screen captures of the implemented features...
 
-<div align="center">
-  <img src="public/screen-captures/JSONFormatter-demo.gif" />
-  <img src="public/screen-captures/ImageEncoder-demo.gif" />
-  <img src="public/screen-captures/RegexTester-demo.gif" />
-  <img src="public/screen-captures/ImageOCR-demo.gif" />
-</div>
+JSON Format | File Encoder | RegEx Tester | Image OCR
+----------- | ------------ | ------------ | ---------
+<img src="public/screen-captures/JSONFormatter-demo.gif" /> | <img src="public/screen-captures/ImageEncoder-demo.gif" /> | <img src="public/screen-captures/RegexTester-demo.gif" /> | <img src="public/screen-captures/ImageOCR-demo.gif" />
 
 ## Online demo
 
