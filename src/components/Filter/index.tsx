@@ -3,7 +3,7 @@ import { FormControl, IconButton, Input, InputAdornment, InputLabel } from '@mat
 import SearchIcon from '@material-ui/icons/Search';
 
 import { useStyles } from './styles';
-import { useDebouncedCallback } from 'use-debounce/lib';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface Props {
     label?: string;

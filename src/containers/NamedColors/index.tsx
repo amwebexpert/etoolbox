@@ -7,7 +7,7 @@ import * as copy from 'copy-to-clipboard';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import Highlighter from 'react-highlight-words';
-import { useDebouncedCallback } from 'use-debounce/lib';
+import { useDebouncedCallback } from 'use-debounce';
 import FeatureTitle from '../../components/FeatureTitle';
 import Filter from '../../components/Filter';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
