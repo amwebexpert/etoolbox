@@ -27,17 +27,10 @@ import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import ApplicationBar from './components/ApplicationBar/ApplicationBar';
-import FeaturesGroup from './components/FeaturesGroup';
 import { FullCenteredContent } from './components/FullCenteredContent/FullCenteredContent';
 import Home from './components/Home';
 import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink';
 import ToasterProvider from './components/Toaster/ToasterProvider';
-import Base64Encoder from './containers/Base64Encoder';
-import Base64FileEncoder from './containers/Base64FileEncoder';
-import ColorPicker from './containers/ColorPicker';
-import NamedColors from './containers/NamedColors';
-import URLEncoder from './containers/URLEncoder';
-import URLParser from './containers/URLParser';
 import Banner from './images/icon.png';
 import { useStyles } from './styles';
 
@@ -66,15 +59,13 @@ const App: React.FC<Props> = (props: Props) => {
     const DateConverter = lazy(() => import('./containers/DateConverter'));
     const CSVParser = lazy(() => import('./containers/CSVParser'));
 
-    // Because of the following issue, Suspense is breaking the tab selection (fix will be part of React 18)
-    // @see https://github.com/mui-org/material-ui/issues/14077
-    // const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
-    // const URLParser = lazy(() => import('./containers/URLParser'));
-    // const URLEncoder = lazy(() => import('./containers/URLEncoder'));
-    // const Base64Encoder = lazy(() => import('./containers/Base64Encoder'));
-    // const Base64ImageEncoder = lazy(() => import('./containers/Base64ImageEncoder'));
-    // const NamedColors = lazy(() => import('./containers/NamedColors'));
-    // const ColorPicker = lazy(() => import('./containers/ColorPicker'));
+    const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
+    const URLParser = lazy(() => import('./containers/URLParser'));
+    const URLEncoder = lazy(() => import('./containers/URLEncoder'));
+    const Base64Encoder = lazy(() => import('./containers/Base64Encoder'));
+    const Base64FileEncoder = lazy(() => import('./containers/Base64FileEncoder'));
+    const NamedColors = lazy(() => import('./containers/NamedColors'));
+    const ColorPicker = lazy(() => import('./containers/ColorPicker'));
 
     const featuresGroupURL = [
         { type: URLParser, path: '/URLParser', label: 'Parser' },
