@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.0](https://github.com/amwebexpert/etoolbox/compare/v1.16.0...v1.17.0) (2022-09-12)
+
+
+### Features
+
+* added hexadecimal opacity converter ([a145317](https://github.com/amwebexpert/etoolbox/commit/a1453173f961edb02940cc69b1e9b1b294b3e3a0))
+* improved modules lazy loading with suspence ([9fd69ef](https://github.com/amwebexpert/etoolbox/commit/9fd69ef9a46eda6947f2f389d7e051bedf415837))
+
+
+### Bug Fixes
+
+* CSV parser default encoding utf-8 ([27caa89](https://github.com/amwebexpert/etoolbox/commit/27caa890bcc57b0894756c5bd47b25336d2cb5bf))
+* CSV parser default encoding utf-8 ([fa22b26](https://github.com/amwebexpert/etoolbox/commit/fa22b268624104c2bc543c907241d5456b574afe))
+* CSV parser labels to name mapping ([9f0d5de](https://github.com/amwebexpert/etoolbox/commit/9f0d5de3c3272915a3d6e96bedc9bd306a0f079c))
+* CSV parser labels to name mapping ([7b49f54](https://github.com/amwebexpert/etoolbox/commit/7b49f543069f6e1f7adfe846628515bd9e5991e8))
+* imports statements ([b17a021](https://github.com/amwebexpert/etoolbox/commit/b17a021c5d7b614d9e77c0572234fd837c01c3c7))
+* layout of both color picker and CSV parser ([113c747](https://github.com/amwebexpert/etoolbox/commit/113c747b512007a57de6e701c6945fc00c39e49d))
+* mobile layout for CSV parser ([2752530](https://github.com/amwebexpert/etoolbox/commit/27525306017a644d2df6e40b723e0209146aedb8))
+* mobile layout for CSV parser ([b970f69](https://github.com/amwebexpert/etoolbox/commit/b970f69f641028386aa14a1b93a9970baa0c3659))
+
 ## [1.16.0](https://github.com/amwebexpert/etoolbox/compare/v1.15.1...v1.16.0) (2021-11-27)
 
 
