@@ -1,9 +1,9 @@
 import './wdyr'; // <--- first import
 
+import React from 'react';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
-import React from 'react';
-import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 import App from './App';
@@ -13,7 +13,12 @@ import GlobalStyle from './global-styles';
 import store from './store';
 import { darkTheme, lightTheme } from './theme';
 
-ReactDOM.render(
+import { createRoot } from 'react-dom/client';
+
+const container = document.getElementById('root');
+const root = createRoot(container!);
+
+root.render(
     <Provider store={store}>
         <PreferencesProvider>
             <PreferencesContext.Consumer>
@@ -32,5 +37,4 @@ ReactDOM.render(
         </PreferencesProvider>
         <GlobalStyle />
     </Provider>,
-    document.querySelector('#root'),
 );

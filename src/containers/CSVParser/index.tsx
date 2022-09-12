@@ -108,7 +108,6 @@ const CSVParser: React.FC<Props> = (props: Props) => {
     return (
         <>
             <Helmet title={title} />
-
             <div className={classes.root}>
                 <FeatureTitle iconType={CSVParserIcon} title={title} />
 

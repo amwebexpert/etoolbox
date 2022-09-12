@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 const useStyles = makeStyles(() => ({
     content: {
@@ -10,7 +10,9 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-export const FullCenteredContent: React.FC = ({ children }: { children?: React.ReactNode }) => {
+type FullCenteredContentType = PropsWithChildren<unknown>;
+
+export const FullCenteredContent: React.FC<FullCenteredContentType> = ({ children }) => {
     const classes = useStyles();
 
     return <div className={classes.content}>{children}</div>;

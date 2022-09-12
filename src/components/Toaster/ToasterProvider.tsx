@@ -3,7 +3,7 @@
  *
  * https://www.youtube.com/watch?v=5LrDIWkK_Bc&list=PL_XXwMy-A8KlOsfndUYWUzkp3xR9LNIB8&index=8
  */
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Color } from '@material-ui/lab';
 import { Toaster } from '.';
 
@@ -42,7 +42,9 @@ export function useToasterUpdate() {
     return React.useContext(ToasterUpdateContext)!;
 }
 
-const ToasterProvider: React.FC = ({ children }: { children?: React.ReactNode }) => {
+type ToasterProviderProps = PropsWithChildren<unknown>;
+
+const ToasterProvider: React.FC<ToasterProviderProps> = ({ children }) => {
     const [toasterState, setToasterState] = React.useState<ToasterState>(defaultToasterState);
 
     React.useEffect(setupIPC, []);

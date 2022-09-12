@@ -1,169 +1,174 @@
 {
-  "name": "web-toolbox",
-  "version": "1.16.0",
-  "author": {
-    "name": "André Masson",
-    "email": "amwebexpert@gmail.com",
-    "url": "https://www.linkedin.com/in/amwebexpert/"
-  },
-  "description": "Collection of web developer utilities packaged as a desktop app",
-  "homepage": ".",
-  "main": "build/electron/main.js",
-  "private": false,
-  "scripts": {
-    "release": "standard-version",
-    "start": "REACT_APP_VERSION=$npm_package_version react-scripts start",
-    "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
-    "test": "react-scripts test",
-    "postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
-    "electron:windev": "concurrently \"SET BROWSER=none && yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
-    "electron:build": "yarn build && tsc -p electron && electron-builder",
-    "electron:build:linux": "yarn build && tsc -p electron && electron-builder -l",
-    "electron:build:all": "yarn build && tsc -p electron && electron-builder -mwl",
-    "eject": "react-scripts eject",
-    "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix",
-    "check-licences": "license-checker --direct --production --exclude MIT,Apache-2.0,BSD-2-Clause,BSD-3-Clause,ISC,CC0-1.0"
-  },
-  "build": {
-    "appId": "com.amwebexpert.etoolbox",
-    "productName": "Web Toolbox",
-    "mac": {
-      "target": "dmg",
-      "icon": "build/icon.icns",
-      "category": "public.app-category.developer-tools",
-      "type": "distribution",
-      "hardenedRuntime": true
+    "name": "web-toolbox",
+    "version": "1.16.0",
+    "author": {
+        "name": "André Masson",
+        "email": "amwebexpert@gmail.com",
+        "url": "https://www.linkedin.com/in/amwebexpert/"
     },
-    "dmg": {
-      "contents": [
-        {
-          "x": 130,
-          "y": 220
+    "description": "Collection of web developer utilities packaged as a desktop app",
+    "homepage": ".",
+    "main": "build/electron/main.js",
+    "private": false,
+    "scripts": {
+        "release": "standard-version",
+        "start": "REACT_APP_VERSION=$npm_package_version react-scripts start",
+        "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
+        "test": "react-scripts test",
+        "postinstall": "patch-package && electron-builder install-app-deps",
+        "electron:dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
+        "electron:windev": "concurrently \"SET BROWSER=none && yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
+        "electron:build": "yarn build && tsc -p electron && electron-builder",
+        "electron:build:linux": "yarn build && tsc -p electron && electron-builder -l",
+        "electron:build:all": "yarn build && tsc -p electron && electron-builder -mwl",
+        "eject": "react-scripts eject",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "eslint . --ext .ts,.tsx --fix",
+        "check-licences": "license-checker --direct --production --exclude MIT,Apache-2.0,BSD-2-Clause,BSD-3-Clause,ISC,CC0-1.0"
+    },
+    "build": {
+        "appId": "com.amwebexpert.etoolbox",
+        "productName": "Web Toolbox",
+        "mac": {
+            "target": "dmg",
+            "icon": "build/icon.icns",
+            "category": "public.app-category.developer-tools",
+            "type": "distribution",
+            "hardenedRuntime": true
         },
-        {
-          "x": 410,
-          "y": 220,
-          "type": "link",
-          "path": "/Applications"
+        "dmg": {
+            "contents": [
+                {
+                    "x": 130,
+                    "y": 220
+                },
+                {
+                    "x": 410,
+                    "y": 220,
+                    "type": "link",
+                    "path": "/Applications"
+                }
+            ]
+        },
+        "win": {
+            "target": "nsis",
+            "icon": "build/icon.png"
+        },
+        "linux": {
+            "target": [
+                "AppImage"
+            ],
+            "category": "Development"
+        },
+        "extends": null,
+        "files": [
+            "build/**/*"
+        ],
+        "directories": {
+            "buildResources": "public"
         }
-      ]
     },
-    "win": {
-      "target": "nsis",
-      "icon": "build/icon.png"
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
     },
-    "linux": {
-      "target": [
-        "AppImage"
-      ],
-      "category": "Development"
-    },
-    "extends": null,
-    "files": [
-      "build/**/*"
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
     ],
-    "directories": {
-      "buildResources": "public"
+    "dependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.18.6",
+        "@date-io/date-fns": "^1.0.0",
+        "@material-ui/core": "^4.12.4",
+        "@material-ui/icons": "^4.11.3",
+        "@material-ui/lab": "^4.0.0-alpha.61",
+        "@material-ui/pickers": "^3.3.10",
+        "axios": "^0.27.2",
+        "connected-react-router": "^6.9.3",
+        "copy-to-clipboard": "^3.3.2",
+        "electron-devtools-installer": "^3.2.0",
+        "electron-is-dev": "^2.0.0",
+        "electron-reload": "^1.5.0",
+        "file-saver": "^2.0.5",
+        "js-beautify": "^1.14.6",
+        "jwt-decode": "^3.1.2",
+        "mime-db": "^1.52.0",
+        "papaparse": "^5.3.2",
+        "pretty-bytes": "^6.0.0",
+        "preval.macro": "^5.0.0",
+        "qrcode": "^1.5.1",
+        "quicktype-core": "^6.0.71",
+        "re-resizable": "^6.9.9",
+        "react": "^18.2.0",
+        "react-color": "^2.19.3",
+        "react-dom": "^18.2.0",
+        "react-dropzone": "^14.2.2",
+        "react-helmet": "^6.1.0",
+        "react-highlight-words": "^0.18.0",
+        "react-hook-form": "^7.35.0",
+        "react-html-parser": "^2.0.2",
+        "react-loading-overlay": "^1.0.1",
+        "react-redux": "^7.2.6",
+        "react-router-dom": "^6.3.0",
+        "react-scripts": "5.0.1",
+        "react-spinners": "^0.13.4",
+        "react-syntax-highlighter": "^15.5.0",
+        "redux": "^4.2.0",
+        "redux-actions": "^2.6.5",
+        "redux-logger": "^3.0.6",
+        "redux-observable": "^2.0.0",
+        "redux-saga": "^1.2.1",
+        "regex-parser": "^2.2.11",
+        "styled-components": "^5.3.5",
+        "tesseract.js": "^2.1.5",
+        "typescript": "^4.8.3",
+        "use-debounce": "^8.0.4",
+        "uuid": "^9.0.0",
+        "web-vitals": "^2.1.4"
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^13.4.0",
+        "@testing-library/user-event": "^13.5.0",
+        "@types/electron-devtools-installer": "^2.2.2",
+        "@types/file-saver": "^2.0.5",
+        "@types/jest": "^27.5.2",
+        "@types/js-beautify": "^1.13.3",
+        "@types/mime-db": "^1.43.1",
+        "@types/node": "^16.11.58",
+        "@types/papaparse": "^5.3.5",
+        "@types/preval.macro": "^3.0.0",
+        "@types/qrcode": "^1.5.0",
+        "@types/react": "^18.0.19",
+        "@types/react-color": "^3.0.6",
+        "@types/react-dom": "^18.0.6",
+        "@types/react-highlight-words": "^0.16.4",
+        "@types/react-html-parser": "^2.0.2",
+        "@types/react-redux": "^7.1.24",
+        "@types/react-router-dom": "^5.3.3",
+        "@types/react-syntax-highlighter": "^15.5.5",
+        "@types/redux-actions": "^2.6.2",
+        "@types/redux-logger": "^3.0.9",
+        "@types/styled-components": "^5.1.26",
+        "@types/uuid": "^8.3.4",
+        "@welldone-software/why-did-you-render": "^7.0.1",
+        "concurrently": "^7.4.0",
+        "electron": "^20.1.3",
+        "electron-builder": "^23.3.3",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "patch-package": "^6.4.7",
+        "postinstall-postinstall": "^2.1.0",
+        "prettier": "^2.7.1",
+        "redux-devtools-extension": "^2.13.9",
+        "standard-version": "^9.5.0",
+        "wait-on": "^6.0.1"
+    },
+    "resolutions": {
+        "@types/react": "18.0.19",
+        "@types/react-dom": "18.0.6"
     }
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "dependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.18.6",
-    "@date-io/date-fns": "^1.0.0",
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
-    "@material-ui/lab": "^4.0.0-alpha.61",
-    "@material-ui/pickers": "^3.3.10",
-    "axios": "^0.27.2",
-    "connected-react-router": "^6.9.3",
-    "copy-to-clipboard": "^3.3.2",
-    "electron-devtools-installer": "^3.2.0",
-    "electron-is-dev": "^2.0.0",
-    "electron-reload": "^1.5.0",
-    "file-saver": "^2.0.5",
-    "js-beautify": "^1.14.6",
-    "jwt-decode": "^3.1.2",
-    "mime-db": "^1.52.0",
-    "papaparse": "^5.3.2",
-    "pretty-bytes": "^6.0.0",
-    "preval.macro": "^5.0.0",
-    "qrcode": "^1.5.1",
-    "quicktype-core": "^6.0.71",
-    "re-resizable": "^6.9.9",
-    "react": "^17.0.2",
-    "react-color": "^2.19.3",
-    "react-dom": "^17.0.2",
-    "react-dropzone": "^14.2.2",
-    "react-helmet": "^6.1.0",
-    "react-highlight-words": "^0.18.0",
-    "react-hook-form": "^7.35.0",
-    "react-html-parser": "^2.0.2",
-    "react-loading-overlay": "^1.0.1",
-    "react-redux": "^7.2.6",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "4.0.3",
-    "react-spinners": "^0.13.4",
-    "react-syntax-highlighter": "^15.5.0",
-    "redux": "^4.2.0",
-    "redux-actions": "^2.6.5",
-    "redux-logger": "^3.0.6",
-    "redux-observable": "^2.0.0",
-    "redux-saga": "^1.2.1",
-    "regex-parser": "^2.2.11",
-    "styled-components": "^5.3.5",
-    "tesseract.js": "^2.1.5",
-    "typescript": "4.8.3",
-    "use-debounce": "^8.0.4",
-    "uuid": "^9.0.0"
-  },
-  "devDependencies": {
-    "@types/electron-devtools-installer": "^2.2.2",
-    "@types/file-saver": "^2.0.5",
-    "@types/jest": "^29.0.1",
-    "@types/js-beautify": "^1.13.3",
-    "@types/mime-db": "^1.43.1",
-    "@types/node": "^18.7.16",
-    "@types/papaparse": "^5.3.5",
-    "@types/preval.macro": "^3.0.0",
-    "@types/qrcode": "^1.5.0",
-    "@types/react": "17.0.38",
-    "@types/react-color": "^3.0.6",
-    "@types/react-dom": "17.0.11",
-    "@types/react-helmet": "^6.1.5",
-    "@types/react-highlight-words": "^0.16.4",
-    "@types/react-html-parser": "^2.0.2",
-    "@types/react-redux": "^7.1.24",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/react-syntax-highlighter": "^15.5.5",
-    "@types/redux-actions": "^2.6.2",
-    "@types/redux-logger": "^3.0.9",
-    "@types/styled-components": "^5.1.26",
-    "@types/uuid": "^8.3.4",
-    "@welldone-software/why-did-you-render": "^7.0.1",
-    "concurrently": "^7.4.0",
-    "electron": "^20.1.3",
-    "electron-builder": "^23.3.3",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.7.1",
-    "redux-devtools-extension": "^2.13.9",
-    "standard-version": "^9.5.0",
-    "wait-on": "^6.0.1"
-  }
 }

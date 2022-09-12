@@ -86,6 +86,12 @@ const AppDetail: React.FC<Props> = (props: Props) => {
                             <Link href="https://therealjerrylow.com/">Jerry Low</Link>
                         </StyledTableCell>
                     </StyledTableRow>
+                    <StyledTableRow key="reactVersiion">
+                        <StyledTableCell component="th" scope="row">
+                            React Version
+                        </StyledTableCell>
+                        <StyledTableCell align="right">{React.version}</StyledTableCell>
+                    </StyledTableRow>
                 </TableBody>
             </Table>
         </TableContainer>

@@ -1,15 +1,12 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "sourceMap": true,
-    "noImplicitAny": false,
     "downlevelIteration": true,
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "removeComments": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
