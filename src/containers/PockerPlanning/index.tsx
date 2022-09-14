@@ -1,4 +1,4 @@
-import { Box, FormControl, Grid } from '@material-ui/core';
+import { Box, FormControl, Grid, Typography, useTheme } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
@@ -32,6 +32,9 @@ const useStyles = makeStyles(theme => ({
     },
     submitEstimate: {
         marginTop: theme.spacing(1),
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
     },
 }));
 
@@ -43,6 +46,7 @@ interface Props {
 
 const PockerPlanning: React.FC<Props> = (props: Props) => {
     const title = 'Porker planning';
+    const theme = useTheme();
     const classes = useStyles();
     const { lastPockerPlanningTeamName, storePockerPlanningTeamName } = props;
 
@@ -85,8 +89,26 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                     </Grid>
                 </form>
 
+                <UnderConstruction featureDescription="[Submit story point estimates]" />
+
                 <div className={classes.submitEstimate}>
-                    <UnderConstruction featureDescription="[Submit story point estimates]" />
+                    {services.POKER_PLANNING_RATINGS_ENHANCED.map(value => (
+                        <Button
+                            key={value}
+                            style={{
+                                maxWidth: '70px',
+                                maxHeight: '70px',
+                                minWidth: '70px',
+                                minHeight: '70px',
+                                margin: theme.spacing(1),
+                            }}
+                            variant="contained"
+                            title="Create the team and start planning"
+                            color="primary"
+                            onClick={handleTeamNameChange}>
+                            <Typography variant="h5">{value}</Typography>
+                        </Button>
+                    ))}
                 </div>
             </div>
         </>
