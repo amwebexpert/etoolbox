@@ -1,9 +1,20 @@
-import { Box, FormControl, Grid } from '@material-ui/core';
+import {
+    Box,
+    FormControl,
+    Grid,
+    isWidthUp,
+    Paper,
+    Table,
+    TableBody,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+    withWidth,
+} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import CreateTeam from '@material-ui/icons/CreateNewFolder';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
 import React from 'react';
@@ -12,35 +23,10 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setTextAction } from '../../actions/text-actions';
 import FeatureTitle from '../../components/FeatureTitle';
-import { UnderConstruction } from '../../components/UnderConstruction/UnderConstruction';
 import { AppState } from '../../reducers';
 import { PokerCard } from './PokerCard';
 import * as services from './services';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        margin: theme.spacing(1),
-    },
-    toolbar: {
-        margin: 0,
-        padding: 0,
-        '& > *': {
-            marginLeft: theme.spacing(1),
-        },
-    },
-    formControl: {
-        marginRight: theme.spacing(1),
-    },
-    submitEstimate: {
-        marginTop: theme.spacing(1),
-        display: 'flex',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-    },
-    teamEstimates: {
-        marginTop: theme.spacing(1),
-    },
-}));
+import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
 interface Props {
     width: Breakpoint;
@@ -96,8 +82,6 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                     </Grid>
                 </form>
 
-                <UnderConstruction featureDescription="[Submit story point estimates]" />
-
                 <div className={classes.submitEstimate}>
                     {services.POKER_PLANNING_RATINGS_ENHANCED.map(value => (
                         <PokerCard key={value} value={value} onClick={onPokerCardClick} />
@@ -105,9 +89,32 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                 </div>
 
                 <div className={classes.teamEstimates}>
-                    {services.SIMULATED_DATA.map(({ username }) => (
-                        <div key={username}>{username}</div>
-                    ))}
+                    <TableContainer component={Paper}>
+                        <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
+                            <TableHead className={classes.tableHeader}>
+                                <TableRow>
+                                    <StyledTableCell component="th" scope="row">
+                                        Team member
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row" align="center">
+                                        Story point(s) estimate
+                                    </StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {services.SIMULATED_DATA.map(({ username, estimate }) => (
+                                    <StyledTableRow key={username}>
+                                        <StyledTableCell>
+                                            <Typography>{username}</Typography>
+                                        </StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            <Typography>{estimate ?? 'N/A'}</Typography>
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </div>
             </div>
         </>
