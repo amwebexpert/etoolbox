@@ -1,18 +1,18 @@
-import { Box, FormControl, Grid, Typography } from '@material-ui/core';
+import { Box, FormControl, Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import PockerPlanningIcon from '@material-ui/icons/Filter3';
-import UnderConstruction from '@material-ui/icons/ReportProblem';
 import CreateTeam from '@material-ui/icons/CreateNewFolder';
+import PockerPlanningIcon from '@material-ui/icons/Filter3';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setTextAction } from '../../actions/text-actions';
 import FeatureTitle from '../../components/FeatureTitle';
+import { UnderConstruction } from '../../components/UnderConstruction/UnderConstruction';
 import { AppState } from '../../reducers';
 import * as services from './services';
 
@@ -74,10 +74,11 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                             </FormControl>
                             <Button
                                 variant="contained"
+                                endIcon={<CreateTeam />}
                                 title="Create the team and start planning"
                                 color="primary"
                                 onClick={handleTeamNameChange}>
-                                <CreateTeam />
+                                Create
                             </Button>
                         </Box>
                         <div></div>
@@ -85,11 +86,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                 </form>
 
                 <div className={classes.submitEstimate}>
-                    <Box display="flex" alignItems="center" justifyContent="center">
-                        <UnderConstruction />
-                        <Typography> Under construction: submitEstimate... </Typography>
-                        <UnderConstruction />
-                    </Box>
+                    <UnderConstruction featureDescription="[Submit story point estimates]" />
                 </div>
             </div>
         </>
