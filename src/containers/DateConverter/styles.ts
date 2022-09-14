@@ -28,6 +28,9 @@ export const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexWrap: 'wrap',
     },
+    formControl: {
+        marginRight: theme.spacing(1),
+    },
     value: {
         fontFamily: 'monospace',
         marginTop: theme.spacing(1),

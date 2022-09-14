@@ -36,6 +36,7 @@ DEFAULT_MAP.set('lastEpochValue', '1630238149875');
 DEFAULT_MAP.set('lastCSVInputContent', '');
 DEFAULT_MAP.set('lastCSVInputContentEncoding', 'utf-8');
 DEFAULT_MAP.set('lastCSVInputOptions', '');
+DEFAULT_MAP.set('lastPockerPlanningTeamName', '');
 
 const initalState: TextInputsState = loadFromLocalStorage();
 

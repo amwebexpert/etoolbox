@@ -14,6 +14,7 @@ import EventIcon from '@material-ui/icons/Event';
 import CSVParserIcon from '@material-ui/icons/GridOn';
 import HomeIcon from '@material-ui/icons/Home';
 import LinkIcon from '@material-ui/icons/Link';
+import PockerPlanningIcon from '@material-ui/icons/Looks3';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PaletteIcon from '@material-ui/icons/Palette';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
@@ -58,6 +59,7 @@ const App: React.FC<Props> = (props: Props) => {
     const JSONConverter = lazy(() => import('./containers/JSONConverter'));
     const DateConverter = lazy(() => import('./containers/DateConverter'));
     const CSVParser = lazy(() => import('./containers/CSVParser'));
+    const PockerPlanning = lazy(() => import('./containers/PockerPlanning'));
 
     const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
     const URLParser = lazy(() => import('./containers/URLParser'));
@@ -229,6 +231,13 @@ const App: React.FC<Props> = (props: Props) => {
                             detail="CSV utilities"
                             onClick={menuClick}
                         />
+                        <NavbarButtonLink
+                            icon={<PockerPlanningIcon />}
+                            to="/PockerPlanning"
+                            title="Pocker planning"
+                            detail="Agile pocker planning online tools"
+                            onClick={menuClick}
+                        />
                     </List>
                 </Drawer>
                 <ToasterProvider>
@@ -258,6 +267,7 @@ const App: React.FC<Props> = (props: Props) => {
                                 <Route path="/GithubUserProjects" element={<GithubUserProjects />} />
                                 <Route path="/DateConverter" element={<DateConverter />} />
                                 <Route path="/CSVParser" element={<CSVParser />} />
+                                <Route path="/PockerPlanning" element={<PockerPlanning />} />
 
                                 {/** Default route is the home */}
                                 <Route element={<Home />} />

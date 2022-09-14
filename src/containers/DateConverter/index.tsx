@@ -1,5 +1,5 @@
 import DateFnsUtils from '@date-io/date-fns';
-import { Box, Button } from '@material-ui/core';
+import { Box, Button, FormControl } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
@@ -51,19 +51,21 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Grid container justifyContent="space-between">
                             <Box display="flex" alignItems="center">
-                                <TextField
-                                    autoFocus={isWidthUp('md', props.width)}
-                                    label="Epoch value"
-                                    placeholder="Epoch value"
-                                    type="number"
-                                    variant="outlined"
-                                    margin="normal"
-                                    value={inputText}
-                                    onChange={e => storeInputText('lastEpochValue', e.target.value)}
-                                />
+                                <FormControl className={classes.formControl}>
+                                    <TextField
+                                        autoFocus={isWidthUp('md', props.width)}
+                                        label="Epoch value"
+                                        placeholder="Epoch value"
+                                        type="number"
+                                        variant="outlined"
+                                        margin="normal"
+                                        value={inputText}
+                                        onChange={e => storeInputText('lastEpochValue', e.target.value)}
+                                    />
+                                </FormControl>
                                 <Button
                                     variant="contained"
-                                    title="Update value with 'Now' value"
+                                    title="Update value with 'Now' timestamp"
                                     color="primary"
                                     onClick={() => handleDateChange(new Date())}>
                                     <TimerIcon />
