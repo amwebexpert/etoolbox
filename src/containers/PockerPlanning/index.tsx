@@ -1,4 +1,4 @@
-import { Box, FormControl, Grid, Typography, useTheme } from '@material-ui/core';
+import { Box, FormControl, Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
@@ -14,6 +14,7 @@ import { setTextAction } from '../../actions/text-actions';
 import FeatureTitle from '../../components/FeatureTitle';
 import { UnderConstruction } from '../../components/UnderConstruction/UnderConstruction';
 import { AppState } from '../../reducers';
+import { PokerCard } from './PokerCard';
 import * as services from './services';
 
 const useStyles = makeStyles(theme => ({
@@ -36,6 +37,9 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         flexWrap: 'wrap',
     },
+    teamEstimates: {
+        marginTop: theme.spacing(1),
+    },
 }));
 
 interface Props {
@@ -46,13 +50,16 @@ interface Props {
 
 const PockerPlanning: React.FC<Props> = (props: Props) => {
     const title = 'Porker planning';
-    const theme = useTheme();
     const classes = useStyles();
     const { lastPockerPlanningTeamName, storePockerPlanningTeamName } = props;
 
     const handleTeamNameChange = () => {
         console.log(lastPockerPlanningTeamName);
         services.doSomething();
+    };
+
+    const onPokerCardClick = (value: string) => {
+        console.log('onPokerCardClick', value);
     };
 
     return (
@@ -93,21 +100,13 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
 
                 <div className={classes.submitEstimate}>
                     {services.POKER_PLANNING_RATINGS_ENHANCED.map(value => (
-                        <Button
-                            key={value}
-                            style={{
-                                maxWidth: '70px',
-                                maxHeight: '70px',
-                                minWidth: '70px',
-                                minHeight: '70px',
-                                margin: theme.spacing(1),
-                            }}
-                            variant="contained"
-                            title="Create the team and start planning"
-                            color="primary"
-                            onClick={handleTeamNameChange}>
-                            <Typography variant="h5">{value}</Typography>
-                        </Button>
+                        <PokerCard key={value} value={value} onClick={onPokerCardClick} />
+                    ))}
+                </div>
+
+                <div className={classes.teamEstimates}>
+                    {services.SIMULATED_DATA.map(({ username }) => (
+                        <div key={username}>{username}</div>
                     ))}
                 </div>
             </div>
