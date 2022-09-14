@@ -10,14 +10,17 @@ import {
     TableHead,
     TableRow,
     Typography,
+    useTheme,
     withWidth,
+    FormControlLabel,
+    Switch,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
 import CreateTeam from '@material-ui/icons/CreateNewFolder';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -27,6 +30,10 @@ import { AppState } from '../../reducers';
 import { PokerCard } from './PokerCard';
 import * as services from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
+import ShareLink from '@material-ui/icons/Share';
+import Delete from '@material-ui/icons/Delete';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 interface Props {
     width: Breakpoint;
@@ -36,7 +43,9 @@ interface Props {
 
 const PockerPlanning: React.FC<Props> = (props: Props) => {
     const title = 'Porker planning';
+    const theme = useTheme();
     const classes = useStyles();
+    const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
     const { lastPockerPlanningTeamName, storePockerPlanningTeamName } = props;
 
     const handleTeamNameChange = () => {
@@ -47,6 +56,14 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     const onPokerCardClick = (value: string) => {
         console.log('onPokerCardClick', value);
     };
+
+    const estimates = services.SIMULATED_DATA;
+    const values = estimates
+        .map(e => e.estimate)
+        .filter(e => e !== null && e !== undefined && e !== '?')
+        .map(e => Number(e));
+    const estimatesSum = values.reduce((acc, val) => acc + Number(val), 0);
+    const estimatesAverage = values.length > 0 ? estimatesSum / values.length : 0;
 
     return (
         <>
@@ -75,10 +92,18 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                 title="Create the team and start planning"
                                 color="primary"
                                 onClick={handleTeamNameChange}>
-                                Create
+                                Create & Join
                             </Button>
                         </Box>
-                        <div></div>
+                        <Box display="flex" alignItems="center">
+                            <Button variant="contained" color="primary" onClick={() => console.log('click ShareLink')}>
+                                <ShareLink />
+                            </Button>
+                            <Box m={theme.spacing(0.125)} />
+                            <Button variant="contained" color="primary" onClick={() => console.log('click Delete')}>
+                                <Delete />
+                            </Button>
+                        </Box>
                     </Grid>
                 </form>
 
@@ -97,21 +122,51 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                         Team member
                                     </StyledTableCell>
                                     <StyledTableCell component="th" scope="row" align="center">
-                                        Story point(s) estimate
+                                        Story points
                                     </StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {services.SIMULATED_DATA.map(({ username, estimate }) => (
+                                <StyledTableRow key="estimatesVisibility">
+                                    <StyledTableCell>
+                                        <FormControlLabel
+                                            control={
+                                                <Switch
+                                                    checked={isEstimatesVisible}
+                                                    onChange={() => setIsEstimatesVisible(v => !v)}
+                                                />
+                                            }
+                                            label="visibility"
+                                        />
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center" onClick={() => setIsEstimatesVisible(v => !v)}>
+                                        {isEstimatesVisible ? <Visibility /> : <VisibilityOff />}
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                                {estimates.map(({ username, estimate }) => (
                                     <StyledTableRow key={username}>
-                                        <StyledTableCell>
-                                            <Typography>{username}</Typography>
-                                        </StyledTableCell>
+                                        <StyledTableCell>{username}</StyledTableCell>
                                         <StyledTableCell align="center">
-                                            <Typography>{estimate ?? 'N/A'}</Typography>
+                                            {isEstimatesVisible ? (
+                                                estimate ?? '-'
+                                            ) : estimate ? (
+                                                <VisibilityOff />
+                                            ) : (
+                                                '...'
+                                            )}
                                         </StyledTableCell>
                                     </StyledTableRow>
                                 ))}
+                                <StyledTableRow key="average">
+                                    <StyledTableCell>
+                                        <Typography variant="h6">Average</Typography>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Typography variant="h6">
+                                            {isEstimatesVisible ? estimatesAverage : '...'}
+                                        </Typography>
+                                    </StyledTableCell>
+                                </StyledTableRow>
                             </TableBody>
                         </Table>
                     </TableContainer>
