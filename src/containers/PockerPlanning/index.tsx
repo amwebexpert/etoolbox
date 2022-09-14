@@ -1,11 +1,12 @@
-import { Box, FormControl, Grid, useTheme } from '@material-ui/core';
+import { Box, FormControl, Grid, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
-import EventIcon from '@material-ui/icons/Event';
+import UnderConstruction from '@material-ui/icons/ReportProblem';
+import CreateTeam from '@material-ui/icons/CreateNewFolder';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -75,18 +76,20 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                 variant="contained"
                                 title="Create the team and start planning"
                                 color="primary"
-                                onClick={() => handleTeamNameChange()}>
-                                <EventIcon />
+                                onClick={handleTeamNameChange}>
+                                <CreateTeam />
                             </Button>
                         </Box>
-                        <div>-</div>
+                        <div></div>
                     </Grid>
                 </form>
 
                 <div className={classes.submitEstimate}>
-                    <div>
-                        <p>submitEstimate...</p>
-                    </div>
+                    <Box display="flex" alignItems="center" justifyContent="center">
+                        <UnderConstruction />
+                        <Typography> Under construction: submitEstimate... </Typography>
+                        <UnderConstruction />
+                    </Box>
                 </div>
             </div>
         </>
