@@ -38,7 +38,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 interface Props {
     width: Breakpoint;
     lastPockerPlanningTeamName?: string;
-    storePockerPlanningTeamName: (value: string) => void;
+    lastPockerPlanningUsername?: string;
+    storeInputText: (name: string, value: string) => void;
 }
 
 const PockerPlanning: React.FC<Props> = (props: Props) => {
@@ -46,7 +47,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     const theme = useTheme();
     const classes = useStyles();
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
-    const { lastPockerPlanningTeamName, storePockerPlanningTeamName } = props;
+    const { lastPockerPlanningTeamName, lastPockerPlanningUsername, storeInputText } = props;
 
     const handleTeamNameChange = () => {
         console.log(lastPockerPlanningTeamName);
@@ -76,14 +77,22 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                         <Box display="flex" alignItems="center">
                             <FormControl className={classes.formControl}>
                                 <TextField
-                                    autoFocus={isWidthUp('md', props.width)}
                                     label="Team name"
                                     placeholder="Type the team name here"
                                     variant="outlined"
-                                    fullWidth={true}
                                     margin="normal"
                                     value={lastPockerPlanningTeamName}
-                                    onChange={e => storePockerPlanningTeamName(e.target.value)}
+                                    onChange={e => storeInputText('lastPockerPlanningTeamName', e.target.value)}
+                                />
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <TextField
+                                    label="Your name"
+                                    placeholder="Type your name here"
+                                    variant="outlined"
+                                    margin="normal"
+                                    value={lastPockerPlanningUsername}
+                                    onChange={e => storeInputText('lastPockerPlanningUsername', e.target.value)}
                                 />
                             </FormControl>
                             <Button
@@ -179,12 +188,13 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
 export function mapStateToProps(state: AppState) {
     return {
         lastPockerPlanningTeamName: state.textInputs['lastPockerPlanningTeamName'],
+        lastPockerPlanningUsername: state.textInputs['lastPockerPlanningUsername'],
     };
 }
 
 export function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        storePockerPlanningTeamName: (value: string) => dispatch(setTextAction('lastPockerPlanningTeamName', value)),
+        storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
     };
 }
 

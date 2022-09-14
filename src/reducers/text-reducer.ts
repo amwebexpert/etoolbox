@@ -37,6 +37,7 @@ DEFAULT_MAP.set('lastCSVInputContent', '');
 DEFAULT_MAP.set('lastCSVInputContentEncoding', 'utf-8');
 DEFAULT_MAP.set('lastCSVInputOptions', '');
 DEFAULT_MAP.set('lastPockerPlanningTeamName', '');
+DEFAULT_MAP.set('lastPockerPlanningUsername', '');
 
 const initalState: TextInputsState = loadFromLocalStorage();
 
