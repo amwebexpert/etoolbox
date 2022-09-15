@@ -20,7 +20,7 @@ import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
 import CreateTeam from '@material-ui/icons/CreateNewFolder';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -47,14 +47,35 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     const title = 'Porker planning';
     const theme = useTheme();
     const classes = useStyles();
+    const socketRef = useRef<WebSocket>();
     const [myEstimate, setMyEstimate] = useState<string>('');
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
-    const [estimates, setEstimates] = useState<UserEstimate[]>(SIMULATED_DATA);
+    const [estimates, setEstimates] = useState<UserEstimate[]>([]);
     const { lastPockerPlanningTeamName, lastPockerPlanningUsername, storeInputText } = props;
+
+    useEffect(() => {
+        const socket = new WebSocket('ws://localhost/ws');
+        socket.onopen = () => {
+            console.log('connection opening event');
+        };
+        socket.onmessage = (ev: MessageEvent<string>) => {
+            const newEstimate: UserEstimate = JSON.parse(ev.data);
+            setEstimates(estimates => [...estimates.filter(e => e.username !== newEstimate.username), newEstimate]);
+        };
+        socket.onclose = ev => {
+            console.log('connection close event', ev.code);
+        };
+        socketRef.current = socket;
+    }, [socketRef]);
 
     const handleStart = () => {
         console.log(lastPockerPlanningTeamName);
-        services.doSomething();
+        const userEstimate: UserEstimate = {
+            username: lastPockerPlanningUsername ?? '',
+            estimate: myEstimate,
+            estimatedAt: new Date(),
+        };
+        socketRef.current?.send(JSON.stringify(userEstimate));
     };
 
     const handleClearEstimates = () => {
