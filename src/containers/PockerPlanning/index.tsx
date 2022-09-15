@@ -1,9 +1,11 @@
 import {
     Box,
     FormControl,
+    FormControlLabel,
     Grid,
     isWidthUp,
     Paper,
+    Switch,
     Table,
     TableBody,
     TableContainer,
@@ -12,34 +14,34 @@ import {
     Typography,
     useTheme,
     withWidth,
-    FormControlLabel,
-    Switch,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
 import CreateTeam from '@material-ui/icons/CreateNewFolder';
+import Delete from '@material-ui/icons/Delete';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
+import ShareLink from '@material-ui/icons/Share';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Dispatch } from 'redux';
+import { v4 } from 'uuid';
 import { setTextAction } from '../../actions/text-actions';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
+import { POKER_PLANNING_RATINGS_ENHANCED, SOCKET_STATES, UserEstimate } from './model';
 import { PokerCard } from './PokerCard';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
-import ShareLink from '@material-ui/icons/Share';
-import Delete from '@material-ui/icons/Delete';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { UserEstimate, POKER_PLANNING_RATINGS_ENHANCED } from './model';
-import { useParams } from 'react-router-dom';
 
 interface Props {
     width: Breakpoint;
     lastPockerPlanningRoomName?: string;
     lastPockerPlanningUsername?: string;
+    lastPockerPlanningRoomUUID?: string;
     storeInputText: (name: string, value: string) => void;
 }
 
@@ -49,41 +51,44 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const socketRef = useRef<WebSocket>();
     const [myEstimate, setMyEstimate] = useState<string>('');
+    const [socketState, setSocketState] = useState<string>('');
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
     const [estimates, setEstimates] = useState<UserEstimate[]>([]);
-    const { lastPockerPlanningRoomName, lastPockerPlanningUsername, storeInputText } = props;
+    const { lastPockerPlanningRoomUUID, lastPockerPlanningRoomName, lastPockerPlanningUsername, storeInputText } =
+        props;
     const { roomUUID, roomName } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (roomName && roomUUID) {
+            // remember room UUID and name provided by route
             storeInputText('lastPockerPlanningRoomName', roomName);
             storeInputText('lastPockerPlanningRoomUUID', roomUUID);
         }
     }, [roomUUID, roomName, storeInputText]);
 
     useEffect(() => {
+        // socket creation on component unmount
         const socket = new WebSocket('ws://localhost/ws');
-        socket.onopen = () => {
-            console.log('connection opening event');
-        };
+        socket.onopen = () => setSocketState(SOCKET_STATES.get(socket.readyState) ?? '');
+        socket.onerror = () => setSocketState(SOCKET_STATES.get(socket.readyState) ?? '');
+        socket.onclose = () => setSocketState(SOCKET_STATES.get(socket.readyState) ?? '');
         socket.onmessage = (ev: MessageEvent<string>) => {
             const newEstimate: UserEstimate = JSON.parse(ev.data);
             setEstimates(estimates => [...estimates.filter(e => e.username !== newEstimate.username), newEstimate]);
         };
-        socket.onclose = ev => {
-            console.log('connection close event', ev.code);
-        };
+
         socketRef.current = socket;
     }, [socketRef]);
 
-    const handleStart = () => {
-        console.log(lastPockerPlanningRoomName);
-        const userEstimate: UserEstimate = {
-            username: lastPockerPlanningUsername ?? '',
-            estimate: myEstimate,
-            estimatedAt: new Date(),
-        };
-        socketRef.current?.send(JSON.stringify(userEstimate));
+    useEffect(() => {
+        // socket cleanup whenever component unmount
+        return () => socketRef.current?.close();
+    }, []);
+
+    const handleOpenNewRoom = () => {
+        const newRoomUUID = v4();
+        navigate(`/PockerPlanning/${newRoomUUID}/${lastPockerPlanningRoomName}`, { replace: true });
     };
 
     const handleClearEstimates = () => {
@@ -92,6 +97,22 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
         setEstimates(newEstimates);
         setIsEstimatesVisible(false);
         setMyEstimate('');
+    };
+
+    const updateMyEstimate = (value: string) => {
+        setMyEstimate(value);
+
+        // TODO prevent button press if username is not provided
+        // TODO usage of [new WebSocket + socket.onopen callback] to send the message if the readyState is not OPEN
+        // socketRef.current?.onopen
+        socketRef.current?.send(
+            JSON.stringify({
+                roomUUID: lastPockerPlanningRoomUUID ?? '',
+                username: lastPockerPlanningUsername ?? '',
+                estimate: value,
+                estimatedAt: new Date(),
+            }),
+        );
     };
 
     const values = estimates
@@ -135,8 +156,8 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                 endIcon={<CreateTeam />}
                                 title="Create the team and start planning"
                                 color="primary"
-                                onClick={handleStart}>
-                                Create & Join
+                                onClick={handleOpenNewRoom}>
+                                Join [{socketState}]
                             </Button>
                         </Box>
                         <Box display="flex" alignItems="center">
@@ -158,7 +179,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                 key={value}
                                 isSelected={myEstimate === value}
                                 value={value}
-                                onClick={() => setMyEstimate(value)}
+                                onClick={() => updateMyEstimate(value)}
                             />
                         </React.Fragment>
                     ))}
@@ -237,6 +258,7 @@ export function mapStateToProps(state: AppState) {
     return {
         lastPockerPlanningRoomName: state.textInputs['lastPockerPlanningRoomName'],
         lastPockerPlanningUsername: state.textInputs['lastPockerPlanningUsername'],
+        lastPockerPlanningRoomUUID: state.textInputs['lastPockerPlanningRoomUUID'],
     };
 }
 
