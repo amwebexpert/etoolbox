@@ -48,6 +48,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const [myEstimate, setMyEstimate] = useState<string>('');
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
+    const [estimates, setEstimates] = useState<services.UserEstimate[]>(services.SIMULATED_DATA);
     const { lastPockerPlanningTeamName, lastPockerPlanningUsername, storeInputText } = props;
 
     const handleTeamNameChange = () => {
@@ -55,7 +56,14 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
         services.doSomething();
     };
 
-    const estimates = services.SIMULATED_DATA;
+    const handleClearEstimates = () => {
+        const newEstimates = [...estimates];
+        newEstimates.forEach(e => (e.estimate = undefined));
+        setEstimates(newEstimates);
+        setIsEstimatesVisible(false);
+        setMyEstimate('');
+    };
+
     const values = estimates
         .map(e => e.estimate)
         .filter(e => e !== null && e !== undefined && e !== '?')
@@ -106,7 +114,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                 <ShareLink />
                             </Button>
                             <Box m={theme.spacing(0.125)} />
-                            <Button variant="contained" color="primary" onClick={() => console.log('click Delete')}>
+                            <Button variant="contained" color="primary" onClick={handleClearEstimates}>
                                 <Delete />
                             </Button>
                         </Box>
