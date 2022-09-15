@@ -4,13 +4,14 @@ import React from 'react';
 type PokerCardType = {
     key: string;
     value: string;
+    isSelected: boolean;
     onClick: (value: string) => void;
 };
 
 const SIZE = 70;
 const SIZE_PX = `${SIZE}px`;
 
-export const PokerCard: React.FC<PokerCardType> = ({ key, value, onClick }) => {
+export const PokerCard: React.FC<PokerCardType> = ({ key, value, isSelected, onClick }) => {
     const theme = useTheme();
 
     return (
@@ -23,7 +24,7 @@ export const PokerCard: React.FC<PokerCardType> = ({ key, value, onClick }) => {
                 minHeight: SIZE_PX,
                 margin: theme.spacing(1),
             }}
-            variant="contained"
+            variant={isSelected ? 'contained' : 'outlined'}
             title={`Estimate the current story point as: $[{value}]`}
             color="primary"
             onClick={() => onClick(value)}>

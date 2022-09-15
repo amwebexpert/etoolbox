@@ -46,16 +46,13 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     const title = 'Porker planning';
     const theme = useTheme();
     const classes = useStyles();
+    const [myEstimate, setMyEstimate] = useState<string>('');
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
     const { lastPockerPlanningTeamName, lastPockerPlanningUsername, storeInputText } = props;
 
     const handleTeamNameChange = () => {
         console.log(lastPockerPlanningTeamName);
         services.doSomething();
-    };
-
-    const onPokerCardClick = (value: string) => {
-        console.log('onPokerCardClick', value);
     };
 
     const estimates = services.SIMULATED_DATA;
@@ -118,7 +115,12 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
 
                 <div className={classes.submitEstimate}>
                     {services.POKER_PLANNING_RATINGS_ENHANCED.map(value => (
-                        <PokerCard key={value} value={value} onClick={onPokerCardClick} />
+                        <PokerCard
+                            key={value}
+                            isSelected={myEstimate === value}
+                            value={value}
+                            onClick={() => setMyEstimate(value)}
+                        />
                     ))}
                 </div>
 
@@ -129,6 +131,9 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                 <TableRow>
                                     <StyledTableCell component="th" scope="row">
                                         Team member
+                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row" align="center">
+                                        Voted
                                     </StyledTableCell>
                                     <StyledTableCell component="th" scope="row" align="center">
                                         Story points
@@ -145,9 +150,10 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                                     onChange={() => setIsEstimatesVisible(v => !v)}
                                                 />
                                             }
-                                            label="visibility"
+                                            label="story points visibility"
                                         />
                                     </StyledTableCell>
+                                    <StyledTableCell></StyledTableCell>
                                     <StyledTableCell align="center" onClick={() => setIsEstimatesVisible(v => !v)}>
                                         {isEstimatesVisible ? <Visibility /> : <VisibilityOff />}
                                     </StyledTableCell>
@@ -155,6 +161,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                 {estimates.map(({ username, estimate }) => (
                                     <StyledTableRow key={username}>
                                         <StyledTableCell>{username}</StyledTableCell>
+                                        <StyledTableCell align="center">{estimate ? '✔' : ''}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             {isEstimatesVisible ? (
                                                 estimate ?? '-'
@@ -170,6 +177,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                     <StyledTableCell>
                                         <Typography variant="h6">Average</Typography>
                                     </StyledTableCell>
+                                    <StyledTableCell></StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Typography variant="h6">
                                             {isEstimatesVisible ? estimatesAverage : '...'}

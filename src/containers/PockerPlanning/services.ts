@@ -44,6 +44,9 @@ export const SIMULATED_DATA: UserEstimate[] = [
         estimatedAt: new Date('2022-09-12T11:30:22.000Z'),
     },
     {
+        username: 'modern_grammy',
+    },
+    {
         username: 'not_sure',
         estimate: '?',
         estimatedAt: new Date('2022-09-12T11:27:33.000Z'),
