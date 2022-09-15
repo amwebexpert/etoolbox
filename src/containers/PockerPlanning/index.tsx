@@ -52,7 +52,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     const [estimates, setEstimates] = useState<UserEstimate[]>(SIMULATED_DATA);
     const { lastPockerPlanningTeamName, lastPockerPlanningUsername, storeInputText } = props;
 
-    const handleTeamNameChange = () => {
+    const handleStart = () => {
         console.log(lastPockerPlanningTeamName);
         services.doSomething();
     };
@@ -106,7 +106,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                 endIcon={<CreateTeam />}
                                 title="Create the team and start planning"
                                 color="primary"
-                                onClick={handleTeamNameChange}>
+                                onClick={handleStart}>
                                 Create & Join
                             </Button>
                         </Box>
