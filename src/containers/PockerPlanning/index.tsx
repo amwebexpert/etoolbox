@@ -34,6 +34,7 @@ import ShareLink from '@material-ui/icons/Share';
 import Delete from '@material-ui/icons/Delete';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { UserEstimate, SIMULATED_DATA, POKER_PLANNING_RATINGS_ENHANCED } from './model';
 
 interface Props {
     width: Breakpoint;
@@ -48,7 +49,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const [myEstimate, setMyEstimate] = useState<string>('');
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
-    const [estimates, setEstimates] = useState<services.UserEstimate[]>(services.SIMULATED_DATA);
+    const [estimates, setEstimates] = useState<UserEstimate[]>(SIMULATED_DATA);
     const { lastPockerPlanningTeamName, lastPockerPlanningUsername, storeInputText } = props;
 
     const handleTeamNameChange = () => {
@@ -122,7 +123,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                 </form>
 
                 <div className={classes.submitEstimate}>
-                    {services.POKER_PLANNING_RATINGS_ENHANCED.map(value => (
+                    {POKER_PLANNING_RATINGS_ENHANCED.map(value => (
                         <PokerCard
                             key={value}
                             isSelected={myEstimate === value}
