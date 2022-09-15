@@ -267,7 +267,9 @@ const App: React.FC<Props> = (props: Props) => {
                                 <Route path="/GithubUserProjects" element={<GithubUserProjects />} />
                                 <Route path="/DateConverter" element={<DateConverter />} />
                                 <Route path="/CSVParser" element={<CSVParser />} />
+
                                 <Route path="/PockerPlanning" element={<PockerPlanning />} />
+                                <Route path="/PockerPlanning/:roomUUID/:roomName" element={<PockerPlanning />} />
 
                                 {/** Default route is the home */}
                                 <Route element={<Home />} />

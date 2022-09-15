@@ -28,17 +28,17 @@ import { setTextAction } from '../../actions/text-actions';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { PokerCard } from './PokerCard';
-import * as services from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 import ShareLink from '@material-ui/icons/Share';
 import Delete from '@material-ui/icons/Delete';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { UserEstimate, SIMULATED_DATA, POKER_PLANNING_RATINGS_ENHANCED } from './model';
+import { UserEstimate, POKER_PLANNING_RATINGS_ENHANCED } from './model';
+import { useParams } from 'react-router-dom';
 
 interface Props {
     width: Breakpoint;
-    lastPockerPlanningTeamName?: string;
+    lastPockerPlanningRoomName?: string;
     lastPockerPlanningUsername?: string;
     storeInputText: (name: string, value: string) => void;
 }
@@ -51,7 +51,15 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     const [myEstimate, setMyEstimate] = useState<string>('');
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
     const [estimates, setEstimates] = useState<UserEstimate[]>([]);
-    const { lastPockerPlanningTeamName, lastPockerPlanningUsername, storeInputText } = props;
+    const { lastPockerPlanningRoomName, lastPockerPlanningUsername, storeInputText } = props;
+    const { roomUUID, roomName } = useParams();
+
+    useEffect(() => {
+        if (roomName && roomUUID) {
+            storeInputText('lastPockerPlanningRoomName', roomName);
+            storeInputText('lastPockerPlanningRoomUUID', roomUUID);
+        }
+    }, [roomUUID, roomName, storeInputText]);
 
     useEffect(() => {
         const socket = new WebSocket('ws://localhost/ws');
@@ -69,7 +77,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     }, [socketRef]);
 
     const handleStart = () => {
-        console.log(lastPockerPlanningTeamName);
+        console.log(lastPockerPlanningRoomName);
         const userEstimate: UserEstimate = {
             username: lastPockerPlanningUsername ?? '',
             estimate: myEstimate,
@@ -108,8 +116,8 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
                                     placeholder="Type the team name here"
                                     variant="outlined"
                                     margin="normal"
-                                    value={lastPockerPlanningTeamName}
-                                    onChange={e => storeInputText('lastPockerPlanningTeamName', e.target.value)}
+                                    value={lastPockerPlanningRoomName}
+                                    onChange={e => storeInputText('lastPockerPlanningRoomName', e.target.value)}
                                 />
                             </FormControl>
                             <FormControl className={classes.formControl}>
@@ -145,12 +153,14 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
 
                 <div className={classes.submitEstimate}>
                     {POKER_PLANNING_RATINGS_ENHANCED.map(value => (
-                        <PokerCard
-                            key={value}
-                            isSelected={myEstimate === value}
-                            value={value}
-                            onClick={() => setMyEstimate(value)}
-                        />
+                        <React.Fragment key={value}>
+                            <PokerCard
+                                key={value}
+                                isSelected={myEstimate === value}
+                                value={value}
+                                onClick={() => setMyEstimate(value)}
+                            />
+                        </React.Fragment>
                     ))}
                 </div>
 
@@ -225,7 +235,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        lastPockerPlanningTeamName: state.textInputs['lastPockerPlanningTeamName'],
+        lastPockerPlanningRoomName: state.textInputs['lastPockerPlanningRoomName'],
         lastPockerPlanningUsername: state.textInputs['lastPockerPlanningUsername'],
     };
 }

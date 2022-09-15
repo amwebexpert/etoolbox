@@ -2,7 +2,6 @@ import { Button, Typography, useTheme } from '@material-ui/core';
 import React from 'react';
 
 type PokerCardType = {
-    key: string;
     value: string;
     isSelected: boolean;
     onClick: (value: string) => void;
@@ -11,12 +10,11 @@ type PokerCardType = {
 const SIZE = 70;
 const SIZE_PX = `${SIZE}px`;
 
-export const PokerCard: React.FC<PokerCardType> = ({ key, value, isSelected, onClick }) => {
+export const PokerCard: React.FC<PokerCardType> = ({ value, isSelected, onClick }) => {
     const theme = useTheme();
 
     return (
         <Button
-            key={key}
             style={{
                 maxWidth: SIZE_PX,
                 maxHeight: SIZE_PX,
