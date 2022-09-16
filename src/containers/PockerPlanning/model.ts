@@ -25,9 +25,22 @@ export type UserEstimate = {
     estimatedAt?: Date;
 };
 
+export type MessageType = 'reset' | 'vote';
+
+export type UserMessage = {
+    type: MessageType;
+    payload?: unknown;
+};
+
 export const SOCKET_STATES: Map<number, string> = new Map([
     [WebSocket.CLOSED, 'close'],
     [WebSocket.OPEN, 'open'],
     [WebSocket.CLOSING, 'closing'],
     [WebSocket.CONNECTING, 'connecting'],
 ]);
+
+export type EstimatesStats = {
+    values: number[];
+    estimatesSum: number;
+    estimatesAverage: number;
+};

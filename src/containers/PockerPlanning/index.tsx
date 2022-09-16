@@ -33,8 +33,9 @@ import { v4 } from 'uuid';
 import { setTextAction } from '../../actions/text-actions';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
-import { POKER_PLANNING_RATINGS_ENHANCED, SOCKET_STATES, UserEstimate } from './model';
+import { POKER_PLANNING_RATINGS_ENHANCED, SOCKET_STATES, UserEstimate, UserMessage } from './model';
 import { PokerCard } from './PokerCard';
+import { parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
 interface Props {
@@ -58,7 +59,9 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
         props;
     const { roomUUID, roomName } = useParams();
     const navigate = useNavigate();
+    const { estimatesAverage } = parseEstimates(estimates);
 
+    // whenever route params are updated
     useEffect(() => {
         if (roomName && roomUUID) {
             // remember room UUID and name provided by route
@@ -68,18 +71,21 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     }, [roomUUID, roomName, storeInputText]);
 
     useEffect(() => {
+        if (!lastPockerPlanningRoomUUID) {
+            return;
+        }
+
         // socket creation on component unmount
-        const socket = new WebSocket('ws://localhost/ws');
-        socket.onopen = () => setSocketState(SOCKET_STATES.get(socket.readyState) ?? '');
-        socket.onerror = () => setSocketState(SOCKET_STATES.get(socket.readyState) ?? '');
-        socket.onclose = () => setSocketState(SOCKET_STATES.get(socket.readyState) ?? '');
-        socket.onmessage = (ev: MessageEvent<string>) => {
-            const newEstimate: UserEstimate = JSON.parse(ev.data);
-            setEstimates(estimates => [...estimates.filter(e => e.username !== newEstimate.username), newEstimate]);
-        };
+        const socket = new WebSocket(`ws://localhost/ws?roomUUID=${lastPockerPlanningRoomUUID}`);
+        socket.onopen = () => updateSocketState(socket.readyState);
+        socket.onerror = () => updateSocketState(socket.readyState);
+        socket.onclose = () => updateSocketState(socket.readyState);
+        socket.onmessage = (ev: MessageEvent<string>) => setEstimates(JSON.parse(ev.data) as UserEstimate[]);
 
         socketRef.current = socket;
-    }, [socketRef]);
+    }, [socketRef, lastPockerPlanningRoomUUID]);
+
+    const updateSocketState = (state: number): void => setSocketState(SOCKET_STATES.get(state) ?? '');
 
     useEffect(() => {
         // socket cleanup whenever component unmount
@@ -92,9 +98,7 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
     };
 
     const handleClearEstimates = () => {
-        const newEstimates = [...estimates];
-        newEstimates.forEach(e => (e.estimate = undefined));
-        setEstimates(newEstimates);
+        socketRef.current?.send(JSON.stringify({ type: 'reset' }));
         setIsEstimatesVisible(false);
         setMyEstimate('');
     };
@@ -105,22 +109,17 @@ const PockerPlanning: React.FC<Props> = (props: Props) => {
         // TODO prevent button press if username is not provided
         // TODO usage of [new WebSocket + socket.onopen callback] to send the message if the readyState is not OPEN
         // socketRef.current?.onopen
-        socketRef.current?.send(
-            JSON.stringify({
+        const message: UserMessage = {
+            type: 'vote',
+            payload: {
                 roomUUID: lastPockerPlanningRoomUUID ?? '',
                 username: lastPockerPlanningUsername ?? '',
                 estimate: value,
                 estimatedAt: new Date(),
-            }),
-        );
+            },
+        };
+        socketRef.current?.send(JSON.stringify(message));
     };
-
-    const values = estimates
-        .map(e => e.estimate)
-        .filter(e => e !== null && e !== undefined && e !== '?')
-        .map(e => Number(e));
-    const estimatesSum = values.reduce((acc, val) => acc + Number(val), 0);
-    const estimatesAverage = values.length > 0 ? estimatesSum / values.length : 0;
 
     return (
         <>
