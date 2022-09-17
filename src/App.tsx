@@ -39,6 +39,8 @@ interface Props {
     width: Breakpoint;
 }
 
+const isPokerPlanningVisible = false;
+
 const App: React.FC<Props> = (props: Props) => {
     const desc = 'Web Toolbox app. A collection of utilities for developers.';
     const classes = useStyles();
@@ -231,13 +233,15 @@ const App: React.FC<Props> = (props: Props) => {
                             detail="CSV utilities"
                             onClick={menuClick}
                         />
-                        <NavbarButtonLink
-                            icon={<PokerPlanningIcon />}
-                            to="/PokerPlanning"
-                            title="Pocker planning"
-                            detail="Agile pocker planning online tools"
-                            onClick={menuClick}
-                        />
+                        {isPokerPlanningVisible && (
+                            <NavbarButtonLink
+                                icon={<PokerPlanningIcon />}
+                                to="/PokerPlanning"
+                                title="Pocker planning"
+                                detail="Agile pocker planning online tools"
+                                onClick={menuClick}
+                            />
+                        )}
                     </List>
                 </Drawer>
                 <ToasterProvider>
