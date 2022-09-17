@@ -201,7 +201,12 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     onClick={handleOpenNewRoom}>
                                     Join [{socketState}]
                                 </Button>
-                                <CopyButton data={window.location.href} Icon={ShareLink} />
+                                <CopyButton
+                                    data={window.location.href}
+                                    Icon={ShareLink}
+                                    hoverMessage="Copy link to clipboard for sharing"
+                                    feedbackMessage="Link copied to clipboard, you can now share to all members"
+                                />
                             </Grid>
                         </Grid>
                     </Grid>

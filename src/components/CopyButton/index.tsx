@@ -7,10 +7,12 @@ import { useToasterUpdate } from '../Toaster/ToasterProvider';
 
 interface Props {
     data?: string;
+    hoverMessage?: string;
+    feedbackMessage?: string;
     Icon?: OverridableComponent<SvgIconTypeMap<unknown, 'svg'>>;
 }
 
-const CopyButton: React.FC<Props> = ({ data, Icon = AssignmentTurnedIn }: Props) => {
+const CopyButton: React.FC<Props> = ({ data, hoverMessage, feedbackMessage, Icon = AssignmentTurnedIn }: Props) => {
     const { setToasterState } = useToasterUpdate();
 
     const handleCopy = () => {
@@ -18,15 +20,19 @@ const CopyButton: React.FC<Props> = ({ data, Icon = AssignmentTurnedIn }: Props)
             return;
         }
 
-        const feedback = data.substring(0, 25);
-        const message = `Content copied into clipboard: ${feedback} …`;
+        const message = feedbackMessage ?? `Content copied into clipboard: ${data.substring(0, 25)} …`;
 
         copy.default(data, { format: 'text/plain' });
         setToasterState({ open: true, message, type: 'success', autoHideDuration: 2000 });
     };
 
     return (
-        <Button onClick={handleCopy} disabled={!data} title="Copy to clipboard" variant="contained" color="primary">
+        <Button
+            onClick={handleCopy}
+            disabled={!data}
+            title={hoverMessage ?? 'Copy to clipboard'}
+            variant="contained"
+            color="primary">
             <Icon />
         </Button>
     );
