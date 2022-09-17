@@ -25,6 +25,11 @@ export type UserEstimate = {
     estimatedAt?: Date;
 };
 
+export type PokerPlanningSession = {
+    lastUpdate: Date;
+    estimates: UserEstimate[];
+};
+
 export type MessageType = 'reset' | 'vote';
 
 export type UserMessage = {

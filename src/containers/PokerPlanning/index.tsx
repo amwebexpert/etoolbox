@@ -33,7 +33,13 @@ import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
-import { POKER_PLANNING_RATINGS_ENHANCED, SOCKET_STATES, UserEstimate, UserMessage } from './model';
+import {
+    PokerPlanningSession,
+    POKER_PLANNING_RATINGS_ENHANCED,
+    SOCKET_STATES,
+    UserEstimate,
+    UserMessage,
+} from './model';
 import { PokerCard } from './PokerCard';
 import { parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
@@ -104,7 +110,10 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         socket.onopen = () => updateSocketState(socket.readyState);
         socket.onerror = () => updateSocketState(socket.readyState);
         socket.onclose = () => updateSocketState(socket.readyState);
-        socket.onmessage = (ev: MessageEvent<string>) => setEstimates(JSON.parse(ev.data));
+        socket.onmessage = (ev: MessageEvent<string>) => {
+            const session = JSON.parse(ev.data) as PokerPlanningSession;
+            setEstimates(session.estimates);
+        };
 
         socketRef.current = socket;
     }, [socketRef, isReadyToStartSession, lastPockerPlanningHostName, lastPockerPlanningRoomUUID]);
