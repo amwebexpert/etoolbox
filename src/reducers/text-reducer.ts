@@ -39,6 +39,7 @@ DEFAULT_MAP.set('lastCSVInputOptions', '');
 DEFAULT_MAP.set('lastPockerPlanningRoomName', '');
 DEFAULT_MAP.set('lastPockerPlanningRoomUUID', '');
 DEFAULT_MAP.set('lastPockerPlanningUsername', '');
+DEFAULT_MAP.set('lastPockerPlanningHostName', '');
 
 const initalState: TextInputsState = loadFromLocalStorage();
 

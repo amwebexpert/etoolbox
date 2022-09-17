@@ -33,6 +33,7 @@ import { v4 } from 'uuid';
 import { setTextAction } from '../../actions/text-actions';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
+import { isNotBlank } from '../../services/string-utils';
 import { POKER_PLANNING_RATINGS_ENHANCED, SOCKET_STATES, UserEstimate, UserMessage } from './model';
 import { PokerCard } from './PokerCard';
 import { parseEstimates } from './services';
@@ -43,6 +44,7 @@ interface Props {
     lastPockerPlanningRoomName?: string;
     lastPockerPlanningUsername?: string;
     lastPockerPlanningRoomUUID?: string;
+    lastPockerPlanningHostName?: string;
     storeInputText: (name: string, value: string) => void;
 }
 
@@ -50,40 +52,59 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     const title = 'Porker planning';
     const theme = useTheme();
     const classes = useStyles();
+    const navigate = useNavigate();
+
+    // component inputs
+    const { hostName, roomUUID, roomName } = useParams();
+    const {
+        lastPockerPlanningRoomUUID,
+        lastPockerPlanningRoomName,
+        lastPockerPlanningUsername,
+        lastPockerPlanningHostName,
+        storeInputText,
+    } = props;
+
+    // component state
     const socketRef = useRef<WebSocket>();
     const [myEstimate, setMyEstimate] = useState<string>('');
     const [socketState, setSocketState] = useState<string>('');
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
     const [estimates, setEstimates] = useState<UserEstimate[]>([]);
-    const { lastPockerPlanningRoomUUID, lastPockerPlanningRoomName, lastPockerPlanningUsername, storeInputText } =
-        props;
-    const { roomUUID, roomName } = useParams();
-    const navigate = useNavigate();
-    const { estimatesAverage } = parseEstimates(estimates);
 
-    // whenever route params are updated
+    // computing
+    const { estimatesAverage } = parseEstimates(estimates);
+    const isReadyToStartSession = isNotBlank(lastPockerPlanningHostName) && isNotBlank(lastPockerPlanningRoomUUID);
+    const isReadyToVote =
+        isNotBlank(lastPockerPlanningHostName) &&
+        isNotBlank(lastPockerPlanningRoomUUID) &&
+        isNotBlank(lastPockerPlanningRoomName) &&
+        isNotBlank(lastPockerPlanningUsername);
+
+    // whenever route params are updated we update the store
     useEffect(() => {
-        if (roomName && roomUUID) {
-            // remember room UUID and name provided by route
+        if (roomName && roomUUID && hostName) {
+            // remember info provided by route
             storeInputText('lastPockerPlanningRoomName', roomName);
             storeInputText('lastPockerPlanningRoomUUID', roomUUID);
+            storeInputText('lastPockerPlanningHostName', hostName);
         }
-    }, [roomUUID, roomName, storeInputText]);
+    }, [roomUUID, roomName, hostName, storeInputText]);
 
     useEffect(() => {
-        if (!lastPockerPlanningRoomUUID) {
+        if (!isReadyToStartSession) {
             return;
         }
 
         // socket creation on component unmount
-        const socket = new WebSocket(`ws://localhost/ws?roomUUID=${lastPockerPlanningRoomUUID}`);
+        const url = `ws://${lastPockerPlanningHostName}/ws?roomUUID=${lastPockerPlanningRoomUUID}`;
+        const socket = new WebSocket(url);
         socket.onopen = () => updateSocketState(socket.readyState);
         socket.onerror = () => updateSocketState(socket.readyState);
         socket.onclose = () => updateSocketState(socket.readyState);
-        socket.onmessage = (ev: MessageEvent<string>) => setEstimates(JSON.parse(ev.data) as UserEstimate[]);
+        socket.onmessage = (ev: MessageEvent<string>) => setEstimates(JSON.parse(ev.data));
 
         socketRef.current = socket;
-    }, [socketRef, lastPockerPlanningRoomUUID]);
+    }, [socketRef, isReadyToStartSession, lastPockerPlanningHostName, lastPockerPlanningRoomUUID]);
 
     const updateSocketState = (state: number): void => setSocketState(SOCKET_STATES.get(state) ?? '');
 
@@ -94,7 +115,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
     const handleOpenNewRoom = () => {
         const newRoomUUID = v4();
-        navigate(`/PockerPlanning/${newRoomUUID}/${lastPockerPlanningRoomName}`, { replace: true });
+        navigate(`/PokerPlanning/${lastPockerPlanningHostName}/${newRoomUUID}/${lastPockerPlanningRoomName}`, {
+            replace: true,
+        });
     };
 
     const handleClearEstimates = () => {
@@ -132,6 +155,16 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                         <Box display="flex" alignItems="center">
                             <FormControl className={classes.formControl}>
                                 <TextField
+                                    label="Server (hostname)"
+                                    placeholder="Type the poker plannind hostname here"
+                                    variant="outlined"
+                                    margin="normal"
+                                    value={lastPockerPlanningHostName}
+                                    onChange={e => storeInputText('lastPockerPlanningHostName', e.target.value)}
+                                />
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <TextField
                                     label="Team name"
                                     placeholder="Type the team name here"
                                     variant="outlined"
@@ -153,7 +186,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                             <Button
                                 variant="contained"
                                 endIcon={<CreateTeam />}
-                                title="Create the team and start planning"
+                                title="Register the team and start planning"
                                 color="primary"
                                 onClick={handleOpenNewRoom}>
                                 Join [{socketState}]
@@ -176,6 +209,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                         <React.Fragment key={value}>
                             <PokerCard
                                 key={value}
+                                isDisabled={!isReadyToVote}
                                 isSelected={myEstimate === value}
                                 value={value}
                                 onClick={() => updateMyEstimate(value)}
@@ -255,9 +289,10 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
+        lastPockerPlanningHostName: state.textInputs['lastPockerPlanningHostName'],
+        lastPockerPlanningRoomUUID: state.textInputs['lastPockerPlanningRoomUUID'],
         lastPockerPlanningRoomName: state.textInputs['lastPockerPlanningRoomName'],
         lastPockerPlanningUsername: state.textInputs['lastPockerPlanningUsername'],
-        lastPockerPlanningRoomUUID: state.textInputs['lastPockerPlanningRoomUUID'],
     };
 }
 

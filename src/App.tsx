@@ -269,7 +269,10 @@ const App: React.FC<Props> = (props: Props) => {
                                 <Route path="/CSVParser" element={<CSVParser />} />
 
                                 <Route path="/PokerPlanning" element={<PokerPlanning />} />
-                                <Route path="/PokerPlanning/:roomUUID/:roomName" element={<PokerPlanning />} />
+                                <Route
+                                    path="/PokerPlanning/:hostName/:roomUUID/:roomName"
+                                    element={<PokerPlanning />}
+                                />
 
                                 {/** Default route is the home */}
                                 <Route element={<Home />} />

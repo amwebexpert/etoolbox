@@ -3,6 +3,7 @@ import React from 'react';
 
 type PokerCardType = {
     value: string;
+    isDisabled: boolean;
     isSelected: boolean;
     onClick: (value: string) => void;
 };
@@ -10,7 +11,7 @@ type PokerCardType = {
 const SIZE = 70;
 const SIZE_PX = `${SIZE}px`;
 
-export const PokerCard: React.FC<PokerCardType> = ({ value, isSelected, onClick }) => {
+export const PokerCard: React.FC<PokerCardType> = ({ value, isDisabled, isSelected, onClick }) => {
     const theme = useTheme();
 
     return (
@@ -23,6 +24,7 @@ export const PokerCard: React.FC<PokerCardType> = ({ value, isSelected, onClick 
                 margin: theme.spacing(1),
             }}
             variant={isSelected ? 'contained' : 'outlined'}
+            disabled={isDisabled}
             title={`Estimate the current story point as: $[{value}]`}
             color="primary"
             onClick={() => onClick(value)}>
