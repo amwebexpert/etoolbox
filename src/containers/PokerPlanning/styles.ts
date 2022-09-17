@@ -21,6 +21,7 @@ export const useStyles = makeStyles(theme => ({
         margin: theme.spacing(1),
     },
     toolbar: {
+        height: '100%',
         margin: 0,
         padding: 0,
         '& > *': {

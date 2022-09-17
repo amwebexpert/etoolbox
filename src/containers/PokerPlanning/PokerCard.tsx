@@ -25,7 +25,7 @@ export const PokerCard: React.FC<PokerCardType> = ({ value, isDisabled, isSelect
             }}
             variant={isSelected ? 'contained' : 'outlined'}
             disabled={isDisabled}
-            title={`Estimate the current story point as: $[{value}]`}
+            title={`Estimate the current story point as: [${value}]`}
             color="primary"
             onClick={() => onClick(value)}>
             <Typography variant="h5">{value}</Typography>

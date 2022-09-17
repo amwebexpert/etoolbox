@@ -1,5 +1,4 @@
 import {
-    Box,
     FormControl,
     FormControlLabel,
     Grid,
@@ -12,13 +11,11 @@ import {
     TableHead,
     TableRow,
     Typography,
-    useTheme,
     withWidth,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
-import CreateTeam from '@material-ui/icons/CreateNewFolder';
 import Delete from '@material-ui/icons/Delete';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
 import ShareLink from '@material-ui/icons/Share';
@@ -50,7 +47,6 @@ interface Props {
 
 const PokerPlanning: React.FC<Props> = (props: Props) => {
     const title = 'Porker planning';
-    const theme = useTheme();
     const classes = useStyles();
     const navigate = useNavigate();
 
@@ -155,56 +151,63 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                 <FeatureTitle iconType={PockerPlanningIcon} title={title} />
 
                 <form noValidate autoComplete="off">
-                    <Grid container justifyContent="space-between">
-                        <Box display="flex" alignItems="center">
-                            <FormControl className={classes.formControl}>
+                    <Grid container spacing={1}>
+                        <Grid item md={3} sm={6} xs={12}>
+                            <FormControl className={classes.formControl} fullWidth={true}>
                                 <TextField
                                     label="Server (hostname)"
                                     placeholder="Type the poker plannind hostname here"
                                     variant="outlined"
+                                    fullWidth={true}
                                     margin="normal"
                                     value={lastPockerPlanningHostName}
                                     onChange={e => storeInputText('lastPockerPlanningHostName', e.target.value)}
                                 />
                             </FormControl>
-                            <FormControl className={classes.formControl}>
+                        </Grid>
+                        <Grid item md={3} sm={6} xs={12}>
+                            <FormControl className={classes.formControl} fullWidth={true}>
                                 <TextField
                                     label="Team name"
                                     placeholder="Type the team name here"
                                     variant="outlined"
+                                    fullWidth={true}
                                     margin="normal"
                                     value={lastPockerPlanningRoomName}
                                     onChange={e => storeInputText('lastPockerPlanningRoomName', e.target.value)}
                                 />
                             </FormControl>
-                            <FormControl className={classes.formControl}>
+                        </Grid>
+                        <Grid item md={3} sm={6} xs={12}>
+                            <FormControl className={classes.formControl} fullWidth={true}>
                                 <TextField
                                     label="Your name"
                                     placeholder="Type your name here"
                                     variant="outlined"
+                                    fullWidth={true}
                                     margin="normal"
                                     value={lastPockerPlanningUsername}
                                     onChange={e => storeInputText('lastPockerPlanningUsername', e.target.value)}
                                 />
                             </FormControl>
-                            <Button
-                                variant="contained"
-                                endIcon={<CreateTeam />}
-                                title="Register the team and start planning"
-                                color="primary"
-                                onClick={handleOpenNewRoom}>
-                                Join [{socketState}]
-                            </Button>
-                        </Box>
-                        <Box display="flex" alignItems="center">
-                            <Button variant="contained" color="primary" onClick={() => console.log('click ShareLink')}>
-                                <ShareLink />
-                            </Button>
-                            <Box m={theme.spacing(0.125)} />
-                            <Button variant="contained" color="primary" onClick={handleClearEstimates}>
-                                <Delete />
-                            </Button>
-                        </Box>
+                        </Grid>
+                        <Grid item md={3} sm={6} xs={12}>
+                            <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
+                                <Button
+                                    variant="contained"
+                                    title="Register the team and start planning"
+                                    color="primary"
+                                    onClick={handleOpenNewRoom}>
+                                    Join [{socketState}]
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => console.log('click ShareLink')}>
+                                    <ShareLink />
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </form>
 
@@ -234,7 +237,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         Voted
                                     </StyledTableCell>
                                     <StyledTableCell component="th" scope="row" align="center">
-                                        Story points
+                                        <Button variant="text" onClick={handleClearEstimates}>
+                                            Story points <Delete />
+                                        </Button>
                                     </StyledTableCell>
                                 </TableRow>
                             </TableHead>
