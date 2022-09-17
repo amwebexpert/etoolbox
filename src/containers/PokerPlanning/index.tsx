@@ -28,6 +28,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { v4 } from 'uuid';
 import { setTextAction } from '../../actions/text-actions';
+import ConfirmDialog from '../../components/ConfirmDialog';
 import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
@@ -65,6 +66,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     const socketRef = useRef<WebSocket>();
     const [myEstimate, setMyEstimate] = useState<string>('');
     const [socketState, setSocketState] = useState<string>('');
+    const [isConfirmClearVotesOpen, setIsConfirmClearVotesOpen] = useState<boolean>(false);
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
     const [estimates, setEstimates] = useState<UserEstimate[]>([]);
 
@@ -238,7 +240,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         Voted
                                     </StyledTableCell>
                                     <StyledTableCell component="th" scope="row" align="center">
-                                        <Button variant="text" onClick={handleClearEstimates}>
+                                        <Button variant="text" onClick={() => setIsConfirmClearVotesOpen(true)}>
                                             Story points <Delete />
                                         </Button>
                                     </StyledTableCell>
@@ -291,6 +293,14 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                     </TableContainer>
                 </div>
             </div>
+
+            <ConfirmDialog
+                title="Confirmation"
+                isOpen={isConfirmClearVotesOpen}
+                setIsOpen={setIsConfirmClearVotesOpen}
+                onConfirm={handleClearEstimates}>
+                Are you sure you want to delete all votes?
+            </ConfirmDialog>
         </>
     );
 };
