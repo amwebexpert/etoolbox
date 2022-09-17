@@ -46,7 +46,7 @@ interface Props {
     storeInputText: (name: string, value: string) => void;
 }
 
-const PockerPlanning: React.FC<Props> = (props: Props) => {
+const PokerPlanning: React.FC<Props> = (props: Props) => {
     const title = 'Porker planning';
     const theme = useTheme();
     const classes = useStyles();
@@ -267,4 +267,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(PockerPlanning));
+export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(PokerPlanning));
