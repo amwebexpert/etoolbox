@@ -6,7 +6,8 @@ export const parseEstimates = (estimates: UserEstimate[]): EstimatesStats => {
         .filter(e => e !== null && e !== undefined && e !== '?')
         .map(e => Number(e));
     const estimatesSum = values.reduce((acc, val) => acc + Number(val), 0);
-    const estimatesAverage = values.length > 0 ? estimatesSum / values.length : 0;
+    const average = values.length > 0 ? estimatesSum / values.length : 0;
+    const estimatesAverage = Math.round(average * 10 + Number.EPSILON) / 10;
 
     return {
         values,
