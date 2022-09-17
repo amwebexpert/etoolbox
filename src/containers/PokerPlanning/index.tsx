@@ -73,7 +73,11 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
     // computing
     const { estimatesAverage } = parseEstimates(estimates);
-    const isReadyToStartSession = isNotBlank(lastPockerPlanningHostName) && isNotBlank(lastPockerPlanningRoomUUID);
+    const isReadyToStartSession =
+        isNotBlank(lastPockerPlanningHostName) &&
+        isNotBlank(lastPockerPlanningRoomUUID) &&
+        isNotBlank(hostName) &&
+        isNotBlank(roomUUID);
     const isReadyToVote =
         isNotBlank(lastPockerPlanningHostName) &&
         isNotBlank(lastPockerPlanningRoomUUID) &&
@@ -252,21 +256,19 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         {isEstimatesVisible ? <Visibility /> : <VisibilityOff />}
                                     </StyledTableCell>
                                 </StyledTableRow>
-                                {estimates.map(({ username, estimate }) => (
-                                    <StyledTableRow key={username}>
-                                        <StyledTableCell>{username}</StyledTableCell>
-                                        <StyledTableCell align="center">{estimate ? '✔' : ''}</StyledTableCell>
-                                        <StyledTableCell align="center">
-                                            {isEstimatesVisible ? (
-                                                estimate ?? '-'
-                                            ) : estimate ? (
-                                                <VisibilityOff />
-                                            ) : (
-                                                '...'
-                                            )}
-                                        </StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
+                                {estimates.map(({ username, estimate }) => {
+                                    const estimateWhenDisplayON = estimate ?? '…';
+                                    const estimateWhenDisplayOFF = estimate ? <VisibilityOff /> : '…';
+                                    return (
+                                        <StyledTableRow key={username}>
+                                            <StyledTableCell>{username}</StyledTableCell>
+                                            <StyledTableCell align="center">{estimate ? '✔' : ''}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                {isEstimatesVisible ? estimateWhenDisplayON : estimateWhenDisplayOFF}
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    );
+                                })}
                                 <StyledTableRow key="average">
                                     <StyledTableCell>
                                         <Typography variant="h6">Average</Typography>
@@ -274,7 +276,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     <StyledTableCell></StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Typography variant="h6">
-                                            {isEstimatesVisible ? estimatesAverage : '...'}
+                                            {isEstimatesVisible ? estimatesAverage : '…'}
                                         </Typography>
                                     </StyledTableCell>
                                 </StyledTableRow>
