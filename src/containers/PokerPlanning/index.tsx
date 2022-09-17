@@ -28,6 +28,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { v4 } from 'uuid';
 import { setTextAction } from '../../actions/text-actions';
+import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
@@ -200,12 +201,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     onClick={handleOpenNewRoom}>
                                     Join [{socketState}]
                                 </Button>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={() => console.log('click ShareLink')}>
-                                    <ShareLink />
-                                </Button>
+                                <CopyButton data={window.location.href} Icon={ShareLink} />
                             </Grid>
                         </Grid>
                     </Grid>
