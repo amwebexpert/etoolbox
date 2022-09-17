@@ -105,7 +105,8 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         }
 
         // socket creation on component unmount
-        const url = `ws://${lastPockerPlanningHostName}/ws?roomUUID=${lastPockerPlanningRoomUUID}`;
+        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+        const url = `${protocol}://${lastPockerPlanningHostName}/ws?roomUUID=${lastPockerPlanningRoomUUID}`;
         const socket = new WebSocket(url);
         socket.onopen = () => updateSocketState(socket.readyState);
         socket.onerror = () => updateSocketState(socket.readyState);
