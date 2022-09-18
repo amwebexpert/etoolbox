@@ -3,6 +3,7 @@ import {
     FormControlLabel,
     Grid,
     isWidthUp,
+    IconButton,
     Paper,
     Switch,
     Table,
@@ -21,6 +22,7 @@ import PockerPlanningIcon from '@material-ui/icons/Filter3';
 import ShareLink from '@material-ui/icons/Share';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import RemoveUser from '@material-ui/icons/DeleteOutline';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -144,6 +146,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         setMyEstimate('');
     };
 
+    const handleRemoveUser = (username: string) =>
+        socketRef.current?.send(JSON.stringify({ type: 'remove', payload: username }));
+
     const updateMyEstimate = (value: string) => {
         setMyEstimate(value);
         const message: UserMessage = {
@@ -246,6 +251,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                         <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
+                                    <StyledTableCell component="th" scope="row" width={30}></StyledTableCell>
                                     <StyledTableCell component="th" scope="row">
                                         Team member
                                     </StyledTableCell>
@@ -261,6 +267,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                             </TableHead>
                             <TableBody>
                                 <StyledTableRow key="estimatesVisibility">
+                                    <StyledTableCell width={30}></StyledTableCell>
                                     <StyledTableCell>
                                         <FormControlLabel
                                             control={
@@ -284,6 +291,11 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         const estimateWhenDisplayOFF = estimate ? <VisibilityOff /> : '…';
                                         return (
                                             <StyledTableRow key={username}>
+                                                <StyledTableCell width={30}>
+                                                    <IconButton onClick={() => handleRemoveUser(username)}>
+                                                        <RemoveUser />
+                                                    </IconButton>
+                                                </StyledTableCell>
                                                 <StyledTableCell>{username}</StyledTableCell>
                                                 <StyledTableCell align="center">{estimate ? '✔' : ''}</StyledTableCell>
                                                 <StyledTableCell align="center">
@@ -295,6 +307,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         );
                                     })}
                                 <StyledTableRow key="average">
+                                    <StyledTableCell width={30}></StyledTableCell>
                                     <StyledTableCell>
                                         <Typography variant="h6">Average</Typography>
                                     </StyledTableCell>

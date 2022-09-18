@@ -29,7 +29,7 @@ export type PokerPlanningSession = {
     estimates: UserEstimate[];
 };
 
-export type MessageType = 'reset' | 'vote';
+export type MessageType = 'reset' | 'vote' | 'remove';
 
 export type UserMessage = {
     type: MessageType;
