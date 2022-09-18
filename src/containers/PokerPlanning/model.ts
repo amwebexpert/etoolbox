@@ -19,7 +19,6 @@ export const POKER_PLANNING_RATINGS_ENHANCED: string[] = [
 ];
 
 export type UserEstimate = {
-    roomUUID: string;
     username: string;
     estimate?: string;
     estimatedAt?: Date;

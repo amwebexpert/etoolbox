@@ -65,8 +65,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
     // component state
     const socketRef = useRef<ReconnectingWebSocket>();
-    const [myEstimate, setMyEstimate] = useState<string | undefined>(undefined);
+    const [myEstimate, setMyEstimate] = useState<string>();
     const [socketState, setSocketState] = useState<SocketState>('closed');
+    const [postponedMessage, setPostponedMessage] = useState<UserMessage>();
     const [isConfirmClearVotesOpen, setIsConfirmClearVotesOpen] = useState<boolean>(false);
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
     const [estimates, setEstimates] = useState<UserEstimate[]>([]);
@@ -118,6 +119,14 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         return () => socketRef.current?.close();
     }, []);
 
+    // send delayed message (if any)
+    useEffect(() => {
+        if (socketState === 'open' && postponedMessage) {
+            socketRef.current?.send(JSON.stringify(postponedMessage));
+            setPostponedMessage(undefined);
+        }
+    }, [postponedMessage, socketState]);
+
     const handleOpenNewRoom = () => {
         const newRoomUUID = v4();
         const url = `/PokerPlanning/${lastPockerPlanningHostName}/${newRoomUUID}/${lastPockerPlanningRoomName}`;
@@ -136,23 +145,21 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     };
 
     const updateMyEstimate = (value: string) => {
-        if (!socketRef.current) {
-            return;
-        }
-
+        setMyEstimate(value);
         const message: UserMessage = {
             type: 'vote',
             payload: {
-                roomUUID: lastPockerPlanningRoomUUID ?? '',
                 username: lastPockerPlanningUsername ?? '',
                 estimate: value,
                 estimatedAt: value ? new Date() : undefined,
             },
         };
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        socketRef.current!.send(JSON.stringify(message));
-        setMyEstimate(value);
+        if (socketRef.current?.readyState === WebSocket.OPEN) {
+            socketRef.current.send(JSON.stringify(message));
+        } else {
+            setPostponedMessage(message);
+        }
     };
 
     return (
@@ -270,19 +277,23 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         {isEstimatesVisible ? <Visibility /> : <VisibilityOff />}
                                     </StyledTableCell>
                                 </StyledTableRow>
-                                {estimates.map(({ username, estimate }) => {
-                                    const estimateWhenDisplayON = estimate ?? '…';
-                                    const estimateWhenDisplayOFF = estimate ? <VisibilityOff /> : '…';
-                                    return (
-                                        <StyledTableRow key={username}>
-                                            <StyledTableCell>{username}</StyledTableCell>
-                                            <StyledTableCell align="center">{estimate ? '✔' : ''}</StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                {isEstimatesVisible ? estimateWhenDisplayON : estimateWhenDisplayOFF}
-                                            </StyledTableCell>
-                                        </StyledTableRow>
-                                    );
-                                })}
+                                {estimates
+                                    .sort((a, b) => a.username.localeCompare(b.username))
+                                    .map(({ username, estimate }) => {
+                                        const estimateWhenDisplayON = estimate ?? '…';
+                                        const estimateWhenDisplayOFF = estimate ? <VisibilityOff /> : '…';
+                                        return (
+                                            <StyledTableRow key={username}>
+                                                <StyledTableCell>{username}</StyledTableCell>
+                                                <StyledTableCell align="center">{estimate ? '✔' : ''}</StyledTableCell>
+                                                <StyledTableCell align="center">
+                                                    {isEstimatesVisible
+                                                        ? estimateWhenDisplayON
+                                                        : estimateWhenDisplayOFF}
+                                                </StyledTableCell>
+                                            </StyledTableRow>
+                                        );
+                                    })}
                                 <StyledTableRow key="average">
                                     <StyledTableCell>
                                         <Typography variant="h6">Average</Typography>
