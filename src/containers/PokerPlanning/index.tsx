@@ -75,7 +75,10 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     const [estimates, setEstimates] = useState<UserEstimate[]>([]);
 
     // computing
-    const { estimatesAverage, isEstimatesCleared } = parseEstimates(estimates);
+    const { estimatesAverage, isEstimatesCleared, isUserMemberOfRoom } = parseEstimates(
+        estimates,
+        lastPockerPlanningUsername,
+    );
     const isReadyToStartSession =
         isNotBlank(lastPockerPlanningHostName) &&
         isNotBlank(lastPockerPlanningRoomUUID) &&
@@ -129,7 +132,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         }
     }, [postponedMessage, socketState]);
 
-    const handleOpenNewRoom = () => {
+    const handleCreateNewRoom = () => {
         const newRoomUUID = v4();
         const url = `/PokerPlanning/${lastPockerPlanningHostName}/${newRoomUUID}/${lastPockerPlanningRoomName}`;
         navigate(url, { replace: true });
@@ -146,6 +149,21 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
     const handleRemoveUser = (username: string) =>
         socketRef.current?.send(JSON.stringify({ type: 'remove', payload: username }));
+
+    const handleEnterRoom = () => {
+        if (!lastPockerPlanningUsername) {
+            return;
+        }
+
+        socketRef.current?.send(
+            JSON.stringify({
+                type: 'vote',
+                payload: {
+                    username: lastPockerPlanningUsername ?? '',
+                },
+            }),
+        );
+    };
 
     const updateMyEstimate = (value: string) => {
         setMyEstimate(value);
@@ -216,10 +234,18 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                             <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
                                 <Button
                                     variant="contained"
-                                    title="Register the team and start planning"
+                                    title="Register the team and start planning in a new room"
                                     color="primary"
-                                    onClick={handleOpenNewRoom}>
-                                    Join [{socketState}]
+                                    onClick={handleCreateNewRoom}>
+                                    New room
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    title="Enter existing room"
+                                    color="primary"
+                                    disabled={isUserMemberOfRoom || !isReadyToVote}
+                                    onClick={handleEnterRoom}>
+                                    Join
                                 </Button>
                                 <CopyButton
                                     data={window.location.href}
@@ -249,7 +275,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                         <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
-                                    <StyledTableCell component="th" scope="row" width={30}></StyledTableCell>
+                                    <StyledTableCell component="th" scope="row" align="center" width={30}>
+                                        channel {socketState}
+                                    </StyledTableCell>
                                     <StyledTableCell component="th" scope="row">
                                         Team member
                                     </StyledTableCell>
@@ -257,7 +285,10 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         Voted
                                     </StyledTableCell>
                                     <StyledTableCell component="th" scope="row" align="center">
-                                        <Button variant="text" onClick={() => setIsConfirmClearVotesOpen(true)}>
+                                        <Button
+                                            variant="text"
+                                            onClick={() => setIsConfirmClearVotesOpen(true)}
+                                            title="Clear all votes">
                                             Story points <RemoveEstimates />
                                         </Button>
                                     </StyledTableCell>
@@ -278,8 +309,12 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         />
                                     </StyledTableCell>
                                     <StyledTableCell></StyledTableCell>
-                                    <StyledTableCell align="center" onClick={() => setIsEstimatesVisible(v => !v)}>
-                                        {isEstimatesVisible ? <Visibility /> : <VisibilityOff />}
+                                    <StyledTableCell align="center">
+                                        <IconButton
+                                            title="Toggle story points visibility"
+                                            onClick={() => setIsEstimatesVisible(v => !v)}>
+                                            {isEstimatesVisible ? <Visibility /> : <VisibilityOff />}
+                                        </IconButton>
                                     </StyledTableCell>
                                 </StyledTableRow>
                                 {estimates
@@ -290,7 +325,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         return (
                                             <StyledTableRow key={username}>
                                                 <StyledTableCell width={30}>
-                                                    <IconButton onClick={() => handleRemoveUser(username)}>
+                                                    <IconButton
+                                                        onClick={() => handleRemoveUser(username)}
+                                                        title={`Remove user "${username}"`}>
                                                         <RemoveUser />
                                                     </IconButton>
                                                 </StyledTableCell>

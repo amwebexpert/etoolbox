@@ -50,4 +50,5 @@ export type EstimatesStats = {
     estimatesSum: number;
     estimatesAverage: number;
     isEstimatesCleared: boolean;
+    isUserMemberOfRoom: boolean;
 };
