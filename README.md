@@ -13,8 +13,7 @@ Collection of web developer utilities
 
 <br />
 
-<div align="center"><strong>Web Toolbox</strong></div>
-<div align="center">Collection of web developer utilities</div>
+<div align="center">Like the project? Don't forget to give it a ⭐️!</div>
 
 <br />
 
