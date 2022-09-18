@@ -37,8 +37,10 @@ export type UserMessage = {
     payload?: unknown;
 };
 
-export const SOCKET_STATES: Map<number, string> = new Map([
-    [WebSocket.CLOSED, 'close'],
+export type SocketState = 'open' | 'closed' | 'closing' | 'connecting';
+
+export const SOCKET_STATES: Map<number, SocketState> = new Map([
+    [WebSocket.CLOSED, 'closed'],
     [WebSocket.OPEN, 'open'],
     [WebSocket.CLOSING, 'closing'],
     [WebSocket.CONNECTING, 'connecting'],

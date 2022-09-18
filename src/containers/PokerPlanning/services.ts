@@ -1,4 +1,4 @@
-import { EstimatesStats, UserEstimate } from './model';
+import { EstimatesStats, SocketState, SOCKET_STATES, UserEstimate } from './model';
 
 export const parseEstimates = (estimates: UserEstimate[]): EstimatesStats => {
     const values = estimates
@@ -15,3 +15,5 @@ export const parseEstimates = (estimates: UserEstimate[]): EstimatesStats => {
         estimatesAverage,
     };
 };
+
+export const getSocketState = (state: number): SocketState => SOCKET_STATES.get(state) ?? 'closed';

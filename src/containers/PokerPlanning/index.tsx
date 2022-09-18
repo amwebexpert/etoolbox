@@ -25,6 +25,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Dispatch } from 'redux';
 import { v4 } from 'uuid';
 import { setTextAction } from '../../actions/text-actions';
@@ -33,15 +34,9 @@ import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
-import {
-    PokerPlanningSession,
-    POKER_PLANNING_RATINGS_ENHANCED,
-    SOCKET_STATES,
-    UserEstimate,
-    UserMessage,
-} from './model';
+import { PokerPlanningSession, POKER_PLANNING_RATINGS_ENHANCED, SocketState, UserEstimate, UserMessage } from './model';
 import { PokerCard } from './PokerCard';
-import { parseEstimates } from './services';
+import { getSocketState, parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
 interface Props {
@@ -69,9 +64,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     } = props;
 
     // component state
-    const socketRef = useRef<WebSocket>();
-    const [myEstimate, setMyEstimate] = useState<string>('');
-    const [socketState, setSocketState] = useState<string>('');
+    const socketRef = useRef<ReconnectingWebSocket>();
+    const [myEstimate, setMyEstimate] = useState<string | undefined>(undefined);
+    const [socketState, setSocketState] = useState<SocketState>('closed');
     const [isConfirmClearVotesOpen, setIsConfirmClearVotesOpen] = useState<boolean>(false);
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
     const [estimates, setEstimates] = useState<UserEstimate[]>([]);
@@ -89,10 +84,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         isNotBlank(lastPockerPlanningRoomName) &&
         isNotBlank(lastPockerPlanningUsername);
 
-    // whenever route params are updated we update the store
+    // keep the store in sync whenever route params are updated
     useEffect(() => {
         if (roomName && roomUUID && hostName) {
-            // remember info provided by route
             storeInputText('lastPockerPlanningRoomName', roomName);
             storeInputText('lastPockerPlanningRoomUUID', roomUUID);
             storeInputText('lastPockerPlanningHostName', hostName);
@@ -107,10 +101,10 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         // socket creation on component unmount
         const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
         const url = `${protocol}://${lastPockerPlanningHostName}/ws?roomUUID=${lastPockerPlanningRoomUUID}`;
-        const socket = new WebSocket(url);
-        socket.onopen = () => updateSocketState(socket.readyState);
-        socket.onerror = () => updateSocketState(socket.readyState);
-        socket.onclose = () => updateSocketState(socket.readyState);
+        const socket = new ReconnectingWebSocket(url);
+        socket.onopen = () => setSocketState(getSocketState(socket.readyState));
+        socket.onerror = () => setSocketState(getSocketState(socket.readyState));
+        socket.onclose = () => setSocketState(getSocketState(socket.readyState));
         socket.onmessage = (ev: MessageEvent<string>) => {
             const session = JSON.parse(ev.data) as PokerPlanningSession;
             setEstimates(session.estimates);
@@ -119,8 +113,6 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         socketRef.current = socket;
     }, [socketRef, isReadyToStartSession, lastPockerPlanningHostName, lastPockerPlanningRoomUUID]);
 
-    const updateSocketState = (state: number): void => setSocketState(SOCKET_STATES.get(state) ?? '');
-
     useEffect(() => {
         // socket cleanup whenever component unmount
         return () => socketRef.current?.close();
@@ -128,33 +120,39 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
     const handleOpenNewRoom = () => {
         const newRoomUUID = v4();
-        navigate(`/PokerPlanning/${lastPockerPlanningHostName}/${newRoomUUID}/${lastPockerPlanningRoomName}`, {
-            replace: true,
-        });
+        const url = `/PokerPlanning/${lastPockerPlanningHostName}/${newRoomUUID}/${lastPockerPlanningRoomName}`;
+        navigate(url, { replace: true });
     };
 
     const handleClearEstimates = () => {
-        socketRef.current?.send(JSON.stringify({ type: 'reset' }));
+        if (!socketRef.current) {
+            return;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        socketRef.current!.send(JSON.stringify({ type: 'reset' }));
         setIsEstimatesVisible(false);
         setMyEstimate('');
     };
 
     const updateMyEstimate = (value: string) => {
-        setMyEstimate(value);
+        if (!socketRef.current) {
+            return;
+        }
 
-        // TODO prevent button press if username is not provided
-        // TODO usage of [new WebSocket + socket.onopen callback] to send the message if the readyState is not OPEN
-        // socketRef.current?.onopen
         const message: UserMessage = {
             type: 'vote',
             payload: {
                 roomUUID: lastPockerPlanningRoomUUID ?? '',
                 username: lastPockerPlanningUsername ?? '',
                 estimate: value,
-                estimatedAt: new Date(),
+                estimatedAt: value ? new Date() : undefined,
             },
         };
-        socketRef.current?.send(JSON.stringify(message));
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        socketRef.current!.send(JSON.stringify(message));
+        setMyEstimate(value);
     };
 
     return (
@@ -226,15 +224,13 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
                 <div className={classes.submitEstimate}>
                     {POKER_PLANNING_RATINGS_ENHANCED.map(value => (
-                        <React.Fragment key={value}>
-                            <PokerCard
-                                key={value}
-                                isDisabled={!isReadyToVote}
-                                isSelected={myEstimate === value}
-                                value={value}
-                                onClick={() => updateMyEstimate(value)}
-                            />
-                        </React.Fragment>
+                        <PokerCard
+                            key={value}
+                            isDisabled={!isReadyToVote}
+                            isSelected={myEstimate === value}
+                            value={value}
+                            onClick={() => updateMyEstimate(value)}
+                        />
                     ))}
                 </div>
 
