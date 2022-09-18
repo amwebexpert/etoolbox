@@ -126,7 +126,7 @@ Your `Electron` app is ready to be distributed!
 
 #### `yarn run release`
 
-CHANGELOG generation powered by Conventional Commits. Detail here: https://www.npmjs.com/package/standard-version
+CHANGELOG generation powered by [Conventional Commits](https://www.npmjs.com/package/standard-version).
 
 ## Roadmap (of next features)
 
