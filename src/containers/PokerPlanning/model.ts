@@ -49,4 +49,5 @@ export type EstimatesStats = {
     values: number[];
     estimatesSum: number;
     estimatesAverage: number;
+    isEstimatesCleared: boolean;
 };

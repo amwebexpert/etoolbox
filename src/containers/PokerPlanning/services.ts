@@ -8,11 +8,13 @@ export const parseEstimates = (estimates: UserEstimate[]): EstimatesStats => {
     const estimatesSum = values.reduce((acc, val) => acc + Number(val), 0);
     const average = values.length > 0 ? estimatesSum / values.length : 0;
     const estimatesAverage = Math.round(average * 10 + Number.EPSILON) / 10;
+    const isEstimatesCleared = estimates.length > 0 && estimates.every(e => e.estimate === undefined);
 
     return {
         values,
         estimatesSum,
         estimatesAverage,
+        isEstimatesCleared,
     };
 };
 

@@ -17,7 +17,7 @@ import {
 import Button from '@material-ui/core/Button';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
-import Delete from '@material-ui/icons/Delete';
+import RemoveEstimates from '@material-ui/icons/DeleteOutline';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
 import ShareLink from '@material-ui/icons/Share';
 import Visibility from '@material-ui/icons/Visibility';
@@ -75,7 +75,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     const [estimates, setEstimates] = useState<UserEstimate[]>([]);
 
     // computing
-    const { estimatesAverage } = parseEstimates(estimates);
+    const { estimatesAverage, isEstimatesCleared } = parseEstimates(estimates);
     const isReadyToStartSession =
         isNotBlank(lastPockerPlanningHostName) &&
         isNotBlank(lastPockerPlanningRoomUUID) &&
@@ -135,16 +135,14 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         navigate(url, { replace: true });
     };
 
-    const handleClearEstimates = () => {
-        if (!socketRef.current) {
-            return;
-        }
+    const handleClearEstimates = () => socketRef.current?.send(JSON.stringify({ type: 'reset' }));
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        socketRef.current!.send(JSON.stringify({ type: 'reset' }));
-        setIsEstimatesVisible(false);
-        setMyEstimate('');
-    };
+    useEffect(() => {
+        if (isEstimatesCleared) {
+            setIsEstimatesVisible(false);
+            setMyEstimate(undefined);
+        }
+    }, [isEstimatesCleared]);
 
     const handleRemoveUser = (username: string) =>
         socketRef.current?.send(JSON.stringify({ type: 'remove', payload: username }));
@@ -260,7 +258,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     </StyledTableCell>
                                     <StyledTableCell component="th" scope="row" align="center">
                                         <Button variant="text" onClick={() => setIsConfirmClearVotesOpen(true)}>
-                                            Story points <Delete />
+                                            Story points <RemoveEstimates />
                                         </Button>
                                     </StyledTableCell>
                                 </TableRow>
