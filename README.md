@@ -1,25 +1,17 @@
 # Web Toolbox
 
-Collection of web developer utilities
+Open source collection of web developer utilities, also packaged as a desktop application
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/amwebexpert/etoolbox) ![GitHub Release Date](https://img.shields.io/github/release-date/amwebexpert/etoolbox) ![GitHub last commit](https://img.shields.io/github/last-commit/amwebexpert/etoolbox) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/react) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/typescript) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/@material-ui/core)
 
 
 <div align="center">
   <img src="public/icon-512x512.png" width="100" alt="Web Toolbox" />
-  <div>Code author: <a href="mailto:amwebexpert@gmail.com">amwebexpert@gmail.com</a></div>
   <div>Icon made by: <a href="https://therealjerrylow.com/">Jerry Low</a></div>
+  <div>Powered by <a href="https://reactjs.org/docs/create-a-new-react-app.html">Create React App</a>.</div>
+  <div>Like the project? Don't forget to give it a ⭐️!</div>
 </div>
 
-<br />
-
-<div align="center">Like the project? Don't forget to give it a ⭐️!</div>
-
-<br />
-
-<div align="center">
-  <sub>Powered by <a href="https://reactjs.org/docs/create-a-new-react-app.html">Create React App</a>.</sub>
-</div>
 
 ## Features
 
