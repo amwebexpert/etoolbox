@@ -37,9 +37,6 @@ export const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
         flexWrap: 'wrap',
     },
-    estimatesVisibility: {
-        alignItems: 'center',
-    },
     teamEstimates: {
         marginTop: theme.spacing(4),
     },
