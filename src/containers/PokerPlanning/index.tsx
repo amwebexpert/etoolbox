@@ -1,11 +1,9 @@
 import {
     FormControl,
-    FormControlLabel,
     Grid,
     isWidthUp,
     IconButton,
     Paper,
-    Switch,
     Table,
     TableBody,
     TableContainer,
@@ -37,7 +35,7 @@ import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
 import { PokerPlanningSession, POKER_PLANNING_RATINGS_ENHANCED, SocketState, UserEstimate, UserMessage } from './model';
-import { PokerCard } from './PokerCard';
+import PokerCard from './PokerCard';
 import { getSocketState, parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
@@ -194,7 +192,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                         <Grid item md={3} sm={6} xs={12}>
                             <FormControl className={classes.formControl} fullWidth={true}>
                                 <TextField
-                                    label="Server (hostname)"
+                                    label={`Serveur (channel ${socketState})`}
                                     placeholder="Type the poker plannind hostname here"
                                     variant="outlined"
                                     fullWidth={true}
@@ -275,53 +273,31 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                         <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
-                                    <StyledTableCell component="th" scope="row" align="center" width={30}>
-                                        channel {socketState}
-                                    </StyledTableCell>
+                                    <StyledTableCell component="th" scope="row" width={30}></StyledTableCell>
                                     <StyledTableCell component="th" scope="row">
                                         Team member
                                     </StyledTableCell>
                                     <StyledTableCell component="th" scope="row" align="center">
-                                        Voted
-                                    </StyledTableCell>
-                                    <StyledTableCell component="th" scope="row" align="center">
-                                        <Button
-                                            variant="text"
-                                            onClick={() => setIsConfirmClearVotesOpen(true)}
-                                            title="Clear all votes">
-                                            Story points <RemoveEstimates />
-                                        </Button>
-                                    </StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <StyledTableRow key="estimatesVisibility">
-                                    <StyledTableCell width={30}></StyledTableCell>
-                                    <StyledTableCell>
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={isEstimatesVisible}
-                                                    onChange={() => setIsEstimatesVisible(v => !v)}
-                                                />
-                                            }
-                                            label="story points visibility"
-                                        />
-                                    </StyledTableCell>
-                                    <StyledTableCell></StyledTableCell>
-                                    <StyledTableCell align="center">
+                                        Points
                                         <IconButton
                                             title="Toggle story points visibility"
                                             onClick={() => setIsEstimatesVisible(v => !v)}>
                                             {isEstimatesVisible ? <Visibility /> : <VisibilityOff />}
                                         </IconButton>
+                                        <IconButton
+                                            onClick={() => setIsConfirmClearVotesOpen(true)}
+                                            title="Clear all votes">
+                                            <RemoveEstimates />
+                                        </IconButton>
                                     </StyledTableCell>
-                                </StyledTableRow>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
                                 {estimates
                                     .sort((a, b) => a.username.localeCompare(b.username))
                                     .map(({ username, estimate }) => {
                                         const estimateWhenDisplayON = estimate ?? '…';
-                                        const estimateWhenDisplayOFF = estimate ? <VisibilityOff /> : '…';
+                                        const estimateWhenDisplayOFF = estimate ? '✔' : '…';
                                         return (
                                             <StyledTableRow key={username}>
                                                 <StyledTableCell width={30}>
@@ -332,7 +308,6 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                                     </IconButton>
                                                 </StyledTableCell>
                                                 <StyledTableCell>{username}</StyledTableCell>
-                                                <StyledTableCell align="center">{estimate ? '✔' : ''}</StyledTableCell>
                                                 <StyledTableCell align="center">
                                                     {isEstimatesVisible
                                                         ? estimateWhenDisplayON
@@ -344,12 +319,11 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 <StyledTableRow key="average">
                                     <StyledTableCell width={30}></StyledTableCell>
                                     <StyledTableCell>
-                                        <Typography variant="h6">Average</Typography>
+                                        <Typography>Story points average</Typography>
                                     </StyledTableCell>
-                                    <StyledTableCell></StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Typography variant="h6">
-                                            {isEstimatesVisible ? estimatesAverage : '…'}
+                                        <Typography>
+                                            {isEstimatesVisible ? estimatesAverage : <VisibilityOff />}
                                         </Typography>
                                     </StyledTableCell>
                                 </StyledTableRow>
