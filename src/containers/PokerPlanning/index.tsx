@@ -49,7 +49,7 @@ interface Props {
 }
 
 const PokerPlanning: React.FC<Props> = (props: Props) => {
-    const title = 'Porker planning';
+    const title = 'Poker planning';
     const classes = useStyles();
     const navigate = useNavigate();
 
