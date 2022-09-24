@@ -9,3 +9,5 @@ export function isBlank(str: string | undefined | null) {
 export function isNotBlank(str: string | undefined | null) {
     return !isBlank(str);
 }
+
+export const isNumeric = (val?: string): boolean => !isNaN(Number(val));

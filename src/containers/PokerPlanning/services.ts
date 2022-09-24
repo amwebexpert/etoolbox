@@ -1,5 +1,6 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { v4 } from 'uuid';
+import { isNumeric } from '../../services/string-utils';
 import {
     DEFAULT_HOSTNAME,
     DEFAULT_ROOM_NAME,
@@ -41,7 +42,8 @@ export const createSocket = ({
 export const parseEstimates = (estimates: UserEstimate[], username?: string): EstimatesStats => {
     const values = estimates
         .map(e => e.estimate)
-        .filter(e => e !== null && e !== undefined && e !== '?')
+        .filter(e => !!e)
+        .filter(e => isNumeric(e))
         .map(e => Number(e));
     const estimatesSum = values.reduce((acc, val) => acc + Number(val), 0);
     const average = values.length > 0 ? estimatesSum / values.length : 0;

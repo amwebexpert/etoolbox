@@ -40,6 +40,7 @@ DEFAULT_MAP.set('lastPockerPlanningRoomName', '');
 DEFAULT_MAP.set('lastPockerPlanningRoomUUID', '');
 DEFAULT_MAP.set('lastPockerPlanningUsername', '');
 DEFAULT_MAP.set('lastPockerPlanningHostName', '');
+DEFAULT_MAP.set('lastPockerPlanningCardValuesList', '0');
 
 const initalState: TextInputsState = loadFromLocalStorage();
 

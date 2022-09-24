@@ -2,14 +2,16 @@ import {
     FormControl,
     Grid,
     IconButton,
-    isWidthUp,
+    MenuItem,
     Paper,
+    Select,
     Table,
     TableBody,
     TableContainer,
     TableHead,
     TableRow,
     Typography,
+    useTheme,
     withWidth,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -33,7 +35,13 @@ import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
 import { buildRemoveUserMessage, buildResetMessage, buildVoteMessage } from './message.factory';
-import { PokerPlanningSession, POKER_PLANNING_RATINGS_ENHANCED, SocketState, UserMessage } from './model';
+import {
+    CARD_VALUES_CHOICES,
+    PokerPlanningSession,
+    POKER_PLANNING_RATINGS_ENHANCED,
+    SocketState,
+    UserMessage,
+} from './model';
 import PokerCard from './PokerCard';
 import { buildFullRouteURL, buildRouteURL, createSocket, parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
@@ -44,11 +52,13 @@ interface Props {
     lastPockerPlanningUsername?: string;
     lastPockerPlanningRoomUUID?: string;
     lastPockerPlanningHostName?: string;
+    lastPockerPlanningCardValuesList?: string;
     storeInputText: (name: string, value: string) => void;
 }
 
 const PokerPlanning: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
+    const theme = useTheme();
     const navigate = useNavigate();
     const { showConfirmationDialog } = useConfirmDialogContext();
 
@@ -59,6 +69,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         lastPockerPlanningRoomName,
         lastPockerPlanningUsername,
         lastPockerPlanningHostName,
+        lastPockerPlanningCardValuesList,
         storeInputText,
     } = props;
 
@@ -168,7 +179,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
                 <form noValidate autoComplete="off">
                     <Grid container spacing={1}>
-                        <Grid item md={3} sm={6} xs={12}>
+                        <Grid item md={2} xs={6}>
                             <FormControl className={classes.formControl} fullWidth={true}>
                                 <TextField
                                     label={`Serveur (channel ${socketState})`}
@@ -181,7 +192,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 />
                             </FormControl>
                         </Grid>
-                        <Grid item md={3} sm={6} xs={12}>
+                        <Grid item md={2} xs={6}>
                             <FormControl className={classes.formControl} fullWidth={true}>
                                 <TextField
                                     label="Team name"
@@ -194,7 +205,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 />
                             </FormControl>
                         </Grid>
-                        <Grid item md={3} sm={6} xs={12}>
+                        <Grid item md={2} xs={6}>
                             <FormControl className={classes.formControl} fullWidth={true}>
                                 <TextField
                                     label="Your name"
@@ -207,14 +218,32 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 />
                             </FormControl>
                         </Grid>
-                        <Grid item md={3} sm={6} xs={12}>
+                        <Grid item md={3} xs={6}>
+                            <FormControl className={classes.formControl} fullWidth={true}>
+                                <Select
+                                    style={{ marginTop: theme.spacing(2) }}
+                                    variant="outlined"
+                                    fullWidth={true}
+                                    value={lastPockerPlanningCardValuesList}
+                                    onChange={(e: any) =>
+                                        storeInputText('lastPockerPlanningCardValuesList', e.target.value)
+                                    }>
+                                    {CARD_VALUES_CHOICES.map((value, index) => (
+                                        <MenuItem key={index} value={index}>
+                                            {value}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>{' '}
+                        <Grid item md={3} xs={12}>
                             <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
                                 <Button
                                     variant="contained"
                                     title="Register the team and start planning in a new room"
                                     color="primary"
                                     onClick={handleCreateNewRoom}>
-                                    New room
+                                    New
                                 </Button>
                                 <Button
                                     variant="contained"
@@ -253,7 +282,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
                 <div className={classes.teamEstimates}>
                     <TableContainer component={Paper}>
-                        <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
+                        <Table size="small">
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
                                     <StyledTableCell component="th" scope="row" width={30}></StyledTableCell>
@@ -321,6 +350,7 @@ export function mapStateToProps(state: AppState) {
         lastPockerPlanningRoomUUID: state.textInputs['lastPockerPlanningRoomUUID'],
         lastPockerPlanningRoomName: state.textInputs['lastPockerPlanningRoomName'],
         lastPockerPlanningUsername: state.textInputs['lastPockerPlanningUsername'],
+        lastPockerPlanningCardValuesList: state.textInputs['lastPockerPlanningCardValuesList'],
     };
 }
 
