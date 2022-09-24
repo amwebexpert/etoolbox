@@ -25,11 +25,11 @@ export const POKER_PLANNING_RATINGS_T_SHIRT_SIZES: string[] = ['?', 'S', 'M', 'L
 export const POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED: string[] = ['?', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
 export const CARD_VALUES_CHOICES = [
+    POKER_PLANNING_RATINGS_FIBONNACI.slice(2).join(' '),
     POKER_PLANNING_RATINGS_ENHANCED.slice(2)
         .map(v => v.replace('0.5', '½'))
         .map(v => v.replace('.5', '½'))
         .join(' '),
-    POKER_PLANNING_RATINGS_FIBONNACI.slice(2).join(' '),
     POKER_PLANNING_RATINGS_T_SHIRT_SIZES.slice(1).join(' '),
     POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED.slice(1).join(' '),
 ];
