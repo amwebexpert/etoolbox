@@ -32,7 +32,7 @@ import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
-import { POKER_PLANNING_RATINGS_ENHANCED, SocketState, UserEstimate, UserMessage } from './model';
+import { PokerPlanningSession, POKER_PLANNING_RATINGS_ENHANCED, SocketState, UserMessage } from './model';
 import PokerCard from './PokerCard';
 import { buildFullRouteURL, buildRouteURL, createSocket, parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
@@ -47,7 +47,6 @@ interface Props {
 }
 
 const PokerPlanning: React.FC<Props> = (props: Props) => {
-    const title = 'Poker planning';
     const classes = useStyles();
     const navigate = useNavigate();
 
@@ -68,9 +67,11 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     const [postponedMessage, setPostponedMessage] = useState<UserMessage>();
     const [isConfirmClearVotesOpen, setIsConfirmClearVotesOpen] = useState<boolean>(false);
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
-    const [estimates, setEstimates] = useState<UserEstimate[]>([]);
+    const [pokerSession, setPokerSession] = useState<PokerPlanningSession>();
 
     // computing
+    const title = `Poker planning ${lastPockerPlanningRoomName ?? ''}`.trim();
+    const estimates = pokerSession?.estimates ?? [];
     const { estimatesAverage, isEstimatesCleared, isUserMemberOfRoom } = parseEstimates(
         estimates,
         lastPockerPlanningUsername,
@@ -100,11 +101,10 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
             return;
         }
 
-        // socket creation on component unmount
         socketRef.current = createSocket({
             hostname: lastPockerPlanningHostName,
             roomUUID: lastPockerPlanningRoomUUID,
-            onSessionUpdate: session => setEstimates(session.estimates),
+            onSessionUpdate: setPokerSession,
             onSocketStateUpdate: setSocketState,
         });
     }, [socketRef, isReadyToStartSession, lastPockerPlanningHostName, lastPockerPlanningRoomUUID]);
