@@ -36,10 +36,11 @@ import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
 import { buildRemoveUserMessage, buildResetMessage, buildVoteMessage } from './message.factory';
 import {
-    CARD_VALUES_CHOICES,
-    CARD_VALUES_CHOICES_DISPLAY,
+    CardsListingCategory,
+    CardsListingCategoryName,
+    CARDS_LISTING_CATEGORIES,
+    DEFAULT_CARDS_LISTING_CATEGORY,
     PokerPlanningSession,
-    POKER_PLANNING_RATINGS_ENHANCED,
     SocketState,
     UserMessage,
 } from './model';
@@ -49,11 +50,11 @@ import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
 interface Props {
     width: Breakpoint;
-    lastPockerPlanningRoomName?: string;
-    lastPockerPlanningUsername?: string;
-    lastPockerPlanningRoomUUID?: string;
-    lastPockerPlanningHostName?: string;
-    lastPockerPlanningCardValuesList?: string;
+    lastPokerPlanningRoomName?: string;
+    lastPokerPlanningUsername?: string;
+    lastPokerPlanningRoomUUID?: string;
+    lastPokerPlanningHostName?: string;
+    lastPokerCardsListingCategoryName?: CardsListingCategoryName;
     storeInputText: (name: string, value: string) => void;
 }
 
@@ -66,11 +67,11 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     // component inputs
     const { hostName, roomUUID, roomName } = useParams();
     const {
-        lastPockerPlanningRoomUUID,
-        lastPockerPlanningRoomName,
-        lastPockerPlanningUsername,
-        lastPockerPlanningHostName,
-        lastPockerPlanningCardValuesList,
+        lastPokerPlanningRoomUUID,
+        lastPokerPlanningRoomName,
+        lastPokerPlanningUsername,
+        lastPokerPlanningHostName,
+        lastPokerCardsListingCategoryName,
         storeInputText,
     } = props;
 
@@ -83,31 +84,32 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     const [pokerSession, setPokerSession] = useState<PokerPlanningSession>();
 
     // computing
-    const title = `Poker planning ${lastPockerPlanningRoomName ?? ''}`.trim();
+    const title = `Poker planning ${lastPokerPlanningRoomName ?? ''}`.trim();
     const estimates = pokerSession?.estimates ?? [];
-    const cardItemsIndex = Number(lastPockerPlanningCardValuesList ?? '0');
-    const pokerCards = CARD_VALUES_CHOICES[cardItemsIndex];
+    const cardsListingCategoryName: CardsListingCategoryName =
+        lastPokerCardsListingCategoryName ?? DEFAULT_CARDS_LISTING_CATEGORY;
+    const pokerCards: CardsListingCategory = CARDS_LISTING_CATEGORIES[cardsListingCategoryName];
     const { estimatesAverage, isEstimatesCleared, isUserMemberOfRoom } = parseEstimates(
         estimates,
-        lastPockerPlanningUsername,
+        lastPokerPlanningUsername,
     );
     const isReadyToStartSession =
-        isNotBlank(lastPockerPlanningHostName) &&
-        isNotBlank(lastPockerPlanningRoomUUID) &&
+        isNotBlank(lastPokerPlanningHostName) &&
+        isNotBlank(lastPokerPlanningRoomUUID) &&
         isNotBlank(hostName) &&
         isNotBlank(roomUUID);
     const isReadyToVote =
-        isNotBlank(lastPockerPlanningHostName) &&
-        isNotBlank(lastPockerPlanningRoomUUID) &&
-        isNotBlank(lastPockerPlanningRoomName) &&
-        isNotBlank(lastPockerPlanningUsername);
+        isNotBlank(lastPokerPlanningHostName) &&
+        isNotBlank(lastPokerPlanningRoomUUID) &&
+        isNotBlank(lastPokerPlanningRoomName) &&
+        isNotBlank(lastPokerPlanningUsername);
 
     // keep the store in sync whenever route params are updated
     useEffect(() => {
         if (roomName && roomUUID && hostName) {
-            storeInputText('lastPockerPlanningRoomName', roomName);
-            storeInputText('lastPockerPlanningRoomUUID', roomUUID);
-            storeInputText('lastPockerPlanningHostName', hostName);
+            storeInputText('lastPokerPlanningRoomName', roomName);
+            storeInputText('lastPokerPlanningRoomUUID', roomUUID);
+            storeInputText('lastPokerPlanningHostName', hostName);
         }
     }, [roomUUID, roomName, hostName, storeInputText]);
 
@@ -117,12 +119,12 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         }
 
         socketRef.current = createSocket({
-            hostname: lastPockerPlanningHostName,
-            roomUUID: lastPockerPlanningRoomUUID,
+            hostname: lastPokerPlanningHostName,
+            roomUUID: lastPokerPlanningRoomUUID,
             onSessionUpdate: setPokerSession,
             onSocketStateUpdate: setSocketState,
         });
-    }, [socketRef, isReadyToStartSession, lastPockerPlanningHostName, lastPockerPlanningRoomUUID]);
+    }, [socketRef, isReadyToStartSession, lastPokerPlanningHostName, lastPokerPlanningRoomUUID]);
 
     useEffect(() => {
         // socket cleanup whenever component unmount
@@ -130,7 +132,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     }, []);
 
     const handleCreateNewRoom = () => {
-        const url = buildRouteURL({ hostname: lastPockerPlanningHostName, roomName: lastPockerPlanningRoomName });
+        const url = buildRouteURL({ hostname: lastPokerPlanningHostName, roomName: lastPokerPlanningRoomName });
         navigate(url, { replace: true });
     };
 
@@ -144,10 +146,10 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     const updateMyEstimate = (value?: string) => {
         if (value !== myEstimate) {
             setMyEstimate(value);
-            sendOrPostpone(buildVoteMessage(lastPockerPlanningUsername, value));
+            sendOrPostpone(buildVoteMessage(lastPokerPlanningUsername, value));
         } else {
             setMyEstimate(undefined); // user is un-voting
-            sendOrPostpone(buildVoteMessage(lastPockerPlanningUsername));
+            sendOrPostpone(buildVoteMessage(lastPokerPlanningUsername));
         }
     };
 
@@ -190,8 +192,8 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     variant="outlined"
                                     fullWidth={true}
                                     margin="normal"
-                                    value={lastPockerPlanningHostName}
-                                    onChange={e => storeInputText('lastPockerPlanningHostName', e.target.value)}
+                                    value={lastPokerPlanningHostName}
+                                    onChange={e => storeInputText('lastPokerPlanningHostName', e.target.value)}
                                 />
                             </FormControl>
                         </Grid>
@@ -203,8 +205,8 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     variant="outlined"
                                     fullWidth={true}
                                     margin="normal"
-                                    value={lastPockerPlanningRoomName}
-                                    onChange={e => storeInputText('lastPockerPlanningRoomName', e.target.value)}
+                                    value={lastPokerPlanningRoomName}
+                                    onChange={e => storeInputText('lastPokerPlanningRoomName', e.target.value)}
                                 />
                             </FormControl>
                         </Grid>
@@ -216,8 +218,8 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     variant="outlined"
                                     fullWidth={true}
                                     margin="normal"
-                                    value={lastPockerPlanningUsername}
-                                    onChange={e => storeInputText('lastPockerPlanningUsername', e.target.value)}
+                                    value={lastPokerPlanningUsername}
+                                    onChange={e => storeInputText('lastPokerPlanningUsername', e.target.value)}
                                 />
                             </FormControl>
                         </Grid>
@@ -227,13 +229,13 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     style={{ marginTop: theme.spacing(2) }}
                                     variant="outlined"
                                     fullWidth={true}
-                                    value={lastPockerPlanningCardValuesList}
+                                    value={lastPokerCardsListingCategoryName}
                                     onChange={(e: any) =>
-                                        storeInputText('lastPockerPlanningCardValuesList', e.target.value)
+                                        storeInputText('lastPokerCardsListingCategoryName', e.target.value)
                                     }>
-                                    {CARD_VALUES_CHOICES_DISPLAY.map((value, index) => (
-                                        <MenuItem key={index} value={index}>
-                                            {value}
+                                    {Object.entries(CARDS_LISTING_CATEGORIES).map(([name, category]) => (
+                                        <MenuItem key={name} value={name}>
+                                            {category.displayValue}
                                         </MenuItem>
                                     ))}
                                 </Select>
@@ -253,14 +255,14 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     title="Enter existing room"
                                     color="primary"
                                     disabled={isUserMemberOfRoom || !isReadyToVote}
-                                    onClick={() => sendOrPostpone(buildVoteMessage(lastPockerPlanningUsername))}>
+                                    onClick={() => sendOrPostpone(buildVoteMessage(lastPokerPlanningUsername))}>
                                     Join
                                 </Button>
                                 <CopyButton
                                     data={buildFullRouteURL({
-                                        hostname: lastPockerPlanningHostName,
-                                        roomUUID: lastPockerPlanningRoomUUID,
-                                        roomName: lastPockerPlanningRoomName,
+                                        hostname: lastPokerPlanningHostName,
+                                        roomUUID: lastPokerPlanningRoomUUID,
+                                        roomName: lastPokerPlanningRoomName,
                                     })}
                                     Icon={ShareLink}
                                     hoverMessage="Copy link to clipboard for sharing"
@@ -272,7 +274,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                 </form>
 
                 <div className={classes.submitEstimate}>
-                    {pokerCards.map(value => (
+                    {pokerCards.values.map(value => (
                         <PokerCard
                             key={value}
                             isDisabled={!isReadyToVote}
@@ -349,11 +351,13 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
 export function mapStateToProps(state: AppState) {
     return {
-        lastPockerPlanningHostName: state.textInputs['lastPockerPlanningHostName'],
-        lastPockerPlanningRoomUUID: state.textInputs['lastPockerPlanningRoomUUID'],
-        lastPockerPlanningRoomName: state.textInputs['lastPockerPlanningRoomName'],
-        lastPockerPlanningUsername: state.textInputs['lastPockerPlanningUsername'],
-        lastPockerPlanningCardValuesList: state.textInputs['lastPockerPlanningCardValuesList'],
+        lastPokerPlanningHostName: state.textInputs['lastPokerPlanningHostName'],
+        lastPokerPlanningRoomUUID: state.textInputs['lastPokerPlanningRoomUUID'],
+        lastPokerPlanningRoomName: state.textInputs['lastPokerPlanningRoomName'],
+        lastPokerPlanningUsername: state.textInputs['lastPokerPlanningUsername'],
+        lastPokerCardsListingCategoryName: state.textInputs[
+            'lastPokerCardsListingCategoryName'
+        ] as CardsListingCategoryName,
     };
 }
 

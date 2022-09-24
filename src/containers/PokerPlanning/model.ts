@@ -1,4 +1,4 @@
-export const POKER_PLANNING_RATINGS_ENHANCED: string[] = [
+export const POKER_PLANNING_RATINGS_FIBONNACI_ENHANCED: string[] = [
     '?',
     '0',
     '0.5',
@@ -24,23 +24,46 @@ export const POKER_PLANNING_RATINGS_T_SHIRT_SIZES: string[] = ['?', 'S', 'M', 'L
 
 export const POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED: string[] = ['?', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
-export const CARD_VALUES_CHOICES = [
-    POKER_PLANNING_RATINGS_FIBONNACI,
-    POKER_PLANNING_RATINGS_ENHANCED,
-    POKER_PLANNING_RATINGS_T_SHIRT_SIZES,
-    POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED,
-];
+export type CardsListingCategoryName = 'fibonnacy' | 'fibonnacy-variant-1' | 't-shirt' | 't-shirt-variant-1';
 
-export const CARD_VALUES_CHOICES_DISPLAY = [
-    POKER_PLANNING_RATINGS_FIBONNACI.slice(2).join(' '),
-    POKER_PLANNING_RATINGS_ENHANCED.slice(2)
-        .map(v => v.replace('0.5', '½'))
-        .map(v => v.replace('.5', '½'))
-        .join(' '),
-    POKER_PLANNING_RATINGS_T_SHIRT_SIZES.slice(1).join(' '),
-    POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED.slice(1).join(' '),
-];
+export type CardsListingCategory = {
+    values: string[];
+    displayValue: string;
+    sorter: (a: string, b: string) => number;
+};
 
+export const CARDS_LISTING_CATEGORIES: Record<CardsListingCategoryName, CardsListingCategory> = {
+    fibonnacy: {
+        values: POKER_PLANNING_RATINGS_FIBONNACI,
+        displayValue: POKER_PLANNING_RATINGS_FIBONNACI.slice(2).join(' '),
+        sorter: (a: string, b: string) =>
+            POKER_PLANNING_RATINGS_FIBONNACI.indexOf(a) - POKER_PLANNING_RATINGS_FIBONNACI.indexOf(b),
+    },
+    'fibonnacy-variant-1': {
+        values: POKER_PLANNING_RATINGS_FIBONNACI_ENHANCED,
+        displayValue: POKER_PLANNING_RATINGS_FIBONNACI_ENHANCED.slice(2)
+            .map(v => v.replace('0.5', '½'))
+            .map(v => v.replace('.5', '½'))
+            .join(' '),
+        sorter: (a: string, b: string) =>
+            POKER_PLANNING_RATINGS_FIBONNACI_ENHANCED.indexOf(a) - POKER_PLANNING_RATINGS_FIBONNACI_ENHANCED.indexOf(b),
+    },
+    't-shirt': {
+        values: POKER_PLANNING_RATINGS_T_SHIRT_SIZES,
+        displayValue: POKER_PLANNING_RATINGS_T_SHIRT_SIZES.slice(1).join(' '),
+        sorter: (a: string, b: string) =>
+            POKER_PLANNING_RATINGS_T_SHIRT_SIZES.indexOf(a) - POKER_PLANNING_RATINGS_T_SHIRT_SIZES.indexOf(b),
+    },
+    't-shirt-variant-1': {
+        values: POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED,
+        displayValue: POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED.slice(1).join(' '),
+        sorter: (a: string, b: string) =>
+            POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED.indexOf(a) -
+            POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED.indexOf(b),
+    },
+};
+
+export const DEFAULT_CARDS_LISTING_CATEGORY: CardsListingCategoryName = 'fibonnacy';
 export const DEFAULT_ROOM_UUID = 'default';
 export const DEFAULT_ROOM_NAME = 'default';
 export const DEFAULT_HOSTNAME = 'localhost';
