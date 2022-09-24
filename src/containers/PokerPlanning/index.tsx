@@ -265,7 +265,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         <IconButton
                                             title="Toggle story points visibility"
                                             onClick={() => setIsEstimatesVisible(v => !v)}>
-                                            {isEstimatesVisible ? <Visibility /> : <VisibilityOff />}
+                                            {isEstimatesVisible ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>
                                         <IconButton onClick={handleClearAllVotes} title="Clear all votes">
                                             <RemoveEstimates />
@@ -303,9 +303,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                         <Typography>Story points average</Typography>
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Typography>
-                                            {isEstimatesVisible ? estimatesAverage : <VisibilityOff />}
-                                        </Typography>
+                                        <Typography>{isEstimatesVisible ? estimatesAverage : ''}</Typography>
                                     </StyledTableCell>
                                 </StyledTableRow>
                             </TableBody>
