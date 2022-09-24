@@ -35,9 +35,9 @@ export type PokerPlanningSession = {
 
 export type MessageType = 'reset' | 'vote' | 'remove';
 
-export type UserMessage = {
+export type UserMessage<TPayload = unknown> = {
     type: MessageType;
-    payload?: unknown;
+    payload?: TPayload;
 };
 
 export type SocketState = 'open' | 'closed' | 'closing' | 'connecting';

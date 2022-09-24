@@ -32,6 +32,7 @@ import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
+import { buildRemoveUserMessage, buildResetMessage, buildVoteMessage } from './message.factory';
 import { PokerPlanningSession, POKER_PLANNING_RATINGS_ENHANCED, SocketState, UserMessage } from './model';
 import PokerCard from './PokerCard';
 import { buildFullRouteURL, buildRouteURL, createSocket, parseEstimates } from './services';
@@ -114,20 +115,10 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         return () => socketRef.current?.close();
     }, []);
 
-    // send delayed message (if any)
-    useEffect(() => {
-        if (socketState === 'open' && postponedMessage) {
-            socketRef.current?.send(JSON.stringify(postponedMessage));
-            setPostponedMessage(undefined);
-        }
-    }, [postponedMessage, socketState]);
-
     const handleCreateNewRoom = () => {
         const url = buildRouteURL({ hostname: lastPockerPlanningHostName, roomName: lastPockerPlanningRoomName });
         navigate(url, { replace: true });
     };
-
-    const handleClearEstimates = () => socketRef.current?.send(JSON.stringify({ type: 'reset' }));
 
     useEffect(() => {
         if (isEstimatesCleared) {
@@ -136,41 +127,31 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         }
     }, [isEstimatesCleared]);
 
-    const handleRemoveUser = (username: string) =>
-        socketRef.current?.send(JSON.stringify({ type: 'remove', payload: username }));
-
-    const handleEnterRoom = () => {
-        if (!lastPockerPlanningUsername) {
-            return;
+    const updateMyEstimate = (value?: string) => {
+        if (value !== myEstimate) {
+            setMyEstimate(value);
+            sendOrPostpone(buildVoteMessage(lastPockerPlanningUsername, value));
+        } else {
+            setMyEstimate(undefined); // user is un-voting
+            sendOrPostpone(buildVoteMessage(lastPockerPlanningUsername));
         }
-
-        socketRef.current?.send(
-            JSON.stringify({
-                type: 'vote',
-                payload: {
-                    username: lastPockerPlanningUsername ?? '',
-                },
-            }),
-        );
     };
 
-    const updateMyEstimate = (value: string) => {
-        setMyEstimate(value);
-        const message: UserMessage = {
-            type: 'vote',
-            payload: {
-                username: lastPockerPlanningUsername ?? '',
-                estimate: value,
-                estimatedAt: value ? new Date() : undefined,
-            },
-        };
-
-        if (socketRef.current?.readyState === WebSocket.OPEN) {
+    const sendOrPostpone = (message: UserMessage) => {
+        if (socketRef.current && socketState === 'open') {
             socketRef.current.send(JSON.stringify(message));
         } else {
             setPostponedMessage(message);
         }
     };
+
+    // send delayed message (if any)
+    useEffect(() => {
+        if (socketRef.current && socketState === 'open' && postponedMessage) {
+            socketRef.current.send(JSON.stringify(postponedMessage));
+            setPostponedMessage(undefined);
+        }
+    }, [postponedMessage, socketState]);
 
     return (
         <>
@@ -233,7 +214,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     title="Enter existing room"
                                     color="primary"
                                     disabled={isUserMemberOfRoom || !isReadyToVote}
-                                    onClick={handleEnterRoom}>
+                                    onClick={() => sendOrPostpone(buildVoteMessage(lastPockerPlanningUsername))}>
                                     Join
                                 </Button>
                                 <CopyButton
@@ -297,7 +278,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                             <StyledTableRow key={username}>
                                                 <StyledTableCell width={30}>
                                                     <IconButton
-                                                        onClick={() => handleRemoveUser(username)}
+                                                        onClick={() => sendOrPostpone(buildRemoveUserMessage(username))}
                                                         title={`Remove user "${username}"`}>
                                                         <RemoveUser />
                                                     </IconButton>
@@ -332,7 +313,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                 title="Confirmation"
                 isOpen={isConfirmClearVotesOpen}
                 setIsOpen={setIsConfirmClearVotesOpen}
-                onConfirm={handleClearEstimates}>
+                onConfirm={() => sendOrPostpone(buildResetMessage())}>
                 Are you sure you want to delete all votes?
             </ConfirmDialog>
         </>
