@@ -1,4 +1,3 @@
-import { DEFAULT_CARDS_LISTING_CATEGORY } from '../containers/PokerPlanning/model';
 import { TextInputActionTypes, TextInputsAction } from './../actions/text-actions';
 
 export interface TextInputsState {
@@ -41,7 +40,7 @@ DEFAULT_MAP.set('lastPokerPlanningRoomName', '');
 DEFAULT_MAP.set('lastPokerPlanningRoomUUID', '');
 DEFAULT_MAP.set('lastPokerPlanningUsername', '');
 DEFAULT_MAP.set('lastPokerPlanningHostName', '');
-DEFAULT_MAP.set('lastPokerCardsListingCategoryName', DEFAULT_CARDS_LISTING_CATEGORY);
+DEFAULT_MAP.set('lastPokerCardsListingCategoryName', '');
 
 const initalState: TextInputsState = loadFromLocalStorage();
 

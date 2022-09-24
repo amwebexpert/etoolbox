@@ -86,8 +86,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     // computing
     const title = `Poker planning ${lastPokerPlanningRoomName ?? ''}`.trim();
     const estimates = pokerSession?.estimates ?? [];
-    const cardsListingCategoryName: CardsListingCategoryName =
-        lastPokerCardsListingCategoryName ?? DEFAULT_CARDS_LISTING_CATEGORY;
+    const cardsListingCategoryName: CardsListingCategoryName = lastPokerCardsListingCategoryName
+        ? lastPokerCardsListingCategoryName
+        : DEFAULT_CARDS_LISTING_CATEGORY;
     const pokerCards: CardsListingCategory = CARDS_LISTING_CATEGORIES[cardsListingCategoryName];
     const { estimatesAverage, isEstimatesCleared, isUserMemberOfRoom } = parseEstimates(
         estimates,
@@ -229,7 +230,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     style={{ marginTop: theme.spacing(2) }}
                                     variant="outlined"
                                     fullWidth={true}
-                                    value={lastPokerCardsListingCategoryName}
+                                    value={cardsListingCategoryName}
                                     onChange={(e: any) =>
                                         storeInputText('lastPokerCardsListingCategoryName', e.target.value)
                                     }>
