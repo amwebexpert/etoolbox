@@ -37,6 +37,7 @@ import { isNotBlank } from '../../services/string-utils';
 import { buildRemoveUserMessage, buildResetMessage, buildVoteMessage } from './message.factory';
 import {
     CARD_VALUES_CHOICES,
+    CARD_VALUES_CHOICES_DISPLAY,
     PokerPlanningSession,
     POKER_PLANNING_RATINGS_ENHANCED,
     SocketState,
@@ -84,6 +85,8 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     // computing
     const title = `Poker planning ${lastPockerPlanningRoomName ?? ''}`.trim();
     const estimates = pokerSession?.estimates ?? [];
+    const cardItemsIndex = Number(lastPockerPlanningCardValuesList ?? '0');
+    const pokerCards = CARD_VALUES_CHOICES[cardItemsIndex];
     const { estimatesAverage, isEstimatesCleared, isUserMemberOfRoom } = parseEstimates(
         estimates,
         lastPockerPlanningUsername,
@@ -228,7 +231,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     onChange={(e: any) =>
                                         storeInputText('lastPockerPlanningCardValuesList', e.target.value)
                                     }>
-                                    {CARD_VALUES_CHOICES.map((value, index) => (
+                                    {CARD_VALUES_CHOICES_DISPLAY.map((value, index) => (
                                         <MenuItem key={index} value={index}>
                                             {value}
                                         </MenuItem>
@@ -269,7 +272,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                 </form>
 
                 <div className={classes.submitEstimate}>
-                    {POKER_PLANNING_RATINGS_ENHANCED.map(value => (
+                    {pokerCards.map(value => (
                         <PokerCard
                             key={value}
                             isDisabled={!isReadyToVote}
