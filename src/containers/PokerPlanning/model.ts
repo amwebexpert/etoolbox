@@ -18,6 +18,10 @@ export const POKER_PLANNING_RATINGS_ENHANCED: string[] = [
     '100',
 ];
 
+export const DEFAULT_ROOM_UUID = 'default';
+export const DEFAULT_ROOM_NAME = 'default';
+export const DEFAULT_HOSTNAME = 'localhost';
+
 export type UserEstimate = {
     username: string;
     estimate?: string;

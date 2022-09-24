@@ -1,8 +1,8 @@
 import {
     FormControl,
     Grid,
-    isWidthUp,
     IconButton,
+    isWidthUp,
     Paper,
     Table,
     TableBody,
@@ -15,19 +15,17 @@ import {
 import Button from '@material-ui/core/Button';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
-import RemoveEstimates from '@material-ui/icons/DeleteOutline';
+import { default as RemoveEstimates, default as RemoveUser } from '@material-ui/icons/DeleteOutline';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
 import ShareLink from '@material-ui/icons/Share';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import RemoveUser from '@material-ui/icons/DeleteOutline';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Dispatch } from 'redux';
-import { v4 } from 'uuid';
 import { setTextAction } from '../../actions/text-actions';
 import ConfirmDialog from '../../components/ConfirmDialog';
 import CopyButton from '../../components/CopyButton';
@@ -36,7 +34,7 @@ import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
 import { PokerPlanningSession, POKER_PLANNING_RATINGS_ENHANCED, SocketState, UserEstimate, UserMessage } from './model';
 import PokerCard from './PokerCard';
-import { getSocketState, parseEstimates } from './services';
+import { buildFullRouteURL, buildRouteURL, getSocketState, parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
 interface Props {
@@ -103,7 +101,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         }
 
         // socket creation on component unmount
-        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+        const protocol = document.location.protocol === 'https:' ? 'wss' : 'ws';
         const url = `${protocol}://${lastPockerPlanningHostName}/ws?roomUUID=${lastPockerPlanningRoomUUID}`;
         const socket = new ReconnectingWebSocket(url);
         socket.onopen = () => setSocketState(getSocketState(socket.readyState));
@@ -131,8 +129,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     }, [postponedMessage, socketState]);
 
     const handleCreateNewRoom = () => {
-        const newRoomUUID = v4();
-        const url = `/PokerPlanning/${lastPockerPlanningHostName}/${newRoomUUID}/${lastPockerPlanningRoomName}`;
+        const url = buildRouteURL({ hostname: lastPockerPlanningHostName, roomName: lastPockerPlanningRoomName });
         navigate(url, { replace: true });
     };
 
@@ -246,7 +243,11 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     Join
                                 </Button>
                                 <CopyButton
-                                    data={window.location.href}
+                                    data={buildFullRouteURL({
+                                        hostname: lastPockerPlanningHostName,
+                                        roomUUID: lastPockerPlanningRoomUUID,
+                                        roomName: lastPockerPlanningRoomName,
+                                    })}
                                     Icon={ShareLink}
                                     hoverMessage="Copy link to clipboard for sharing"
                                     feedbackMessage="Link copied to clipboard, you can now share to all members"

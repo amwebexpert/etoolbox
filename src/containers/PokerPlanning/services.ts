@@ -1,4 +1,5 @@
-import { EstimatesStats, SocketState, SOCKET_STATES, UserEstimate } from './model';
+import { v4 } from 'uuid';
+import { DEFAULT_HOSTNAME, DEFAULT_ROOM_NAME, EstimatesStats, SocketState, SOCKET_STATES, UserEstimate } from './model';
 
 export const parseEstimates = (estimates: UserEstimate[], username?: string): EstimatesStats => {
     const values = estimates
@@ -22,3 +23,20 @@ export const parseEstimates = (estimates: UserEstimate[], username?: string): Es
 };
 
 export const getSocketState = (state: number): SocketState => SOCKET_STATES.get(state) ?? 'closed';
+
+type BuildRouteURLParams = {
+    hostname?: string;
+    roomUUID?: string;
+    roomName?: string;
+};
+
+export const buildRouteURL = ({
+    hostname = DEFAULT_HOSTNAME,
+    roomName = DEFAULT_ROOM_NAME,
+    roomUUID = v4(),
+}: BuildRouteURLParams) => `/PokerPlanning/${hostname}/${roomUUID}/${roomName}`;
+
+export const extractSinglePageAppHostnameAndPath = () => document.location.href.split('/#/')[0];
+
+export const buildFullRouteURL = (params: BuildRouteURLParams) =>
+    extractSinglePageAppHostnameAndPath() + '/#' + buildRouteURL(params);
