@@ -1,5 +1,42 @@
+import ReconnectingWebSocket from 'reconnecting-websocket';
 import { v4 } from 'uuid';
-import { DEFAULT_HOSTNAME, DEFAULT_ROOM_NAME, EstimatesStats, SocketState, SOCKET_STATES, UserEstimate } from './model';
+import {
+    DEFAULT_HOSTNAME,
+    DEFAULT_ROOM_NAME,
+    EstimatesStats,
+    PokerPlanningSession,
+    SocketState,
+    SOCKET_STATES,
+    UserEstimate,
+} from './model';
+
+type CreateSocketParams = {
+    hostname?: string;
+    roomUUID?: string;
+    onSocketStateUpdate: (socketState: SocketState) => void;
+    onSessionUpdate: (session: PokerPlanningSession) => void;
+};
+
+export const createSocket = ({
+    hostname = DEFAULT_HOSTNAME,
+    roomUUID = v4(),
+    onSocketStateUpdate,
+    onSessionUpdate,
+}: CreateSocketParams): ReconnectingWebSocket => {
+    const protocol = document.location.protocol === 'https:' ? 'wss' : 'ws';
+    const url = `${protocol}://${hostname}/ws?roomUUID=${roomUUID}`;
+
+    const socket = new ReconnectingWebSocket(url);
+    socket.onopen = () => onSocketStateUpdate(getSocketState(socket.readyState));
+    socket.onerror = () => onSocketStateUpdate(getSocketState(socket.readyState));
+    socket.onclose = () => onSocketStateUpdate(getSocketState(socket.readyState));
+    socket.onmessage = (ev: MessageEvent<string>) => {
+        const session = JSON.parse(ev.data) as PokerPlanningSession;
+        onSessionUpdate(session);
+    };
+
+    return socket;
+};
 
 export const parseEstimates = (estimates: UserEstimate[], username?: string): EstimatesStats => {
     const values = estimates

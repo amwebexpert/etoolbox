@@ -32,9 +32,9 @@ import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
-import { PokerPlanningSession, POKER_PLANNING_RATINGS_ENHANCED, SocketState, UserEstimate, UserMessage } from './model';
+import { POKER_PLANNING_RATINGS_ENHANCED, SocketState, UserEstimate, UserMessage } from './model';
 import PokerCard from './PokerCard';
-import { buildFullRouteURL, buildRouteURL, getSocketState, parseEstimates } from './services';
+import { buildFullRouteURL, buildRouteURL, createSocket, parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
 interface Props {
@@ -101,18 +101,12 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         }
 
         // socket creation on component unmount
-        const protocol = document.location.protocol === 'https:' ? 'wss' : 'ws';
-        const url = `${protocol}://${lastPockerPlanningHostName}/ws?roomUUID=${lastPockerPlanningRoomUUID}`;
-        const socket = new ReconnectingWebSocket(url);
-        socket.onopen = () => setSocketState(getSocketState(socket.readyState));
-        socket.onerror = () => setSocketState(getSocketState(socket.readyState));
-        socket.onclose = () => setSocketState(getSocketState(socket.readyState));
-        socket.onmessage = (ev: MessageEvent<string>) => {
-            const session = JSON.parse(ev.data) as PokerPlanningSession;
-            setEstimates(session.estimates);
-        };
-
-        socketRef.current = socket;
+        socketRef.current = createSocket({
+            hostname: lastPockerPlanningHostName,
+            roomUUID: lastPockerPlanningRoomUUID,
+            onSessionUpdate: session => setEstimates(session.estimates),
+            onSocketStateUpdate: setSocketState,
+        });
     }, [socketRef, isReadyToStartSession, lastPockerPlanningHostName, lastPockerPlanningRoomUUID]);
 
     useEffect(() => {
