@@ -27,7 +27,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Dispatch } from 'redux';
 import { setTextAction } from '../../actions/text-actions';
-import ConfirmDialog from '../../components/ConfirmDialog';
+import { useConfirmDialogContext } from '../../components/ConfirmDialog/ConfirmDialogProvider';
 import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
@@ -50,6 +50,7 @@ interface Props {
 const PokerPlanning: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const navigate = useNavigate();
+    const { showConfirmationDialog } = useConfirmDialogContext();
 
     // component inputs
     const { hostName, roomUUID, roomName } = useParams();
@@ -63,10 +64,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 
     // component state
     const socketRef = useRef<ReconnectingWebSocket>();
-    const [myEstimate, setMyEstimate] = useState<string>();
     const [socketState, setSocketState] = useState<SocketState>('closed');
+    const [myEstimate, setMyEstimate] = useState<string>();
     const [postponedMessage, setPostponedMessage] = useState<UserMessage>();
-    const [isConfirmClearVotesOpen, setIsConfirmClearVotesOpen] = useState<boolean>(false);
     const [isEstimatesVisible, setIsEstimatesVisible] = useState<boolean>(false);
     const [pokerSession, setPokerSession] = useState<PokerPlanningSession>();
 
@@ -144,6 +144,13 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
             setPostponedMessage(message);
         }
     };
+
+    const handleClearAllVotes = () =>
+        showConfirmationDialog({
+            title: 'Confirmation',
+            description: 'Are you sure you want to delete all votes?',
+            onConfirm: () => sendOrPostpone(buildResetMessage()),
+        });
 
     // send delayed message (if any)
     useEffect(() => {
@@ -260,9 +267,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                             onClick={() => setIsEstimatesVisible(v => !v)}>
                                             {isEstimatesVisible ? <Visibility /> : <VisibilityOff />}
                                         </IconButton>
-                                        <IconButton
-                                            onClick={() => setIsConfirmClearVotesOpen(true)}
-                                            title="Clear all votes">
+                                        <IconButton onClick={handleClearAllVotes} title="Clear all votes">
                                             <RemoveEstimates />
                                         </IconButton>
                                     </StyledTableCell>
@@ -308,14 +313,6 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                     </TableContainer>
                 </div>
             </div>
-
-            <ConfirmDialog
-                title="Confirmation"
-                isOpen={isConfirmClearVotesOpen}
-                setIsOpen={setIsConfirmClearVotesOpen}
-                onConfirm={() => sendOrPostpone(buildResetMessage())}>
-                Are you sure you want to delete all votes?
-            </ConfirmDialog>
         </>
     );
 };

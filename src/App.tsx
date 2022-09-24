@@ -34,6 +34,7 @@ import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import Banner from './images/icon.png';
 import { useStyles } from './styles';
+import { ConfirmDialogProvider } from './components/ConfirmDialog/ConfirmDialogProvider';
 
 interface Props {
     width: Breakpoint;
@@ -102,7 +103,7 @@ const App: React.FC<Props> = (props: Props) => {
     };
 
     return (
-        <>
+        <ConfirmDialogProvider>
             <Helmet titleTemplate="Web Toolbox - %s" defaultTitle="Web Toolbox">
                 <meta name="description" content={desc} />
             </Helmet>
@@ -285,7 +286,7 @@ const App: React.FC<Props> = (props: Props) => {
                     </main>
                 </ToasterProvider>
             </div>
-        </>
+        </ConfirmDialogProvider>
     );
 };
 
