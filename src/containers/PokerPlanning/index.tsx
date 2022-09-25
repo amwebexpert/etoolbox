@@ -1,10 +1,7 @@
 import {
-    FormControl,
     Grid,
     IconButton,
-    MenuItem,
     Paper,
-    Select,
     Table,
     TableBody,
     TableContainer,
@@ -16,7 +13,6 @@ import {
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import TextField from '@material-ui/core/TextField';
 import { default as RemoveEstimates, default as RemoveUser } from '@material-ui/icons/DeleteOutline';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
 import ShareLink from '@material-ui/icons/Share';
@@ -61,7 +57,6 @@ interface Props {
 
 const PokerPlanning: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
-    const theme = useTheme();
     const navigate = useNavigate();
     const { showConfirmationDialog } = useConfirmDialogContext();
 
@@ -254,27 +249,25 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {estimates
-                                .sort((a, b) => a.username.localeCompare(b.username))
-                                .map(({ username, estimate }) => {
-                                    const estimateWhenDisplayON = estimate ?? '…';
-                                    const estimateWhenDisplayOFF = estimate ? '✔' : '…';
-                                    return (
-                                        <StyledTableRow key={username}>
-                                            <StyledTableCell width={30}>
-                                                <IconButton
-                                                    onClick={() => sendOrPostpone(buildRemoveUserMessage(username))}
-                                                    title={`Remove user "${username}"`}>
-                                                    <RemoveUser />
-                                                </IconButton>
-                                            </StyledTableCell>
-                                            <StyledTableCell>{username}</StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                {isEstimatesVisible ? estimateWhenDisplayON : estimateWhenDisplayOFF}
-                                            </StyledTableCell>
-                                        </StyledTableRow>
-                                    );
-                                })}
+                            {estimates.sort(pokerCards.sorter).map(({ username, estimate }) => {
+                                const estimateWhenDisplayON = estimate ?? '…';
+                                const estimateWhenDisplayOFF = estimate ? '✔' : '…';
+                                return (
+                                    <StyledTableRow key={username}>
+                                        <StyledTableCell width={30}>
+                                            <IconButton
+                                                onClick={() => sendOrPostpone(buildRemoveUserMessage(username))}
+                                                title={`Remove user "${username}"`}>
+                                                <RemoveUser />
+                                            </IconButton>
+                                        </StyledTableCell>
+                                        <StyledTableCell>{username}</StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            {isEstimatesVisible ? estimateWhenDisplayON : estimateWhenDisplayOFF}
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+                                );
+                            })}
                             <StyledTableRow key="average">
                                 <StyledTableCell width={30}></StyledTableCell>
                                 <StyledTableCell>

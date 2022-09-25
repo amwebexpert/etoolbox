@@ -29,15 +29,20 @@ export type CardsListingCategoryName = 'fibonnacy' | 'fibonnacy-variant-1' | 't-
 export type CardsListingCategory = {
     values: string[];
     displayValue: string;
-    sorter: (a: string, b: string) => number;
+    sorter: (a: UserEstimate, b: UserEstimate) => number;
+};
+
+type PokerVotesSorter = (a: UserEstimate, b: UserEstimate) => number;
+const sorterFactory = (valuesArray: string[]): PokerVotesSorter => {
+    return (a: UserEstimate, b: UserEstimate) =>
+        valuesArray.indexOf(a.estimate ?? '?') - valuesArray.indexOf(b.estimate ?? '?');
 };
 
 export const CARDS_LISTING_CATEGORIES: Record<CardsListingCategoryName, CardsListingCategory> = {
     fibonnacy: {
         values: POKER_PLANNING_RATINGS_FIBONNACI,
         displayValue: POKER_PLANNING_RATINGS_FIBONNACI.slice(2).join(' '),
-        sorter: (a: string, b: string) =>
-            POKER_PLANNING_RATINGS_FIBONNACI.indexOf(a) - POKER_PLANNING_RATINGS_FIBONNACI.indexOf(b),
+        sorter: sorterFactory(POKER_PLANNING_RATINGS_FIBONNACI),
     },
     'fibonnacy-variant-1': {
         values: POKER_PLANNING_RATINGS_FIBONNACI_ENHANCED,
@@ -45,21 +50,17 @@ export const CARDS_LISTING_CATEGORIES: Record<CardsListingCategoryName, CardsLis
             .map(v => v.replace('0.5', '½'))
             .map(v => v.replace('.5', '½'))
             .join(' '),
-        sorter: (a: string, b: string) =>
-            POKER_PLANNING_RATINGS_FIBONNACI_ENHANCED.indexOf(a) - POKER_PLANNING_RATINGS_FIBONNACI_ENHANCED.indexOf(b),
+        sorter: sorterFactory(POKER_PLANNING_RATINGS_FIBONNACI_ENHANCED),
     },
     't-shirt': {
         values: POKER_PLANNING_RATINGS_T_SHIRT_SIZES,
         displayValue: POKER_PLANNING_RATINGS_T_SHIRT_SIZES.slice(1).join(' '),
-        sorter: (a: string, b: string) =>
-            POKER_PLANNING_RATINGS_T_SHIRT_SIZES.indexOf(a) - POKER_PLANNING_RATINGS_T_SHIRT_SIZES.indexOf(b),
+        sorter: sorterFactory(POKER_PLANNING_RATINGS_T_SHIRT_SIZES),
     },
     't-shirt-variant-1': {
         values: POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED,
         displayValue: POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED.slice(1).join(' '),
-        sorter: (a: string, b: string) =>
-            POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED.indexOf(a) -
-            POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED.indexOf(b),
+        sorter: sorterFactory(POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHENCED),
     },
 };
 
