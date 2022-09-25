@@ -45,6 +45,7 @@ import {
     UserMessage,
 } from './model';
 import PokerCard from './PokerCard';
+import PokerOptionsForm from './PokerOptionsForm';
 import { buildFullRouteURL, buildRouteURL, createSocket, parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
@@ -180,99 +181,44 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     return (
         <>
             <Helmet title={title} />
+
             <div className={classes.root}>
                 <FeatureTitle iconType={PockerPlanningIcon} title={title} />
 
-                <form noValidate autoComplete="off">
-                    <Grid container spacing={1}>
-                        <Grid item md={2} xs={6}>
-                            <FormControl className={classes.formControl} fullWidth={true}>
-                                <TextField
-                                    label={`Serveur (channel ${socketState})`}
-                                    placeholder="Type the poker plannind hostname here"
-                                    variant="outlined"
-                                    fullWidth={true}
-                                    margin="normal"
-                                    value={lastPokerPlanningHostName}
-                                    onChange={e => storeInputText('lastPokerPlanningHostName', e.target.value)}
-                                />
-                            </FormControl>
-                        </Grid>
-                        <Grid item md={2} xs={6}>
-                            <FormControl className={classes.formControl} fullWidth={true}>
-                                <TextField
-                                    label="Team name"
-                                    placeholder="Type the team name here"
-                                    variant="outlined"
-                                    fullWidth={true}
-                                    margin="normal"
-                                    value={lastPokerPlanningRoomName}
-                                    onChange={e => storeInputText('lastPokerPlanningRoomName', e.target.value)}
-                                />
-                            </FormControl>
-                        </Grid>
-                        <Grid item md={2} xs={6}>
-                            <FormControl className={classes.formControl} fullWidth={true}>
-                                <TextField
-                                    label="Your name"
-                                    placeholder="Type your name here"
-                                    variant="outlined"
-                                    fullWidth={true}
-                                    margin="normal"
-                                    value={lastPokerPlanningUsername}
-                                    onChange={e => storeInputText('lastPokerPlanningUsername', e.target.value)}
-                                />
-                            </FormControl>
-                        </Grid>
-                        <Grid item md={3} xs={6}>
-                            <FormControl className={classes.formControl} fullWidth={true}>
-                                <Select
-                                    style={{ marginTop: theme.spacing(2) }}
-                                    variant="outlined"
-                                    fullWidth={true}
-                                    value={cardsListingCategoryName}
-                                    onChange={(e: any) =>
-                                        storeInputText('lastPokerCardsListingCategoryName', e.target.value)
-                                    }>
-                                    {Object.entries(CARDS_LISTING_CATEGORIES).map(([name, category]) => (
-                                        <MenuItem key={name} value={name}>
-                                            {category.displayValue}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>{' '}
-                        <Grid item md={3} xs={12}>
-                            <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
-                                <Button
-                                    variant="contained"
-                                    title="Register the team and start planning in a new room"
-                                    color="primary"
-                                    onClick={handleCreateNewRoom}>
-                                    New
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    title="Enter existing room"
-                                    color="primary"
-                                    disabled={isUserMemberOfRoom || !isReadyToVote}
-                                    onClick={() => sendOrPostpone(buildVoteMessage(lastPokerPlanningUsername))}>
-                                    Join
-                                </Button>
-                                <CopyButton
-                                    data={buildFullRouteURL({
-                                        hostname: lastPokerPlanningHostName,
-                                        roomUUID: lastPokerPlanningRoomUUID,
-                                        roomName: lastPokerPlanningRoomName,
-                                    })}
-                                    Icon={ShareLink}
-                                    hoverMessage="Copy link to clipboard for sharing"
-                                    feedbackMessage="Link copied to clipboard, you can now share to all members"
-                                />
-                            </Grid>
+                <Grid container>
+                    <Grid item md={9} xs={12}>
+                        <PokerOptionsForm socketState={socketState} />
+                    </Grid>
+                    <Grid item md={3} xs={12}>
+                        <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
+                            <Button
+                                variant="contained"
+                                title="Register the team and start planning in a new room"
+                                color="primary"
+                                onClick={handleCreateNewRoom}>
+                                New
+                            </Button>
+                            <Button
+                                variant="contained"
+                                title="Enter existing room"
+                                color="primary"
+                                disabled={isUserMemberOfRoom || !isReadyToVote}
+                                onClick={() => sendOrPostpone(buildVoteMessage(lastPokerPlanningUsername))}>
+                                Join
+                            </Button>
+                            <CopyButton
+                                data={buildFullRouteURL({
+                                    hostname: lastPokerPlanningHostName,
+                                    roomUUID: lastPokerPlanningRoomUUID,
+                                    roomName: lastPokerPlanningRoomName,
+                                })}
+                                Icon={ShareLink}
+                                hoverMessage="Copy link to clipboard for sharing"
+                                feedbackMessage="Link copied to clipboard, you can now share to all members"
+                            />
                         </Grid>
                     </Grid>
-                </form>
+                </Grid>
 
                 <div className={classes.submitEstimate}>
                     {pokerCards.values.map(value => (
@@ -286,65 +232,61 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                     ))}
                 </div>
 
-                <div className={classes.teamEstimates}>
-                    <TableContainer component={Paper}>
-                        <Table size="small">
-                            <TableHead className={classes.tableHeader}>
-                                <TableRow>
-                                    <StyledTableCell component="th" scope="row" width={30}></StyledTableCell>
-                                    <StyledTableCell component="th" scope="row">
-                                        Team member
-                                    </StyledTableCell>
-                                    <StyledTableCell component="th" scope="row" align="center">
-                                        Points
-                                        <IconButton
-                                            title="Toggle story points visibility"
-                                            onClick={() => setIsEstimatesVisible(v => !v)}>
-                                            {isEstimatesVisible ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                        <IconButton onClick={handleClearAllVotes} title="Clear all votes">
-                                            <RemoveEstimates />
-                                        </IconButton>
-                                    </StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {estimates
-                                    .sort((a, b) => a.username.localeCompare(b.username))
-                                    .map(({ username, estimate }) => {
-                                        const estimateWhenDisplayON = estimate ?? '…';
-                                        const estimateWhenDisplayOFF = estimate ? '✔' : '…';
-                                        return (
-                                            <StyledTableRow key={username}>
-                                                <StyledTableCell width={30}>
-                                                    <IconButton
-                                                        onClick={() => sendOrPostpone(buildRemoveUserMessage(username))}
-                                                        title={`Remove user "${username}"`}>
-                                                        <RemoveUser />
-                                                    </IconButton>
-                                                </StyledTableCell>
-                                                <StyledTableCell>{username}</StyledTableCell>
-                                                <StyledTableCell align="center">
-                                                    {isEstimatesVisible
-                                                        ? estimateWhenDisplayON
-                                                        : estimateWhenDisplayOFF}
-                                                </StyledTableCell>
-                                            </StyledTableRow>
-                                        );
-                                    })}
-                                <StyledTableRow key="average">
-                                    <StyledTableCell width={30}></StyledTableCell>
-                                    <StyledTableCell>
-                                        <Typography>Story points average</Typography>
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <Typography>{isEstimatesVisible ? estimatesAverage : ''}</Typography>
-                                    </StyledTableCell>
-                                </StyledTableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>
+                <TableContainer component={Paper} className={classes.teamEstimates}>
+                    <Table size="small">
+                        <TableHead className={classes.tableHeader}>
+                            <TableRow>
+                                <StyledTableCell component="th" scope="row" width={30}></StyledTableCell>
+                                <StyledTableCell component="th" scope="row">
+                                    Team member
+                                </StyledTableCell>
+                                <StyledTableCell component="th" scope="row" align="center">
+                                    Points
+                                    <IconButton
+                                        title="Toggle story points visibility"
+                                        onClick={() => setIsEstimatesVisible(v => !v)}>
+                                        {isEstimatesVisible ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                    <IconButton onClick={handleClearAllVotes} title="Clear all votes">
+                                        <RemoveEstimates />
+                                    </IconButton>
+                                </StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {estimates
+                                .sort((a, b) => a.username.localeCompare(b.username))
+                                .map(({ username, estimate }) => {
+                                    const estimateWhenDisplayON = estimate ?? '…';
+                                    const estimateWhenDisplayOFF = estimate ? '✔' : '…';
+                                    return (
+                                        <StyledTableRow key={username}>
+                                            <StyledTableCell width={30}>
+                                                <IconButton
+                                                    onClick={() => sendOrPostpone(buildRemoveUserMessage(username))}
+                                                    title={`Remove user "${username}"`}>
+                                                    <RemoveUser />
+                                                </IconButton>
+                                            </StyledTableCell>
+                                            <StyledTableCell>{username}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                {isEstimatesVisible ? estimateWhenDisplayON : estimateWhenDisplayOFF}
+                                            </StyledTableCell>
+                                        </StyledTableRow>
+                                    );
+                                })}
+                            <StyledTableRow key="average">
+                                <StyledTableCell width={30}></StyledTableCell>
+                                <StyledTableCell>
+                                    <Typography>Story points average</Typography>
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <Typography>{isEstimatesVisible ? estimatesAverage : ''}</Typography>
+                                </StyledTableCell>
+                            </StyledTableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         </>
     );
