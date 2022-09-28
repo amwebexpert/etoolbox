@@ -88,10 +88,11 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
                         style={{ marginTop: theme.spacing(2) }}
                         variant="outlined"
                         fullWidth={true}
+                        title={cardsListingCategoryName}
                         value={cardsListingCategoryName}
                         onChange={(e: any) => storeInputText('lastPokerCardsListingCategoryName', e.target.value)}>
                         {Object.entries(CARDS_LISTING_CATEGORIES).map(([name, category]) => (
-                            <MenuItem key={name} value={name}>
+                            <MenuItem key={name} value={name} title={name}>
                                 {category.displayValue}
                             </MenuItem>
                         ))}

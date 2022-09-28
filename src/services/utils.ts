@@ -7,3 +7,5 @@ export function getBuildUTCDate() {
 export function getBuildUTCTimestamp() {
     return preval`module.exports = new Date().toISOString();`;
 }
+
+export const IS_DEV_MODE: boolean = process.env.NODE_ENV === 'development';

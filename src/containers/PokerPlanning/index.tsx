@@ -30,6 +30,7 @@ import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
+import { IS_DEV_MODE } from '../../services/utils';
 import { buildRemoveUserMessage, buildResetMessage, buildVoteMessage } from './message.factory';
 import {
     CardsListingCategory,
@@ -109,6 +110,12 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
             storeInputText('lastPokerPlanningHostName', hostName);
         }
     }, [roomUUID, roomName, hostName, storeInputText]);
+
+    useEffect(() => {
+        if (IS_DEV_MODE) {
+            console.info('poker session', pokerSession);
+        }
+    }, [pokerSession]);
 
     useEffect(() => {
         if (!isReadyToStartSession) {
