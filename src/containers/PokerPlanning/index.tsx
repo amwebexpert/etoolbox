@@ -8,7 +8,6 @@ import {
     TableHead,
     TableRow,
     Typography,
-    useTheme,
     withWidth,
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -112,10 +111,19 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     }, [roomUUID, roomName, hostName, storeInputText]);
 
     useEffect(() => {
+        if (!pokerSession || !lastPokerPlanningUsername) {
+            return;
+        }
+
         if (IS_DEV_MODE) {
             console.info('poker session', pokerSession);
         }
-    }, [pokerSession]);
+
+        const myUserSessionEstimate = pokerSession?.estimates.find(e => e.username === lastPokerPlanningUsername);
+        if (myUserSessionEstimate) {
+            setMyEstimate(myUserSessionEstimate.estimate);
+        }
+    }, [lastPokerPlanningUsername, pokerSession]);
 
     useEffect(() => {
         if (!isReadyToStartSession) {
