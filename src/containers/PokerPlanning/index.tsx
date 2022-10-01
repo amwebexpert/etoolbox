@@ -36,10 +36,9 @@ import {
     CardsListingCategoryName,
     CARDS_LISTING_CATEGORIES,
     DEFAULT_CARDS_LISTING_CATEGORY,
-    PokerPlanningSession,
     SocketState,
-    UserMessage,
 } from './model';
+import { PokerPlanningSession, UserMessage } from './common.model';
 import PokerCard from './PokerCard';
 import PokerOptionsForm from './PokerOptionsForm';
 import { buildFullRouteURL, buildRouteURL, createSocket, parseEstimates } from './services';

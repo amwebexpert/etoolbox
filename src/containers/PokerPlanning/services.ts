@@ -1,15 +1,8 @@
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { v4 } from 'uuid';
 import { isNumeric } from '../../services/string-utils';
-import {
-    DEFAULT_HOSTNAME,
-    DEFAULT_ROOM_NAME,
-    EstimatesStats,
-    PokerPlanningSession,
-    SocketState,
-    SOCKET_STATES,
-    UserEstimate,
-} from './model';
+import { PokerPlanningSession, UserEstimate } from './common.model';
+import { DEFAULT_HOSTNAME, DEFAULT_ROOM_NAME, EstimatesStats, SocketState, SOCKET_STATES } from './model';
 
 type CreateSocketParams = {
     hostname?: string;

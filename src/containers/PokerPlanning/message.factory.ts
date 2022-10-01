@@ -1,11 +1,11 @@
-import { UserEstimate, UserMessage } from './model';
+import { UserEstimate, UserMessage } from './common.model';
 
 export const buildVoteMessage = (username = '', value?: string): UserMessage<UserEstimate> => ({
     type: 'vote',
     payload: {
         username,
         estimate: value,
-        estimatedAt: value ? new Date() : undefined,
+        estimatedAtISO8601: value ? new Date().toISOString() : undefined,
     },
 });
 

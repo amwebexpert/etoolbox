@@ -8,7 +8,6 @@ import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
-import DeveloperModeIcon from '@material-ui/icons/DeveloperMode';
 import GithubIcon from '@material-ui/icons/GitHub';
 import EventIcon from '@material-ui/icons/Event';
 import CSVParserIcon from '@material-ui/icons/GridOn';
@@ -26,7 +25,7 @@ import WrapTextIcon from '@material-ui/icons/WrapText';
 import clsx from 'clsx';
 import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
-import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
+import { NavLink, Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import ApplicationBar from './components/ApplicationBar/ApplicationBar';
 import { FullCenteredContent } from './components/FullCenteredContent/FullCenteredContent';
 import Home from './components/Home';
@@ -39,8 +38,6 @@ import { ConfirmDialogProvider } from './components/ConfirmDialog/ConfirmDialogP
 interface Props {
     width: Breakpoint;
 }
-
-const isPokerPlanningVisible = false;
 
 const App: React.FC<Props> = (props: Props) => {
     const desc = 'Web Toolbox app. A collection of utilities for developers.';
@@ -72,6 +69,10 @@ const App: React.FC<Props> = (props: Props) => {
     const NamedColors = lazy(() => import('./containers/NamedColors'));
     const ColorPicker = lazy(() => import('./containers/ColorPicker'));
 
+    const featuresGroupJSON = [
+        { type: JSONFormatter, path: '/JSONFormatter', label: 'JSON Format' },
+        { type: JSONConverter, path: '/JSONConverter', label: 'Convert JSON' },
+    ];
     const featuresGroupURL = [
         { type: URLParser, path: '/URLParser', label: 'Parser' },
         { type: URLEncoder, path: '/URLEncoder', label: 'Encoder' },
@@ -133,7 +134,13 @@ const App: React.FC<Props> = (props: Props) => {
                     </div>
                     <Divider />
                     <List className={classes.menu}>
-                        <NavbarButtonLink icon={<HomeIcon />} to="/" title="Home" detail="Home" onClick={menuClick} />
+                        <NavbarButtonLink
+                            icon={<HomeIcon />}
+                            to="/Home"
+                            title="Home"
+                            detail="Home"
+                            onClick={menuClick}
+                        />
 
                         <NavbarButtonLink
                             icon={<LinkIcon />}
@@ -150,6 +157,13 @@ const App: React.FC<Props> = (props: Props) => {
                             onClick={menuClick}
                         />
                         <NavbarButtonLink
+                            icon={<WrapTextIcon />}
+                            to="/JSON"
+                            title="JSON utilities"
+                            detail="JSON Format & convertion into typed languages"
+                            onClick={menuClick}
+                        />
+                        <NavbarButtonLink
                             icon={<PaletteIcon />}
                             to="/Colors"
                             title="Color picker"
@@ -157,20 +171,6 @@ const App: React.FC<Props> = (props: Props) => {
                             onClick={menuClick}
                         />
 
-                        <NavbarButtonLink
-                            icon={<WrapTextIcon />}
-                            to="/JSONFormatter"
-                            title="JSON Formatter"
-                            detail="JSON Formatter"
-                            onClick={menuClick}
-                        />
-                        <NavbarButtonLink
-                            icon={<DeveloperModeIcon />}
-                            to="/JSONConverter"
-                            title="JSON Converter"
-                            detail="Convert json into multiple output languages"
-                            onClick={menuClick}
-                        />
                         <NavbarButtonLink
                             icon={<TextRotationNoneIcon />}
                             to="/RegExTester"
@@ -234,15 +234,13 @@ const App: React.FC<Props> = (props: Props) => {
                             detail="CSV utilities"
                             onClick={menuClick}
                         />
-                        {isPokerPlanningVisible && (
-                            <NavbarButtonLink
-                                icon={<PokerPlanningIcon />}
-                                to="/PokerPlanning"
-                                title="Pocker planning"
-                                detail="Agile pocker planning online tools"
-                                onClick={menuClick}
-                            />
-                        )}
+                        <NavbarButtonLink
+                            icon={<PokerPlanningIcon />}
+                            to="/PokerPlanning"
+                            title="Pocker planning"
+                            detail="Agile pocker planning online tools"
+                            onClick={menuClick}
+                        />
                     </List>
                 </Drawer>
                 <ToasterProvider>
@@ -250,19 +248,18 @@ const App: React.FC<Props> = (props: Props) => {
                         <div className={classes.toolbar} />
                         <Suspense fallback={<FullCenteredContent>Loading…</FullCenteredContent>}>
                             <Routes>
-                                <Route path="/" element={<Home />} />
+                                <Route path="/Home" element={<Home />} />
 
                                 <Route path="/about" element={<About />} />
                                 <Route path="/preferences" element={<AppPreferences />} />
 
                                 <Route path="/URL/*" element={<FeaturesGroup tabs={featuresGroupURL} />} />
                                 <Route path="/Base64/*" element={<FeaturesGroup tabs={featuresGroupBase64} />} />
+                                <Route path="/JSON/*" element={<FeaturesGroup tabs={featuresGroupJSON} />} />
                                 <Route path="/Colors/*" element={<FeaturesGroup tabs={featuresGroupColors} />} />
 
                                 <Route path="/Base64Encoder" element={<Base64Encoder />} />
                                 <Route path="/Base64FileEncoder" element={<Base64FileEncoder />} />
-                                <Route path="/JSONFormatter" element={<JSONFormatter />} />
-                                <Route path="/JSONConverter" element={<JSONConverter />} />
                                 <Route path="/RegExTester" element={<RegExTester />} />
                                 <Route path="/UUIDGenerator" element={<UUIDGenerator />} />
                                 <Route path="/JWTDecoder" element={<JWTDecoder />} />
@@ -280,7 +277,7 @@ const App: React.FC<Props> = (props: Props) => {
                                 />
 
                                 {/** Default route is the home */}
-                                <Route element={<Home />} />
+                                <Route path="*" element={<Navigate to="/Home" replace />} />
                             </Routes>
                         </Suspense>
                     </main>

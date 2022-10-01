@@ -1,3 +1,5 @@
+import { UserEstimate } from './common.model';
+
 export const POKER_PLANNING_RATINGS_FIBONNACI_ENHANCED: string[] = [
     '?',
     '0',
@@ -68,24 +70,6 @@ export const DEFAULT_CARDS_LISTING_CATEGORY: CardsListingCategoryName = 'fibonna
 export const DEFAULT_ROOM_UUID = 'default';
 export const DEFAULT_ROOM_NAME = 'default';
 export const DEFAULT_HOSTNAME = 'localhost';
-
-export type UserEstimate = {
-    username: string;
-    estimate?: string;
-    estimatedAt?: Date;
-};
-
-export type PokerPlanningSession = {
-    lastUpdate: Date;
-    estimates: UserEstimate[];
-};
-
-export type MessageType = 'reset' | 'vote' | 'remove';
-
-export type UserMessage<TPayload = unknown> = {
-    type: MessageType;
-    payload?: TPayload;
-};
 
 export type SocketState = 'open' | 'closed' | 'closing' | 'connecting';
 
