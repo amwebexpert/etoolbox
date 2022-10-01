@@ -202,6 +202,14 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                         <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
                             <Button
                                 variant="contained"
+                                title="Instruction to setup a poker planning server"
+                                color="primary"
+                                target="_blank"
+                                href="https://github.com/amwebexpert/ws-poker-planning#production-deployments">
+                                ?
+                            </Button>
+                            <Button
+                                variant="contained"
                                 title="Register the team and start planning in a new room"
                                 color="primary"
                                 onClick={handleCreateNewRoom}>
