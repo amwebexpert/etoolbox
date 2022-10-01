@@ -55,6 +55,19 @@ This creates the following installers:
 * MacOS: `build/Web Toolbox-<version>.dmg`
 
 
+### Start the app locally
+
+To build a development version and run it locally:
+
+    npm install -g yarn
+    yarn
+    yarn start
+
+This compiles typescript files and start a local web server. This application is then available at:
+
+- [http://localhost:3000/#/PokerPlanning](http://localhost:3000/#/PokerPlanning)
+
+
 ## Project detail
 
 This project is originaly a fork of [React-TypeScript-`Electron` sample with Create React App and `Electron` Builder](https://github.com/yhirose/react-typescript-electron-sample-with-create-react-app-and-electron-builder)
@@ -121,9 +134,10 @@ CHANGELOG generation powered by [Conventional Commits](https://www.npmjs.com/pac
 
 ## Roadmap (of next features)
 
-- CSV Viewer, see this [nice wrapper for displaying CSV data in a formatted table](https://github.com/phaniteja1/react-csv-viewer/blob/master/src/CsvInterface.js)
 - Code snippets online store with text search capabilities on keywords and programming language type
+- CSV Viewer, see this [nice wrapper for displaying CSV data in a formatted table](https://github.com/phaniteja1/react-csv-viewer/blob/master/src/CsvInterface.js)
 - Suggests something or add your pull request!
+- Add list of all official HTTP Server codes (REST)
 
 ## License
 
