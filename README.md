@@ -65,7 +65,7 @@ To build a development version and run it locally:
 
 This compiles typescript files and start a local web server. This application is then available at:
 
-- [http://localhost:3000/#/PokerPlanning](http://localhost:3000/#/PokerPlanning)
+- [http://localhost:3000](http://localhost:3000)
 
 
 ## Project detail

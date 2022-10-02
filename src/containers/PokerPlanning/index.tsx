@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { default as RemoveEstimates, default as RemoveUser } from '@material-ui/icons/DeleteOutline';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
+import HelpIcon from '@material-ui/icons/Help';
 import ShareLink from '@material-ui/icons/Share';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -206,7 +207,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 color="primary"
                                 target="_blank"
                                 href="https://github.com/amwebexpert/ws-poker-planning#production-deployments">
-                                ?
+                                <HelpIcon />
                             </Button>
                             <Button
                                 variant="contained"
