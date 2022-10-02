@@ -36,10 +36,9 @@ DEFAULT_MAP.set('lastEpochValue', '1630238149875');
 DEFAULT_MAP.set('lastCSVInputContent', '');
 DEFAULT_MAP.set('lastCSVInputContentEncoding', 'utf-8');
 DEFAULT_MAP.set('lastCSVInputOptions', '');
-DEFAULT_MAP.set('lastPokerPlanningRoomName', '');
-DEFAULT_MAP.set('lastPokerPlanningRoomUUID', '');
-DEFAULT_MAP.set('lastPokerPlanningUsername', '');
 DEFAULT_MAP.set('lastPokerPlanningHostName', '');
+DEFAULT_MAP.set('lastPokerPlanningRoomName', '');
+DEFAULT_MAP.set('lastPokerPlanningUsername', '');
 DEFAULT_MAP.set('lastPokerCardsListingCategoryName', '');
 
 const initalState: TextInputsState = loadFromLocalStorage();

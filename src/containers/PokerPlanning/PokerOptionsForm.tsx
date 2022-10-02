@@ -1,11 +1,23 @@
-import { FormControl, Grid, MenuItem, Select, useTheme, withWidth } from '@material-ui/core';
+import {
+    FormControl,
+    Grid,
+    IconButton,
+    InputAdornment,
+    MenuItem,
+    Select,
+    useTheme,
+    withWidth,
+} from '@material-ui/core';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import TextField from '@material-ui/core/TextField';
+import HelpIcon from '@material-ui/icons/Help';
 import React from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
+import { isNotBlank } from '../../services/string-utils';
 import {
     CardsListingCategoryName,
     CARDS_LISTING_CATEGORIES,
@@ -19,7 +31,6 @@ type PokerSettingsProps = {
     socketState: SocketState;
     lastPokerPlanningRoomName?: string;
     lastPokerPlanningUsername?: string;
-    lastPokerPlanningRoomUUID?: string;
     lastPokerPlanningHostName?: string;
     lastPokerCardsListingCategoryName?: CardsListingCategoryName;
     storeInputText: (name: string, value: string) => void;
@@ -35,8 +46,10 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
 }) => {
     const classes = useStyles();
     const theme = useTheme();
+    const { hostName, roomUUID, roomName } = useParams();
 
     // computing
+    const isReadyToStartSession = isNotBlank(roomName) && isNotBlank(hostName) && isNotBlank(roomUUID);
     const cardsListingCategoryName: CardsListingCategoryName = lastPokerCardsListingCategoryName
         ? lastPokerCardsListingCategoryName
         : DEFAULT_CARDS_LISTING_CATEGORY;
@@ -52,7 +65,20 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
                         fullWidth={true}
                         margin="normal"
                         value={lastPokerPlanningHostName}
+                        disabled={isReadyToStartSession}
                         onChange={e => storeInputText('lastPokerPlanningHostName', e.target.value)}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        title="Instruction to setup a poker planning server"
+                                        target="_blank"
+                                        href="https://github.com/amwebexpert/ws-poker-planning#wspokerplanning-server-production-deployment">
+                                        <HelpIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </FormControl>
             </Grid>
@@ -65,6 +91,7 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
                         fullWidth={true}
                         margin="normal"
                         value={lastPokerPlanningRoomName}
+                        disabled={isReadyToStartSession}
                         onChange={e => storeInputText('lastPokerPlanningRoomName', e.target.value)}
                     />
                 </FormControl>
@@ -106,7 +133,6 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
 export function mapStateToProps(state: AppState) {
     return {
         lastPokerPlanningHostName: state.textInputs['lastPokerPlanningHostName'],
-        lastPokerPlanningRoomUUID: state.textInputs['lastPokerPlanningRoomUUID'],
         lastPokerPlanningRoomName: state.textInputs['lastPokerPlanningRoomName'],
         lastPokerPlanningUsername: state.textInputs['lastPokerPlanningUsername'],
         lastPokerCardsListingCategoryName: state.textInputs[

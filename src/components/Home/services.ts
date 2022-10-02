@@ -1,4 +1,5 @@
 export const CHANGE_LOGS = [
+    { version: 'v1.18.0', desc: 'New poker planning feature, powered by "ws-poker-planning" server project' },
     { version: 'v1.17.0', desc: 'Major upgrade from React 17 to React 18. Lazy loading improvements.' },
     { version: 'v1.16.0', desc: 'Bug fixes, broken links fixed, dependencies update' },
     { version: 'v1.15.0', desc: 'feat: CSV Parser Papaparse implementation' },

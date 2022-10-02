@@ -104,12 +104,12 @@ function setupMenu() {
                 {
                     label: 'JSON Formatter',
                     accelerator: 'Ctrl+Alt+J',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSONFormatter'),
+                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSON/JSONFormatter'),
                 },
                 {
                     label: 'JSON JSONConverter',
                     accelerator: 'Ctrl+Alt+V',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSONConverter'),
+                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSON/JSONConverter'),
                 },
                 {
                     label: 'Regular expression tester',

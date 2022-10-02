@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { default as RemoveEstimates, default as RemoveUser } from '@material-ui/icons/DeleteOutline';
 import PockerPlanningIcon from '@material-ui/icons/Filter3';
-import HelpIcon from '@material-ui/icons/Help';
 import ShareLink from '@material-ui/icons/Share';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -49,7 +48,6 @@ interface Props {
     width: Breakpoint;
     lastPokerPlanningRoomName?: string;
     lastPokerPlanningUsername?: string;
-    lastPokerPlanningRoomUUID?: string;
     lastPokerPlanningHostName?: string;
     lastPokerCardsListingCategoryName?: CardsListingCategoryName;
     storeInputText: (name: string, value: string) => void;
@@ -63,7 +61,6 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     // component inputs
     const { hostName, roomUUID, roomName } = useParams();
     const {
-        lastPokerPlanningRoomUUID,
         lastPokerPlanningRoomName,
         lastPokerPlanningUsername,
         lastPokerPlanningHostName,
@@ -90,26 +87,19 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         estimates,
         lastPokerPlanningUsername,
     );
-    const isReadyToStartSession =
-        isNotBlank(lastPokerPlanningHostName) &&
-        isNotBlank(lastPokerPlanningRoomUUID) &&
-        isNotBlank(hostName) &&
-        isNotBlank(roomUUID);
-    const isReadyToVote =
-        isNotBlank(lastPokerPlanningHostName) &&
-        isNotBlank(lastPokerPlanningRoomUUID) &&
-        isNotBlank(lastPokerPlanningRoomName) &&
-        isNotBlank(lastPokerPlanningUsername);
+    const isReadyToStartSession = socketRef && isNotBlank(roomName) && isNotBlank(hostName) && isNotBlank(roomUUID);
+    const isReadyToVote = isReadyToStartSession && isNotBlank(lastPokerPlanningUsername);
+    const isReadyToCreateNewRoom = isNotBlank(lastPokerPlanningHostName) && isNotBlank(lastPokerPlanningRoomName);
 
     // keep the store in sync whenever route params are updated
     useEffect(() => {
-        if (roomName && roomUUID && hostName) {
-            storeInputText('lastPokerPlanningRoomName', roomName);
-            storeInputText('lastPokerPlanningRoomUUID', roomUUID);
-            storeInputText('lastPokerPlanningHostName', hostName);
+        if (isReadyToStartSession) {
+            storeInputText('lastPokerPlanningRoomName', roomName ?? '');
+            storeInputText('lastPokerPlanningHostName', hostName ?? '');
         }
-    }, [roomUUID, roomName, hostName, storeInputText]);
+    }, [roomUUID, roomName, hostName, storeInputText, isReadyToStartSession]);
 
+    // update current user vote
     useEffect(() => {
         if (!pokerSession || !lastPokerPlanningUsername) {
             return;
@@ -131,20 +121,18 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         }
 
         socketRef.current = createSocket({
-            hostname: lastPokerPlanningHostName,
-            roomUUID: lastPokerPlanningRoomUUID,
+            hostName,
+            roomUUID,
             onSessionUpdate: setPokerSession,
             onSocketStateUpdate: setSocketState,
         });
-    }, [socketRef, isReadyToStartSession, lastPokerPlanningHostName, lastPokerPlanningRoomUUID]);
 
-    useEffect(() => {
         // socket cleanup whenever component unmount
         return () => socketRef.current?.close();
-    }, []);
+    }, [socketRef, isReadyToStartSession, hostName, roomUUID]);
 
     const handleCreateNewRoom = () => {
-        const url = buildRouteURL({ hostname: lastPokerPlanningHostName, roomName: lastPokerPlanningRoomName });
+        const url = buildRouteURL({ hostName: lastPokerPlanningHostName, roomName: lastPokerPlanningRoomName });
         navigate(url, { replace: true });
     };
 
@@ -203,16 +191,9 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                         <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
                             <Button
                                 variant="contained"
-                                title="Instruction to setup a poker planning server"
-                                color="primary"
-                                target="_blank"
-                                href="https://github.com/amwebexpert/ws-poker-planning#production-deployments">
-                                <HelpIcon />
-                            </Button>
-                            <Button
-                                variant="contained"
                                 title="Register the team and start planning in a new room"
                                 color="primary"
+                                disabled={!isReadyToCreateNewRoom}
                                 onClick={handleCreateNewRoom}>
                                 New
                             </Button>
@@ -225,11 +206,8 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 Join
                             </Button>
                             <CopyButton
-                                data={buildFullRouteURL({
-                                    hostname: lastPokerPlanningHostName,
-                                    roomUUID: lastPokerPlanningRoomUUID,
-                                    roomName: lastPokerPlanningRoomName,
-                                })}
+                                isDisabled={!isReadyToStartSession}
+                                data={buildFullRouteURL({ hostName, roomUUID, roomName })}
                                 Icon={ShareLink}
                                 hoverMessage="Copy link to clipboard for sharing"
                                 feedbackMessage="Link copied to clipboard, you can now share to all members"
@@ -311,7 +289,6 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
 export function mapStateToProps(state: AppState) {
     return {
         lastPokerPlanningHostName: state.textInputs['lastPokerPlanningHostName'],
-        lastPokerPlanningRoomUUID: state.textInputs['lastPokerPlanningRoomUUID'],
         lastPokerPlanningRoomName: state.textInputs['lastPokerPlanningRoomName'],
         lastPokerPlanningUsername: state.textInputs['lastPokerPlanningUsername'],
         lastPokerCardsListingCategoryName: state.textInputs[

@@ -5,20 +5,20 @@ import { PokerPlanningSession, UserEstimate } from './common.model';
 import { DEFAULT_HOSTNAME, DEFAULT_ROOM_NAME, EstimatesStats, SocketState, SOCKET_STATES } from './model';
 
 type CreateSocketParams = {
-    hostname?: string;
+    hostName?: string;
     roomUUID?: string;
     onSocketStateUpdate: (socketState: SocketState) => void;
     onSessionUpdate: (session: PokerPlanningSession) => void;
 };
 
 export const createSocket = ({
-    hostname = DEFAULT_HOSTNAME,
+    hostName = DEFAULT_HOSTNAME,
     roomUUID = v4(),
     onSocketStateUpdate,
     onSessionUpdate,
 }: CreateSocketParams): ReconnectingWebSocket => {
     const protocol = document.location.protocol === 'https:' ? 'wss' : 'ws';
-    const url = `${protocol}://${hostname}/ws?roomUUID=${roomUUID}`;
+    const url = `${protocol}://${hostName}/ws?roomUUID=${roomUUID}`;
 
     const socket = new ReconnectingWebSocket(url);
     socket.onopen = () => onSocketStateUpdate(getSocketState(socket.readyState));
@@ -57,16 +57,16 @@ export const parseEstimates = (estimates: UserEstimate[], username?: string): Es
 export const getSocketState = (state: number): SocketState => SOCKET_STATES.get(state) ?? 'closed';
 
 type BuildRouteURLParams = {
-    hostname?: string;
+    hostName?: string;
     roomUUID?: string;
     roomName?: string;
 };
 
 export const buildRouteURL = ({
-    hostname = DEFAULT_HOSTNAME,
+    hostName = DEFAULT_HOSTNAME,
     roomName = DEFAULT_ROOM_NAME,
     roomUUID = v4(),
-}: BuildRouteURLParams) => `/PokerPlanning/${hostname}/${roomUUID}/${roomName}`;
+}: BuildRouteURLParams) => `/PokerPlanning/${hostName}/${roomUUID}/${roomName}`;
 
 export const extractSinglePageAppHostnameAndPath = () => document.location.href.split('/#/')[0];
 
