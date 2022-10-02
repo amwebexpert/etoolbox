@@ -55,7 +55,7 @@ This creates the following installers:
 * MacOS: `build/Web Toolbox-<version>.dmg`
 
 
-### Start the app locally
+### Start this front-end app locally
 
 To build a development version and run it locally:
 
@@ -63,7 +63,7 @@ To build a development version and run it locally:
     yarn
     yarn start
 
-This compiles typescript files and start a local web server. This application is then available at:
+This will compile typescript files and start a local development server listening on port `3000`. The single page application is then available at:
 
 - [http://localhost:3000](http://localhost:3000)
 
