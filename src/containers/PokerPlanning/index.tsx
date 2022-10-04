@@ -109,7 +109,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
             console.info('poker session', pokerSession);
         }
 
-        const myUserSessionEstimate = pokerSession?.estimates.find(e => e.username === lastPokerPlanningUsername);
+        const myUserSessionEstimate = pokerSession.estimates.find(e => e.username === lastPokerPlanningUsername);
         if (myUserSessionEstimate) {
             setMyEstimate(myUserSessionEstimate.estimate);
         }

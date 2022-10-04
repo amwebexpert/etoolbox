@@ -56,7 +56,7 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
 
     return (
         <Grid container spacing={1}>
-            <Grid item md={3} xs={6}>
+            <Grid item md={4} xs={6}>
                 <FormControl className={classes.formControl} fullWidth={true}>
                     <TextField
                         label={`Serveur (channel ${socketState})`}
@@ -65,6 +65,7 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
                         fullWidth={true}
                         margin="normal"
                         value={lastPokerPlanningHostName}
+                        title={lastPokerPlanningHostName}
                         disabled={isReadyToStartSession}
                         onChange={e => storeInputText('lastPokerPlanningHostName', e.target.value)}
                         InputProps={{
@@ -91,6 +92,7 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
                         fullWidth={true}
                         margin="normal"
                         value={lastPokerPlanningRoomName}
+                        title={lastPokerPlanningRoomName}
                         disabled={isReadyToStartSession}
                         onChange={e => storeInputText('lastPokerPlanningRoomName', e.target.value)}
                     />
@@ -109,7 +111,7 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
                     />
                 </FormControl>
             </Grid>
-            <Grid item md={5} xs={6}>
+            <Grid item md={4} xs={6}>
                 <FormControl className={classes.formControl} fullWidth={true}>
                     <Select
                         style={{ marginTop: theme.spacing(2) }}
