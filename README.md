@@ -139,6 +139,7 @@ CHANGELOG generation powered by [Conventional Commits](https://www.npmjs.com/pac
   - add feature to clear all team members in one shut
   - the new room should display a confirmation dialog (confirming room is created) with copy to clipboard button
   - add indicator for joined members (as opposed to already listed because of previous poker sessions)
+- remove debounce hook lib: replace it by [usedeferredvalue](https://www.amitmerchant.com/natural-debouncing-using-the-usedeferredvalue-hook-in-react-18/)
 - Code snippets online store with text search capabilities on keywords and programming language type
 - CSV Viewer, see this [nice wrapper for displaying CSV data in a formatted table](https://github.com/phaniteja1/react-csv-viewer/blob/master/src/CsvInterface.js)
 - Suggests something or add your pull request!
