@@ -240,10 +240,14 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     Points
                                     <IconButton
                                         title="Toggle story points visibility"
+                                        disabled={!isUserMemberOfRoom}
                                         onClick={() => setIsEstimatesVisible(v => !v)}>
                                         {isEstimatesVisible ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
-                                    <IconButton onClick={handleClearAllVotes} title="Clear all votes">
+                                    <IconButton
+                                        onClick={handleClearAllVotes}
+                                        title="Clear all votes"
+                                        disabled={!isUserMemberOfRoom}>
                                         <RemoveEstimates />
                                     </IconButton>
                                 </StyledTableCell>
@@ -257,6 +261,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                     <StyledTableRow key={username}>
                                         <StyledTableCell width={30}>
                                             <IconButton
+                                                disabled={!isUserMemberOfRoom}
                                                 onClick={() => sendOrPostpone(buildRemoveUserMessage(username))}
                                                 title={`Remove user "${username}"`}>
                                                 <RemoveUser />
