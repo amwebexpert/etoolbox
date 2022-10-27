@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
+import PictureIcon from '@material-ui/icons/Photo';
 import QRCode from 'qrcode';
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -11,6 +12,7 @@ import { Dispatch } from 'redux';
 import { setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
+import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { AppState } from '../../reducers';
 import * as services from './services';
 
@@ -45,6 +47,21 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { inputText, inputOptions, storeInputText } = props;
     const [imgDataURL, setImgDataURL] = React.useState('');
+    const { setToasterState } = useToasterUpdate();
+
+    const copyImage = async () => {
+        try {
+            const response = await fetch(imgDataURL);
+            const blob = await response.blob();
+            // TODO We may have to do this workaround for Safari: https://stackoverflow.com/a/68241503/704681
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            setToasterState({ open: true, message: 'Image copied', type: 'success', autoHideDuration: 2000 });
+        } catch (e) {
+            console.error(e);
+            const errorMessage = `Unexpected copy error, see detail on console`;
+            setToasterState({ open: true, message: errorMessage, type: 'warning', autoHideDuration: 2000 });
+        }
+    };
 
     function generate() {
         if (!inputText) {
@@ -116,7 +133,15 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
 
                 <Toolbar className={classes.toolbar}>
                     <Box display="flex" flexGrow={1}></Box>
-                    <CopyButton data={imgDataURL} />
+                    <CopyButton hoverMessage="Copy image data URL" data={imgDataURL} />
+                    <Button
+                        disabled={!imgDataURL}
+                        variant="contained"
+                        color="primary"
+                        onClick={copyImage}
+                        endIcon={<PictureIcon />}>
+                        Copy Image
+                    </Button>
                     <Button
                         variant="contained"
                         color="primary"
@@ -129,8 +154,8 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
 
                 {imgDataURL && (
                     <Card className={classes.generatedQR}>
-                        <Box display="flex" alignItems="center" justifyContent="center">
-                            <img src={imgDataURL} alt="QR Code" />
+                        <Box display="flex" alignItems="center" justifyContent="center" p={1}>
+                            <img id="imgQrCode" src={imgDataURL} alt="QR Code" />
                         </Box>
                         <CardContent>
                             <TextField
