@@ -6,10 +6,10 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-
 import AppDetail from './AppDetail';
 import Banner from '../../images/icon.png';
 import { Link } from '@material-ui/core';
+import AppShare from '../AppShare/AppShare';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,6 +40,8 @@ export default function About() {
                     <CardMedia className={classes.media} image={Banner} title="Web Toolbox" />
                     <CardContent>
                         <Typography variant="h5">Web Toolbox</Typography>
+
+                        <AppShare />
 
                         <Typography variant="subtitle2" className={classes.appDescription}>
                             Collection of web developer utilities
