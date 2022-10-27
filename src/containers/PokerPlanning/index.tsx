@@ -97,7 +97,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
             storeInputText('lastPokerPlanningRoomName', roomName ?? '');
             storeInputText('lastPokerPlanningHostName', hostName ?? '');
         }
-    }, [roomUUID, roomName, hostName, storeInputText, isReadyToStartSession]);
+    }, [roomName, hostName, storeInputText, isReadyToStartSession]);
 
     // update current user vote
     useEffect(() => {

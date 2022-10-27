@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import GithubIcon from '@material-ui/icons/GitHub';
+import PrivacyIcon from '@material-ui/icons/Security';
 
 import { useToasterUpdate } from '../Toaster/ToasterProvider';
 import { getBuildUTCDate, getBuildUTCTimestamp } from '../../services/utils';
@@ -54,6 +55,16 @@ const AppDetail: React.FC<Props> = (props: Props) => {
                         </StyledTableCell>
                         <StyledTableCell align="right">
                             <Link href="https://github.com/amwebexpert/etoolbox">GitHub project</Link>
+                        </StyledTableCell>
+                    </StyledTableRow>
+                    <StyledTableRow key="privacy">
+                        <StyledTableCell component="th" scope="row">
+                            <PrivacyIcon />
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                            <Link target="_blank" rel="noopener noreferrer" href="/privacy-policy.html">
+                                Privacy Policy
+                            </Link>
                         </StyledTableCell>
                     </StyledTableRow>
                     <StyledTableRow key="versionNumber">
