@@ -10,6 +10,7 @@ import {
     Typography,
     withWidth,
 } from '@material-ui/core';
+import QRCode from 'qrcode';
 import Button from '@material-ui/core/Button';
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import { default as RemoveEstimates, default as RemoveUser } from '@material-ui/icons/DeleteOutline';
@@ -17,6 +18,7 @@ import PockerPlanningIcon from '@material-ui/icons/Filter3';
 import ShareLink from '@material-ui/icons/Share';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import QRCodeIcon from '@material-ui/icons/SelectAll';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -43,6 +45,7 @@ import PokerCard from './PokerCard';
 import PokerOptionsForm from './PokerOptionsForm';
 import { buildFullRouteURL, buildRouteURL, createSocket, parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
+import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 
 interface Props {
     width: Breakpoint;
@@ -57,6 +60,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const navigate = useNavigate();
     const { showConfirmationDialog } = useConfirmDialogContext();
+    const { setToasterState } = useToasterUpdate();
 
     // component inputs
     const { hostName, roomUUID, roomName } = useParams();
@@ -176,6 +180,22 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
         }
     }, [postponedMessage, socketState]);
 
+    const shareAsQRCode = async () => {
+        try {
+            const data = buildFullRouteURL({ hostName, roomUUID, roomName });
+            const imgDataURL = await QRCode.toDataURL(data, { type: 'image/png', width: 200 });
+            const response = await fetch(imgDataURL);
+            const blob = await response.blob();
+            // TODO We may have to do this workaround for Safari: https://stackoverflow.com/a/68241503/704681
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            setToasterState({ open: true, message: 'Image copied', type: 'success', autoHideDuration: 2000 });
+        } catch (e) {
+            console.error(e);
+            const errorMessage = `Unexpected copy error, see detail on console`;
+            setToasterState({ open: true, message: errorMessage, type: 'warning', autoHideDuration: 2000 });
+        }
+    };
+
     return (
         <>
             <Helmet title={title} />
@@ -212,6 +232,14 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 hoverMessage="Copy link to clipboard for sharing"
                                 feedbackMessage="Link copied to clipboard, you can now share to all members"
                             />
+                            <Button
+                                variant="contained"
+                                title="Copy QRCode for sharing"
+                                disabled={!isReadyToStartSession}
+                                onClick={shareAsQRCode}
+                                color="primary">
+                                <QRCodeIcon />
+                            </Button>
                         </Grid>
                     </Grid>
                 </Grid>
