@@ -62,7 +62,10 @@ const AppDetail: React.FC<Props> = (props: Props) => {
                             <PrivacyIcon />
                         </StyledTableCell>
                         <StyledTableCell align="right">
-                            <Link target="_blank" rel="noopener noreferrer" href="/privacy-policy.html">
+                            <Link
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href="https://amwebexpert.github.io/etoolbox/privacy-policy.html">
                                 Privacy Policy
                             </Link>
                         </StyledTableCell>
