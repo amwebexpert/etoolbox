@@ -12,8 +12,8 @@ import GithubIcon from '@material-ui/icons/GitHub';
 import EventIcon from '@material-ui/icons/Event';
 import CSVParserIcon from '@material-ui/icons/GridOn';
 import HomeIcon from '@material-ui/icons/Home';
-import LinkIcon from '@material-ui/icons/Link';
 import PokerPlanningIcon from '@material-ui/icons/Looks3';
+import HttpUrlIcon from '@material-ui/icons/HttpTwoTone';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import PaletteIcon from '@material-ui/icons/Palette';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
@@ -60,6 +60,7 @@ const App: React.FC<Props> = (props: Props) => {
     const DateConverter = lazy(() => import('./containers/DateConverter'));
     const CSVParser = lazy(() => import('./containers/CSVParser'));
     const PokerPlanning = lazy(() => import('./containers/PokerPlanning'));
+    const CurlConverter = lazy(() => import('./containers/CurlConverter'));
 
     const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
     const URLParser = lazy(() => import('./containers/URLParser'));
@@ -74,6 +75,7 @@ const App: React.FC<Props> = (props: Props) => {
         { type: JSONConverter, path: '/JSONConverter', label: 'Convert JSON' },
     ];
     const featuresGroupURL = [
+        { type: CurlConverter, path: '/CurlConverter', label: 'cURL Converter' },
         { type: URLParser, path: '/URLParser', label: 'Parser' },
         { type: URLEncoder, path: '/URLEncoder', label: 'Encoder' },
     ];
@@ -143,10 +145,10 @@ const App: React.FC<Props> = (props: Props) => {
                         />
 
                         <NavbarButtonLink
-                            icon={<LinkIcon />}
+                            icon={<HttpUrlIcon />}
                             to="/URL"
-                            title="URL parse, encode"
-                            detail="URL utilities for parsing and encoding url parameters"
+                            title="cURL & encoders"
+                            detail="cURL and url params encoding utilities"
                             onClick={menuClick}
                         />
                         <NavbarButtonLink
