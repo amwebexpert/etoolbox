@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { withStyles, makeStyles } from '@mui/styles';
 import { Alert, AlertTitle } from '@mui/lab';
@@ -10,10 +10,6 @@ const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(2),
         padding: theme.spacing(2),
-    },
-    panelTitle: {
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3),
     },
     panel: {
         borderColor: theme.palette.text.disabled,
@@ -54,9 +50,9 @@ const Home: React.FC = () => {
                 </Typography>
             </Alert>
 
-            <Typography variant="h6" className={classes.panelTitle}>
-                Change Logs
-            </Typography>
+            <Box sx={{ mt: 3, mb: 3 }}>
+                <Typography variant="h6">Change Logs</Typography>
+            </Box>
 
             <TableContainer component={Paper}>
                 <Table aria-label="Changes log">

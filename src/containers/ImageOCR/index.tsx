@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import TextFieldsIcon from '@mui/icons-material/TextFields';
+import OCRIcon from '@mui/icons-material/Scanner';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
 import { Resizable } from 're-resizable';
@@ -107,7 +107,7 @@ const ImageOCR: React.FC = () => {
         <>
             <Helmet title={title} />
             <div className={classes.root}>
-                <FeatureTitle iconType={TextFieldsIcon} title={title} />
+                <FeatureTitle iconType={OCRIcon} title={title} />
 
                 <form noValidate autoComplete="off" className={classes.form}>
                     <FormControl className={classes.formControl}>
@@ -184,10 +184,11 @@ const ImageOCR: React.FC = () => {
                             <CopyButton data={imgExtractedText} sx={{ mr: 1 }} />
                             <Button
                                 variant="contained"
+                                title="Run optical caracters recognition process to extract text"
                                 color="primary"
                                 onClick={handleProcess}
                                 disabled={!imgDataURL}
-                                endIcon={<TextFieldsIcon />}>
+                                endIcon={<OCRIcon />}>
                                 Run
                             </Button>
                         </Toolbar>

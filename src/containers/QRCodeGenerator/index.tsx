@@ -136,6 +136,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                     <Button
                         disabled={!imgDataURL}
                         variant="contained"
+                        title="Copy the QR Code image into the clipboard"
                         color="primary"
                         onClick={copyImage}
                         endIcon={<PictureIcon />}
@@ -145,6 +146,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                     <Button
                         variant="contained"
                         color="primary"
+                        title="Generate the QR code using the info and encoding parameters"
                         onClick={generate}
                         disabled={!inputText}
                         endIcon={<QRCodeIcon />}>

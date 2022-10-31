@@ -4,8 +4,8 @@ import { Dispatch } from 'redux';
 
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
-import LinkIcon from '@mui/icons-material/Link';
-import LinkOffIcon from '@mui/icons-material/LinkOff';
+import EncodeIcon from '@mui/icons-material/Code';
+import DecodeIcon from '@mui/icons-material/CodeOff';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import TextField from '@mui/material/TextField';
@@ -71,7 +71,12 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
                 />
 
                 <Toolbar className={classes.toolbar}>
-                    <Button variant="contained" color="primary" disabled={!transformed} onClick={flip}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        disabled={!transformed}
+                        onClick={flip}
+                        title="Switch the content">
                         <ImportExportIcon />
                     </Button>
                     <Box display="flex" flexGrow={1}></Box>
@@ -79,17 +84,19 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
                     <Button
                         sx={{ mr: 1 }}
                         variant="contained"
+                        title="Encode the content"
                         color="primary"
                         disabled={!inputText}
                         onClick={() => setTransformed(services.transform(inputText, true))}>
-                        <LinkIcon />
+                        <EncodeIcon />
                     </Button>
                     <Button
                         variant="contained"
+                        title="Decode the content"
                         color="primary"
                         disabled={!inputText}
                         onClick={() => setTransformed(services.transform(inputText, false))}>
-                        <LinkOffIcon />
+                        <DecodeIcon />
                     </Button>
                 </Toolbar>
 

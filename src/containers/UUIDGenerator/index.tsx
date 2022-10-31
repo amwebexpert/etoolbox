@@ -112,10 +112,11 @@ const UUIDGenerator: React.FC = () => {
                         </Grid>
                         <Grid item md={8} sm={6} xs={12}>
                             <Grid container justifyContent="flex-end" className={classes.toolbar}>
-                                <CopyButton data={generated} />
+                                <CopyButton data={generated} sx={{ mr: 1 }} />
                                 <Button
                                     variant="contained"
                                     color="primary"
+                                    title="Generate the UUID elements"
                                     onClick={handleSubmit(onSubmit)}
                                     endIcon={<SimCardIcon />}>
                                     Generate

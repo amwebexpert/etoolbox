@@ -120,7 +120,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                             style={{ display: 'none' }}
                         />
                         <label htmlFor="icon-button-file">
-                            <Button variant="contained" component="span" color="primary">
+                            <Button variant="contained" component="span" color="primary" sx={{ mr: 1 }}>
                                 File &nbsp; <FileIcon />
                             </Button>
                         </label>
@@ -210,6 +210,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                     <Button
                         sx={{ mr: 1 }}
                         variant="contained"
+                        title="Parse the CVS file content"
                         color="primary"
                         endIcon={<AccountTreeIcon>Run</AccountTreeIcon>}
                         disabled={!inputText || isRunning}
@@ -219,6 +220,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                     <Button
                         sx={{ mr: 1 }}
                         variant="contained"
+                        title="Clear the content"
                         color="primary"
                         disabled={!inputText}
                         onClick={handleClear}>

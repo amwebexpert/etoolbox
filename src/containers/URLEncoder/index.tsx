@@ -5,8 +5,8 @@ import { Dispatch } from 'redux';
 import { Box, Toolbar } from '@mui/material';
 import Button from '@mui/material/Button';
 import { makeStyles } from '@mui/styles';
-import LinkIcon from '@mui/icons-material/Link';
-import LinkOffIcon from '@mui/icons-material/LinkOff';
+import EncodeIcon from '@mui/icons-material/Code';
+import DecodeIcon from '@mui/icons-material/CodeOff';
 import TextField from '@mui/material/TextField';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import { setTextAction } from '../../actions/text-actions';
@@ -52,7 +52,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
         <>
             <Helmet title={title} />
             <div className={classes.root}>
-                <FeatureTitle iconType={LinkOffIcon} title={title} />
+                <FeatureTitle iconType={DecodeIcon} title={title} />
 
                 <TextField
                     autoFocus={isMdUp}
@@ -69,7 +69,13 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                 />
 
                 <Toolbar className={classes.toolbar}>
-                    <Button variant="contained" component="span" color="primary" disabled={!transformed} onClick={flip}>
+                    <Button
+                        variant="contained"
+                        component="span"
+                        color="primary"
+                        disabled={!transformed}
+                        onClick={flip}
+                        title="Switch data content">
                         <ImportExportIcon />
                     </Button>
                     <Box display="flex" flexGrow={1}></Box>
@@ -77,17 +83,19 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                     <Button
                         sx={{ mr: 1 }}
                         variant="contained"
+                        title="Encode the content"
                         color="primary"
                         disabled={!inputText}
                         onClick={() => setTransformed(services.transform(inputText, false))}>
-                        <LinkIcon />
+                        <EncodeIcon />
                     </Button>
                     <Button
                         variant="contained"
+                        title="Decode the content"
                         color="primary"
                         disabled={!inputText}
                         onClick={() => setTransformed(services.transform(inputText, true))}>
-                        <LinkOffIcon />
+                        <DecodeIcon />
                     </Button>
                 </Toolbar>
 

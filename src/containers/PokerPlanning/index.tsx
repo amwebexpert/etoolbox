@@ -207,6 +207,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                     <Grid item md={3} xs={12}>
                         <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
                             <Button
+                                sx={{ mr: 1 }}
                                 variant="contained"
                                 title="Register the team and start planning in a new room"
                                 color="primary"
@@ -215,6 +216,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 New
                             </Button>
                             <Button
+                                sx={{ mr: 1 }}
                                 variant="contained"
                                 title="Enter existing room"
                                 color="primary"
@@ -223,6 +225,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 Join
                             </Button>
                             <CopyButton
+                                sx={{ mr: 1 }}
                                 isDisabled={!isReadyToStartSession}
                                 data={buildFullRouteURL({ hostName, roomUUID, roomName })}
                                 Icon={ShareLink}

@@ -85,6 +85,7 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
                     <CopyButton data={transformed} sx={{ mr: 1 }} />
                     <Button
                         variant="contained"
+                        title="Decode the JWT Token"
                         color="primary"
                         endIcon={<LockOpenIcon>Decode</LockOpenIcon>}
                         disabled={!inputText}
