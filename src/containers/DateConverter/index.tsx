@@ -76,6 +76,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                 <FormControl className={classes.formControl}>
                                     <DatePicker
                                         label="Date"
+                                        inputFormat="yyyy-MM-dd"
                                         value={date}
                                         onChange={handleDateChange}
                                         renderInput={props => <TextField {...props} />}
