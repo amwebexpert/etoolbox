@@ -1,10 +1,12 @@
-import DateFnsUtils from '@date-io/date-fns';
 import { Box, Button, FormControl } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import EventIcon from '@mui/icons-material/Event';
 import TimerIcon from '@mui/icons-material/Timer';
-import { KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DatePicker from '@mui/lab/DatePicker';
+import TimePicker from '@mui/lab/TimePicker';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -48,7 +50,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                 <FeatureTitle iconType={EventIcon} title={title} />
 
                 <form className={classes.form} noValidate>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <LocalizationProvider utils={AdapterDateFns}>
                         <Grid container justifyContent="space-between">
                             <Box display="flex" alignItems="center">
                                 <FormControl className={classes.formControl}>
@@ -72,7 +74,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                 </Button>
                             </Box>
                             <div>
-                                <KeyboardDatePicker
+                                <DatePicker
                                     margin="normal"
                                     label="Date"
                                     format="yyyy-MM-dd"
@@ -82,7 +84,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                         'aria-label': 'change date',
                                     }}
                                 />
-                                <KeyboardTimePicker
+                                <TimePicker
                                     margin="normal"
                                     label="Time"
                                     value={date}
@@ -93,12 +95,12 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                 />
                             </div>
                         </Grid>
-                    </MuiPickersUtilsProvider>
+                    </LocalizationProvider>
                 </form>
 
                 {isSmDown && <CardLayout date={date} epochString={inputText} />}
 
-                {isMdUp && <TableLayout date={date} epochString={inputText} width="100%" />}
+                {isMdUp && <TableLayout date={date} epochString={inputText} />}
             </div>
         </>
     );

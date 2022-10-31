@@ -1,21 +1,9 @@
-import {
-    Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
-    Typography,
-    withStyles,
-    withWidth,
-} from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { makeStyles } from '@mui/material/styles';
-import { Breakpoint } from '@mui/material/styles/createBreakpoints';
+import { withStyles, makeStyles } from '@mui/styles';
 import { Alert, AlertTitle } from '@mui/lab';
-import React, { useState } from 'react';
+import React from 'react';
 import { getBuildUTCDate } from '../../services/utils';
-import PressableCounter from './PressableCounter';
 import { CHANGE_LOGS } from './services';
 
 const useStyles = makeStyles(theme => ({
@@ -54,33 +42,11 @@ const StyledTableRow = withStyles(theme => ({
     },
 }))(TableRow);
 
-interface Props {
-    width: Breakpoint;
-}
-
-// activate this flag to play with the PressableCounter class component life cycle methods
-const isDebugClassComponent = false;
-
-const Home: React.FC<Props> = (props: Props) => {
+const Home: React.FC = () => {
     const classes = useStyles();
-
-    const [isDebugComponentVisible, setIsDebugComponentVisible] = useState<boolean>(false);
-    const toggleDebugClassComponent = () => setIsDebugComponentVisible(value => !value);
 
     return (
         <Paper className={classes.root}>
-            {isDebugClassComponent && (
-                <div className={classes.panelTitle}>
-                    <Button variant="contained" color="primary" onClick={toggleDebugClassComponent}>
-                        Toggle debug class component
-                    </Button>
-
-                    {isDebugComponentVisible && (
-                        <PressableCounter initialCounterValue={10} onDispose={toggleDebugClassComponent} />
-                    )}
-                </div>
-            )}
-
             <Alert severity="success">
                 <AlertTitle>Last build: {getBuildUTCDate()}</AlertTitle>
                 <Typography variant="body1">
@@ -108,4 +74,4 @@ const Home: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default withWidth()(Home);
+export default Home;

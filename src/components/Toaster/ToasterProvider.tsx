@@ -5,7 +5,6 @@
  */
 import React, { PropsWithChildren } from 'react';
 import { AlertColor } from '@mui/material';
-
 import { Toaster } from '.';
 
 // -------------------------------
@@ -34,7 +33,11 @@ const defaultToasterState: ToasterState = {
 // Implementation code
 // -------------------------------
 const ToasterContext = React.createContext<ToasterContextType>({ toasterState: defaultToasterState });
-const ToasterUpdateContext = React.createContext<ToasterUpdateContextType>({ setToasterState: _ => { } });
+const ToasterUpdateContext = React.createContext<ToasterUpdateContextType>({
+    setToasterState: _ => {
+        console.log('');
+    },
+});
 
 export function useToaster() {
     return React.useContext(ToasterContext);

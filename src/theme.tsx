@@ -4,7 +4,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 declare module '@mui/styles/defaultTheme' {
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
-    interface DefaultTheme extends Theme { }
+    interface DefaultTheme extends Theme {
+        // https://stackoverflow.com/a/70707121/704681
+    }
 }
 
 // A custom theme for this app
@@ -54,17 +56,23 @@ export function useIsWidthDown(breakpoint: Breakpoint) {
 
 export function useGetBreakpoint(): Breakpoint {
     const theme = useTheme();
-    if (theme.breakpoints.down('xs')) {
-        return 'xs';
-    } else if (theme.breakpoints.down('sm')) {
-        return 'sm';
-    } else if (theme.breakpoints.down('md')) {
-        return 'md';
-    } else if (theme.breakpoints.down('lg')) {
-        return 'lg';
-    } else if (theme.breakpoints.down('xl')) {
-        return 'xl';
-    }
+    const values = {
+        xl: useMediaQuery(theme.breakpoints.up('xl')),
+        isBetweenLgXl: useMediaQuery(theme.breakpoints.up('lg')),
+        isBetweenMdLg: useMediaQuery(theme.breakpoints.up('md')),
+        isBetweenSmMd: useMediaQuery(theme.breakpoints.up('sm')),
+        isXs: useMediaQuery(theme.breakpoints.up('xs')),
+    };
 
-    return 'xl';
+    if (values.xl) {
+        return 'xl';
+    } else if (values.isBetweenLgXl) {
+        return 'lg';
+    } else if (values.isBetweenMdLg) {
+        return 'md';
+    } else if (values.isBetweenSmMd) {
+        return 'sm';
+    } else {
+        return 'xs';
+    }
 }
