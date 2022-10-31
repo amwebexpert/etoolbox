@@ -3,10 +3,10 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import EventIcon from '@mui/icons-material/Event';
 import TimerIcon from '@mui/icons-material/Timer';
-import DatePicker from '@mui/lab/DatePicker';
-import TimePicker from '@mui/lab/TimePicker';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -32,7 +32,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
     const isMdUp = useIsWidthUp('md');
     const isSmDown = useIsWidthDown('sm');
 
-    const handleDateChange = (date: Date | null) => {
+    const handleDateChange = (date: any) => {
         setDate(date);
         storeInputText('lastEpochValue', `${date?.getTime()}`);
     };
@@ -50,52 +50,48 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                 <FeatureTitle iconType={EventIcon} title={title} />
 
                 <form className={classes.form} noValidate>
-                    <LocalizationProvider utils={AdapterDateFns}>
-                        <Grid container justifyContent="space-between">
-                            <Box display="flex" alignItems="center">
+                    <Grid container justifyContent="space-between">
+                        <Box display="flex" alignItems="center">
+                            <FormControl className={classes.formControl}>
+                                <TextField
+                                    autoFocus={isMdUp}
+                                    label="Epoch value"
+                                    placeholder="Epoch value"
+                                    type="number"
+                                    variant="outlined"
+                                    value={inputText}
+                                    onChange={e => storeInputText('lastEpochValue', e.target.value)}
+                                />
+                            </FormControl>
+                            <Button
+                                variant="contained"
+                                title="Update value with 'Now' timestamp"
+                                color="primary"
+                                onClick={() => handleDateChange(new Date())}>
+                                <TimerIcon />
+                            </Button>
+                        </Box>
+                        <Box display="flex" alignItems="center">
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <FormControl className={classes.formControl}>
-                                    <TextField
-                                        autoFocus={isMdUp}
-                                        label="Epoch value"
-                                        placeholder="Epoch value"
-                                        type="number"
-                                        variant="outlined"
-                                        margin="normal"
-                                        value={inputText}
-                                        onChange={e => storeInputText('lastEpochValue', e.target.value)}
+                                    <DatePicker
+                                        label="Date"
+                                        value={date}
+                                        onChange={handleDateChange}
+                                        renderInput={props => <TextField {...props} />}
                                     />
                                 </FormControl>
-                                <Button
-                                    variant="contained"
-                                    title="Update value with 'Now' timestamp"
-                                    color="primary"
-                                    onClick={() => handleDateChange(new Date())}>
-                                    <TimerIcon />
-                                </Button>
-                            </Box>
-                            <div>
-                                <DatePicker
-                                    margin="normal"
-                                    label="Date"
-                                    format="yyyy-MM-dd"
-                                    value={date}
-                                    onChange={handleDateChange}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                />
-                                <TimePicker
-                                    margin="normal"
-                                    label="Time"
-                                    value={date}
-                                    onChange={handleDateChange}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change time',
-                                    }}
-                                />
-                            </div>
-                        </Grid>
-                    </LocalizationProvider>
+                                <FormControl className={classes.formControl}>
+                                    <TimePicker
+                                        label="Time"
+                                        value={date}
+                                        onChange={handleDateChange}
+                                        renderInput={props => <TextField {...props} />}
+                                    />
+                                </FormControl>
+                            </LocalizationProvider>
+                        </Box>
+                    </Grid>
                 </form>
 
                 {isSmDown && <CardLayout date={date} epochString={inputText} />}

@@ -28,6 +28,7 @@ export const useStyles = makeStyles(theme => ({
     form: {
         display: 'flex',
         flexWrap: 'wrap',
+        marginTop: theme.spacing(3),
     },
     formControl: {
         marginRight: theme.spacing(1),
