@@ -8,13 +8,13 @@ import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
-import GithubIcon from '@material-ui/icons/GitHub';
 import EventIcon from '@material-ui/icons/Event';
+import GithubIcon from '@material-ui/icons/GitHub';
 import CSVParserIcon from '@material-ui/icons/GridOn';
 import HomeIcon from '@material-ui/icons/Home';
-import PokerPlanningIcon from '@material-ui/icons/Looks3';
 import HttpUrlIcon from '@material-ui/icons/HttpTwoTone';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import PokerPlanningIcon from '@material-ui/icons/Looks3';
 import PaletteIcon from '@material-ui/icons/Palette';
 import SelectAllIcon from '@material-ui/icons/SelectAll';
 import SimCardIcon from '@material-ui/icons/SimCard';
@@ -25,15 +25,15 @@ import WrapTextIcon from '@material-ui/icons/WrapText';
 import clsx from 'clsx';
 import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
-import { NavLink, Route, Routes, useNavigate, Navigate } from 'react-router-dom';
+import { Navigate, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import ApplicationBar from './components/ApplicationBar/ApplicationBar';
+import { ConfirmDialogProvider } from './components/ConfirmDialog/ConfirmDialogProvider';
 import { FullCenteredContent } from './components/FullCenteredContent/FullCenteredContent';
 import Home from './components/Home';
 import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink';
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import Banner from './images/icon.png';
 import { useStyles } from './styles';
-import { ConfirmDialogProvider } from './components/ConfirmDialog/ConfirmDialogProvider';
 
 interface Props {
     width: Breakpoint;
@@ -60,7 +60,6 @@ const App: React.FC<Props> = (props: Props) => {
     const DateConverter = lazy(() => import('./containers/DateConverter'));
     const CSVParser = lazy(() => import('./containers/CSVParser'));
     const PokerPlanning = lazy(() => import('./containers/PokerPlanning'));
-    const CurlConverter = lazy(() => import('./containers/CurlConverter'));
 
     const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
     const URLParser = lazy(() => import('./containers/URLParser'));
@@ -75,7 +74,6 @@ const App: React.FC<Props> = (props: Props) => {
         { type: JSONConverter, path: '/JSONConverter', label: 'Convert JSON' },
     ];
     const featuresGroupURL = [
-        { type: CurlConverter, path: '/CurlConverter', label: 'cURL Converter' },
         { type: URLParser, path: '/URLParser', label: 'Parser' },
         { type: URLEncoder, path: '/URLEncoder', label: 'Encoder' },
     ];
@@ -147,8 +145,8 @@ const App: React.FC<Props> = (props: Props) => {
                         <NavbarButtonLink
                             icon={<HttpUrlIcon />}
                             to="/URL"
-                            title="cURL & encoders"
-                            detail="cURL and url params encoding utilities"
+                            title="URL parse, encode"
+                            detail="URL parsing and url parameters encoding utilities"
                             onClick={menuClick}
                         />
                         <NavbarButtonLink
