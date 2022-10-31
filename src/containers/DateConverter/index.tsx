@@ -85,6 +85,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                                 <FormControl className={classes.formControl}>
                                     <TimePicker
                                         label="Time"
+                                        inputFormat="HH:mm:ss"
                                         value={date}
                                         onChange={handleDateChange}
                                         renderInput={props => <TextField {...props} />}
