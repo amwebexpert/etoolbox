@@ -30,7 +30,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
     const { inputText, storeInputText } = props;
     const [date, setDate] = useState<Date | null>(null);
     const isMdUp = useIsWidthUp('md');
-    const isSmDown = useIsWidthDown('sm');
+    const isSmDown = useIsWidthDown('md');
 
     const handleDateChange = (date: any) => {
         setDate(date);
