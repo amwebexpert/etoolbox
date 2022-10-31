@@ -4,22 +4,19 @@ import {
     FormHelperText,
     Grid,
     InputLabel,
-    isWidthUp,
     Link,
     MenuItem,
     Select,
     TextField,
     Toolbar,
     Typography,
-    withWidth,
-} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import FileIcon from '@material-ui/icons/AttachmentOutlined';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CSVParserIcon from '@material-ui/icons/GridOn';
-import SaveIcon from '@material-ui/icons/Save';
+} from '@mui/material';
+import Button from '@mui/material/Button';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import FileIcon from '@mui/icons-material/AttachmentOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CSVParserIcon from '@mui/icons-material/GridOn';
+import SaveIcon from '@mui/icons-material/Save';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -35,9 +32,9 @@ import * as fileService from '../../services/file-utils';
 import * as services from './services';
 import { useStyles } from './styled';
 import prettyBytes from 'pretty-bytes';
+import { useIsWidthUp } from '../../theme';
 
 interface Props {
-    width: Breakpoint;
     inputText?: string;
     inputEncoding?: string;
     inputOptions?: string;
@@ -53,7 +50,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
     const [rawParsedResult, setRawParsedResult] = React.useState('');
     const [fileInfo, setFileInfo] = React.useState('');
     const [isRunning, setIsRunning] = React.useState(false);
-    const isMdUp = isWidthUp('md', props.width);
+    const isMdUp = useIsWidthUp('md');
     const displayedRowsCount = isMdUp ? 10 : 4;
 
     const handleSaveAs = (event: any) => {
@@ -263,4 +260,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(CSVParser));
+export default connect(mapStateToProps, mapDispatchToProps)(CSVParser);

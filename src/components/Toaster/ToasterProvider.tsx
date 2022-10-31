@@ -4,7 +4,8 @@
  * https://www.youtube.com/watch?v=5LrDIWkK_Bc&list=PL_XXwMy-A8KlOsfndUYWUzkp3xR9LNIB8&index=8
  */
 import React, { PropsWithChildren } from 'react';
-import { Color } from '@material-ui/lab';
+import { AlertColor } from '@mui/material';
+
 import { Toaster } from '.';
 
 // -------------------------------
@@ -12,7 +13,7 @@ import { Toaster } from '.';
 // -------------------------------
 export interface ToasterState {
     open: boolean;
-    type: Color;
+    type: AlertColor;
     message: string;
     autoHideDuration?: number;
 }
@@ -33,7 +34,7 @@ const defaultToasterState: ToasterState = {
 // Implementation code
 // -------------------------------
 const ToasterContext = React.createContext<ToasterContextType>({ toasterState: defaultToasterState });
-const ToasterUpdateContext = React.createContext<ToasterUpdateContextType>({ setToasterState: _ => {} });
+const ToasterUpdateContext = React.createContext<ToasterUpdateContextType>({ setToasterState: _ => { } });
 
 export function useToaster() {
     return React.useContext(ToasterContext);

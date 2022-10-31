@@ -1,11 +1,9 @@
 import DateFnsUtils from '@date-io/date-fns';
-import { Box, Button, FormControl } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import TextField from '@material-ui/core/TextField';
-import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
-import EventIcon from '@material-ui/icons/Event';
-import TimerIcon from '@material-ui/icons/Timer';
+import { Box, Button, FormControl } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import EventIcon from '@mui/icons-material/Event';
+import TimerIcon from '@mui/icons-material/Timer';
 import { KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -17,9 +15,9 @@ import { AppState } from '../../reducers';
 import { CardLayout } from './CardLayout';
 import { useStyles } from './styles';
 import { TableLayout } from './TableLayout';
+import { useIsWidthDown, useIsWidthUp } from '../../theme';
 
 interface Props {
-    width: Breakpoint;
     inputText?: string;
     storeInputText: (name: string, value: string) => void;
 }
@@ -29,6 +27,8 @@ const DateConverter: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { inputText, storeInputText } = props;
     const [date, setDate] = useState<Date | null>(null);
+    const isMdUp = useIsWidthUp('md');
+    const isSmDown = useIsWidthDown('sm');
 
     const handleDateChange = (date: Date | null) => {
         setDate(date);
@@ -53,7 +53,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                             <Box display="flex" alignItems="center">
                                 <FormControl className={classes.formControl}>
                                     <TextField
-                                        autoFocus={isWidthUp('md', props.width)}
+                                        autoFocus={isMdUp}
                                         label="Epoch value"
                                         placeholder="Epoch value"
                                         type="number"
@@ -96,11 +96,9 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                     </MuiPickersUtilsProvider>
                 </form>
 
-                {isWidthDown('sm', props.width) && <CardLayout date={date} epochString={inputText} />}
+                {isSmDown && <CardLayout date={date} epochString={inputText} />}
 
-                {isWidthUp('md', props.width) && (
-                    <TableLayout date={date} epochString={inputText} width={props.width} />
-                )}
+                {isMdUp && <TableLayout date={date} epochString={inputText} width="100%" />}
             </div>
         </>
     );
@@ -118,4 +116,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(DateConverter));
+export default connect(mapStateToProps, mapDispatchToProps)(DateConverter);

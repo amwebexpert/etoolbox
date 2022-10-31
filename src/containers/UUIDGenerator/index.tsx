@@ -1,9 +1,7 @@
-import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import SimCardIcon from '@material-ui/icons/SimCard';
+import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import { makeStyles } from '@mui/styles';
+import SimCardIcon from '@mui/icons-material/SimCard';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Controller, useForm } from 'react-hook-form';
@@ -11,6 +9,7 @@ import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import ResultMonospace from '../../components/ResultMonospace';
 import * as services from './services';
+import { useIsWidthUp } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,13 +34,10 @@ interface UUIDForm {
     quantity: number;
 }
 
-interface Props {
-    width: Breakpoint;
-}
-
-const UUIDGenerator: React.FC<Props> = (props: Props) => {
+const UUIDGenerator: React.FC = () => {
     const title = 'UUID Generator';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
     const defaultValues = {
         version: 4,
         quantity: 5,
@@ -73,7 +69,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                                             name={name}
                                             value={value}
                                             labelId="uuidVersionLabel"
-                                            autoFocus={isWidthUp('md', props.width)}
+                                            autoFocus={isMdUp}
                                             onChange={e => onChange(e.target.value)}>
                                             <MenuItem value={1}>1</MenuItem>
                                             <MenuItem value={4}>4</MenuItem>
@@ -135,4 +131,4 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default withWidth()(UUIDGenerator);
+export default UUIDGenerator;

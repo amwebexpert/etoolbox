@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Helmet } from 'react-helmet';
 
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import {
     Box,
     Link,
@@ -16,9 +14,9 @@ import {
     TablePagination,
     TableRow,
     Toolbar,
-} from '@material-ui/core';
-import GithubIcon from '@material-ui/icons/GitHub';
-import WatchIcon from '@material-ui/icons/Visibility';
+} from '@mui/material';
+import GithubIcon from '@mui/icons-material/GitHub';
+import WatchIcon from '@mui/icons-material/Visibility';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
@@ -30,9 +28,9 @@ import { useGlobalSpinnerUpdate } from '../../components/Spinner/GlobalSpinnerPr
 import FilterStats from '../../components/FilterStats';
 import { setTextAction } from '../../actions/text-actions';
 import { usePagination } from '../../hooks/usePagination';
+import { useIsWidthUp } from '../../theme';
 
 interface Props {
-    width: Breakpoint;
     inputText: string;
     projects: GithubUserProject[];
     searching: boolean;
@@ -44,6 +42,7 @@ interface Props {
 const GithubUserProjects: React.FC<Props> = (props: Props) => {
     const title = 'Github user projects';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
     const { inputText, searching, projects, listGithubUserProjectsRequested, storeInputText } = props;
     const [inputFilter, setInputFilter] = React.useState(inputText);
     const { setGlobalSpinnerState } = useGlobalSpinnerUpdate();
@@ -71,7 +70,7 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
 
                 <Toolbar className={classes.toolbar}>
                     <Filter
-                        autofocus={isWidthUp('md', props.width)}
+                        autofocus={isMdUp}
                         label="Username"
                         initialFilter={inputFilter}
                         onFilterChange={applyFilter}
@@ -90,7 +89,7 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
                 <TableContainer component={Paper}>
-                    <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
+                    <Table size={isMdUp ? 'medium' : 'small'}>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
                                 <StyledTableCell component="th" scope="row">
@@ -149,4 +148,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(GithubUserProjects));
+export default connect(mapStateToProps, mapDispatchToProps)(GithubUserProjects);

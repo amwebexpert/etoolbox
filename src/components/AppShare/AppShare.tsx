@@ -1,5 +1,5 @@
 import React from 'react';
-import ShareLink from '@material-ui/icons/Share';
+import ShareLink from '@mui/icons-material/Share';
 import { RWebShare } from 'react-web-share';
 
 export default function AppShare() {

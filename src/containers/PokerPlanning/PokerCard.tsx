@@ -1,18 +1,18 @@
-import { Button, isWidthUp, Typography, useTheme, withWidth } from '@material-ui/core';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+import { Button, Typography, useTheme } from '@mui/material';
 import React from 'react';
+import { useIsWidthUp } from '../../theme';
 
 type PokerCardType = {
-    width: Breakpoint;
     value: string;
     isDisabled: boolean;
     isSelected: boolean;
     onClick: (value: string) => void;
 };
 
-const PokerCard: React.FC<PokerCardType> = ({ width, value, isDisabled, isSelected, onClick }) => {
+const PokerCard: React.FC<PokerCardType> = ({ value, isDisabled, isSelected, onClick }) => {
     const theme = useTheme();
-    const size = isWidthUp('md', width) ? '70px' : '48px';
+    const isMdUp = useIsWidthUp('md');
+    const size = isMdUp ? '70px' : '48px';
 
     return (
         <Button
@@ -33,4 +33,4 @@ const PokerCard: React.FC<PokerCardType> = ({ width, value, isDisabled, isSelect
     );
 };
 
-export default withWidth()(PokerCard);
+export default PokerCard;

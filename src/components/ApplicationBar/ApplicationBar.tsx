@@ -1,17 +1,16 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import withWidth from '@material-ui/core/withWidth';
-import InfoIcon from '@material-ui/icons/Info';
-import SettingsIcon from '@material-ui/icons/Settings';
-import MenuIcon from '@material-ui/icons/Menu';
+import { makeStyles } from '@mui/styles';
+import AppBar from '@mui/material/AppBar';
+import IconButton from '@mui/material/IconButton';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import InfoIcon from '@mui/icons-material/Info';
+import SettingsIcon from '@mui/icons-material/Settings';
+import MenuIcon from '@mui/icons-material/Menu';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
 import { DRAWER_WIDTH } from '../../constants';
+import { useGetBreakpoint } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -51,11 +50,11 @@ const useStyles = makeStyles(theme => ({
 interface Props {
     open: boolean;
     setOpen: (open: boolean) => void;
-    width: Breakpoint;
 }
 
-const ApplicationBar = ({ open, setOpen, width }: Props) => {
+const ApplicationBar = ({ open, setOpen }: Props) => {
     const classes = useStyles();
+    const breakpoint = useGetBreakpoint();
 
     return (
         <AppBar
@@ -90,13 +89,13 @@ const ApplicationBar = ({ open, setOpen, width }: Props) => {
 
                 <Typography
                     variant="body2"
-                    title={`Device size actually detected as [${width}]`}
+                    title={`Device breakpoint category actually detected: [${breakpoint}]`}
                     className={classes.deviceInfo}>
-                    {width}
+                    {breakpoint}
                 </Typography>
             </Toolbar>
         </AppBar>
     );
 };
 
-export default withWidth()(ApplicationBar);
+export default ApplicationBar;

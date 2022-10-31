@@ -2,15 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { Box, Toolbar } from '@material-ui/core';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import LinkIcon from '@material-ui/icons/Link';
-import LinkOffIcon from '@material-ui/icons/LinkOff';
-import TextField from '@material-ui/core/TextField';
-import ImportExportIcon from '@material-ui/icons/ImportExport';
+import { Box, Toolbar } from '@mui/material';
+import Button from '@mui/material/Button';
+import { makeStyles } from '@mui/styles';
+import LinkIcon from '@mui/icons-material/Link';
+import LinkOffIcon from '@mui/icons-material/LinkOff';
+import TextField from '@mui/material/TextField';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import * as services from './services';
@@ -18,6 +16,7 @@ import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
 import ResultMonospace from '../../components/ResultMonospace';
+import { useIsWidthUp } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,7 +32,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface Props {
-    width: Breakpoint;
     inputText?: string;
     storeInputText: (name: string, value: string) => void;
 }
@@ -41,6 +39,7 @@ interface Props {
 const URLEncoder: React.FC<Props> = (props: Props) => {
     const title = 'URL Encoder / decoder';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
     const { inputText, storeInputText } = props;
     const [transformed, setTransformed] = React.useState(services.transform(inputText, false));
 
@@ -56,12 +55,12 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
                 <FeatureTitle iconType={LinkOffIcon} title={title} />
 
                 <TextField
-                    autoFocus={isWidthUp('md', props.width)}
+                    autoFocus={isMdUp}
                     label="Content to encode/decode"
                     placeholder="Paste or type the content here"
                     multiline
                     minRows={4}
-                    maxRows={isWidthUp('md', props.width) ? 20 : 4}
+                    maxRows={isMdUp ? 20 : 4}
                     variant="outlined"
                     margin="normal"
                     fullWidth={true}
@@ -109,4 +108,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(URLEncoder));
+export default connect(mapStateToProps, mapDispatchToProps)(URLEncoder);

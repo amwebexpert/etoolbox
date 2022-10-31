@@ -1,7 +1,5 @@
 import React from 'react';
 
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import {
     Box,
     Card,
@@ -14,11 +12,11 @@ import {
     TextField,
     Toolbar,
     Typography,
-} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import TextFieldsIcon from '@material-ui/icons/TextFields';
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+} from '@mui/material';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import TextFieldsIcon from '@mui/icons-material/TextFields';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
 import { Resizable } from 're-resizable';
 
@@ -29,10 +27,7 @@ import { useStyles, imageResizer } from './styled';
 import { Spinner } from '../../components/Spinner/Spinner';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
-
-interface Props {
-    width: Breakpoint;
-}
+import { useIsWidthUp } from '../../theme';
 
 interface WorkerStatus {
     workerId: string;
@@ -48,9 +43,10 @@ const INITIAL_WORKER_STATUS: WorkerStatus = {
     progress: 0,
 };
 
-const ImageOCR: React.FC<Props> = (props: Props) => {
+const ImageOCR: React.FC = () => {
     const title = 'Image OCR (text extraction)';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
     const { setToasterState } = useToasterUpdate();
     const [language, setLanguage] = React.useState('eng');
     const [workerStatus, setWorkerStatus] = React.useState<WorkerStatus>(INITIAL_WORKER_STATUS);
@@ -122,7 +118,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                             labelId="languageLabel"
                             id="language"
                             value={language}
-                            autoFocus={isWidthUp('md', props.width)}
+                            autoFocus={isMdUp}
                             onChange={(e: any) => setLanguage(e.target.value)}>
                             {/**
                              * TODO: Add all Tesseract.js supported languages:
@@ -202,4 +198,4 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default withWidth()(ImageOCR);
+export default ImageOCR;

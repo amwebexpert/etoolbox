@@ -1,7 +1,7 @@
-import { FormControlLabel, Switch } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import SettingsIcon from '@material-ui/icons/Settings';
+import { FormControlLabel, Switch } from '@mui/material';
+import Paper from '@mui/material/Paper';
+import { makeStyles } from '@mui/styles';
+import SettingsIcon from '@mui/icons-material/Settings';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import FeatureTitle from '../../components/FeatureTitle';

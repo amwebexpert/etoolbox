@@ -1,6 +1,7 @@
 import React from 'react';
-import { Alert } from '@material-ui/lab';
-import { makeStyles, Snackbar } from '@material-ui/core';
+import { Alert } from '@mui/lab';
+import { Snackbar } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import { useToaster, useToasterUpdate } from './ToasterProvider';
 
 const useStyles = makeStyles(() => ({

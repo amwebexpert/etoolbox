@@ -1,6 +1,6 @@
-import { Button, SvgIconTypeMap } from '@material-ui/core';
-import { OverridableComponent } from '@material-ui/core/OverridableComponent';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
+import { Button, SvgIconTypeMap } from '@mui/material';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
+import AssignmentTurnedIn from '@mui/icons-material/AssignmentTurnedIn';
 import * as copy from 'copy-to-clipboard';
 import React from 'react';
 import { useToasterUpdate } from '../Toaster/ToasterProvider';

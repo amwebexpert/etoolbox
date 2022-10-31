@@ -1,27 +1,25 @@
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
-import List from '@material-ui/core/List';
-import { useTheme } from '@material-ui/core/styles';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
-import EventIcon from '@material-ui/icons/Event';
-import GithubIcon from '@material-ui/icons/GitHub';
-import CSVParserIcon from '@material-ui/icons/GridOn';
-import HomeIcon from '@material-ui/icons/Home';
-import HttpUrlIcon from '@material-ui/icons/HttpTwoTone';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import PokerPlanningIcon from '@material-ui/icons/Looks3';
-import PaletteIcon from '@material-ui/icons/Palette';
-import SelectAllIcon from '@material-ui/icons/SelectAll';
-import SimCardIcon from '@material-ui/icons/SimCard';
-import TextFieldsIcon from '@material-ui/icons/TextFields';
-import TextRotationNoneIcon from '@material-ui/icons/TextRotationNone';
-import TocIcon from '@material-ui/icons/Toc';
-import WrapTextIcon from '@material-ui/icons/WrapText';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import { useTheme } from '@mui/material/styles';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
+import EventIcon from '@mui/icons-material/Event';
+import GithubIcon from '@mui/icons-material/GitHub';
+import CSVParserIcon from '@mui/icons-material/GridOn';
+import HomeIcon from '@mui/icons-material/Home';
+import HttpUrlIcon from '@mui/icons-material/HttpTwoTone';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import PokerPlanningIcon from '@mui/icons-material/Looks3';
+import PaletteIcon from '@mui/icons-material/Palette';
+import SelectAllIcon from '@mui/icons-material/SelectAll';
+import SimCardIcon from '@mui/icons-material/SimCard';
+import TextFieldsIcon from '@mui/icons-material/TextFields';
+import TextRotationNoneIcon from '@mui/icons-material/TextRotationNone';
+import TocIcon from '@mui/icons-material/Toc';
+import WrapTextIcon from '@mui/icons-material/WrapText';
 import clsx from 'clsx';
 import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
@@ -34,17 +32,16 @@ import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import Banner from './images/icon.png';
 import { useStyles } from './styles';
+import { useIsWidthDown, useIsWidthUp } from './theme';
 
-interface Props {
-    width: Breakpoint;
-}
-
-const App: React.FC<Props> = (props: Props) => {
+const App: React.FC = () => {
     const desc = 'Web Toolbox app. A collection of utilities for developers.';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
+    const isSmDown = useIsWidthDown('sm');
     const navigate = useNavigate();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(isWidthUp('md', props.width));
+    const [open, setOpen] = React.useState(isMdUp);
 
     const About = lazy(() => import('./components/About/About'));
     const AppPreferences = lazy(() => import('./containers/AppPreferences'));
@@ -98,7 +95,7 @@ const App: React.FC<Props> = (props: Props) => {
     }
 
     const menuClick = () => {
-        if (open && isWidthDown('sm', props.width)) {
+        if (open && isSmDown) {
             setOpen(false);
         }
     };
@@ -287,4 +284,4 @@ const App: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default withWidth()(App);
+export default App;

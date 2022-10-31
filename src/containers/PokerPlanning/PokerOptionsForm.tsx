@@ -1,16 +1,6 @@
-import {
-    FormControl,
-    Grid,
-    IconButton,
-    InputAdornment,
-    MenuItem,
-    Select,
-    useTheme,
-    withWidth,
-} from '@material-ui/core';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import TextField from '@material-ui/core/TextField';
-import HelpIcon from '@material-ui/icons/Help';
+import { FormControl, Grid, IconButton, InputAdornment, MenuItem, Select, useTheme } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import HelpIcon from '@mui/icons-material/Help';
 import React from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -27,7 +17,6 @@ import {
 import { useStyles } from './styles';
 
 type PokerSettingsProps = {
-    width: Breakpoint;
     socketState: SocketState;
     lastPokerPlanningRoomName?: string;
     lastPokerPlanningUsername?: string;
@@ -149,4 +138,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(PokerOptionsForm));
+export default connect(mapStateToProps, mapDispatchToProps)(PokerOptionsForm);

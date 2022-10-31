@@ -8,11 +8,11 @@ import {
     Typography,
     withStyles,
     withWidth,
-} from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { Alert, AlertTitle } from '@material-ui/lab';
+} from '@mui/material';
+import Paper from '@mui/material/Paper';
+import { makeStyles } from '@mui/material/styles';
+import { Breakpoint } from '@mui/material/styles/createBreakpoints';
+import { Alert, AlertTitle } from '@mui/lab';
 import React, { useState } from 'react';
 import { getBuildUTCDate } from '../../services/utils';
 import PressableCounter from './PressableCounter';
