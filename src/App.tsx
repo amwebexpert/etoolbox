@@ -14,7 +14,7 @@ import HttpUrlIcon from '@mui/icons-material/HttpTwoTone';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import PokerPlanningIcon from '@mui/icons-material/Looks3';
 import PaletteIcon from '@mui/icons-material/Palette';
-import SelectAllIcon from '@mui/icons-material/SelectAll';
+import QRCodeIcon from '@mui/icons-material/QrCode';
 import SimCardIcon from '@mui/icons-material/SimCard';
 import TextFieldsIcon from '@mui/icons-material/TextFields';
 import TextRotationNoneIcon from '@mui/icons-material/TextRotationNone';
@@ -190,7 +190,7 @@ const App: React.FC = () => {
                             onClick={menuClick}
                         />
                         <NavbarButtonLink
-                            icon={<SelectAllIcon />}
+                            icon={<QRCodeIcon />}
                             to="/QRCodeGenerator"
                             title="QR Code generator"
                             detail="QR Code generator"

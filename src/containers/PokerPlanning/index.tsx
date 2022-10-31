@@ -16,7 +16,7 @@ import PockerPlanningIcon from '@mui/icons-material/Filter3';
 import ShareLink from '@mui/icons-material/Share';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import QRCodeIcon from '@mui/icons-material/SelectAll';
+import QRCodeIcon from '@mui/icons-material/QrCode';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';

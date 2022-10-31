@@ -208,6 +208,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                 <Toolbar className={classes.toolbar}>
                     <Box display="flex" flexGrow={1}></Box>
                     <Button
+                        sx={{ mr: 1 }}
                         variant="contained"
                         color="primary"
                         endIcon={<AccountTreeIcon>Run</AccountTreeIcon>}
@@ -215,10 +216,15 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                         onClick={() => setIsRunning(true)}>
                         {isRunning ? 'Wait…' : 'Run'}
                     </Button>
-                    <Button variant="contained" color="primary" disabled={!inputText} onClick={handleClear}>
+                    <Button
+                        sx={{ mr: 1 }}
+                        variant="contained"
+                        color="primary"
+                        disabled={!inputText}
+                        onClick={handleClear}>
                         <DeleteIcon />
                     </Button>
-                    <CopyButton data={transformed} />
+                    <CopyButton data={transformed} sx={{ mr: 1 }} />
                     <Button
                         endIcon={<SaveIcon>Save As...</SaveIcon>}
                         disabled={!transformed}

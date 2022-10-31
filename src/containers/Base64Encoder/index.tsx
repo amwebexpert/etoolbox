@@ -75,8 +75,9 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
                         <ImportExportIcon />
                     </Button>
                     <Box display="flex" flexGrow={1}></Box>
-                    <CopyButton data={transformed} />
+                    <CopyButton data={transformed} sx={{ mr: 1 }} />
                     <Button
+                        sx={{ mr: 1 }}
                         variant="contained"
                         color="primary"
                         disabled={!inputText}

@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardContent, Grid, Link, TextField, Toolbar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import SelectAllIcon from '@mui/icons-material/SelectAll';
+import QRCodeIcon from '@mui/icons-material/QrCode';
 import PictureIcon from '@mui/icons-material/Photo';
 import QRCode from 'qrcode';
 import React from 'react';
@@ -82,7 +82,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
         <>
             <Helmet title={title} />
             <div className={classes.root}>
-                <FeatureTitle iconType={SelectAllIcon} title={title} />
+                <FeatureTitle iconType={QRCodeIcon} title={title} />
 
                 <form noValidate autoComplete="off">
                     <Grid container spacing={1}>
@@ -132,13 +132,14 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
 
                 <Toolbar className={classes.toolbar}>
                     <Box display="flex" flexGrow={1}></Box>
-                    <CopyButton hoverMessage="Copy image data URL" data={imgDataURL} />
+                    <CopyButton hoverMessage="Copy image data URL" data={imgDataURL} sx={{ mr: 1 }} />
                     <Button
                         disabled={!imgDataURL}
                         variant="contained"
                         color="primary"
                         onClick={copyImage}
-                        endIcon={<PictureIcon />}>
+                        endIcon={<PictureIcon />}
+                        sx={{ mr: 1 }}>
                         Copy Image
                     </Button>
                     <Button
@@ -146,7 +147,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                         color="primary"
                         onClick={generate}
                         disabled={!inputText}
-                        endIcon={<SelectAllIcon />}>
+                        endIcon={<QRCodeIcon />}>
                         Generate
                     </Button>
                 </Toolbar>

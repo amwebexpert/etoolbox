@@ -82,7 +82,7 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
 
                 <Toolbar className={classes.toolbar}>
                     <Box display="flex" flexGrow={1}></Box>
-                    <CopyButton data={transformed} />
+                    <CopyButton data={transformed} sx={{ mr: 1 }} />
                     <Button
                         variant="contained"
                         color="primary"
