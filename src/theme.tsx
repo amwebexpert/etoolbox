@@ -12,6 +12,7 @@ declare module '@mui/styles/defaultTheme' {
 // A custom theme for this app
 export const lightTheme = createTheme({
     palette: {
+        mode: 'light',
         primary: {
             main: '#bf3a2b',
             contrastText: '#fff',
@@ -28,6 +29,7 @@ export const lightTheme = createTheme({
 
 export const darkTheme = createTheme({
     palette: {
+        mode: 'dark',
         primary: {
             main: '#bf3a2b',
             contrastText: '#fff',
