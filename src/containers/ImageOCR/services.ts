@@ -20,6 +20,7 @@ export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: Pro
 export async function processOCR(
   language: string,
   imageBuffer: Buffer,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   logger: (log: any) => void,
   onCompleted: (text: string) => void,
 ) {

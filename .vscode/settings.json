@@ -23,12 +23,4 @@
     "source.fixAll": false,
     "source.organizeImports": false
   },
-
-  // Intellicode Settings
-  "vsintellicode.python.completionsEnabled": false,
-  "vsintellicode.sql.completionsEnabled": false,
-  "vsintellicode.features.python.deepLearning": "disabled",
-  "vsintellicode.java.completionsEnabled": false,
-  "editor.linkedEditing": true,
-  "editor.guides.indentation": true
 }

@@ -56,7 +56,7 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
     setFormatted(services.formatJson(inputText));
   }, [inputText]);
 
-  const handleSaveAs = (event: any) => {
+  const handleSaveAs = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     fileService.saveJsonAs(formatted);
   };

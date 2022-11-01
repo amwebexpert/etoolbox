@@ -1,7 +1,7 @@
 import { Tab, Tabs } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { makeStyles } from '@mui/styles';
-import React, { useCallback } from 'react';
+import React, { ElementType, useCallback } from 'react';
 import { Link, useLocation, useResolvedPath } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 type FeatureGroupTab = {
-  type: any;
+  type: ElementType;
   path: string;
   label: string;
 };
