@@ -1,3 +1,11 @@
+import React, { useEffect, useRef, useState } from 'react';
+
+import { default as RemoveEstimates, default as RemoveUser } from '@mui/icons-material/DeleteOutline';
+import PockerPlanningIcon from '@mui/icons-material/Filter3';
+import QRCodeIcon from '@mui/icons-material/QrCode';
+import ShareLink from '@mui/icons-material/Share';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   Grid,
   IconButton,
@@ -9,41 +17,35 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import QRCode from 'qrcode';
 import Button from '@mui/material/Button';
-import { default as RemoveEstimates, default as RemoveUser } from '@mui/icons-material/DeleteOutline';
-import PockerPlanningIcon from '@mui/icons-material/Filter3';
-import ShareLink from '@mui/icons-material/Share';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import QRCodeIcon from '@mui/icons-material/QrCode';
-import React, { useEffect, useRef, useState } from 'react';
+import QRCode from 'qrcode';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Dispatch } from 'redux';
+
 import { setTextAction } from '../../actions/text-actions';
 import { useConfirmDialogContext } from '../../components/ConfirmDialog/ConfirmDialogProvider';
 import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
+import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
 import { IS_DEV_MODE } from '../../services/utils';
+import { PokerPlanningSession, UserMessage } from './common.model';
 import { buildRemoveUserMessage, buildResetMessage, buildVoteMessage } from './message.factory';
 import {
+  CARDS_LISTING_CATEGORIES,
   CardsListingCategory,
   CardsListingCategoryName,
-  CARDS_LISTING_CATEGORIES,
   DEFAULT_CARDS_LISTING_CATEGORY,
   SocketState,
 } from './model';
-import { PokerPlanningSession, UserMessage } from './common.model';
 import PokerCard from './PokerCard';
 import PokerOptionsForm from './PokerOptionsForm';
 import { buildFullRouteURL, buildRouteURL, createSocket, parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 
 interface Props {
   lastPokerPlanningRoomName?: string;

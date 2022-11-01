@@ -1,20 +1,22 @@
+import React from 'react';
+
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { Box, Toolbar } from '@mui/material';
 import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/styles';
 import TextField from '@mui/material/TextField';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import React from 'react';
+import { makeStyles } from '@mui/styles';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Dispatch } from 'redux';
+
 import { setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 import { AppState } from '../../reducers';
-import * as services from './services';
 import { useIsWidthUp } from '../../theme';
+import * as services from './services';
 
 const useStyles = makeStyles(theme => ({
   root: {

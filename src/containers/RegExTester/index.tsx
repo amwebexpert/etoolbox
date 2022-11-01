@@ -1,22 +1,22 @@
 import React from 'react';
+
+import TextRotationNoneIcon from '@mui/icons-material/TextRotationNone';
+import { Box, Toolbar } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import { makeStyles } from '@mui/styles';
+import { Helmet } from 'react-helmet';
+import ReactHtmlParser from 'react-html-parser';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-
-import { Box, Toolbar } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import TextRotationNoneIcon from '@mui/icons-material/TextRotationNone';
-import TextField from '@mui/material/TextField';
-import ReactHtmlParser from 'react-html-parser';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { setTextAction } from '../../actions/text-actions';
-import { AppState } from '../../reducers';
-import * as services from './services';
-import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
-import { Helmet } from 'react-helmet';
+import FeatureTitle from '../../components/FeatureTitle';
 import ResultMonospace from '../../components/ResultMonospace';
+import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
+import * as services from './services';
 
 const useStyles = makeStyles(theme => ({
   root: {

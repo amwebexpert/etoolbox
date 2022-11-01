@@ -1,8 +1,9 @@
-import { app, BrowserWindow, Menu, ipcMain, dialog, Tray, nativeImage, globalShortcut } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as isDev from 'electron-is-dev';
+
+import { app, BrowserWindow, dialog, globalShortcut, ipcMain, Menu, nativeImage, Tray } from 'electron';
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
+import * as isDev from 'electron-is-dev';
 
 const isMac = process.platform === 'darwin';
 let win: BrowserWindow | null = null;
@@ -84,6 +85,7 @@ function loadApplication() {
 }
 
 function setupMenu() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const template: any = [
     {
       label: app.name,
@@ -230,7 +232,8 @@ function setupMenu() {
 }
 
 function setupTray() {
-  const template: any = [
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const template: any[] = [
     {
       label: 'About…',
       click: () => {
@@ -285,14 +288,29 @@ function setupIpcMain() {
 }
 
 function saveJsonAs(jsonContent: string) {
+  if (!win) {
+    console.error('Window obj is undefined');
+    return;
+  }
+
   const documentsFolder = app.getPath('documents');
   const toLocalPath: string = path.resolve(documentsFolder, 'test.json');
 
-  dialog.showSaveDialog(win!, { defaultPath: toLocalPath }).then(result => {
+  dialog.showSaveDialog(win, { defaultPath: toLocalPath }).then(result => {
     const fullFilename: string | undefined = result.filePath;
     if (fullFilename) {
       fs.writeFile(fullFilename, jsonContent, 'utf-8', err => {
-        win!.webContents.send('displayAlertMessage', {
+        if (err) {
+          win?.webContents.send('displayAlertMessage', {
+            open: true,
+            message: `Can't save the file [${fullFilename}]. ${err.message}`,
+            type: 'error',
+            autoHideDuration: 4000,
+          });
+          return;
+        }
+
+        win?.webContents.send('displayAlertMessage', {
           open: true,
           message: `File saved successfully: [${fullFilename}]`,
           type: 'success',

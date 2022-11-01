@@ -1,6 +1,8 @@
-import { Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
+
+import { Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@mui/material';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+
 import CopyButton from '../../components/CopyButton';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 import { useIsWidthUp } from '../../theme';

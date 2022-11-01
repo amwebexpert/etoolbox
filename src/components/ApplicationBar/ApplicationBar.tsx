@@ -1,14 +1,16 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
+
+import InfoIcon from '@mui/icons-material/Info';
+import MenuIcon from '@mui/icons-material/Menu';
+import SettingsIcon from '@mui/icons-material/Settings';
 import AppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import InfoIcon from '@mui/icons-material/Info';
-import SettingsIcon from '@mui/icons-material/Settings';
-import MenuIcon from '@mui/icons-material/Menu';
+import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { NavLink } from 'react-router-dom';
+
 import { DRAWER_WIDTH } from '../../constants';
 import { useGetBreakpoint } from '../../theme';
 

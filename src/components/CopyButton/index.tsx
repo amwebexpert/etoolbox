@@ -1,8 +1,10 @@
+import React from 'react';
+
+import AssignmentTurnedIn from '@mui/icons-material/AssignmentTurnedIn';
 import { Button, ButtonProps, SvgIconTypeMap } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
-import AssignmentTurnedIn from '@mui/icons-material/AssignmentTurnedIn';
 import * as copy from 'copy-to-clipboard';
-import React from 'react';
+
 import { useToasterUpdate } from '../Toaster/ToasterProvider';
 
 type Props = {

@@ -1,19 +1,21 @@
+import React from 'react';
+
+import PictureIcon from '@mui/icons-material/Photo';
+import QRCodeIcon from '@mui/icons-material/QrCode';
 import { Box, Button, Card, CardContent, Grid, Link, TextField, Toolbar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import QRCodeIcon from '@mui/icons-material/QrCode';
-import PictureIcon from '@mui/icons-material/Photo';
 import QRCode from 'qrcode';
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+
 import { setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { AppState } from '../../reducers';
-import * as services from './services';
 import { useIsWidthUp } from '../../theme';
+import * as services from './services';
 
 const useStyles = makeStyles(theme => ({
   root: {

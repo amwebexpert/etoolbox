@@ -1,8 +1,9 @@
 import React from 'react';
+
 import { Typography } from '@mui/material';
 
-import { useStyles } from './styles';
 import { SPACE } from '../../constants';
+import { useStyles } from './styles';
 
 interface Props {
   searching: boolean;

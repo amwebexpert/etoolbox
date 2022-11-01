@@ -1,15 +1,18 @@
-import { Box, FormControl, Grid, Link, MenuItem, TextField, Toolbar, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
+import React from 'react';
+
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import FileIcon from '@mui/icons-material/AttachmentOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CSVParserIcon from '@mui/icons-material/GridOn';
 import SaveIcon from '@mui/icons-material/Save';
-import React from 'react';
+import { Box, FormControl, Grid, Link, MenuItem, TextField, Toolbar, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import prettyBytes from 'pretty-bytes';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Dispatch } from 'redux';
+
 import { setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
@@ -17,10 +20,9 @@ import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 import { AppState } from '../../reducers';
 import { FILE_ENCODING_LABELS_SORTED, LabelAndName } from '../../services/encodings';
 import * as fileService from '../../services/file-utils';
+import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 import { useStyles } from './styled';
-import prettyBytes from 'pretty-bytes';
-import { useIsWidthUp } from '../../theme';
 
 interface Props {
   inputText?: string;

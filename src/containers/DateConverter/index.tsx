@@ -1,23 +1,23 @@
+import React, { useEffect, useState } from 'react';
+
+import EventIcon from '@mui/icons-material/Event';
+import TimerIcon from '@mui/icons-material/Timer';
 import { Box, Button, FormControl } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import EventIcon from '@mui/icons-material/Event';
-import TimerIcon from '@mui/icons-material/Timer';
-
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
-
-import React, { useEffect, useState } from 'react';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+
 import { setTextAction } from '../../actions/text-actions';
 import FeatureTitle from '../../components/FeatureTitle';
 import { AppState } from '../../reducers';
+import { useIsWidthDown, useIsWidthUp } from '../../theme';
 import { CardLayout } from './CardLayout';
 import { useStyles } from './styles';
 import { TableLayout } from './TableLayout';
-import { useIsWidthDown, useIsWidthUp } from '../../theme';
 
 interface Props {
   inputText?: string;

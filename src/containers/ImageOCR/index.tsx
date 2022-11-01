@@ -1,5 +1,10 @@
-import React from 'react';
 import { Buffer } from 'buffer';
+
+import React from 'react';
+
+import DeleteIcon from '@mui/icons-material/Delete';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import OCRIcon from '@mui/icons-material/Scanner';
 import {
   Box,
   Card,
@@ -12,20 +17,16 @@ import {
   Typography,
 } from '@mui/material';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import OCRIcon from '@mui/icons-material/Scanner';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-
 import { Resizable } from 're-resizable';
-
-import FeatureTitle from '../../components/FeatureTitle';
-import * as services from './services';
-import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
-import { useStyles, imageResizer } from './styled';
-import { Spinner } from '../../components/Spinner/Spinner';
-import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
+
+import CopyButton from '../../components/CopyButton';
+import FeatureTitle from '../../components/FeatureTitle';
+import { Spinner } from '../../components/Spinner/Spinner';
+import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useIsWidthUp } from '../../theme';
+import * as services from './services';
+import { imageResizer, useStyles } from './styled';
 
 interface WorkerStatus {
   workerId: string;

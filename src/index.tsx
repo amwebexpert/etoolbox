@@ -4,16 +4,16 @@ import React from 'react';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
+
 import App from './App';
 import { PreferencesContext, PreferencesProvider } from './components/Preferences/PreferencesProvider';
 import GlobalSpinnerProvider from './components/Spinner/GlobalSpinnerProvider';
 import GlobalStyle from './global-styles';
 import store from './store';
 import { darkTheme, lightTheme } from './theme';
-
-import { createRoot } from 'react-dom/client';
 
 const container = document.getElementById('root');
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

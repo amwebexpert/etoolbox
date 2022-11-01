@@ -1,13 +1,15 @@
-import { Box, Typography } from '@mui/material';
-import Button from '@mui/material/Button';
+import React, { useEffect } from 'react';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import PaletteIcon from '@mui/icons-material/Palette';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import { Box, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from 're-resizable';
-import React, { useEffect } from 'react';
 import { ColorResult, RGBColor, SketchPicker } from 'react-color';
 import { Helmet } from 'react-helmet';
+
 import FeatureTitle from '../../components/FeatureTitle';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import * as services from './services';

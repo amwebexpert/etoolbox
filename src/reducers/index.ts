@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
-import textInputsReducer, { TextInputsState } from './text-reducer';
-import mimeTypesReducer, { MimeTypesState } from './mime-type-reducer';
-import htmlEntitiesReducer, { HtmlEntitiesState } from './html-entity-reducer';
+
 import gitHubUserProjectsReducer, { GithubUserProjectsState } from './github-user-projects-reducer';
+import htmlEntitiesReducer, { HtmlEntitiesState } from './html-entity-reducer';
+import mimeTypesReducer, { MimeTypesState } from './mime-type-reducer';
+import textInputsReducer, { TextInputsState } from './text-reducer';
 
 export interface AppState {
   textInputs: TextInputsState;

@@ -1,17 +1,17 @@
 import React, { useCallback, useState } from 'react';
-import { FileRejection, useDropzone } from 'react-dropzone';
 
-import { Box, Card, CardContent, TextField, Toolbar, Typography } from '@mui/material';
 import PanoramaIcon from '@mui/icons-material/Panorama';
+import { Box, Card, CardContent, TextField, Toolbar, Typography } from '@mui/material';
 import prettyBytes from 'pretty-bytes';
 import { Resizable } from 're-resizable';
+import { FileRejection, useDropzone } from 'react-dropzone';
+import { Helmet } from 'react-helmet';
 
 import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { EncodedFile, ErrorFile, loadFile, MAX_FILE_SIZE_BYTES, rejectFiles } from './services';
 import { imageResizer, useStyles } from './styled';
-import { Helmet } from 'react-helmet';
 
 const Base64FileEncoder: React.FC = () => {
   const title = 'Base64 file encoder';

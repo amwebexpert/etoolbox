@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from '@mui/material';
-import { withStyles, makeStyles } from '@mui/styles';
+import { makeStyles, withStyles } from '@mui/styles';
 
 export const StyledTableCell = withStyles(() => ({
   body: {

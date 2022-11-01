@@ -1,7 +1,8 @@
+import React, { ElementType, useCallback } from 'react';
+
 import { Tab, Tabs } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { makeStyles } from '@mui/styles';
-import React, { ElementType, useCallback } from 'react';
 import { Link, useLocation, useResolvedPath } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({

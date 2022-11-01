@@ -1,9 +1,10 @@
 import React from 'react';
-import { FormControl, IconButton, Input, InputAdornment, InputLabel } from '@mui/material';
+
 import SearchIcon from '@mui/icons-material/Search';
+import { FormControl, IconButton, Input, InputAdornment, InputLabel } from '@mui/material';
+import { useDebouncedCallback } from 'use-debounce';
 
 import { useStyles } from './styles';
-import { useDebouncedCallback } from 'use-debounce';
 
 interface Props {
   label?: string;

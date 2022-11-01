@@ -1,5 +1,5 @@
 import red from '@mui/material/colors/red';
-import { Theme, createTheme, useTheme } from '@mui/material/styles';
+import { createTheme, Theme, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 declare module '@mui/styles/defaultTheme' {

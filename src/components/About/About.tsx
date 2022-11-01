@@ -1,15 +1,17 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
+
+import { Link } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import AppDetail from './AppDetail';
+import { makeStyles } from '@mui/styles';
+
 import Banner from '../../images/icon.png';
-import { Link } from '@mui/material';
 import AppShare from '../AppShare/AppShare';
+import AppDetail from './AppDetail';
 
 const useStyles = makeStyles(theme => ({
   root: {

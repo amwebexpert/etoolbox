@@ -1,4 +1,5 @@
 import mimeTypesDatabase, { MimeEntry } from 'mime-db';
+
 import { HtmlEntity } from '../../actions/html-entitie-actions';
 import { HTML_ENTITIES } from './html-entities';
 
