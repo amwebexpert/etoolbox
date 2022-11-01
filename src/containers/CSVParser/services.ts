@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Papa, { ParseConfig, ParseResult } from 'papaparse';
 
 export const DEFAULT_OPTIONS: any = {
@@ -8,7 +7,7 @@ export const DEFAULT_OPTIONS: any = {
   quoteChar: '"',
   escapeChar: '"',
   header: true,
-  transformHeader: (header: string, index: number) => header?.trim(),
+  transformHeader: (header: string, _index: number) => header?.trim(),
   dynamicTyping: true,
   preview: 0,
   encoding: undefined,

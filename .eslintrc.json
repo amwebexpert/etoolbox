@@ -27,7 +27,6 @@
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
     "react/jsx-filename-extension": [
       "warn",
       {
@@ -39,6 +38,15 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-shadow": "off",
+    "no-unused-vars": "off", // disable default eslint unused variable
+    "@typescript-eslint/no-unused-vars": [ // ignore validation variable with prefix _
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
     "sort-imports": 
     [
       "error", 
