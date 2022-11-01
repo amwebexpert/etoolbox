@@ -1,31 +1,15 @@
-import {
-    Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
-    Typography,
-    withStyles,
-    withWidth,
-} from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { Alert, AlertTitle } from '@material-ui/lab';
-import React, { useState } from 'react';
+import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
+import Paper from '@mui/material/Paper';
+import { withStyles, makeStyles } from '@mui/styles';
+import { Alert, AlertTitle } from '@mui/lab';
+import React from 'react';
 import { getBuildUTCDate } from '../../services/utils';
-import PressableCounter from './PressableCounter';
 import { CHANGE_LOGS } from './services';
 
 const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(2),
         padding: theme.spacing(2),
-    },
-    panelTitle: {
-        marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(3),
     },
     panel: {
         borderColor: theme.palette.text.disabled,
@@ -54,33 +38,11 @@ const StyledTableRow = withStyles(theme => ({
     },
 }))(TableRow);
 
-interface Props {
-    width: Breakpoint;
-}
-
-// activate this flag to play with the PressableCounter class component life cycle methods
-const isDebugClassComponent = false;
-
-const Home: React.FC<Props> = (props: Props) => {
+const Home: React.FC = () => {
     const classes = useStyles();
-
-    const [isDebugComponentVisible, setIsDebugComponentVisible] = useState<boolean>(false);
-    const toggleDebugClassComponent = () => setIsDebugComponentVisible(value => !value);
 
     return (
         <Paper className={classes.root}>
-            {isDebugClassComponent && (
-                <div className={classes.panelTitle}>
-                    <Button variant="contained" color="primary" onClick={toggleDebugClassComponent}>
-                        Toggle debug class component
-                    </Button>
-
-                    {isDebugComponentVisible && (
-                        <PressableCounter initialCounterValue={10} onDispose={toggleDebugClassComponent} />
-                    )}
-                </div>
-            )}
-
             <Alert severity="success">
                 <AlertTitle>Last build: {getBuildUTCDate()}</AlertTitle>
                 <Typography variant="body1">
@@ -88,9 +50,9 @@ const Home: React.FC<Props> = (props: Props) => {
                 </Typography>
             </Alert>
 
-            <Typography variant="h6" className={classes.panelTitle}>
-                Change Logs
-            </Typography>
+            <Box sx={{ mt: 3, mb: 3 }}>
+                <Typography variant="h6">Change Logs</Typography>
+            </Box>
 
             <TableContainer component={Paper}>
                 <Table aria-label="Changes log">
@@ -108,4 +70,4 @@ const Home: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default withWidth()(Home);
+export default Home;

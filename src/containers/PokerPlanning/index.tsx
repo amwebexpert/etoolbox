@@ -8,17 +8,15 @@ import {
     TableHead,
     TableRow,
     Typography,
-    withWidth,
-} from '@material-ui/core';
+} from '@mui/material';
 import QRCode from 'qrcode';
-import Button from '@material-ui/core/Button';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { default as RemoveEstimates, default as RemoveUser } from '@material-ui/icons/DeleteOutline';
-import PockerPlanningIcon from '@material-ui/icons/Filter3';
-import ShareLink from '@material-ui/icons/Share';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import QRCodeIcon from '@material-ui/icons/SelectAll';
+import Button from '@mui/material/Button';
+import { default as RemoveEstimates, default as RemoveUser } from '@mui/icons-material/DeleteOutline';
+import PockerPlanningIcon from '@mui/icons-material/Filter3';
+import ShareLink from '@mui/icons-material/Share';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import QRCodeIcon from '@mui/icons-material/QrCode';
 import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -48,7 +46,6 @@ import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 
 interface Props {
-    width: Breakpoint;
     lastPokerPlanningRoomName?: string;
     lastPokerPlanningUsername?: string;
     lastPokerPlanningHostName?: string;
@@ -210,6 +207,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                     <Grid item md={3} xs={12}>
                         <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
                             <Button
+                                sx={{ mr: 1 }}
                                 variant="contained"
                                 title="Register the team and start planning in a new room"
                                 color="primary"
@@ -218,6 +216,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 New
                             </Button>
                             <Button
+                                sx={{ mr: 1 }}
                                 variant="contained"
                                 title="Enter existing room"
                                 color="primary"
@@ -226,6 +225,7 @@ const PokerPlanning: React.FC<Props> = (props: Props) => {
                                 Join
                             </Button>
                             <CopyButton
+                                sx={{ mr: 1 }}
                                 isDisabled={!isReadyToStartSession}
                                 data={buildFullRouteURL({ hostName, roomUUID, roomName })}
                                 Icon={ShareLink}
@@ -336,4 +336,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(PokerPlanning));
+export default connect(mapStateToProps, mapDispatchToProps)(PokerPlanning);

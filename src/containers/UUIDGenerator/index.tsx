@@ -1,9 +1,7 @@
-import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import SimCardIcon from '@material-ui/icons/SimCard';
+import { FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+import { makeStyles } from '@mui/styles';
+import SimCardIcon from '@mui/icons-material/SimCard';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Controller, useForm } from 'react-hook-form';
@@ -11,6 +9,7 @@ import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import ResultMonospace from '../../components/ResultMonospace';
 import * as services from './services';
+import { useIsWidthUp } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,12 +21,7 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
     },
-    toolbar: {
-        '& > *': {
-            marginLeft: theme.spacing(1),
-            marginTop: theme.spacing(1),
-        },
-    },
+    toolbar: {},
 }));
 
 interface UUIDForm {
@@ -35,13 +29,10 @@ interface UUIDForm {
     quantity: number;
 }
 
-interface Props {
-    width: Breakpoint;
-}
-
-const UUIDGenerator: React.FC<Props> = (props: Props) => {
+const UUIDGenerator: React.FC = () => {
     const title = 'UUID Generator';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
     const defaultValues = {
         version: 4,
         quantity: 5,
@@ -62,22 +53,22 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                 <div className={classes.form}>
                     <Grid container spacing={1}>
                         <Grid item md={2} sm={3} xs={6}>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id="uuidVersionLabel">Version</InputLabel>
+                            <FormControl className={classes.formControl} fullWidth={true}>
                                 <Controller
                                     control={control}
                                     name="version"
                                     defaultValue={4}
                                     render={({ field: { value, name, onChange } }) => (
-                                        <Select
+                                        <TextField
+                                            select={true}
                                             name={name}
                                             value={value}
-                                            labelId="uuidVersionLabel"
-                                            autoFocus={isWidthUp('md', props.width)}
+                                            label="Version"
+                                            autoFocus={isMdUp}
                                             onChange={e => onChange(e.target.value)}>
                                             <MenuItem value={1}>1</MenuItem>
                                             <MenuItem value={4}>4</MenuItem>
-                                        </Select>
+                                        </TextField>
                                     )}
                                     rules={{
                                         required: true,
@@ -89,7 +80,7 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                             </FormControl>
                         </Grid>
                         <Grid item md={2} sm={3} xs={6}>
-                            <FormControl className={classes.formControl}>
+                            <FormControl className={classes.formControl} fullWidth={true}>
                                 <Controller
                                     name="quantity"
                                     render={({ field: { value, name, onChange }, fieldState: { invalid, error } }) => (
@@ -116,10 +107,11 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
                         </Grid>
                         <Grid item md={8} sm={6} xs={12}>
                             <Grid container justifyContent="flex-end" className={classes.toolbar}>
-                                <CopyButton data={generated} />
+                                <CopyButton data={generated} sx={{ mr: 1 }} />
                                 <Button
                                     variant="contained"
                                     color="primary"
+                                    title="Generate the UUID elements"
                                     onClick={handleSubmit(onSubmit)}
                                     endIcon={<SimCardIcon />}>
                                     Generate
@@ -135,4 +127,4 @@ const UUIDGenerator: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default withWidth()(UUIDGenerator);
+export default UUIDGenerator;

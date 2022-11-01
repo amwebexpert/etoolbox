@@ -13,11 +13,10 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import PaletteIcon from '@material-ui/icons/Palette';
+    TextField,
+} from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import PaletteIcon from '@mui/icons-material/Palette';
 import * as copy from 'copy-to-clipboard';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -28,6 +27,7 @@ import Filter from '../../components/Filter';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { usePagination } from '../../hooks/usePagination';
 import * as services from './services';
+import { useIsWidthUp } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -53,13 +53,10 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-interface Props {
-    width: Breakpoint;
-}
-
-const NamedColors = (props: Props) => {
+const NamedColors = () => {
     const title = 'Color categories';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
     const { setToasterState } = useToasterUpdate();
     const [colors, setColors] = useState(services.NAMED_COLORS);
     const [family, setFamily] = useState('-');
@@ -97,12 +94,13 @@ const NamedColors = (props: Props) => {
                     <Grid container spacing={1}>
                         <Grid item md={6} sm={12} xs={12}>
                             <FormControl className={classes.formControl}>
-                                <InputLabel id="family">Family</InputLabel>
-                                <Select
+                                <TextField
+                                    select={true}
                                     name="family"
                                     value={family}
-                                    labelId="family"
-                                    autoFocus={isWidthUp('md', props.width)}
+                                    label="Family"
+                                    autoFocus={isMdUp}
+                                    style={{ width: 260 }}
                                     onChange={(e: any) => setFamily(e.target.value)}>
                                     <MenuItem key="-" value="-">
                                         All
@@ -112,7 +110,7 @@ const NamedColors = (props: Props) => {
                                             {name}
                                         </MenuItem>
                                     ))}
-                                </Select>
+                                </TextField>
                             </FormControl>
                         </Grid>
                         <Grid item md={6} sm={12} xs={12}>
@@ -133,7 +131,7 @@ const NamedColors = (props: Props) => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
                 <TableContainer component={Paper}>
-                    <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
+                    <Table size={isMdUp ? 'medium' : 'small'}>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
                                 <TableCell component="th" scope="row">
@@ -198,4 +196,4 @@ const NamedColors = (props: Props) => {
     );
 };
 
-export default withWidth()(NamedColors);
+export default NamedColors;

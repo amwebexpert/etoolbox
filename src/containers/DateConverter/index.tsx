@@ -1,12 +1,12 @@
-import DateFnsUtils from '@date-io/date-fns';
-import { Box, Button, FormControl } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import TextField from '@material-ui/core/TextField';
-import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth';
-import EventIcon from '@material-ui/icons/Event';
-import TimerIcon from '@material-ui/icons/Timer';
-import { KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { Box, Button, FormControl } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import EventIcon from '@mui/icons-material/Event';
+import TimerIcon from '@mui/icons-material/Timer';
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -17,9 +17,9 @@ import { AppState } from '../../reducers';
 import { CardLayout } from './CardLayout';
 import { useStyles } from './styles';
 import { TableLayout } from './TableLayout';
+import { useIsWidthDown, useIsWidthUp } from '../../theme';
 
 interface Props {
-    width: Breakpoint;
     inputText?: string;
     storeInputText: (name: string, value: string) => void;
 }
@@ -29,8 +29,10 @@ const DateConverter: React.FC<Props> = (props: Props) => {
     const classes = useStyles();
     const { inputText, storeInputText } = props;
     const [date, setDate] = useState<Date | null>(null);
+    const isMdUp = useIsWidthUp('md');
+    const isSmDown = useIsWidthDown('md');
 
-    const handleDateChange = (date: Date | null) => {
+    const handleDateChange = (date: any) => {
         setDate(date);
         storeInputText('lastEpochValue', `${date?.getTime()}`);
     };
@@ -48,59 +50,55 @@ const DateConverter: React.FC<Props> = (props: Props) => {
                 <FeatureTitle iconType={EventIcon} title={title} />
 
                 <form className={classes.form} noValidate>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid container justifyContent="space-between">
-                            <Box display="flex" alignItems="center">
+                    <Grid container justifyContent="space-between">
+                        <Box display="flex" alignItems="center">
+                            <FormControl className={classes.formControl}>
+                                <TextField
+                                    autoFocus={isMdUp}
+                                    label="Epoch value"
+                                    placeholder="Epoch value"
+                                    type="number"
+                                    variant="outlined"
+                                    value={inputText}
+                                    onChange={e => storeInputText('lastEpochValue', e.target.value)}
+                                />
+                            </FormControl>
+                            <Button
+                                variant="contained"
+                                title="Update value with 'Now' timestamp"
+                                color="primary"
+                                onClick={() => handleDateChange(new Date())}>
+                                <TimerIcon />
+                            </Button>
+                        </Box>
+                        <Box display="flex" alignItems="center">
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <FormControl className={classes.formControl}>
-                                    <TextField
-                                        autoFocus={isWidthUp('md', props.width)}
-                                        label="Epoch value"
-                                        placeholder="Epoch value"
-                                        type="number"
-                                        variant="outlined"
-                                        margin="normal"
-                                        value={inputText}
-                                        onChange={e => storeInputText('lastEpochValue', e.target.value)}
+                                    <DatePicker
+                                        label="Date"
+                                        inputFormat="yyyy-MM-dd"
+                                        value={date}
+                                        onChange={handleDateChange}
+                                        renderInput={props => <TextField {...props} />}
                                     />
                                 </FormControl>
-                                <Button
-                                    variant="contained"
-                                    title="Update value with 'Now' timestamp"
-                                    color="primary"
-                                    onClick={() => handleDateChange(new Date())}>
-                                    <TimerIcon />
-                                </Button>
-                            </Box>
-                            <div>
-                                <KeyboardDatePicker
-                                    margin="normal"
-                                    label="Date"
-                                    format="yyyy-MM-dd"
-                                    value={date}
-                                    onChange={handleDateChange}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                />
-                                <KeyboardTimePicker
-                                    margin="normal"
-                                    label="Time"
-                                    value={date}
-                                    onChange={handleDateChange}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change time',
-                                    }}
-                                />
-                            </div>
-                        </Grid>
-                    </MuiPickersUtilsProvider>
+                                <FormControl className={classes.formControl}>
+                                    <TimePicker
+                                        label="Time"
+                                        inputFormat="HH:mm:ss"
+                                        value={date}
+                                        onChange={handleDateChange}
+                                        renderInput={props => <TextField {...props} />}
+                                    />
+                                </FormControl>
+                            </LocalizationProvider>
+                        </Box>
+                    </Grid>
                 </form>
 
-                {isWidthDown('sm', props.width) && <CardLayout date={date} epochString={inputText} />}
+                {isSmDown && <CardLayout date={date} epochString={inputText} />}
 
-                {isWidthUp('md', props.width) && (
-                    <TableLayout date={date} epochString={inputText} width={props.width} />
-                )}
+                {isMdUp && <TableLayout date={date} epochString={inputText} />}
             </div>
         </>
     );
@@ -118,4 +116,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(DateConverter));
+export default connect(mapStateToProps, mapDispatchToProps)(DateConverter);

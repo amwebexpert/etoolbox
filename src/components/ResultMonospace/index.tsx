@@ -1,8 +1,8 @@
-import { TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { TextField } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import React from 'react';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     result: {
         fontFamily: 'monospace',
         height: 'auto',

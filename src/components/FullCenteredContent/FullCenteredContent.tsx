@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@mui/styles';
 import React, { PropsWithChildren } from 'react';
 
 const useStyles = makeStyles(() => ({

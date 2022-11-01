@@ -1,17 +1,17 @@
-import { Button, SvgIconTypeMap } from '@material-ui/core';
-import { OverridableComponent } from '@material-ui/core/OverridableComponent';
-import AssignmentTurnedIn from '@material-ui/icons/AssignmentTurnedIn';
+import { Button, ButtonProps, SvgIconTypeMap } from '@mui/material';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
+import AssignmentTurnedIn from '@mui/icons-material/AssignmentTurnedIn';
 import * as copy from 'copy-to-clipboard';
 import React from 'react';
 import { useToasterUpdate } from '../Toaster/ToasterProvider';
 
-interface Props {
+type Props = {
     data?: string;
     isDisabled?: boolean;
     hoverMessage?: string;
     feedbackMessage?: string;
     Icon?: OverridableComponent<SvgIconTypeMap<unknown, 'svg'>>;
-}
+} & ButtonProps;
 
 const CopyButton: React.FC<Props> = ({
     data,
@@ -19,6 +19,7 @@ const CopyButton: React.FC<Props> = ({
     hoverMessage,
     feedbackMessage,
     Icon = AssignmentTurnedIn,
+    ...others
 }: Props) => {
     const { setToasterState } = useToasterUpdate();
 
@@ -35,6 +36,7 @@ const CopyButton: React.FC<Props> = ({
 
     return (
         <Button
+            {...others}
             onClick={handleCopy}
             disabled={!data || isDisabled}
             title={hoverMessage ?? 'Copy to clipboard'}

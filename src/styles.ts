@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import { DRAWER_WIDTH } from './constants';
 
 export const useStyles = makeStyles(theme => ({
@@ -9,6 +9,7 @@ export const useStyles = makeStyles(theme => ({
         width: DRAWER_WIDTH,
         flexShrink: 0,
         whiteSpace: 'nowrap',
+        overflowX: 'hidden',
     },
     drawerOpen: {
         width: DRAWER_WIDTH,
@@ -18,17 +19,11 @@ export const useStyles = makeStyles(theme => ({
         }),
     },
     drawerClose: {
+        width: 0,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        overflowX: 'hidden',
-        width: theme.spacing(7) + 1,
-        [theme.breakpoints.down('sm')]: {
-            // change width to zero (0) here to completely hide the
-            // left menu bar (drawer) for small devices
-            width: 0,
-        },
     },
     toolbar: {
         display: 'flex',

@@ -1,19 +1,19 @@
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import GithubIcon from '@material-ui/icons/GitHub';
-import PrivacyIcon from '@material-ui/icons/Security';
+import { Link } from '@mui/material';
+import { withStyles } from '@mui/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import GithubIcon from '@mui/icons-material/GitHub';
+import PrivacyIcon from '@mui/icons-material/Security';
 
 import { useToasterUpdate } from '../Toaster/ToasterProvider';
 import { getBuildUTCDate, getBuildUTCTimestamp } from '../../services/utils';
-import { isWidthUp, Link, withWidth } from '@material-ui/core';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+import { useIsWidthUp } from '../../theme';
 
 const StyledTableCell = withStyles(theme => ({
     head: {
@@ -33,12 +33,9 @@ const StyledTableRow = withStyles(theme => ({
     },
 }))(TableRow);
 
-interface Props {
-    width: Breakpoint;
-}
-
-const AppDetail: React.FC<Props> = (props: Props) => {
+const AppDetail: React.FC = () => {
     const { setToasterState } = useToasterUpdate();
+    const isMdUp = useIsWidthUp('md');
 
     function onBuildDateClick() {
         const message = `Build UTC timestamp: [${getBuildUTCTimestamp()}]`;
@@ -47,7 +44,7 @@ const AppDetail: React.FC<Props> = (props: Props) => {
 
     return (
         <TableContainer component={Paper}>
-            <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'} aria-label="about this application">
+            <Table size={isMdUp ? 'medium' : 'small'} aria-label="about this application">
                 <TableBody>
                     <StyledTableRow key="github">
                         <StyledTableCell component="th" scope="row">
@@ -112,4 +109,4 @@ const AppDetail: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default withWidth()(AppDetail);
+export default AppDetail;

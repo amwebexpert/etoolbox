@@ -1,6 +1,5 @@
 import {
     Box,
-    isWidthUp,
     Paper,
     Tab,
     Table,
@@ -11,8 +10,7 @@ import {
     TableRow,
     Tabs,
     Toolbar,
-    withWidth,
-} from '@material-ui/core';
+} from '@mui/material';
 import React from 'react';
 import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
@@ -26,7 +24,7 @@ import { TabPanel } from './TabPanel';
 import { Helmet } from 'react-helmet';
 import FilterStats from '../../components/FilterStats';
 import { usePagination } from '../../hooks/usePagination';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
+import { useIsWidthUp } from '../../theme';
 
 enum TABS {
     MIME_TYPES = 0,
@@ -34,7 +32,6 @@ enum TABS {
 }
 
 interface Props {
-    width: Breakpoint;
     mimeTypes: Map<string, readonly string[]>;
     filteringMimeTypes: boolean;
     htmlEntities: HtmlEntity[];
@@ -47,6 +44,7 @@ interface Props {
 const CommonLists: React.FC<Props> = (props: Props) => {
     const title = 'Mime-types, HTML Entities…';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
     const [selectedTab, setSelectedTab] = React.useState(TABS.MIME_TYPES);
     const [inputFilter, setInputFilter] = React.useState('');
     const {
@@ -94,7 +92,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                     indicatorColor="primary"
                     textColor="primary"
                     variant="scrollable"
-                    scrollButtons="on"
+                    scrollButtons={true}
                     aria-label="Common web lists">
                     <Tab label="Mime-types" id="mime-types" aria-controls="tab-mime-types" />
                     <Tab label="HTML Entities" id="html-entities" aria-controls="tab-html-entities" />
@@ -119,7 +117,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                     <TableContainer component={Paper}>
-                        <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
+                        <Table size={isMdUp ? 'medium' : 'small'}>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
                                     <StyledTableCell component="th" scope="row">
@@ -163,7 +161,7 @@ const CommonLists: React.FC<Props> = (props: Props) => {
                         onRowsPerPageChange={handleChangeRowsPerPage}
                     />
                     <TableContainer component={Paper}>
-                        <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
+                        <Table size={isMdUp ? 'medium' : 'small'}>
                             <TableHead className={classes.tableHeader}>
                                 <TableRow>
                                     <StyledTableCell component="th" scope="row">
@@ -237,4 +235,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(CommonLists));
+export default connect(mapStateToProps, mapDispatchToProps)(CommonLists);

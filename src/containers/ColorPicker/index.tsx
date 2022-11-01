@@ -1,8 +1,8 @@
-import { Box, Typography } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import PaletteIcon from '@material-ui/icons/Palette';
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import { Box, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import PaletteIcon from '@mui/icons-material/Palette';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from 're-resizable';
 import React, { useEffect } from 'react';

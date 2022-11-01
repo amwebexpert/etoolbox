@@ -1,6 +1,6 @@
 import React from 'react';
-import { FormControl, IconButton, Input, InputAdornment, InputLabel } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import { FormControl, IconButton, Input, InputAdornment, InputLabel } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 import { useStyles } from './styles';
 import { useDebouncedCallback } from 'use-debounce';

@@ -1,6 +1,6 @@
-import { Tab, Tabs } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
+import { Tab, Tabs } from '@mui/material';
+import Paper from '@mui/material/Paper';
+import { makeStyles } from '@mui/styles';
 import React, { useCallback } from 'react';
 import { Link, useLocation, useResolvedPath } from 'react-router-dom';
 
@@ -60,7 +60,7 @@ const FeaturesGroup = ({ tabs }: Props) => {
                     indicatorColor="primary"
                     textColor="primary"
                     variant="scrollable"
-                    scrollButtons="on"
+                    scrollButtons={true}
                     onChange={(_e: unknown, newValue: number) => setValue(newValue)}>
                     {tabs.map((tab, i) => (
                         <Tab value={i} key={i} label={tab.label} to={`${parentPath}${tab.path}`} component={Link} />

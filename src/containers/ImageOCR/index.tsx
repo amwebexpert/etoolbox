@@ -1,7 +1,5 @@
 import React from 'react';
 
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 import {
     Box,
     Card,
@@ -14,11 +12,11 @@ import {
     TextField,
     Toolbar,
     Typography,
-} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import TextFieldsIcon from '@material-ui/icons/TextFields';
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+} from '@mui/material';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import OCRIcon from '@mui/icons-material/Scanner';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
 import { Resizable } from 're-resizable';
 
@@ -29,10 +27,7 @@ import { useStyles, imageResizer } from './styled';
 import { Spinner } from '../../components/Spinner/Spinner';
 import CopyButton from '../../components/CopyButton';
 import { Helmet } from 'react-helmet';
-
-interface Props {
-    width: Breakpoint;
-}
+import { useIsWidthUp } from '../../theme';
 
 interface WorkerStatus {
     workerId: string;
@@ -48,9 +43,10 @@ const INITIAL_WORKER_STATUS: WorkerStatus = {
     progress: 0,
 };
 
-const ImageOCR: React.FC<Props> = (props: Props) => {
+const ImageOCR: React.FC = () => {
     const title = 'Image OCR (text extraction)';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
     const { setToasterState } = useToasterUpdate();
     const [language, setLanguage] = React.useState('eng');
     const [workerStatus, setWorkerStatus] = React.useState<WorkerStatus>(INITIAL_WORKER_STATUS);
@@ -111,18 +107,17 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
         <>
             <Helmet title={title} />
             <div className={classes.root}>
-                <FeatureTitle iconType={TextFieldsIcon} title={title} />
+                <FeatureTitle iconType={OCRIcon} title={title} />
 
                 <form noValidate autoComplete="off" className={classes.form}>
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink id="languageLabel">
-                            Image language
-                        </InputLabel>
-                        <Select
-                            labelId="languageLabel"
+                        <TextField
+                            select={true}
+                            label="Image language"
                             id="language"
+                            style={{ width: 160 }}
                             value={language}
-                            autoFocus={isWidthUp('md', props.width)}
+                            autoFocus={isMdUp}
                             onChange={(e: any) => setLanguage(e.target.value)}>
                             {/**
                              * TODO: Add all Tesseract.js supported languages:
@@ -130,7 +125,7 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                              */}
                             <MenuItem value="eng">English</MenuItem>
                             <MenuItem value="fra">French</MenuItem>
-                        </Select>
+                        </TextField>
                     </FormControl>
                 </form>
 
@@ -185,13 +180,14 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
                         <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
                         <Toolbar className={classes.toolbar}>
                             <Box display="flex" flexGrow={1}></Box>
-                            <CopyButton data={imgExtractedText} />
+                            <CopyButton data={imgExtractedText} sx={{ mr: 1 }} />
                             <Button
                                 variant="contained"
+                                title="Run optical caracters recognition process to extract text"
                                 color="primary"
                                 onClick={handleProcess}
                                 disabled={!imgDataURL}
-                                endIcon={<TextFieldsIcon />}>
+                                endIcon={<OCRIcon />}>
                                 Run
                             </Button>
                         </Toolbar>
@@ -202,4 +198,4 @@ const ImageOCR: React.FC<Props> = (props: Props) => {
     );
 };
 
-export default withWidth()(ImageOCR);
+export default ImageOCR;

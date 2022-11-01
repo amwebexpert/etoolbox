@@ -1,26 +1,25 @@
-import { Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import { isWidthUp } from '@material-ui/core/withWidth';
+import { Paper, Table, TableBody, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import CopyButton from '../../components/CopyButton';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
+import { useIsWidthUp } from '../../theme';
 import { SAMPLE_DATEFNS_FORMAT, SAMPLE_DATEFNS_TZ_CONVERT } from './constants';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
 interface Props {
     date: Date | null;
     epochString?: string;
-    width: Breakpoint;
 }
 
-export const TableLayout: React.FC<Props> = ({ date, epochString, width }: Props) => {
+export const TableLayout: React.FC<Props> = ({ date, epochString }: Props) => {
     const classes = useStyles();
     const syntaxTheme = useSyntaxHighlightTheme();
+    const isMdUp = useIsWidthUp('md');
 
     return (
         <TableContainer component={Paper} className={classes.panel}>
-            <Table size={isWidthUp('md', width) ? 'medium' : 'small'}>
+            <Table size={isMdUp ? 'medium' : 'small'}>
                 <TableHead className={classes.tableHeader}>
                     <TableRow>
                         <StyledTableCell>Description</StyledTableCell>

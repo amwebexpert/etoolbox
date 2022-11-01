@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
 
-import { Box, Card, CardContent, TextField, Toolbar, Typography } from '@material-ui/core';
-import PanoramaIcon from '@material-ui/icons/Panorama';
+import { Box, Card, CardContent, TextField, Toolbar, Typography } from '@mui/material';
+import PanoramaIcon from '@mui/icons-material/Panorama';
 import prettyBytes from 'pretty-bytes';
 import { Resizable } from 're-resizable';
 

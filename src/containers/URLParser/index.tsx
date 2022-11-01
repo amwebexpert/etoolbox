@@ -1,17 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import LinkIcon from '@material-ui/icons/Link';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TextField from '@mui/material/TextField';
+import Paper from '@mui/material/Paper';
+import LinkIcon from '@mui/icons-material/Link';
 
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
@@ -19,16 +17,17 @@ import * as services from './services';
 import FeatureTitle from '../../components/FeatureTitle';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 import { Helmet } from 'react-helmet';
+import { useIsWidthUp } from '../../theme';
 
 interface Props {
     inputText?: string;
     storeInputText: (name: string, value: string) => void;
-    width: Breakpoint;
 }
 
 const URLParser: React.FC<Props> = (props: Props) => {
     const title = 'URL Parser';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
     const { inputText, storeInputText } = props;
     const [urlFragments, setUrlFragments] = React.useState(new Map());
     const [urlParams, setUrlParams] = React.useState(new Map());
@@ -45,12 +44,12 @@ const URLParser: React.FC<Props> = (props: Props) => {
                 <FeatureTitle iconType={LinkIcon} title={title} />
 
                 <TextField
-                    autoFocus={isWidthUp('md', props.width)}
+                    autoFocus={isMdUp}
                     label="URL"
                     placeholder="Paste or type the url here"
                     multiline
                     minRows={4}
-                    maxRows={isWidthUp('md', props.width) ? 20 : 4}
+                    maxRows={isMdUp ? 20 : 4}
                     variant="outlined"
                     margin="normal"
                     fullWidth={true}
@@ -60,7 +59,7 @@ const URLParser: React.FC<Props> = (props: Props) => {
                 />
 
                 <TableContainer component={Paper} className={classes.panel}>
-                    <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
+                    <Table size={isMdUp ? 'medium' : 'small'}>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
                                 <StyledTableCell>Fragment</StyledTableCell>
@@ -81,7 +80,7 @@ const URLParser: React.FC<Props> = (props: Props) => {
                 </TableContainer>
 
                 <TableContainer component={Paper}>
-                    <Table size={isWidthUp('md', props.width) ? 'medium' : 'small'}>
+                    <Table size={isMdUp ? 'medium' : 'small'}>
                         <TableHead className={classes.tableHeader}>
                             <TableRow>
                                 <StyledTableCell>Parameter</StyledTableCell>
@@ -117,4 +116,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(URLParser));
+export default connect(mapStateToProps, mapDispatchToProps)(URLParser);

@@ -1,5 +1,5 @@
-import { Box, Typography, useTheme } from '@material-ui/core';
-import UnderConstructionIcon from '@material-ui/icons/ReportProblem';
+import { Box, Typography, useTheme } from '@mui/material';
+import UnderConstructionIcon from '@mui/icons-material/ReportProblem';
 import React from 'react';
 
 type UnderConstructionType = {

@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, Typography } from '@material-ui/core';
+import { Card, CardActions, CardContent, Typography } from '@mui/material';
 import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import CopyButton from '../../components/CopyButton';

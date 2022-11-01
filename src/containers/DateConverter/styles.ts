@@ -1,4 +1,5 @@
-import { makeStyles, TableCell, TableRow, withStyles } from '@material-ui/core';
+import { TableCell, TableRow } from '@mui/material';
+import { makeStyles, withStyles } from '@mui/styles';
 
 export const StyledTableCell = withStyles(theme => ({
     body: {
@@ -27,6 +28,7 @@ export const useStyles = makeStyles(theme => ({
     form: {
         display: 'flex',
         flexWrap: 'wrap',
+        marginTop: theme.spacing(3),
     },
     formControl: {
         marginRight: theme.spacing(1),

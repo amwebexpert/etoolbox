@@ -1,9 +1,7 @@
-import { Box, Button, Card, CardContent, Grid, Link, TextField, Toolbar } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Breakpoint } from '@material-ui/core/styles/createBreakpoints';
-import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
-import SelectAllIcon from '@material-ui/icons/SelectAll';
-import PictureIcon from '@material-ui/icons/Photo';
+import { Box, Button, Card, CardContent, Grid, Link, TextField, Toolbar } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import QRCodeIcon from '@mui/icons-material/QrCode';
+import PictureIcon from '@mui/icons-material/Photo';
 import QRCode from 'qrcode';
 import React from 'react';
 import { Helmet } from 'react-helmet';
@@ -15,6 +13,7 @@ import FeatureTitle from '../../components/FeatureTitle';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { AppState } from '../../reducers';
 import * as services from './services';
+import { useIsWidthUp } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,9 +22,6 @@ const useStyles = makeStyles(theme => ({
     toolbar: {
         margin: 0,
         padding: 0,
-        '& > *': {
-            marginLeft: theme.spacing(1),
-        },
     },
     qrOptions: {
         fontFamily: 'monospace',
@@ -36,7 +32,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 interface Props {
-    width: Breakpoint;
     inputText?: string;
     inputOptions?: string;
     storeInputText: (name: string, value: string) => void;
@@ -45,6 +40,7 @@ interface Props {
 const QRCodeGenerator: React.FC<Props> = (props: Props) => {
     const title = 'QR Code generator';
     const classes = useStyles();
+    const isMdUp = useIsWidthUp('md');
     const { inputText, inputOptions, storeInputText } = props;
     const [imgDataURL, setImgDataURL] = React.useState('');
     const { setToasterState } = useToasterUpdate();
@@ -83,18 +79,18 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
         <>
             <Helmet title={title} />
             <div className={classes.root}>
-                <FeatureTitle iconType={SelectAllIcon} title={title} />
+                <FeatureTitle iconType={QRCodeIcon} title={title} />
 
                 <form noValidate autoComplete="off">
                     <Grid container spacing={1}>
                         <Grid item md={6} sm={12} xs={12}>
                             <TextField
-                                autoFocus={isWidthUp('md', props.width)}
+                                autoFocus={isMdUp}
                                 label="Text to store into QR Code"
                                 placeholder="Paste or type the content here"
                                 multiline
                                 minRows={12}
-                                maxRows={isWidthUp('md', props.width) ? 20 : 12}
+                                maxRows={isMdUp ? 20 : 12}
                                 variant="outlined"
                                 margin="normal"
                                 fullWidth={true}
@@ -107,7 +103,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                                 label="QR Code generation options"
                                 multiline
                                 minRows={12}
-                                maxRows={isWidthUp('md', props.width) ? 20 : 12}
+                                maxRows={isMdUp ? 20 : 12}
                                 variant="outlined"
                                 margin="normal"
                                 fullWidth={true}
@@ -133,21 +129,24 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
 
                 <Toolbar className={classes.toolbar}>
                     <Box display="flex" flexGrow={1}></Box>
-                    <CopyButton hoverMessage="Copy image data URL" data={imgDataURL} />
+                    <CopyButton hoverMessage="Copy image data URL" data={imgDataURL} sx={{ mr: 1 }} />
                     <Button
                         disabled={!imgDataURL}
                         variant="contained"
+                        title="Copy the QR Code image into the clipboard"
                         color="primary"
                         onClick={copyImage}
-                        endIcon={<PictureIcon />}>
+                        endIcon={<PictureIcon />}
+                        sx={{ mr: 1 }}>
                         Copy Image
                     </Button>
                     <Button
                         variant="contained"
                         color="primary"
+                        title="Generate the QR code using the info and encoding parameters"
                         onClick={generate}
                         disabled={!inputText}
-                        endIcon={<SelectAllIcon />}>
+                        endIcon={<QRCodeIcon />}>
                         Generate
                     </Button>
                 </Toolbar>
@@ -195,4 +194,4 @@ export function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(QRCodeGenerator));
+export default connect(mapStateToProps, mapDispatchToProps)(QRCodeGenerator);
