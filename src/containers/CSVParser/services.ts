@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Papa, { ParseConfig, ParseResult } from 'papaparse';
 
 export const DEFAULT_OPTIONS: any = {
@@ -36,7 +38,7 @@ type ParseConfigType = ParseConfig<any> & { download?: false | undefined; worker
 export async function transform(
   csvData: string,
   options: ParseConfigType = DEFAULT_OPTIONS,
-): Promise<ParseResult<any>> {
+): Promise<ParseResult<unknown>> {
   const csvOptions = {
     ...options,
     transformHeader: (header: string, _index: number) => header?.trim(),

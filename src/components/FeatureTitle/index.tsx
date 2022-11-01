@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import React from 'react';
+import React, { ElementType } from 'react';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -23,19 +23,18 @@ const useStyles = makeStyles(theme => ({
 
 interface Props {
   title: string;
-  iconType: any;
+  iconType: ElementType;
 }
 
-const FeatureTitle: React.FC<Props> = (props: Props) => {
+const FeatureTitle: React.FC<Props> = ({ title, iconType: FeatureIcon }) => {
   const classes = useStyles();
-  const FeatureIcon = props.iconType;
 
   return (
     <div className={classes.titleContainer}>
       <div className={classes.titleWithIcon}>
         <FeatureIcon className={classes.icon} />
         <Typography variant="h5" className={classes.title}>
-          {props.title}
+          {title}
         </Typography>
       </div>
     </div>

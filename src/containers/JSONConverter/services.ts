@@ -95,6 +95,7 @@ async function transformJSON(data: ConvertionContext): Promise<string> {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function objToSource(o: any): string {
   if (!o) {
     return 'null';

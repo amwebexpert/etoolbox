@@ -42,22 +42,27 @@ const ColorPicker: React.FC = () => {
     }
   }, [rgb]);
 
-  function handleClear(event: any) {
+  function handleClear(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     setImgDataURL('');
     setRgb(undefined);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function onPasteFromClipboard(e: any) {
     const clipboardData = e.clipboardData || e.originalEvent.clipboardData || e.originalEvent.clipboard;
     services.clipboardToDataURL(clipboardData.items, (ev: ProgressEvent<FileReader>) =>
-      setImgDataURL(ev.target!.result as string),
+      setImgDataURL(ev.target?.result as string),
     );
   }
 
-  function onFileSelected(file: File) {
+  function onFileSelected(file?: File) {
+    if (!file) {
+      return;
+    }
+
     const reader = new FileReader();
-    reader.onload = (ev: ProgressEvent<FileReader>) => setImgDataURL(ev.target!.result as string);
+    reader.onload = (ev: ProgressEvent<FileReader>) => setImgDataURL(ev.target?.result as string);
     reader.readAsDataURL(file);
   }
 
@@ -110,7 +115,7 @@ const ColorPicker: React.FC = () => {
                   type="file"
                   color="primary"
                   accept="image/*"
-                  onChange={(e: any) => onFileSelected(e.target.files[0])}
+                  onChange={e => onFileSelected(e.target?.files?.[0])}
                   id="icon-button-file"
                   style={{ display: 'none' }}
                 />

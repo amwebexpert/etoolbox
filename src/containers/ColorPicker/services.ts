@@ -36,9 +36,13 @@ export function retrieveClickedColor(event: MouseEvent, image: HTMLImageElement)
 
   // Create a canvas with same image dimension and draw the image on it
   const canvas = document.createElement('canvas') as HTMLCanvasElement;
+  const context: CanvasRenderingContext2D | null = canvas.getContext('2d');
+  if (!context) {
+    return { r: 0, g: 0, b: 0, a: 1 };
+  }
+
   canvas.width = coordinates.width;
   canvas.height = coordinates.height;
-  const context: CanvasRenderingContext2D = canvas.getContext('2d')!;
   context.drawImage(image, 0, 0);
 
   // Get the clicked pixel info

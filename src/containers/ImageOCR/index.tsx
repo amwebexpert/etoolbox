@@ -81,10 +81,11 @@ const ImageOCR: React.FC = () => {
     setImgExtractedText(`Processing the image\n\t → ${workerStatus.status}…`);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function onPasteFromClipboard(e: any) {
     const clipboardData = e.clipboardData || e.originalEvent.clipboardData || e.originalEvent.clipboard;
     services.clipboardToDataURL(clipboardData.items, (ev: ProgressEvent<FileReader>) =>
-      setImgDataURL(ev.target!.result as string),
+      setImgDataURL(ev.target?.result as string),
     );
   }
 
@@ -94,7 +95,7 @@ const ImageOCR: React.FC = () => {
     }
 
     const reader = new FileReader();
-    reader.onload = (ev: ProgressEvent<FileReader>) => setImgDataURL(ev.target!.result as string);
+    reader.onload = (ev: ProgressEvent<FileReader>) => setImgDataURL(ev.target?.result as string);
     reader.readAsDataURL(file);
   }
 

@@ -32,9 +32,11 @@ const DateConverter: React.FC<Props> = (props: Props) => {
   const isMdUp = useIsWidthUp('md');
   const isSmDown = useIsWidthDown('md');
 
-  const handleDateChange = (date: any) => {
+  const handleDateChange = (date: Date | null) => {
     setDate(date);
-    storeInputText('lastEpochValue', `${date?.getTime()}`);
+    if (date) {
+      storeInputText('lastEpochValue', `${date.getTime()}`);
+    }
   };
 
   useEffect(() => {
