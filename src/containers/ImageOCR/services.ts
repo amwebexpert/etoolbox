@@ -1,4 +1,5 @@
 import { createWorker } from 'tesseract.js';
+import { Buffer } from 'buffer';
 
 export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: ProgressEvent<FileReader>) => void): void {
   if (!items) {
