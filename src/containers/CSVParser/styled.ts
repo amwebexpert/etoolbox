@@ -20,11 +20,9 @@ export const useStyles = makeStyles(theme => ({
         overflowY: 'scroll',
     },
     toolbar: {
-        margin: 0,
+        marginHorizontal: 0,
+        marginTop: theme.spacing(2),
         padding: 0,
-        '& > *': {
-            marginLeft: theme.spacing(1),
-        },
     },
     encodedResult: {
         padding: theme.spacing(1),

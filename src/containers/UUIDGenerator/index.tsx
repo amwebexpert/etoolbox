@@ -21,12 +21,7 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(1),
     },
-    toolbar: {
-        '& > *': {
-            marginLeft: theme.spacing(1),
-            marginTop: theme.spacing(1),
-        },
-    },
+    toolbar: {},
 }));
 
 interface UUIDForm {

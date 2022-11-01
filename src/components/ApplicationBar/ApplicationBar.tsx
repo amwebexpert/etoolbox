@@ -31,9 +31,6 @@ const useStyles = makeStyles(theme => ({
     menuButton: {
         marginRight: 36,
     },
-    hide: {
-        display: 'none',
-    },
     title: {
         flexGrow: 1,
     },
@@ -57,23 +54,22 @@ const ApplicationBar = ({ open, setOpen }: Props) => {
     const breakpoint = useGetBreakpoint();
 
     return (
-        <AppBar
-            position="fixed"
-            className={clsx(classes.appBar, {
-                [classes.appBarShift]: open,
-            })}>
-            <Toolbar>
-                <IconButton
-                    color="inherit"
-                    title="Toggle sidebar menu"
-                    aria-label="open sidebar menu"
-                    onClick={() => setOpen(true)}
-                    edge="start"
-                    className={clsx(classes.menuButton, {
-                        [classes.hide]: open,
-                    })}>
-                    <MenuIcon />
-                </IconButton>
+        <AppBar position="fixed">
+            <Toolbar
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: open,
+                })}>
+                {!open && (
+                    <IconButton
+                        color="inherit"
+                        title="Toggle sidebar menu"
+                        aria-label="open sidebar menu"
+                        onClick={() => setOpen(true)}
+                        edge="start"
+                        className={clsx(classes.menuButton)}>
+                        <MenuIcon />
+                    </IconButton>
+                )}
 
                 <Typography variant="body1" noWrap className={classes.title}>
                     Web Toolbox

@@ -125,7 +125,7 @@ const App: React.FC = () => {
                                 <img src={Banner} alt="Web Toolbox" className={classes.toolbarIcon} />
                             </NavLink>
                         </div>
-                        <IconButton onClick={() => setOpen(false)} title="Toggle sidebar menu">
+                        <IconButton onClick={() => setOpen(!open)} title="Toggle sidebar menu">
                             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                         </IconButton>
                     </div>

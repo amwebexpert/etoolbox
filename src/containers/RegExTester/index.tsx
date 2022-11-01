@@ -37,9 +37,6 @@ const useStyles = makeStyles(theme => ({
     toolbar: {
         margin: 0,
         padding: 0,
-        '& > *': {
-            marginLeft: theme.spacing(1),
-        },
     },
 }));
 

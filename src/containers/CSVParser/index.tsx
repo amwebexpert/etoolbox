@@ -110,7 +110,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
 
                 <Toolbar className={classes.toolbar}>
                     <Box display="flex" flexGrow={1}></Box>
-                    <FormControl className={classes.formControl}>
+                    <FormControl className={classes.formControl} sx={{ mr: 1 }}>
                         <input
                             type="file"
                             color="primary"
@@ -120,8 +120,8 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                             style={{ display: 'none' }}
                         />
                         <label htmlFor="icon-button-file">
-                            <Button variant="contained" component="span" color="primary" sx={{ mr: 1 }}>
-                                File &nbsp; <FileIcon />
+                            <Button variant="contained" color="primary" title="Select the CSV file from your device">
+                                <FileIcon />
                             </Button>
                         </label>
                     </FormControl>
@@ -130,7 +130,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                         <TextField
                             select
                             label="File encoding"
-                            style={{ width: 320 }}
+                            style={isMdUp ? { width: 320 } : undefined}
                             id="encoding"
                             value={inputEncoding}
                             autoFocus={isMdUp}
