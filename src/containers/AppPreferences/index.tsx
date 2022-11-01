@@ -1,9 +1,11 @@
+import React from 'react';
+
+import SettingsIcon from '@mui/icons-material/Settings';
 import { FormControlLabel, Switch } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { makeStyles } from '@mui/styles';
-import SettingsIcon from '@mui/icons-material/Settings';
-import React from 'react';
 import { Helmet } from 'react-helmet';
+
 import FeatureTitle from '../../components/FeatureTitle';
 import { usePreferenceTheme } from '../../components/Preferences/PreferencesProvider';
 

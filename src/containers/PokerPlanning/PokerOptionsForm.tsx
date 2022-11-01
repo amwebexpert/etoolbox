@@ -1,16 +1,18 @@
+import React from 'react';
+
+import HelpIcon from '@mui/icons-material/Help';
 import { FormControl, Grid, IconButton, InputAdornment, MenuItem, useTheme } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import HelpIcon from '@mui/icons-material/Help';
-import React from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Dispatch } from 'redux';
+
 import { setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
 import {
-  CardsListingCategoryName,
   CARDS_LISTING_CATEGORIES,
+  CardsListingCategoryName,
   DEFAULT_CARDS_LISTING_CATEGORY,
   SocketState,
 } from './model';

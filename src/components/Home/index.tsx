@@ -1,8 +1,10 @@
+import React from 'react';
+
+import { Alert, AlertTitle } from '@mui/lab';
 import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { withStyles, makeStyles } from '@mui/styles';
-import { Alert, AlertTitle } from '@mui/lab';
-import React from 'react';
+import { makeStyles, withStyles } from '@mui/styles';
+
 import { getBuildUTCDate } from '../../services/utils';
 import { CHANGE_LOGS } from './services';
 

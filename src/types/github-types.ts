@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface GithubProjectOwner {
   avatar_url: string;
   events_url: string;

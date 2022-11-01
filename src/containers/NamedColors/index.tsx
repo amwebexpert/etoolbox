@@ -1,3 +1,6 @@
+import React, { useEffect, useState } from 'react';
+
+import PaletteIcon from '@mui/icons-material/Palette';
 import {
   Badge,
   FormControl,
@@ -14,18 +17,17 @@ import {
   TextField,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import PaletteIcon from '@mui/icons-material/Palette';
 import * as copy from 'copy-to-clipboard';
-import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import Highlighter from 'react-highlight-words';
 import { useDebouncedCallback } from 'use-debounce';
+
 import FeatureTitle from '../../components/FeatureTitle';
 import Filter from '../../components/Filter';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { usePagination } from '../../hooks/usePagination';
-import * as services from './services';
 import { useIsWidthUp } from '../../theme';
+import * as services from './services';
 
 const useStyles = makeStyles(theme => ({
   root: {

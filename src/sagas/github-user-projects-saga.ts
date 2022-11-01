@@ -1,11 +1,11 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
 import {
-  listGithubUserProjectsSucceeded,
   GithubUserProjectsActionTypes,
-  ListGithubUserProjectsRequestedAction,
   listGithubUserProjectsFailed,
+  ListGithubUserProjectsRequestedAction,
+  listGithubUserProjectsSucceeded,
 } from '../actions/github-userprojects-actions';
 import { GithubUserProject } from '../types/github-types';
 

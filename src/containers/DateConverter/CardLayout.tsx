@@ -1,6 +1,8 @@
-import { Card, CardActions, CardContent, Typography } from '@mui/material';
 import React from 'react';
+
+import { Card, CardActions, CardContent, Typography } from '@mui/material';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+
 import CopyButton from '../../components/CopyButton';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 import { SAMPLE_DATEFNS_FORMAT, SAMPLE_DATEFNS_TZ_CONVERT } from './constants';

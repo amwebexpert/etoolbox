@@ -1,25 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
-import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/styles';
-import LinkIcon from '@mui/icons-material/Link';
 import DeveloperModeIcon from '@mui/icons-material/DeveloperMode';
-import TextField from '@mui/material/TextField';
-
-import SyntaxHighlighter from 'react-syntax-highlighter';
-
-import { setTextAction } from '../../actions/text-actions';
-import { AppState } from '../../reducers';
-import * as services from './services';
+import LinkIcon from '@mui/icons-material/Link';
 import { Box, FormControl, FormHelperText, Grid, MenuItem, Toolbar } from '@mui/material';
-import FeatureTitle from '../../components/FeatureTitle';
-import CopyButton from '../../components/CopyButton';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { makeStyles } from '@mui/styles';
 import { Helmet } from 'react-helmet';
 import { Controller, useForm } from 'react-hook-form';
+import { connect } from 'react-redux';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { Dispatch } from 'redux';
+
+import { setTextAction } from '../../actions/text-actions';
+import CopyButton from '../../components/CopyButton';
+import FeatureTitle from '../../components/FeatureTitle';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
+import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
+import * as services from './services';
 
 const useStyles = makeStyles(theme => ({
   root: {

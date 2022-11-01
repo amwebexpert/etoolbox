@@ -1,19 +1,19 @@
 import React from 'react';
 
+import GithubIcon from '@mui/icons-material/GitHub';
+import PrivacyIcon from '@mui/icons-material/Security';
 import { Link } from '@mui/material';
-import { withStyles } from '@mui/styles';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import GithubIcon from '@mui/icons-material/GitHub';
-import PrivacyIcon from '@mui/icons-material/Security';
+import { withStyles } from '@mui/styles';
 
-import { useToasterUpdate } from '../Toaster/ToasterProvider';
 import { getBuildUTCDate, getBuildUTCTimestamp } from '../../services/utils';
 import { useIsWidthUp } from '../../theme';
+import { useToasterUpdate } from '../Toaster/ToasterProvider';
 
 const StyledTableCell = withStyles(theme => ({
   head: {

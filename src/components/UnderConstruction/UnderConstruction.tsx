@@ -1,6 +1,7 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import UnderConstructionIcon from '@mui/icons-material/ReportProblem';
 import React from 'react';
+
+import UnderConstructionIcon from '@mui/icons-material/ReportProblem';
+import { Box, Typography, useTheme } from '@mui/material';
 
 type UnderConstructionType = {
   featureDescription: string;

@@ -1,5 +1,6 @@
-import { quicktype, InputData, jsonInputForTargetLanguage } from 'quicktype-core';
 import beautify from 'js-beautify';
+import { InputData, jsonInputForTargetLanguage, quicktype } from 'quicktype-core';
+
 import * as StringUtils from '../../services/string-utils';
 
 export interface ConvertionContext {

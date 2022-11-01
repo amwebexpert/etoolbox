@@ -1,4 +1,4 @@
-import { ListGithubUserProjectsAction, GithubUserProjectsActionTypes } from '../actions/github-userprojects-actions';
+import { GithubUserProjectsActionTypes, ListGithubUserProjectsAction } from '../actions/github-userprojects-actions';
 import { GithubUserProject } from '../types/github-types';
 
 export interface GithubUserProjectsState {

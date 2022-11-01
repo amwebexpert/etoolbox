@@ -1,24 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 
-import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/styles';
 import EncodeIcon from '@mui/icons-material/Code';
 import DecodeIcon from '@mui/icons-material/CodeOff';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
+import { Box, Toolbar } from '@mui/material';
+import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { makeStyles } from '@mui/styles';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { setTextAction } from '../../actions/text-actions';
-import { AppState } from '../../reducers';
-import * as services from './services';
-import { Box, Toolbar } from '@mui/material';
-import FeatureTitle from '../../components/FeatureTitle';
 import CopyButton from '../../components/CopyButton';
-import { Helmet } from 'react-helmet';
+import FeatureTitle from '../../components/FeatureTitle';
 import ResultMonospace from '../../components/ResultMonospace';
+import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
+import * as services from './services';
 
 const useStyles = makeStyles(theme => ({
   root: {

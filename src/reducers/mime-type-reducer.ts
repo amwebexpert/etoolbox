@@ -1,5 +1,5 @@
-import { MIME_TYPES_MAP } from './../containers/CommonLists/services';
 import { MimeTypeAction, MimeTypeActionTypes } from './../actions/mime-type-actions';
+import { MIME_TYPES_MAP } from './../containers/CommonLists/services';
 
 export interface MimeTypesState {
   filtering: boolean;

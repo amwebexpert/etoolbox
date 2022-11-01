@@ -1,11 +1,10 @@
 import React, { PropsWithChildren } from 'react';
 
+import { makeStyles } from '@mui/styles';
 import LoadingOverlay from 'react-loading-overlay';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 
 import { useGlobalSpinner } from './GlobalSpinnerProvider';
-
-import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {

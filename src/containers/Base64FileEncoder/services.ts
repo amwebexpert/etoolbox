@@ -1,5 +1,5 @@
-import { FileRejection } from 'react-dropzone';
 import prettyBytes from 'pretty-bytes';
+import { FileRejection } from 'react-dropzone';
 
 export interface EncodedFile {
   name: string;

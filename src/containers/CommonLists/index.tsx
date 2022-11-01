@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   Box,
   Paper,
@@ -11,20 +13,20 @@ import {
   Tabs,
   Toolbar,
 } from '@mui/material';
-import React from 'react';
+import { Helmet } from 'react-helmet';
 import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+
 import { applyHtmlEntitiesFilter, HtmlEntity } from '../../actions/html-entitie-actions';
 import { applyMimeTypesFilter } from '../../actions/mime-type-actions';
-import { AppState } from '../../reducers';
 import Filter from '../../components/Filter';
-import { StyledTableCell, StyledTableRow, useStyles } from './styles';
-import { TabPanel } from './TabPanel';
-import { Helmet } from 'react-helmet';
 import FilterStats from '../../components/FilterStats';
 import { usePagination } from '../../hooks/usePagination';
+import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
+import { StyledTableCell, StyledTableRow, useStyles } from './styles';
+import { TabPanel } from './TabPanel';
 
 enum TABS {
   MIME_TYPES = 0,

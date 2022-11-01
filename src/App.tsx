@@ -1,8 +1,5 @@
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import { useTheme } from '@mui/material/styles';
+import React, { lazy, Suspense } from 'react';
+
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
@@ -20,10 +17,15 @@ import TextFieldsIcon from '@mui/icons-material/TextFields';
 import TextRotationNoneIcon from '@mui/icons-material/TextRotationNone';
 import TocIcon from '@mui/icons-material/Toc';
 import WrapTextIcon from '@mui/icons-material/WrapText';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import { useTheme } from '@mui/material/styles';
 import clsx from 'clsx';
-import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { Navigate, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
+
 import ApplicationBar from './components/ApplicationBar/ApplicationBar';
 import { ConfirmDialogProvider } from './components/ConfirmDialog/ConfirmDialogProvider';
 import { FullCenteredContent } from './components/FullCenteredContent/FullCenteredContent';

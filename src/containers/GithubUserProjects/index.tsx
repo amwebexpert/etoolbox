@@ -1,8 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { Helmet } from 'react-helmet';
 
+import GithubIcon from '@mui/icons-material/GitHub';
+import WatchIcon from '@mui/icons-material/Visibility';
 import {
   Box,
   Link,
@@ -15,20 +14,21 @@ import {
   TableRow,
   Toolbar,
 } from '@mui/material';
-import GithubIcon from '@mui/icons-material/GitHub';
-import WatchIcon from '@mui/icons-material/Visibility';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import FeatureTitle from '../../components/FeatureTitle';
-import { AppState } from '../../reducers';
-import Filter from '../../components/Filter';
 import { listGithubUserProjectsRequested } from '../../actions/github-userprojects-actions';
-import { StyledTableCell, StyledTableRow, useStyles } from './styles';
-import { GithubUserProject } from '../../types/github-types';
-import { useGlobalSpinnerUpdate } from '../../components/Spinner/GlobalSpinnerProvider';
-import FilterStats from '../../components/FilterStats';
 import { setTextAction } from '../../actions/text-actions';
+import FeatureTitle from '../../components/FeatureTitle';
+import Filter from '../../components/Filter';
+import FilterStats from '../../components/FilterStats';
+import { useGlobalSpinnerUpdate } from '../../components/Spinner/GlobalSpinnerProvider';
 import { usePagination } from '../../hooks/usePagination';
+import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
+import { GithubUserProject } from '../../types/github-types';
+import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
 interface Props {
   inputText: string;

@@ -1,4 +1,5 @@
 import { makeStyles } from '@mui/styles';
+
 import { DRAWER_WIDTH } from './constants';
 
 export const useStyles = makeStyles(theme => ({

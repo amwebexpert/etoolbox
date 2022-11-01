@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { makeStyles } from '@mui/styles';
-
 import LoadingOverlay from 'react-loading-overlay';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 
