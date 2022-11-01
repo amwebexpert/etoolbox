@@ -6,28 +6,28 @@ import LoadingOverlay from 'react-loading-overlay';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 
 const useStyles = makeStyles(() => ({
-    root: {
-        '& .spinner_overlay': {
-            background: 'rgba(0, 0, 0, 0.3)',
-        },
+  root: {
+    '& .spinner_overlay': {
+      background: 'rgba(0, 0, 0, 0.3)',
     },
+  },
 }));
 
 interface Props {
-    active: boolean;
-    children: any;
+  active: boolean;
+  children: React.ReactNode;
 }
 
 export const Spinner: React.FC<Props> = (props: Props) => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <LoadingOverlay
-            classNamePrefix="spinner_"
-            className={classes.root}
-            active={props.active}
-            spinner={<ScaleLoader color="#bf3a2b" />}>
-            {props.children}
-        </LoadingOverlay>
-    );
+  return (
+    <LoadingOverlay
+      classNamePrefix="spinner_"
+      className={classes.root}
+      active={props.active}
+      spinner={<ScaleLoader color="#bf3a2b" />}>
+      {props.children}
+    </LoadingOverlay>
+  );
 };

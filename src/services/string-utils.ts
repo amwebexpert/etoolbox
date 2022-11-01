@@ -1,13 +1,13 @@
 export function isBlank(str: string | undefined | null) {
-    if (!str || str.trim().length === 0) {
-        return true;
-    }
+  if (!str || str.trim().length === 0) {
+    return true;
+  }
 
-    return false;
+  return false;
 }
 
 export function isNotBlank(str: string | undefined | null) {
-    return !isBlank(str);
+  return !isBlank(str);
 }
 
 export const isNumeric = (val?: string): boolean => !isNaN(Number(val));

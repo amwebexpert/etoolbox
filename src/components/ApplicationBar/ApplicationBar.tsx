@@ -13,85 +13,85 @@ import { DRAWER_WIDTH } from '../../constants';
 import { useGetBreakpoint } from '../../theme';
 
 const useStyles = makeStyles(theme => ({
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        marginLeft: DRAWER_WIDTH,
-        width: `calc(100% - ${DRAWER_WIDTH}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    menuButton: {
-        marginRight: 36,
-    },
-    title: {
-        flexGrow: 1,
-    },
-    deviceInfo: {
-        cursor: 'pointer',
-    },
-    linkMenu: {
-        textDecoration: 'none',
-        color: 'inherit',
-        paddingRight: theme.spacing(1.5),
-    },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: DRAWER_WIDTH,
+    width: `calc(100% - ${DRAWER_WIDTH}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: 36,
+  },
+  title: {
+    flexGrow: 1,
+  },
+  deviceInfo: {
+    cursor: 'pointer',
+  },
+  linkMenu: {
+    textDecoration: 'none',
+    color: 'inherit',
+    paddingRight: theme.spacing(1.5),
+  },
 }));
 
 interface Props {
-    open: boolean;
-    setOpen: (open: boolean) => void;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 const ApplicationBar = ({ open, setOpen }: Props) => {
-    const classes = useStyles();
-    const breakpoint = useGetBreakpoint();
+  const classes = useStyles();
+  const breakpoint = useGetBreakpoint();
 
-    return (
-        <AppBar position="fixed">
-            <Toolbar
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}>
-                {!open && (
-                    <IconButton
-                        color="inherit"
-                        title="Toggle sidebar menu"
-                        aria-label="open sidebar menu"
-                        onClick={() => setOpen(true)}
-                        edge="start"
-                        className={clsx(classes.menuButton)}>
-                        <MenuIcon />
-                    </IconButton>
-                )}
+  return (
+    <AppBar position="fixed">
+      <Toolbar
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}>
+        {!open && (
+          <IconButton
+            color="inherit"
+            title="Toggle sidebar menu"
+            aria-label="open sidebar menu"
+            onClick={() => setOpen(true)}
+            edge="start"
+            className={clsx(classes.menuButton)}>
+            <MenuIcon />
+          </IconButton>
+        )}
 
-                <Typography variant="body1" noWrap className={classes.title}>
-                    Web Toolbox
-                </Typography>
+        <Typography variant="body1" noWrap className={classes.title}>
+          Web Toolbox
+        </Typography>
 
-                <NavLink to="/preferences" className={classes.linkMenu} title="Settings">
-                    <SettingsIcon />
-                </NavLink>
+        <NavLink to="/preferences" className={classes.linkMenu} title="Settings">
+          <SettingsIcon />
+        </NavLink>
 
-                <NavLink to="/about" className={classes.linkMenu} title="About this application…">
-                    <InfoIcon />
-                </NavLink>
+        <NavLink to="/about" className={classes.linkMenu} title="About this application…">
+          <InfoIcon />
+        </NavLink>
 
-                <Typography
-                    variant="body2"
-                    title={`Device breakpoint category actually detected: [${breakpoint}]`}
-                    className={classes.deviceInfo}>
-                    {breakpoint}
-                </Typography>
-            </Toolbar>
-        </AppBar>
-    );
+        <Typography
+          variant="body2"
+          title={`Device breakpoint category actually detected: [${breakpoint}]`}
+          className={classes.deviceInfo}>
+          {breakpoint}
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  );
 };
 
 export default ApplicationBar;

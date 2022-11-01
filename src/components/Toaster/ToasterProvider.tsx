@@ -11,22 +11,22 @@ import { Toaster } from '.';
 // Interfaces and types
 // -------------------------------
 export interface ToasterState {
-    open: boolean;
-    type: AlertColor;
-    message: string;
-    autoHideDuration?: number;
+  open: boolean;
+  type: AlertColor;
+  message: string;
+  autoHideDuration?: number;
 }
 export type ToasterContextType = {
-    toasterState: ToasterState;
+  toasterState: ToasterState;
 };
 export type ToasterUpdateContextType = {
-    setToasterState: (state: ToasterState) => void;
+  setToasterState: (state: ToasterState) => void;
 };
 const defaultToasterState: ToasterState = {
-    open: false,
-    message: '',
-    type: 'success',
-    autoHideDuration: 4000,
+  open: false,
+  message: '',
+  type: 'success',
+  autoHideDuration: 4000,
 };
 
 // -------------------------------
@@ -34,43 +34,43 @@ const defaultToasterState: ToasterState = {
 // -------------------------------
 const ToasterContext = React.createContext<ToasterContextType>({ toasterState: defaultToasterState });
 const ToasterUpdateContext = React.createContext<ToasterUpdateContextType>({
-    setToasterState: _ => {
-        console.log('');
-    },
+  setToasterState: () => {
+    console.debug('settings toaster state');
+  },
 });
 
 export function useToaster() {
-    return React.useContext(ToasterContext);
+  return React.useContext(ToasterContext);
 }
 export function useToasterUpdate() {
-    return React.useContext(ToasterUpdateContext);
+  return React.useContext(ToasterUpdateContext);
 }
 
 type ToasterProviderProps = PropsWithChildren<unknown>;
 
 const ToasterProvider: React.FC<ToasterProviderProps> = ({ children }) => {
-    const [toasterState, setToasterState] = React.useState<ToasterState>(defaultToasterState);
+  const [toasterState, setToasterState] = React.useState<ToasterState>(defaultToasterState);
 
-    React.useEffect(setupIPC, []);
+  React.useEffect(setupIPC, []);
 
-    function setupIPC() {
-        // Will be defined if the React App is running inside Electron
-        if (window.require) {
-            const ipc = window.require('electron').ipcRenderer;
-            ipc.on('displayAlertMessage', (_event: unknown, toasterState: ToasterState) => {
-                setToasterState(toasterState);
-            });
-        }
+  function setupIPC() {
+    // Will be defined if the React App is running inside Electron
+    if (window.require) {
+      const ipc = window.require('electron').ipcRenderer;
+      ipc.on('displayAlertMessage', (_event: unknown, toasterState: ToasterState) => {
+        setToasterState(toasterState);
+      });
     }
+  }
 
-    return (
-        <ToasterContext.Provider value={{ toasterState }}>
-            <ToasterUpdateContext.Provider value={{ setToasterState }}>
-                {children}
-                <Toaster />
-            </ToasterUpdateContext.Provider>
-        </ToasterContext.Provider>
-    );
+  return (
+    <ToasterContext.Provider value={{ toasterState }}>
+      <ToasterUpdateContext.Provider value={{ setToasterState }}>
+        {children}
+        <Toaster />
+      </ToasterUpdateContext.Provider>
+    </ToasterContext.Provider>
+  );
 };
 
 export default ToasterProvider;

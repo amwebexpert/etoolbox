@@ -12,293 +12,293 @@ let tray: Tray;
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-    getOrCreateWindow();
-    setupMenu();
-    setupIpcMain();
-    setupTray();
-    setupGlobalShortcuts();
+  getOrCreateWindow();
+  setupMenu();
+  setupIpcMain();
+  setupTray();
+  setupGlobalShortcuts();
 });
 
 app.on('activate', () => {
-    getOrCreateWindow();
+  getOrCreateWindow();
 });
 
 app.on('will-quit', () => {
-    globalShortcut.unregisterAll();
+  globalShortcut.unregisterAll();
 });
 
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });
 
 function getOrCreateWindow(): BrowserWindow {
-    if (win !== null) {
-        return win;
-    }
-
-    win = new BrowserWindow({
-        title: app.name,
-        width: 1200,
-        height: 900,
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false,
-        },
-    });
-
-    win.on('closed', () => (win = null));
-
-    loadApplication();
-
+  if (win !== null) {
     return win;
+  }
+
+  win = new BrowserWindow({
+    title: app.name,
+    width: 1200,
+    height: 900,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
+  });
+
+  win.on('closed', () => (win = null));
+
+  loadApplication();
+
+  return win;
 }
 
 function loadApplication() {
-    if (!win) {
-        return;
-    }
+  if (!win) {
+    return;
+  }
 
-    if (isDev) {
-        win.loadURL('http://localhost:3000/');
-    } else {
-        // 'build/index.html'
-        win.loadURL(`file://${__dirname}/../index.html`);
-    }
+  if (isDev) {
+    win.loadURL('http://localhost:3000/');
+  } else {
+    // 'build/index.html'
+    win.loadURL(`file://${__dirname}/../index.html`);
+  }
 
-    // Hot Reloading
-    if (isDev) {
-        // 'node_modules/.bin/electronPath'
-        require('electron-reload')(__dirname, {
-            electron: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'electron'),
-            forceHardReset: true,
-            hardResetMethod: 'exit',
-        });
-    }
+  // Hot Reloading
+  if (isDev) {
+    // 'node_modules/.bin/electronPath'
+    require('electron-reload')(__dirname, {
+      electron: path.join(__dirname, '..', '..', 'node_modules', '.bin', 'electron'),
+      forceHardReset: true,
+      hardResetMethod: 'exit',
+    });
+  }
 
-    // DevTools
-    installExtension(REACT_DEVELOPER_TOOLS)
-        .then(name => console.log(`Added Extension: ${name}`))
-        .catch(err => console.error('An error occurred: ', err));
+  // DevTools
+  installExtension(REACT_DEVELOPER_TOOLS)
+    .then(name => console.log(`Added Extension: ${name}`))
+    .catch(err => console.error('An error occurred: ', err));
 }
 
 function setupMenu() {
-    const template: any = [
+  const template: any = [
+    {
+      label: app.name,
+      submenu: [
         {
-            label: app.name,
-            submenu: [
-                {
-                    label: 'URL Parser/encoder',
-                    accelerator: 'Ctrl+Alt+U',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/URL'),
-                },
-                {
-                    type: 'separator',
-                },
-                {
-                    label: 'Base64 Encoder/decoder',
-                    accelerator: 'Ctrl+Alt+B',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64'),
-                },
-                {
-                    label: 'JSON Formatter',
-                    accelerator: 'Ctrl+Alt+J',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSON/JSONFormatter'),
-                },
-                {
-                    label: 'JSON JSONConverter',
-                    accelerator: 'Ctrl+Alt+V',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSON/JSONConverter'),
-                },
-                {
-                    label: 'Regular expression tester',
-                    accelerator: 'Ctrl+Alt+X',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/RegExTester'),
-                },
-                {
-                    label: 'UUID Generator',
-                    accelerator: 'Ctrl+Alt+I',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/UUIDGenerator'),
-                },
-                {
-                    label: 'JWT Decoder',
-                    accelerator: 'Ctrl+Alt+T',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/JWTDecoder'),
-                },
-                {
-                    type: 'separator',
-                },
-                {
-                    label: 'QR Code generator',
-                    accelerator: 'Ctrl+Alt+Q',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/QRCodeGenerator'),
-                },
-                {
-                    label: 'Image OCR (text extract)',
-                    accelerator: 'Ctrl+Alt+O',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/ImageOCR'),
-                },
-                {
-                    label: 'Color picker',
-                    accelerator: 'Ctrl+Alt+C',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/Colors'),
-                },
-                {
-                    type: 'separator',
-                },
-                {
-                    label: 'Common WEB lists',
-                    accelerator: 'Ctrl+Alt+W',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/CommonLists'),
-                },
-                {
-                    label: 'Github search',
-                    accelerator: 'Ctrl+Alt+G',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/GithubUserProjects'),
-                },
-                {
-                    type: 'separator',
-                },
-                {
-                    label: 'Date converter',
-                    accelerator: 'Ctrl+Alt+E',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/DateConverter'),
-                },
-                {
-                    label: 'CSV Parser',
-                    accelerator: 'Ctrl+Alt+S',
-                    click: () => getOrCreateWindow().webContents.send('navigateTo', '/CSVParser'),
-                },
-                {
-                    type: 'separator',
-                },
-                {
-                    label: 'Refresh',
-                    accelerator: 'Ctrl+Alt+R',
-                    click: getOrCreateWindow().show(),
-                },
-                {
-                    label: 'Quit',
-                    role: 'quit',
-                },
-            ],
-        },
-        // { role: 'editMenu' }
-        {
-            label: 'Edit',
-            submenu: [
-                { role: 'undo' },
-                { role: 'redo' },
-                { type: 'separator' },
-                { role: 'cut' },
-                { role: 'copy' },
-                { role: 'paste' },
-                { role: 'delete' },
-                { type: 'separator' },
-                { role: 'selectAll' },
-            ],
+          label: 'URL Parser/encoder',
+          accelerator: 'Ctrl+Alt+U',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/URL'),
         },
         {
-            label: '?',
-            submenu: [
-                {
-                    label: 'About…',
-                    accelerator: 'Ctrl+Alt+A',
-                    click: () => {
-                        getOrCreateWindow();
-                        getOrCreateWindow().webContents.send('navigateTo', '/about');
-                    },
-                },
-                {
-                    type: 'separator',
-                },
-                {
-                    label: 'Dev tools…',
-                    accelerator: 'Ctrl+Alt+D',
-                    click: () => {
-                        getOrCreateWindow();
-                        getOrCreateWindow().webContents.toggleDevTools();
-                    },
-                },
-            ],
+          type: 'separator',
         },
-    ];
+        {
+          label: 'Base64 Encoder/decoder',
+          accelerator: 'Ctrl+Alt+B',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Base64'),
+        },
+        {
+          label: 'JSON Formatter',
+          accelerator: 'Ctrl+Alt+J',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSON/JSONFormatter'),
+        },
+        {
+          label: 'JSON JSONConverter',
+          accelerator: 'Ctrl+Alt+V',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JSON/JSONConverter'),
+        },
+        {
+          label: 'Regular expression tester',
+          accelerator: 'Ctrl+Alt+X',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/RegExTester'),
+        },
+        {
+          label: 'UUID Generator',
+          accelerator: 'Ctrl+Alt+I',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/UUIDGenerator'),
+        },
+        {
+          label: 'JWT Decoder',
+          accelerator: 'Ctrl+Alt+T',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/JWTDecoder'),
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'QR Code generator',
+          accelerator: 'Ctrl+Alt+Q',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/QRCodeGenerator'),
+        },
+        {
+          label: 'Image OCR (text extract)',
+          accelerator: 'Ctrl+Alt+O',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/ImageOCR'),
+        },
+        {
+          label: 'Color picker',
+          accelerator: 'Ctrl+Alt+C',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/Colors'),
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Common WEB lists',
+          accelerator: 'Ctrl+Alt+W',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/CommonLists'),
+        },
+        {
+          label: 'Github search',
+          accelerator: 'Ctrl+Alt+G',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/GithubUserProjects'),
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Date converter',
+          accelerator: 'Ctrl+Alt+E',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/DateConverter'),
+        },
+        {
+          label: 'CSV Parser',
+          accelerator: 'Ctrl+Alt+S',
+          click: () => getOrCreateWindow().webContents.send('navigateTo', '/CSVParser'),
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Refresh',
+          accelerator: 'Ctrl+Alt+R',
+          click: getOrCreateWindow().show(),
+        },
+        {
+          label: 'Quit',
+          role: 'quit',
+        },
+      ],
+    },
+    // { role: 'editMenu' }
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'delete' },
+        { type: 'separator' },
+        { role: 'selectAll' },
+      ],
+    },
+    {
+      label: '?',
+      submenu: [
+        {
+          label: 'About…',
+          accelerator: 'Ctrl+Alt+A',
+          click: () => {
+            getOrCreateWindow();
+            getOrCreateWindow().webContents.send('navigateTo', '/about');
+          },
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Dev tools…',
+          accelerator: 'Ctrl+Alt+D',
+          click: () => {
+            getOrCreateWindow();
+            getOrCreateWindow().webContents.toggleDevTools();
+          },
+        },
+      ],
+    },
+  ];
 
-    const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 }
 
 function setupTray() {
-    const template: any = [
-        {
-            label: 'About…',
-            click: () => {
-                getOrCreateWindow().show();
-                getOrCreateWindow().webContents.send('navigateTo', '/about');
-            },
-        },
-        {
-            type: 'separator',
-        },
-        {
-            label: 'Dev tools…',
-            click: () => {
-                getOrCreateWindow().show();
-                getOrCreateWindow().webContents.toggleDevTools();
-            },
-        },
-    ];
+  const template: any = [
+    {
+      label: 'About…',
+      click: () => {
+        getOrCreateWindow().show();
+        getOrCreateWindow().webContents.send('navigateTo', '/about');
+      },
+    },
+    {
+      type: 'separator',
+    },
+    {
+      label: 'Dev tools…',
+      click: () => {
+        getOrCreateWindow().show();
+        getOrCreateWindow().webContents.toggleDevTools();
+      },
+    },
+  ];
 
-    if (tray) {
-        tray.destroy();
-    }
+  if (tray) {
+    tray.destroy();
+  }
 
-    tray = new Tray(createTrayIcon());
-    tray.setContextMenu(Menu.buildFromTemplate(template));
-    tray.setToolTip(`${app.name}...`);
-    if (isMac) {
-        // Since I was not able to make tray icon showing on MacOS :-/
-        // at least this is displaying clickable title
-        tray.setTitle('WTbox');
-    }
+  tray = new Tray(createTrayIcon());
+  tray.setContextMenu(Menu.buildFromTemplate(template));
+  tray.setToolTip(`${app.name}...`);
+  if (isMac) {
+    // Since I was not able to make tray icon showing on MacOS :-/
+    // at least this is displaying clickable title
+    tray.setTitle('WTbox');
+  }
 }
 
 function createTrayIcon() {
-    const ext = isMac ? 'icns' : 'png';
-    const appIconPath: string = path.join(__dirname, '..', `icon.${ext}`);
-    console.log('Application icon', appIconPath);
-    console.log('Application icon EXIST?', fs.existsSync(appIconPath));
-    const img = nativeImage.createFromPath(appIconPath);
-    const trayIcon = img.resize({ width: 24, height: 24 });
+  const ext = isMac ? 'icns' : 'png';
+  const appIconPath: string = path.join(__dirname, '..', `icon.${ext}`);
+  console.log('Application icon', appIconPath);
+  console.log('Application icon EXIST?', fs.existsSync(appIconPath));
+  const img = nativeImage.createFromPath(appIconPath);
+  const trayIcon = img.resize({ width: 24, height: 24 });
 
-    return trayIcon;
+  return trayIcon;
 }
 
 function setupGlobalShortcuts() {
-    globalShortcut.register('Alt+1', () => getOrCreateWindow().show());
+  globalShortcut.register('Alt+1', () => getOrCreateWindow().show());
 }
 
 function setupIpcMain() {
-    ipcMain.on('rendererAppStarted', () => console.log('main.ts: app started'));
-    ipcMain.on('saveJsonAs', (_event, jsonContent: string) => saveJsonAs(jsonContent));
+  ipcMain.on('rendererAppStarted', () => console.log('main.ts: app started'));
+  ipcMain.on('saveJsonAs', (_event, jsonContent: string) => saveJsonAs(jsonContent));
 }
 
 function saveJsonAs(jsonContent: string) {
-    const documentsFolder = app.getPath('documents');
-    const toLocalPath: string = path.resolve(documentsFolder, 'test.json');
+  const documentsFolder = app.getPath('documents');
+  const toLocalPath: string = path.resolve(documentsFolder, 'test.json');
 
-    dialog.showSaveDialog(win!, { defaultPath: toLocalPath }).then(result => {
-        const fullFilename: string | undefined = result.filePath;
-        if (fullFilename) {
-            fs.writeFile(fullFilename, jsonContent, 'utf-8', err => {
-                win!.webContents.send('displayAlertMessage', {
-                    open: true,
-                    message: `File saved successfully: [${fullFilename}]`,
-                    type: 'success',
-                    autoHideDuration: 4000,
-                });
-            });
-        }
-    });
+  dialog.showSaveDialog(win!, { defaultPath: toLocalPath }).then(result => {
+    const fullFilename: string | undefined = result.filePath;
+    if (fullFilename) {
+      fs.writeFile(fullFilename, jsonContent, 'utf-8', err => {
+        win!.webContents.send('displayAlertMessage', {
+          open: true,
+          message: `File saved successfully: [${fullFilename}]`,
+          type: 'success',
+          autoHideDuration: 4000,
+        });
+      });
+    }
+  });
 }
