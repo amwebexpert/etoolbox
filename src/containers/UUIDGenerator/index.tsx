@@ -58,22 +58,22 @@ const UUIDGenerator: React.FC = () => {
                 <div className={classes.form}>
                     <Grid container spacing={1}>
                         <Grid item md={2} sm={3} xs={6}>
-                            <FormControl className={classes.formControl}>
-                                <InputLabel id="uuidVersionLabel">Version</InputLabel>
+                            <FormControl className={classes.formControl} fullWidth={true}>
                                 <Controller
                                     control={control}
                                     name="version"
                                     defaultValue={4}
                                     render={({ field: { value, name, onChange } }) => (
-                                        <Select
+                                        <TextField
+                                            select={true}
                                             name={name}
                                             value={value}
-                                            labelId="uuidVersionLabel"
+                                            label="Version"
                                             autoFocus={isMdUp}
                                             onChange={e => onChange(e.target.value)}>
                                             <MenuItem value={1}>1</MenuItem>
                                             <MenuItem value={4}>4</MenuItem>
-                                        </Select>
+                                        </TextField>
                                     )}
                                     rules={{
                                         required: true,
@@ -85,7 +85,7 @@ const UUIDGenerator: React.FC = () => {
                             </FormControl>
                         </Grid>
                         <Grid item md={2} sm={3} xs={6}>
-                            <FormControl className={classes.formControl}>
+                            <FormControl className={classes.formControl} fullWidth={true}>
                                 <Controller
                                     name="quantity"
                                     render={({ field: { value, name, onChange }, fieldState: { invalid, error } }) => (

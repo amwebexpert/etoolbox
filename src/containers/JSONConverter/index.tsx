@@ -98,19 +98,19 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                     <Grid container spacing={3} className={classes.converterOptions}>
                         <Grid item>
                             <FormControl className={classes.formControl}>
-                                <InputLabel id="sourceType">Source type</InputLabel>
                                 <Controller
                                     control={control}
                                     name="sourceType"
                                     render={({ field: { value, name, onChange } }) => (
-                                        <Select
+                                        <TextField
+                                            select
                                             name={name}
-                                            labelId="sourceType"
+                                            label="Source type"
                                             value={value}
                                             onChange={e => onChange(e.target.value)}>
                                             <MenuItem value="json">JSON</MenuItem>
                                             <MenuItem value="jsObject">Javascript</MenuItem>
-                                        </Select>
+                                        </TextField>
                                     )}
                                 />
                                 <FormHelperText>Input format or language</FormHelperText>
@@ -118,14 +118,14 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                         </Grid>
                         <Grid item>
                             <FormControl className={classes.formControl}>
-                                <InputLabel id="targetLanguage">Target language</InputLabel>
                                 <Controller
                                     control={control}
                                     name="targetLanguage"
                                     render={({ field: { value, name, onChange } }) => (
-                                        <Select
+                                        <TextField
+                                            select
                                             name={name}
-                                            labelId="targetLanguage"
+                                            label="Target language"
                                             value={value}
                                             onChange={e => onChange(e.target.value)}>
                                             <MenuItem value="csharp">C#</MenuItem>
@@ -146,7 +146,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                                             <MenuItem value="swift">Swift</MenuItem>
                                             <MenuItem value="typescript">TypeScript</MenuItem>
                                             <MenuItem value="json">JSON</MenuItem>
-                                        </Select>
+                                        </TextField>
                                     )}
                                 />
                                 <FormHelperText>The target language of the convertion</FormHelperText>

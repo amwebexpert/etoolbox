@@ -13,6 +13,7 @@ import {
     TableHead,
     TablePagination,
     TableRow,
+    TextField,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import PaletteIcon from '@mui/icons-material/Palette';
@@ -93,12 +94,13 @@ const NamedColors = () => {
                     <Grid container spacing={1}>
                         <Grid item md={6} sm={12} xs={12}>
                             <FormControl className={classes.formControl}>
-                                <InputLabel id="family">Family</InputLabel>
-                                <Select
+                                <TextField
+                                    select={true}
                                     name="family"
                                     value={family}
-                                    labelId="family"
+                                    label="Family"
                                     autoFocus={isMdUp}
+                                    style={{ width: 260 }}
                                     onChange={(e: any) => setFamily(e.target.value)}>
                                     <MenuItem key="-" value="-">
                                         All
@@ -108,7 +110,7 @@ const NamedColors = () => {
                                             {name}
                                         </MenuItem>
                                     ))}
-                                </Select>
+                                </TextField>
                             </FormControl>
                         </Grid>
                         <Grid item md={6} sm={12} xs={12}>

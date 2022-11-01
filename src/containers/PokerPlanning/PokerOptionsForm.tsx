@@ -102,7 +102,9 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
             </Grid>
             <Grid item md={4} xs={6}>
                 <FormControl className={classes.formControl} fullWidth={true}>
-                    <Select
+                    <TextField
+                        select={true}
+                        label="Poker card types"
                         style={{ marginTop: theme.spacing(2) }}
                         variant="outlined"
                         fullWidth={true}
@@ -114,7 +116,7 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
                                 {category.displayValue}
                             </MenuItem>
                         ))}
-                    </Select>
+                    </TextField>
                 </FormControl>
             </Grid>
         </Grid>

@@ -110,7 +110,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
 
                 <Toolbar className={classes.toolbar}>
                     <Box display="flex" flexGrow={1}></Box>
-                    <div>
+                    <FormControl className={classes.formControl}>
                         <input
                             type="file"
                             color="primary"
@@ -124,14 +124,13 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                                 File &nbsp; <FileIcon />
                             </Button>
                         </label>
-                    </div>
+                    </FormControl>
 
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink id="encodingLabel">
-                            Encoding
-                        </InputLabel>
-                        <Select
-                            labelId="encodingLabel"
+                        <TextField
+                            select
+                            label="File encoding"
+                            style={{ width: 320 }}
                             id="encoding"
                             value={inputEncoding}
                             autoFocus={isMdUp}
@@ -141,8 +140,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                                     {item.label} ({item.name})
                                 </MenuItem>
                             ))}
-                        </Select>
-                        <FormHelperText>Specify the file encoding</FormHelperText>
+                        </TextField>
                     </FormControl>
                 </Toolbar>
 

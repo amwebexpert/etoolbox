@@ -111,12 +111,11 @@ const ImageOCR: React.FC = () => {
 
                 <form noValidate autoComplete="off" className={classes.form}>
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink id="languageLabel">
-                            Image language
-                        </InputLabel>
-                        <Select
-                            labelId="languageLabel"
+                        <TextField
+                            select={true}
+                            label="Image language"
                             id="language"
+                            style={{ width: 160 }}
                             value={language}
                             autoFocus={isMdUp}
                             onChange={(e: any) => setLanguage(e.target.value)}>
@@ -126,7 +125,7 @@ const ImageOCR: React.FC = () => {
                              */}
                             <MenuItem value="eng">English</MenuItem>
                             <MenuItem value="fra">French</MenuItem>
-                        </Select>
+                        </TextField>
                     </FormControl>
                 </form>
 
