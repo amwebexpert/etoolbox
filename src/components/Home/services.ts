@@ -1,4 +1,8 @@
 export const CHANGE_LOGS = [
+    {
+        version: 'v2.0.0',
+        desc: 'Major upgrade to MUI 5, improved UI spacing, icons and responsive layouts, dependencies upgrade.',
+    },
     { version: 'v1.18.0', desc: 'New poker planning feature, powered by "ws-poker-planning" server project' },
     { version: 'v1.17.0', desc: 'Major upgrade from React 17 to React 18. Lazy loading improvements.' },
     { version: 'v1.16.0', desc: 'Bug fixes, broken links fixed, dependencies update' },
