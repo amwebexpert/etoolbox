@@ -24,6 +24,7 @@
         "eject": "react-scripts eject",
         "lint": "eslint . --ext .ts,.tsx",
         "lint:fix": "eslint . --ext .ts,.tsx --fix",
+        "pretty": "prettier --write \"./**/*.{ts,tsx}\"",
         "check-licences": "license-checker --direct --production --exclude MIT,Apache-2.0,BSD-2-Clause,BSD-3-Clause,ISC,CC0-1.0"
     },
     "build": {

@@ -1,25 +1,18 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "react",
-    "react-hooks",
-    "eslint-plugin-import",
-    "prettier"
-  ],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "eslint-plugin-import", "prettier"],
   "env": {
     "browser": true
   },
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
-    "project": [
-      "tsconfig.json"
-    ],
+    "project": ["tsconfig.json"],
     "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
@@ -27,21 +20,20 @@
     }
   },
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", {"ignoreRestSiblings": true}],
-    "react/jsx-filename-extension": [
-      "warn",
-      {
-        "extensions": [
-          ".jsx",
-          ".tsx"
-        ]
-      }
-    ],
+    "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [".jsx", ".tsx"]
+      }
+    ],
     "react/no-unescaped-entities": "off",
     "react/prop-types": "off",
     "react-hooks/rules-of-hooks": "error",

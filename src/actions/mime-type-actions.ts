@@ -1,32 +1,32 @@
 export enum MimeTypeActionTypes {
-    APPLY_FILTER = 'MimeTypeActionTypes.APPLY_FILTER',
-    APPLY_FILTER_SUCCEEDED = 'MimeTypeActionTypes.APPLY_FILTER_SUCCEEDED',
+  APPLY_FILTER = 'MimeTypeActionTypes.APPLY_FILTER',
+  APPLY_FILTER_SUCCEEDED = 'MimeTypeActionTypes.APPLY_FILTER_SUCCEEDED',
 }
 
 export interface MimeTypeApplyFilterAction {
-    type: MimeTypeActionTypes.APPLY_FILTER;
-    searchTerm: string;
+  type: MimeTypeActionTypes.APPLY_FILTER;
+  searchTerm: string;
 }
 
 export interface MimeTypeApplyFilterSucceededAction {
-    type: MimeTypeActionTypes.APPLY_FILTER_SUCCEEDED;
-    elements: Map<string, readonly string[]>;
+  type: MimeTypeActionTypes.APPLY_FILTER_SUCCEEDED;
+  elements: Map<string, readonly string[]>;
 }
 
 export function applyMimeTypesFilter(searchTerm: string): MimeTypeApplyFilterAction {
-    return {
-        type: MimeTypeActionTypes.APPLY_FILTER,
-        searchTerm,
-    };
+  return {
+    type: MimeTypeActionTypes.APPLY_FILTER,
+    searchTerm,
+  };
 }
 
 export function applyMimeTypesFilterSucceeded(
-    elements: Map<string, readonly string[]>,
+  elements: Map<string, readonly string[]>,
 ): MimeTypeApplyFilterSucceededAction {
-    return {
-        type: MimeTypeActionTypes.APPLY_FILTER_SUCCEEDED,
-        elements,
-    };
+  return {
+    type: MimeTypeActionTypes.APPLY_FILTER_SUCCEEDED,
+    elements,
+  };
 }
 
 export type MimeTypeAction = MimeTypeApplyFilterAction | MimeTypeApplyFilterSucceededAction;

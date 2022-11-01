@@ -3,21 +3,21 @@ import React, { createContext, FC, PropsWithChildren, useCallback, useContext, u
 const defaultDarkModeValue = localStorage.getItem('darkMode') === 'true';
 
 export const PreferencesContext = createContext({
-    isDark: defaultDarkModeValue,
-    toggleTheme: Function(),
+  isDark: defaultDarkModeValue,
+  toggleTheme: Function(),
 });
 
 type PreferencesProviderProps = PropsWithChildren<unknown>;
 
 export const PreferencesProvider: FC<PreferencesProviderProps> = ({ children }) => {
-    const [isDark, setIsDark] = useState<boolean>(defaultDarkModeValue);
+  const [isDark, setIsDark] = useState<boolean>(defaultDarkModeValue);
 
-    const toggleTheme = useCallback(() => {
-        localStorage.setItem('darkMode', `${!isDark}`);
-        setIsDark(!isDark);
-    }, [isDark]);
+  const toggleTheme = useCallback(() => {
+    localStorage.setItem('darkMode', `${!isDark}`);
+    setIsDark(!isDark);
+  }, [isDark]);
 
-    return <PreferencesContext.Provider value={{ isDark, toggleTheme }}>{children}</PreferencesContext.Provider>;
+  return <PreferencesContext.Provider value={{ isDark, toggleTheme }}>{children}</PreferencesContext.Provider>;
 };
 
 export const usePreferenceTheme = () => useContext(PreferencesContext);

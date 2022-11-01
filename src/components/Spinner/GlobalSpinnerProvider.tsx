@@ -10,13 +10,13 @@ import { GlobalSpinner } from './GlobalSpinner';
 // Interfaces and types
 // -------------------------------
 export interface GlobalSpinnerState {
-    open: boolean;
+  open: boolean;
 }
 export type GlobalSpinnerContextType = {
-    globalSpinnerState: GlobalSpinnerState;
+  globalSpinnerState: GlobalSpinnerState;
 };
 export type GlobalSpinnerUpdateContextType = {
-    setGlobalSpinnerState: (state: GlobalSpinnerState) => void;
+  setGlobalSpinnerState: (state: GlobalSpinnerState) => void;
 };
 
 // -------------------------------
@@ -26,24 +26,24 @@ const SpinnerContext = React.createContext<GlobalSpinnerContextType | null>(null
 const SpinnerUpdateContext = React.createContext<GlobalSpinnerUpdateContextType | null>(null);
 
 export function useGlobalSpinner() {
-    return React.useContext(SpinnerContext)!;
+  return React.useContext(SpinnerContext)!;
 }
 export function useGlobalSpinnerUpdate() {
-    return React.useContext(SpinnerUpdateContext)!;
+  return React.useContext(SpinnerUpdateContext)!;
 }
 
 type GlobalSpinnerProviderProps = PropsWithChildren<unknown>;
 
 const GlobalSpinnerProvider: React.FC<GlobalSpinnerProviderProps> = ({ children }) => {
-    const [globalSpinnerState, setGlobalSpinnerState] = React.useState<GlobalSpinnerState>({ open: false });
+  const [globalSpinnerState, setGlobalSpinnerState] = React.useState<GlobalSpinnerState>({ open: false });
 
-    return (
-        <SpinnerContext.Provider value={{ globalSpinnerState }}>
-            <SpinnerUpdateContext.Provider value={{ setGlobalSpinnerState }}>
-                <GlobalSpinner>{children}</GlobalSpinner>
-            </SpinnerUpdateContext.Provider>
-        </SpinnerContext.Provider>
-    );
+  return (
+    <SpinnerContext.Provider value={{ globalSpinnerState }}>
+      <SpinnerUpdateContext.Provider value={{ setGlobalSpinnerState }}>
+        <GlobalSpinner>{children}</GlobalSpinner>
+      </SpinnerUpdateContext.Provider>
+    </SpinnerContext.Provider>
+  );
 };
 
 export default GlobalSpinnerProvider;

@@ -1,16 +1,4 @@
-import {
-    Box,
-    FormControl,
-    FormHelperText,
-    Grid,
-    InputLabel,
-    Link,
-    MenuItem,
-    Select,
-    TextField,
-    Toolbar,
-    Typography,
-} from '@mui/material';
+import { Box, FormControl, Grid, Link, MenuItem, TextField, Toolbar, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import FileIcon from '@mui/icons-material/AttachmentOutlined';
@@ -35,239 +23,242 @@ import prettyBytes from 'pretty-bytes';
 import { useIsWidthUp } from '../../theme';
 
 interface Props {
-    inputText?: string;
-    inputEncoding?: string;
-    inputOptions?: string;
-    storeInputText: (name: string, value: string) => void;
+  inputText?: string;
+  inputEncoding?: string;
+  inputOptions?: string;
+  storeInputText: (name: string, value: string) => void;
 }
 
 const CSVParser: React.FC<Props> = (props: Props) => {
-    const title = 'CSV parser';
-    const classes = useStyles();
-    const syntaxTheme = useSyntaxHighlightTheme();
-    const { inputText, inputEncoding, inputOptions, storeInputText } = props;
-    const [transformed, setTransformed] = React.useState('');
-    const [rawParsedResult, setRawParsedResult] = React.useState('');
-    const [fileInfo, setFileInfo] = React.useState('');
-    const [isRunning, setIsRunning] = React.useState(false);
-    const isMdUp = useIsWidthUp('md');
-    const displayedRowsCount = isMdUp ? 10 : 4;
+  const title = 'CSV parser';
+  const classes = useStyles();
+  const syntaxTheme = useSyntaxHighlightTheme();
+  const { inputText, inputEncoding, inputOptions, storeInputText } = props;
+  const [transformed, setTransformed] = React.useState('');
+  const [rawParsedResult, setRawParsedResult] = React.useState('');
+  const [fileInfo, setFileInfo] = React.useState('');
+  const [isRunning, setIsRunning] = React.useState(false);
+  const isMdUp = useIsWidthUp('md');
+  const displayedRowsCount = isMdUp ? 10 : 4;
 
-    const handleSaveAs = (event: any) => {
-        event.preventDefault();
-        fileService.saveJsonAs(transformed);
+  const handleSaveAs = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    fileService.saveJsonAs(transformed);
+  };
+
+  function handleClear(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    setTransformed('');
+    setRawParsedResult('');
+    setFileInfo('');
+    storeInputText('lastCSVInputContent', '');
+  }
+
+  function onFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e?.target?.files || e.target.files.length === 0) {
+      return;
+    }
+
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (ev: ProgressEvent<FileReader>) => {
+      if (!ev.target) {
+        return;
+      }
+      storeInputText('lastCSVInputContent', ev.target.result as string);
+      setFileInfo(`${file.name} (${prettyBytes(file.size)})`);
+      e.target.value = '';
     };
+    const encoding: LabelAndName | undefined = FILE_ENCODING_LABELS_SORTED.find(enc => enc.label === inputEncoding);
+    reader.readAsText(file, encoding?.name ?? 'utf-8');
+  }
 
-    function handleClear(event: any) {
-        event.preventDefault();
-        setTransformed('');
-        setRawParsedResult('');
-        setFileInfo('');
-        storeInputText('lastCSVInputContent', '');
+  React.useEffect(() => {
+    async function parse() {
+      if (!inputText) {
+        return;
+      }
+
+      try {
+        const opts = inputOptions ? JSON.parse(inputOptions) : services.DEFAULT_OPTIONS;
+        const result = await services.transform(inputText, opts);
+        setTransformed(JSON.stringify(result.data, null, 2));
+        setRawParsedResult(JSON.stringify(result, null, 2));
+        storeInputText('lastCSVInputOptions', JSON.stringify(opts, null, 2));
+        setIsRunning(false);
+      } catch (e) {
+        setIsRunning(false);
+      }
     }
 
-    function onFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
-        if (!e?.target?.files || e.target.files.length === 0) {
-            return;
-        }
-
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (ev: ProgressEvent<FileReader>) => {
-            storeInputText('lastCSVInputContent', ev.target!.result as string);
-            setFileInfo(`${file.name} (${prettyBytes(file.size)})`);
-            e.target.value = '';
-        };
-        const encoding: LabelAndName = FILE_ENCODING_LABELS_SORTED.find(enc => enc.label === inputEncoding)!;
-        reader.readAsText(file, encoding?.name ?? 'utf-8');
+    if (isRunning && inputText) {
+      parse();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRunning, inputText]);
 
-    React.useEffect(() => {
-        async function parse() {
-            try {
-                const opts = inputOptions ? JSON.parse(inputOptions) : services.DEFAULT_OPTIONS;
-                const result = await services.transform(inputText!, opts);
-                setTransformed(JSON.stringify(result.data, null, 2));
-                setRawParsedResult(JSON.stringify(result, null, 2));
-                storeInputText('lastCSVInputOptions', JSON.stringify(opts, null, 2));
-                setIsRunning(false);
-            } catch (e) {
-                setIsRunning(false);
-            }
-        }
+  return (
+    <>
+      <Helmet title={title} />
+      <div className={classes.root}>
+        <FeatureTitle iconType={CSVParserIcon} title={title} />
 
-        if (isRunning && inputText) {
-            parse();
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isRunning, inputText]);
+        <Toolbar className={classes.toolbar}>
+          <Box display="flex" flexGrow={1}></Box>
+          <FormControl className={classes.formControl} sx={{ mr: 1 }}>
+            <input
+              type="file"
+              color="primary"
+              accept="text/csv"
+              onChange={e => onFileSelected(e)}
+              id="icon-button-file"
+              style={{ display: 'none' }}
+            />
+            <label htmlFor="icon-button-file">
+              <Button variant="contained" component="span" color="primary" title="Select the CSV file from your device">
+                <FileIcon />
+              </Button>
+            </label>
+          </FormControl>
 
-    return (
-        <>
-            <Helmet title={title} />
-            <div className={classes.root}>
-                <FeatureTitle iconType={CSVParserIcon} title={title} />
+          <FormControl className={classes.formControl}>
+            <TextField
+              select
+              label="File encoding"
+              style={isMdUp ? { width: 320 } : undefined}
+              id="encoding"
+              value={inputEncoding}
+              autoFocus={isMdUp}
+              onChange={e => storeInputText('lastCSVInputContentEncoding', e.target.value)}>
+              {FILE_ENCODING_LABELS_SORTED.map((item, index) => (
+                <MenuItem key={`${index}-${item.label}`} value={item.label}>
+                  {item.label} ({item.name})
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
+        </Toolbar>
 
-                <Toolbar className={classes.toolbar}>
-                    <Box display="flex" flexGrow={1}></Box>
-                    <FormControl className={classes.formControl} sx={{ mr: 1 }}>
-                        <input
-                            type="file"
-                            color="primary"
-                            accept="text/csv"
-                            onChange={e => onFileSelected(e)}
-                            id="icon-button-file"
-                            style={{ display: 'none' }}
-                        />
-                        <label htmlFor="icon-button-file">
-                            <Button
-                                variant="contained"
-                                component="span"
-                                color="primary"
-                                title="Select the CSV file from your device">
-                                <FileIcon />
-                            </Button>
-                        </label>
-                    </FormControl>
+        <form noValidate autoComplete="off">
+          <Grid container spacing={1}>
+            <Grid item md={8} sm={12} xs={12}>
+              <TextField
+                name="inputText"
+                label="CSV Source data"
+                helperText={fileInfo}
+                multiline
+                minRows={displayedRowsCount}
+                maxRows={displayedRowsCount}
+                variant="outlined"
+                margin="normal"
+                inputProps={{
+                  style: {
+                    fontFamily: 'monospace',
+                    fontSize: '0.8em',
+                    whiteSpace: 'nowrap',
+                    overflowY: 'scroll',
+                  },
+                }}
+                fullWidth={true}
+                value={inputText}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  storeInputText('lastCSVInputContent', e.target.value)
+                }
+              />
+            </Grid>
+            <Grid item md={4} sm={12} xs={12}>
+              <TextField
+                name="inputOptions"
+                label="Parser options"
+                helperText={
+                  <Link target="_blank" rel="noreferrer" href={services.OPTIONS_DOC_URL}>
+                    Options documentation available here!
+                  </Link>
+                }
+                multiline
+                minRows={displayedRowsCount}
+                maxRows={displayedRowsCount}
+                variant="outlined"
+                margin="normal"
+                inputProps={{
+                  style: {
+                    fontFamily: 'monospace',
+                    fontSize: '0.8em',
+                    whiteSpace: 'nowrap',
+                    overflowY: 'scroll',
+                  },
+                }}
+                fullWidth={true}
+                value={inputOptions}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  storeInputText('lastCSVInputOptions', e.target.value)
+                }
+              />
+            </Grid>
+          </Grid>
+        </form>
 
-                    <FormControl className={classes.formControl}>
-                        <TextField
-                            select
-                            label="File encoding"
-                            style={isMdUp ? { width: 320 } : undefined}
-                            id="encoding"
-                            value={inputEncoding}
-                            autoFocus={isMdUp}
-                            onChange={(e: any) => storeInputText('lastCSVInputContentEncoding', e.target.value)}>
-                            {FILE_ENCODING_LABELS_SORTED.map((item, index) => (
-                                <MenuItem key={`${index}-${item.label}`} value={item.label}>
-                                    {item.label} ({item.name})
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </FormControl>
-                </Toolbar>
+        <Toolbar className={classes.toolbar}>
+          <Box display="flex" flexGrow={1}></Box>
+          <Button
+            sx={{ mr: 1 }}
+            variant="contained"
+            title="Parse the CVS file content"
+            color="primary"
+            endIcon={<AccountTreeIcon>Run</AccountTreeIcon>}
+            disabled={!inputText || isRunning}
+            onClick={() => setIsRunning(true)}>
+            {isRunning ? 'Wait…' : 'Run'}
+          </Button>
+          <Button
+            sx={{ mr: 1 }}
+            variant="contained"
+            title="Clear the content"
+            color="primary"
+            disabled={!inputText}
+            onClick={handleClear}>
+            <DeleteIcon />
+          </Button>
+          <CopyButton data={transformed} sx={{ mr: 1 }} />
+          <Button
+            endIcon={<SaveIcon>Save As...</SaveIcon>}
+            disabled={!transformed}
+            variant="contained"
+            color="primary"
+            onClick={handleSaveAs}>
+            Save…
+          </Button>
+        </Toolbar>
 
-                <form noValidate autoComplete="off">
-                    <Grid container spacing={1}>
-                        <Grid item md={8} sm={12} xs={12}>
-                            <TextField
-                                name="inputText"
-                                label="CSV Source data"
-                                helperText={fileInfo}
-                                multiline
-                                minRows={displayedRowsCount}
-                                maxRows={displayedRowsCount}
-                                variant="outlined"
-                                margin="normal"
-                                inputProps={{
-                                    style: {
-                                        fontFamily: 'monospace',
-                                        fontSize: '0.8em',
-                                        whiteSpace: 'nowrap',
-                                        overflowY: 'scroll',
-                                    },
-                                }}
-                                fullWidth={true}
-                                value={inputText}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    storeInputText('lastCSVInputContent', e.target.value)
-                                }
-                            />
-                        </Grid>
-                        <Grid item md={4} sm={12} xs={12}>
-                            <TextField
-                                name="inputOptions"
-                                label="Parser options"
-                                helperText={
-                                    <Link target="_blank" rel="noreferrer" href={services.OPTIONS_DOC_URL}>
-                                        Options documentation available here!
-                                    </Link>
-                                }
-                                multiline
-                                minRows={displayedRowsCount}
-                                maxRows={displayedRowsCount}
-                                variant="outlined"
-                                margin="normal"
-                                inputProps={{
-                                    style: {
-                                        fontFamily: 'monospace',
-                                        fontSize: '0.8em',
-                                        whiteSpace: 'nowrap',
-                                        overflowY: 'scroll',
-                                    },
-                                }}
-                                fullWidth={true}
-                                value={inputOptions}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                    storeInputText('lastCSVInputOptions', e.target.value)
-                                }
-                            />
-                        </Grid>
-                    </Grid>
-                </form>
-
-                <Toolbar className={classes.toolbar}>
-                    <Box display="flex" flexGrow={1}></Box>
-                    <Button
-                        sx={{ mr: 1 }}
-                        variant="contained"
-                        title="Parse the CVS file content"
-                        color="primary"
-                        endIcon={<AccountTreeIcon>Run</AccountTreeIcon>}
-                        disabled={!inputText || isRunning}
-                        onClick={() => setIsRunning(true)}>
-                        {isRunning ? 'Wait…' : 'Run'}
-                    </Button>
-                    <Button
-                        sx={{ mr: 1 }}
-                        variant="contained"
-                        title="Clear the content"
-                        color="primary"
-                        disabled={!inputText}
-                        onClick={handleClear}>
-                        <DeleteIcon />
-                    </Button>
-                    <CopyButton data={transformed} sx={{ mr: 1 }} />
-                    <Button
-                        endIcon={<SaveIcon>Save As...</SaveIcon>}
-                        disabled={!transformed}
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSaveAs}>
-                        Save…
-                    </Button>
-                </Toolbar>
-
-                {transformed && (
-                    <>
-                        <Typography>Parsed rows:</Typography>
-                        <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.encodedResult}>
-                            {transformed}
-                        </SyntaxHighlighter>
-                        <Typography>Parsed result with metadata:</Typography>
-                        <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.encodedResult}>
-                            {rawParsedResult}
-                        </SyntaxHighlighter>
-                    </>
-                )}
-            </div>
-        </>
-    );
+        {transformed && (
+          <>
+            <Typography>Parsed rows:</Typography>
+            <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.encodedResult}>
+              {transformed}
+            </SyntaxHighlighter>
+            <Typography>Parsed result with metadata:</Typography>
+            <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.encodedResult}>
+              {rawParsedResult}
+            </SyntaxHighlighter>
+          </>
+        )}
+      </div>
+    </>
+  );
 };
 
 export function mapStateToProps(state: AppState) {
-    return {
-        inputText: state.textInputs['lastCSVInputContent'],
-        inputEncoding: state.textInputs['lastCSVInputContentEncoding'],
-        inputOptions: state.textInputs['lastCSVInputOptions'],
-    };
+  return {
+    inputText: state.textInputs['lastCSVInputContent'],
+    inputEncoding: state.textInputs['lastCSVInputContentEncoding'],
+    inputOptions: state.textInputs['lastCSVInputOptions'],
+  };
 }
 
 export function mapDispatchToProps(dispatch: Dispatch) {
-    return {
-        storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
-    };
+  return {
+    storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CSVParser);

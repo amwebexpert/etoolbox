@@ -3,39 +3,39 @@ import { makeStyles } from '@mui/styles';
 import React from 'react';
 
 const useStyles = makeStyles(() => ({
-    result: {
-        fontFamily: 'monospace',
-        height: 'auto',
-    },
+  result: {
+    fontFamily: 'monospace',
+    height: 'auto',
+  },
 }));
 
 interface Props {
-    label?: string;
-    result?: string;
-    rows?: number;
-    maxRows?: number;
+  label?: string;
+  result?: string;
+  rows?: number;
+  maxRows?: number;
 }
 
 export const ResultMonospace = ({ label, result, rows = 10, maxRows = 15 }: Props) => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <TextField
-            multiline
-            minRows={rows}
-            maxRows={maxRows}
-            label={label}
-            variant="outlined"
-            margin="normal"
-            fullWidth={true}
-            value={result}
-            InputProps={{
-                classes: {
-                    input: classes.result,
-                },
-            }}
-        />
-    );
+  return (
+    <TextField
+      multiline
+      minRows={rows}
+      maxRows={maxRows}
+      label={label}
+      variant="outlined"
+      margin="normal"
+      fullWidth={true}
+      value={result}
+      InputProps={{
+        classes: {
+          input: classes.result,
+        },
+      }}
+    />
+  );
 };
 
 export default ResultMonospace;

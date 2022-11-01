@@ -20,22 +20,22 @@ const container = document.getElementById('root');
 const root = createRoot(container!);
 
 root.render(
-    <Provider store={store}>
-        <PreferencesProvider>
-            <PreferencesContext.Consumer>
-                {({ isDark }) => (
-                    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-                        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-                        <CssBaseline />
-                        <HashRouter>
-                            <GlobalSpinnerProvider>
-                                <App />
-                            </GlobalSpinnerProvider>
-                        </HashRouter>
-                    </ThemeProvider>
-                )}
-            </PreferencesContext.Consumer>
-        </PreferencesProvider>
-        <GlobalStyle />
-    </Provider>,
+  <Provider store={store}>
+    <PreferencesProvider>
+      <PreferencesContext.Consumer>
+        {({ isDark }) => (
+          <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <HashRouter>
+              <GlobalSpinnerProvider>
+                <App />
+              </GlobalSpinnerProvider>
+            </HashRouter>
+          </ThemeProvider>
+        )}
+      </PreferencesContext.Consumer>
+    </PreferencesProvider>
+    <GlobalStyle />
+  </Provider>,
 );
