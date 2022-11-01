@@ -120,7 +120,11 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                             style={{ display: 'none' }}
                         />
                         <label htmlFor="icon-button-file">
-                            <Button variant="contained" color="primary" title="Select the CSV file from your device">
+                            <Button
+                                variant="contained"
+                                component="span"
+                                color="primary"
+                                title="Select the CSV file from your device">
                                 <FileIcon />
                             </Button>
                         </label>
