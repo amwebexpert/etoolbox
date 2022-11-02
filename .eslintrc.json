@@ -39,7 +39,8 @@
     "react-hooks/exhaustive-deps": "warn",
     "no-shadow": "off",
     "no-unused-vars": "off", // disable default eslint unused variable
-    "@typescript-eslint/no-unused-vars": [ // ignore validation variable with prefix _
+    "@typescript-eslint/no-unused-vars": [
+      // ignore validation variable with prefix _
       "warn",
       {
         "argsIgnorePattern": "^_",
@@ -47,12 +48,11 @@
         "caughtErrorsIgnorePattern": "^_"
       }
     ],
-    "sort-imports": 
-    [
-      "error", 
-      { 
-        "ignoreCase": true, 
-        "ignoreDeclarationSort": true 
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
       }
     ],
     "import/order": [
@@ -74,7 +74,7 @@
         }
       }
     ]
-   },
+  },
   "settings": {
     "react": {
       "version": "detect"

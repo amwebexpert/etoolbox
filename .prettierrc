@@ -13,6 +13,5 @@
   "proseWrap": "preserve",
   "quoteProps": "as-needed",
   "useTabs": false,
-  "htmlWhitespaceSensitivity": "css",
-  "parser": "typescript"
+  "htmlWhitespaceSensitivity": "css"
 }
