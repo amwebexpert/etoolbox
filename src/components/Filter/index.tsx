@@ -25,6 +25,9 @@ const Filter: React.FC<Props> = ({
   const classes = useStyles();
 
   // https://www.npmjs.com/package/use-debounce
+  // Since onFilterChange may launch http requests, we trottle these calls with a delay
+  // Implementation note: we CAN'T just replace this mechanism with useDeferredValue because
+  // that would not prevent the "too many http calls" issue
   const debounced = useDebouncedCallback((filter: string) => onFilterChange(filter), 300);
 
   React.useEffect(() => debounced(filter), [filter, debounced]);
