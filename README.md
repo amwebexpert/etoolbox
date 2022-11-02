@@ -1,9 +1,8 @@
 # Web Toolbox
 
-Open source collection of web developer utilities, also packaged as a desktop application (Windows, Linux, Mac)
+Open source collection of web developer utilities, also packaged as a desktop application (Windows, Linux, Mac).
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/amwebexpert/etoolbox) ![GitHub Release Date](https://img.shields.io/github/release-date/amwebexpert/etoolbox) ![GitHub last commit](https://img.shields.io/github/last-commit/amwebexpert/etoolbox) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/react) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/typescript)
-
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/amwebexpert/etoolbox) ![GitHub Release Date](https://img.shields.io/github/release-date/amwebexpert/etoolbox) ![GitHub last commit](https://img.shields.io/github/last-commit/amwebexpert/etoolbox) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/react) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/typescript) [![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
 
 <div align="center">
   <img src="public/icon-512x512.png" width="100" alt="Web Toolbox" />
@@ -12,18 +11,17 @@ Open source collection of web developer utilities, also packaged as a desktop ap
   <div>Like the project? Don't forget to give it a ⭐️!</div>
 </div>
 
-
 ## Features
 
 Some screen captures of the implemented features...
 
-JSON format | File encoder | RegEx tester | Imaging OCR
------------ | ------------ | ------------ | -----------
-<img src="public/screen-captures/JSONFormatter-demo.gif" /> | <img src="public/screen-captures/ImageEncoder-demo.gif" /> | <img src="public/screen-captures/RegexTester-demo.gif" /> | <img src="public/screen-captures/ImageOCR-demo.gif" />
+| JSON format                                                 | File encoder                                               | RegEx tester                                              | Imaging OCR                                            |
+| ----------------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------------ |
+| <img src="public/screen-captures/JSONFormatter-demo.gif" /> | <img src="public/screen-captures/ImageEncoder-demo.gif" /> | <img src="public/screen-captures/RegexTester-demo.gif" /> | <img src="public/screen-captures/ImageOCR-demo.gif" /> |
 
 ## Online demo
 
-The app has been deployed and you can test it [right here!](https://amwebexpert.github.io/etoolbox). Whenever a feature is only available under `Electron` the UI element will be disabled or a corresponding popup message will be displayed. But most of the time we will try to make the feature available online.
+The app has been deployed and you can test it [JUST HERE!](https://amwebexpert.github.io/etoolbox). Whenever a feature is only available under `Electron` the UI element will be disabled or a corresponding popup message will be displayed. But most of the time we will try to make the feature available online.
 
 ## Windows, Linux and MacOS versions
 
@@ -40,33 +38,11 @@ Again feel free to try out the [online demo](https://amwebexpert.github.io/etool
 - usage as a progressive web app (PWA)
 - or just add bookmark(s) to the specific feature(s) of the app you use the most
 
-### Build desktop releases from source
+Still need an `Electron` release? We've got you covered: [Electron release details](./docs/sections/electron-builds.md)
 
-To build a desktop version just get the source code and run the following command, which will package the installers for all the platforms:
+## Development commands
 
-    npm install -g yarn
-    npm install
-    npm run electron:build:all
-
-This creates the following installers:
-
-* Windows: `build/Web Toolbox Setup <version>.exe`
-* Linux: `build/Web Toolbox-<version>.AppImage`
-* MacOS: `build/Web Toolbox-<version>.dmg`
-
-
-### Start this front-end app locally
-
-To build a development version and run it locally:
-
-    npm install -g yarn
-    yarn
-    yarn start
-
-This will compile typescript files and start a local development server listening on port `3000`. The single page application is then available at:
-
-- [http://localhost:3000](http://localhost:3000)
-
+See all the [Development commands and scripts](./docs/sections/commands.md)
 
 ## Project detail
 
@@ -74,110 +50,31 @@ This project is originaly a fork of [React-TypeScript-`Electron` sample with Cre
 
 Also bootstrapped with [Create React App](https://github.com/facebook/create-react-app) with `--typescript` option. On the top of it, the following features have been added with relatively small changes:
 
-* TypeScript supports for `Electron` main process source code
-* Hot-reload support for `Electron` app
-* `Electron` Builder support
+- TypeScript supports for `Electron` main process source code
+- Hot-reload support for `Electron` app
+- `Electron` Builder support
 
-### Project directory structure
-
-```bash
-my-app/
-├── package.json
-│
-## render process
-├── tsconfig.json
-├── public/
-├── src/
-│
-## main process
-├── electron/
-│   ├── main.ts
-│   └── tsconfig.json
-│
-## build output
-├── build/
-│   ├── index.html
-│   ├── static/
-│   │   ├── css/
-│   │   └── js/
-│   │
-│   └── electron/
-│      └── main.js
-│
-## distribution packges
-└── dist/
-    ├── mac/
-    │   └── my-app.app
-    └── my-app-0.1.0.dmg
-```
-
-### Available Scripts in addition to the existing CRA ones
-
-#### `yarn run electron:dev`
-
-Runs the `Electron` app in the development mode.
-
-The `Electron` app will reload if you make edits in the `electron` directory.<br>
-You will also see any lint errors in the console.
-
-#### `yarn run electron:build`
-
-Builds the `Electron` app package for production to the `dist` folder. See also the following script:
-
-    rebuildMacRelease.sh
-
-Your `Electron` app is ready to be distributed!
-
-#### `yarn run release`
-
-CHANGELOG generation powered by [Conventional Commits](https://www.npmjs.com/package/standard-version).
+More info here: [Web Toolbox Electron app details](./docs/sections/electron-builds.md)
 
 ## Roadmap (of next features)
 
 - Poker planning:
-  - confirm dialog for new poker team and room
   - add feature to clear all team members in one shut
-  - the new room should display a confirmation dialog (confirming room is created) with copy to clipboard button
-  - add indicator for joined members (as opposed to already listed because of previous poker sessions)
-- remove debounce hook lib: replace it by [usedeferredvalue](https://www.amitmerchant.com/natural-debouncing-using-the-usedeferredvalue-hook-in-react-18/)
-- Code snippets online store with text search capabilities on keywords and programming language type
-- CSV Viewer, see this [nice wrapper for displaying CSV data in a formatted table](https://github.com/phaniteja1/react-csv-viewer/blob/master/src/CsvInterface.js)
-- Suggests something or add your pull request!
 - Add list of all official HTTP Server codes (REST)
+- Suggests something or add your pull request!
 
 ## License
 
 This project is licensed under the MIT license. For more information see [`LICENSE`](./LICENSE) file.
 
-## Useful links
+## Conventional commits
 
-* https://github.com/electron/electron/issues/7300
-* https://askubuntu.com/a/935249/990301 (to setup *.AppImage in Ubuntu and make it auto discoverable inside your ~/.local/bin/ folder)
-* https://stackoverflow.com/questions/41551110/unable-to-override-app-name-on-mac-os-electron-menu
-* https://apple.stackexchange.com/a/385074/364767
-* https://www.electron.build/icons
-* https://cloudconvert.com/png-to-icns
-* https://stackoverflow.com/a/8684009/704681
-* https://stackoverflow.com/a/52409047/704681
+`CHANGELOG.md` generation powered by [Conventional Commits](https://www.npmjs.com/package/standard-version).
 
-### react-router-dom
+## References
 
-* https://medium.com/swlh/defining-nested-routes-with-react-router-8f140e87b360
-
-### Interesting posts this app has been inspired by
-
-* https://omakoleg.gitlab.io/posts/spa-image-base64-react/
-* https://stackoverflow.com/questions/53028778/how-to-show-build-datetime-on-my-react-web-app-using-create-react-app
-
-
-### Spinner
-
-* https://www.npmjs.com/package/react-loading-overlay
-* https://www.npmjs.com/package/react-spinners
-* https://www.davidhu.io/react-spinners/
-
+See the [References](./docs/sections/references.md)
 
 ## Authors
 
 - [amwebexpert@gmail.com](https://github.com/amwebexpert)
-  
