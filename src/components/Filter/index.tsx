@@ -10,27 +10,28 @@ interface Props {
   label?: string;
   autofocus?: boolean;
   fullWidth?: boolean;
-  initialFilter: string;
+  initialFilter?: string;
   onFilterChange: (newValue: string) => void;
 }
 
-const Filter: React.FC<Props> = (props: Props) => {
-  const { autofocus, initialFilter, label, onFilterChange, fullWidth } = props;
-  const [filter, setFilter] = React.useState('');
+const Filter: React.FC<Props> = ({
+  label = 'Search',
+  autofocus = false,
+  fullWidth = false,
+  initialFilter = '',
+  onFilterChange,
+}) => {
+  const [filter, setFilter] = React.useState(initialFilter);
   const classes = useStyles();
-  const inputLabel = label ? label : 'Search';
 
   // https://www.npmjs.com/package/use-debounce
   const debounced = useDebouncedCallback((filter: string) => onFilterChange(filter), 300);
 
-  React.useEffect(() => {
-    setFilter(initialFilter);
-  }, [initialFilter]);
   React.useEffect(() => debounced(filter), [filter, debounced]);
 
   return (
     <FormControl fullWidth={fullWidth} className={classes.root}>
-      <InputLabel htmlFor="searchField">{inputLabel}</InputLabel>
+      <InputLabel htmlFor="searchField">{label}</InputLabel>
       <Input
         id="searchField"
         autoFocus={autofocus}

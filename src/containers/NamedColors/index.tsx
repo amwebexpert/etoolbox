@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useDeferredValue, useEffect, useState } from 'react';
 
 import PaletteIcon from '@mui/icons-material/Palette';
 import {
@@ -20,7 +20,6 @@ import { makeStyles } from '@mui/styles';
 import * as copy from 'copy-to-clipboard';
 import { Helmet } from 'react-helmet';
 import Highlighter from 'react-highlight-words';
-import { useDebouncedCallback } from 'use-debounce';
 
 import FeatureTitle from '../../components/FeatureTitle';
 import Filter from '../../components/Filter';
@@ -61,23 +60,17 @@ const NamedColors = () => {
   const [colors, setColors] = useState(services.NAMED_COLORS);
   const [family, setFamily] = useState('-');
   const [filter, setFilter] = useState('');
+  const deferredFamilyValue = useDeferredValue(family);
+  const deferredFilterValue = useDeferredValue(filter);
   const { page, setPage, rowsPerPage, handleChangeRowsPerPage } = usePagination();
-
-  // https://www.npmjs.com/package/use-debounce
-  const debounced = useDebouncedCallback((family: string, filter: string) => {
-    setPage(0);
-    setColors(services.applyFiltering(family, filter));
-  }, 300);
-
-  React.useEffect(() => debounced(family, filter), [filter, family, debounced]);
 
   useEffect(() => {
     setPage(0);
-    setColors(services.applyFiltering(family));
-  }, [family, setColors, setPage]);
+    setColors(services.applyFiltering(deferredFamilyValue, deferredFilterValue));
+  }, [deferredFamilyValue, deferredFilterValue, setColors, setPage]);
 
   const handleCopy = (data: string) => {
-    const feedback = data.substr(0, 20);
+    const feedback = data.substring(0, 20);
     const message = `Content copied into clipboard: ${feedback} …`;
 
     copy.default(data, { format: 'text/plain' });

@@ -46,11 +46,10 @@ interface Props {
   storeInputText: (name: string, value: string) => void;
 }
 
-const RegExTester: React.FC<Props> = (props: Props) => {
+const RegExTester: React.FC<Props> = ({ regularExpression, inputText, storeInputText }) => {
   const title = 'Regular expressions tester';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
-  const { regularExpression, inputText, storeInputText } = props;
   const [highlithedMatches, setHighlithedMatches] = React.useState('');
   const [extracted, setExtracted] = React.useState('');
 
