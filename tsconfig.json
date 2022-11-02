@@ -20,7 +20,7 @@
     "noEmit": true,
     "jsx": "react",
     "noFallthroughCasesInSwitch": true,
-		"sourceMap": true,
+    "sourceMap": true
   },
   "include": [
     "./src",
