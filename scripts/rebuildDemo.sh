@@ -19,5 +19,4 @@ git add .
 git commit -m"docs: new online demo web release"
 
 yarn run release
-git push
-git push origin --tags
+git push --follow-tags
