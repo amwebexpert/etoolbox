@@ -2,11 +2,8 @@
   "compilerOptions": {
     "target": "es5",
     "downlevelIteration": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "types": ["cypress", "@testing-library/cypress"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,9 +19,5 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true
   },
-  "include": [
-    "./src",
-    "./electron",
-    "./webpack.config.ts"
-  ]
+  "include": ["./src", "./electron", "./webpack.config.ts", "./cypress"]
 }
