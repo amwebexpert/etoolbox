@@ -7,13 +7,11 @@ echo "______________________________________________"
 echo "Removing the [docs] folder"
 rm -rf docs
 echo "\t --> [docs] folder removed"
-
-echo "______________________________________________"
 echo "Moving [build] folder to [docs] folder"
 mv build docs
 echo "\t --> [docs] folder re-created from build"
 
-echo "End of the build. Content of the [docs] folder:"
+echo "End of the Demo build. Content of the [docs] folder:"
 ls -al docs/
 
 echo "______________________________________________"
