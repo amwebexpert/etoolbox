@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useDeferredValue } from 'react';
 
 import TextRotationNoneIcon from '@mui/icons-material/TextRotationNone';
 import { Box, Toolbar } from '@mui/material';
@@ -8,7 +8,6 @@ import { Helmet } from 'react-helmet';
 import ReactHtmlParser from 'react-html-parser';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { useDebouncedCallback } from 'use-debounce';
 
 import { setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
@@ -46,25 +45,19 @@ interface Props {
   storeInputText: (name: string, value: string) => void;
 }
 
-const RegExTester: React.FC<Props> = (props: Props) => {
+const RegExTester: React.FC<Props> = ({ regularExpression, inputText, storeInputText }) => {
   const title = 'Regular expressions tester';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
-  const { regularExpression, inputText, storeInputText } = props;
+  const deferredRegularExpressionValue = useDeferredValue(regularExpression);
+  const deferredInputTextValue = useDeferredValue(inputText);
   const [highlithedMatches, setHighlithedMatches] = React.useState('');
   const [extracted, setExtracted] = React.useState('');
 
-  // https://www.npmjs.com/package/use-debounce
-  const debounced = useDebouncedCallback((regularExpression, inputText) => {
-    setHighlithedMatches(services.transform(regularExpression, inputText));
-    setExtracted(services.extract(regularExpression, inputText));
-  }, 300);
-
-  React.useEffect(
-    // https://www.npmjs.com/package/use-debounce
-    () => debounced(regularExpression, inputText),
-    [regularExpression, inputText, debounced],
-  );
+  React.useEffect(() => {
+    setHighlithedMatches(services.transform(deferredRegularExpressionValue, deferredInputTextValue));
+    setExtracted(services.extract(deferredRegularExpressionValue, deferredInputTextValue));
+  }, [deferredRegularExpressionValue, deferredInputTextValue]);
 
   return (
     <>
