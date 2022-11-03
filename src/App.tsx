@@ -123,7 +123,7 @@ const App: React.FC = () => {
           }}>
           <div className={classes.toolbar}>
             <div className={classes.toolbarIconContainer}>
-              <NavLink to="/about" title="About Web Toolbox…">
+              <NavLink role="link" to="/about" title="About Web Toolbox…">
                 <img src={Banner} alt="Web Toolbox" className={classes.toolbarIcon} />
               </NavLink>
             </div>

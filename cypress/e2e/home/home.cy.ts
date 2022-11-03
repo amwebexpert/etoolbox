@@ -1,60 +1,49 @@
-export {};
+import { aboutPage } from '../pages/about.page';
+import { appDrawer } from '../pages/app.drawer';
+import { appToolbar } from '../pages/app.toolbar';
+import { homePage } from '../pages/home.page';
 
-describe('Home page', () => {
-  const appTitle = 'Web Toolbox';
-  const appAboutButtonTitle = 'About this application…';
-  const privacyPolicy = 'Privacy Policy';
-
-  const url = 'http://localhost:3000';
-
-  describe('when we visit the Home page of Web Toolbox', () => {
+describe('Home screen', () => {
+  describe('when we visit the Root of Web Toolbox app', () => {
     before(() => {
-      cy.visit(url);
+      // given
+      homePage.visit();
     });
 
-    it('should display the app logo', () => {
-      // given
-
-      // when
-
-      // then
-      cy.findAllByAltText(appTitle).should('exist');
-      cy.findAllByAltText(appTitle).should('have.length', 1);
+    it('should navigate to the Home route', () => {
+      cy.url().should('include', '/Home');
     });
 
-    it('should display the application title', () => {
-      // given
-
-      // when
-
-      // then
-      cy.findAllByText(appTitle).should('exist');
-      cy.findAllByText(appTitle).should('have.length', 2);
+    it('should display the webapp logo', () => {
+      appDrawer.getAppLogo().should('exist');
     });
 
-    it('should display the about icon button', () => {
-      // given
+    it('should display the webapp title', () => {
+      appToolbar.getAppTitles().should('exist');
+    });
 
-      // when
+    it('should display the "Settings" action link', () => {
+      appToolbar.getSettingsLink().should('exist');
+    });
 
-      // then
-      cy.findAllByTitle(appAboutButtonTitle).should('exist');
+    it('should display the "About" action link', () => {
+      appToolbar.getAboutLink().should('exist');
     });
   });
 
-  describe('when we press the About button', () => {
-    beforeEach(() => {
-      cy.visit(url);
+  describe('when we press the "About" action link', () => {
+    before(() => {
+      // given
+      appToolbar.getAboutLink().click();
     });
 
     it('should navigate to the About screen', () => {
-      // given
+      cy.url().should('include', '/about');
+    });
 
-      // when
-      cy.findAllByTitle(appAboutButtonTitle).click();
-
-      // then
-      cy.findByText(privacyPolicy).should('exist');
+    it('should display author and privacy policy', () => {
+      aboutPage.getPrivacyPolicyLink().should('exist');
+      aboutPage.getAuthorLink().should('exist');
     });
   });
 });
