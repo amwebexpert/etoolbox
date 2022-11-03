@@ -32,7 +32,7 @@ interface Props {
 }
 
 const CSVParser: React.FC<Props> = (props: Props) => {
-  const title = 'CSV parser';
+  const title = 'CSV Parser';
   const classes = useStyles();
   const syntaxTheme = useSyntaxHighlightTheme();
   const { inputText, inputEncoding, inputOptions, storeInputText } = props;
