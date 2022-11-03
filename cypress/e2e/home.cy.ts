@@ -1,8 +1,8 @@
-import { aboutPage } from '../pages/about.page';
-import { appDrawer } from '../pages/app.drawer';
-import { appToolbar } from '../pages/app.toolbar';
-import { homePage } from '../pages/home.page';
-import { settingsPage } from '../pages/settings.page';
+import { aboutPage } from './pages/about.page';
+import { appDrawer } from './pages/app.drawer';
+import { appToolbar } from './pages/app.toolbar';
+import { homePage } from './pages/home.page';
+import { settingsPage } from './pages/settings.page';
 
 describe('Home screen', () => {
   describe('when we visit the Root of Web Toolbox app', () => {
