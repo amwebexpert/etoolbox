@@ -40,9 +40,11 @@ describe('Home screen', () => {
       appDrawer.getToggleMenu().should('exist');
     });
 
-    it('should display the "Home menu item"', () => {
-      appDrawer.getMenuItemHome().should('exist');
-      appDrawer.getMenuItemHome().should('be.visible');
+    it('should display the "Home menu item")', () => {
+      appDrawer.getMenuItemHome().as('homeMenuItem'); // Cypress aliases example here
+
+      cy.get('@homeMenuItem').should('exist');
+      cy.get('@homeMenuItem').should('be.visible');
     });
 
     it('should display the "About" action link', () => {
