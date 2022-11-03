@@ -14,6 +14,10 @@ describe('Home screen', () => {
       cy.url().should('include', '/Home');
     });
 
+    it('should display the change logs', () => {
+      homePage.getChangeLogsHeader().should('exist');
+    });
+
     it('should display the webapp logo', () => {
       appDrawer.getAppLogo().should('exist');
     });

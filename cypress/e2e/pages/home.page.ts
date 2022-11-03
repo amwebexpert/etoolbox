@@ -4,4 +4,6 @@ export const homePage = Object.freeze({
   visit: () => {
     cy.visit(url);
   },
+
+  getChangeLogsHeader: () => cy.findByRole('heading', { name: 'Change Logs' }),
 });
