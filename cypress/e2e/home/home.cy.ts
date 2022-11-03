@@ -42,10 +42,23 @@ describe('Home screen', () => {
 
     it('should display the "Home menu item"', () => {
       appDrawer.getMenuItemHome().should('exist');
+      appDrawer.getMenuItemHome().should('be.visible');
     });
 
     it('should display the "About" action link', () => {
       appToolbar.getAboutLink().should('exist');
+    });
+  });
+
+  describe('when we press the "Toggle menu" chevron', () => {
+    before(() => {
+      // given
+      appDrawer.getToggleMenu().click();
+    });
+
+    it('should hide menu items', () => {
+      appDrawer.getMenuItemHome().should('exist');
+      appDrawer.getMenuItemHome().should('be.hidden');
     });
   });
 
@@ -64,6 +77,14 @@ describe('Home screen', () => {
       aboutPage.getPrivacyPolicyLink().should('exist');
       aboutPage.getAuthorLink().should('exist');
     });
+
+    it('should go back', () => {
+      // when
+      cy.go('back');
+
+      // then
+      aboutPage.getAuthorLink().should('not.exist');
+    });
   });
 
   describe('when we press the "Settings" action link', () => {
@@ -79,6 +100,14 @@ describe('Home screen', () => {
 
     it('should display heading', () => {
       settingsPage.getHeading().should('exist');
+    });
+
+    it('should go back', () => {
+      // when
+      cy.go('back');
+
+      // then
+      settingsPage.getHeading().should('not.exist');
     });
   });
 });
