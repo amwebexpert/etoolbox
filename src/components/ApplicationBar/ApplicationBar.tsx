@@ -77,11 +77,11 @@ const ApplicationBar = ({ open, setOpen }: Props) => {
           Web Toolbox
         </Typography>
 
-        <NavLink to="/preferences" className={classes.linkMenu} title="Settings">
+        <NavLink role="link" to="/preferences" className={classes.linkMenu} title="Settings">
           <SettingsIcon />
         </NavLink>
 
-        <NavLink to="/about" className={classes.linkMenu} title="About this application…">
+        <NavLink role="link" to="/about" className={classes.linkMenu} title="About this application…">
           <InfoIcon />
         </NavLink>
 

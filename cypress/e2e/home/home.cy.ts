@@ -1,30 +1,113 @@
-export {};
+import { aboutPage } from '../pages/about.page';
+import { appDrawer } from '../pages/app.drawer';
+import { appToolbar } from '../pages/app.toolbar';
+import { homePage } from '../pages/home.page';
+import { settingsPage } from '../pages/settings.page';
 
-describe('Home page', () => {
-  const appTitle = 'Web Toolbox';
-  const url = 'http://localhost:3000';
-
-  describe('When we visit the Home page of Web Toolbox', () => {
-    it('should display the app logo', () => {
+describe('Home screen', () => {
+  describe('when we visit the Root of Web Toolbox app', () => {
+    before(() => {
       // given
-
-      // when
-      cy.visit(url);
-
-      // then
-      cy.findAllByAltText(appTitle).should('exist');
-      cy.findAllByAltText(appTitle).should('have.length', 1);
+      homePage.visit();
     });
 
-    it('should display the application title', () => {
-      // given
+    it('should navigate to the Home route', () => {
+      cy.url().should('include', '/Home');
+    });
 
+    it('should display the change logs', () => {
+      homePage.getChangeLogsHeader().should('exist');
+    });
+
+    it('should display the Last build', () => {
+      homePage.getLastBuild().should('exist');
+    });
+
+    it('should display the webapp logo', () => {
+      appDrawer.getAppLogo().should('exist');
+    });
+
+    it('should display the webapp title', () => {
+      appToolbar.getAppTitles().should('exist');
+      cy.title().should('eq', 'Web Toolbox');
+    });
+
+    it('should display the "Settings" action link', () => {
+      appToolbar.getSettingsLink().should('exist');
+    });
+
+    it('should display the "Toggle menu" action link', () => {
+      appDrawer.getToggleMenu().should('exist');
+    });
+
+    it('should display the "Home menu item"', () => {
+      appDrawer.getMenuItemHome().should('exist');
+      appDrawer.getMenuItemHome().should('be.visible');
+    });
+
+    it('should display the "About" action link', () => {
+      appToolbar.getAboutLink().should('exist');
+    });
+  });
+
+  describe('when we press the "Toggle menu" chevron', () => {
+    before(() => {
+      // given
+      appDrawer.getToggleMenu().click();
+    });
+
+    it('should hide menu items', () => {
+      appDrawer.getMenuItemHome().should('exist');
+      appDrawer.getMenuItemHome().should('be.hidden');
+    });
+  });
+
+  describe('when we press the "About" action link', () => {
+    before(() => {
+      // given
+      appToolbar.getAboutLink().click();
+    });
+
+    it('should navigate to the "About" screen', () => {
+      cy.url().should('include', '/about');
+      cy.title().should('eq', 'Web Toolbox - About…');
+    });
+
+    it('should display author and privacy policy', () => {
+      aboutPage.getPrivacyPolicyLink().should('exist');
+      aboutPage.getAuthorLink().should('exist');
+    });
+
+    it('should go back', () => {
       // when
-      cy.visit(url);
+      cy.go('back');
 
       // then
-      cy.findAllByText(appTitle).should('exist');
-      cy.findAllByText(appTitle).should('have.length', 2);
+      aboutPage.getAuthorLink().should('not.exist');
+    });
+  });
+
+  describe('when we press the "Settings" action link', () => {
+    before(() => {
+      // given
+      appToolbar.getSettingsLink().click();
+    });
+
+    it('should navigate to the "Settings" screen', () => {
+      cy.url().should('include', '/preferences');
+      cy.title().should('eq', 'Web Toolbox - Application preferences');
+    });
+
+    it('should display heading', () => {
+      settingsPage.getHeading().should('exist');
+    });
+
+    it('should go back', () => {
+      // when
+      cy.go('back');
+
+      // then
+      settingsPage.getHeading().should('not.exist');
     });
   });
 });
