@@ -18,6 +18,10 @@ describe('Home screen', () => {
       homePage.getChangeLogsHeader().should('exist');
     });
 
+    it('should display the Last build', () => {
+      homePage.getLastBuild().should('exist');
+    });
+
     it('should display the webapp logo', () => {
       appDrawer.getAppLogo().should('exist');
     });
