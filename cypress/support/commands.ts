@@ -30,6 +30,5 @@ import '@testing-library/cypress/add-commands';
 // @see e2e/support/index.d.ts
 
 Cypress.Commands.add('visitHomeScreen', () => {
-  const url = 'http://localhost:3000';
-  cy.visit(url);
+  cy.visit('/');
 });
