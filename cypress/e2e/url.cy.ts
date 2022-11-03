@@ -1,6 +1,6 @@
 import { appDrawer } from './pages/app.drawer';
 import { homePage } from './pages/home.page';
-import { urlParserPage } from './pages/url.page';
+import { urlParserPage } from './pages/url.parser.page';
 
 describe('URL parsers and encoders screen', () => {
   before(() => {

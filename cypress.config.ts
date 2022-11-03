@@ -5,5 +5,6 @@ export default defineConfig({
     setupNodeEvents(_on, _config) {
       // implement node event listeners here
     },
+    baseUrl: 'http://localhost:3000',
   },
 });
