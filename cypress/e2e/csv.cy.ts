@@ -25,18 +25,17 @@ describe('CSV Parser screen', () => {
     });
   });
 
-  describe('when we select the "addresses.csv" file', () => {
+  describe('when user selects a CSV file from current device', () => {
     beforeEach(() => {
       csvParserPage.getTextareaField().clear();
     });
 
     it('should load textual content into the input textarea', () => {
       // given
-      const fileInput = csvParserPage.getFileSelectorInput();
       csvParserPage.getTextareaField().should('exist').should('be.empty');
 
       // when
-      fileInput.attachFile('addresses.csv');
+      csvParserPage.getFileSelectorInput().attachFile('addresses.csv');
 
       // then
       csvParserPage.getTextareaField().should('not.be.empty').should('contain', 'John,Doe');
