@@ -23,6 +23,8 @@
     "electron:build:all": "yarn build && tsc -p electron && electron-builder -mwl",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:run:ci": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && yarn cypress:run\"",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "pretty": "prettier --write \"./**/*.{ts,tsx}\"",
