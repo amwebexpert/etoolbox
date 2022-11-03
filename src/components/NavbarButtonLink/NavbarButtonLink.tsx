@@ -35,6 +35,7 @@ export const NavbarButtonLink = ({ title, detail, to, icon, onClick }: Props) =>
 
   return (
     <NavLink
+      role="link"
       to={to}
       title={detail}
       className={({ isActive }) => (isActive ? clsx(classes.link, classes.linkActive) : classes.link)}>

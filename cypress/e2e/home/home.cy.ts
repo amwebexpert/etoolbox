@@ -36,6 +36,14 @@ describe('Home screen', () => {
       appToolbar.getSettingsLink().should('exist');
     });
 
+    it('should display the "Toggle menu" action link', () => {
+      appDrawer.getToggleMenu().should('exist');
+    });
+
+    it('should display the "Home menu item"', () => {
+      appDrawer.getMenuItemHome().should('exist');
+    });
+
     it('should display the "About" action link', () => {
       appToolbar.getAboutLink().should('exist');
     });
