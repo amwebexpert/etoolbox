@@ -19,5 +19,27 @@ describe('CSV Parser screen', () => {
     it('should display heading', () => {
       csvParserPage.getHeading().should('exist');
     });
+
+    it('should have an empty textarea content', () => {
+      csvParserPage.getTextareaField().should('exist').should('be.empty');
+    });
+  });
+
+  describe('when we select the "addresses.csv" file', () => {
+    beforeEach(() => {
+      csvParserPage.getTextareaField().clear();
+    });
+
+    it('should load textual content into the input textarea', () => {
+      // given
+      const fileInput = csvParserPage.getFileSelectorInput();
+      csvParserPage.getTextareaField().should('exist').should('be.empty');
+
+      // when
+      fileInput.attachFile('addresses.csv');
+
+      // then
+      csvParserPage.getTextareaField().should('not.be.empty').should('contain', 'John,Doe');
+    });
   });
 });

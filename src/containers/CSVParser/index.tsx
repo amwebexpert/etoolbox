@@ -114,6 +114,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
               accept="text/csv"
               onChange={e => onFileSelected(e)}
               id="icon-button-file"
+              data-testid="icon-button-file"
               style={{ display: 'none' }}
             />
             <label htmlFor="icon-button-file">
