@@ -20,11 +20,11 @@ Cypress is used to test the application.
 
 1. open a new terminal and start the app using `yarn start`
 1. wait for the app to be available at `http://localhost:3000`
-1. open the Cypress `Launchpad` using `yarn run cypress:open`
+1. open the Cypress `Launchpad` using `yarn e2e:open`
 1. run the `e2e` tests through the Cypress UI
 
 ### Automatically execute e2e tests
 
 Just execute the following command:
 
-- `yarn run cypress:run:ci`
+- `yarn e2e:run:ci`
