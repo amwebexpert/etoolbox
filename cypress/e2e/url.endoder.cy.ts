@@ -3,7 +3,7 @@ import { urlEncoderPage } from './pages/url.encoder.page';
 
 describe('URL encoder/decoder screen', () => {
   const data = 'The chief export of Chuck Norris is pain…';
-  const expectedResult = 'The%20chief%20export%20of%20Chuck%20Norris%20is%20pain%E2%80%A6';
+  const dataEncoded = 'The%20chief%20export%20of%20Chuck%20Norris%20is%20pain%E2%80%A6';
 
   before(() => {
     // given
@@ -55,6 +55,30 @@ describe('URL encoder/decoder screen', () => {
     });
   });
 
+  describe('when user presses the "Switch content" action button', () => {
+    before(() => {
+      urlEncoderPage.getInputField().clear().type(data);
+      urlEncoderPage.getEncodeAction().click();
+      urlEncoderPage.getSwitchContentAction().click();
+    });
+
+    it('should transfer the result into the input field', () => {
+      urlEncoderPage.getInputField().should('contain', dataEncoded);
+      urlEncoderPage.getResultText().should('not.contain', dataEncoded);
+    });
+  });
+
+  describe('when user presses the "Decode" action button', () => {
+    before(() => {
+      urlEncoderPage.getInputField().clear().type(dataEncoded);
+      urlEncoderPage.getDecodeAction().click();
+    });
+
+    it('should display the decoded result', () => {
+      urlEncoderPage.getResultText().should('contain', data);
+    });
+  });
+
   describe('when user presses the "Encode" action button', () => {
     before(() => {
       urlEncoderPage.getInputField().clear().type(data);
@@ -71,20 +95,7 @@ describe('URL encoder/decoder screen', () => {
     });
 
     it('should show the encoded result', () => {
-      urlEncoderPage.getResultText().should('contain', expectedResult);
-    });
-  });
-
-  describe('when user presses the "Switch content" action button', () => {
-    before(() => {
-      urlEncoderPage.getInputField().clear().type(data);
-      urlEncoderPage.getEncodeAction().click();
-      urlEncoderPage.getSwitchContentAction().click();
-    });
-
-    it('should transfer the result into the input field', () => {
-      urlEncoderPage.getInputField().should('contain', expectedResult);
-      urlEncoderPage.getResultText().should('not.contain', expectedResult);
+      urlEncoderPage.getResultText().should('contain', dataEncoded);
     });
   });
 });
