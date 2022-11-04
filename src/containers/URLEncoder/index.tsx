@@ -2,10 +2,9 @@ import React from 'react';
 
 import EncodeIcon from '@mui/icons-material/Code';
 import DecodeIcon from '@mui/icons-material/CodeOff';
-import ImportExportIcon from '@mui/icons-material/ImportExport';
+import SwitchContentIcon from '@mui/icons-material/ImportExport';
 import { Box, Toolbar } from '@mui/material';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import { Button, TextField } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -46,6 +45,14 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
     setTransformed('');
   };
 
+  const onContentChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newContent = e.target.value;
+    storeInputText('lastUrlEncoderValue', newContent);
+    if (!newContent) {
+      setTransformed('');
+    }
+  };
+
   return (
     <>
       <Helmet title={title} />
@@ -63,41 +70,44 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
           margin="normal"
           fullWidth={true}
           value={inputText}
-          onChange={e => storeInputText('lastUrlEncoderValue', e.target.value)}
+          onChange={onContentChanged}
         />
 
         <Toolbar className={classes.toolbar}>
           <Button
             variant="contained"
+            data-testid="switch-content-action"
             component="span"
             color="primary"
             disabled={!transformed}
             onClick={flip}
             title="Switch data content">
-            <ImportExportIcon />
+            <SwitchContentIcon />
           </Button>
           <Box display="flex" flexGrow={1}></Box>
           <CopyButton data={transformed} sx={{ mr: 1 }} />
           <Button
             sx={{ mr: 1 }}
             variant="contained"
+            endIcon={<EncodeIcon />}
             title="Encode the content"
             color="primary"
             disabled={!inputText}
             onClick={() => setTransformed(services.transform(inputText, false))}>
-            <EncodeIcon />
+            Enc.
           </Button>
           <Button
             variant="contained"
+            endIcon={<DecodeIcon />}
             title="Decode the content"
             color="primary"
             disabled={!inputText}
             onClick={() => setTransformed(services.transform(inputText, true))}>
-            <DecodeIcon />
+            Dec.
           </Button>
         </Toolbar>
 
-        <ResultMonospace label="Result" result={transformed} />
+        <ResultMonospace testID="parsed-result" label="Result" result={transformed} />
       </div>
     </>
   );
