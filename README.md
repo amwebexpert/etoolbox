@@ -23,6 +23,13 @@ Some screen captures of the implemented features...
 
 The app has been deployed and you can test it [JUST HERE!](https://amwebexpert.github.io/etoolbox). Whenever a feature is only available under `Electron` the UI element will be disabled or a corresponding popup message will be displayed. But most of the time we will try to make the feature available online.
 
+## Tested with Cypress
+
+We have added features coverages (a.k.a. end to end tests) so each release can be tested in order to detect regressions before the release reach the production. [Cypress](https://www.cypress.io/) is an awesome tool and Web Toolbox has a lot of screen behaviors covered.
+
+![image](https://user-images.githubusercontent.com/3459255/200012202-fcb7269a-e487-41ee-806e-e74e0889fc9c.png)
+
+
 ## Windows, Linux and MacOS versions
 
 Since most of the features don't need to access desktop capabilities, `Electron` is actually not absolutely required. However, having a desktop application gives nice things like:
