@@ -66,10 +66,11 @@ describe('CSV Parser screen', () => {
   });
 
   describe('when user presses the "Parse CSV" button', () => {
-    beforeEach(() => {
+    before(() => {
       // given
       csvParserPage.getCsvParserOptionsField().clear();
       csvParserPage.getFileSelectorInput().attachFile('addresses.csv');
+      csvParserPage.getCopyToClipboardAction().should('be.disabled');
 
       // when
       csvParserPage.getExecuteAction().click();
@@ -77,6 +78,10 @@ describe('CSV Parser screen', () => {
 
     it('should enable the "Copy to clipboard" action', () => {
       csvParserPage.getCopyToClipboardAction().should('be.enabled');
+    });
+
+    it('should enable the "Save As…" action', () => {
+      csvParserPage.getSaveAsAction().should('be.enabled');
     });
 
     it('should display the parsed JSON result', () => {
