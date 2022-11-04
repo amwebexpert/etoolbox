@@ -236,7 +236,11 @@ const CSVParser: React.FC<Props> = (props: Props) => {
         {transformed && (
           <>
             <Typography>Parsed rows:</Typography>
-            <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.encodedResult}>
+            <SyntaxHighlighter
+              data-testid="parsed-result"
+              style={syntaxTheme}
+              language="json"
+              className={classes.encodedResult}>
               {transformed}
             </SyntaxHighlighter>
             <Typography>Parsed result with metadata:</Typography>

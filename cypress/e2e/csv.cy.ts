@@ -26,7 +26,7 @@ describe('CSV Parser screen', () => {
   });
 
   describe('when user selects a CSV file from current device', () => {
-    beforeEach(() => {
+    before(() => {
       csvParserPage.getTextareaField().clear();
     });
 
@@ -39,6 +39,22 @@ describe('CSV Parser screen', () => {
 
       // then
       csvParserPage.getTextareaField().should('not.be.empty').should('contain', 'John,Doe');
+    });
+  });
+
+  describe('when user presses the "Parse CSV" button', () => {
+    before(() => {
+      // given
+      csvParserPage.getFileSelectorInput().attachFile('addresses.csv');
+      csvParserPage.getTextareaField().should('not.be.empty').should('contain', 'John,Doe');
+
+      // when
+      csvParserPage.getExecuteAction().click();
+    });
+
+    it('should display the parsed JSON result', () => {
+      csvParserPage.getResultText().should('not.be.empty').should('contain', '"First": "John"');
+      csvParserPage.getResultText().should('not.be.empty').should('contain', '"Last": "Doe"');
     });
   });
 });
