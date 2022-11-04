@@ -8,5 +8,5 @@ export const urlEncoderPage = Object.freeze({
   getEncodeAction: () => cy.findByRole('button', { name: 'Enc.' }),
   getDecodeAction: () => cy.findByRole('button', { name: 'Dec.' }),
   getCopyToClipboardAction: appCommonPage.getCopyToClipboardAction,
-  getSwitchContentAction: () => cy.get('[data-testid="copy-to-clipboard"]'),
+  getSwitchContentAction: () => cy.get('[data-testid="switch-content-action"]'),
 });

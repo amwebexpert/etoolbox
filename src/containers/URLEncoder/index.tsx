@@ -2,10 +2,9 @@ import React from 'react';
 
 import EncodeIcon from '@mui/icons-material/Code';
 import DecodeIcon from '@mui/icons-material/CodeOff';
-import ImportExportIcon from '@mui/icons-material/ImportExport';
+import SwitchContentIcon from '@mui/icons-material/ImportExport';
 import { Box, Toolbar } from '@mui/material';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import { Button, TextField } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -83,7 +82,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
             disabled={!transformed}
             onClick={flip}
             title="Switch data content">
-            <ImportExportIcon />
+            <SwitchContentIcon />
           </Button>
           <Box display="flex" flexGrow={1}></Box>
           <CopyButton data={transformed} sx={{ mr: 1 }} />
