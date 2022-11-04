@@ -75,6 +75,10 @@ describe('CSV Parser screen', () => {
       csvParserPage.getExecuteAction().click();
     });
 
+    it('should enable the "Copy to clipboard" action', () => {
+      csvParserPage.getCopyToClipboardAction().should('be.enabled');
+    });
+
     it('should display the parsed JSON result', () => {
       csvParserPage.getResultText().should('contain', '"First": "John"');
       csvParserPage.getResultText().should('contain', '"Last": "Doe"');

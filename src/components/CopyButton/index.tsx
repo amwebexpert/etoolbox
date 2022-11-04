@@ -38,12 +38,13 @@ const CopyButton: React.FC<Props> = ({
 
   return (
     <Button
-      {...others}
-      onClick={handleCopy}
       disabled={!data || isDisabled}
       title={hoverMessage ?? 'Copy to clipboard'}
       variant="contained"
-      color="primary">
+      data-testid="copy-to-clipboard"
+      color="primary"
+      {...others}
+      onClick={handleCopy}>
       <Icon />
     </Button>
   );

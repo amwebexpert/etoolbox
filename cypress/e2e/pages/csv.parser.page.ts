@@ -4,6 +4,7 @@ export const csvParserPage = Object.freeze({
   getCsvParserOptionsField: () => cy.findByRole('textbox', { name: 'Parser options' }),
   getExecuteAction: () => cy.findByRole('button', { name: 'Run' }),
   getDeleteAction: () => cy.findByTitle('Clear the content'),
+  getCopyToClipboardAction: () => cy.get('[data-testid="copy-to-clipboard"]'),
   getFileSelectorInput: () => cy.findByTestId('icon-button-file'),
   getResultText: () => cy.findByTestId('parsed-result'),
 });
