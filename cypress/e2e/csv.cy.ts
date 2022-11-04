@@ -1,5 +1,5 @@
 import { appDrawer } from './pages/app.drawer';
-import { csvParserPage } from './pages/csv.parser';
+import { csvParserPage } from './pages/csv.parser.page';
 import { homePage } from './pages/home.page';
 
 describe('CSV Parser screen', () => {
@@ -21,40 +21,63 @@ describe('CSV Parser screen', () => {
     });
 
     it('should have an empty textarea content', () => {
-      csvParserPage.getTextareaField().should('exist').should('be.empty');
+      csvParserPage.getCsvDataField().should('exist').should('be.empty');
     });
   });
 
   describe('when user selects a CSV file from current device', () => {
     before(() => {
-      csvParserPage.getTextareaField().clear();
+      csvParserPage.getCsvDataField().clear();
+      csvParserPage.getCsvParserOptionsField().clear();
     });
 
     it('should load textual content into the input textarea', () => {
       // given
-      csvParserPage.getTextareaField().should('exist').should('be.empty');
+      csvParserPage.getCsvDataField().should('exist').should('be.empty');
 
       // when
       csvParserPage.getFileSelectorInput().attachFile('addresses.csv');
 
       // then
-      csvParserPage.getTextareaField().should('not.be.empty').should('contain', 'John,Doe');
+      csvParserPage.getCsvDataField().should('contain', 'John,Doe');
+    });
+  });
+
+  describe('when the content of the CSV data field is empty', () => {
+    before(() => {
+      csvParserPage.getCsvDataField().clear();
+    });
+
+    it('should disable the action buttons', () => {
+      csvParserPage.getExecuteAction().should('be.disabled');
+      csvParserPage.getDeleteAction().should('be.disabled');
+    });
+  });
+
+  describe('when the content of the CSV data field is populated', () => {
+    before(() => {
+      csvParserPage.getFileSelectorInput().attachFile('addresses.csv');
+    });
+
+    it('should enable the action buttons', () => {
+      csvParserPage.getExecuteAction().should('be.enabled');
+      csvParserPage.getDeleteAction().should('be.enabled');
     });
   });
 
   describe('when user presses the "Parse CSV" button', () => {
-    before(() => {
+    beforeEach(() => {
       // given
+      csvParserPage.getCsvParserOptionsField().clear();
       csvParserPage.getFileSelectorInput().attachFile('addresses.csv');
-      csvParserPage.getTextareaField().should('not.be.empty').should('contain', 'John,Doe');
 
       // when
       csvParserPage.getExecuteAction().click();
     });
 
     it('should display the parsed JSON result', () => {
-      csvParserPage.getResultText().should('not.be.empty').should('contain', '"First": "John"');
-      csvParserPage.getResultText().should('not.be.empty').should('contain', '"Last": "Doe"');
+      csvParserPage.getResultText().should('contain', '"First": "John"');
+      csvParserPage.getResultText().should('contain', '"Last": "Doe"');
     });
   });
 });
