@@ -31,7 +31,7 @@ We have added features coverages (a.k.a. end to end tests) so each release can b
 
 ![image](https://user-images.githubusercontent.com/3459255/200014116-85caa518-9355-443c-b1cd-e67b4f819010.png)
 
-- See the full [e2e tests report](./cypress/reports/html/index)
+- See the full [e2e tests report](https://amwebexpert.github.io/etoolbox/e2e-tests-report/html/index.html)
 
 ## Windows, Linux and MacOS versions
 
