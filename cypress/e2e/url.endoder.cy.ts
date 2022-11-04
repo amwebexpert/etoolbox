@@ -1,5 +1,5 @@
 import { appDrawer } from './pages/app.drawer';
-import { urlEndoderPage } from './pages/url.encoder.page';
+import { urlEncoderPage } from './pages/url.encoder.page';
 
 describe('URL encoder/decoder screen', () => {
   const data = 'The chief export of Chuck Norris is pain…';
@@ -12,7 +12,7 @@ describe('URL encoder/decoder screen', () => {
 
   describe('when we visit the "URL Encoder" screen', () => {
     before(() => {
-      urlEndoderPage.getInputField().clear();
+      urlEncoderPage.getInputField().clear();
     });
 
     it('should navigate to the "URL" route', () => {
@@ -21,40 +21,40 @@ describe('URL encoder/decoder screen', () => {
     });
 
     it('should display heading', () => {
-      urlEndoderPage.getHeading().should('exist');
+      urlEncoderPage.getHeading().should('exist');
     });
 
     it('should have disabled action buttons', () => {
-      urlEndoderPage.getSwitchContentAction().should('be.disabled');
-      urlEndoderPage.getCopyToClipboardAction().should('be.disabled');
-      urlEndoderPage.getEncodeAction().should('be.disabled');
-      urlEndoderPage.getDecodeAction().should('be.disabled');
+      urlEncoderPage.getSwitchContentAction().should('be.disabled');
+      urlEncoderPage.getCopyToClipboardAction().should('be.disabled');
+      urlEncoderPage.getEncodeAction().should('be.disabled');
+      urlEncoderPage.getDecodeAction().should('be.disabled');
     });
   });
 
   describe('when we provide an content in the input field', () => {
     before(() => {
-      urlEndoderPage.getInputField().clear().type(data);
+      urlEncoderPage.getInputField().clear().type(data);
     });
 
     it('should enable the endoding action buttons', () => {
-      urlEndoderPage.getEncodeAction().should('be.enabled');
-      urlEndoderPage.getDecodeAction().should('be.enabled');
+      urlEncoderPage.getEncodeAction().should('be.enabled');
+      urlEncoderPage.getDecodeAction().should('be.enabled');
     });
   });
 
   describe('when user presses the "Encode" action button', () => {
     before(() => {
-      urlEndoderPage.getInputField().clear().type(data);
-      urlEndoderPage.getEncodeAction().click();
+      urlEncoderPage.getInputField().clear().type(data);
+      urlEncoderPage.getEncodeAction().click();
     });
 
     it('should enable the "Copy to clipboard" action', () => {
-      urlEndoderPage.getCopyToClipboardAction().should('be.enabled');
+      urlEncoderPage.getCopyToClipboardAction().should('be.enabled');
     });
 
     it('should show the encoded result', () => {
-      urlEndoderPage
+      urlEncoderPage
         .getResultText()
         .should('contain', 'The%20chief%20export%20of%20Chuck%20Norris%20is%20pain%E2%80%A6');
     });
