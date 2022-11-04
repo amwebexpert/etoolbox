@@ -41,6 +41,14 @@ describe('URL encoder/decoder screen', () => {
       urlEncoderPage.getEncodeAction().should('be.enabled');
       urlEncoderPage.getDecodeAction().should('be.enabled');
     });
+
+    it('should disable the "Copy to clipboard" action', () => {
+      urlEncoderPage.getCopyToClipboardAction().should('be.disabled');
+    });
+
+    it('should disable the "Switch content" action', () => {
+      urlEncoderPage.getSwitchContentAction().should('be.disabled');
+    });
   });
 
   describe('when user presses the "Encode" action button', () => {
@@ -51,6 +59,10 @@ describe('URL encoder/decoder screen', () => {
 
     it('should enable the "Copy to clipboard" action', () => {
       urlEncoderPage.getCopyToClipboardAction().should('be.enabled');
+    });
+
+    it('should enable the "Switch content" action', () => {
+      urlEncoderPage.getSwitchContentAction().should('be.enabled');
     });
 
     it('should show the encoded result', () => {
