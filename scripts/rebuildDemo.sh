@@ -13,7 +13,11 @@ echo "\t --> [docs] folder re-created from build"
 
 echo "Copying [e2e test reports] folder to [docs] folder"
 cp -R cypress/reports docs/e2e-tests-report/
-echo "\t --> [docs] folder re-created from build"
+echo "\t --> [e2e test reports] copied"
+
+echo "Copying [docs sections] folder to [docs] folder"
+cp -R docs-sections docs/sections/
+echo "\t --> [docs sections] copied"
 
 echo "End of the Demo build. Content of the [docs] folder:"
 ls -al docs/
