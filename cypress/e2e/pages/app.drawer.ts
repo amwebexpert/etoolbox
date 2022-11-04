@@ -5,5 +5,7 @@ export const appDrawer = Object.freeze({
 
   getMenuItemURLEncode: () => cy.findByRole('link', { name: /^URL parsing/i }),
 
+  getMenuItemCSVUtilities: () => cy.findByRole('link', { name: /^CSV utilities/i }),
+
   getToggleMenu: () => cy.findByRole('button', { name: 'Toggle sidebar menu' }),
 });

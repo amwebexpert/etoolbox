@@ -144,10 +144,10 @@ const ImageOCR: React.FC = () => {
                   color="primary"
                   accept="image/*"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFileSelected(e.target.files?.[0])}
-                  id="icon-button-file"
+                  id="files-selector-action"
                   style={{ display: 'none' }}
                 />
-                <label htmlFor="icon-button-file">
+                <label htmlFor="files-selector-action">
                   <Button variant="contained" component="span" color="primary">
                     <PhotoCameraIcon />
                   </Button>

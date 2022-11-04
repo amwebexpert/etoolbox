@@ -1,5 +1,5 @@
 export const appToolbar = Object.freeze({
-  getAppTitles: () => cy.findAllByText('Web Toolbox'),
+  getAppTitle: () => cy.get('.MuiToolbar-root').findByText('Web Toolbox'),
 
   getSettingsLink: () => cy.findByRole('link', { name: 'Settings' }),
 

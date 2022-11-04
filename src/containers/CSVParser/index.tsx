@@ -32,7 +32,7 @@ interface Props {
 }
 
 const CSVParser: React.FC<Props> = (props: Props) => {
-  const title = 'CSV parser';
+  const title = 'CSV Parser';
   const classes = useStyles();
   const syntaxTheme = useSyntaxHighlightTheme();
   const { inputText, inputEncoding, inputOptions, storeInputText } = props;
@@ -113,10 +113,11 @@ const CSVParser: React.FC<Props> = (props: Props) => {
               color="primary"
               accept="text/csv"
               onChange={e => onFileSelected(e)}
-              id="icon-button-file"
+              id="files-selector-action"
+              data-testid="files-selector-action"
               style={{ display: 'none' }}
             />
-            <label htmlFor="icon-button-file">
+            <label htmlFor="files-selector-action">
               <Button variant="contained" component="span" color="primary" title="Select the CSV file from your device">
                 <FileIcon />
               </Button>
@@ -235,7 +236,11 @@ const CSVParser: React.FC<Props> = (props: Props) => {
         {transformed && (
           <>
             <Typography>Parsed rows:</Typography>
-            <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.encodedResult}>
+            <SyntaxHighlighter
+              data-testid="parsed-result"
+              style={syntaxTheme}
+              language="json"
+              className={classes.encodedResult}>
               {transformed}
             </SyntaxHighlighter>
             <Typography>Parsed result with metadata:</Typography>
