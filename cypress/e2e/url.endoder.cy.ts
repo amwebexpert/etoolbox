@@ -42,4 +42,21 @@ describe('URL encoder/decoder screen', () => {
       urlEndoderPage.getDecodeAction().should('be.enabled');
     });
   });
+
+  describe('when user presses the "Encode" action button', () => {
+    before(() => {
+      urlEndoderPage.getInputField().clear().type(data);
+      urlEndoderPage.getEncodeAction().click();
+    });
+
+    it('should enable the "Copy to clipboard" action', () => {
+      urlEndoderPage.getCopyToClipboardAction().should('be.enabled');
+    });
+
+    it('should show the encoded result', () => {
+      urlEndoderPage
+        .getResultText()
+        .should('contain', 'The%20chief%20export%20of%20Chuck%20Norris%20is%20pain%E2%80%A6');
+    });
+  });
 });

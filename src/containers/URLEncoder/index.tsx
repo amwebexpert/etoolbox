@@ -108,7 +108,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
           </Button>
         </Toolbar>
 
-        <ResultMonospace label="Result" result={transformed} />
+        <ResultMonospace testID="parsed-result" label="Result" result={transformed} />
       </div>
     </>
   );
