@@ -25,9 +25,11 @@ The app has been deployed and you can test it [JUST HERE!](https://amwebexpert.g
 
 ## Tested with Cypress
 
-We have added features coverages (a.k.a. end to end tests) so each release can be tested in order to detect regressions before the release reach the production. [Cypress](https://www.cypress.io/) is an awesome tool and Web Toolbox has a lot of screen behaviors covered.
+[![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
 
-![image](https://user-images.githubusercontent.com/3459255/200012202-fcb7269a-e487-41ee-806e-e74e0889fc9c.png)
+We have added features coverages (a.k.a. end to end tests) so each release can be tested in order to detect regressions before the release reach the production. [Cypress](https://www.cypress.io/) is an awesome tool and Web Toolbox has a lot of screen behaviors covered!
+
+![image](https://user-images.githubusercontent.com/3459255/200014116-85caa518-9355-443c-b1cd-e67b4f819010.png)
 
 
 ## Windows, Linux and MacOS versions
