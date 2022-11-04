@@ -113,11 +113,11 @@ const CSVParser: React.FC<Props> = (props: Props) => {
               color="primary"
               accept="text/csv"
               onChange={e => onFileSelected(e)}
-              id="icon-button-file"
-              data-testid="icon-button-file"
+              id="files-selector-action"
+              data-testid="files-selector-action"
               style={{ display: 'none' }}
             />
-            <label htmlFor="icon-button-file">
+            <label htmlFor="files-selector-action">
               <Button variant="contained" component="span" color="primary" title="Select the CSV file from your device">
                 <FileIcon />
               </Button>
