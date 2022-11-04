@@ -12,7 +12,7 @@ mv build docs
 echo "\t --> [docs] folder re-created from build"
 
 echo "Copying [e2e test reports] folder to [docs] folder"
-cp -R cypress/reports docs/section/
+cp -R cypress/reports docs/e2e-tests-report/
 echo "\t --> [docs] folder re-created from build"
 
 echo "End of the Demo build. Content of the [docs] folder:"
