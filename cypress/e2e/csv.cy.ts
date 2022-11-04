@@ -89,4 +89,27 @@ describe('CSV Parser screen', () => {
       csvParserPage.getResultText().should('contain', '"Last": "Doe"');
     });
   });
+
+  describe('when user presses the "Clear" button', () => {
+    before(() => {
+      // given
+      csvParserPage.getCsvParserOptionsField().clear();
+      csvParserPage.getFileSelectorInput().attachFile('addresses.csv');
+      csvParserPage.getExecuteAction().click();
+
+      // when
+      csvParserPage.getDeleteAction().click();
+    });
+
+    it('should disable the action buttons', () => {
+      csvParserPage.getExecuteAction().should('be.disabled');
+      csvParserPage.getDeleteAction().should('be.disabled');
+      csvParserPage.getCopyToClipboardAction().should('be.disabled');
+      csvParserPage.getSaveAsAction().should('be.disabled');
+    });
+
+    it('should clear the parsed JSON result', () => {
+      csvParserPage.getResultText().should('not.exist');
+    });
+  });
 });
