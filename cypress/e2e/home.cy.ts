@@ -28,7 +28,7 @@ describe('Home screen', () => {
     });
 
     it('should display the webapp title', () => {
-      appToolbar.getAppTitles().should('exist');
+      appToolbar.getAppTitle().should('exist').should('have.length', 1).should('contain', 'Web Toolbox');
       cy.title().should('eq', 'Web Toolbox');
     });
 
