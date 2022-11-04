@@ -1,3 +1,5 @@
+import { appCommonPage } from './app.common.page';
+
 export const csvParserPage = Object.freeze({
   getHeading: () => cy.findByRole('heading', { name: 'CSV Parser' }),
   getCsvDataField: () => cy.findByRole('textbox', { name: 'CSV Source data' }),
@@ -5,7 +7,7 @@ export const csvParserPage = Object.freeze({
   getExecuteAction: () => cy.findByRole('button', { name: 'Run' }),
   getSaveAsAction: () => cy.findByRole('button', { name: 'Save…' }),
   getDeleteAction: () => cy.findByTitle('Clear the content'),
-  getCopyToClipboardAction: () => cy.get('[data-testid="copy-to-clipboard"]'),
+  getCopyToClipboardAction: appCommonPage.getCopyToClipboardAction,
   getFileSelectorInput: () => cy.findByTestId('files-selector-action'),
   getResultText: () => cy.findByTestId('parsed-result'),
 });

@@ -46,6 +46,14 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
     setTransformed('');
   };
 
+  const onContentChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newContent = e.target.value;
+    storeInputText('lastUrlEncoderValue', newContent);
+    if (!newContent) {
+      setTransformed('');
+    }
+  };
+
   return (
     <>
       <Helmet title={title} />
@@ -63,12 +71,13 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
           margin="normal"
           fullWidth={true}
           value={inputText}
-          onChange={e => storeInputText('lastUrlEncoderValue', e.target.value)}
+          onChange={onContentChanged}
         />
 
         <Toolbar className={classes.toolbar}>
           <Button
             variant="contained"
+            data-testid="switch-content-action"
             component="span"
             color="primary"
             disabled={!transformed}
@@ -81,19 +90,21 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
           <Button
             sx={{ mr: 1 }}
             variant="contained"
+            endIcon={<EncodeIcon />}
             title="Encode the content"
             color="primary"
             disabled={!inputText}
             onClick={() => setTransformed(services.transform(inputText, false))}>
-            <EncodeIcon />
+            Enc.
           </Button>
           <Button
             variant="contained"
+            endIcon={<DecodeIcon />}
             title="Decode the content"
             color="primary"
             disabled={!inputText}
             onClick={() => setTransformed(services.transform(inputText, true))}>
-            <DecodeIcon />
+            Dec.
           </Button>
         </Toolbar>
 
