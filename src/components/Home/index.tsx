@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alert, AlertTitle } from '@mui/lab';
+import { Alert, AlertTitle } from '@mui/material';
 import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { makeStyles, withStyles } from '@mui/styles';

@@ -19,5 +19,5 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true
   },
-  "include": ["./src", "./electron", "./webpack.config.ts", "./cypress.config.ts", "./cypress"]
+  "include": ["./src", "./electron", "./cypress.config.ts", "./cypress"]
 }

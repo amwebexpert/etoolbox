@@ -50,6 +50,7 @@ DEFAULT_MAP.set('lastPokerPlanningRoomName', '');
 DEFAULT_MAP.set('lastPokerPlanningUsername', '');
 DEFAULT_MAP.set('lastPokerCardsListingCategoryName', '');
 DEFAULT_MAP.set('lastCurlValue', CURL_EXAMPLE);
+DEFAULT_MAP.set('lastCurlTargetLanguage', 'Javascript');
 
 const initalState: TextInputsState = loadFromLocalStorage();
 
