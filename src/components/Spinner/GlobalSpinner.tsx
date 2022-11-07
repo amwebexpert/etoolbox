@@ -21,6 +21,7 @@ type GlobalSpinnerProps = PropsWithChildren<unknown>;
 export const GlobalSpinner: React.FC<GlobalSpinnerProps> = ({ children }) => {
   const classes = useStyles();
   const { globalSpinnerState } = useGlobalSpinner();
+  LoadingOverlay.propTypes = undefined; // https://github.com/derrickpelletier/react-loading-overlay/pull/57#issuecomment-1054194254
 
   return (
     <LoadingOverlay

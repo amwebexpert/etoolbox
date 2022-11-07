@@ -63,6 +63,7 @@ const App: React.FC = () => {
   const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
   const URLParser = lazy(() => import('./containers/URLParser'));
   const URLEncoder = lazy(() => import('./containers/URLEncoder'));
+  const CURLConverter = lazy(() => import('./containers/CURLConverter'));
   const Base64Encoder = lazy(() => import('./containers/Base64Encoder'));
   const Base64FileEncoder = lazy(() => import('./containers/Base64FileEncoder'));
   const NamedColors = lazy(() => import('./containers/NamedColors'));
@@ -75,6 +76,7 @@ const App: React.FC = () => {
   const featuresGroupURL = [
     { type: URLParser, path: '/URLParser', label: 'Parser' },
     { type: URLEncoder, path: '/URLEncoder', label: 'Encoder' },
+    { type: CURLConverter, path: '/CURLConverter', label: 'cURL Converter' },
   ];
   const featuresGroupBase64 = [
     { type: Base64Encoder, path: '/Base64Encoder', label: 'String' },

@@ -4,7 +4,20 @@ The following section explains the `Electron` project structure, how to build a 
 
 ## Build desktop releases from source
 
-To build a desktop version just get the source code and run the following command, which will package the installers for all the platforms:
+### Warning
+
+As of `2022-11-07` (and until further notices) the WebToolbox `Electron` build will only be supported up to the `v2.0.9-electron-compatible` app tag. So features added after that tag wont be available as part of `Electron` build. For instance the `cURL converter` feature will only be available online. We have to wait until the following issues get resolved with a stable solution:
+
+- https://stackoverflow.com/questions/70368760/react-uncaught-referenceerror-process-is-not-defined
+- https://stackoverflow.com/questions/68085375/cannot-find-module-fs-promises-electron-js
+
+These are essentialy issues raised by the combinaison of:
+
+- `react-scripts` `5.x` releases
+- `Electron` builder
+- `Node.js`
+
+To build a desktop version just get the latest compabible source code (see `vX.Y.Z-electron-compatible` tag note above) and run the following commands, which will package the installers for all the platforms:
 
     npm install -g yarn
     npm install

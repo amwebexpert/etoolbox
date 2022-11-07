@@ -1,0 +1,35 @@
+diff --git a/node_modules/react-scripts/config/webpack.config.js b/node_modules/react-scripts/config/webpack.config.js
+index e465d8e..78888a2 100644
+--- a/node_modules/react-scripts/config/webpack.config.js
++++ b/node_modules/react-scripts/config/webpack.config.js
+@@ -302,7 +302,16 @@ module.exports = function (webpackEnv) {
+         new CssMinimizerPlugin(),
+       ],
+     },
++    // @see https://github.com/curlconverter/curlconverter.github.io/blob/master/webpack.config.js
++    experiments: {
++      topLevelAwait: true
++    },
+     resolve: {
++      fallback: {
++        url: require.resolve('url/'),
++        path: require.resolve('path-browserify'),
++        fs: false
++      },
+       // This allows you to set a fallback for where webpack should look for modules.
+       // We placed these paths second because we want `node_modules` to "win"
+       // if there are any conflicts. This matches Node resolution mechanism.
+@@ -604,6 +613,13 @@ module.exports = function (webpackEnv) {
+       ].filter(Boolean),
+     },
+     plugins: [
++      // https://stackoverflow.com/a/72581828/704681
++      new webpack.ProvidePlugin({
++          process: 'process/browser.js',
++      }),
++      new webpack.DefinePlugin({
++          'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
++      }),
+       // Generates an `index.html` file with the <script> injected.
+       new HtmlWebpackPlugin(
+         Object.assign(
