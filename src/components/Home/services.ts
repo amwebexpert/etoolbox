@@ -1,5 +1,9 @@
 export const CHANGE_LOGS = [
   {
+    version: 'v2.1.0',
+    desc: 'New cURL Converter feature. Dependencies upgrade.',
+  },
+  {
     version: 'v2.0.0',
     desc: 'Major upgrade to MUI 5, improved UI spacing, icons and responsive layouts, dependencies upgrade.',
   },
