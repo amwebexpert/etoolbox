@@ -49,7 +49,7 @@ const FeaturesGroup = ({ tabs }: Props) => {
   }, [location, setValue, parentPath, tabs]);
 
   const renderSelectedTabComponent = useCallback(() => {
-    const VisualComponent = tabs[value].type;
+    const VisualComponent = tabs[value]?.type ?? tabs[0].type;
     return <VisualComponent />;
   }, [value, tabs]);
 
