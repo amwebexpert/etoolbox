@@ -16,7 +16,7 @@ import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 import { AppState } from '../../reducers';
 import { isBlank } from '../../services/string-utils';
 import { useIsWidthUp } from '../../theme';
-import { CONVERTERS_LIST, LANGUAGE_2_SYNTAX, transform } from './services';
+import { CONVERTERS, CONVERTERS_LIST, transform } from './services';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -124,7 +124,7 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
         <SyntaxHighlighter
           data-testid="parsed-result"
           style={syntaxTheme}
-          language={LANGUAGE_2_SYNTAX.get(lastCurlTargetLanguage)}
+          language={CONVERTERS.get(lastCurlTargetLanguage)?.syntaxHighliter}
           className={classes.encodedResult}>
           {transformed}
         </SyntaxHighlighter>

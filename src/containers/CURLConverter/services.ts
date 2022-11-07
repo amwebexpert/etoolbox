@@ -1,54 +1,34 @@
 import * as cURLConverter from 'curlconverter';
 
-const CONVERTERS: Map<string, (data: string) => string> = new Map([
-  ['Ansible', cURLConverter.toAnsible],
-  ['Browser', cURLConverter.toBrowser],
-  ['CFML', cURLConverter.toCFML],
-  ['CSharp', cURLConverter.toCSharp],
-  ['Dart', cURLConverter.toDart],
-  ['Elixir', cURLConverter.toElixir],
-  ['Go', cURLConverter.toGo],
-  ['Java', cURLConverter.toJava],
-  ['Javascript', cURLConverter.toJavaScript],
-  ['JSON String', cURLConverter.toJsonString],
-  ['MATLAB', cURLConverter.toMATLAB],
-  ['Node', cURLConverter.toNode],
-  ['Node Axios', cURLConverter.toNodeAxios],
-  ['Node Fetch', cURLConverter.toNodeFetch],
-  ['Node Request', cURLConverter.toNodeRequest],
-  ['PHP', cURLConverter.toPhp],
-  ['PHP Requests', cURLConverter.toPhpRequests],
-  ['Python', cURLConverter.toPython],
-  ['R', cURLConverter.toR],
-  ['Ruby', cURLConverter.toRuby],
-  ['Rust', cURLConverter.toRust],
-  ['Strest', cURLConverter.toStrest],
-]);
+type CurlConverterFnc = (data: string) => string;
+type CurlConverterType = {
+  transform: CurlConverterFnc;
+  syntaxHighliter: string;
+};
 
-// TODO Merge this with the previous CONVERTERS map so they will be in sync
-export const LANGUAGE_2_SYNTAX: Map<string, string> = new Map([
-  ['Ansible', 'shell'],
-  ['Browser', 'browser'],
-  ['CFML', 'cfml'],
-  ['CSharp', 'csharp'],
-  ['Dart', 'dart'],
-  ['Elixir', 'elixir'],
-  ['Go', 'go'],
-  ['Java', 'java'],
-  ['Javascript', 'javascript'],
-  ['JSON String', 'json'],
-  ['MATLAB', 'matlab'],
-  ['Node', 'javascript'],
-  ['Node Axios', 'javascript'],
-  ['Node Fetch', 'javascript'],
-  ['Node Request', 'javascript'],
-  ['PHP', 'php'],
-  ['PHP Requests', 'php'],
-  ['Python', 'python'],
-  ['R', 'r'],
-  ['Ruby', 'ruby'],
-  ['Rust', 'rust'],
-  ['Strest', 'strest'],
+export const CONVERTERS: Map<string, CurlConverterType> = new Map([
+  ['Ansible', { syntaxHighliter: 'ansible', transform: cURLConverter.toAnsible }],
+  ['Browser', { syntaxHighliter: 'browser', transform: cURLConverter.toBrowser }],
+  ['CFML', { syntaxHighliter: 'cfml', transform: cURLConverter.toCFML }],
+  ['CSharp', { syntaxHighliter: 'csharp', transform: cURLConverter.toCSharp }],
+  ['Dart', { syntaxHighliter: 'dart', transform: cURLConverter.toDart }],
+  ['Elixir', { syntaxHighliter: 'elixir', transform: cURLConverter.toElixir }],
+  ['Go', { syntaxHighliter: 'go', transform: cURLConverter.toGo }],
+  ['Java', { syntaxHighliter: 'java', transform: cURLConverter.toJava }],
+  ['Javascript', { syntaxHighliter: 'javascript', transform: cURLConverter.toJavaScript }],
+  ['JSON String', { syntaxHighliter: 'json', transform: cURLConverter.toJsonString }],
+  ['MATLAB', { syntaxHighliter: 'mathlab', transform: cURLConverter.toMATLAB }],
+  ['Node', { syntaxHighliter: 'javascript', transform: cURLConverter.toNode }],
+  ['Node Axios', { syntaxHighliter: 'javascript', transform: cURLConverter.toNodeAxios }],
+  ['Node Fetch', { syntaxHighliter: 'javascript', transform: cURLConverter.toNodeFetch }],
+  ['Node Request', { syntaxHighliter: 'javascript', transform: cURLConverter.toNodeRequest }],
+  ['PHP', { syntaxHighliter: 'php', transform: cURLConverter.toPhp }],
+  ['PHP Requests', { syntaxHighliter: 'php', transform: cURLConverter.toPhpRequests }],
+  ['Python', { syntaxHighliter: 'python', transform: cURLConverter.toPython }],
+  ['R', { syntaxHighliter: 'r', transform: cURLConverter.toR }],
+  ['Ruby', { syntaxHighliter: 'ruby', transform: cURLConverter.toRuby }],
+  ['Rust', { syntaxHighliter: 'rust', transform: cURLConverter.toRust }],
+  ['Strest', { syntaxHighliter: 'strest', transform: cURLConverter.toStrest }],
 ]);
 
 export const CONVERTERS_LIST = [...CONVERTERS.keys()];
@@ -59,6 +39,8 @@ export function transform(value?: string, targetLanguage = 'Javascript'): string
   }
 
   const curlCommand = value.replaceAll('\n', ' ');
-  const converter = CONVERTERS.get(targetLanguage);
-  return converter ? converter(curlCommand) : `Warning: no converter found matching "${targetLanguage}"`;
+  const curlConverter = CONVERTERS.get(targetLanguage);
+  return curlConverter
+    ? curlConverter.transform(curlCommand)
+    : `Warning: no converter found matching "${targetLanguage}"`;
 }
