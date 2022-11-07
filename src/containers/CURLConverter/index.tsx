@@ -1,7 +1,8 @@
 import React from 'react';
 
-import HttpUrlIcon from '@mui/icons-material/WebAsset';
-import { Box, FormControl, MenuItem, TextField, Toolbar } from '@mui/material';
+import EncodeIcon from '@mui/icons-material/Code';
+import HttpUrlIcon from '@mui/icons-material/HttpTwoTone';
+import { Box, Button, FormControl, MenuItem, TextField, Toolbar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
@@ -23,9 +24,6 @@ const useStyles = makeStyles(theme => ({
   toolbar: {
     margin: 0,
     padding: 0,
-    '& > *': {
-      marginLeft: theme.spacing(1),
-    },
   },
   formControl: {
     margin: theme.spacing(1),
@@ -91,6 +89,7 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
               variant="outlined"
               title="Convert cURL command into a specific language"
               value={lastCurlTargetLanguage}
+              style={{ width: 160 }}
               inputProps={{ style: { fontFamily: 'monospace' } }}
               onChange={onLanguageChange}>
               {CONVERTERS_LIST.map(item => (
@@ -100,8 +99,17 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
               ))}
             </TextField>
           </FormControl>
-
           <Box display="flex" flexGrow={1}></Box>
+          <Button
+            variant="contained"
+            sx={{ mr: 1 }}
+            title="Convert cURL into target language"
+            color="primary"
+            endIcon={<EncodeIcon>Convert</EncodeIcon>}
+            disabled={!inputText}
+            onClick={() => setTransformed(transform(inputText, lastCurlTargetLanguage))}>
+            Convert
+          </Button>
           <CopyButton data={transformed} />
         </Toolbar>
 

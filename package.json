@@ -113,6 +113,7 @@
     "path-browserify": "^1.0.1",
     "pretty-bytes": "^6.0.0",
     "preval.macro": "^5.0.0",
+    "process": "^0.11.10",
     "qrcode": "^1.5.1",
     "quicktype-core": "^6.1.0",
     "re-resizable": "^6.9.9",
@@ -141,9 +142,9 @@
     "styled-components": "^5.3.6",
     "tesseract.js": "^3.0.3",
     "typescript": "^4.8.4",
+    "url": "^0.11.0",
     "use-debounce": "^8.0.4",
-    "uuid": "^9.0.0",
-    "url": "^0.11.0"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@testing-library/cypress": "^8.0.3",
