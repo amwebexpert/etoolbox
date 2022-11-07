@@ -3,32 +3,32 @@ import * as cURLConverter from 'curlconverter';
 type CurlConverterFnc = (data: string) => string;
 type CurlConverterType = {
   transform: CurlConverterFnc;
-  syntaxHighliter: string;
+  syntaxHighlither: string;
 };
 
 export const CONVERTERS: Map<string, CurlConverterType> = new Map([
-  ['Ansible', { syntaxHighliter: 'ansible', transform: cURLConverter.toAnsible }],
-  ['Browser', { syntaxHighliter: 'browser', transform: cURLConverter.toBrowser }],
-  ['CFML', { syntaxHighliter: 'cfml', transform: cURLConverter.toCFML }],
-  ['CSharp', { syntaxHighliter: 'csharp', transform: cURLConverter.toCSharp }],
-  ['Dart', { syntaxHighliter: 'dart', transform: cURLConverter.toDart }],
-  ['Elixir', { syntaxHighliter: 'elixir', transform: cURLConverter.toElixir }],
-  ['Go', { syntaxHighliter: 'go', transform: cURLConverter.toGo }],
-  ['Java', { syntaxHighliter: 'java', transform: cURLConverter.toJava }],
-  ['Javascript', { syntaxHighliter: 'javascript', transform: cURLConverter.toJavaScript }],
-  ['JSON String', { syntaxHighliter: 'json', transform: cURLConverter.toJsonString }],
-  ['MATLAB', { syntaxHighliter: 'mathlab', transform: cURLConverter.toMATLAB }],
-  ['Node', { syntaxHighliter: 'javascript', transform: cURLConverter.toNode }],
-  ['Node Axios', { syntaxHighliter: 'javascript', transform: cURLConverter.toNodeAxios }],
-  ['Node Fetch', { syntaxHighliter: 'javascript', transform: cURLConverter.toNodeFetch }],
-  ['Node Request', { syntaxHighliter: 'javascript', transform: cURLConverter.toNodeRequest }],
-  ['PHP', { syntaxHighliter: 'php', transform: cURLConverter.toPhp }],
-  ['PHP Requests', { syntaxHighliter: 'php', transform: cURLConverter.toPhpRequests }],
-  ['Python', { syntaxHighliter: 'python', transform: cURLConverter.toPython }],
-  ['R', { syntaxHighliter: 'r', transform: cURLConverter.toR }],
-  ['Ruby', { syntaxHighliter: 'ruby', transform: cURLConverter.toRuby }],
-  ['Rust', { syntaxHighliter: 'rust', transform: cURLConverter.toRust }],
-  ['Strest', { syntaxHighliter: 'strest', transform: cURLConverter.toStrest }],
+  ['Ansible', { syntaxHighlither: 'ansible', transform: cURLConverter.toAnsible }],
+  ['Browser', { syntaxHighlither: 'browser', transform: cURLConverter.toBrowser }],
+  ['CFML', { syntaxHighlither: 'cfml', transform: cURLConverter.toCFML }],
+  ['CSharp', { syntaxHighlither: 'csharp', transform: cURLConverter.toCSharp }],
+  ['Dart', { syntaxHighlither: 'dart', transform: cURLConverter.toDart }],
+  ['Elixir', { syntaxHighlither: 'elixir', transform: cURLConverter.toElixir }],
+  ['Go', { syntaxHighlither: 'go', transform: cURLConverter.toGo }],
+  ['Java', { syntaxHighlither: 'java', transform: cURLConverter.toJava }],
+  ['Javascript', { syntaxHighlither: 'javascript', transform: cURLConverter.toJavaScript }],
+  ['JSON String', { syntaxHighlither: 'json', transform: cURLConverter.toJsonString }],
+  ['MATLAB', { syntaxHighlither: 'mathlab', transform: cURLConverter.toMATLAB }],
+  ['Node', { syntaxHighlither: 'javascript', transform: cURLConverter.toNode }],
+  ['Node Axios', { syntaxHighlither: 'javascript', transform: cURLConverter.toNodeAxios }],
+  ['Node Fetch', { syntaxHighlither: 'javascript', transform: cURLConverter.toNodeFetch }],
+  ['Node Request', { syntaxHighlither: 'javascript', transform: cURLConverter.toNodeRequest }],
+  ['PHP', { syntaxHighlither: 'php', transform: cURLConverter.toPhp }],
+  ['PHP Requests', { syntaxHighlither: 'php', transform: cURLConverter.toPhpRequests }],
+  ['Python', { syntaxHighlither: 'python', transform: cURLConverter.toPython }],
+  ['R', { syntaxHighlither: 'r', transform: cURLConverter.toR }],
+  ['Ruby', { syntaxHighlither: 'ruby', transform: cURLConverter.toRuby }],
+  ['Rust', { syntaxHighlither: 'rust', transform: cURLConverter.toRust }],
+  ['Strest', { syntaxHighlither: 'strest', transform: cURLConverter.toStrest }],
 ]);
 
 export const CONVERTERS_LIST = [...CONVERTERS.keys()];
