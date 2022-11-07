@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/amwebexpert/etoolbox/compare/v2.0.9-electron-compatible...v2.1.0) (2022-11-07)
+
+
+### Features
+
+* cURL converter ([#21](https://github.com/amwebexpert/etoolbox/issues/21)) ([ffec4ee](https://github.com/amwebexpert/etoolbox/commit/ffec4ee5c13db21947745393956c66473dd15745))
+
 ### [2.0.9](https://github.com/amwebexpert/etoolbox/compare/v2.0.8...v2.0.9) (2022-11-04)
 
 ### [2.0.8](https://github.com/amwebexpert/etoolbox/compare/v2.0.7...v2.0.8) (2022-11-04)
