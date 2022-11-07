@@ -18,7 +18,7 @@ describe('cURL Converter screen', () => {
 
   describe('when we visit the "cURL Converter" screen', () => {
     before(() => {
-      cURLConvertPage.getInputField().clear();
+      cURLConvertPage.getInputField();
     });
 
     it('should navigate to the "URL" route', () => {
@@ -36,7 +36,7 @@ describe('cURL Converter screen', () => {
       cURLConvertPage.getInputField().clear();
     });
 
-    it('should have disabled action buttons', () => {
+    it('should disabled action buttons', () => {
       cURLConvertPage.getConvertAction().should('be.disabled');
       cURLConvertPage.getCopyToClipboardAction().should('be.disabled');
       cURLConvertPage.getInputFieldTargetLanguage().then(button => expect(button.is('not.enabled')));
