@@ -76,7 +76,7 @@ const App: React.FC = () => {
   const featuresGroupURL = [
     { type: URLParser, path: '/URLParser', label: 'Parser' },
     { type: URLEncoder, path: '/URLEncoder', label: 'Encoder' },
-    { type: CURLConverter, path: '/CURLConverter', label: 'cURL converter' },
+    { type: CURLConverter, path: '/CURLConverter', label: 'cURL Converter' },
   ];
   const featuresGroupBase64 = [
     { type: Base64Encoder, path: '/Base64Encoder', label: 'String' },

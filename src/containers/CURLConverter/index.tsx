@@ -14,6 +14,7 @@ import CopyButton from '../../components/CopyButton';
 import FeatureTitle from '../../components/FeatureTitle';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 import { AppState } from '../../reducers';
+import { isBlank } from '../../services/string-utils';
 import { useIsWidthUp } from '../../theme';
 import { CONVERTERS_LIST, LANGUAGE_2_SYNTAX, transform } from './services';
 
@@ -46,11 +47,11 @@ interface Props {
 }
 
 const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, storeInputText }: Props) => {
-  const title = 'cURL converter';
+  const title = 'cURL Converter';
   const classes = useStyles();
   const syntaxTheme = useSyntaxHighlightTheme();
   const isMdUp = useIsWidthUp('md');
-  const [transformed, setTransformed] = React.useState(transform(inputText, lastCurlTargetLanguage));
+  const [transformed, setTransformed] = React.useState('');
 
   const onLanguageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newLanguage = e.target.value;
@@ -58,6 +59,12 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
 
     setTransformed(transform(inputText, newLanguage));
   };
+
+  React.useEffect(() => {
+    if (isBlank(inputText)) {
+      setTransformed('');
+    }
+  }, [inputText]);
 
   return (
     <>
@@ -67,7 +74,7 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
 
         <TextField
           autoFocus={isMdUp}
-          label="cURL"
+          label="cURL command"
           placeholder="Paste or type the cURL command here"
           multiline
           minRows={4}
@@ -83,7 +90,8 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
         <Toolbar className={classes.toolbar}>
           <FormControl className={classes.formControl}>
             <TextField
-              select
+              select={true}
+              disabled={!inputText}
               name="targetLanguage"
               label="Target language"
               variant="outlined"
@@ -114,6 +122,7 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
         </Toolbar>
 
         <SyntaxHighlighter
+          data-testid="parsed-result"
           style={syntaxTheme}
           language={LANGUAGE_2_SYNTAX.get(lastCurlTargetLanguage)}
           className={classes.encodedResult}>
