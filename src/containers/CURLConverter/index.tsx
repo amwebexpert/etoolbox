@@ -124,7 +124,7 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
         <SyntaxHighlighter
           data-testid="parsed-result"
           style={syntaxTheme}
-          language={CONVERTERS.get(lastCurlTargetLanguage)?.syntaxHighliter}
+          language={CONVERTERS.get(lastCurlTargetLanguage)?.syntaxHighlither}
           className={classes.encodedResult}>
           {transformed}
         </SyntaxHighlighter>
