@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Link } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
@@ -23,12 +22,9 @@ const useStyles = makeStyles(theme => ({
   },
   media: {
     height: 240,
-    margin: theme.spacing(3),
+    margin: theme.spacing(4),
   },
-  appDescription: {
-    marginBottom: theme.spacing(4),
-  },
-  openSource: {
+  appDetail: {
     marginTop: theme.spacing(4),
   },
 }));
@@ -47,18 +43,11 @@ export default function About() {
             <CardContent>
               <Typography variant="h5">Web Toolbox</Typography>
 
+              <Typography variant="subtitle2">Collection of web developer utilities</Typography>
+
               <AppShare />
 
-              <Typography variant="subtitle2" className={classes.appDescription}>
-                Collection of web developer utilities
-              </Typography>
-
-              <AppDetail />
-
-              <Typography variant="subtitle2" className={classes.openSource}>
-                Open source app powered by{' '}
-                <Link href="https://reactjs.org/docs/create-a-new-react-app.html">Create React App</Link>
-              </Typography>
+              <AppDetail className={classes.appDetail} />
             </CardContent>
           </CardActionArea>
         </Card>

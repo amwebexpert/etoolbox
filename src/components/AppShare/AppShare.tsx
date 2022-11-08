@@ -8,7 +8,7 @@ export default function AppShare() {
     <RWebShare
       data={{
         title: 'Web Toolbox',
-        text: 'Collection of web developer utilities',
+        text: 'Collection of web developer utilities packaged as a desktop app',
         url: 'https://amwebexpert.github.io/etoolbox',
       }}>
       <ShareLink />
