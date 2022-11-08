@@ -1,4 +1,4 @@
-import React, { ElementType, useCallback } from 'react';
+import React, { ElementType } from 'react';
 
 import { Tab, Tabs } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -39,19 +39,21 @@ const FeaturesGroup = ({ tabs }: Props) => {
   const classes = useStyles();
   const { pathname: parentPath } = useResolvedPath('');
   const location = useLocation();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState<number>();
+
+  // computing
+  const isUnknownSelectedTab = value === undefined;
+  const VisualComponent = tabs[value ?? 0]?.type;
 
   React.useEffect(() => {
-    // Because of the following issue, Suspense is breaking the tab selection (fix will be part of React 18)
-    // https://github.com/mui-org/material-ui/issues/14077
+    // keep tab selection in sync with the route
     const tabIndex = tabs.findIndex(tab => `${parentPath}${tab.path}` === location.pathname);
     setValue(tabIndex === -1 ? 0 : tabIndex);
   }, [location, setValue, parentPath, tabs]);
 
-  const renderSelectedTabComponent = useCallback(() => {
-    const VisualComponent = tabs[value]?.type ?? tabs[0].type;
-    return <VisualComponent />;
-  }, [value, tabs]);
+  if (isUnknownSelectedTab || !VisualComponent) {
+    return null;
+  }
 
   return (
     <>
@@ -69,7 +71,7 @@ const FeaturesGroup = ({ tabs }: Props) => {
         </Tabs>
       </Paper>
 
-      {renderSelectedTabComponent()}
+      <VisualComponent />
     </>
   );
 };
