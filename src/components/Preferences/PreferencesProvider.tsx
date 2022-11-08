@@ -13,9 +13,11 @@ export const PreferencesProvider: FC<PreferencesProviderProps> = ({ children }) 
   const [isDark, setIsDark] = useState<boolean>(defaultDarkModeValue);
 
   const toggleTheme = useCallback(() => {
-    localStorage.setItem('darkMode', `${!isDark}`);
-    setIsDark(!isDark);
-  }, [isDark]);
+    setIsDark(isDark => {
+      localStorage.setItem('darkMode', `${!isDark}`);
+      return !isDark;
+    });
+  }, []);
 
   return <PreferencesContext.Provider value={{ isDark, toggleTheme }}>{children}</PreferencesContext.Provider>;
 };

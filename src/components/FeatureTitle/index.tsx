@@ -9,11 +9,9 @@ const useStyles = makeStyles(theme => ({
   },
   titleWithIcon: {
     display: 'flex',
-    alignItems: 'center',
-  },
-  titleContainer: {
-    display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: theme.spacing(1),
   },
   icon: {
     height: '40px',
@@ -22,22 +20,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   title: string;
   iconType: ElementType;
-}
+};
 
 const FeatureTitle: React.FC<Props> = ({ title, iconType: FeatureIcon }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.titleContainer}>
-      <div className={classes.titleWithIcon}>
-        <FeatureIcon className={classes.icon} />
-        <Typography variant="h5" className={classes.title}>
-          {title}
-        </Typography>
-      </div>
+    <div className={classes.titleWithIcon}>
+      <FeatureIcon className={classes.icon} />
+      <Typography variant="h5" className={classes.title}>
+        {title}
+      </Typography>
     </div>
   );
 };

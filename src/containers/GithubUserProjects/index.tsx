@@ -30,14 +30,14 @@ import { useIsWidthUp } from '../../theme';
 import { GithubUserProject } from '../../types/github-types';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
-interface Props {
+type Props = {
   inputText: string;
   projects: GithubUserProject[];
   searching: boolean;
 
   listGithubUserProjectsRequested: (username: string) => void;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const GithubUserProjects: React.FC<Props> = (props: Props) => {
   const title = 'Github user projects';

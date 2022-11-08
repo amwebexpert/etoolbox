@@ -33,7 +33,7 @@ enum TABS {
   HTML_ENTITIES = 1,
 }
 
-interface Props {
+type Props = {
   mimeTypes: Map<string, readonly string[]>;
   filteringMimeTypes: boolean;
   htmlEntities: HtmlEntity[];
@@ -41,7 +41,7 @@ interface Props {
 
   applyMimeTypesFilter: (searchTerm: string) => void;
   applyHtmlEntitiesFilter: (searchTerm: string) => void;
-}
+};
 
 const CommonLists: React.FC<Props> = (props: Props) => {
   const title = 'Mime-types, HTML Entities…';

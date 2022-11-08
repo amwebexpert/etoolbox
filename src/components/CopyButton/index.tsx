@@ -21,7 +21,7 @@ const CopyButton: React.FC<Props> = ({
   hoverMessage,
   feedbackMessage,
   Icon = AssignmentTurnedIn,
-  ...others
+  ...otherProps
 }: Props) => {
   const { setToasterState } = useToasterUpdate();
 
@@ -43,7 +43,7 @@ const CopyButton: React.FC<Props> = ({
       variant="contained"
       data-testid="copy-to-clipboard"
       color="primary"
-      {...others}
+      {...otherProps}
       onClick={handleCopy}>
       <Icon />
     </Button>

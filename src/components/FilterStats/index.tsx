@@ -5,10 +5,10 @@ import { Typography } from '@mui/material';
 import { SPACE } from '../../constants';
 import { useStyles } from './styles';
 
-interface Props {
+type Props = {
   searching: boolean;
   count: number;
-}
+};
 
 const FILTERING = 'filtering…';
 

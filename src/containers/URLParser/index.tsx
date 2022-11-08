@@ -19,10 +19,10 @@ import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
-interface Props {
+type Props = {
   inputText?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const URLParser: React.FC<Props> = (props: Props) => {
   const title = 'URL Parser';

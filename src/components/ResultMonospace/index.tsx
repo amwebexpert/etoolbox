@@ -10,13 +10,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-interface Props {
+type Props = {
   label?: string;
   testID?: string;
   result?: string;
   rows?: number;
   maxRows?: number;
-}
+};
 
 export const ResultMonospace = ({ label, testID, result, rows = 10, maxRows = 15 }: Props) => {
   const classes = useStyles();

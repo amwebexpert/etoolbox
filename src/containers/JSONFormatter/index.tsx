@@ -39,10 +39,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   inputText?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const JSONFormatter: React.FC<Props> = (props: Props) => {
   const title = 'JSON Formatter';

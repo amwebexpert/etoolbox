@@ -12,10 +12,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-interface Props {
+type Props = {
   active: boolean;
   children: React.ReactNode;
-}
+};
 
 export const Spinner: React.FC<Props> = (props: Props) => {
   const classes = useStyles();

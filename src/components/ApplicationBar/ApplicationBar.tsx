@@ -46,10 +46,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
-}
+};
 
 const ApplicationBar = ({ open, setOpen }: Props) => {
   const classes = useStyles();

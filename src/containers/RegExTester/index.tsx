@@ -39,11 +39,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   inputText?: string;
   regularExpression?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const RegExTester: React.FC<Props> = ({ regularExpression, inputText, storeInputText }) => {
   const title = 'Regular expressions tester';

@@ -30,10 +30,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   inputText?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const Base64Encoder: React.FC<Props> = (props: Props) => {
   const title = 'Base64 Encoder / decoder';

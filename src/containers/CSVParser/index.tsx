@@ -24,12 +24,12 @@ import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 import { useStyles } from './styled';
 
-interface Props {
+type Props = {
   inputText?: string;
   inputEncoding?: string;
   inputOptions?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const CSVParser: React.FC<Props> = (props: Props) => {
   const title = 'CSV Parser';

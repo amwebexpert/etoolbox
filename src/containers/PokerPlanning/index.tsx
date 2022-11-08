@@ -47,13 +47,13 @@ import PokerOptionsForm from './PokerOptionsForm';
 import { buildFullRouteURL, buildRouteURL, createSocket, parseEstimates } from './services';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
-interface Props {
+type Props = {
   lastPokerPlanningRoomName?: string;
   lastPokerPlanningUsername?: string;
   lastPokerPlanningHostName?: string;
   lastPokerCardsListingCategoryName?: CardsListingCategoryName;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const PokerPlanning: React.FC<Props> = (props: Props) => {
   const classes = useStyles();

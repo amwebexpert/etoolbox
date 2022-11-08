@@ -40,11 +40,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   inputText?: string;
   lastCurlTargetLanguage: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, storeInputText }: Props) => {
   const title = 'cURL Converter';

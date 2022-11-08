@@ -19,10 +19,10 @@ import { CardLayout } from './CardLayout';
 import { useStyles } from './styles';
 import { TableLayout } from './TableLayout';
 
-interface Props {
+type Props = {
   inputText?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const DateConverter: React.FC<Props> = (props: Props) => {
   const title = 'Date & Epoch';

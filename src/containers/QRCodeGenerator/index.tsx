@@ -33,11 +33,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   inputText?: string;
   inputOptions?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const QRCodeGenerator: React.FC<Props> = (props: Props) => {
   const title = 'QR Code generator';
