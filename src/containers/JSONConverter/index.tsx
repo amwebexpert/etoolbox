@@ -155,9 +155,7 @@ const JSONConverter: React.FC<Props> = ({
                     />
                   )}
                   control={control}
-                  rules={{
-                    required: true,
-                  }}
+                  rules={{ required: true }}
                 />
                 <FormHelperText>Name of the parent class</FormHelperText>
               </FormControl>
@@ -185,9 +183,7 @@ const JSONConverter: React.FC<Props> = ({
                   helperText={invalid ? 'field is required' : null}
                 />
               )}
-              rules={{
-                required: true,
-              }}
+              rules={{ required: true }}
             />
             <FormHelperText>Data to convert into the target language</FormHelperText>
           </FormControl>

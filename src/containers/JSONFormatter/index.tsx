@@ -88,12 +88,12 @@ const JSONFormatter: React.FC<Props> = ({ inputText, storeInputText }) => {
           <Box display="flex" flexGrow={1}></Box>
           <CopyButton data={formatted} sx={{ mr: 1 }} />
           <Button
-            endIcon={<SaveIcon>Save As...</SaveIcon>}
+            endIcon={<SaveIcon>Save As…</SaveIcon>}
             disabled={!formatted}
             variant="contained"
             color="primary"
             onClick={handleSaveAs}>
-            Save As...
+            Save As…
           </Button>
         </Toolbar>
 
