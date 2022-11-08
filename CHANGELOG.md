@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.5](https://github.com/amwebexpert/etoolbox/compare/v2.1.4...v2.1.5) (2022-11-08)
+
+
+### Bug Fixes
+
+* tab selection flickering effect on grouped features ([#22](https://github.com/amwebexpert/etoolbox/issues/22)) ([1c352b7](https://github.com/amwebexpert/etoolbox/commit/1c352b7eb0909640d4eda559263c2c271131a8b1))
+
 ### [2.1.4](https://github.com/amwebexpert/etoolbox/compare/v2.1.3...v2.1.4) (2022-11-07)
 
 ### [2.1.3](https://github.com/amwebexpert/etoolbox/compare/v2.1.2...v2.1.3) (2022-11-07)
