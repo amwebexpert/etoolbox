@@ -30,7 +30,7 @@ type Props = {
   onClick?: () => void;
 };
 
-export const NavbarButtonLink = ({ title, detail, to, icon, onClick }: Props) => {
+export const NavbarButtonLink: React.FC<Props> = ({ title, detail, to, icon, onClick }) => {
   const classes = useStyles();
 
   return (

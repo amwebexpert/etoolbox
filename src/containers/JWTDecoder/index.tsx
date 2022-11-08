@@ -42,12 +42,11 @@ type Props = {
   storeInputText: (name: string, value: string) => void;
 };
 
-const JWTDecoder: React.FC<Props> = (props: Props) => {
+const JWTDecoder: React.FC<Props> = ({ inputText, storeInputText }) => {
   const title = 'JWT decoder…';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
   const syntaxTheme = useSyntaxHighlightTheme();
-  const { inputText, storeInputText } = props;
   const [header, setHeader] = React.useState(services.decode(inputText, true));
   const [transformed, setTransformed] = React.useState(services.decode(inputText, false));
 
@@ -68,7 +67,7 @@ const JWTDecoder: React.FC<Props> = (props: Props) => {
             id="jwt"
             label="JSON web token to decode"
             placeholder="Paste or type the content here"
-            multiline
+            multiline={true}
             minRows={10}
             maxRows={isMdUp ? 20 : 10}
             variant="outlined"

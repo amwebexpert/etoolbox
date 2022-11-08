@@ -39,11 +39,10 @@ type Props = {
   storeInputText: (name: string, value: string) => void;
 };
 
-const QRCodeGenerator: React.FC<Props> = (props: Props) => {
+const QRCodeGenerator: React.FC<Props> = ({ inputText, inputOptions, storeInputText }) => {
   const title = 'QR Code generator';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
-  const { inputText, inputOptions, storeInputText } = props;
   const [imgDataURL, setImgDataURL] = React.useState('');
   const { setToasterState } = useToasterUpdate();
 
@@ -90,7 +89,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                 autoFocus={isMdUp}
                 label="Text to store into QR Code"
                 placeholder="Paste or type the content here"
-                multiline
+                multiline={true}
                 minRows={12}
                 maxRows={isMdUp ? 20 : 12}
                 variant="outlined"
@@ -103,7 +102,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
             <Grid item md={6} sm={12} xs={12}>
               <TextField
                 label="QR Code generation options"
-                multiline
+                multiline={true}
                 minRows={12}
                 maxRows={isMdUp ? 20 : 12}
                 variant="outlined"
@@ -169,7 +168,7 @@ const QRCodeGenerator: React.FC<Props> = (props: Props) => {
                 value={imgDataURL}
                 margin="normal"
                 variant="outlined"
-                multiline
+                multiline={true}
                 minRows="8"
               />
             </CardContent>

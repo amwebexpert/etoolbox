@@ -86,7 +86,7 @@ const RegExTester: React.FC<Props> = ({ regularExpression, inputText, storeInput
           id="content"
           label="Content to test the regular expression against"
           placeholder="Paste or type the content here"
-          multiline
+          multiline={true}
           minRows={6}
           maxRows={isMdUp ? 20 : 6}
           variant="outlined"

@@ -46,7 +46,7 @@ type Props = {
   storeInputText: (name: string, value: string) => void;
 };
 
-const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, storeInputText }: Props) => {
+const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, storeInputText }) => {
   const title = 'cURL Converter';
   const classes = useStyles();
   const syntaxTheme = useSyntaxHighlightTheme();
@@ -76,7 +76,7 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
           autoFocus={isMdUp}
           label="cURL command"
           placeholder="Paste or type the cURL command here"
-          multiline
+          multiline={true}
           minRows={4}
           maxRows={isMdUp ? 20 : 4}
           variant="outlined"
@@ -121,13 +121,15 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
           <CopyButton data={transformed} />
         </Toolbar>
 
-        <SyntaxHighlighter
-          data-testid="parsed-result"
-          style={syntaxTheme}
-          language={CONVERTERS.get(lastCurlTargetLanguage)?.syntaxHighlither}
-          className={classes.encodedResult}>
-          {transformed}
-        </SyntaxHighlighter>
+        {transformed && (
+          <SyntaxHighlighter
+            data-testid="parsed-result"
+            style={syntaxTheme}
+            language={CONVERTERS.get(lastCurlTargetLanguage)?.syntaxHighlither}
+            className={classes.encodedResult}>
+            {transformed}
+          </SyntaxHighlighter>
+        )}
       </div>
     </>
   );

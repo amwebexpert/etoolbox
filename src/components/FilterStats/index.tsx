@@ -12,10 +12,9 @@ type Props = {
 
 const FILTERING = 'filtering…';
 
-const FilterStats: React.FC<Props> = (props: Props) => {
+const FilterStats: React.FC<Props> = ({ count, searching }) => {
   const classes = useStyles();
   const [working, setWorking] = React.useState(SPACE);
-  const { count, searching } = props;
 
   React.useEffect(() => {
     if (searching) {

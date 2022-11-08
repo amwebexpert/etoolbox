@@ -13,7 +13,7 @@ type Props = {
   epochString?: string;
 };
 
-export const CardLayout: React.FC<Props> = ({ date, epochString }: Props) => {
+export const CardLayout: React.FC<Props> = ({ date, epochString }) => {
   const classes = useStyles();
   const syntaxTheme = useSyntaxHighlightTheme();
 

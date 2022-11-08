@@ -43,20 +43,19 @@ type Props = {
   applyHtmlEntitiesFilter: (searchTerm: string) => void;
 };
 
-const CommonLists: React.FC<Props> = (props: Props) => {
+const CommonLists: React.FC<Props> = ({
+  filteringMimeTypes,
+  mimeTypes,
+  filteringHtmlEntities,
+  htmlEntities,
+  applyMimeTypesFilter,
+  applyHtmlEntitiesFilter,
+}) => {
   const title = 'Mime-types, HTML Entities…';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
   const [selectedTab, setSelectedTab] = React.useState(TABS.MIME_TYPES);
   const [inputFilter, setInputFilter] = React.useState('');
-  const {
-    filteringMimeTypes,
-    mimeTypes,
-    filteringHtmlEntities,
-    htmlEntities,
-    applyMimeTypesFilter,
-    applyHtmlEntitiesFilter,
-  } = props;
   const searching = filteringMimeTypes || filteringHtmlEntities;
   const { page, setPage, rowsPerPage, handleChangeRowsPerPage } = usePagination();
 

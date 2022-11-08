@@ -22,7 +22,7 @@ const CopyButton: React.FC<Props> = ({
   feedbackMessage,
   Icon = AssignmentTurnedIn,
   ...otherProps
-}: Props) => {
+}) => {
   const { setToasterState } = useToasterUpdate();
 
   const handleCopy = () => {

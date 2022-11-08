@@ -33,11 +33,10 @@ type Props = {
   storeInputText: (name: string, value: string) => void;
 };
 
-const URLEncoder: React.FC<Props> = (props: Props) => {
+const URLEncoder: React.FC<Props> = ({ inputText, storeInputText }) => {
   const title = 'URL Encoder / decoder';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
-  const { inputText, storeInputText } = props;
   const [transformed, setTransformed] = React.useState(services.transform(inputText, false));
 
   const flip = () => {
@@ -63,7 +62,7 @@ const URLEncoder: React.FC<Props> = (props: Props) => {
           autoFocus={isMdUp}
           label="Content to encode/decode"
           placeholder="Paste or type the content here"
-          multiline
+          multiline={true}
           minRows={4}
           maxRows={isMdUp ? 20 : 4}
           variant="outlined"

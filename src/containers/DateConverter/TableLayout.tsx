@@ -14,7 +14,7 @@ type Props = {
   epochString?: string;
 };
 
-export const TableLayout: React.FC<Props> = ({ date, epochString }: Props) => {
+export const TableLayout: React.FC<Props> = ({ date, epochString }) => {
   const classes = useStyles();
   const syntaxTheme = useSyntaxHighlightTheme();
   const isMdUp = useIsWidthUp('md');

@@ -51,7 +51,7 @@ type Props = {
   setOpen: (open: boolean) => void;
 };
 
-const ApplicationBar = ({ open, setOpen }: Props) => {
+const ApplicationBar: React.FC<Props> = ({ open, setOpen }) => {
   const classes = useStyles();
   const breakpoint = useGetBreakpoint();
 

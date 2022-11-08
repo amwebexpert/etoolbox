@@ -24,11 +24,10 @@ type Props = {
   storeInputText: (name: string, value: string) => void;
 };
 
-const URLParser: React.FC<Props> = (props: Props) => {
+const URLParser: React.FC<Props> = ({ inputText, storeInputText }) => {
   const title = 'URL Parser';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
-  const { inputText, storeInputText } = props;
   const [urlFragments, setUrlFragments] = React.useState(new Map());
   const [urlParams, setUrlParams] = React.useState(new Map());
 
@@ -47,7 +46,7 @@ const URLParser: React.FC<Props> = (props: Props) => {
           autoFocus={isMdUp}
           label="URL"
           placeholder="Paste or type the url here"
-          multiline
+          multiline={true}
           minRows={4}
           maxRows={isMdUp ? 20 : 4}
           variant="outlined"

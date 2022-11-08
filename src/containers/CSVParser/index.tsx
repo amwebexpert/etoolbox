@@ -31,11 +31,10 @@ type Props = {
   storeInputText: (name: string, value: string) => void;
 };
 
-const CSVParser: React.FC<Props> = (props: Props) => {
+const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, storeInputText }) => {
   const title = 'CSV Parser';
   const classes = useStyles();
   const syntaxTheme = useSyntaxHighlightTheme();
-  const { inputText, inputEncoding, inputOptions, storeInputText } = props;
   const [transformed, setTransformed] = React.useState('');
   const [rawParsedResult, setRawParsedResult] = React.useState('');
   const [fileInfo, setFileInfo] = React.useState('');
@@ -77,18 +76,13 @@ const CSVParser: React.FC<Props> = (props: Props) => {
 
   React.useEffect(() => {
     async function parse() {
-      if (!inputText) {
-        return;
-      }
-
       try {
         const opts = inputOptions ? JSON.parse(inputOptions) : services.DEFAULT_OPTIONS;
-        const result = await services.transform(inputText, opts);
+        const result = await services.transform(inputText ?? '', opts);
         setTransformed(JSON.stringify(result.data, null, 2));
         setRawParsedResult(JSON.stringify(result, null, 2));
         storeInputText('lastCSVInputOptions', JSON.stringify(opts, null, 2));
-        setIsRunning(false);
-      } catch (e) {
+      } finally {
         setIsRunning(false);
       }
     }
@@ -126,7 +120,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
 
           <FormControl className={classes.formControl}>
             <TextField
-              select
+              select={true}
               label="File encoding"
               style={isMdUp ? { width: 320 } : undefined}
               id="encoding"
@@ -149,7 +143,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                 name="inputText"
                 label="CSV Source data"
                 helperText={fileInfo}
-                multiline
+                multiline={true}
                 minRows={displayedRowsCount}
                 maxRows={displayedRowsCount}
                 variant="outlined"
@@ -164,9 +158,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                 }}
                 fullWidth={true}
                 value={inputText}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  storeInputText('lastCSVInputContent', e.target.value)
-                }
+                onChange={e => storeInputText('lastCSVInputContent', e.target.value)}
               />
             </Grid>
             <Grid item md={4} sm={12} xs={12}>
@@ -178,7 +170,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                     Options documentation available here!
                   </Link>
                 }
-                multiline
+                multiline={true}
                 minRows={displayedRowsCount}
                 maxRows={displayedRowsCount}
                 variant="outlined"
@@ -193,9 +185,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
                 }}
                 fullWidth={true}
                 value={inputOptions}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  storeInputText('lastCSVInputOptions', e.target.value)
-                }
+                onChange={e => storeInputText('lastCSVInputOptions', e.target.value)}
               />
             </Grid>
           </Grid>
@@ -224,7 +214,7 @@ const CSVParser: React.FC<Props> = (props: Props) => {
           </Button>
           <CopyButton data={transformed} sx={{ mr: 1 }} />
           <Button
-            endIcon={<SaveIcon>Save As...</SaveIcon>}
+            endIcon={<SaveIcon>Save As…</SaveIcon>}
             disabled={!transformed}
             variant="contained"
             color="primary"

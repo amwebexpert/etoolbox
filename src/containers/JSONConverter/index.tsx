@@ -56,12 +56,17 @@ type Props = {
   storeInputText: (name: string, value: string) => void;
 };
 
-const JSONConverter: React.FC<Props> = (props: Props) => {
+const JSONConverter: React.FC<Props> = ({
+  inputText,
+  optionSource,
+  optionTarget,
+  optionRootClassname,
+  storeInputText,
+}) => {
   const title = 'JSON Converter';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
   const syntaxTheme = useSyntaxHighlightTheme();
-  const { inputText, optionSource, optionTarget, optionRootClassname, storeInputText } = props;
   const [transformed, setTransformed] = React.useState('');
   const defaultValues = {
     source: inputText ?? '',
@@ -71,7 +76,6 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
   };
   const { handleSubmit, control, getValues } = useForm({ defaultValues });
   const onSubmit = async (data: services.ConvertionContext) => {
-    console.log(data);
     const result = await services.transform(data);
     setTransformed(result);
   };
@@ -99,7 +103,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                   name="sourceType"
                   render={({ field: { value, name, onChange } }) => (
                     <TextField
-                      select
+                      select={true}
                       name={name}
                       label="Source type"
                       value={value}
@@ -119,29 +123,16 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                   name="targetLanguage"
                   render={({ field: { value, name, onChange } }) => (
                     <TextField
-                      select
+                      select={true}
                       name={name}
                       label="Target language"
                       value={value}
                       onChange={e => onChange(e.target.value)}>
-                      <MenuItem value="csharp">C#</MenuItem>
-                      <MenuItem value="cpp">C++</MenuItem>
-                      <MenuItem value="dart">Dart</MenuItem>
-                      <MenuItem value="elm">Elm</MenuItem>
-                      <MenuItem value="flow">Flow</MenuItem>
-                      <MenuItem value="go">Go</MenuItem>
-                      <MenuItem value="haskell">Haskell</MenuItem>
-                      <MenuItem value="java">Java</MenuItem>
-                      <MenuItem value="javascript">Javascript object</MenuItem>
-                      <MenuItem value="json-schema">JSON Schema</MenuItem>
-                      <MenuItem value="kotlin">Kotlin</MenuItem>
-                      <MenuItem value="objectivec">ObjectiveC</MenuItem>
-                      <MenuItem value="pike">Pike</MenuItem>
-                      <MenuItem value="python">Python</MenuItem>
-                      <MenuItem value="rust">Rust</MenuItem>
-                      <MenuItem value="swift">Swift</MenuItem>
-                      <MenuItem value="typescript">TypeScript</MenuItem>
-                      <MenuItem value="json">JSON</MenuItem>
+                      {services.TARGET_LANGUAGES.map(([key, value]) => (
+                        <MenuItem key={key} value={key}>
+                          {value}
+                        </MenuItem>
+                      ))}
                     </TextField>
                   )}
                 />
@@ -185,7 +176,7 @@ const JSONConverter: React.FC<Props> = (props: Props) => {
                   autoFocus={isMdUp}
                   label="Source data"
                   placeholder="Paste or type the source data here"
-                  multiline
+                  multiline={true}
                   minRows={4}
                   maxRows={isMdUp ? 20 : 4}
                   variant="outlined"

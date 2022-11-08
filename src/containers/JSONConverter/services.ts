@@ -3,6 +3,29 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from 'quicktype-core
 
 import * as StringUtils from '../../services/string-utils';
 
+const LANGUAGES: Map<string, string> = new Map([
+  ['csharp', 'C#'],
+  ['cpp', 'C++'],
+  ['dart', 'Dart'],
+  ['elm', 'Elm'],
+  ['flow', 'Flow'],
+  ['go', 'Go'],
+  ['haskell', 'Haskell'],
+  ['java', 'Java'],
+  ['javascript', 'Javascript object'],
+  ['json-schema', 'JSON Schema'],
+  ['kotlin', 'Kotlin'],
+  ['objectivec', 'Objective C'],
+  ['pike', 'Pike'],
+  ['python', 'Python'],
+  ['rust', 'Rust'],
+  ['swift', 'Swift'],
+  ['typescript', 'TypeScript'],
+  ['json', 'JSON'],
+]);
+
+export const TARGET_LANGUAGES = [...LANGUAGES.entries()];
+
 export interface ConvertionContext {
   source: string;
   sourceType: string;

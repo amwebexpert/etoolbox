@@ -35,7 +35,7 @@ export type Props = {
   tabs: FeatureGroupTab[];
 };
 
-const FeaturesGroup = ({ tabs }: Props) => {
+const FeaturesGroup: React.FC<Props> = ({ tabs }) => {
   const classes = useStyles();
   const { pathname: parentPath } = useResolvedPath('');
   const location = useLocation();

@@ -5,9 +5,9 @@ export function transform(value: string | undefined, encoded: boolean): string {
 
   try {
     if (encoded) {
-      return btoa(value);
+      return window.btoa(value);
     } else {
-      return atob(value);
+      return window.atob(value);
     }
   } catch (e) {
     return JSON.stringify(e);

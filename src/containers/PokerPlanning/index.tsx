@@ -55,21 +55,20 @@ type Props = {
   storeInputText: (name: string, value: string) => void;
 };
 
-const PokerPlanning: React.FC<Props> = (props: Props) => {
+const PokerPlanning: React.FC<Props> = ({
+  lastPokerPlanningRoomName,
+  lastPokerPlanningUsername,
+  lastPokerPlanningHostName,
+  lastPokerCardsListingCategoryName,
+  storeInputText,
+}) => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { showConfirmationDialog } = useConfirmDialogContext();
   const { setToasterState } = useToasterUpdate();
 
-  // component inputs
+  // route inputs
   const { hostName, roomUUID, roomName } = useParams();
-  const {
-    lastPokerPlanningRoomName,
-    lastPokerPlanningUsername,
-    lastPokerPlanningHostName,
-    lastPokerCardsListingCategoryName,
-    storeInputText,
-  } = props;
 
   // component state
   const socketRef = useRef<ReconnectingWebSocket>();
