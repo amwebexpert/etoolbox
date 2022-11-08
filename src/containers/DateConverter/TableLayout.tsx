@@ -9,12 +9,12 @@ import { useIsWidthUp } from '../../theme';
 import { SAMPLE_DATEFNS_FORMAT, SAMPLE_DATEFNS_TZ_CONVERT } from './constants';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
-interface Props {
+type Props = {
   date: Date | null;
   epochString?: string;
-}
+};
 
-export const TableLayout: React.FC<Props> = ({ date, epochString }: Props) => {
+export const TableLayout: React.FC<Props> = ({ date, epochString }) => {
   const classes = useStyles();
   const syntaxTheme = useSyntaxHighlightTheme();
   const isMdUp = useIsWidthUp('md');

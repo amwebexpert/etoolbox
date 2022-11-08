@@ -8,12 +8,12 @@ import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 import { SAMPLE_DATEFNS_FORMAT, SAMPLE_DATEFNS_TZ_CONVERT } from './constants';
 import { useStyles } from './styles';
 
-interface Props {
+type Props = {
   date: Date | null;
   epochString?: string;
-}
+};
 
-export const CardLayout: React.FC<Props> = ({ date, epochString }: Props) => {
+export const CardLayout: React.FC<Props> = ({ date, epochString }) => {
   const classes = useStyles();
   const syntaxTheme = useSyntaxHighlightTheme();
 

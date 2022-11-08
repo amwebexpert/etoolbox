@@ -46,12 +46,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
-}
+};
 
-const ApplicationBar = ({ open, setOpen }: Props) => {
+const ApplicationBar: React.FC<Props> = ({ open, setOpen }) => {
   const classes = useStyles();
   const breakpoint = useGetBreakpoint();
 

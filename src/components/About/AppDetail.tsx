@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
+import TableContainer, { TableContainerProps } from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import { withStyles } from '@mui/styles';
 
@@ -33,7 +33,7 @@ const StyledTableRow = withStyles(theme => ({
   },
 }))(TableRow);
 
-const AppDetail: React.FC = () => {
+const AppDetail: React.FC<TableContainerProps> = ({ ...otherProps }) => {
   const { setToasterState } = useToasterUpdate();
   const isMdUp = useIsWidthUp('md');
 
@@ -43,7 +43,7 @@ const AppDetail: React.FC = () => {
   }
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} {...otherProps}>
       <Table size={isMdUp ? 'medium' : 'small'} aria-label="about this application">
         <TableBody>
           <StyledTableRow key="github">
@@ -86,7 +86,7 @@ const AppDetail: React.FC = () => {
               Author
             </StyledTableCell>
             <StyledTableCell align="right">
-              <Link href="mailto:amwebexpert@gmail.com">amwebexpert@gmail.com</Link>
+              <Link href="mailto:amwebexpert@gmail.com">André Masson</Link>
             </StyledTableCell>
           </StyledTableRow>
           <StyledTableRow key="iconMadeBy">
@@ -102,6 +102,14 @@ const AppDetail: React.FC = () => {
               React Version
             </StyledTableCell>
             <StyledTableCell align="right">{React.version}</StyledTableCell>
+          </StyledTableRow>
+          <StyledTableRow key="poweredByCRA">
+            <StyledTableCell component="th" scope="row">
+              Open source powered by
+            </StyledTableCell>
+            <StyledTableCell align="right">
+              <Link href="https://reactjs.org/docs/create-a-new-react-app.html">Create React App</Link>
+            </StyledTableCell>
           </StyledTableRow>
         </TableBody>
       </Table>

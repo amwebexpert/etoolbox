@@ -5,17 +5,16 @@ import { Typography } from '@mui/material';
 import { SPACE } from '../../constants';
 import { useStyles } from './styles';
 
-interface Props {
+type Props = {
   searching: boolean;
   count: number;
-}
+};
 
 const FILTERING = 'filtering…';
 
-const FilterStats: React.FC<Props> = (props: Props) => {
+const FilterStats: React.FC<Props> = ({ count, searching }) => {
   const classes = useStyles();
   const [working, setWorking] = React.useState(SPACE);
-  const { count, searching } = props;
 
   React.useEffect(() => {
     if (searching) {

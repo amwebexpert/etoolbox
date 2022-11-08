@@ -30,16 +30,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   inputText?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
-const Base64Encoder: React.FC<Props> = (props: Props) => {
+const Base64Encoder: React.FC<Props> = ({ inputText, storeInputText }) => {
   const title = 'Base64 Encoder / decoder';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
-  const { inputText, storeInputText } = props;
   const [transformed, setTransformed] = React.useState('');
 
   const flip = () => {
@@ -57,7 +56,7 @@ const Base64Encoder: React.FC<Props> = (props: Props) => {
           autoFocus={isMdUp}
           label="Content to Base64 encode/decode"
           placeholder="Paste or type the content here"
-          multiline
+          multiline={true}
           minRows={4}
           maxRows={isMdUp ? 20 : 4}
           variant="outlined"

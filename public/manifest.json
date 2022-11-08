@@ -1,6 +1,6 @@
 {
   "short_name": "Web Toolbox",
-  "name": "Web Toolbox - Collection of web developer utilities",
+  "name": "Web Toolbox - Collection of web developer utilities packaged as a desktop app",
   "icons": [
     {
       "src": "favicon.ico",

@@ -12,21 +12,21 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-interface Props {
+type Props = {
   active: boolean;
   children: React.ReactNode;
-}
+};
 
-export const Spinner: React.FC<Props> = (props: Props) => {
+export const Spinner: React.FC<Props> = ({ active, children }) => {
   const classes = useStyles();
 
   return (
     <LoadingOverlay
       classNamePrefix="spinner_"
       className={classes.root}
-      active={props.active}
+      active={active}
       spinner={<ScaleLoader color="#bf3a2b" />}>
-      {props.children}
+      {children}
     </LoadingOverlay>
   );
 };

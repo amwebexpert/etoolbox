@@ -6,13 +6,13 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { useStyles } from './styles';
 
-interface Props {
+type Props = {
   label?: string;
   autofocus?: boolean;
   fullWidth?: boolean;
   initialFilter?: string;
   onFilterChange: (newValue: string) => void;
-}
+};
 
 const Filter: React.FC<Props> = ({
   label = 'Search',

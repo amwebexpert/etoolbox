@@ -1,25 +1,21 @@
 import React from 'react';
 
-import PropTypes from 'prop-types';
+type Props = {
+  children: React.ReactNode;
+  index: number;
+  value: number;
+};
 
-export function TabPanel(props: Record<string, unknown>) {
-  const { children, value, index, ...other } = props;
+export const TabPanel: React.FC<Props> = ({ children, value, index }) => {
   const isTabSelected = value === index;
 
   return (
     <div
-      role="tabpanel"
-      hidden={!isTabSelected}
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
-      {...other}>
+      hidden={!isTabSelected}
+      role="tabpanel">
       {isTabSelected && <>{children}</>}
     </div>
   );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
 };

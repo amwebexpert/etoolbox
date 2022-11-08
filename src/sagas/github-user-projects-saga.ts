@@ -7,11 +7,12 @@ import {
   ListGithubUserProjectsRequestedAction,
   listGithubUserProjectsSucceeded,
 } from '../actions/github-userprojects-actions';
+import { isBlank } from '../services/string-utils';
 import { GithubUserProject } from '../types/github-types';
 
 function* listGithubUserProjects(action: ListGithubUserProjectsRequestedAction) {
   const username = action.username;
-  if (!username || username.trim().length === 0) {
+  if (isBlank(username)) {
     yield put(listGithubUserProjectsSucceeded([]));
     return;
   }

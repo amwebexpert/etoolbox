@@ -36,9 +36,7 @@ const defaultToasterState: ToasterState = {
 // -------------------------------
 const ToasterContext = React.createContext<ToasterContextType>({ toasterState: defaultToasterState });
 const ToasterUpdateContext = React.createContext<ToasterUpdateContextType>({
-  setToasterState: () => {
-    console.debug('settings toaster state');
-  },
+  setToasterState: () => {},
 });
 
 export function useToaster() {

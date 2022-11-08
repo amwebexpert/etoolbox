@@ -110,7 +110,7 @@ const Base64FileEncoder: React.FC = () => {
                   value={file.encoded}
                   margin="normal"
                   variant="outlined"
-                  multiline
+                  multiline={true}
                   minRows="8"
                 />
                 <Toolbar className={classes.toolbar}>

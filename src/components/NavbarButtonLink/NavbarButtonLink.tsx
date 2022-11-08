@@ -22,15 +22,15 @@ export const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   title: string;
   detail: string;
   to: string;
   icon: React.ReactNode;
   onClick?: () => void;
-}
+};
 
-export const NavbarButtonLink = ({ title, detail, to, icon, onClick }: Props) => {
+export const NavbarButtonLink: React.FC<Props> = ({ title, detail, to, icon, onClick }) => {
   const classes = useStyles();
 
   return (

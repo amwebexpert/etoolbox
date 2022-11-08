@@ -39,11 +39,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   inputText?: string;
   regularExpression?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
 const RegExTester: React.FC<Props> = ({ regularExpression, inputText, storeInputText }) => {
   const title = 'Regular expressions tester';
@@ -86,7 +86,7 @@ const RegExTester: React.FC<Props> = ({ regularExpression, inputText, storeInput
           id="content"
           label="Content to test the regular expression against"
           placeholder="Paste or type the content here"
-          multiline
+          multiline={true}
           minRows={6}
           maxRows={isMdUp ? 20 : 6}
           variant="outlined"

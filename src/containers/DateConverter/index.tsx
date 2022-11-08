@@ -19,18 +19,17 @@ import { CardLayout } from './CardLayout';
 import { useStyles } from './styles';
 import { TableLayout } from './TableLayout';
 
-interface Props {
+type Props = {
   inputText?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
-const DateConverter: React.FC<Props> = (props: Props) => {
+const DateConverter: React.FC<Props> = ({ inputText, storeInputText }) => {
   const title = 'Date & Epoch';
   const classes = useStyles();
-  const { inputText, storeInputText } = props;
   const [date, setDate] = useState<Date | null>(null);
   const isMdUp = useIsWidthUp('md');
-  const isSmDown = useIsWidthDown('md');
+  const isMdDown = useIsWidthDown('md');
 
   const handleDateChange = (date: Date | null) => {
     setDate(date);
@@ -98,7 +97,7 @@ const DateConverter: React.FC<Props> = (props: Props) => {
           </Grid>
         </form>
 
-        {isSmDown && <CardLayout date={date} epochString={inputText} />}
+        {isMdDown && <CardLayout date={date} epochString={inputText} />}
 
         {isMdUp && <TableLayout date={date} epochString={inputText} />}
       </div>

@@ -10,20 +10,20 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-interface Props {
+type Props = {
   label?: string;
   testID?: string;
   result?: string;
   rows?: number;
   maxRows?: number;
-}
+};
 
-export const ResultMonospace = ({ label, testID, result, rows = 10, maxRows = 15 }: Props) => {
+export const ResultMonospace: React.FC<Props> = ({ label, testID, result, rows = 10, maxRows = 15 }) => {
   const classes = useStyles();
 
   return (
     <TextField
-      multiline
+      multiline={true}
       data-testid={testID}
       minRows={rows}
       maxRows={maxRows}

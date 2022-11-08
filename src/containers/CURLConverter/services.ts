@@ -38,9 +38,7 @@ export function transform(value?: string, targetLanguage = 'Javascript'): string
     return '';
   }
 
-  const curlCommand = value.replaceAll('\n', ' ');
-  const curlConverter = CONVERTERS.get(targetLanguage);
-  return curlConverter
-    ? curlConverter.transform(curlCommand)
-    : `Warning: no converter found matching "${targetLanguage}"`;
+  const curlCommand = value.replaceAll(/(\r\n|\n|\r)/gm, ' ');
+  const converter = CONVERTERS.get(targetLanguage);
+  return converter ? converter.transform(curlCommand) : `Warning: no converter found matching "${targetLanguage}"`;
 }

@@ -25,22 +25,9 @@ import FeatureTitle from '../../components/FeatureTitle';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useIsWidthUp } from '../../theme';
+import { INITIAL_WORKER_STATUS, WorkerStatus } from './model';
 import * as services from './services';
 import { imageResizer, useStyles } from './styled';
-
-interface WorkerStatus {
-  workerId: string;
-  jobId: string;
-  status: string;
-  progress: number;
-}
-
-const INITIAL_WORKER_STATUS: WorkerStatus = {
-  workerId: '',
-  jobId: '',
-  status: '',
-  progress: 0,
-};
 
 const ImageOCR: React.FC = () => {
   const title = 'Image OCR (text extraction)';
@@ -102,9 +89,7 @@ const ImageOCR: React.FC = () => {
 
   React.useEffect(() => {
     document.onpaste = onPasteFromClipboard;
-    return () => {
-      document.removeEventListener('onpaste', onPasteFromClipboard);
-    };
+    return () => document.removeEventListener('onpaste', onPasteFromClipboard);
   }, []);
 
   return (
@@ -154,12 +139,14 @@ const ImageOCR: React.FC = () => {
                 </label>
               </div>
             )}
+
             {imgDataURL && (
               <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
                 <img src={imgDataURL} alt="Clipboard content" className={classes.image} />
               </Resizable>
             )}
           </Box>
+
           {imgDataURL && (
             <Box display="flex" alignItems="center" justifyContent="center">
               <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>
@@ -167,6 +154,7 @@ const ImageOCR: React.FC = () => {
               </Button>
             </Box>
           )}
+
           <CardContent>
             <Spinner active={imgExtractedText.startsWith('Processing')}>
               <TextField
@@ -175,11 +163,13 @@ const ImageOCR: React.FC = () => {
                 value={imgExtractedText}
                 margin="normal"
                 variant="outlined"
-                multiline
+                multiline={true}
                 minRows="8"
               />
             </Spinner>
+
             <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
+
             <Toolbar className={classes.toolbar}>
               <Box display="flex" flexGrow={1}></Box>
               <CopyButton data={imgExtractedText} sx={{ mr: 1 }} />

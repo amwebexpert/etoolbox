@@ -30,23 +30,31 @@ import { useIsWidthUp } from '../../theme';
 import { GithubUserProject } from '../../types/github-types';
 import { StyledTableCell, StyledTableRow, useStyles } from './styles';
 
-interface Props {
+type Props = {
   inputText: string;
   projects: GithubUserProject[];
   searching: boolean;
 
   listGithubUserProjectsRequested: (username: string) => void;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
-const GithubUserProjects: React.FC<Props> = (props: Props) => {
+const GithubUserProjects: React.FC<Props> = ({
+  inputText,
+  searching,
+  projects,
+  listGithubUserProjectsRequested,
+  storeInputText,
+}) => {
   const title = 'Github user projects';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
-  const { inputText, searching, projects, listGithubUserProjectsRequested, storeInputText } = props;
   const [inputFilter, setInputFilter] = React.useState(inputText);
   const { setGlobalSpinnerState } = useGlobalSpinnerUpdate();
   const { page, setPage, rowsPerPage, handleChangeRowsPerPage } = usePagination();
+
+  // computing
+  const startRow = page * rowsPerPage;
 
   function applyFilter(newInputFilter: string) {
     setInputFilter(newInputFilter);
@@ -102,7 +110,7 @@ const GithubUserProjects: React.FC<Props> = (props: Props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {projects.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(project => {
+              {projects.slice(startRow, startRow + rowsPerPage).map(project => {
                 return (
                   <StyledTableRow key={project.id}>
                     <StyledTableCell>

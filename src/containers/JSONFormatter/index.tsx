@@ -39,17 +39,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface Props {
+type Props = {
   inputText?: string;
   storeInputText: (name: string, value: string) => void;
-}
+};
 
-const JSONFormatter: React.FC<Props> = (props: Props) => {
+const JSONFormatter: React.FC<Props> = ({ inputText, storeInputText }) => {
   const title = 'JSON Formatter';
   const classes = useStyles();
   const isMdUp = useIsWidthUp('md');
   const syntaxTheme = useSyntaxHighlightTheme();
-  const { inputText, storeInputText } = props;
   const [formatted, setFormatted] = React.useState('');
 
   React.useEffect(() => {
@@ -73,7 +72,7 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
               autoFocus={isMdUp}
               label="JSON Content"
               placeholder="Paste or type the json content here"
-              multiline
+              multiline={true}
               minRows={10}
               maxRows={isMdUp ? 20 : 10}
               variant="outlined"
@@ -89,12 +88,12 @@ const JSONFormatter: React.FC<Props> = (props: Props) => {
           <Box display="flex" flexGrow={1}></Box>
           <CopyButton data={formatted} sx={{ mr: 1 }} />
           <Button
-            endIcon={<SaveIcon>Save As...</SaveIcon>}
+            endIcon={<SaveIcon>Save As…</SaveIcon>}
             disabled={!formatted}
             variant="contained"
             color="primary"
             onClick={handleSaveAs}>
-            Save As...
+            Save As…
           </Button>
         </Toolbar>
 

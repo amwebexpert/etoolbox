@@ -57,7 +57,7 @@ const Home: React.FC = () => {
       </Box>
 
       <TableContainer component={Paper}>
-        <Table aria-label="Changes log">
+        <Table aria-label="Change logs">
           <TableBody>
             {CHANGE_LOGS.map((changeLog, index) => (
               <StyledTableRow key={index}>
