@@ -103,7 +103,7 @@ const AppDetail: React.FC<TableContainerProps> = ({ ...otherProps }) => {
             </StyledTableCell>
             <StyledTableCell align="right">{React.version}</StyledTableCell>
           </StyledTableRow>
-          <StyledTableRow key="reactVersiion">
+          <StyledTableRow key="poweredByCRA">
             <StyledTableCell component="th" scope="row">
               Open source powered by
             </StyledTableCell>
