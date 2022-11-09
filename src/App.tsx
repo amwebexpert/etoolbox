@@ -28,9 +28,9 @@ import { Navigate, NavLink, Route, Routes, useNavigate } from 'react-router-dom'
 
 import ApplicationBar from './components/ApplicationBar/ApplicationBar';
 import { ConfirmDialogProvider } from './components/ConfirmDialog/ConfirmDialogProvider';
-import { FullCenteredContent } from './components/FullCenteredContent/FullCenteredContent';
 import Home from './components/Home';
 import { NavbarButtonLink } from './components/NavbarButtonLink/NavbarButtonLink';
+import { LoadingContent } from './components/Spinner/LoadingContent';
 import ToasterProvider from './components/Toaster/ToasterProvider';
 import Banner from './images/icon.png';
 import { useStyles } from './styles';
@@ -241,7 +241,7 @@ const App: React.FC = () => {
         <ToasterProvider>
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            <Suspense fallback={<FullCenteredContent>Loading…</FullCenteredContent>}>
+            <Suspense fallback={<LoadingContent />}>
               <Routes>
                 <Route path="/Home" element={<Home />} />
 
