@@ -15,6 +15,7 @@
     "start": "REACT_APP_VERSION=$npm_package_version react-scripts --openssl-legacy-provider start",
     "build": "REACT_APP_VERSION=$npm_package_version react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
+    "test:ci": "react-scripts test --watchAll=false --coverage --ci",
     "postinstall": "patch-package",
     "postinstall:electron:compatible": "patch-package && electron-builder install-app-deps",
     "electron:dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && tsc -p electron -w\" \"wait-on http://localhost:3000 && tsc -p electron && electron .\"",
@@ -32,6 +33,16 @@
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "pretty": "prettier --write \"./**/*.{ts,tsx}\"",
     "check-licences": "license-checker --direct --production --exclude MIT,Apache-2.0,BSD-2-Clause,BSD-3-Clause,ISC,CC0-1.0"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "statements": 0.1,
+        "branches": 0.1,
+        "functions": 0.1,
+        "lines": 0.1
+      }
+    }
   },
   "build": {
     "appId": "com.amwebexpert.etoolbox",
