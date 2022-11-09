@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "downlevelIteration": true,
-    "types": ["cypress", "@testing-library/cypress", "cypress-file-upload"],
+    "types": ["cypress", "@testing-library/cypress", "cypress-file-upload", "@testing-library/jest-dom"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

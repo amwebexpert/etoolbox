@@ -14,7 +14,11 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const LoadingContent: React.FC = () => {
+type Props = {
+  title?: string;
+};
+
+export const LoadingContent: React.FC<Props> = ({ title = 'Loading…' }) => {
   const classes = useStyles();
 
   return (
@@ -22,7 +26,7 @@ export const LoadingContent: React.FC = () => {
       <div className={classes.titleWithIcon}>
         <WaitIcon width={40} height={40} sx={{ mr: 1 }} />
         <Typography variant="body1" align="center">
-          Loading…
+          {title}
         </Typography>
       </div>
     </FullCenteredContent>

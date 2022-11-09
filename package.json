@@ -182,6 +182,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-testing-library": "^5.9.1",
     "patch-package": "^6.5.0",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.7.1",
