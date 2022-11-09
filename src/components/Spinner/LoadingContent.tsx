@@ -1,21 +1,16 @@
 import React from 'react';
 
-import WaitIcon from '@mui/icons-material/HourglassBottom';
+import WaitIcon from '@mui/icons-material/HourglassEmpty';
 import { Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 import { FullCenteredContent } from '../FullCenteredContent/FullCenteredContent';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   titleWithIcon: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  icon: {
-    height: '40px',
-    width: '40px',
-    marginRight: theme.spacing(1),
   },
 }));
 
@@ -25,7 +20,7 @@ export const LoadingContent: React.FC = () => {
   return (
     <FullCenteredContent>
       <div className={classes.titleWithIcon}>
-        <WaitIcon className={classes.icon} />
+        <WaitIcon width={40} height={40} sx={{ mr: 1 }} />
         <Typography variant="body1" align="center">
           Loading…
         </Typography>
