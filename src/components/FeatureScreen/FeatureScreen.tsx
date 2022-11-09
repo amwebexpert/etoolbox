@@ -21,7 +21,7 @@ export const FeatureScreen: React.FC<Props> = ({ title, iconType, children }) =>
 
   return (
     <>
-      <Helmet title={title} />
+      <Helmet titleTemplate="Web Toolbox - %s" defaultTitle="Web Toolbox" title={title} />
 
       <div className={classes.root}>
         <FeatureTitle iconType={iconType} title={title} />
