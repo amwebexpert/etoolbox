@@ -34,6 +34,16 @@
     "pretty": "prettier --write \"./**/*.{ts,tsx}\"",
     "check-licences": "license-checker --direct --production --exclude MIT,Apache-2.0,BSD-2-Clause,BSD-3-Clause,ISC,CC0-1.0"
   },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "statements": 0.1,
+        "branches": 0.1,
+        "functions": 0.1,
+        "lines": 0.1
+      }
+    }
+  },
   "build": {
     "appId": "com.amwebexpert.etoolbox",
     "productName": "Web Toolbox",
