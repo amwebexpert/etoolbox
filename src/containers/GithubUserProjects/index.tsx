@@ -14,13 +14,12 @@ import {
   TableRow,
   Toolbar,
 } from '@mui/material';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { listGithubUserProjectsRequested } from '../../actions/github-userprojects-actions';
 import { setTextAction } from '../../actions/text-actions';
-import FeatureTitle from '../../components/FeatureTitle';
+import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import Filter from '../../components/Filter';
 import FilterStats from '../../components/FilterStats';
 import { useGlobalSpinnerUpdate } from '../../components/Spinner/GlobalSpinnerProvider';
@@ -71,66 +70,61 @@ const GithubUserProjects: React.FC<Props> = ({
   }, [searching, inputText, setGlobalSpinnerState]);
 
   return (
-    <>
-      <Helmet title={title} />
-      <div className={classes.root}>
-        <FeatureTitle iconType={GithubIcon} title={title} />
+    <FeatureScreen iconType={GithubIcon} title={title}>
+      <Toolbar className={classes.toolbar}>
+        <Filter autofocus={isMdUp} label="Username" initialFilter={inputFilter} onFilterChange={applyFilter} />
+        <Box display="flex" flexGrow={1}></Box>
+        <FilterStats count={projects.length} searching={searching} />
+      </Toolbar>
 
-        <Toolbar className={classes.toolbar}>
-          <Filter autofocus={isMdUp} label="Username" initialFilter={inputFilter} onFilterChange={applyFilter} />
-          <Box display="flex" flexGrow={1}></Box>
-          <FilterStats count={projects.length} searching={searching} />
-        </Toolbar>
-
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25, 50, 100]}
-          component="div"
-          count={projects.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={(_, page) => setPage(page)}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-        <TableContainer component={Paper}>
-          <Table size={isMdUp ? 'medium' : 'small'}>
-            <TableHead className={classes.tableHeader}>
-              <TableRow>
-                <StyledTableCell component="th" scope="row">
-                  Project
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  Description
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row" className={classes.dateColumn}>
-                  Updated
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  <WatchIcon />
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {projects.slice(startRow, startRow + rowsPerPage).map(project => {
-                return (
-                  <StyledTableRow key={project.id}>
-                    <StyledTableCell>
-                      <Link href={project.html_url} target="_blank" rel="noreferrer">
-                        {project.name}
-                      </Link>
-                    </StyledTableCell>
-                    <StyledTableCell>{project.description}</StyledTableCell>
-                    <StyledTableCell className={classes.dateColumn}>
-                      {new Date(project.updated_at).toLocaleDateString()}
-                    </StyledTableCell>
-                    <StyledTableCell className={classes.watchColumn}>{project.watchers_count}</StyledTableCell>
-                  </StyledTableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25, 50, 100]}
+        component="div"
+        count={projects.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={(_, page) => setPage(page)}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <TableContainer component={Paper}>
+        <Table size={isMdUp ? 'medium' : 'small'}>
+          <TableHead className={classes.tableHeader}>
+            <TableRow>
+              <StyledTableCell component="th" scope="row">
+                Project
+              </StyledTableCell>
+              <StyledTableCell component="th" scope="row">
+                Description
+              </StyledTableCell>
+              <StyledTableCell component="th" scope="row" className={classes.dateColumn}>
+                Updated
+              </StyledTableCell>
+              <StyledTableCell component="th" scope="row">
+                <WatchIcon />
+              </StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {projects.slice(startRow, startRow + rowsPerPage).map(project => {
+              return (
+                <StyledTableRow key={project.id}>
+                  <StyledTableCell>
+                    <Link href={project.html_url} target="_blank" rel="noreferrer">
+                      {project.name}
+                    </Link>
+                  </StyledTableCell>
+                  <StyledTableCell>{project.description}</StyledTableCell>
+                  <StyledTableCell className={classes.dateColumn}>
+                    {new Date(project.updated_at).toLocaleDateString()}
+                  </StyledTableCell>
+                  <StyledTableCell className={classes.watchColumn}>{project.watchers_count}</StyledTableCell>
+                </StyledTableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </FeatureScreen>
   );
 };
 

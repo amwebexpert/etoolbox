@@ -9,10 +9,6 @@ export const imageResizer = {
 };
 
 export const useStyles = makeStyles(theme => ({
-  root: {
-    margin: theme.spacing(1),
-    flexGrow: 1,
-  },
   header: {
     padding: '20px 0',
   },

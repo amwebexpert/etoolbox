@@ -9,9 +9,6 @@ export const imageResizer = {
 };
 
 export const useStyles = makeStyles(theme => ({
-  root: {
-    margin: theme.spacing(1),
-  },
   image: {
     width: '100%',
     margin: 5,

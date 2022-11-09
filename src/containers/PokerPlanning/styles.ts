@@ -18,9 +18,6 @@ export const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 export const useStyles = makeStyles(theme => ({
-  root: {
-    margin: theme.spacing(1),
-  },
   toolbar: {
     height: '100%',
     margin: 0,

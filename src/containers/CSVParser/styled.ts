@@ -1,9 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles(theme => ({
-  root: {
-    margin: theme.spacing(1),
-  },
   fileSelector: {
     margin: theme.spacing(2),
     textAlign: 'center',

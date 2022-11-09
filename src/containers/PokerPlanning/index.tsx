@@ -19,7 +19,6 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import QRCode from 'qrcode';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import ReconnectingWebSocket from 'reconnecting-websocket';
@@ -28,7 +27,7 @@ import { Dispatch } from 'redux';
 import { setTextAction } from '../../actions/text-actions';
 import { useConfirmDialogContext } from '../../components/ConfirmDialog/ConfirmDialogProvider';
 import CopyButton from '../../components/CopyButton';
-import FeatureTitle from '../../components/FeatureTitle';
+import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
@@ -195,125 +194,119 @@ const PokerPlanning: React.FC<Props> = ({
   };
 
   return (
-    <>
-      <Helmet title={title} />
-
-      <div className={classes.root}>
-        <FeatureTitle iconType={PockerPlanningIcon} title={title} />
-
-        <Grid container>
-          <Grid item md={9} xs={12}>
-            <PokerOptionsForm socketState={socketState} />
-          </Grid>
-          <Grid item md={3} xs={12}>
-            <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
-              <Button
-                sx={{ mr: 1 }}
-                variant="contained"
-                title="Register the team and start planning in a new room"
-                color="primary"
-                disabled={!isReadyToCreateNewRoom}
-                onClick={handleCreateNewRoom}>
-                New
-              </Button>
-              <Button
-                sx={{ mr: 1 }}
-                variant="contained"
-                title="Enter existing room"
-                color="primary"
-                disabled={isUserMemberOfRoom || !isReadyToVote}
-                onClick={() => sendOrPostpone(buildVoteMessage(lastPokerPlanningUsername))}>
-                Join
-              </Button>
-              <CopyButton
-                sx={{ mr: 1 }}
-                isDisabled={!isReadyToStartSession}
-                data={buildFullRouteURL({ hostName, roomUUID, roomName })}
-                Icon={ShareLink}
-                hoverMessage="Copy link to clipboard for sharing"
-                feedbackMessage="Link copied to clipboard, you can now share to all members"
-              />
-              <Button
-                variant="contained"
-                title="Copy QRCode for sharing"
-                disabled={!isReadyToStartSession}
-                onClick={shareAsQRCode}
-                color="primary">
-                <QRCodeIcon />
-              </Button>
-            </Grid>
+    <FeatureScreen iconType={PockerPlanningIcon} title={title}>
+      <Grid container>
+        <Grid item md={9} xs={12}>
+          <PokerOptionsForm socketState={socketState} />
+        </Grid>
+        <Grid item md={3} xs={12}>
+          <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
+            <Button
+              sx={{ mr: 1 }}
+              variant="contained"
+              title="Register the team and start planning in a new room"
+              color="primary"
+              disabled={!isReadyToCreateNewRoom}
+              onClick={handleCreateNewRoom}>
+              New
+            </Button>
+            <Button
+              sx={{ mr: 1 }}
+              variant="contained"
+              title="Enter existing room"
+              color="primary"
+              disabled={isUserMemberOfRoom || !isReadyToVote}
+              onClick={() => sendOrPostpone(buildVoteMessage(lastPokerPlanningUsername))}>
+              Join
+            </Button>
+            <CopyButton
+              sx={{ mr: 1 }}
+              isDisabled={!isReadyToStartSession}
+              data={buildFullRouteURL({ hostName, roomUUID, roomName })}
+              Icon={ShareLink}
+              hoverMessage="Copy link to clipboard for sharing"
+              feedbackMessage="Link copied to clipboard, you can now share to all members"
+            />
+            <Button
+              variant="contained"
+              title="Copy QRCode for sharing"
+              disabled={!isReadyToStartSession}
+              onClick={shareAsQRCode}
+              color="primary">
+              <QRCodeIcon />
+            </Button>
           </Grid>
         </Grid>
+      </Grid>
 
-        <div className={classes.submitEstimate}>
-          {pokerCards.values.map(value => (
-            <PokerCard
-              key={value}
-              isDisabled={!isReadyToVote}
-              isSelected={myEstimate === value}
-              value={value}
-              onClick={() => updateMyEstimate(value)}
-            />
-          ))}
-        </div>
-
-        <TableContainer component={Paper} className={classes.teamEstimates}>
-          <Table size="small">
-            <TableHead className={classes.tableHeader}>
-              <TableRow>
-                <StyledTableCell component="th" scope="row" width={30}></StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  Team member
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row" align="center">
-                  Points
-                  <IconButton
-                    title="Toggle story points visibility"
-                    disabled={!isUserMemberOfRoom}
-                    onClick={() => setIsEstimatesVisible(v => !v)}>
-                    {isEstimatesVisible ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                  <IconButton onClick={handleClearAllVotes} title="Clear all votes" disabled={!isUserMemberOfRoom}>
-                    <RemoveEstimates />
-                  </IconButton>
-                </StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {estimates.sort(pokerCards.sorter).map(({ username, estimate }) => {
-                const estimateWhenDisplayON = estimate ?? '…';
-                const estimateWhenDisplayOFF = estimate ? '✔' : '…';
-                return (
-                  <StyledTableRow key={username}>
-                    <StyledTableCell width={30}>
-                      <IconButton
-                        disabled={!isUserMemberOfRoom}
-                        onClick={() => sendOrPostpone(buildRemoveUserMessage(username))}
-                        title={`Remove user "${username}"`}>
-                        <RemoveUser />
-                      </IconButton>
-                    </StyledTableCell>
-                    <StyledTableCell>{username}</StyledTableCell>
-                    <StyledTableCell align="center">
-                      {isEstimatesVisible ? estimateWhenDisplayON : estimateWhenDisplayOFF}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                );
-              })}
-              <StyledTableRow key="average">
-                <StyledTableCell width={30}></StyledTableCell>
-                <StyledTableCell>
-                  <Typography>Story points average</Typography>
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <Typography>{isEstimatesVisible ? estimatesAverage : ''}</Typography>
-                </StyledTableCell>
-              </StyledTableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <div className={classes.submitEstimate}>
+        {pokerCards.values.map(value => (
+          <PokerCard
+            key={value}
+            isDisabled={!isReadyToVote}
+            isSelected={myEstimate === value}
+            value={value}
+            onClick={() => updateMyEstimate(value)}
+          />
+        ))}
       </div>
-    </>
+
+      <TableContainer component={Paper} className={classes.teamEstimates}>
+        <Table size="small">
+          <TableHead className={classes.tableHeader}>
+            <TableRow>
+              <StyledTableCell component="th" scope="row" width={30}></StyledTableCell>
+              <StyledTableCell component="th" scope="row">
+                Team member
+              </StyledTableCell>
+              <StyledTableCell component="th" scope="row" align="center">
+                Points
+                <IconButton
+                  title="Toggle story points visibility"
+                  disabled={!isUserMemberOfRoom}
+                  onClick={() => setIsEstimatesVisible(v => !v)}>
+                  {isEstimatesVisible ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+                <IconButton onClick={handleClearAllVotes} title="Clear all votes" disabled={!isUserMemberOfRoom}>
+                  <RemoveEstimates />
+                </IconButton>
+              </StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {estimates.sort(pokerCards.sorter).map(({ username, estimate }) => {
+              const estimateWhenDisplayON = estimate ?? '…';
+              const estimateWhenDisplayOFF = estimate ? '✔' : '…';
+              return (
+                <StyledTableRow key={username}>
+                  <StyledTableCell width={30}>
+                    <IconButton
+                      disabled={!isUserMemberOfRoom}
+                      onClick={() => sendOrPostpone(buildRemoveUserMessage(username))}
+                      title={`Remove user "${username}"`}>
+                      <RemoveUser />
+                    </IconButton>
+                  </StyledTableCell>
+                  <StyledTableCell>{username}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {isEstimatesVisible ? estimateWhenDisplayON : estimateWhenDisplayOFF}
+                  </StyledTableCell>
+                </StyledTableRow>
+              );
+            })}
+            <StyledTableRow key="average">
+              <StyledTableCell width={30}></StyledTableCell>
+              <StyledTableCell>
+                <Typography>Story points average</Typography>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <Typography>{isEstimatesVisible ? estimatesAverage : ''}</Typography>
+              </StyledTableCell>
+            </StyledTableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </FeatureScreen>
   );
 };
 
