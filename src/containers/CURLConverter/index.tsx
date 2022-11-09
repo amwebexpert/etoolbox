@@ -4,14 +4,13 @@ import EncodeIcon from '@mui/icons-material/Code';
 import HttpUrlIcon from '@mui/icons-material/HttpTwoTone';
 import { Box, Button, FormControl, MenuItem, TextField, Toolbar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Dispatch } from 'redux';
 
 import { setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
-import FeatureTitle from '../../components/FeatureTitle';
+import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
 import { AppState } from '../../reducers';
 import { isBlank } from '../../services/string-utils';
@@ -19,9 +18,6 @@ import { useIsWidthUp } from '../../theme';
 import { CONVERTERS, CONVERTERS_LIST, transform } from './services';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    margin: theme.spacing(1),
-  },
   toolbar: {
     margin: 0,
     padding: 0,
@@ -67,71 +63,66 @@ const CURLConverter: React.FC<Props> = ({ inputText, lastCurlTargetLanguage, sto
   }, [inputText]);
 
   return (
-    <>
-      <Helmet title={title} />
-      <div className={classes.root}>
-        <FeatureTitle iconType={HttpUrlIcon} title={title} />
+    <FeatureScreen iconType={HttpUrlIcon} title={title}>
+      <TextField
+        autoFocus={isMdUp}
+        label="cURL command"
+        placeholder="Paste or type the cURL command here"
+        multiline={true}
+        minRows={4}
+        maxRows={isMdUp ? 20 : 4}
+        variant="outlined"
+        margin="normal"
+        fullWidth={true}
+        inputProps={{ style: { fontFamily: 'monospace' } }}
+        value={inputText}
+        onChange={e => storeInputText('lastCurlValue', e.target.value)}
+      />
 
-        <TextField
-          autoFocus={isMdUp}
-          label="cURL command"
-          placeholder="Paste or type the cURL command here"
-          multiline={true}
-          minRows={4}
-          maxRows={isMdUp ? 20 : 4}
-          variant="outlined"
-          margin="normal"
-          fullWidth={true}
-          inputProps={{ style: { fontFamily: 'monospace' } }}
-          value={inputText}
-          onChange={e => storeInputText('lastCurlValue', e.target.value)}
-        />
-
-        <Toolbar className={classes.toolbar}>
-          <FormControl className={classes.formControl}>
-            <TextField
-              select={true}
-              disabled={!inputText}
-              name="targetLanguage"
-              label="Target language"
-              variant="outlined"
-              title="Convert cURL command into a specific language"
-              value={lastCurlTargetLanguage}
-              style={{ width: 160 }}
-              inputProps={{ style: { fontFamily: 'monospace' } }}
-              onChange={onLanguageChange}>
-              {CONVERTERS_LIST.map(item => (
-                <MenuItem key={item} value={item}>
-                  {item}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
-          <Box display="flex" flexGrow={1}></Box>
-          <Button
-            variant="contained"
-            sx={{ mr: 1 }}
-            title="Convert cURL into target language"
-            color="primary"
-            endIcon={<EncodeIcon>Convert</EncodeIcon>}
+      <Toolbar className={classes.toolbar}>
+        <FormControl className={classes.formControl}>
+          <TextField
+            select={true}
             disabled={!inputText}
-            onClick={() => setTransformed(transform(inputText, lastCurlTargetLanguage))}>
-            Convert
-          </Button>
-          <CopyButton data={transformed} />
-        </Toolbar>
+            name="targetLanguage"
+            label="Target language"
+            variant="outlined"
+            title="Convert cURL command into a specific language"
+            value={lastCurlTargetLanguage}
+            style={{ width: 160 }}
+            inputProps={{ style: { fontFamily: 'monospace' } }}
+            onChange={onLanguageChange}>
+            {CONVERTERS_LIST.map(item => (
+              <MenuItem key={item} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </TextField>
+        </FormControl>
+        <Box display="flex" flexGrow={1}></Box>
+        <Button
+          variant="contained"
+          sx={{ mr: 1 }}
+          title="Convert cURL into target language"
+          color="primary"
+          endIcon={<EncodeIcon>Convert</EncodeIcon>}
+          disabled={!inputText}
+          onClick={() => setTransformed(transform(inputText, lastCurlTargetLanguage))}>
+          Convert
+        </Button>
+        <CopyButton data={transformed} />
+      </Toolbar>
 
-        {transformed && (
-          <SyntaxHighlighter
-            data-testid="parsed-result"
-            style={syntaxTheme}
-            language={CONVERTERS.get(lastCurlTargetLanguage)?.syntaxHighlither}
-            className={classes.encodedResult}>
-            {transformed}
-          </SyntaxHighlighter>
-        )}
-      </div>
-    </>
+      {transformed && (
+        <SyntaxHighlighter
+          data-testid="parsed-result"
+          style={syntaxTheme}
+          language={CONVERTERS.get(lastCurlTargetLanguage)?.syntaxHighlither}
+          className={classes.encodedResult}>
+          {transformed}
+        </SyntaxHighlighter>
+      )}
+    </FeatureScreen>
   );
 };
 

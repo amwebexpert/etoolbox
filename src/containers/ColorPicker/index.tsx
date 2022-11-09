@@ -8,9 +8,8 @@ import Button from '@mui/material/Button';
 import * as copy from 'copy-to-clipboard';
 import { Resizable } from 're-resizable';
 import { ColorResult, RGBColor, SketchPicker } from 'react-color';
-import { Helmet } from 'react-helmet';
 
-import FeatureTitle from '../../components/FeatureTitle';
+import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import * as services from './services';
 import { imageResizer, useStyles } from './styled';
@@ -103,89 +102,81 @@ const ColorPicker: React.FC = () => {
   };
 
   return (
-    <>
-      <Helmet title={title} />
-      <div className={classes.root}>
-        <FeatureTitle iconType={PaletteIcon} title={title} />
-
-        <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
-          {!imgDataURL && (
-            <div>
-              <Typography variant="body2">
-                paste image or select a file:{' '}
-                <input
-                  type="file"
-                  color="primary"
-                  accept="image/*"
-                  onChange={e => onFileSelected(e.target?.files?.[0])}
-                  id="files-selector-action"
-                  style={{ display: 'none' }}
-                />
-                <label htmlFor="files-selector-action">
-                  <Button variant="contained" component="span" color="primary">
-                    <PhotoCameraIcon />
-                  </Button>
-                </label>
-              </Typography>
-            </div>
-          )}
-          {imgDataURL && (
-            <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
-              <img id="image" src={imgDataURL} alt="Clipboard content" className={classes.image} />
-            </Resizable>
-          )}
-        </Box>
-
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          className={classes.colorPicker}>
-          <Typography variant="body2">or just pick a color:</Typography>
-          <SketchPicker color={rgb} onChangeComplete={(color: ColorResult) => setRgb(color.rgb)} />
-
-          <pre>
-            Opacity to hexa: {(rgb?.a ?? 1) * 100}% = {rgb?.a ?? 1} = {services.getOpacityHexValue(rgb?.a ?? 1)}
-          </pre>
-        </Box>
-
-        {imgDataURL && (
-          <Box display="flex" alignItems="center" justifyContent="center">
-            <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>
-              Clear
-            </Button>
-          </Box>
+    <FeatureScreen iconType={PaletteIcon} title={title}>
+      <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
+        {!imgDataURL && (
+          <div>
+            <Typography variant="body2">
+              paste image or select a file:{' '}
+              <input
+                type="file"
+                color="primary"
+                accept="image/*"
+                onChange={e => onFileSelected(e.target?.files?.[0])}
+                id="files-selector-action"
+                style={{ display: 'none' }}
+              />
+              <label htmlFor="files-selector-action">
+                <Button variant="contained" component="span" color="primary">
+                  <PhotoCameraIcon />
+                </Button>
+              </label>
+            </Typography>
+          </div>
         )}
+        {imgDataURL && (
+          <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
+            <img id="image" src={imgDataURL} alt="Clipboard content" className={classes.image} />
+          </Resizable>
+        )}
+      </Box>
 
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-          <div
-            className={classes.sample}
-            style={{ backgroundColor: background }}
-            onClick={() => handleCopy(background)}>
-            {background}
-          </div>
-          <div
-            className={classes.sample}
-            style={{ backgroundColor: backgroundWithAlpha }}
-            onClick={() => handleCopy(backgroundWithAlpha)}>
-            {backgroundWithAlpha}
-          </div>
-          <div
-            className={classes.sample}
-            style={{ backgroundColor: backgroundRgb }}
-            onClick={() => handleCopy(backgroundRgb)}>
-            {backgroundRgb}
-          </div>
-          <div
-            className={classes.sample}
-            style={{ backgroundColor: backgroundRgbWithAlpha }}
-            onClick={() => handleCopy(backgroundRgbWithAlpha)}>
-            {backgroundRgbWithAlpha}
-          </div>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        className={classes.colorPicker}>
+        <Typography variant="body2">or just pick a color:</Typography>
+        <SketchPicker color={rgb} onChangeComplete={(color: ColorResult) => setRgb(color.rgb)} />
+
+        <pre>
+          Opacity to hexa: {(rgb?.a ?? 1) * 100}% = {rgb?.a ?? 1} = {services.getOpacityHexValue(rgb?.a ?? 1)}
+        </pre>
+      </Box>
+
+      {imgDataURL && (
+        <Box display="flex" alignItems="center" justifyContent="center">
+          <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>
+            Clear
+          </Button>
         </Box>
-      </div>
-    </>
+      )}
+
+      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+        <div className={classes.sample} style={{ backgroundColor: background }} onClick={() => handleCopy(background)}>
+          {background}
+        </div>
+        <div
+          className={classes.sample}
+          style={{ backgroundColor: backgroundWithAlpha }}
+          onClick={() => handleCopy(backgroundWithAlpha)}>
+          {backgroundWithAlpha}
+        </div>
+        <div
+          className={classes.sample}
+          style={{ backgroundColor: backgroundRgb }}
+          onClick={() => handleCopy(backgroundRgb)}>
+          {backgroundRgb}
+        </div>
+        <div
+          className={classes.sample}
+          style={{ backgroundColor: backgroundRgbWithAlpha }}
+          onClick={() => handleCopy(backgroundRgbWithAlpha)}>
+          {backgroundRgbWithAlpha}
+        </div>
+      </Box>
+    </FeatureScreen>
   );
 };
 

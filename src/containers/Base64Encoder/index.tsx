@@ -8,22 +8,18 @@ import { Box, Toolbar } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { makeStyles } from '@mui/styles';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
-import FeatureTitle from '../../components/FeatureTitle';
+import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import ResultMonospace from '../../components/ResultMonospace';
 import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    margin: theme.spacing(1),
-  },
+const useStyles = makeStyles(() => ({
   toolbar: {
     margin: 0,
     padding: 0,
@@ -47,53 +43,48 @@ const Base64Encoder: React.FC<Props> = ({ inputText, storeInputText }) => {
   };
 
   return (
-    <>
-      <Helmet title={title} />
-      <div className={classes.root}>
-        <FeatureTitle iconType={DeveloperBoardIcon} title={title} />
+    <FeatureScreen iconType={DeveloperBoardIcon} title={title}>
+      <TextField
+        autoFocus={isMdUp}
+        label="Content to Base64 encode/decode"
+        placeholder="Paste or type the content here"
+        multiline={true}
+        minRows={4}
+        maxRows={isMdUp ? 20 : 4}
+        variant="outlined"
+        margin="normal"
+        fullWidth={true}
+        value={inputText}
+        onChange={e => storeInputText('lastBase64EncoderValue', e.target.value)}
+      />
 
-        <TextField
-          autoFocus={isMdUp}
-          label="Content to Base64 encode/decode"
-          placeholder="Paste or type the content here"
-          multiline={true}
-          minRows={4}
-          maxRows={isMdUp ? 20 : 4}
-          variant="outlined"
-          margin="normal"
-          fullWidth={true}
-          value={inputText}
-          onChange={e => storeInputText('lastBase64EncoderValue', e.target.value)}
-        />
+      <Toolbar className={classes.toolbar}>
+        <Button variant="contained" color="primary" disabled={!transformed} onClick={flip} title="Switch the content">
+          <ImportExportIcon />
+        </Button>
+        <Box display="flex" flexGrow={1}></Box>
+        <CopyButton data={transformed} sx={{ mr: 1 }} />
+        <Button
+          sx={{ mr: 1 }}
+          variant="contained"
+          title="Encode the content"
+          color="primary"
+          disabled={!inputText}
+          onClick={() => setTransformed(services.transform(inputText, true))}>
+          <EncodeIcon />
+        </Button>
+        <Button
+          variant="contained"
+          title="Decode the content"
+          color="primary"
+          disabled={!inputText}
+          onClick={() => setTransformed(services.transform(inputText, false))}>
+          <DecodeIcon />
+        </Button>
+      </Toolbar>
 
-        <Toolbar className={classes.toolbar}>
-          <Button variant="contained" color="primary" disabled={!transformed} onClick={flip} title="Switch the content">
-            <ImportExportIcon />
-          </Button>
-          <Box display="flex" flexGrow={1}></Box>
-          <CopyButton data={transformed} sx={{ mr: 1 }} />
-          <Button
-            sx={{ mr: 1 }}
-            variant="contained"
-            title="Encode the content"
-            color="primary"
-            disabled={!inputText}
-            onClick={() => setTransformed(services.transform(inputText, true))}>
-            <EncodeIcon />
-          </Button>
-          <Button
-            variant="contained"
-            title="Decode the content"
-            color="primary"
-            disabled={!inputText}
-            onClick={() => setTransformed(services.transform(inputText, false))}>
-            <DecodeIcon />
-          </Button>
-        </Toolbar>
-
-        <ResultMonospace label="Result" result={transformed} />
-      </div>
-    </>
+      <ResultMonospace label="Result" result={transformed} />
+    </FeatureScreen>
   );
 };
 

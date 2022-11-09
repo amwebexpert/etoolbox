@@ -8,12 +8,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { setTextAction } from '../../actions/text-actions';
-import FeatureTitle from '../../components/FeatureTitle';
+import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
 import * as services from './services';
@@ -37,69 +36,64 @@ const URLParser: React.FC<Props> = ({ inputText, storeInputText }) => {
   }, [inputText]);
 
   return (
-    <>
-      <Helmet title={title} />
-      <div className={classes.root}>
-        <FeatureTitle iconType={LinkIcon} title={title} />
+    <FeatureScreen iconType={LinkIcon} title={title}>
+      <TextField
+        autoFocus={isMdUp}
+        label="URL"
+        placeholder="Paste or type the url here"
+        multiline={true}
+        minRows={4}
+        maxRows={isMdUp ? 20 : 4}
+        variant="outlined"
+        margin="normal"
+        fullWidth={true}
+        value={inputText}
+        className={classes.panel}
+        onChange={e => storeInputText('lastUrlParserValue', e.target.value)}
+      />
 
-        <TextField
-          autoFocus={isMdUp}
-          label="URL"
-          placeholder="Paste or type the url here"
-          multiline={true}
-          minRows={4}
-          maxRows={isMdUp ? 20 : 4}
-          variant="outlined"
-          margin="normal"
-          fullWidth={true}
-          value={inputText}
-          className={classes.panel}
-          onChange={e => storeInputText('lastUrlParserValue', e.target.value)}
-        />
+      <TableContainer component={Paper} className={classes.panel}>
+        <Table size={isMdUp ? 'medium' : 'small'}>
+          <TableHead className={classes.tableHeader}>
+            <TableRow>
+              <StyledTableCell>Fragment</StyledTableCell>
+              <StyledTableCell>Value</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {[...urlFragments.keys()].sort().map(key => (
+              <StyledTableRow key={key}>
+                <StyledTableCell component="th" scope="row">
+                  {key}
+                </StyledTableCell>
+                <StyledTableCell>{urlFragments.get(key)}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-        <TableContainer component={Paper} className={classes.panel}>
-          <Table size={isMdUp ? 'medium' : 'small'}>
-            <TableHead className={classes.tableHeader}>
-              <TableRow>
-                <StyledTableCell>Fragment</StyledTableCell>
-                <StyledTableCell>Value</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {[...urlFragments.keys()].sort().map(key => (
-                <StyledTableRow key={key}>
-                  <StyledTableCell component="th" scope="row">
-                    {key}
-                  </StyledTableCell>
-                  <StyledTableCell>{urlFragments.get(key)}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <TableContainer component={Paper}>
-          <Table size={isMdUp ? 'medium' : 'small'}>
-            <TableHead className={classes.tableHeader}>
-              <TableRow>
-                <StyledTableCell>Parameter</StyledTableCell>
-                <StyledTableCell>Value</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {[...urlParams.keys()].sort().map(key => (
-                <StyledTableRow key={key}>
-                  <StyledTableCell component="th" scope="row">
-                    {key}
-                  </StyledTableCell>
-                  <StyledTableCell>{urlParams.get(key)}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </>
+      <TableContainer component={Paper}>
+        <Table size={isMdUp ? 'medium' : 'small'}>
+          <TableHead className={classes.tableHeader}>
+            <TableRow>
+              <StyledTableCell>Parameter</StyledTableCell>
+              <StyledTableCell>Value</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {[...urlParams.keys()].sort().map(key => (
+              <StyledTableRow key={key}>
+                <StyledTableCell component="th" scope="row">
+                  {key}
+                </StyledTableCell>
+                <StyledTableCell>{urlParams.get(key)}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </FeatureScreen>
   );
 };
 

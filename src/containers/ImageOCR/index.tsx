@@ -18,10 +18,9 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Resizable } from 're-resizable';
-import { Helmet } from 'react-helmet';
 
 import CopyButton from '../../components/CopyButton';
-import FeatureTitle from '../../components/FeatureTitle';
+import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { useIsWidthUp } from '../../theme';
@@ -93,100 +92,95 @@ const ImageOCR: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <Helmet title={title} />
-      <div className={classes.root}>
-        <FeatureTitle iconType={OCRIcon} title={title} />
+    <FeatureScreen iconType={OCRIcon} title={title}>
+      <form noValidate autoComplete="off" className={classes.form}>
+        <FormControl className={classes.formControl}>
+          <TextField
+            select={true}
+            label="Image language"
+            id="language"
+            style={{ width: 160 }}
+            value={language}
+            autoFocus={isMdUp}
+            onChange={e => setLanguage(e.target.value)}>
+            {/**
+             * TODO: Add all Tesseract.js supported languages:
+             * https://tesseract-ocr.github.io/tessdoc/Data-Files#data-files-for-version-400-november-29-2016
+             */}
+            <MenuItem value="eng">English</MenuItem>
+            <MenuItem value="fra">French</MenuItem>
+          </TextField>
+        </FormControl>
+      </form>
 
-        <form noValidate autoComplete="off" className={classes.form}>
-          <FormControl className={classes.formControl}>
-            <TextField
-              select={true}
-              label="Image language"
-              id="language"
-              style={{ width: 160 }}
-              value={language}
-              autoFocus={isMdUp}
-              onChange={e => setLanguage(e.target.value)}>
-              {/**
-               * TODO: Add all Tesseract.js supported languages:
-               * https://tesseract-ocr.github.io/tessdoc/Data-Files#data-files-for-version-400-november-29-2016
-               */}
-              <MenuItem value="eng">English</MenuItem>
-              <MenuItem value="fra">French</MenuItem>
-            </TextField>
-          </FormControl>
-        </form>
-
-        <Card>
-          <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
-            {!imgDataURL && (
-              <div>
-                <Typography>paste image from clipboard</Typography>
-                <Typography>or select a file</Typography>
-                <input
-                  type="file"
-                  color="primary"
-                  accept="image/*"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFileSelected(e.target.files?.[0])}
-                  id="files-selector-action"
-                  style={{ display: 'none' }}
-                />
-                <label htmlFor="files-selector-action">
-                  <Button variant="contained" component="span" color="primary">
-                    <PhotoCameraIcon />
-                  </Button>
-                </label>
-              </div>
-            )}
-
-            {imgDataURL && (
-              <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
-                <img src={imgDataURL} alt="Clipboard content" className={classes.image} />
-              </Resizable>
-            )}
-          </Box>
-
-          {imgDataURL && (
-            <Box display="flex" alignItems="center" justifyContent="center">
-              <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>
-                Clear
-              </Button>
-            </Box>
+      <Card>
+        <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
+          {!imgDataURL && (
+            <div>
+              <Typography>paste image from clipboard</Typography>
+              <Typography>or select a file</Typography>
+              <input
+                type="file"
+                color="primary"
+                accept="image/*"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => onFileSelected(e.target.files?.[0])}
+                id="files-selector-action"
+                style={{ display: 'none' }}
+              />
+              <label htmlFor="files-selector-action">
+                <Button variant="contained" component="span" color="primary">
+                  <PhotoCameraIcon />
+                </Button>
+              </label>
+            </div>
           )}
 
-          <CardContent>
-            <Spinner active={imgExtractedText.startsWith('Processing')}>
-              <TextField
-                label="Extracted text"
-                fullWidth
-                value={imgExtractedText}
-                margin="normal"
-                variant="outlined"
-                multiline={true}
-                minRows="8"
-              />
-            </Spinner>
+          {imgDataURL && (
+            <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
+              <img src={imgDataURL} alt="Clipboard content" className={classes.image} />
+            </Resizable>
+          )}
+        </Box>
 
-            <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
+        {imgDataURL && (
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>
+              Clear
+            </Button>
+          </Box>
+        )}
 
-            <Toolbar className={classes.toolbar}>
-              <Box display="flex" flexGrow={1}></Box>
-              <CopyButton data={imgExtractedText} sx={{ mr: 1 }} />
-              <Button
-                variant="contained"
-                title="Run optical caracters recognition process to extract text"
-                color="primary"
-                onClick={handleProcess}
-                disabled={!imgDataURL}
-                endIcon={<OCRIcon />}>
-                Run
-              </Button>
-            </Toolbar>
-          </CardContent>
-        </Card>
-      </div>
-    </>
+        <CardContent>
+          <Spinner active={imgExtractedText.startsWith('Processing')}>
+            <TextField
+              label="Extracted text"
+              fullWidth
+              value={imgExtractedText}
+              margin="normal"
+              variant="outlined"
+              multiline={true}
+              minRows="8"
+            />
+          </Spinner>
+
+          <LinearProgress variant="determinate" value={workerStatus.progress * 100} />
+
+          <Toolbar className={classes.toolbar}>
+            <Box display="flex" flexGrow={1}></Box>
+            <CopyButton data={imgExtractedText} sx={{ mr: 1 }} />
+            <Button
+              variant="contained"
+              title="Run optical caracters recognition process to extract text"
+              color="primary"
+              onClick={handleProcess}
+              disabled={!imgDataURL}
+              endIcon={<OCRIcon />}>
+              Run
+            </Button>
+          </Toolbar>
+        </CardContent>
+      </Card>
+    </FeatureScreen>
   );
 };
 

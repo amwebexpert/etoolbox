@@ -3,25 +3,20 @@ import React from 'react';
 import EncodeIcon from '@mui/icons-material/Code';
 import DecodeIcon from '@mui/icons-material/CodeOff';
 import SwitchContentIcon from '@mui/icons-material/ImportExport';
-import { Box, Toolbar } from '@mui/material';
-import { Button, TextField } from '@mui/material';
+import { Box, Button, TextField, Toolbar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
-import FeatureTitle from '../../components/FeatureTitle';
+import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import ResultMonospace from '../../components/ResultMonospace';
 import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    margin: theme.spacing(1),
-  },
+const useStyles = makeStyles(() => ({
   toolbar: {
     margin: 0,
     padding: 0,
@@ -53,62 +48,57 @@ const URLEncoder: React.FC<Props> = ({ inputText, storeInputText }) => {
   };
 
   return (
-    <>
-      <Helmet title={title} />
-      <div className={classes.root}>
-        <FeatureTitle iconType={DecodeIcon} title={title} />
+    <FeatureScreen iconType={DecodeIcon} title={title}>
+      <TextField
+        autoFocus={isMdUp}
+        label="Content to encode/decode"
+        placeholder="Paste or type the content here"
+        multiline={true}
+        minRows={4}
+        maxRows={isMdUp ? 20 : 4}
+        variant="outlined"
+        margin="normal"
+        fullWidth={true}
+        value={inputText}
+        onChange={onContentChanged}
+      />
 
-        <TextField
-          autoFocus={isMdUp}
-          label="Content to encode/decode"
-          placeholder="Paste or type the content here"
-          multiline={true}
-          minRows={4}
-          maxRows={isMdUp ? 20 : 4}
-          variant="outlined"
-          margin="normal"
-          fullWidth={true}
-          value={inputText}
-          onChange={onContentChanged}
-        />
+      <Toolbar className={classes.toolbar}>
+        <Button
+          variant="contained"
+          data-testid="switch-content-action"
+          component="span"
+          color="primary"
+          disabled={!transformed}
+          onClick={flip}
+          title="Switch data content">
+          <SwitchContentIcon />
+        </Button>
+        <Box display="flex" flexGrow={1}></Box>
+        <CopyButton data={transformed} sx={{ mr: 1 }} />
+        <Button
+          sx={{ mr: 1 }}
+          variant="contained"
+          endIcon={<EncodeIcon />}
+          title="Encode the content"
+          color="primary"
+          disabled={!inputText}
+          onClick={() => setTransformed(services.transform(inputText, false))}>
+          Enc.
+        </Button>
+        <Button
+          variant="contained"
+          endIcon={<DecodeIcon />}
+          title="Decode the content"
+          color="primary"
+          disabled={!inputText}
+          onClick={() => setTransformed(services.transform(inputText, true))}>
+          Dec.
+        </Button>
+      </Toolbar>
 
-        <Toolbar className={classes.toolbar}>
-          <Button
-            variant="contained"
-            data-testid="switch-content-action"
-            component="span"
-            color="primary"
-            disabled={!transformed}
-            onClick={flip}
-            title="Switch data content">
-            <SwitchContentIcon />
-          </Button>
-          <Box display="flex" flexGrow={1}></Box>
-          <CopyButton data={transformed} sx={{ mr: 1 }} />
-          <Button
-            sx={{ mr: 1 }}
-            variant="contained"
-            endIcon={<EncodeIcon />}
-            title="Encode the content"
-            color="primary"
-            disabled={!inputText}
-            onClick={() => setTransformed(services.transform(inputText, false))}>
-            Enc.
-          </Button>
-          <Button
-            variant="contained"
-            endIcon={<DecodeIcon />}
-            title="Decode the content"
-            color="primary"
-            disabled={!inputText}
-            onClick={() => setTransformed(services.transform(inputText, true))}>
-            Dec.
-          </Button>
-        </Toolbar>
-
-        <ResultMonospace testID="parsed-result" label="Result" result={transformed} />
-      </div>
-    </>
+      <ResultMonospace testID="parsed-result" label="Result" result={transformed} />
+    </FeatureScreen>
   );
 };
 

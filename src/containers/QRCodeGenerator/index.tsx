@@ -5,22 +5,18 @@ import QRCodeIcon from '@mui/icons-material/QrCode';
 import { Box, Button, Card, CardContent, Grid, Link, TextField, Toolbar } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import QRCode from 'qrcode';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
-import FeatureTitle from '../../components/FeatureTitle';
+import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
 import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    margin: theme.spacing(1),
-  },
   toolbar: {
     margin: 0,
     padding: 0,
@@ -77,105 +73,100 @@ const QRCodeGenerator: React.FC<Props> = ({ inputText, inputOptions, storeInputT
   }
 
   return (
-    <>
-      <Helmet title={title} />
-      <div className={classes.root}>
-        <FeatureTitle iconType={QRCodeIcon} title={title} />
-
-        <form noValidate autoComplete="off">
-          <Grid container spacing={1}>
-            <Grid item md={6} sm={12} xs={12}>
-              <TextField
-                autoFocus={isMdUp}
-                label="Text to store into QR Code"
-                placeholder="Paste or type the content here"
-                multiline={true}
-                minRows={12}
-                maxRows={isMdUp ? 20 : 12}
-                variant="outlined"
-                margin="normal"
-                fullWidth={true}
-                value={inputText}
-                onChange={e => storeInputText('lastQRCodeTextValue', e.target.value)}
-              />
-            </Grid>
-            <Grid item md={6} sm={12} xs={12}>
-              <TextField
-                label="QR Code generation options"
-                multiline={true}
-                minRows={12}
-                maxRows={isMdUp ? 20 : 12}
-                variant="outlined"
-                margin="normal"
-                fullWidth={true}
-                InputProps={{
-                  classes: {
-                    input: classes.qrOptions,
-                  },
-                }}
-                value={inputOptions}
-                onChange={e => storeInputText('lastQRCodeOptions', e.target.value)}
-                helperText={
-                  <Link target="_blank" rel="noreferrer" href="https://www.npmjs.com/package/qrcode#qr-code-options">
-                    Options documentation available here!
-                  </Link>
-                }
-              />
-            </Grid>
+    <FeatureScreen iconType={QRCodeIcon} title={title}>
+      <form noValidate autoComplete="off">
+        <Grid container spacing={1}>
+          <Grid item md={6} sm={12} xs={12}>
+            <TextField
+              autoFocus={isMdUp}
+              label="Text to store into QR Code"
+              placeholder="Paste or type the content here"
+              multiline={true}
+              minRows={12}
+              maxRows={isMdUp ? 20 : 12}
+              variant="outlined"
+              margin="normal"
+              fullWidth={true}
+              value={inputText}
+              onChange={e => storeInputText('lastQRCodeTextValue', e.target.value)}
+            />
           </Grid>
-        </form>
+          <Grid item md={6} sm={12} xs={12}>
+            <TextField
+              label="QR Code generation options"
+              multiline={true}
+              minRows={12}
+              maxRows={isMdUp ? 20 : 12}
+              variant="outlined"
+              margin="normal"
+              fullWidth={true}
+              InputProps={{
+                classes: {
+                  input: classes.qrOptions,
+                },
+              }}
+              value={inputOptions}
+              onChange={e => storeInputText('lastQRCodeOptions', e.target.value)}
+              helperText={
+                <Link target="_blank" rel="noreferrer" href="https://www.npmjs.com/package/qrcode#qr-code-options">
+                  Options documentation available here!
+                </Link>
+              }
+            />
+          </Grid>
+        </Grid>
+      </form>
 
-        <Toolbar className={classes.toolbar}>
-          <Box display="flex" flexGrow={1}></Box>
-          <CopyButton hoverMessage="Copy image data URL" data={imgDataURL} sx={{ mr: 1 }} />
-          <Button
-            disabled={!imgDataURL}
-            variant="contained"
-            title="Copy the QR Code image into the clipboard"
-            color="primary"
-            onClick={copyImage}
-            endIcon={<PictureIcon />}
-            sx={{ mr: 1 }}>
-            Copy Image
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            title="Generate the QR code using the info and encoding parameters"
-            onClick={generate}
-            disabled={!inputText}
-            endIcon={<QRCodeIcon />}>
-            Generate
-          </Button>
-        </Toolbar>
+      <Toolbar className={classes.toolbar}>
+        <Box display="flex" flexGrow={1}></Box>
+        <CopyButton hoverMessage="Copy image data URL" data={imgDataURL} sx={{ mr: 1 }} />
+        <Button
+          disabled={!imgDataURL}
+          variant="contained"
+          title="Copy the QR Code image into the clipboard"
+          color="primary"
+          onClick={copyImage}
+          endIcon={<PictureIcon />}
+          sx={{ mr: 1 }}>
+          Copy Image
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          title="Generate the QR code using the info and encoding parameters"
+          onClick={generate}
+          disabled={!inputText}
+          endIcon={<QRCodeIcon />}>
+          Generate
+        </Button>
+      </Toolbar>
 
-        {imgDataURL && (
-          <Card className={classes.generatedQR}>
-            <Box display="flex" alignItems="center" justifyContent="center" p={1}>
-              <img id="imgQrCode" src={imgDataURL} alt="QR Code" />
-            </Box>
-            <CardContent>
-              <TextField
-                label="Full img tag"
-                fullWidth
-                value={`<img alt="QR Code" src="${imgDataURL}"/>`}
-                margin="normal"
-                variant="outlined"
-              />
-              <TextField
-                label="QR Code. Copy-paste into 'src' attribute"
-                fullWidth
-                value={imgDataURL}
-                margin="normal"
-                variant="outlined"
-                multiline={true}
-                minRows="8"
-              />
-            </CardContent>
-          </Card>
-        )}
-      </div>
-    </>
+      {imgDataURL && (
+        <Card className={classes.generatedQR}>
+          <Box display="flex" alignItems="center" justifyContent="center" p={1}>
+            <img id="imgQrCode" src={imgDataURL} alt="QR Code" />
+          </Box>
+          <CardContent>
+            <TextField
+              label="Full img tag"
+              fullWidth
+              value={`<img alt="QR Code" src="${imgDataURL}"/>`}
+              margin="normal"
+              variant="outlined"
+            />
+            <TextField
+              label="QR Code. Copy-paste into 'src' attribute"
+              fullWidth
+              value={imgDataURL}
+              margin="normal"
+              variant="outlined"
+              multiline={true}
+              minRows="8"
+            />
+          </CardContent>
+        </Card>
+      )}
+    </FeatureScreen>
   );
 };
 
