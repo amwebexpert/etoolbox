@@ -10,9 +10,13 @@ export default defineConfig({
     saveAllAttempts: false,
   },
   e2e: {
-    setupNodeEvents(on, _config) {
-      require('cypress-mochawesome-reporter/plugin')(on);
-    },
     baseUrl: 'http://localhost:3000',
+    setupNodeEvents(on, config) {
+      require('@cypress/code-coverage/task')(on, config);
+      require('cypress-mochawesome-reporter/plugin')(on);
+
+      // It's IMPORTANT to return the config object with any changed environment variables
+      return config;
+    },
   },
 });

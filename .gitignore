@@ -28,3 +28,4 @@ yarn-error.log*
 .idea/modules.xml
 .idea/vcs.xml
 cypress/videos
+/.nyc_output
