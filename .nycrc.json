@@ -1,0 +1,23 @@
+{
+  "all": true,
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "**/*.test.*",
+    "**/styles.ts",
+    "**/styled.ts",
+    "**/*.model.ts",
+    "**/model.ts",
+    "**/constants.ts",
+    "**/*-types.ts",
+    "**/*.d.ts",
+    "**/wdyr.ts",
+    "**/global-styles.ts",
+    "**/serviceWorker.ts",
+    "**/setupTests.ts"
+  ],
+  "check-coverage": true,
+  "branches": 40,
+  "lines": 65,
+  "functions": 55,
+  "statements": 65
+}
