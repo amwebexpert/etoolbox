@@ -18,6 +18,7 @@ echo "______________________________________________"
 echo "Combine both reports into a merged report"
 npm run coverage:report:all
 
+echo "______________________________________________"
 echo "Copying [all-tests-report] folder to [docs] folder"
 cp -R coverage-all/lcov-report docs/all-tests-report/
 echo "\t --> [all-tests-report sections] copied"
