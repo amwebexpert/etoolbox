@@ -1,13 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "react",
-    "react-hooks",
-    "eslint-plugin-import",
-    "prettier",
-    "plugin:testing-library/dom"
-  ],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "eslint-plugin-import", "prettier"],
   "env": {
     "browser": true
   },

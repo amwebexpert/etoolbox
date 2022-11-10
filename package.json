@@ -13,6 +13,7 @@
   "scripts": {
     "release": "standard-version",
     "start": "REACT_APP_VERSION=$npm_package_version react-scripts --openssl-legacy-provider start",
+    "start:instrumented": "REACT_APP_VERSION=$npm_package_version react-scripts -r @cypress/instrument-cra --openssl-legacy-provider start",
     "build": "REACT_APP_VERSION=$npm_package_version react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "test:ci": "react-scripts test --watchAll=false --coverage --ci",
@@ -99,6 +100,7 @@
   ],
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.18.6",
+    "@cypress/instrument-cra": "^1.4.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.10.9",
@@ -158,7 +160,9 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.10.0",
     "@testing-library/cypress": "^8.0.3",
+    "@testing-library/dom": "^8.19.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -193,6 +197,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-testing-library": "^5.9.1",
     "patch-package": "^6.5.0",
     "postinstall-postinstall": "^2.1.0",
     "prettier": "^2.7.1",
