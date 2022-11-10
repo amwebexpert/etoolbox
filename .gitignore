@@ -29,3 +29,6 @@ yarn-error.log*
 .idea/vcs.xml
 cypress/videos
 /.nyc_output
+/coverage-cypress
+/coverage-reports-temp
+/coverage-all

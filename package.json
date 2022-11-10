@@ -30,9 +30,10 @@
     "e2e:run:spec:home": "cypress run --spec cypress/e2e/home.cy.ts",
     "e2e:run:spec:url": "cypress run --spec cypress/e2e/url.cy.ts",
     "e2e:run:ci": "concurrently \"BROWSER=none yarn start:instrumented\" \"wait-on http://localhost:3000 && yarn e2e:run\"",
-    "coverage:check:e2e": "nyc report",
-    "coverage:check:e2e:summary": "nyc report --reporter=text-summary",
-    "coverage:check:e2e:text": "nyc report --reporter=text",
+    "coverage:e2e": "nyc report",
+    "coverage:e2e:summary": "nyc report --reporter=text-summary",
+    "coverage:e2e:text": "nyc report --reporter=text",
+    "coverage:e2e-with-jest": "node ./scripts/mergeCoverage.js",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "pretty": "prettier --write \"./**/*.{ts,tsx}\"",
@@ -47,6 +48,10 @@
         "lines": 0.1
       }
     }
+  },
+  "nyc": {
+    "//": "https://github.com/bahmutov/cypress-and-jest",
+    "report-dir": "coverage-cypress"
   },
   "build": {
     "appId": "com.amwebexpert.etoolbox",

@@ -16,8 +16,8 @@
     "**/setupTests.ts"
   ],
   "check-coverage": true,
-  "branches": 40,
-  "lines": 65,
-  "functions": 55,
-  "statements": 65
+  "branches": 15,
+  "lines": 25,
+  "functions": 25,
+  "statements": 25
 }
