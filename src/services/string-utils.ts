@@ -10,4 +10,14 @@ export function isNotBlank(str: string | undefined | null) {
   return !isBlank(str);
 }
 
-export const isNumeric = (val?: string): boolean => !isNaN(Number(val));
+export function isNumeric(val = ''): boolean {
+  if (isBlank(val)) {
+    return false;
+  }
+
+  if (isNaN(Number(val))) {
+    return false;
+  }
+
+  return true;
+}
