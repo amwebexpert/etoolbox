@@ -29,7 +29,7 @@
     "e2e:run": "cypress run",
     "e2e:run:spec:home": "cypress run --spec cypress/e2e/home.cy.ts",
     "e2e:run:spec:url": "cypress run --spec cypress/e2e/url.cy.ts",
-    "e2e:run:ci": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && yarn e2e:run\"",
+    "e2e:run:ci": "concurrently \"BROWSER=none yarn start:instrumented\" \"wait-on http://localhost:3000 && yarn e2e:run\"",
     "coverage:check:e2e": "nyc report --check-coverage --lines 100",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
