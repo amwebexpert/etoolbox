@@ -21,7 +21,7 @@ Some screen captures of the implemented features...
 
 ## Online demo
 
-The app has been deployed and you can test it [JUST HERE!](https://amwebexpert.github.io/etoolbox). Whenever a feature is only available under `Electron` the UI element will be disabled or a corresponding popup message will be displayed. But most of the time we will try to make the feature available online.
+The web application has been deployed and you can test it [JUST HERE!](https://amwebexpert.github.io/etoolbox). Whenever a feature is only available under `Electron` the UI element will be disabled or a corresponding popup message will be displayed. But most of the time we will try to make the feature available online.
 
 ## Tested with Cypress
 
