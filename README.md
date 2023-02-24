@@ -72,6 +72,7 @@ More info here: [Web Toolbox Electron app details](./docs/sections/electron-buil
 - Poker planning:
   - add feature to clear all team members in one shut
 - Add list of all official HTTP Server codes (REST)
+- Markdown utilities, like [table formatter](https://tabletomarkdown.com/format-markdown-table/)
 - Suggests something or add your pull request!
 
 ## License
