@@ -69,8 +69,8 @@ More info here: [Web Toolbox Electron app details](./docs/sections/electron-buil
 
 ## Roadmap (of next features)
 
-- Poker planning:
-  - add feature to clear all team members in one shut
+- DataURI scheme viewer (Base64 raw data)
+- 3D Visualizer (.obj and .fbx viewer)
 - Add list of all official HTTP Server codes (REST)
 - Markdown utilities, like [table formatter](https://tabletomarkdown.com/format-markdown-table/)
 - Suggests something or add your pull request!
