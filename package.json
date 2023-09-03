@@ -121,7 +121,7 @@
     "buffer": "^6.0.3",
     "connected-react-router": "^6.9.3",
     "copy-to-clipboard": "^3.3.3",
-    "curlconverter": "^4.3.0",
+    "curlconverter": "^4.8.0",
     "date-fns": "^2.29.3",
     "electron-devtools-installer": "^3.2.0",
     "electron-is-dev": "^2.0.0",
