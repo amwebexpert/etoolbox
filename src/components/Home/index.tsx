@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Alert, AlertTitle } from '@mui/material';
-import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
+import { Alert, AlertTitle, useTheme } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { makeStyles, withStyles } from '@mui/styles';
 
@@ -41,6 +41,7 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 const Home: React.FC = () => {
+  const theme = useTheme();
   const classes = useStyles();
 
   return (
@@ -52,9 +53,9 @@ const Home: React.FC = () => {
         </Typography>
       </Alert>
 
-      <Box sx={{ mt: 3, mb: 3 }}>
+      <div style={{ marginTop: theme.spacing(2) }}>
         <Typography variant="h6">Change Logs</Typography>
-      </Box>
+      </div>
 
       <TableContainer component={Paper}>
         <Table aria-label="Change logs">
