@@ -70,6 +70,7 @@ More info here: [Web Toolbox Electron app details](./docs/sections/electron-buil
 ## Roadmap (of next features)
 
 - DataURI scheme viewer (Base64 raw data)
+  - Like this website: [Data URL to image](https://base64.guru/tools/data-url-to-image)
 - 3D Visualizer (.obj and .fbx viewer)
 - Add list of all official HTTP Server codes (REST)
 - Markdown utilities, like [table formatter](https://tabletomarkdown.com/format-markdown-table/)
