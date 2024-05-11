@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 
-import { createWorker } from 'tesseract.js';
+import Tesseract from 'tesseract.js';
 
 export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: ProgressEvent<FileReader>) => void): void {
   if (!items) {
@@ -21,17 +21,10 @@ export function clipboardToDataURL(items: DataTransferItemList, onLoad: (ev: Pro
 export async function processOCR(
   language: string,
   imageBuffer: Buffer,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   logger: (log: any) => void,
-  onCompleted: (text: string) => void,
+  onCompleted: (text: string) => void
 ) {
-  const worker = createWorker({ logger });
-  await worker.load();
-  await worker.loadLanguage(language);
-  await worker.initialize(language);
+  const result = await Tesseract.recognize(imageBuffer, language, { logger });
 
-  const result = await worker.recognize(imageBuffer);
   onCompleted(result.data.text);
-
-  await worker.terminate();
 }

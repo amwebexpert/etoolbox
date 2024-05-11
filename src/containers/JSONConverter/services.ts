@@ -94,7 +94,6 @@ export async function transform(data: ConvertionContext): Promise<string> {
 
 async function transformJsObject(data: ConvertionContext): Promise<string> {
   try {
-    // eslint-disable-next-line no-new-func
     const fn = new Function(`return ${data.source}`);
     const result = fn();
     const jsonData = JSON.stringify(result, null, 4);
@@ -119,7 +118,6 @@ async function transformJSON(data: ConvertionContext): Promise<string> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function objToSource(o: any): string {
   if (!o) {
     return 'null';

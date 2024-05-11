@@ -49,11 +49,10 @@ const ColorPicker: React.FC = () => {
     setRgb(undefined);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function onPasteFromClipboard(e: any) {
     const clipboardData = e.clipboardData || e.originalEvent.clipboardData || e.originalEvent.clipboard;
     services.clipboardToDataURL(clipboardData.items, (ev: ProgressEvent<FileReader>) =>
-      setImgDataURL(ev.target?.result as string),
+      setImgDataURL(ev.target?.result as string)
     );
   }
 
@@ -103,21 +102,21 @@ const ColorPicker: React.FC = () => {
 
   return (
     <FeatureScreen iconType={PaletteIcon} title={title}>
-      <Box display="flex" alignItems="center" justifyContent="center" className={classes.imageSelector}>
+      <Box display='flex' alignItems='center' justifyContent='center' className={classes.imageSelector}>
         {!imgDataURL && (
           <div>
-            <Typography variant="body2">
+            <Typography variant='body2'>
               paste image or select a file:{' '}
               <input
-                type="file"
-                color="primary"
-                accept="image/*"
-                onChange={e => onFileSelected(e.target?.files?.[0])}
-                id="files-selector-action"
+                type='file'
+                color='primary'
+                accept='image/*'
+                onChange={(e) => onFileSelected(e.target?.files?.[0])}
+                id='files-selector-action'
                 style={{ display: 'none' }}
               />
-              <label htmlFor="files-selector-action">
-                <Button variant="contained" component="span" color="primary">
+              <label htmlFor='files-selector-action'>
+                <Button variant='contained' component='span' color='primary'>
                   <PhotoCameraIcon />
                 </Button>
               </label>
@@ -126,18 +125,19 @@ const ColorPicker: React.FC = () => {
         )}
         {imgDataURL && (
           <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
-            <img id="image" src={imgDataURL} alt="Clipboard content" className={classes.image} />
+            <img id='image' src={imgDataURL} alt='Clipboard content' className={classes.image} />
           </Resizable>
         )}
       </Box>
 
       <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        className={classes.colorPicker}>
-        <Typography variant="body2">or just pick a color:</Typography>
+        display='flex'
+        flexDirection='column'
+        alignItems='center'
+        justifyContent='center'
+        className={classes.colorPicker}
+      >
+        <Typography variant='body2'>or just pick a color:</Typography>
         <SketchPicker color={rgb} onChangeComplete={(color: ColorResult) => setRgb(color.rgb)} />
 
         <pre>
@@ -146,33 +146,36 @@ const ColorPicker: React.FC = () => {
       </Box>
 
       {imgDataURL && (
-        <Box display="flex" alignItems="center" justifyContent="center">
-          <Button endIcon={<DeleteIcon />} variant="contained" color="primary" onClick={handleClear}>
+        <Box display='flex' alignItems='center' justifyContent='center'>
+          <Button endIcon={<DeleteIcon />} variant='contained' color='primary' onClick={handleClear}>
             Clear
           </Button>
         </Box>
       )}
 
-      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+      <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
         <div className={classes.sample} style={{ backgroundColor: background }} onClick={() => handleCopy(background)}>
           {background}
         </div>
         <div
           className={classes.sample}
           style={{ backgroundColor: backgroundWithAlpha }}
-          onClick={() => handleCopy(backgroundWithAlpha)}>
+          onClick={() => handleCopy(backgroundWithAlpha)}
+        >
           {backgroundWithAlpha}
         </div>
         <div
           className={classes.sample}
           style={{ backgroundColor: backgroundRgb }}
-          onClick={() => handleCopy(backgroundRgb)}>
+          onClick={() => handleCopy(backgroundRgb)}
+        >
           {backgroundRgb}
         </div>
         <div
           className={classes.sample}
           style={{ backgroundColor: backgroundRgbWithAlpha }}
-          onClick={() => handleCopy(backgroundRgbWithAlpha)}>
+          onClick={() => handleCopy(backgroundRgbWithAlpha)}
+        >
           {backgroundRgbWithAlpha}
         </div>
       </Box>

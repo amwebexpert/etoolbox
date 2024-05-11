@@ -28,6 +28,8 @@ export const CONVERTERS: Map<string, CurlConverterType> = new Map([
   ['R', { syntaxHighlither: 'r', transform: cURLConverter.toR }],
   ['Ruby', { syntaxHighlither: 'ruby', transform: cURLConverter.toRuby }],
   ['Rust', { syntaxHighlither: 'rust', transform: cURLConverter.toRust }],
+  ['Swift', { syntaxHighlither: 'strest', transform: cURLConverter.toSwift }],
+  ['Wget', { syntaxHighlither: 'strest', transform: cURLConverter.toWget }],
 ]);
 
 export const CONVERTERS_LIST = [...CONVERTERS.keys()];

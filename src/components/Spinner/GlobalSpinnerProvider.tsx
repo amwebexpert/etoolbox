@@ -27,11 +27,9 @@ const SpinnerContext = React.createContext<GlobalSpinnerContextType | null>(null
 const SpinnerUpdateContext = React.createContext<GlobalSpinnerUpdateContextType | null>(null);
 
 export function useGlobalSpinner() {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return React.useContext(SpinnerContext)!;
 }
 export function useGlobalSpinnerUpdate() {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return React.useContext(SpinnerUpdateContext)!;
 }
 
