@@ -15,7 +15,7 @@ export function parseUrl(value?: string): Map<string, string> {
     fragments.set('pathname', url.pathname);
     fragments.set('port', url.port ? url.port : '<default>');
     fragments.set('search', url.search);
-  } catch (e) {
+  } catch (_e) {
     //  do nothing user may still be typing...
   }
 
@@ -33,7 +33,7 @@ export function parseUrlParams(value?: string): Map<string, string> {
     const url = new URL(value);
     const searchParams: URLSearchParams = url.searchParams;
     searchParams.forEach((value, key) => params.set(key, value));
-  } catch (e) {
+  } catch (_e) {
     //  do nothing user may still be typing...
   }
 

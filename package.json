@@ -33,8 +33,8 @@
     "coverage:report:e2e:summary": "nyc report --reporter=text-summary",
     "coverage:report:e2e:text": "nyc report --reporter=text",
     "coverage:report:all": "node ./scripts/mergeCoverage.js",
-    "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "lint": "biome lint ./src",
+    "lint:fix": "biome lint --apply-unsafe ./src",
     "pretty": "prettier --write \"./**/*.{ts,tsx}\"",
     "check-licences": "license-checker --direct --production --exclude MIT,Apache-2.0,BSD-2-Clause,BSD-3-Clause,ISC,CC0-1.0"
   },

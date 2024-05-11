@@ -17,7 +17,7 @@ export function formatJson(value?: string): string {
   try {
     const obj = JSON.parse(value);
     return JSON.stringify(obj, replacer, 4);
-  } catch (e) {
+  } catch (_e) {
     //  do nothing user may still be typing...
     return value;
   }
