@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { SetTextInputAction, setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
@@ -19,7 +19,7 @@ import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   form: {
     marginTop: theme.spacing(2),
   },
@@ -92,16 +92,17 @@ const JSONConverter: React.FC<Props> = ({
             <FormControl className={classes.formControl}>
               <Controller
                 control={control}
-                name="sourceType"
+                name='sourceType'
                 render={({ field: { value, name, onChange } }) => (
                   <TextField
                     select={true}
                     name={name}
-                    label="Source type"
+                    label='Source type'
                     value={value}
-                    onChange={e => onChange(e.target.value)}>
-                    <MenuItem value="json">JSON</MenuItem>
-                    <MenuItem value="jsObject">Javascript</MenuItem>
+                    onChange={(e) => onChange(e.target.value)}
+                  >
+                    <MenuItem value='json'>JSON</MenuItem>
+                    <MenuItem value='jsObject'>Javascript</MenuItem>
                   </TextField>
                 )}
               />
@@ -112,14 +113,15 @@ const JSONConverter: React.FC<Props> = ({
             <FormControl className={classes.formControl}>
               <Controller
                 control={control}
-                name="targetLanguage"
+                name='targetLanguage'
                 render={({ field: { value, name, onChange } }) => (
                   <TextField
                     select={true}
                     name={name}
-                    label="Target language"
+                    label='Target language'
                     value={value}
-                    onChange={e => onChange(e.target.value)}>
+                    onChange={(e) => onChange(e.target.value)}
+                  >
                     {services.TARGET_LANGUAGES.map(([key, value]) => (
                       <MenuItem key={key} value={key}>
                         {value}
@@ -134,15 +136,15 @@ const JSONConverter: React.FC<Props> = ({
           <Grid item>
             <FormControl className={classes.formControl}>
               <Controller
-                name="rootClassName"
+                name='rootClassName'
                 render={({ field: { name, value, onChange }, fieldState: { invalid } }) => (
                   <TextField
                     name={name}
                     value={value}
-                    onChange={e => onChange(e.target.value)}
-                    label="Root class name"
+                    onChange={(e) => onChange(e.target.value)}
+                    label='Root class name'
                     error={invalid}
-                    type="text"
+                    type='text'
                     helperText={invalid ? 'field is required' : null}
                   />
                 )}
@@ -156,21 +158,21 @@ const JSONConverter: React.FC<Props> = ({
 
         <FormControl className={classes.formControl} fullWidth={true}>
           <Controller
-            name="source"
+            name='source'
             control={control}
             render={({ field: { value, name, onChange }, fieldState: { invalid } }) => (
               <TextField
                 name={name}
-                onChange={e => onChange(e.target.value)}
+                onChange={(e) => onChange(e.target.value)}
                 value={value}
                 autoFocus={isMdUp}
-                label="Source data"
-                placeholder="Paste or type the source data here"
+                label='Source data'
+                placeholder='Paste or type the source data here'
                 multiline={true}
                 minRows={4}
                 maxRows={isMdUp ? 20 : 4}
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 error={invalid}
                 helperText={invalid ? 'field is required' : null}
               />
@@ -182,13 +184,14 @@ const JSONConverter: React.FC<Props> = ({
       </div>
 
       <Toolbar className={classes.toolbar}>
-        <Box display="flex" flexGrow={1}></Box>
+        <Box component='div' flexGrow={1}></Box>
         <CopyButton data={transformed} sx={{ mr: 1 }} />
         <Button
-          variant="contained"
-          color="primary"
+          variant='contained'
+          color='primary'
           endIcon={<LinkIcon>Encode</LinkIcon>}
-          onClick={handleSubmit(onSubmit)}>
+          onClick={handleSubmit(onSubmit)}
+        >
           Enc.
         </Button>
       </Toolbar>
@@ -209,7 +212,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };

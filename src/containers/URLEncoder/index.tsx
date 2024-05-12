@@ -8,7 +8,7 @@ import { makeStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { SetTextInputAction, setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import ResultMonospace from '../../components/ResultMonospace';
@@ -51,13 +51,13 @@ const URLEncoder: React.FC<Props> = ({ inputText, storeInputText }) => {
     <FeatureScreen iconType={DecodeIcon} title={title}>
       <TextField
         autoFocus={isMdUp}
-        label="Content to encode/decode"
-        placeholder="Paste or type the content here"
+        label='Content to encode/decode'
+        placeholder='Paste or type the content here'
         multiline={true}
         minRows={4}
         maxRows={isMdUp ? 20 : 4}
-        variant="outlined"
-        margin="normal"
+        variant='outlined'
+        margin='normal'
         fullWidth={true}
         value={inputText}
         onChange={onContentChanged}
@@ -65,39 +65,42 @@ const URLEncoder: React.FC<Props> = ({ inputText, storeInputText }) => {
 
       <Toolbar className={classes.toolbar}>
         <Button
-          variant="contained"
-          data-testid="switch-content-action"
-          component="span"
-          color="primary"
+          variant='contained'
+          data-testid='switch-content-action'
+          component='span'
+          color='primary'
           disabled={!transformed}
           onClick={flip}
-          title="Switch data content">
+          title='Switch data content'
+        >
           <SwitchContentIcon />
         </Button>
-        <Box display="flex" flexGrow={1}></Box>
+        <Box component='div' flexGrow={1}></Box>
         <CopyButton data={transformed} sx={{ mr: 1 }} />
         <Button
           sx={{ mr: 1 }}
-          variant="contained"
+          variant='contained'
           endIcon={<EncodeIcon />}
-          title="Encode the content"
-          color="primary"
+          title='Encode the content'
+          color='primary'
           disabled={!inputText}
-          onClick={() => setTransformed(services.transform(inputText, false))}>
+          onClick={() => setTransformed(services.transform(inputText, false))}
+        >
           Enc.
         </Button>
         <Button
-          variant="contained"
+          variant='contained'
           endIcon={<DecodeIcon />}
-          title="Decode the content"
-          color="primary"
+          title='Decode the content'
+          color='primary'
           disabled={!inputText}
-          onClick={() => setTransformed(services.transform(inputText, true))}>
+          onClick={() => setTransformed(services.transform(inputText, true))}
+        >
           Dec.
         </Button>
       </Toolbar>
 
-      <ResultMonospace testID="parsed-result" label="Result" result={transformed} />
+      <ResultMonospace testID='parsed-result' label='Result' result={transformed} />
     </FeatureScreen>
   );
 };
@@ -108,7 +111,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };

@@ -17,8 +17,11 @@ import {
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { listGithubUserProjectsRequested } from '../../actions/github-userprojects-actions';
-import { setTextAction } from '../../actions/text-actions';
+import {
+  ListGithubUserProjectsRequestedAction,
+  listGithubUserProjectsRequested,
+} from '../../actions/github-userprojects-actions';
+import { SetTextInputAction, setTextAction } from '../../actions/text-actions';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import Filter from '../../components/Filter';
 import FilterStats from '../../components/FilterStats';
@@ -72,14 +75,14 @@ const GithubUserProjects: React.FC<Props> = ({
   return (
     <FeatureScreen iconType={GithubIcon} title={title}>
       <Toolbar className={classes.toolbar}>
-        <Filter autofocus={isMdUp} label="Username" initialFilter={inputFilter} onFilterChange={applyFilter} />
-        <Box display="flex" flexGrow={1}></Box>
+        <Filter autofocus={isMdUp} label='Username' initialFilter={inputFilter} onFilterChange={applyFilter} />
+        <Box component='div' flexGrow={1}></Box>
         <FilterStats count={projects.length} searching={searching} />
       </Toolbar>
 
       <TablePagination
         rowsPerPageOptions={[5, 10, 25, 50, 100]}
-        component="div"
+        component='div'
         count={projects.length}
         rowsPerPage={rowsPerPage}
         page={page}
@@ -90,26 +93,26 @@ const GithubUserProjects: React.FC<Props> = ({
         <Table size={isMdUp ? 'medium' : 'small'}>
           <TableHead className={classes.tableHeader}>
             <TableRow>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell component='th' scope='row'>
                 Project
               </StyledTableCell>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell component='th' scope='row'>
                 Description
               </StyledTableCell>
-              <StyledTableCell component="th" scope="row" className={classes.dateColumn}>
+              <StyledTableCell component='th' scope='row' className={classes.dateColumn}>
                 Updated
               </StyledTableCell>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell component='th' scope='row'>
                 <WatchIcon />
               </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {projects.slice(startRow, startRow + rowsPerPage).map(project => {
+            {projects.slice(startRow, startRow + rowsPerPage).map((project) => {
               return (
                 <StyledTableRow key={project.id}>
                   <StyledTableCell>
-                    <Link href={project.html_url} target="_blank" rel="noreferrer">
+                    <Link href={project.html_url} target='_blank' rel='noreferrer'>
                       {project.name}
                     </Link>
                   </StyledTableCell>
@@ -136,7 +139,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction | ListGithubUserProjectsRequestedAction>) {
   return {
     listGithubUserProjectsRequested: (username: string) => dispatch(listGithubUserProjectsRequested(username)),
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),

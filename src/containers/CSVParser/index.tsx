@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { SetTextInputAction, setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
@@ -94,7 +94,7 @@ const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, st
   return (
     <FeatureScreen iconType={CSVParserIcon} title={title}>
       <Toolbar className={classes.toolbar}>
-        <Box display='flex' flexGrow={1}></Box>
+        <Box component='div' flexGrow={1}></Box>
         <FormControl className={classes.formControl} sx={{ mr: 1 }}>
           <input
             type='file'
@@ -187,7 +187,7 @@ const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, st
       </form>
 
       <Toolbar className={classes.toolbar}>
-        <Box display='flex' flexGrow={1}></Box>
+        <Box component='div' flexGrow={1}></Box>
         <Button
           sx={{ mr: 1 }}
           variant='contained'
@@ -250,7 +250,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };

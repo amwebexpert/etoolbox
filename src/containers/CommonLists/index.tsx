@@ -18,8 +18,8 @@ import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { applyHtmlEntitiesFilter, HtmlEntity } from '../../actions/html-entitie-actions';
-import { applyMimeTypesFilter } from '../../actions/mime-type-actions';
+import { applyHtmlEntitiesFilter, HtmlEntity, HtmlEntityApplyFilterAction } from '../../actions/html-entitie-actions';
+import { applyMimeTypesFilter, MimeTypeApplyFilterAction } from '../../actions/mime-type-actions';
 import Filter from '../../components/Filter';
 import FilterStats from '../../components/FilterStats';
 import { usePagination } from '../../hooks/usePagination';
@@ -90,27 +90,28 @@ const CommonLists: React.FC<Props> = ({
         <Tabs
           value={selectedTab}
           onChange={onTabSelected}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="scrollable"
+          indicatorColor='primary'
+          textColor='primary'
+          variant='scrollable'
           scrollButtons={true}
-          aria-label="Common web lists">
-          <Tab label="Mime-types" id="mime-types" aria-controls="tab-mime-types" />
-          <Tab label="HTML Entities" id="html-entities" aria-controls="tab-html-entities" />
+          aria-label='Common web lists'
+        >
+          <Tab label='Mime-types' id='mime-types' aria-controls='tab-mime-types' />
+          <Tab label='HTML Entities' id='html-entities' aria-controls='tab-html-entities' />
         </Tabs>
       </Paper>
 
       <div className={classes.root}>
         <Toolbar className={classes.toolbar}>
           <Filter initialFilter={inputFilter} onFilterChange={applyFilter} />
-          <Box display="flex" flexGrow={1}></Box>
+          <Box component='div' flexGrow={1}></Box>
           <FilterStats count={getElementsCount()} searching={searching} />
         </Toolbar>
 
         <TabPanel value={selectedTab} index={TABS.MIME_TYPES}>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
-            component="div"
+            component='div'
             count={[...mimeTypes.keys()].length}
             rowsPerPage={rowsPerPage}
             page={page}
@@ -121,16 +122,16 @@ const CommonLists: React.FC<Props> = ({
             <Table size={isMdUp ? 'medium' : 'small'}>
               <TableHead className={classes.tableHeader}>
                 <TableRow>
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell component='th' scope='row'>
                     Mime Type
                   </StyledTableCell>
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell component='th' scope='row'>
                     File extension
                   </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {[...mimeTypes.keys()].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(key => {
+                {[...mimeTypes.keys()].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((key) => {
                   const extensions: readonly string[] = mimeTypes.get(key) ?? [];
                   const value = extensions.join(', ');
                   return (
@@ -152,7 +153,7 @@ const CommonLists: React.FC<Props> = ({
         <TabPanel value={selectedTab} index={TABS.HTML_ENTITIES}>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25, 50, 100]}
-            component="div"
+            component='div'
             count={htmlEntities.length}
             rowsPerPage={rowsPerPage}
             page={page}
@@ -163,22 +164,22 @@ const CommonLists: React.FC<Props> = ({
             <Table size={isMdUp ? 'medium' : 'small'}>
               <TableHead className={classes.tableHeader}>
                 <TableRow>
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell component='th' scope='row'>
                     Entity
                   </StyledTableCell>
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell component='th' scope='row'>
                     Name
                   </StyledTableCell>
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell component='th' scope='row'>
                     Number
                   </StyledTableCell>
-                  <StyledTableCell component="th" scope="row">
+                  <StyledTableCell component='th' scope='row'>
                     Description
                   </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {htmlEntities.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(htmlEntity => (
+                {htmlEntities.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((htmlEntity) => (
                   <StyledTableRow key={htmlEntity.entityNumber}>
                     <StyledTableCell>
                       <Highlighter searchWords={[inputFilter]} textToHighlight={htmlEntity.character} />
@@ -213,7 +214,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<MimeTypeApplyFilterAction | HtmlEntityApplyFilterAction>) {
   return {
     applyMimeTypesFilter: (searchTerm: string) => dispatch(applyMimeTypesFilter(searchTerm)),
     applyHtmlEntitiesFilter: (searchTerm: string) => dispatch(applyHtmlEntitiesFilter(searchTerm)),

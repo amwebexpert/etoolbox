@@ -8,7 +8,7 @@ import ReactHtmlParser from 'react-html-parser';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { SetTextInputAction, setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import ResultMonospace from '../../components/ResultMonospace';
@@ -16,7 +16,7 @@ import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   matches: {
     padding: theme.spacing(1),
     borderColor: theme.palette.text.disabled,
@@ -59,33 +59,33 @@ const RegExTester: React.FC<Props> = ({ regularExpression, inputText, storeInput
     <FeatureScreen iconType={TextRotationNoneIcon} title={title}>
       <TextField
         autoFocus={isMdUp}
-        id="regex"
-        label="Regular expression"
-        placeholder="Type the regular expression. Example: /example/g"
-        variant="outlined"
-        margin="normal"
+        id='regex'
+        label='Regular expression'
+        placeholder='Type the regular expression. Example: /example/g'
+        variant='outlined'
+        margin='normal'
         fullWidth={true}
         value={regularExpression}
-        onChange={e => storeInputText('lastRegEx', e.target.value)}
+        onChange={(e) => storeInputText('lastRegEx', e.target.value)}
       />
 
       <Toolbar className={classes.toolbar}>
-        <Box display="flex" flexGrow={1}></Box>
+        <Box component='div' flexGrow={1}></Box>
         <CopyButton data={regularExpression} />
       </Toolbar>
 
       <TextField
-        id="content"
-        label="Content to test the regular expression against"
-        placeholder="Paste or type the content here"
+        id='content'
+        label='Content to test the regular expression against'
+        placeholder='Paste or type the content here'
         multiline={true}
         minRows={6}
         maxRows={isMdUp ? 20 : 6}
-        variant="outlined"
-        margin="normal"
+        variant='outlined'
+        margin='normal'
         fullWidth={true}
         value={inputText}
-        onChange={e => storeInputText('lastRegExTextSample', e.target.value)}
+        onChange={(e) => storeInputText('lastRegExTextSample', e.target.value)}
       />
 
       <div className={classes.matches}>{ReactHtmlParser(highlithedMatches)}</div>
@@ -99,7 +99,7 @@ const RegExTester: React.FC<Props> = ({ regularExpression, inputText, storeInput
       <ResultMonospace result={extracted} />
 
       <Toolbar className={classes.toolbar}>
-        <Box display="flex" flexGrow={1}></Box>
+        <Box component='div' flexGrow={1}></Box>
         <CopyButton data={extracted} />
       </Toolbar>
     </FeatureScreen>
@@ -113,7 +113,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };
