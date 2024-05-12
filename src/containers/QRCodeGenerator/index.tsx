@@ -8,7 +8,7 @@ import QRCode from 'qrcode';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { SetTextInputAction, setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { useToasterUpdate } from '../../components/Toaster/ToasterProvider';
@@ -16,7 +16,7 @@ import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   toolbar: {
     margin: 0,
     padding: 0,
@@ -74,31 +74,31 @@ const QRCodeGenerator: React.FC<Props> = ({ inputText, inputOptions, storeInputT
 
   return (
     <FeatureScreen iconType={QRCodeIcon} title={title}>
-      <form noValidate autoComplete="off">
+      <form noValidate autoComplete='off'>
         <Grid container spacing={1}>
           <Grid item md={6} sm={12} xs={12}>
             <TextField
               autoFocus={isMdUp}
-              label="Text to store into QR Code"
-              placeholder="Paste or type the content here"
+              label='Text to store into QR Code'
+              placeholder='Paste or type the content here'
               multiline={true}
               minRows={12}
               maxRows={isMdUp ? 20 : 12}
-              variant="outlined"
-              margin="normal"
+              variant='outlined'
+              margin='normal'
               fullWidth={true}
               value={inputText}
-              onChange={e => storeInputText('lastQRCodeTextValue', e.target.value)}
+              onChange={(e) => storeInputText('lastQRCodeTextValue', e.target.value)}
             />
           </Grid>
           <Grid item md={6} sm={12} xs={12}>
             <TextField
-              label="QR Code generation options"
+              label='QR Code generation options'
               multiline={true}
               minRows={12}
               maxRows={isMdUp ? 20 : 12}
-              variant="outlined"
-              margin="normal"
+              variant='outlined'
+              margin='normal'
               fullWidth={true}
               InputProps={{
                 classes: {
@@ -106,9 +106,9 @@ const QRCodeGenerator: React.FC<Props> = ({ inputText, inputOptions, storeInputT
                 },
               }}
               value={inputOptions}
-              onChange={e => storeInputText('lastQRCodeOptions', e.target.value)}
+              onChange={(e) => storeInputText('lastQRCodeOptions', e.target.value)}
               helperText={
-                <Link target="_blank" rel="noreferrer" href="https://www.npmjs.com/package/qrcode#qr-code-options">
+                <Link target='_blank' rel='noreferrer' href='https://www.npmjs.com/package/qrcode#qr-code-options'>
                   Options documentation available here!
                 </Link>
               }
@@ -118,50 +118,52 @@ const QRCodeGenerator: React.FC<Props> = ({ inputText, inputOptions, storeInputT
       </form>
 
       <Toolbar className={classes.toolbar}>
-        <Box display="flex" flexGrow={1}></Box>
-        <CopyButton hoverMessage="Copy image data URL" data={imgDataURL} sx={{ mr: 1 }} />
+        <Box component='div' flexGrow={1}></Box>
+        <CopyButton hoverMessage='Copy image data URL' data={imgDataURL} sx={{ mr: 1 }} />
         <Button
           disabled={!imgDataURL}
-          variant="contained"
-          title="Copy the QR Code image into the clipboard"
-          color="primary"
+          variant='contained'
+          title='Copy the QR Code image into the clipboard'
+          color='primary'
           onClick={copyImage}
           endIcon={<PictureIcon />}
-          sx={{ mr: 1 }}>
+          sx={{ mr: 1 }}
+        >
           Copy Image
         </Button>
         <Button
-          variant="contained"
-          color="primary"
-          title="Generate the QR code using the info and encoding parameters"
+          variant='contained'
+          color='primary'
+          title='Generate the QR code using the info and encoding parameters'
           onClick={generate}
           disabled={!inputText}
-          endIcon={<QRCodeIcon />}>
+          endIcon={<QRCodeIcon />}
+        >
           Generate
         </Button>
       </Toolbar>
 
       {imgDataURL && (
         <Card className={classes.generatedQR}>
-          <Box display="flex" alignItems="center" justifyContent="center" p={1}>
-            <img id="imgQrCode" src={imgDataURL} alt="QR Code" />
+          <Box component='div' alignItems='center' justifyContent='center' p={1}>
+            <img id='imgQrCode' src={imgDataURL} alt='QR Code' />
           </Box>
           <CardContent>
             <TextField
-              label="Full img tag"
+              label='Full img tag'
               fullWidth
               value={`<img alt="QR Code" src="${imgDataURL}"/>`}
-              margin="normal"
-              variant="outlined"
+              margin='normal'
+              variant='outlined'
             />
             <TextField
               label="QR Code. Copy-paste into 'src' attribute"
               fullWidth
               value={imgDataURL}
-              margin="normal"
-              variant="outlined"
+              margin='normal'
+              variant='outlined'
               multiline={true}
-              minRows="8"
+              minRows='8'
             />
           </CardContent>
         </Card>
@@ -177,7 +179,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };

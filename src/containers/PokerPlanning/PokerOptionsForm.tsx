@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { SetTextInputAction, setTextAction } from '../../actions/text-actions';
 import { AppState } from '../../reducers';
 import { isNotBlank } from '../../services/string-utils';
 import {
@@ -51,21 +51,22 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
         <FormControl className={classes.formControl} fullWidth={true}>
           <TextField
             label={`Serveur (channel ${socketState})`}
-            placeholder="Type the poker plannind hostname here"
-            variant="outlined"
+            placeholder='Type the poker plannind hostname here'
+            variant='outlined'
             fullWidth={true}
-            margin="normal"
+            margin='normal'
             value={lastPokerPlanningHostName}
             title={lastPokerPlanningHostName}
             disabled={isReadyToStartSession}
-            onChange={e => storeInputText('lastPokerPlanningHostName', e.target.value)}
+            onChange={(e) => storeInputText('lastPokerPlanningHostName', e.target.value)}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">
+                <InputAdornment position='end'>
                   <IconButton
-                    title="Instruction to setup a poker planning server"
-                    target="_blank"
-                    href="https://github.com/amwebexpert/ws-poker-planning#wspokerplanning-server-production-deployment">
+                    title='Instruction to setup a poker planning server'
+                    target='_blank'
+                    href='https://github.com/amwebexpert/ws-poker-planning#wspokerplanning-server-production-deployment'
+                  >
                     <HelpIcon />
                   </IconButton>
                 </InputAdornment>
@@ -77,28 +78,28 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
       <Grid item md={2} xs={6}>
         <FormControl className={classes.formControl} fullWidth={true}>
           <TextField
-            label="Team name"
-            placeholder="Type the team name here"
-            variant="outlined"
+            label='Team name'
+            placeholder='Type the team name here'
+            variant='outlined'
             fullWidth={true}
-            margin="normal"
+            margin='normal'
             value={lastPokerPlanningRoomName}
             title={lastPokerPlanningRoomName}
             disabled={isReadyToStartSession}
-            onChange={e => storeInputText('lastPokerPlanningRoomName', e.target.value)}
+            onChange={(e) => storeInputText('lastPokerPlanningRoomName', e.target.value)}
           />
         </FormControl>
       </Grid>
       <Grid item md={2} xs={6}>
         <FormControl className={classes.formControl} fullWidth={true}>
           <TextField
-            label="Your name"
-            placeholder="Type your name here"
-            variant="outlined"
+            label='Your name'
+            placeholder='Type your name here'
+            variant='outlined'
             fullWidth={true}
-            margin="normal"
+            margin='normal'
             value={lastPokerPlanningUsername}
-            onChange={e => storeInputText('lastPokerPlanningUsername', e.target.value)}
+            onChange={(e) => storeInputText('lastPokerPlanningUsername', e.target.value)}
           />
         </FormControl>
       </Grid>
@@ -106,13 +107,14 @@ const PokerOptionsForm: React.FC<PokerSettingsProps> = ({
         <FormControl className={classes.formControl} fullWidth={true}>
           <TextField
             select={true}
-            label="Poker card types"
+            label='Poker card types'
             style={{ marginTop: theme.spacing(2) }}
-            variant="outlined"
+            variant='outlined'
             fullWidth={true}
             title={cardsListingCategoryName}
             value={cardsListingCategoryName}
-            onChange={e => storeInputText('lastPokerCardsListingCategoryName', e.target.value)}>
+            onChange={(e) => storeInputText('lastPokerCardsListingCategoryName', e.target.value)}
+          >
             {Object.entries(CARDS_LISTING_CATEGORIES).map(([name, category]) => (
               <MenuItem key={name} value={name} title={name}>
                 {category.displayValue}
@@ -136,7 +138,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };

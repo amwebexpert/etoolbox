@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { SetTextInputAction, setTextAction } from '../../actions/text-actions';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
@@ -39,17 +39,17 @@ const URLParser: React.FC<Props> = ({ inputText, storeInputText }) => {
     <FeatureScreen iconType={LinkIcon} title={title}>
       <TextField
         autoFocus={isMdUp}
-        label="URL"
-        placeholder="Paste or type the url here"
+        label='URL'
+        placeholder='Paste or type the url here'
         multiline={true}
         minRows={4}
         maxRows={isMdUp ? 20 : 4}
-        variant="outlined"
-        margin="normal"
+        variant='outlined'
+        margin='normal'
         fullWidth={true}
         value={inputText}
         className={classes.panel}
-        onChange={e => storeInputText('lastUrlParserValue', e.target.value)}
+        onChange={(e) => storeInputText('lastUrlParserValue', e.target.value)}
       />
 
       <TableContainer component={Paper} className={classes.panel}>
@@ -61,9 +61,9 @@ const URLParser: React.FC<Props> = ({ inputText, storeInputText }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {[...urlFragments.keys()].sort().map(key => (
+            {[...urlFragments.keys()].sort().map((key) => (
               <StyledTableRow key={key}>
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell component='th' scope='row'>
                   {key}
                 </StyledTableCell>
                 <StyledTableCell>{urlFragments.get(key)}</StyledTableCell>
@@ -82,9 +82,9 @@ const URLParser: React.FC<Props> = ({ inputText, storeInputText }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {[...urlParams.keys()].sort().map(key => (
+            {[...urlParams.keys()].sort().map((key) => (
               <StyledTableRow key={key}>
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell component='th' scope='row'>
                   {key}
                 </StyledTableCell>
                 <StyledTableCell>{urlParams.get(key)}</StyledTableCell>
@@ -103,7 +103,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };

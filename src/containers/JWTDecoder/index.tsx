@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { SetTextInputAction, setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
@@ -17,7 +17,7 @@ import { AppState } from '../../reducers';
 import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   decoded: {
     padding: theme.spacing(1),
     borderColor: theme.palette.text.disabled,
@@ -53,44 +53,45 @@ const JWTDecoder: React.FC<Props> = ({ inputText, storeInputText }) => {
 
   return (
     <FeatureScreen iconType={LockOpenIcon} title={title}>
-      <form noValidate autoComplete="off">
+      <form noValidate autoComplete='off'>
         <TextField
           autoFocus={isMdUp}
-          id="jwt"
-          label="JSON web token to decode"
-          placeholder="Paste or type the content here"
+          id='jwt'
+          label='JSON web token to decode'
+          placeholder='Paste or type the content here'
           multiline={true}
           minRows={10}
           maxRows={isMdUp ? 20 : 10}
-          variant="outlined"
-          margin="normal"
+          variant='outlined'
+          margin='normal'
           fullWidth={true}
           value={inputText}
-          onChange={e => storeInputText('lastJWT', e.target.value)}
+          onChange={(e) => storeInputText('lastJWT', e.target.value)}
         />
       </form>
 
       <Toolbar className={classes.toolbar}>
-        <Box display="flex" flexGrow={1}></Box>
+        <Box component='div' flexGrow={1}></Box>
         <CopyButton data={transformed} sx={{ mr: 1 }} />
         <Button
-          variant="contained"
-          title="Decode the JWT Token"
-          color="primary"
+          variant='contained'
+          title='Decode the JWT Token'
+          color='primary'
           endIcon={<LockOpenIcon>Decode</LockOpenIcon>}
           disabled={!inputText}
-          onClick={handleDecode}>
+          onClick={handleDecode}
+        >
           Decode
         </Button>
       </Toolbar>
 
       <div className={classes.decoded}>
         <div>
-          <SyntaxHighlighter language="json" style={syntaxTheme}>
+          <SyntaxHighlighter language='json' style={syntaxTheme}>
             {header}
           </SyntaxHighlighter>
 
-          <SyntaxHighlighter language="json" style={syntaxTheme}>
+          <SyntaxHighlighter language='json' style={syntaxTheme}>
             {transformed}
           </SyntaxHighlighter>
         </div>
@@ -105,7 +106,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };

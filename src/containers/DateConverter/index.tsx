@@ -10,7 +10,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { setTextAction, SetTextInputAction } from '../../actions/text-actions';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { AppState } from '../../reducers';
 import { useIsWidthDown, useIsWidthUp } from '../../theme';
@@ -46,46 +46,35 @@ const DateConverter: React.FC<Props> = ({ inputText, storeInputText }) => {
   return (
     <FeatureScreen iconType={EventIcon} title={title}>
       <form className={classes.form} noValidate>
-        <Grid container justifyContent="space-between">
-          <Box display="flex" alignItems="center">
+        <Grid container justifyContent='space-between'>
+          <Box component='div' alignItems='center'>
             <FormControl className={classes.formControl}>
               <TextField
                 autoFocus={isMdUp}
-                label="Epoch value"
-                placeholder="Epoch value"
-                type="number"
-                variant="outlined"
+                label='Epoch value'
+                placeholder='Epoch value'
+                type='number'
+                variant='outlined'
                 value={inputText}
-                onChange={e => storeInputText('lastEpochValue', e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => storeInputText('lastEpochValue', e.target.value)}
               />
             </FormControl>
             <Button
-              variant="contained"
+              variant='contained'
               title="Update value with 'Now' timestamp"
-              color="primary"
-              onClick={() => handleDateChange(new Date())}>
+              color='primary'
+              onClick={() => handleDateChange(new Date())}
+            >
               <TimerIcon />
             </Button>
           </Box>
-          <Box display="flex" alignItems="center">
+          <Box component='div' alignItems='center'>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <FormControl className={classes.formControl}>
-                <DatePicker
-                  label="Date"
-                  inputFormat="yyyy-MM-dd"
-                  value={date}
-                  onChange={handleDateChange}
-                  renderInput={props => <TextField {...props} />}
-                />
+                <DatePicker label='Date' value={date} onChange={handleDateChange} />
               </FormControl>
               <FormControl className={classes.formControl}>
-                <TimePicker
-                  label="Time"
-                  inputFormat="HH:mm:ss"
-                  value={date}
-                  onChange={handleDateChange}
-                  renderInput={props => <TextField {...props} />}
-                />
+                <TimePicker label='Time' value={date} onChange={handleDateChange} />
               </FormControl>
             </LocalizationProvider>
           </Box>
@@ -105,7 +94,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };

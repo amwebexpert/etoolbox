@@ -24,7 +24,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { setTextAction, SetTextInputAction } from '../../actions/text-actions';
 import { useConfirmDialogContext } from '../../components/ConfirmDialog/ConfirmDialogProvider';
 import CopyButton from '../../components/CopyButton';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
@@ -86,7 +86,7 @@ const PokerPlanning: React.FC<Props> = ({
   const pokerCards: CardsListingCategory = CARDS_LISTING_CATEGORIES[cardsListingCategoryName];
   const { estimatesAverage, isEstimatesCleared, isUserMemberOfRoom } = parseEstimates(
     estimates,
-    lastPokerPlanningUsername,
+    lastPokerPlanningUsername
   );
   const isReadyToStartSession = socketRef && isNotBlank(roomName) && isNotBlank(hostName) && isNotBlank(roomUUID);
   const isReadyToVote = isReadyToStartSession && isNotBlank(lastPokerPlanningUsername);
@@ -110,7 +110,7 @@ const PokerPlanning: React.FC<Props> = ({
       console.info('poker session', pokerSession);
     }
 
-    const myUserSessionEstimate = pokerSession.estimates.find(e => e.username === lastPokerPlanningUsername);
+    const myUserSessionEstimate = pokerSession.estimates.find((e) => e.username === lastPokerPlanningUsername);
     if (myUserSessionEstimate) {
       setMyEstimate(myUserSessionEstimate.estimate);
     }
@@ -200,23 +200,25 @@ const PokerPlanning: React.FC<Props> = ({
           <PokerOptionsForm socketState={socketState} />
         </Grid>
         <Grid item md={3} xs={12}>
-          <Grid container justifyContent="flex-end" alignItems="center" className={classes.toolbar}>
+          <Grid container justifyContent='flex-end' alignItems='center' className={classes.toolbar}>
             <Button
               sx={{ mr: 1 }}
-              variant="contained"
-              title="Register the team and start planning in a new room"
-              color="primary"
+              variant='contained'
+              title='Register the team and start planning in a new room'
+              color='primary'
               disabled={!isReadyToCreateNewRoom}
-              onClick={handleCreateNewRoom}>
+              onClick={handleCreateNewRoom}
+            >
               New
             </Button>
             <Button
               sx={{ mr: 1 }}
-              variant="contained"
-              title="Enter existing room"
-              color="primary"
+              variant='contained'
+              title='Enter existing room'
+              color='primary'
               disabled={isUserMemberOfRoom || !isReadyToVote}
-              onClick={() => sendOrPostpone(buildVoteMessage(lastPokerPlanningUsername))}>
+              onClick={() => sendOrPostpone(buildVoteMessage(lastPokerPlanningUsername))}
+            >
               Join
             </Button>
             <CopyButton
@@ -224,15 +226,16 @@ const PokerPlanning: React.FC<Props> = ({
               isDisabled={!isReadyToStartSession}
               data={buildFullRouteURL({ hostName, roomUUID, roomName })}
               Icon={ShareLink}
-              hoverMessage="Copy link to clipboard for sharing"
-              feedbackMessage="Link copied to clipboard, you can now share to all members"
+              hoverMessage='Copy link to clipboard for sharing'
+              feedbackMessage='Link copied to clipboard, you can now share to all members'
             />
             <Button
-              variant="contained"
-              title="Copy QRCode for sharing"
+              variant='contained'
+              title='Copy QRCode for sharing'
               disabled={!isReadyToStartSession}
               onClick={shareAsQRCode}
-              color="primary">
+              color='primary'
+            >
               <QRCodeIcon />
             </Button>
           </Grid>
@@ -240,7 +243,7 @@ const PokerPlanning: React.FC<Props> = ({
       </Grid>
 
       <div className={classes.submitEstimate}>
-        {pokerCards.values.map(value => (
+        {pokerCards.values.map((value) => (
           <PokerCard
             key={value}
             isDisabled={!isReadyToVote}
@@ -252,22 +255,23 @@ const PokerPlanning: React.FC<Props> = ({
       </div>
 
       <TableContainer component={Paper} className={classes.teamEstimates}>
-        <Table size="small">
+        <Table size='small'>
           <TableHead className={classes.tableHeader}>
             <TableRow>
-              <StyledTableCell component="th" scope="row" width={30}></StyledTableCell>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell component='th' scope='row' width={30}></StyledTableCell>
+              <StyledTableCell component='th' scope='row'>
                 Team member
               </StyledTableCell>
-              <StyledTableCell component="th" scope="row" align="center">
+              <StyledTableCell component='th' scope='row' align='center'>
                 Points
                 <IconButton
-                  title="Toggle story points visibility"
+                  title='Toggle story points visibility'
                   disabled={!isUserMemberOfRoom}
-                  onClick={() => setIsEstimatesVisible(v => !v)}>
+                  onClick={() => setIsEstimatesVisible((v) => !v)}
+                >
                   {isEstimatesVisible ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
-                <IconButton onClick={handleClearAllVotes} title="Clear all votes" disabled={!isUserMemberOfRoom}>
+                <IconButton onClick={handleClearAllVotes} title='Clear all votes' disabled={!isUserMemberOfRoom}>
                   <RemoveEstimates />
                 </IconButton>
               </StyledTableCell>
@@ -283,23 +287,24 @@ const PokerPlanning: React.FC<Props> = ({
                     <IconButton
                       disabled={!isUserMemberOfRoom}
                       onClick={() => sendOrPostpone(buildRemoveUserMessage(username))}
-                      title={`Remove user "${username}"`}>
+                      title={`Remove user "${username}"`}
+                    >
                       <RemoveUser />
                     </IconButton>
                   </StyledTableCell>
                   <StyledTableCell>{username}</StyledTableCell>
-                  <StyledTableCell align="center">
+                  <StyledTableCell align='center'>
                     {isEstimatesVisible ? estimateWhenDisplayON : estimateWhenDisplayOFF}
                   </StyledTableCell>
                 </StyledTableRow>
               );
             })}
-            <StyledTableRow key="average">
+            <StyledTableRow key='average'>
               <StyledTableCell width={30}></StyledTableCell>
               <StyledTableCell>
                 <Typography>Story points average</Typography>
               </StyledTableCell>
-              <StyledTableCell align="center">
+              <StyledTableCell align='center'>
                 <Typography>{isEstimatesVisible ? estimatesAverage : ''}</Typography>
               </StyledTableCell>
             </StyledTableRow>
@@ -321,7 +326,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };

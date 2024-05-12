@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Dispatch } from 'redux';
 
-import { setTextAction } from '../../actions/text-actions';
+import { SetTextInputAction, setTextAction } from '../../actions/text-actions';
 import CopyButton from '../../components/CopyButton';
 import { FeatureScreen } from '../../components/FeatureScreen/FeatureScreen';
 import { useSyntaxHighlightTheme } from '../../hooks/useSyntaxHighlightTheme';
@@ -19,7 +19,7 @@ import * as fileService from '../../services/file-utils';
 import { useIsWidthUp } from '../../theme';
 import * as services from './services';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   formatted: {
     borderColor: theme.palette.text.disabled,
     borderStyle: 'solid',
@@ -58,38 +58,39 @@ const JSONFormatter: React.FC<Props> = ({ inputText, storeInputText }) => {
 
   return (
     <FeatureScreen iconType={WrapTextIcon} title={title}>
-      <form noValidate autoComplete="off">
+      <form noValidate autoComplete='off'>
         <div>
           <TextField
             autoFocus={isMdUp}
-            label="JSON Content"
-            placeholder="Paste or type the json content here"
+            label='JSON Content'
+            placeholder='Paste or type the json content here'
             multiline={true}
             minRows={10}
             maxRows={isMdUp ? 20 : 10}
-            variant="outlined"
-            margin="normal"
+            variant='outlined'
+            margin='normal'
             fullWidth={true}
             value={inputText}
-            onChange={e => storeInputText('lastJSONFormatterValue', e.target.value)}
+            onChange={(e) => storeInputText('lastJSONFormatterValue', e.target.value)}
           />
         </div>
       </form>
 
       <Toolbar className={classes.toolbar}>
-        <Box display="flex" flexGrow={1}></Box>
+        <Box component='div' flexGrow={1}></Box>
         <CopyButton data={formatted} sx={{ mr: 1 }} />
         <Button
           endIcon={<SaveIcon>Save As…</SaveIcon>}
           disabled={!formatted}
-          variant="contained"
-          color="primary"
-          onClick={handleSaveAs}>
+          variant='contained'
+          color='primary'
+          onClick={handleSaveAs}
+        >
           Save As…
         </Button>
       </Toolbar>
 
-      <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.formatted}>
+      <SyntaxHighlighter style={syntaxTheme} language='json' className={classes.formatted}>
         {formatted}
       </SyntaxHighlighter>
     </FeatureScreen>
@@ -102,7 +103,7 @@ export function mapStateToProps(state: AppState) {
   };
 }
 
-export function mapDispatchToProps(dispatch: Dispatch) {
+export function mapDispatchToProps(dispatch: Dispatch<SetTextInputAction>) {
   return {
     storeInputText: (name: string, value: string) => dispatch(setTextAction(name, value)),
   };
