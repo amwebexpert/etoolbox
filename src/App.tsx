@@ -16,6 +16,7 @@ import SimCardIcon from '@mui/icons-material/SimCard';
 import TextFieldsIcon from '@mui/icons-material/TextFields';
 import TextRotationNoneIcon from '@mui/icons-material/TextRotationNone';
 import TocIcon from '@mui/icons-material/Toc';
+import VR3DIcon from '@mui/icons-material/ViewInAr';
 import WrapTextIcon from '@mui/icons-material/WrapText';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -59,6 +60,7 @@ const App: React.FC = () => {
   const DateConverter = lazy(() => import('./containers/DateConverter'));
   const CSVParser = lazy(() => import('./containers/CSVParser'));
   const PokerPlanning = lazy(() => import('./containers/PokerPlanning'));
+  const VR3DViewer = lazy(() => import('./containers/VR3DViewer'));
 
   const FeaturesGroup = lazy(() => import('./components/FeaturesGroup'));
   const URLParser = lazy(() => import('./containers/URLParser'));
@@ -236,6 +238,13 @@ const App: React.FC = () => {
               detail="Agile pocker planning online tools"
               onClick={menuClick}
             />
+            <NavbarButtonLink
+              icon={<VR3DIcon />}
+              to="/VR3DViewer"
+              title="3D Viewer"
+              detail="Virtual Reality 3D viewer utilities"
+              onClick={menuClick}
+            />
           </List>
         </Drawer>
         <ToasterProvider>
@@ -267,6 +276,8 @@ const App: React.FC = () => {
 
                 <Route path="/PokerPlanning" element={<PokerPlanning />} />
                 <Route path="/PokerPlanning/:hostName/:roomUUID/:roomName" element={<PokerPlanning />} />
+
+                <Route path="/VR3DViewer" element={<VR3DViewer />} />
 
                 {/** Default route is the home */}
                 <Route path="*" element={<Navigate to="/Home" replace />} />
