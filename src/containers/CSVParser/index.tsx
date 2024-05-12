@@ -69,7 +69,7 @@ const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, st
       setFileInfo(`${file.name} (${prettyBytes(file.size)})`);
       e.target.value = '';
     };
-    const encoding: LabelAndName | undefined = FILE_ENCODING_LABELS_SORTED.find(enc => enc.label === inputEncoding);
+    const encoding: LabelAndName | undefined = FILE_ENCODING_LABELS_SORTED.find((enc) => enc.label === inputEncoding);
     reader.readAsText(file, encoding?.name ?? 'utf-8');
   }
 
@@ -89,25 +89,24 @@ const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, st
     if (isRunning && inputText) {
       parse();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, inputText]);
 
   return (
     <FeatureScreen iconType={CSVParserIcon} title={title}>
       <Toolbar className={classes.toolbar}>
-        <Box display="flex" flexGrow={1}></Box>
+        <Box display='flex' flexGrow={1}></Box>
         <FormControl className={classes.formControl} sx={{ mr: 1 }}>
           <input
-            type="file"
-            color="primary"
-            accept="text/csv"
-            onChange={e => onFileSelected(e)}
-            id="files-selector-action"
-            data-testid="files-selector-action"
+            type='file'
+            color='primary'
+            accept='text/csv'
+            onChange={(e) => onFileSelected(e)}
+            id='files-selector-action'
+            data-testid='files-selector-action'
             style={{ display: 'none' }}
           />
-          <label htmlFor="files-selector-action">
-            <Button variant="contained" component="span" color="primary" title="Select the CSV file from your device">
+          <label htmlFor='files-selector-action'>
+            <Button variant='contained' component='span' color='primary' title='Select the CSV file from your device'>
               <FileIcon />
             </Button>
           </label>
@@ -116,12 +115,13 @@ const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, st
         <FormControl className={classes.formControl}>
           <TextField
             select={true}
-            label="File encoding"
+            label='File encoding'
             style={isMdUp ? { width: 320 } : undefined}
-            id="encoding"
+            id='encoding'
             value={inputEncoding}
             autoFocus={isMdUp}
-            onChange={e => storeInputText('lastCSVInputContentEncoding', e.target.value)}>
+            onChange={(e) => storeInputText('lastCSVInputContentEncoding', e.target.value)}
+          >
             {FILE_ENCODING_LABELS_SORTED.map((item, index) => (
               <MenuItem key={`${index}-${item.label}`} value={item.label}>
                 {item.label} ({item.name})
@@ -131,18 +131,18 @@ const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, st
         </FormControl>
       </Toolbar>
 
-      <form noValidate autoComplete="off">
+      <form noValidate autoComplete='off'>
         <Grid container spacing={1}>
           <Grid item md={8} sm={12} xs={12}>
             <TextField
-              name="inputText"
-              label="CSV Source data"
+              name='inputText'
+              label='CSV Source data'
               helperText={fileInfo}
               multiline={true}
               minRows={displayedRowsCount}
               maxRows={displayedRowsCount}
-              variant="outlined"
-              margin="normal"
+              variant='outlined'
+              margin='normal'
               inputProps={{
                 style: {
                   fontFamily: 'monospace',
@@ -153,23 +153,23 @@ const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, st
               }}
               fullWidth={true}
               value={inputText}
-              onChange={e => storeInputText('lastCSVInputContent', e.target.value)}
+              onChange={(e) => storeInputText('lastCSVInputContent', e.target.value)}
             />
           </Grid>
           <Grid item md={4} sm={12} xs={12}>
             <TextField
-              name="inputOptions"
-              label="Parser options"
+              name='inputOptions'
+              label='Parser options'
               helperText={
-                <Link target="_blank" rel="noreferrer" href={services.OPTIONS_DOC_URL}>
+                <Link target='_blank' rel='noreferrer' href={services.OPTIONS_DOC_URL}>
                   Options documentation available here!
                 </Link>
               }
               multiline={true}
               minRows={displayedRowsCount}
               maxRows={displayedRowsCount}
-              variant="outlined"
-              margin="normal"
+              variant='outlined'
+              margin='normal'
               inputProps={{
                 style: {
                   fontFamily: 'monospace',
@@ -180,40 +180,43 @@ const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, st
               }}
               fullWidth={true}
               value={inputOptions}
-              onChange={e => storeInputText('lastCSVInputOptions', e.target.value)}
+              onChange={(e) => storeInputText('lastCSVInputOptions', e.target.value)}
             />
           </Grid>
         </Grid>
       </form>
 
       <Toolbar className={classes.toolbar}>
-        <Box display="flex" flexGrow={1}></Box>
+        <Box display='flex' flexGrow={1}></Box>
         <Button
           sx={{ mr: 1 }}
-          variant="contained"
-          title="Parse the CVS file content"
-          color="primary"
+          variant='contained'
+          title='Parse the CVS file content'
+          color='primary'
           endIcon={<AccountTreeIcon>Run</AccountTreeIcon>}
           disabled={!inputText || isRunning}
-          onClick={() => setIsRunning(true)}>
+          onClick={() => setIsRunning(true)}
+        >
           {isRunning ? 'Wait…' : 'Run'}
         </Button>
         <Button
           sx={{ mr: 1 }}
-          variant="contained"
-          title="Clear the content"
-          color="primary"
+          variant='contained'
+          title='Clear the content'
+          color='primary'
           disabled={!inputText}
-          onClick={handleClear}>
+          onClick={handleClear}
+        >
           <DeleteIcon />
         </Button>
         <CopyButton data={transformed} sx={{ mr: 1 }} />
         <Button
           endIcon={<SaveIcon>Save As…</SaveIcon>}
           disabled={!transformed}
-          variant="contained"
-          color="primary"
-          onClick={handleSaveAs}>
+          variant='contained'
+          color='primary'
+          onClick={handleSaveAs}
+        >
           Save…
         </Button>
       </Toolbar>
@@ -222,14 +225,15 @@ const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, st
         <>
           <Typography>Parsed rows:</Typography>
           <SyntaxHighlighter
-            data-testid="parsed-result"
+            data-testid='parsed-result'
             style={syntaxTheme}
-            language="json"
-            className={classes.encodedResult}>
+            language='json'
+            className={classes.encodedResult}
+          >
             {transformed}
           </SyntaxHighlighter>
           <Typography>Parsed result with metadata:</Typography>
-          <SyntaxHighlighter style={syntaxTheme} language="json" className={classes.encodedResult}>
+          <SyntaxHighlighter style={syntaxTheme} language='json' className={classes.encodedResult}>
             {rawParsedResult}
           </SyntaxHighlighter>
         </>
