@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/amwebexpert/etoolbox/compare/v2.1.6-with-code-reporting...v2.4.0) (2024-05-18)
+
+
+### Features
+
+* 1st 3D viewer demo ([#30](https://github.com/amwebexpert/etoolbox/issues/30)) ([bad95e4](https://github.com/amwebexpert/etoolbox/commit/bad95e4e4d8601963c0d4da5a9cae43964915e06))
+
+
+### Bug Fixes
+
+* display version and date in about screen ([cee30d2](https://github.com/amwebexpert/etoolbox/commit/cee30d2971de0e76a9e285d7ec638e043921bb16))
+
 ## [2.3.0](https://github.com/amwebexpert/etoolbox/compare/v2.1.6-with-code-reporting...v2.3.0) (2024-05-18)
 
 
