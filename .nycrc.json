@@ -10,7 +10,6 @@
     "**/constants.ts",
     "**/*-types.ts",
     "**/*.d.ts",
-    "**/wdyr.ts",
     "**/global-styles.ts",
     "**/serviceWorker.ts",
     "**/setupTests.ts"

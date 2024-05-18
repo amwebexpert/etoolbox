@@ -1,5 +1,3 @@
-import './wdyr'; // <--- first import
-
 import React from 'react';
 
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,11 +10,14 @@ import App from './App';
 import { PreferencesContext, PreferencesProvider } from './components/Preferences/PreferencesProvider';
 import GlobalSpinnerProvider from './components/Spinner/GlobalSpinnerProvider';
 import GlobalStyle from './global-styles';
+import { initConsole } from './services/utils';
 import store from './store';
 import { darkTheme, lightTheme } from './theme';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
+
+initConsole();
 
 root.render(
   <Provider store={store}>

@@ -193,7 +193,6 @@
     "@types/styled-components": "^5.1.34",
     "@types/three": "^0",
     "@types/uuid": "^9.0.8",
-    "@welldone-software/why-did-you-render": "^8.0.1",
     "concurrently": "^8.2.2",
     "cypress": "^13.9.0",
     "cypress-file-upload": "^5.0.8",
