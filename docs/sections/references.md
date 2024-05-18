@@ -11,6 +11,11 @@
 - https://stackoverflow.com/a/8684009/704681
 - https://stackoverflow.com/a/52409047/704681
 
+## Merging Jest and Cypress code coverage reports
+
+- https://rafaelalmeidatk.com/blog/merging-coverage-reports-from-jest-and-cypress
+- https://docs.cypress.io/guides/tooling/code-coverage
+
 ## react-router-dom
 
 - https://medium.com/swlh/defining-nested-routes-with-react-router-8f140e87b360
