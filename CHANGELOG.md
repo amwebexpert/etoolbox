@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/amwebexpert/etoolbox/compare/v2.1.6-with-code-reporting...v2.2.0) (2024-05-18)
+
+
+### Features
+
+* 1st 3D viewer demo ([#30](https://github.com/amwebexpert/etoolbox/issues/30)) ([bad95e4](https://github.com/amwebexpert/etoolbox/commit/bad95e4e4d8601963c0d4da5a9cae43964915e06))
+* default pocker planning hostname ([6b5479c](https://github.com/amwebexpert/etoolbox/commit/6b5479c8118090a227543115ec0af2923ee9b627))
+
 ### [2.1.6](https://github.com/amwebexpert/etoolbox/compare/v2.1.5...v2.1.6) (2022-11-09)
 
 ### [2.1.5](https://github.com/amwebexpert/etoolbox/compare/v2.1.4...v2.1.5) (2022-11-08)
