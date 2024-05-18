@@ -1,5 +1,9 @@
 export const CHANGE_LOGS = [
   {
+    version: 'v2.4.1',
+    desc: 'Pocker planning feature improvements, dependencies upgrade.',
+  },
+  {
     version: 'v2.1.0',
     desc: 'New cURL Converter feature. Dependencies upgrade.',
   },
