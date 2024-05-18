@@ -11,7 +11,7 @@ import TableContainer, { TableContainerProps } from '@mui/material/TableContaine
 import TableRow from '@mui/material/TableRow';
 import { withStyles } from '@mui/styles';
 
-import { APP_VERSION_INFO, LONG_VERSION_DATE } from '../../constants';
+import { APP_VERSION_INFO, LONG_VERSION_DATE } from '../../app-version-constants';
 import { getBuildUTCTimestamp } from '../../services/utils';
 import { useIsWidthUp } from '../../theme';
 import { useToasterUpdate } from '../Toaster/ToasterProvider';

@@ -1,7 +1,7 @@
 const fs = require('fs');
 const packageMetadata = require('../package.json');
 
-const constantsFilename = './src/constants.ts';
+const constantsFilename = './src/app-version-constants.ts';
 const { name, description, version } = packageMetadata;
 const date = new Date().toISOString().split('T')[0];
 const data = `/* eslint-disable */
