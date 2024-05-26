@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.1](https://github.com/amwebexpert/etoolbox/compare/v2.5.0...v2.5.1) (2024-05-26)
+
 ## [2.5.0](https://github.com/amwebexpert/etoolbox/compare/v2.1.6-with-code-reporting...v2.5.0) (2024-05-26)
 
 
