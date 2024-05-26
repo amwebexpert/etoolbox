@@ -108,13 +108,13 @@ const App: React.FC = () => {
 
   return (
     <ConfirmDialogProvider>
-      <Helmet titleTemplate="Web Toolbox - %s" defaultTitle="Web Toolbox">
-        <meta name="description" content={desc} />
+      <Helmet titleTemplate='Web Toolbox - %s' defaultTitle='Web Toolbox'>
+        <meta name='description' content={desc} />
       </Helmet>
       <div className={classes.root}>
         <ApplicationBar open={open} setOpen={setOpen} />
         <Drawer
-          variant="permanent"
+          variant='permanent'
           className={clsx(classes.drawer, {
             [classes.drawerOpen]: open,
             [classes.drawerClose]: !open,
@@ -124,125 +124,126 @@ const App: React.FC = () => {
               [classes.drawerOpen]: open,
               [classes.drawerClose]: !open,
             }),
-          }}>
+          }}
+        >
           <div className={classes.toolbar}>
             <div className={classes.toolbarIconContainer}>
-              <NavLink role="link" to="/about" title="About Web Toolbox…">
-                <img src={Banner} alt="Web Toolbox" className={classes.toolbarIcon} />
+              <NavLink role='link' to='/about' title='About Web Toolbox…'>
+                <img src={Banner} alt='Web Toolbox' className={classes.toolbarIcon} />
               </NavLink>
             </div>
-            <IconButton onClick={() => setOpen(!open)} title="Toggle sidebar menu">
+            <IconButton onClick={() => setOpen(!open)} title='Toggle sidebar menu'>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
           </div>
           <Divider />
           <List className={classes.menu}>
-            <NavbarButtonLink icon={<HomeIcon />} to="/Home" title="Home" detail="Home" onClick={menuClick} />
+            <NavbarButtonLink icon={<HomeIcon />} to='/Home' title='Home' detail='Home' onClick={menuClick} />
 
             <NavbarButtonLink
               icon={<HttpUrlIcon />}
-              to="/URL"
-              title="URL parse, encode"
-              detail="URL parsing and url parameters encoding utilities"
+              to='/URL'
+              title='URL parse, encode'
+              detail='URL parsing and url parameters encoding utilities'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<DeveloperBoardIcon />}
-              to="/Base64"
-              title="Base64"
-              detail="Base64 encoders/decoders"
+              to='/Base64'
+              title='Base64'
+              detail='Base64 encoders/decoders'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<WrapTextIcon />}
-              to="/JSON"
-              title="JSON utilities"
-              detail="JSON Format & convertion into typed languages"
+              to='/JSON'
+              title='JSON utilities'
+              detail='JSON Format & convertion into typed languages'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<PaletteIcon />}
-              to="/Colors"
-              title="Color picker"
-              detail="Image color picker"
+              to='/Colors'
+              title='Color picker'
+              detail='Image color picker'
               onClick={menuClick}
             />
 
             <NavbarButtonLink
               icon={<TextRotationNoneIcon />}
-              to="/RegExTester"
-              title="RegEx tester"
-              detail="Regular expression tester"
+              to='/RegExTester'
+              title='RegEx tester'
+              detail='Regular expression tester'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<SimCardIcon />}
-              to="/UUIDGenerator"
-              title="UUID generator"
-              detail="UUID generator"
+              to='/UUIDGenerator'
+              title='UUID generator'
+              detail='UUID generator'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<LockOpenIcon />}
-              to="/JWTDecoder"
-              title="JWT decoder"
-              detail="JSON Web Token decoder"
+              to='/JWTDecoder'
+              title='JWT decoder'
+              detail='JSON Web Token decoder'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<QRCodeIcon />}
-              to="/QRCodeGenerator"
-              title="QR Code generator"
-              detail="QR Code generator"
+              to='/QRCodeGenerator'
+              title='QR Code generator'
+              detail='QR Code generator'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<TextFieldsIcon />}
-              to="/ImageOCR"
-              title="Image OCR"
-              detail="Image text extractor"
+              to='/ImageOCR'
+              title='Image OCR'
+              detail='Image text extractor'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<TocIcon />}
-              to="/CommonLists"
-              title="Mime-types, HTML"
-              detail="Html entities, Mime-types, and more…"
+              to='/CommonLists'
+              title='Mime-types, HTML'
+              detail='Html entities, Mime-types, and more…'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<GithubIcon />}
-              to="/GithubUserProjects"
-              title="Github search"
-              detail="Github user projects"
+              to='/GithubUserProjects'
+              title='Github search'
+              detail='Github user projects'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<EventIcon />}
-              to="/DateConverter"
-              title="Date & Epoch"
-              detail="Date and Epoch utilities"
+              to='/DateConverter'
+              title='Date & Epoch'
+              detail='Date and Epoch utilities'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<CSVParserIcon />}
-              to="/CSVParser"
-              title="CSV Parser"
-              detail="CSV utilities"
+              to='/CSVParser'
+              title='CSV Parser'
+              detail='CSV utilities'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<PokerPlanningIcon />}
-              to="/PokerPlanning"
-              title="Pocker planning"
-              detail="Agile pocker planning online tools"
+              to='/PokerPlanning'
+              title='Pocker planning'
+              detail='Agile pocker planning online tools'
               onClick={menuClick}
             />
             <NavbarButtonLink
               icon={<VR3DIcon />}
-              to="/VR3DViewer"
-              title="3D Viewer"
-              detail="Virtual Reality 3D viewer utilities"
+              to='/VR3DViewer'
+              title='3D Viewer'
+              detail='Virtual Reality 3D viewer utilities'
               onClick={menuClick}
             />
           </List>
@@ -252,35 +253,37 @@ const App: React.FC = () => {
             <div className={classes.toolbar} />
             <Suspense fallback={<LoadingContent />}>
               <Routes>
-                <Route path="/Home" element={<Home />} />
+                <Route path='/Home' element={<Home />} />
 
-                <Route path="/about" element={<About />} />
-                <Route path="/preferences" element={<AppPreferences />} />
+                <Route path='/about' element={<About />} />
+                <Route path='/preferences' element={<AppPreferences />} />
 
-                <Route path="/URL/*" element={<FeaturesGroup tabs={featuresGroupURL} />} />
-                <Route path="/Base64/*" element={<FeaturesGroup tabs={featuresGroupBase64} />} />
-                <Route path="/JSON/*" element={<FeaturesGroup tabs={featuresGroupJSON} />} />
-                <Route path="/Colors/*" element={<FeaturesGroup tabs={featuresGroupColors} />} />
+                <Route path='/URL/*' element={<FeaturesGroup tabs={featuresGroupURL} />} />
+                <Route path='/Base64/*' element={<FeaturesGroup tabs={featuresGroupBase64} />} />
+                <Route path='/JSON/*' element={<FeaturesGroup tabs={featuresGroupJSON} />} />
+                <Route path='/Colors/*' element={<FeaturesGroup tabs={featuresGroupColors} />} />
 
-                <Route path="/Base64Encoder" element={<Base64Encoder />} />
-                <Route path="/Base64FileEncoder" element={<Base64FileEncoder />} />
-                <Route path="/RegExTester" element={<RegExTester />} />
-                <Route path="/UUIDGenerator" element={<UUIDGenerator />} />
-                <Route path="/JWTDecoder" element={<JWTDecoder />} />
-                <Route path="/QRCodeGenerator" element={<QRCodeGenerator />} />
-                <Route path="/ImageOCR" element={<ImageOCR />} />
-                <Route path="/CommonLists" element={<CommonLists />} />
-                <Route path="/GithubUserProjects" element={<GithubUserProjects />} />
-                <Route path="/DateConverter" element={<DateConverter />} />
-                <Route path="/CSVParser" element={<CSVParser />} />
+                <Route path='/Base64Encoder' element={<Base64Encoder />} />
+                <Route path='/Base64FileEncoder' element={<Base64FileEncoder />} />
+                <Route path='/RegExTester' element={<RegExTester />} />
+                <Route path='/UUIDGenerator' element={<UUIDGenerator />} />
+                <Route path='/JWTDecoder' element={<JWTDecoder />} />
+                <Route path='/QRCodeGenerator' element={<QRCodeGenerator />} />
+                <Route path='/ImageOCR' element={<ImageOCR />} />
+                <Route path='/CommonLists' element={<CommonLists />} />
+                <Route path='/GithubUserProjects' element={<GithubUserProjects />} />
+                <Route path='/DateConverter' element={<DateConverter />} />
+                <Route path='/CSVParser' element={<CSVParser />} />
 
-                <Route path="/PokerPlanning" element={<PokerPlanning />} />
-                <Route path="/PokerPlanning/:hostName/:roomUUID/:roomName" element={<PokerPlanning />} />
+                <Route path='/PokerPlanning' element={<PokerPlanning />} />
+                <Route path='/PokerPlanning/:hostName' element={<PokerPlanning />} />
+                <Route path='/PokerPlanning/:hostName/:roomUUID' element={<PokerPlanning />} />
+                <Route path='/PokerPlanning/:hostName/:roomUUID/:roomName' element={<PokerPlanning />} />
 
-                <Route path="/VR3DViewer" element={<VR3DViewer />} />
+                <Route path='/VR3DViewer' element={<VR3DViewer />} />
 
                 {/** Default route is the home */}
-                <Route path="*" element={<Navigate to="/Home" replace />} />
+                <Route path='*' element={<Navigate to='/Home' replace />} />
               </Routes>
             </Suspense>
           </main>
