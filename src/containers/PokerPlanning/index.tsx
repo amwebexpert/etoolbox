@@ -94,11 +94,12 @@ const PokerPlanning: React.FC<Props> = ({
 
   // keep the store in sync whenever route params are updated
   useEffect(() => {
-    if (isReadyToStartSession) {
-      storeInputText('lastPokerPlanningRoomName', roomName ?? '');
-      storeInputText('lastPokerPlanningHostName', hostName ?? '');
-    }
-  }, [roomName, hostName, storeInputText, isReadyToStartSession]);
+    if (hostName) storeInputText('lastPokerPlanningHostName', hostName);
+  }, [hostName, storeInputText]);
+
+  useEffect(() => {
+    if (roomName) storeInputText('lastPokerPlanningRoomName', roomName);
+  }, [roomName, storeInputText]);
 
   // update current user vote
   useEffect(() => {
