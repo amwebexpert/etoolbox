@@ -35,16 +35,16 @@ export const createSocket = ({
 
 export const parseEstimates = (estimates: UserEstimate[], username?: string): EstimatesStats => {
   const values = estimates
-    .map(e => e.estimate)
-    .filter(e => !!e)
-    .filter(e => isNumeric(e))
-    .map(e => Number(e));
+    .map((e) => e.estimate)
+    .filter((e) => !!e)
+    .filter((e) => isNumeric(e))
+    .map((e) => Number(e));
   const estimatesSum = values.reduce((acc, val) => acc + Number(val), 0);
   const average = values.length > 0 ? estimatesSum / values.length : 0;
   const estimatesAverage = Math.round(average * 10 + Number.EPSILON) / 10;
-  const isEstimatesCleared = estimates.length > 0 && estimates.every(e => e.estimate === undefined);
+  const isEstimatesCleared = estimates.length > 0 && estimates.every((e) => e.estimate === undefined);
   const isUsernameProvided = !!username?.trim();
-  const isUserMemberOfRoom = isUsernameProvided && estimates.some(e => e.username === username);
+  const isUserMemberOfRoom = isUsernameProvided && estimates.some((e) => e.username === username);
 
   return {
     values,
@@ -67,7 +67,7 @@ export const buildRouteURL = ({
   hostName = DEFAULT_HOSTNAME,
   roomName = DEFAULT_ROOM_NAME,
   roomUUID = v4(),
-}: BuildRouteURLParams) => `/PokerPlanning/${hostName}/${roomUUID}/${roomName}`;
+}: BuildRouteURLParams) => `/PokerPlanning/${hostName}/${roomUUID}/${encodeURIComponent(roomName)}`;
 
 export const extractSinglePageAppHostnameAndPath = () => document.location.href.split('/#/')[0];
 
