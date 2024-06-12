@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/amwebexpert/etoolbox/compare/v2.1.6-with-code-reporting...v2.7.0) (2024-06-12)
+
+
+### Features
+
+* 1st 3D viewer demo ([#30](https://github.com/amwebexpert/etoolbox/issues/30)) ([bad95e4](https://github.com/amwebexpert/etoolbox/commit/bad95e4e4d8601963c0d4da5a9cae43964915e06))
+
+
+### Bug Fixes
+
+* support space in poker planning team name ([#40](https://github.com/amwebexpert/etoolbox/issues/40)) ([f16c01d](https://github.com/amwebexpert/etoolbox/commit/f16c01dbaad968f88a924e46ed774b6619f09401))
+
 ## [2.6.0](https://github.com/amwebexpert/etoolbox/compare/v2.1.6-with-code-reporting...v2.6.0) (2024-06-12)
 
 
