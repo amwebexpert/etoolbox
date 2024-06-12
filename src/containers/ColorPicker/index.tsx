@@ -102,7 +102,7 @@ const ColorPicker: React.FC = () => {
 
   return (
     <FeatureScreen iconType={PaletteIcon} title={title}>
-      <Box display='flex' alignItems='center' justifyContent='center' className={classes.imageSelector}>
+      <Box component='div' alignItems='center' justifyContent='center' className={classes.imageSelector}>
         {!imgDataURL && (
           <div>
             <Typography variant='body2'>

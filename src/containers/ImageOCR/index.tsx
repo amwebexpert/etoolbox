@@ -114,7 +114,7 @@ const ImageOCR: React.FC = () => {
       </form>
 
       <Card>
-        <Box display='flex' alignItems='center' justifyContent='center' className={classes.imageSelector}>
+        <Box component='div' alignItems='center' justifyContent='center' className={classes.imageSelector}>
           {!imgDataURL && (
             <div>
               <Typography>paste image from clipboard</Typography>
