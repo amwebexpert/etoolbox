@@ -153,7 +153,7 @@ const ColorPicker: React.FC = () => {
         </Box>
       )}
 
-      <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
+      <Box component='div' flexDirection='column' alignItems='center' justifyContent='center'>
         <div className={classes.sample} style={{ backgroundColor: background }} onClick={() => handleCopy(background)}>
           {background}
         </div>

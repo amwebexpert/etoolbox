@@ -166,7 +166,7 @@ const ImageOCR: React.FC = () => {
           <LinearProgress variant='determinate' value={workerStatus.progress * 100} />
 
           <Toolbar className={classes.toolbar}>
-            <Box display='flex' flexGrow={1}></Box>
+            <Box component='div' flexGrow={1}></Box>
             <CopyButton data={imgExtractedText} sx={{ mr: 1 }} />
             <Button
               variant='contained'
