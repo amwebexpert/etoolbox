@@ -80,7 +80,7 @@ const Base64FileEncoder: React.FC = () => {
         <div key={idx}>
           <Card sx={{ mt: 2 }}>
             {file.encoded.startsWith('data:image/') && (
-              <Box display='flex' alignItems='center' justifyContent='center'>
+              <Box component='div' alignItems='center' justifyContent='center'>
                 <Resizable style={imageResizer} defaultSize={{ width: 300, height: '100%' }}>
                   <img src={file.encoded} alt={file.name} className={classes.image} />
                 </Resizable>

@@ -235,7 +235,7 @@ const App: React.FC = () => {
             <NavbarButtonLink
               icon={<PokerPlanningIcon />}
               to='/PokerPlanning'
-              title='Pocker planning'
+              title='Poker planning'
               detail='Agile pocker planning online tools'
               onClick={menuClick}
             />

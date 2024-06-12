@@ -114,7 +114,7 @@ const ImageOCR: React.FC = () => {
       </form>
 
       <Card>
-        <Box display='flex' alignItems='center' justifyContent='center' className={classes.imageSelector}>
+        <Box component='div' alignItems='center' justifyContent='center' className={classes.imageSelector}>
           {!imgDataURL && (
             <div>
               <Typography>paste image from clipboard</Typography>
@@ -143,7 +143,7 @@ const ImageOCR: React.FC = () => {
         </Box>
 
         {imgDataURL && (
-          <Box display='flex' alignItems='center' justifyContent='center'>
+          <Box component='div' alignItems='center' justifyContent='center'>
             <Button endIcon={<DeleteIcon />} variant='contained' color='primary' onClick={handleClear}>
               Clear
             </Button>
@@ -166,7 +166,7 @@ const ImageOCR: React.FC = () => {
           <LinearProgress variant='determinate' value={workerStatus.progress * 100} />
 
           <Toolbar className={classes.toolbar}>
-            <Box display='flex' flexGrow={1}></Box>
+            <Box component='div' flexGrow={1}></Box>
             <CopyButton data={imgExtractedText} sx={{ mr: 1 }} />
             <Button
               variant='contained'
