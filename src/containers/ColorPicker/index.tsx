@@ -131,7 +131,7 @@ const ColorPicker: React.FC = () => {
       </Box>
 
       <Box
-        display='flex'
+        component='div'
         flexDirection='column'
         alignItems='center'
         justifyContent='center'
@@ -146,7 +146,7 @@ const ColorPicker: React.FC = () => {
       </Box>
 
       {imgDataURL && (
-        <Box display='flex' alignItems='center' justifyContent='center'>
+        <Box component='div' alignItems='center' justifyContent='center'>
           <Button endIcon={<DeleteIcon />} variant='contained' color='primary' onClick={handleClear}>
             Clear
           </Button>
