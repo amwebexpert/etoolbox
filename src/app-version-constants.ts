@@ -5,8 +5,8 @@
 export const APP_VERSION_INFO = Object.freeze({
   NAME: 'web-toolbox',
   DESCRIPTION: "Collection of web developer utilities packaged as a desktop app",
-  VERSION: '2.5.2',
-  VERSION_DATE: '2024-06-02',
+  VERSION: '2.5.3',
+  VERSION_DATE: '2024-06-12',
 });
 
-export const LONG_VERSION_DATE = '2.5.2 (2024-06-02)';
+export const LONG_VERSION_DATE = '2.5.3 (2024-06-12)';

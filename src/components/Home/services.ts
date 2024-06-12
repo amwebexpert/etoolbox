@@ -1,7 +1,7 @@
 export const CHANGE_LOGS = [
   {
-    version: 'v2.4.1',
-    desc: 'Pocker planning feature improvements, dependencies upgrade.',
+    version: 'v2.5.1',
+    desc: 'Poker planning feature improvements, dependencies upgrade.',
   },
   {
     version: 'v2.1.0',
