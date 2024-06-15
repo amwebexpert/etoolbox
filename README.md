@@ -69,6 +69,14 @@ More info here: [Web Toolbox Electron app details](./docs/sections/electron-buil
 
 ## Roadmap (of next features)
 
+Poker planning:
+
+- show all values automatically when all participants have voted
+- confirmation for deleting all votes: add a 'Yes, dont ask again' button
+- show session QR code at the top
+
+Others:
+
 - DataURI scheme viewer (Base64 raw data)
   - Like this website: [Data URL to image](https://base64.guru/tools/data-url-to-image)
 - 3D Visualizer (.obj and .fbx viewer)
