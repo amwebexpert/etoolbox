@@ -52,6 +52,16 @@ const URLParser: React.FC<Props> = ({ inputText, storeInputText }) => {
         onChange={(e) => storeInputText('lastUrlParserValue', e.target.value)}
       />
 
+      {inputText && (
+        <ul>
+          <li>
+            <a href={inputText} target='_blank' rel='noreferrer'>
+              Click the link to open the URL in a new tab
+            </a>
+          </li>
+        </ul>
+      )}
+
       <TableContainer component={Paper} className={classes.panel}>
         <Table size={isMdUp ? 'medium' : 'small'}>
           <TableHead className={classes.tableHeader}>
