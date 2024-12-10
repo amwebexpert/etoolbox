@@ -77,6 +77,10 @@ Poker planning:
 
 Others:
 
+- Excel File reader
+- Text diff
+- Image compressor
+- Mardown viewer
 - DataURI scheme viewer (Base64 raw data)
   - Like this website: [Data URL to image](https://base64.guru/tools/data-url-to-image)
 - 3D Visualizer (.obj and .fbx viewer)
