@@ -71,8 +71,9 @@ const Base64Encoder: React.FC<Props> = ({ inputText, storeInputText }) => {
           color='primary'
           disabled={!inputText}
           onClick={() => setTransformed(services.transform(inputText, true))}
+          endIcon={<EncodeIcon />}
         >
-          <EncodeIcon />
+          Encode
         </Button>
         <Button
           variant='contained'
@@ -80,8 +81,9 @@ const Base64Encoder: React.FC<Props> = ({ inputText, storeInputText }) => {
           color='primary'
           disabled={!inputText}
           onClick={() => setTransformed(services.transform(inputText, false))}
+          endIcon={<DecodeIcon />}
         >
-          <DecodeIcon />
+          Decode
         </Button>
       </Toolbar>
 
