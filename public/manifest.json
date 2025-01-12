@@ -1,6 +1,7 @@
 {
   "short_name": "Web Toolbox",
   "name": "Web Toolbox - Collection of web developer utilities packaged as a desktop app",
+  "description": "Open source collection of web developer utilities",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,8 +19,78 @@
       "sizes": "512x512"
     }
   ],
+  "shortcuts": [
+    {
+      "name": "JSON Utilities",
+      "short_name": "JSON",
+      "url": "/#/JSON",
+      "icons": [
+        {
+          "src": "favicon.ico",
+          "sizes": "128x128",
+          "type": "image/x-icon"
+        }
+      ]
+    },
+    {
+      "name": "RegEx Tester",
+      "short_name": "RegEx",
+      "url": "/#/RegExTester",
+      "icons": [
+        {
+          "src": "favicon.ico",
+          "sizes": "128x128",
+          "type": "image/x-icon"
+        }
+      ]
+    },
+    {
+      "name": "UUID Generator",
+      "short_name": "UUID",
+      "url": "/#/UUIDGenerator",
+      "icons": [
+        {
+          "src": "favicon.ico",
+          "sizes": "128x128",
+          "type": "image/x-icon"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screen-captures/screen-Base64Encoder.png",
+      "sizes": "1944x1750",
+      "type": "png"
+    },
+    {
+      "src": "/screen-captures/screen-JWTDecoder.png",
+      "sizes": "1856x1662",
+      "type": "png"
+    },
+    {
+      "src": "/screen-captures/screen-URLEncoder.png",
+      "sizes": "1944x1750",
+      "type": "png"
+    },
+    {
+      "src": "/screen-captures/screen-URLParser.png",
+      "sizes": "1944x1750",
+      "type": "png"
+    },
+    {
+      "src": "/screen-captures/screen-UUIDGenerator.png",
+      "sizes": "1944x1750",
+      "type": "png"
+    }
+  ],
   "start_url": ".",
+  "orientation": "any",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "categories": [
+    "productivity",
+    "utilities"
+  ]
 }
