@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AssignmentTurnedIn from '@mui/icons-material/AssignmentTurnedIn';
+import ContentCopy from '@mui/icons-material/ContentCopy';
 import { Button, ButtonProps, SvgIconTypeMap } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import * as copy from 'copy-to-clipboard';
@@ -20,7 +20,7 @@ const CopyButton: React.FC<Props> = ({
   isDisabled,
   hoverMessage,
   feedbackMessage,
-  Icon = AssignmentTurnedIn,
+  Icon = ContentCopy,
   ...otherProps
 }) => {
   const { setToasterState } = useToasterUpdate();
