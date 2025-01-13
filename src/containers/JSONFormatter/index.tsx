@@ -71,6 +71,9 @@ const JSONFormatter: React.FC<Props> = ({ inputText, storeInputText }) => {
             margin='normal'
             fullWidth={true}
             value={inputText}
+            inputProps={{
+              spellCheck: false
+            }}
             onChange={(e) => storeInputText('lastJSONFormatterValue', e.target.value)}
           />
         </div>

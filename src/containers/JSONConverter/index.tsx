@@ -146,6 +146,9 @@ const JSONConverter: React.FC<Props> = ({
                     error={invalid}
                     type='text'
                     helperText={invalid ? 'field is required' : null}
+                    inputProps={{
+                      spellCheck: false
+                    }}
                   />
                 )}
                 control={control}
@@ -175,6 +178,9 @@ const JSONConverter: React.FC<Props> = ({
                 margin='normal'
                 error={invalid}
                 helperText={invalid ? 'field is required' : null}
+                inputProps={{
+                  spellCheck: false
+                }}
               />
             )}
             rules={{ required: true }}
