@@ -123,6 +123,7 @@
     "electron-reload": "^1.5.0",
     "file-saver": "^2.0.5",
     "js-beautify": "^1.15.1",
+    "jsonrepair": "^3.11.2",
     "jwt-decode": "^4.0.0",
     "mime-db": "^1.52.0",
     "papaparse": "^5.4.1",

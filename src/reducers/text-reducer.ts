@@ -17,6 +17,7 @@ const DEFAULT_MAP = new Map<string, string>();
 DEFAULT_MAP.set('lastUrlParserValue', 'https://codesandbox.io/dashboard/home?lastProject=WowWWW&name=Smith');
 DEFAULT_MAP.set('lastUrlEncoderValue', 'The chief export of Chuck Norris is pain.');
 DEFAULT_MAP.set('lastJSONFormatterValue', '{ "firstName": "Chuck", "lastName": "Norris" }');
+DEFAULT_MAP.set('lastJSONRepairedValue', '{\n"firstName": "Chuck",\n"lastName": "Norris",\n}'.replaceAll('"', "'"));
 DEFAULT_MAP.set(
   'lastBase64EncoderValue',
   'Chuck Norris recently had the idea to sell his pee as a canned beverage. It is now called Red Bull.'
