@@ -1,6 +1,7 @@
 import React from 'react';
 
 import SaveIcon from '@mui/icons-material/Save';
+import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import WrapTextIcon from '@mui/icons-material/WrapText';
 import { Box, Toolbar } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -48,8 +49,13 @@ const JSONFormatter: React.FC<Props> = ({ inputText, storeInputText }) => {
   const [formatted, setFormatted] = React.useState('');
 
   React.useEffect(() => {
-    setFormatted(services.formatJson(inputText));
+    setFormatted(services.prettifyJson(inputText));
   }, [inputText]);
+
+  const handleMinify = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setFormatted(services.minifyJson(inputText));
+  };
 
   const handleSaveAs = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -81,6 +87,15 @@ const JSONFormatter: React.FC<Props> = ({ inputText, storeInputText }) => {
 
       <Toolbar className={classes.toolbar}>
         <Box component='div' flexGrow={1}></Box>
+        <Button
+          endIcon={<CloseFullscreenIcon></CloseFullscreenIcon>}
+          variant='contained'
+          color='primary'
+          sx={{ mr: 1 }}
+          onClick={handleMinify}
+        >
+          Minify
+        </Button>
         <CopyButton data={formatted} sx={{ mr: 1 }} />
         <Button
           endIcon={<SaveIcon>Save As…</SaveIcon>}
