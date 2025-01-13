@@ -120,6 +120,9 @@ const CSVParser: React.FC<Props> = ({ inputText, inputEncoding, inputOptions, st
             id='encoding'
             value={inputEncoding}
             autoFocus={isMdUp}
+            inputProps={{
+              spellCheck: false
+            }}
             onChange={(e) => storeInputText('lastCSVInputContentEncoding', e.target.value)}
           >
             {FILE_ENCODING_LABELS_SORTED.map((item, index) => (
