@@ -12921,6 +12921,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsonrepair@npm:^3.11.2":
+  version: 3.11.2
+  resolution: "jsonrepair@npm:3.11.2"
+  bin:
+    jsonrepair: bin/cli.js
+  checksum: 10c0/05fc70db3698aa39c73a2e4b97a2b2f875a4819fa9dd3741dd00a039f691d9e48e8ff0470af095c8c318035c9e3bcacd49771ecb173aede760f62e0f56351111
+  languageName: node
+  linkType: hard
+
 "jsprim@npm:^2.0.2":
   version: 2.0.2
   resolution: "jsprim@npm:2.0.2"
@@ -20000,6 +20009,7 @@ __metadata:
     electron-reload: "npm:^1.5.0"
     file-saver: "npm:^2.0.5"
     js-beautify: "npm:^1.15.1"
+    jsonrepair: "npm:^3.11.2"
     jwt-decode: "npm:^4.0.0"
     mime-db: "npm:^1.52.0"
     papaparse: "npm:^5.4.1"

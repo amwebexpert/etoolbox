@@ -49,6 +49,7 @@ const App: React.FC = () => {
   const About = lazy(() => import('./components/About/About'));
   const AppPreferences = lazy(() => import('./containers/AppPreferences'));
   const JSONFormatter = lazy(() => import('./containers/JSONFormatter'));
+  const JSONRepair = lazy(() => import('./containers/JSONRepair'));
   const RegExTester = lazy(() => import('./containers/RegExTester'));
   const UUIDGenerator = lazy(() => import('./containers/UUIDGenerator'));
   const JWTDecoder = lazy(() => import('./containers/JWTDecoder'));
@@ -74,6 +75,7 @@ const App: React.FC = () => {
   const featuresGroupJSON = [
     { type: JSONFormatter, path: '/JSONFormatter', label: 'JSON Format' },
     { type: JSONConverter, path: '/JSONConverter', label: 'Convert JSON' },
+    { type: JSONRepair, path: '/JSONRepair', label: 'JSON Repair' },
   ];
   const featuresGroupURL = [
     { type: URLParser, path: '/URLParser', label: 'Parser' },
