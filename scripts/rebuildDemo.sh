@@ -4,12 +4,12 @@ rm -rf build
 npm run build
 
 echo "______________________________________________"
-echo "updating CHANGELOG.md, tagging this release, bumping version for next release"
-yarn run release
-
-echo "______________________________________________"
 echo "updating constants.ts with the new version number"
 node scripts/generate-version.js
+
+echo "______________________________________________"
+echo "updating CHANGELOG.md, tagging this release, bumping version for next release"
+yarn run release
 
 echo "______________________________________________"
 echo "Removing the [docs] folder"
