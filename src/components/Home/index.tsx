@@ -1,71 +1,48 @@
 import React from 'react';
 
-import { Alert, AlertTitle, useTheme } from '@mui/material';
-import { Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
+import { Alert, AlertTitle, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { makeStyles, withStyles } from '@mui/styles';
 
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { CHANGELOG_MD } from '../../app-version-constants';
 import { getBuildUTCDate } from '../../services/utils';
-import { CHANGE_LOGS } from './services';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(2),
     padding: theme.spacing(2),
   },
-  panel: {
-    borderColor: theme.palette.text.disabled,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: theme.shape.borderRadius,
-    width: '100%',
-  },
 }));
 
-const StyledTableCell = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
+const StyledTableCell = withStyles((theme) => ({
   body: {
     fontSize: 14,
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles(theme => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
-
 const Home: React.FC = () => {
-  const theme = useTheme();
   const classes = useStyles();
 
   return (
     <Paper className={classes.root}>
-      <Alert severity="success">
+      <Alert severity='success'>
         <AlertTitle>Last build: {getBuildUTCDate()}</AlertTitle>
-        <Typography variant="body1">
+
+        <Typography variant='body1'>
           Welcome to a collection of web developer utilities packaged as a desktop app!
         </Typography>
       </Alert>
 
-      <div style={{ marginTop: theme.spacing(2) }}>
-        <Typography variant="h6">Change Logs</Typography>
-      </div>
-
-      <TableContainer component={Paper}>
-        <Table aria-label="Change logs">
+      <TableContainer>
+        <Table aria-label='Change logs'>
           <TableBody>
-            {CHANGE_LOGS.map((changeLog, index) => (
-              <StyledTableRow key={index}>
-                <StyledTableCell>{changeLog.version}</StyledTableCell>
-                <StyledTableCell>{changeLog.desc}</StyledTableCell>
-              </StyledTableRow>
-            ))}
+            <TableRow>
+              <StyledTableCell>
+                <Markdown remarkPlugins={[remarkGfm]}>{CHANGELOG_MD}</Markdown>
+              </StyledTableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

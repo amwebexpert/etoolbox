@@ -16,14 +16,25 @@ export const APP_VERSION_INFO = Object.freeze({
 });
 
 export const LONG_VERSION_DATE = '${version} (${date})';
+
 `;
+
+const generateMarkdownConst = () => {
+  const markdownContent = fs.readFileSync('CHANGELOG.md', { encoding: 'utf8' });
+  const backTick = '`';
+  return `export const CHANGELOG_MD: string = ${backTick}${markdownContent}${backTick};\n`;
+};
 
 const main = () => {
   console.info('\t[Version generator script]');
 
   try {
     console.info(`\t- writing file "${constantsFilename}"...`, packageMetadata.version);
-    fs.writeFileSync(constantsFilename, data, { encoding: 'utf8' });
+
+    const changeLogConst = generateMarkdownConst();
+    const dataWithMarkdown = `${data}${changeLogConst}`;
+    fs.writeFileSync(constantsFilename, dataWithMarkdown, { encoding: 'utf8' });
+
     console.info(`\t- file "${constantsFilename}" written successfully.`);
   } catch (err) {
     console.error(`\t- error while writing file "${constantsFilename}": ${err.message}`, err);
