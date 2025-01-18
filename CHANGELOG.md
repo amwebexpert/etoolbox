@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.11.0](https://github.com/amwebexpert/etoolbox/compare/v2.1.6-with-code-reporting...v2.11.0) (2025-01-18)
+
+
+### Features
+
+* 1st 3D viewer demo ([#30](https://github.com/amwebexpert/etoolbox/issues/30)) ([bad95e4](https://github.com/amwebexpert/etoolbox/commit/bad95e4e4d8601963c0d4da5a9cae43964915e06))
+* 2.9.0 release ([#45](https://github.com/amwebexpert/etoolbox/issues/45)) ([fdafc12](https://github.com/amwebexpert/etoolbox/commit/fdafc12503fa93d46718cc4dba0443fd393ad480))
+* add clickable hyperlink to URLParser ([#44](https://github.com/amwebexpert/etoolbox/issues/44)) ([31ea1e9](https://github.com/amwebexpert/etoolbox/commit/31ea1e9bb201c1a67b8b9f509f4445ef27e42a1c))
+* add json repair ([#59](https://github.com/amwebexpert/etoolbox/issues/59)) ([148bc19](https://github.com/amwebexpert/etoolbox/commit/148bc19b9c5aceb3e96b3d3424f2f46c9e280a35)), closes [#47](https://github.com/amwebexpert/etoolbox/issues/47)
+* add minifier functionality ([#63](https://github.com/amwebexpert/etoolbox/issues/63)) ([803b282](https://github.com/amwebexpert/etoolbox/commit/803b28218c327ff25d631ffa7cec62effaf0fd48))
+* changes log markdown content from home screen ([#65](https://github.com/amwebexpert/etoolbox/issues/65)) ([2fa40b0](https://github.com/amwebexpert/etoolbox/commit/2fa40b03543c02821dd0434368809a5a82f98d2c))
+* update manifest.json ([#55](https://github.com/amwebexpert/etoolbox/issues/55)) ([5577b88](https://github.com/amwebexpert/etoolbox/commit/5577b882f20671b965f53377932e7736617d583d))
+
+
+### Bug Fixes
+
+* support space in poker planning team name ([#40](https://github.com/amwebexpert/etoolbox/issues/40)) ([f16c01d](https://github.com/amwebexpert/etoolbox/commit/f16c01dbaad968f88a924e46ed774b6619f09401))
+
 ## [2.10.0](https://github.com/amwebexpert/etoolbox/compare/v2.1.6-with-code-reporting...v2.10.0) (2025-01-18)
 
 
