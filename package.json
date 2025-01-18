@@ -1,12 +1,12 @@
 {
   "name": "web-toolbox",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "author": {
     "name": "André Masson",
     "email": "amwebexpert@gmail.com",
     "url": "https://www.linkedin.com/in/amwebexpert/"
   },
-  "description": "Collection of web developer utilities packaged as a desktop app",
+  "description": "Collection of web developer utilities",
   "homepage": ".",
   "main": "build/electron/main.js",
   "scripts": {
