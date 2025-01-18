@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Alert, AlertTitle, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { makeStyles, withStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -15,12 +15,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
 }));
-
-const StyledTableCell = withStyles((theme) => ({
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
 
 const Home: React.FC = () => {
   const classes = useStyles();
@@ -39,9 +33,9 @@ const Home: React.FC = () => {
         <Table aria-label='Change logs'>
           <TableBody>
             <TableRow>
-              <StyledTableCell>
+              <TableCell>
                 <Markdown remarkPlugins={[remarkGfm]}>{CHANGELOG_MD}</Markdown>
-              </StyledTableCell>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
