@@ -78,12 +78,11 @@ Poker planning:
 Others:
 
 - Excel File reader
-- Text diff
+- Text diff tooling
 - Image compressor
 - Mardown viewer
 - DataURI scheme viewer (Base64 raw data)
   - Like this website: [Data URL to image](https://base64.guru/tools/data-url-to-image)
-- 3D Visualizer (.obj and .fbx viewer)
 - Add list of all official HTTP Server codes (REST)
 - Markdown utilities, like [table formatter](https://tabletomarkdown.com/format-markdown-table/)
 - Suggests something or add your pull request!
@@ -99,7 +98,3 @@ This project is licensed under the MIT license. For more information see [`LICEN
 ## References
 
 See the [References](./docs/sections/references.md)
-
-## Authors
-
-- [amwebexpert@gmail.com](https://github.com/amwebexpert)
