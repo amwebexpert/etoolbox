@@ -1,7 +1,8 @@
 import React from 'react';
 
-import SaveIcon from '@mui/icons-material/Save';
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
+import PrettifyIcon from '@mui/icons-material/FormatIndentIncrease';
+import SaveIcon from '@mui/icons-material/Save';
 import WrapTextIcon from '@mui/icons-material/WrapText';
 import { Box, Toolbar } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -19,6 +20,8 @@ import { AppState } from '../../reducers';
 import * as fileService from '../../services/file-utils';
 import { useIsWidthUp } from '../../theme';
 import * as services from './services';
+
+const { isMinified, prettifyJson, minifyJson } = services;
 
 const useStyles = makeStyles((theme) => ({
   formatted: {
@@ -47,14 +50,15 @@ const JSONFormatter: React.FC<Props> = ({ inputText, storeInputText }) => {
   const isMdUp = useIsWidthUp('md');
   const syntaxTheme = useSyntaxHighlightTheme();
   const [formatted, setFormatted] = React.useState('');
+  const isMinifiedFormat = isMinified(formatted);
 
   React.useEffect(() => {
-    setFormatted(services.prettifyJson(inputText));
+    setFormatted(prettifyJson(inputText));
   }, [inputText]);
 
-  const handleMinify = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const toggleMinify = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setFormatted(services.minifyJson(inputText));
+    setFormatted((value) => (isMinified(value) ? prettifyJson(value) : minifyJson(value)));
   };
 
   const handleSaveAs = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -78,7 +82,7 @@ const JSONFormatter: React.FC<Props> = ({ inputText, storeInputText }) => {
             fullWidth={true}
             value={inputText}
             inputProps={{
-              spellCheck: false
+              spellCheck: false,
             }}
             onChange={(e) => storeInputText('lastJSONFormatterValue', e.target.value)}
           />
@@ -88,13 +92,13 @@ const JSONFormatter: React.FC<Props> = ({ inputText, storeInputText }) => {
       <Toolbar className={classes.toolbar}>
         <Box component='div' flexGrow={1}></Box>
         <Button
-          endIcon={<CloseFullscreenIcon></CloseFullscreenIcon>}
+          endIcon={isMinifiedFormat ? <PrettifyIcon /> : <CloseFullscreenIcon />}
           variant='contained'
           color='primary'
           sx={{ mr: 1 }}
-          onClick={handleMinify}
+          onClick={toggleMinify}
         >
-          Minify
+          {isMinifiedFormat ? 'Format' : 'Minify'}
         </Button>
         <CopyButton data={formatted} sx={{ mr: 1 }} />
         <Button
