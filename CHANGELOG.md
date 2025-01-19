@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.1](https://github.com/amwebexpert/etoolbox/compare/v-3.3.0...v-3.3.1) (2025-01-19)
+
 ## 3.3.0 (2025-01-19)
 
 
