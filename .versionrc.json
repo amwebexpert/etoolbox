@@ -1,6 +1,6 @@
 {
   "releaseCommitMessageFormat": "chore(release): {{currentTag}}",
-  "tagPrefix": "v-",
+  "tagPrefix": "v",
   "skip": {
     "changelog": false
   },
