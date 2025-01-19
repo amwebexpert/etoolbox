@@ -6,8 +6,9 @@ import { makeStyles } from '@mui/styles';
 
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { CHANGELOG_MD } from '../../app-version-constants';
+import { APP_VERSION_INFO, CHANGELOG_MD } from '../../app-version-constants';
 import { getBuildUTCDate } from '../../services/utils';
+import { MarkdownLink } from './markdown-link';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,12 +22,10 @@ const Home: React.FC = () => {
 
   return (
     <Paper className={classes.root}>
-      <Alert severity='success'>
+      <Alert severity='info'>
         <AlertTitle>Last build: {getBuildUTCDate()}</AlertTitle>
 
-        <Typography variant='body1'>
-          Welcome to a collection of web developer utilities packaged as a desktop app!
-        </Typography>
+        <Typography variant='body1'>{APP_VERSION_INFO.DESCRIPTION}</Typography>
       </Alert>
 
       <TableContainer>
@@ -34,7 +33,9 @@ const Home: React.FC = () => {
           <TableBody>
             <TableRow>
               <TableCell>
-                <Markdown remarkPlugins={[remarkGfm]}>{CHANGELOG_MD}</Markdown>
+                <Markdown remarkPlugins={[remarkGfm]} components={{ a: MarkdownLink }}>
+                  {CHANGELOG_MD}
+                </Markdown>
               </TableCell>
             </TableRow>
           </TableBody>

@@ -6,6 +6,13 @@
     "email": "amwebexpert@gmail.com",
     "url": "https://www.linkedin.com/in/amwebexpert/"
   },
+  "contributors": [
+    {
+      "name": "Anthony Buchholz",
+      "email": "anthony.buchholz@gmail.com",
+      "url": "https://yodigi7.github.io/"
+    }
+  ],
   "description": "Collection of web developer utilities",
   "homepage": ".",
   "main": "build/electron/main.js",
