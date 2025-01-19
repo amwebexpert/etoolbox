@@ -1,6 +1,6 @@
 # Web Toolbox
 
-Open source collection of web developer utilities, also packaged as a desktop application (Windows, Linux, Mac).
+Open source collection of web developer utilities.
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/amwebexpert/etoolbox) ![GitHub Release Date](https://img.shields.io/github/release-date/amwebexpert/etoolbox) ![GitHub last commit](https://img.shields.io/github/last-commit/amwebexpert/etoolbox) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/react) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/typescript) [![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
 
@@ -16,7 +16,7 @@ Open source collection of web developer utilities, also packaged as a desktop ap
 Some screen captures of the implemented features...
 
 | JSON format                                                 | File encoder                                               | RegEx tester                                              | Imaging OCR                                            |
-| ----------------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------------ |
+|-------------------------------------------------------------|------------------------------------------------------------|-----------------------------------------------------------|--------------------------------------------------------|
 | <img src="public/screen-captures/JSONFormatter-demo.gif" /> | <img src="public/screen-captures/ImageEncoder-demo.gif" /> | <img src="public/screen-captures/RegexTester-demo.gif" /> | <img src="public/screen-captures/ImageOCR-demo.gif" /> |
 
 ## Online demo
