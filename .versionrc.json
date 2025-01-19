@@ -1,0 +1,8 @@
+{
+  "releaseCommitMessageFormat": "chore(release): {{currentTag}}",
+  "tagPrefix": "v-",
+  "skip": {
+    "changelog": false
+  },
+  "compareUrlFormat": "{{host}}/{{owner}}/{{repository}}/compare/{{previousTag}}...{{currentTag}}"
+}
