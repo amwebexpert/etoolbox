@@ -9,11 +9,12 @@ import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import { Helmet } from 'react-helmet';
 
+import { APP_VERSION_INFO } from '../../app-version-constants';
 import Banner from '../../images/icon.png';
 import AppShare from '../AppShare/AppShare';
 import AppDetail from './AppDetail';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 10,
   },
@@ -36,14 +37,14 @@ export default function About() {
   return (
     <>
       <Helmet title={title} />
-      <Grid container justifyContent="center" className={classes.root}>
+      <Grid container justifyContent='center' className={classes.root}>
         <Card className={classes.rootCard}>
           <CardActionArea>
-            <CardMedia className={classes.media} image={Banner} title="Web Toolbox" />
+            <CardMedia className={classes.media} image={Banner} title='Web Toolbox' />
             <CardContent>
-              <Typography variant="h5">Web Toolbox</Typography>
+              <Typography variant='h5'>Web Toolbox</Typography>
 
-              <Typography variant="subtitle2">Collection of web developer utilities</Typography>
+              <Typography variant='subtitle2'>{APP_VERSION_INFO.DESCRIPTION}</Typography>
 
               <AppShare />
 
