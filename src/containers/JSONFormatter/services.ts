@@ -2,11 +2,11 @@
 const replacer = (_key: string, value: any) =>
   value instanceof Object && !(value instanceof Array)
     ? Object.keys(value)
-      .sort()
-      .reduce((sorted: any, key: string) => {
-        sorted[key] = value[key];
-        return sorted;
-      }, {})
+        .sort()
+        .reduce((sorted: any, key: string) => {
+          sorted[key] = value[key];
+          return sorted;
+        }, {})
     : value;
 
 export function prettifyJson(value?: string): string {
@@ -28,5 +28,10 @@ export function formatJson(space: number, value?: string): string {
 }
 
 export function minifyJson(value?: string): string {
-  return formatJson(0, value)
+  return formatJson(0, value);
 }
+
+export const isMinified = (value: string): boolean => {
+  const minified = minifyJson(value);
+  return value === minified;
+};
