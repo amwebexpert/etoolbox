@@ -8,10 +8,6 @@ echo "updating constants.ts with the new version number"
 node scripts/generate-version.js
 
 echo "______________________________________________"
-echo "updating CHANGELOG.md, tagging this release, bumping version for next release"
-yarn run release
-
-echo "______________________________________________"
 echo "Removing the [docs] folder"
 rm -rf docs
 echo "\t --> [docs] folder removed"
@@ -34,6 +30,10 @@ echo "______________________________________________"
 echo "adding new ./docs file changes to current branch"
 git add .
 git commit -m"docs: new online demo web release"
+
+echo "______________________________________________"
+echo "updating CHANGELOG.md, tagging this release, bumping version for next release"
+yarn run release
 
 echo "______________________________________________"
 echo "Pushing to Github (including tags)"

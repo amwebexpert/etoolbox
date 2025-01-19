@@ -2,10 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [3.3.1](https://github.com/amwebexpert/etoolbox/compare/v-3.3.0...v-3.3.1) (2025-01-19)
+## [3.1.0](https://github.com/amwebexpert/etoolbox/compare/v2.0.0...v3.1.0) (2025-01-19)
 
-## 3.3.0 (2025-01-19)
 
+### Features
+
+* add json repair ([#59](https://github.com/amwebexpert/etoolbox/issues/59)) ([148bc19](https://github.com/amwebexpert/etoolbox/commit/148bc19b9c5aceb3e96b3d3424f2f46c9e280a35)), closes [#47](https://github.com/amwebexpert/etoolbox/issues/47)
+* add minifier functionality ([#63](https://github.com/amwebexpert/etoolbox/issues/63)) ([803b282](https://github.com/amwebexpert/etoolbox/commit/803b28218c327ff25d631ffa7cec62effaf0fd48))
+* changes log markdown content from home screen ([#65](https://github.com/amwebexpert/etoolbox/issues/65)) ([2fa40b0](https://github.com/amwebexpert/etoolbox/commit/2fa40b03543c02821dd0434368809a5a82f98d2c))
+* improve markdown anchor tag to match app theme ([#69](https://github.com/amwebexpert/etoolbox/issues/69)) ([9f7ced5](https://github.com/amwebexpert/etoolbox/commit/9f7ced5e17fa4e3159b06955c022c830732560d0))
+* json minify toggler ([#68](https://github.com/amwebexpert/etoolbox/issues/68)) ([d6175fd](https://github.com/amwebexpert/etoolbox/commit/d6175fdec50c56fd8e67a5d7724b56451ede53b9))
+* update manifest.json ([#55](https://github.com/amwebexpert/etoolbox/issues/55)) ([5577b88](https://github.com/amwebexpert/etoolbox/commit/5577b882f20671b965f53377932e7736617d583d))
+
+
+
+## 2.0.0 (unordered history of features and bug fixes, was prior standard-version usage)
 
 ### Features
 
@@ -88,7 +99,6 @@ All notable changes to this project will be documented in this file. See [standa
 * usage of ReconnectingWebSocket ([44d94c2](https://github.com/amwebexpert/etoolbox/commit/44d94c2aa840d3097242074c0eb5e40f20167278))
 * user removal impl ([3bab4cd](https://github.com/amwebexpert/etoolbox/commit/3bab4cdb3c14cbfafef93a982c1e19ef20b9b4c2))
 
-
 ### Bug Fixes
 
 * broken CSV file selector button ([#8](https://github.com/amwebexpert/etoolbox/issues/8)) ([6f96194](https://github.com/amwebexpert/etoolbox/commit/6f9619410fa19fd631eea9dfa01b9472be60299b))
@@ -112,9 +122,6 @@ All notable changes to this project will be documented in this file. See [standa
 * timezone example with date-fns ([471c492](https://github.com/amwebexpert/etoolbox/commit/471c49248952763daa38c4946a6784172512c546))
 * usage of minRows to replace rows ([136105b](https://github.com/amwebexpert/etoolbox/commit/136105b4029bc487e99c5496289936a90effb7fb))
 
-## 3.2.0 (2025-01-19)
-
-
 ### Features
 
 * 1st 3D viewer demo ([#30](https://github.com/amwebexpert/etoolbox/issues/30)) ([bad95e4](https://github.com/amwebexpert/etoolbox/commit/bad95e4e4d8601963c0d4da5a9cae43964915e06))
@@ -132,58 +139,19 @@ All notable changes to this project will be documented in this file. See [standa
 
 * support space in poker planning team name ([#40](https://github.com/amwebexpert/etoolbox/issues/40)) ([f16c01d](https://github.com/amwebexpert/etoolbox/commit/f16c01dbaad968f88a924e46ed774b6619f09401))
 
-### 2.1.6-with-code-reporting (2022-11-10)
-
-### 2.1.6 (2022-11-09)
-
-### 2.1.5 (2022-11-08)
-
-
 ### Bug Fixes
 
 * tab selection flickering effect on grouped features ([#22](https://github.com/amwebexpert/etoolbox/issues/22)) ([1c352b7](https://github.com/amwebexpert/etoolbox/commit/1c352b7eb0909640d4eda559263c2c271131a8b1))
-
-### 2.1.4 (2022-11-07)
-
-### 2.1.3 (2022-11-07)
-
-### 2.1.2 (2022-11-07)
-
-### 2.1.1 (2022-11-07)
-
-## 2.1.0 (2022-11-07)
 
 
 ### Features
 
 * cURL converter ([#21](https://github.com/amwebexpert/etoolbox/issues/21)) ([ffec4ee](https://github.com/amwebexpert/etoolbox/commit/ffec4ee5c13db21947745393956c66473dd15745))
 
-### 2.0.9-electron-compatible (2022-11-06)
-
-### 2.0.9 (2022-11-04)
-
-### 2.0.8 (2022-11-04)
-
-### 2.0.7 (2022-11-04)
-
-### 2.0.6 (2022-11-02)
-
-### 2.0.5 (2022-11-02)
-
-### 2.0.4 (2022-11-02)
-
-### 2.0.3 (2022-11-02)
-
-### 2.0.2 (2022-11-02)
-
-### 2.0.1 (2022-11-01)
-
 
 ### Bug Fixes
 
 * broken CSV file selector button ([#8](https://github.com/amwebexpert/etoolbox/issues/8)) ([6f96194](https://github.com/amwebexpert/etoolbox/commit/6f9619410fa19fd631eea9dfa01b9472be60299b))
-
-## 2.0.0 (2022-11-01)
 
 
 ### Features
@@ -241,18 +209,10 @@ All notable changes to this project will be documented in this file. See [standa
 * disable clear buttons if user is not member of current session ([ea43900](https://github.com/amwebexpert/etoolbox/commit/ea439002b7c6019ca352b0bb2f1212ccd5943d35))
 * handling both WSS and WS protocols ([2340955](https://github.com/amwebexpert/etoolbox/commit/23409558c116cdcb0ee7c1abafb1579d8770ec7c))
 
-## 1.17.0 (2022-09-12)
-
 
 ### Features
 
 * improved modules lazy loading with suspence ([9fd69ef](https://github.com/amwebexpert/etoolbox/commit/9fd69ef9a46eda6947f2f389d7e051bedf415837))
-
-## 1.16.0 (2022-09-11)
-
-
-### Features
-
 * added epoch + date + time utilities ([02143ef](https://github.com/amwebexpert/etoolbox/commit/02143ef07622bc6801d175aed6335035abb8dbc6))
 * added epoch + date + time utilities ([cd06a9c](https://github.com/amwebexpert/etoolbox/commit/cd06a9c43da3957dd7e9a94e7d92ca72e246805c))
 * added hexadecimal opacity converter ([a145317](https://github.com/amwebexpert/etoolbox/commit/a1453173f961edb02940cc69b1e9b1b294b3e3a0))
@@ -263,35 +223,12 @@ All notable changes to this project will be documented in this file. See [standa
 * transform JSON to JS obj code ([05e0bea](https://github.com/amwebexpert/etoolbox/commit/05e0beaf1c142c637cbd74c56b368e9f49d74bca))
 
 
-### Bug Fixes
-
-* copy button size ([bc8754b](https://github.com/amwebexpert/etoolbox/commit/bc8754bfb2462267dcca79dde14a62850499d34b))
-* CSV parser default encoding utf-8 ([27caa89](https://github.com/amwebexpert/etoolbox/commit/27caa890bcc57b0894756c5bd47b25336d2cb5bf))
-* CSV parser default encoding utf-8 ([fa22b26](https://github.com/amwebexpert/etoolbox/commit/fa22b268624104c2bc543c907241d5456b574afe))
-* CSV parser labels to name mapping ([9f0d5de](https://github.com/amwebexpert/etoolbox/commit/9f0d5de3c3272915a3d6e96bedc9bd306a0f079c))
-* CSV parser labels to name mapping ([7b49f54](https://github.com/amwebexpert/etoolbox/commit/7b49f543069f6e1f7adfe846628515bd9e5991e8))
-* imports statements ([b17a021](https://github.com/amwebexpert/etoolbox/commit/b17a021c5d7b614d9e77c0572234fd837c01c3c7))
-* layout of both color picker and CSV parser ([113c747](https://github.com/amwebexpert/etoolbox/commit/113c747b512007a57de6e701c6945fc00c39e49d))
-* mobile layout for CSV parser ([2752530](https://github.com/amwebexpert/etoolbox/commit/27525306017a644d2df6e40b723e0209146aedb8))
-* mobile layout for CSV parser ([b970f69](https://github.com/amwebexpert/etoolbox/commit/b970f69f641028386aa14a1b93a9970baa0c3659))
-* timezone example with date-fns ([471c492](https://github.com/amwebexpert/etoolbox/commit/471c49248952763daa38c4946a6784172512c546))
-* usage of minRows to replace rows ([136105b](https://github.com/amwebexpert/etoolbox/commit/136105b4029bc487e99c5496289936a90effb7fb))
-
-## 1.11.0 (2021-07-25)
-
-
 ### Features
 
 * added colors family filter ([babed98](https://github.com/amwebexpert/etoolbox/commit/babed9811d42bd7207db059227f8f6d30cbdc3f9))
 * added colors family filter ([5b8a92b](https://github.com/amwebexpert/etoolbox/commit/5b8a92bab963e294ca075a182013ddef89a3e8ce))
 * added pagination hook ([52446e5](https://github.com/amwebexpert/etoolbox/commit/52446e591cb1e551aeb122cc4153b592595e6113))
 * added pagination hook ([0c7ed2b](https://github.com/amwebexpert/etoolbox/commit/0c7ed2b5f1ce1a2977e0aa32d90a8a9fe9d8f6ba))
-
-## 1.10.0 (2021-07-13)
-
-
-### Features
-
 * 1st version of js to json ([6aac1ed](https://github.com/amwebexpert/etoolbox/commit/6aac1edb599b8ee4bbdf5eff0d670fba57d3ff36))
 * 1st version of js to json ([96a737d](https://github.com/amwebexpert/etoolbox/commit/96a737d652d6779dde00dfa00819be367f71f742))
 * ability to flip encoded value ([38255ed](https://github.com/amwebexpert/etoolbox/commit/38255edbdb3a072daa46c230b722cccecbb8654b))
@@ -301,26 +238,6 @@ All notable changes to this project will be documented in this file. See [standa
 * added preferences screen ([7dabb33](https://github.com/amwebexpert/etoolbox/commit/7dabb3364ad902e34d0947a3ebf504289e3ba7ce))
 * named colors ([1e81036](https://github.com/amwebexpert/etoolbox/commit/1e81036d1d90bcfb00267a2499023704ce5388df))
 * starting color codes screen ([9682a1e](https://github.com/amwebexpert/etoolbox/commit/9682a1ebb00741e2279d998aeaf3e9f78d5b034b))
-
-
-### Bug Fixes
-
-* lazy loading suspense fixed ([4eae7f8](https://github.com/amwebexpert/etoolbox/commit/4eae7f8c3ca6b45570b7c7bcb906b35c5b1535fa))
-* localStorage issue ([b12b545](https://github.com/amwebexpert/etoolbox/commit/b12b545df54d50dc69feb05c8f77ed72076338a8))
-* repaired about click on app icon ([4b0a1e5](https://github.com/amwebexpert/etoolbox/commit/4b0a1e5bd3bb7845f1f54062bea32f455467236a))
-* reset current page on filter change ([8acd19d](https://github.com/amwebexpert/etoolbox/commit/8acd19d57f144233d26da28f0bc922501ecfa324))
-
-### [3.1.3](https://github.com/amwebexpert/etoolbox/compare/version3.1.2...version3.1.3) (2025-01-19)
-
-### [3.1.2](https://github.com/amwebexpert/etoolbox/compare/version3.1.1...version3.1.2) (2025-01-19)
-
-### [3.1.1](https://github.com/amwebexpert/etoolbox/compare/version3.1.0...version3.1.1) (2025-01-19)
-
-## 3.1.0 (2025-01-19)
-
-
-### Features
-
 * 1st 3D viewer demo ([#30](https://github.com/amwebexpert/etoolbox/issues/30)) ([bad95e4](https://github.com/amwebexpert/etoolbox/commit/bad95e4e4d8601963c0d4da5a9cae43964915e06))
 * 1st version of js to json ([6aac1ed](https://github.com/amwebexpert/etoolbox/commit/6aac1edb599b8ee4bbdf5eff0d670fba57d3ff36))
 * 1st version of js to json ([96a737d](https://github.com/amwebexpert/etoolbox/commit/96a737d652d6779dde00dfa00819be367f71f742))
@@ -403,6 +320,21 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
+* copy button size ([bc8754b](https://github.com/amwebexpert/etoolbox/commit/bc8754bfb2462267dcca79dde14a62850499d34b))
+* CSV parser default encoding utf-8 ([27caa89](https://github.com/amwebexpert/etoolbox/commit/27caa890bcc57b0894756c5bd47b25336d2cb5bf))
+* CSV parser default encoding utf-8 ([fa22b26](https://github.com/amwebexpert/etoolbox/commit/fa22b268624104c2bc543c907241d5456b574afe))
+* CSV parser labels to name mapping ([9f0d5de](https://github.com/amwebexpert/etoolbox/commit/9f0d5de3c3272915a3d6e96bedc9bd306a0f079c))
+* CSV parser labels to name mapping ([7b49f54](https://github.com/amwebexpert/etoolbox/commit/7b49f543069f6e1f7adfe846628515bd9e5991e8))
+* imports statements ([b17a021](https://github.com/amwebexpert/etoolbox/commit/b17a021c5d7b614d9e77c0572234fd837c01c3c7))
+* layout of both color picker and CSV parser ([113c747](https://github.com/amwebexpert/etoolbox/commit/113c747b512007a57de6e701c6945fc00c39e49d))
+* mobile layout for CSV parser ([2752530](https://github.com/amwebexpert/etoolbox/commit/27525306017a644d2df6e40b723e0209146aedb8))
+* mobile layout for CSV parser ([b970f69](https://github.com/amwebexpert/etoolbox/commit/b970f69f641028386aa14a1b93a9970baa0c3659))
+* timezone example with date-fns ([471c492](https://github.com/amwebexpert/etoolbox/commit/471c49248952763daa38c4946a6784172512c546))
+* usage of minRows to replace rows ([136105b](https://github.com/amwebexpert/etoolbox/commit/136105b4029bc487e99c5496289936a90effb7fb))
+* lazy loading suspense fixed ([4eae7f8](https://github.com/amwebexpert/etoolbox/commit/4eae7f8c3ca6b45570b7c7bcb906b35c5b1535fa))
+* localStorage issue ([b12b545](https://github.com/amwebexpert/etoolbox/commit/b12b545df54d50dc69feb05c8f77ed72076338a8))
+* repaired about click on app icon ([4b0a1e5](https://github.com/amwebexpert/etoolbox/commit/4b0a1e5bd3bb7845f1f54062bea32f455467236a))
+* reset current page on filter change ([8acd19d](https://github.com/amwebexpert/etoolbox/commit/8acd19d57f144233d26da28f0bc922501ecfa324))
 * broken CSV file selector button ([#8](https://github.com/amwebexpert/etoolbox/issues/8)) ([6f96194](https://github.com/amwebexpert/etoolbox/commit/6f9619410fa19fd631eea9dfa01b9472be60299b))
 * copy button size ([bc8754b](https://github.com/amwebexpert/etoolbox/commit/bc8754bfb2462267dcca79dde14a62850499d34b))
 * CSV parser default encoding utf-8 ([27caa89](https://github.com/amwebexpert/etoolbox/commit/27caa890bcc57b0894756c5bd47b25336d2cb5bf))
