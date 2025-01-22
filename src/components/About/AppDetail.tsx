@@ -34,6 +34,23 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
+const Contributors = () => {
+  return (
+    <StyledTableRow key={"contributors"}>
+      <StyledTableCell component="th" scope="row">
+        Contributor(s)
+      </StyledTableCell>
+      <StyledTableCell align="right">
+      {CONTRIBUTORS.map((contributor, index) => (
+        <Link href={contributor.url} target="_blank" rel="noopener noreferrer" key={index} style={{ display: "block" }}>
+          {contributor.name}
+        </Link>
+      ))}
+      </StyledTableCell>
+    </StyledTableRow>
+  );
+};
+
 const AppDetail: React.FC<TableContainerProps> = ({ ...otherProps }) => {
   const { setToasterState } = useToasterUpdate();
   const isMdUp = useIsWidthUp('md');
@@ -42,21 +59,6 @@ const AppDetail: React.FC<TableContainerProps> = ({ ...otherProps }) => {
     const message = `Build UTC timestamp: [${getBuildUTCTimestamp()}]`;
     setToasterState({ open: true, message, type: 'info' });
   }
-
-  function buildContributors() {
-    return CONTRIBUTORS.map((contributor, index) => (
-      <StyledTableRow key={`contributor-${index}`}>
-        <StyledTableCell component="th" scope="row">
-          Contributor
-        </StyledTableCell>
-        <StyledTableCell align="right">
-          <Link href={contributor.url} target="_blank" rel="noopener noreferrer">
-            {contributor.name}
-          </Link>
-        </StyledTableCell>
-      </StyledTableRow>
-    ));
-  };
 
   return (
     <TableContainer component={Paper} {...otherProps}>
@@ -106,7 +108,7 @@ const AppDetail: React.FC<TableContainerProps> = ({ ...otherProps }) => {
               <Link href='mailto:amwebexpert@gmail.com'>André Masson</Link>
             </StyledTableCell>
           </StyledTableRow>
-          {buildContributors()}
+          <Contributors />
           <StyledTableRow key='iconMadeBy'>
             <StyledTableCell component='th' scope='row'>
               Icon credits
