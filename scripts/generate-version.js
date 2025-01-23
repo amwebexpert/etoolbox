@@ -2,7 +2,7 @@ const fs = require('fs');
 const packageMetadata = require('../package.json');
 
 const constantsFilename = './src/app-version-constants.ts';
-const { name, description, version } = packageMetadata;
+const { name, description, version, contributors } = packageMetadata;
 const date = new Date().toISOString().split('T')[0];
 const data = `/* eslint-disable */
 // ----------------------------------------------------------------------------------------
@@ -17,6 +17,7 @@ export const APP_VERSION_INFO = Object.freeze({
 
 export const LONG_VERSION_DATE = '${version} (${date})';
 
+export const CONTRIBUTORS = Object.freeze(${JSON.stringify(contributors)});
 `;
 
 const generateMarkdownConst = () => {

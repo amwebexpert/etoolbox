@@ -11,7 +11,7 @@ import TableContainer, { TableContainerProps } from '@mui/material/TableContaine
 import TableRow from '@mui/material/TableRow';
 import { withStyles } from '@mui/styles';
 
-import { APP_VERSION_INFO, LONG_VERSION_DATE } from '../../app-version-constants';
+import { APP_VERSION_INFO, LONG_VERSION_DATE, CONTRIBUTORS } from '../../app-version-constants';
 import { getBuildUTCTimestamp } from '../../services/utils';
 import { useIsWidthUp } from '../../theme';
 import { useToasterUpdate } from '../Toaster/ToasterProvider';
@@ -33,6 +33,23 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
+
+const Contributors = () => {
+  return (
+    <StyledTableRow key={"contributors"}>
+      <StyledTableCell component="th" scope="row">
+        Contributor(s)
+      </StyledTableCell>
+      <StyledTableCell align="right">
+      {CONTRIBUTORS.map((contributor, index) => (
+        <Link href={contributor.url} target="_blank" rel="noopener noreferrer" key={index} style={{ display: "block" }}>
+          {contributor.name}
+        </Link>
+      ))}
+      </StyledTableCell>
+    </StyledTableRow>
+  );
+};
 
 const AppDetail: React.FC<TableContainerProps> = ({ ...otherProps }) => {
   const { setToasterState } = useToasterUpdate();
@@ -91,6 +108,7 @@ const AppDetail: React.FC<TableContainerProps> = ({ ...otherProps }) => {
               <Link href='mailto:amwebexpert@gmail.com'>André Masson</Link>
             </StyledTableCell>
           </StyledTableRow>
+          <Contributors />
           <StyledTableRow key='iconMadeBy'>
             <StyledTableCell component='th' scope='row'>
               Icon credits

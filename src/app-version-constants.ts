@@ -11,6 +11,7 @@ export const APP_VERSION_INFO = Object.freeze({
 
 export const LONG_VERSION_DATE = '3.0.0 (2025-01-19)';
 
+export const CONTRIBUTORS = Object.freeze([{"name":"Anthony Buchholz","email":"anthony.buchholz@gmail.com","url":"https://yodigi7.github.io/"}]);
 export const CHANGELOG_MD: string = `# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
