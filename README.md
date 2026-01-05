@@ -2,6 +2,20 @@
 
 Open source collection of web developer utilities.
 
+> [!WARNING]
+>
+> ## 🚧 Project Under Rewrite 🚧
+>
+> This project is currently being rewritten using **[Ant Design](https://ant.design/)** (instead of Material-UI).
+>
+> 🔗 **New project:** [etoolbox-renew](https://github.com/amwebexpert/etoolbox-renew)
+>
+> 📊 **Progress:** 75% complete — expected delivery by end of January 2026
+>
+> The new project will follow industry best practices for React and TypeScript, adhering to the [coding standards](https://github.com/amwebexpert/chrome-extensions-collection/blob/master/packages/coding-guide-helper/public/markdowns/table-of-content.md).
+
+---
+
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/amwebexpert/etoolbox) ![GitHub Release Date](https://img.shields.io/github/release-date/amwebexpert/etoolbox) ![GitHub last commit](https://img.shields.io/github/last-commit/amwebexpert/etoolbox) [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/react) ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/amwebexpert/etoolbox/typescript) [![Cypress.io](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)](https://www.cypress.io/)
 
 <div align="center">
