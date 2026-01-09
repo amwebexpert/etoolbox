@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/web-toolbox/' : '/',
+  base: mode === 'production' ? '/etoolbox/' : '/',
   plugins: [react(), viteTsconfigPaths()],
   server: {
     proxy: {
