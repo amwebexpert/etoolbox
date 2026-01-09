@@ -6,9 +6,9 @@ export const APP_VERSION_INFO = Object.freeze({
   DESCRIPTION: 'Collection of web development utilities. Like a Swiss knife for web developers.',
   REPOSITORY: 'https://github.com/amwebexpert/etoolbox',
   AUTHOR: 'amwebexpert@gmail.com',
-  VERSION: '4.0.2',
+  VERSION: '4.0.4',
   VERSION_DATE: '2026-01-09',
-  VERSION_DATE_ISO: '2026-01-09T22:42:51.613Z',
+  VERSION_DATE_ISO: '2026-01-09T22:54:06.382Z',
 })
 
-export const LONG_VERSION_DATE = '4.0.2 (2026-01-09)'
+export const LONG_VERSION_DATE = '4.0.4 (2026-01-09)'
