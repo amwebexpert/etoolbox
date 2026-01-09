@@ -1,27 +1,3 @@
-<!--
-  ⚠️ WORK IN PROGRESS ⚠️
-  
-  This repository is a complete redesign/rewrite of the original etoolbox application
-  using Ant Design (AntD) as the main UI component library.
-  
-  Original project: https://github.com/amwebexpert/etoolbox
-  
-  Build Status:
-  - TypeScript: 5.9
-  - React: 19.x
-  - Ant Design: 5.x
-  - Vite: 6.x
-  
-  WARNING: This is an active development branch. Features may be incomplete,
-  unstable, or subject to significant changes. Do not use in production.
--->
-
-> [!WARNING]
-> 🚧 **Work In Progress** 🚧
-> 
-> This is a complete re-write of the [original etoolbox](https://github.com/amwebexpert/etoolbox) application using **Ant Design**.
-> Features may be incomplete or unstable. Not ready for production use.
-
 # Web Toolbox
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
@@ -56,11 +32,10 @@ Some screen captures of the implemented features...
 | ----------------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------------ |
 | <img src="public/screen-captures/JSONFormatter-demo.gif" /> | <img src="public/screen-captures/ImageEncoder-demo.gif" /> | <img src="public/screen-captures/RegexTester-demo.gif" /> | <img src="public/screen-captures/ImageOCR-demo.gif" /> |
 
-
 ## Development commands
 
 | Script                     | Description                                                                             |
-|----------------------------|-----------------------------------------------------------------------------------------|
+| -------------------------- | --------------------------------------------------------------------------------------- |
 | `yarn start`               | Alias for `yarn dev` - starts the development server                                    |
 | `yarn dev`                 | Starts Vite development server with hot reload                                          |
 | `yarn build`               | Builds the production application (cleans dist, generates version, compiles TypeScript) |
