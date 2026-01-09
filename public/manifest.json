@@ -23,7 +23,7 @@
     {
       "name": "JSON Utilities",
       "short_name": "JSON",
-      "url": "/#/JSON",
+      "url": "./#/JSON",
       "icons": [
         {
           "src": "favicon.ico",
@@ -35,7 +35,7 @@
     {
       "name": "RegEx Tester",
       "short_name": "RegEx",
-      "url": "/#/RegExTester",
+      "url": "./#/RegExTester",
       "icons": [
         {
           "src": "favicon.ico",
@@ -47,7 +47,7 @@
     {
       "name": "UUID Generator",
       "short_name": "UUID",
-      "url": "/#/UUIDGenerator",
+      "url": "./#/UUIDGenerator",
       "icons": [
         {
           "src": "favicon.ico",
@@ -59,27 +59,27 @@
   ],
   "screenshots": [
     {
-      "src": "/screen-captures/screen-Base64Encoder.png",
+      "src": "screen-captures/screen-Base64Encoder.png",
       "sizes": "1944x1750",
       "type": "png"
     },
     {
-      "src": "/screen-captures/screen-JWTDecoder.png",
+      "src": "screen-captures/screen-JWTDecoder.png",
       "sizes": "1856x1662",
       "type": "png"
     },
     {
-      "src": "/screen-captures/screen-URLEncoder.png",
+      "src": "screen-captures/screen-URLEncoder.png",
       "sizes": "1944x1750",
       "type": "png"
     },
     {
-      "src": "/screen-captures/screen-URLParser.png",
+      "src": "screen-captures/screen-URLParser.png",
       "sizes": "1944x1750",
       "type": "png"
     },
     {
-      "src": "/screen-captures/screen-UUIDGenerator.png",
+      "src": "screen-captures/screen-UUIDGenerator.png",
       "sizes": "1944x1750",
       "type": "png"
     }
@@ -89,8 +89,5 @@
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
-  "categories": [
-    "productivity",
-    "utilities"
-  ]
+  "categories": ["productivity", "utilities"]
 }

@@ -32,3 +32,4 @@ cypress/videos
 /coverage-cypress
 /coverage-reports-temp
 /coverage-all
+/.yarn
