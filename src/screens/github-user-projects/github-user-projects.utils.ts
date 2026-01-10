@@ -1,11 +1,21 @@
 import { isBlank, isNotBlank } from "@lichens-innovation/ts-common";
 import { format, formatDistanceToNow } from "date-fns";
 
-import { GITHUB_API_BASE_URL, GITHUB_REPOS_PER_PAGE } from "./github-user-projects.constants";
-import type { GithubUserProject, ProjectStats, SortField, SortOrder } from "./github-user-projects.types";
+import {
+  GITHUB_API_BASE_URL,
+  GITHUB_REPOS_PER_PAGE,
+} from "./github-user-projects.constants";
+import type {
+  GithubUserProject,
+  ProjectStats,
+  SortField,
+  SortOrder,
+} from "./github-user-projects.types";
 
 // API fetch function
-export const fetchGithubUserProjects = async (username: string): Promise<GithubUserProject[]> => {
+export const fetchGithubUserProjects = async (
+  username: string,
+): Promise<GithubUserProject[]> => {
   if (isBlank(username)) {
     return [];
   }
@@ -20,7 +30,9 @@ export const fetchGithubUserProjects = async (username: string): Promise<GithubU
       throw new Error(`User "${trimmedUsername}" not found`);
     }
     if (response.status === 403) {
-      throw new Error("GitHub API rate limit exceeded. Please try again later.");
+      throw new Error(
+        "GitHub API rate limit exceeded. Please try again later.",
+      );
     }
     throw new Error(`Failed to fetch projects: ${response.statusText}`);
   }
@@ -59,7 +71,9 @@ export const applyFiltering = ({
 
   // Filter by language
   if (language !== "all") {
-    results = results.filter((project) => project.language?.toLowerCase() === language.toLowerCase());
+    results = results.filter(
+      (project) => project.language?.toLowerCase() === language.toLowerCase(),
+    );
   }
 
   // Filter by search term
@@ -67,8 +81,12 @@ export const applyFiltering = ({
     const filterLowercase = filter.toLowerCase().trim();
     results = results.filter((project) => {
       const nameMatch = project.name.toLowerCase().includes(filterLowercase);
-      const descriptionMatch = project.description?.toLowerCase().includes(filterLowercase) ?? false;
-      const topicsMatch = project.topics?.some((topic) => topic.toLowerCase().includes(filterLowercase)) ?? false;
+      const descriptionMatch =
+        project.description?.toLowerCase().includes(filterLowercase) ?? false;
+      const topicsMatch =
+        project.topics?.some((topic) =>
+          topic.toLowerCase().includes(filterLowercase),
+        ) ?? false;
       return nameMatch || descriptionMatch || topicsMatch;
     });
   }
@@ -84,7 +102,8 @@ const getComparator = (sortField: SortField): Comparator => {
     return (a, b) => a.name.localeCompare(b.name);
   }
   if (sortField === "updated_at") {
-    return (a, b) => new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime();
+    return (a, b) =>
+      new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime();
   }
   if (sortField === "stargazers_count") {
     return (a, b) => a.stargazers_count - b.stargazers_count;
@@ -104,7 +123,11 @@ interface ApplySortingArgs {
   sortOrder: SortOrder;
 }
 
-export const applySorting = ({ projects, sortField, sortOrder }: ApplySortingArgs): GithubUserProject[] => {
+export const applySorting = ({
+  projects,
+  sortField,
+  sortOrder,
+}: ApplySortingArgs): GithubUserProject[] => {
   const comparator = getComparator(sortField);
   const directionMultiplier = sortOrder === "desc" ? -1 : 1;
 
@@ -134,10 +157,18 @@ export const buildLanguageOptions = (projects: GithubUserProject[]) => {
 };
 
 // Calculate project statistics
-export const calculateProjectStats = (projects: GithubUserProject[]): ProjectStats => {
+export const calculateProjectStats = (
+  projects: GithubUserProject[],
+): ProjectStats => {
   const totalProjects = projects.length;
-  const totalStars = projects.reduce((sum, project) => sum + project.stargazers_count, 0);
-  const totalForks = projects.reduce((sum, project) => sum + project.forks_count, 0);
+  const totalStars = projects.reduce(
+    (sum, project) => sum + project.stargazers_count,
+    0,
+  );
+  const totalForks = projects.reduce(
+    (sum, project) => sum + project.forks_count,
+    0,
+  );
   const languages = extractLanguages(projects);
 
   return {
@@ -149,19 +180,9 @@ export const calculateProjectStats = (projects: GithubUserProject[]): ProjectSta
 };
 
 // Format date for display (e.g., "Jan 5, 2026")
-export const formatDate = (dateString: string): string => format(new Date(dateString), "PP");
+export const formatDate = (dateString: string): string =>
+  format(new Date(dateString), "PP");
 
 // Format relative time (e.g., "2 days ago")
 export const formatRelativeTime = (dateString: string): string =>
   formatDistanceToNow(new Date(dateString), { addSuffix: true });
-
-// Format number with K/M suffix
-export const formatCount = (count: number): string => {
-  if (count >= 1_000_000) {
-    return `${(count / 1_000_000).toFixed(1)}M`;
-  }
-  if (count >= 1_000) {
-    return `${(count / 1_000).toFixed(1)}K`;
-  }
-  return count.toString();
-};

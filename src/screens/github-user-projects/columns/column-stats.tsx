@@ -2,8 +2,9 @@ import { EyeOutlined, ForkOutlined, StarOutlined } from "@ant-design/icons";
 import { Tooltip, Typography } from "antd";
 import { createStyles } from "antd-style";
 
+import { formatCount } from "~/utils/number.utils";
+
 import type { GithubUserProject } from "../github-user-projects.types";
-import { formatCount } from "../github-user-projects.utils";
 
 const { Text } = Typography;
 
@@ -13,7 +14,11 @@ type ColumnStatsProps = {
   isTablet: boolean;
 };
 
-export const ColumnStats = ({ record, isMobile, isTablet }: ColumnStatsProps) => {
+export const ColumnStats = ({
+  record,
+  isMobile,
+  isTablet,
+}: ColumnStatsProps) => {
   const { styles } = useStyles();
 
   return (

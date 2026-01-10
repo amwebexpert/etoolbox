@@ -1,6 +1,11 @@
 import prettyBytes from "pretty-bytes";
 
-import type { BoundingBox, ModelFileInfo, ModelFormat, NormalizedRgb, Vector3D } from "./vr-3d-viewer.types";
+import type {
+  BoundingBox,
+  ModelFileInfo,
+  ModelFormat,
+  Vector3D,
+} from "./vr-3d-viewer.types";
 import { SUPPORTED_EXTENSIONS } from "./vr-3d-viewer.types";
 
 /**
@@ -82,28 +87,4 @@ export const calculateBoundingBoxCenter = (box: BoundingBox): Vector3D => {
     y: (box.min.y + box.max.y) / 2,
     z: (box.min.z + box.max.z) / 2,
   };
-};
-
-/**
- * Convert hex color to RGB values (normalized 0-1 for Three.js)
- */
-export const hexToNormalizedRgb = (hex: string): NormalizedRgb => {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result
-    ? {
-        r: parseInt(result[1], 16) / 255,
-        g: parseInt(result[2], 16) / 255,
-        b: parseInt(result[3], 16) / 255,
-      }
-    : { r: 0.1, g: 0.1, b: 0.18 };
-};
-
-/**
- * Check if a color is light or dark
- */
-export const isLightColor = (hex: string): boolean => {
-  const rgb = hexToNormalizedRgb(hex);
-  // Calculate relative luminance
-  const luminance = 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
-  return luminance > 0.5;
 };

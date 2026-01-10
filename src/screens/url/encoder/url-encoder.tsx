@@ -1,4 +1,9 @@
-import { CodeOutlined, CopyOutlined, SwapOutlined, UnlockOutlined } from "@ant-design/icons";
+import {
+  CodeOutlined,
+  CopyOutlined,
+  SwapOutlined,
+  UnlockOutlined,
+} from "@ant-design/icons";
 import { Button, Input, Space, Tooltip, Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -17,7 +22,8 @@ export const UrlEncoder = () => {
   const { isDesktop, isMobile } = useResponsive();
   const { copyTextToClipboard } = useClipboardCopy();
 
-  const { inputText, outputText, setInputText, setOutputText, swapContent } = useUrlEncoderStore();
+  const { inputText, outputText, setInputText, setOutputText, swapContent } =
+    useUrlEncoderStore();
 
   const handleEncode = () => {
     const result = transformUrl({ value: inputText, decode: false });
@@ -62,23 +68,41 @@ export const UrlEncoder = () => {
 
         <div className={styles.toolbar}>
           <Tooltip title="Swap: put result into input">
-            <Button icon={<SwapOutlined />} disabled={!outputText} onClick={swapContent} />
+            <Button
+              icon={<SwapOutlined />}
+              disabled={!outputText}
+              onClick={swapContent}
+            />
           </Tooltip>
 
           <div className={styles.spacer} />
 
           <Space size="small" wrap>
             <Tooltip title="Copy result to clipboard">
-              <Button icon={<CopyOutlined />} disabled={!outputText} onClick={handleCopy}>
+              <Button
+                icon={<CopyOutlined />}
+                disabled={!outputText}
+                onClick={handleCopy}
+              >
                 {!isMobile && "Copy"}
               </Button>
             </Tooltip>
 
-            <Button type="primary" icon={<CodeOutlined />} disabled={!inputText} onClick={handleEncode}>
+            <Button
+              type="primary"
+              icon={<CodeOutlined />}
+              disabled={!inputText}
+              onClick={handleEncode}
+            >
               {isMobile ? "Enc." : "Encode"}
             </Button>
 
-            <Button type="primary" icon={<UnlockOutlined />} disabled={!inputText} onClick={handleDecode}>
+            <Button
+              type="primary"
+              icon={<UnlockOutlined />}
+              disabled={!inputText}
+              onClick={handleDecode}
+            >
               {isMobile ? "Dec." : "Decode"}
             </Button>
           </Space>
@@ -90,7 +114,10 @@ export const UrlEncoder = () => {
               Result
             </Typography.Text>
             <div className={styles.resultBox}>
-              <Typography.Text copyable={{ text: outputText }} className={styles.resultText}>
+              <Typography.Text
+                copyable={{ text: outputText }}
+                className={styles.resultText}
+              >
                 {outputText}
               </Typography.Text>
             </div>

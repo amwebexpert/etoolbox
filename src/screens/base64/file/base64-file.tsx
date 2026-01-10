@@ -14,7 +14,9 @@ import { useToastMessage } from "~/providers/toast-message-provider";
 import { Base64FileDropzone } from "./base64-file-dropzone";
 import { Base64FileInfo } from "./base64-file-info";
 import { Base64FileToolbar } from "./base64-file-toolbar";
-import { downloadBase64AsFile, formatDataUri, readFileAsBase64 } from "./base64-file.utils";
+import { formatDataUri } from "~/utils/encoding.utils";
+
+import { downloadBase64AsFile, readFileAsBase64 } from "./base64-file.utils";
 
 const { TextArea } = Input;
 
@@ -43,19 +45,31 @@ export const Base64File = () => {
   };
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: base64Output, successMessage: "Base64 copied to clipboard!" });
+    copyTextToClipboard({
+      text: base64Output,
+      successMessage: "Base64 copied to clipboard!",
+    });
   };
 
   const handleCopyDataUri = () => {
-    const dataUri = base64Output ? formatDataUri({ mimeType, base64: base64Output }) : "";
-    copyTextToClipboard({ text: dataUri, successMessage: "Data URI copied to clipboard!" });
+    const dataUri = base64Output
+      ? formatDataUri({ mimeType, base64: base64Output })
+      : "";
+    copyTextToClipboard({
+      text: dataUri,
+      successMessage: "Data URI copied to clipboard!",
+    });
   };
 
   const handleDownload = () => {
     if (!base64Output) return;
 
     try {
-      downloadBase64AsFile({ base64: base64Output, mimeType, fileName: fileName || "decoded-file" });
+      downloadBase64AsFile({
+        base64: base64Output,
+        mimeType,
+        fileName: fileName || "decoded-file",
+      });
       messageApi.success("File downloaded!");
     } catch (e: unknown) {
       messageApi.error("Failed to decode and download: " + getErrorMessage(e));
@@ -87,10 +101,16 @@ export const Base64File = () => {
           description="Encode files to Base64 or decode Base64 back to files"
         />
 
-        <Base64FileDropzone fileList={fileList} onFileSelect={handleFileSelect} onFileListChange={setFileList} />
+        <Base64FileDropzone
+          fileList={fileList}
+          onFileSelect={handleFileSelect}
+          onFileListChange={setFileList}
+        />
 
         <div className={styles.orDivider}>
-          <Typography.Text type="secondary">— OR paste Base64 to decode —</Typography.Text>
+          <Typography.Text type="secondary">
+            — OR paste Base64 to decode —
+          </Typography.Text>
         </div>
 
         <TextArea
@@ -102,7 +122,11 @@ export const Base64File = () => {
           className={styles.textArea}
         />
 
-        <Base64FileInfo fileName={fileName} mimeType={mimeType} base64Output={base64Output} />
+        <Base64FileInfo
+          fileName={fileName}
+          mimeType={mimeType}
+          base64Output={base64Output}
+        />
 
         <Base64FileToolbar
           hasContent={!!base64Output || !!fileName}

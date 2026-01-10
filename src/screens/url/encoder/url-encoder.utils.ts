@@ -1,6 +1,4 @@
-import { encodeUrl, decodeUrl } from "~/utils/encoding.utils";
-
-export { encodeUrl, decodeUrl };
+import { decodeUrl, encodeUrl } from "~/utils/encoding.utils";
 
 interface TransformUrlArgs {
   value?: string;

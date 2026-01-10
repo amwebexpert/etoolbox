@@ -5,8 +5,9 @@ import { createStyles } from "antd-style";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
+import { parseUrl, parseUrlParams } from "../url.utils";
 import { useUrlParserStore } from "./url-parser.store";
-import { FRAGMENT_COLUMNS, PARAM_COLUMNS, parseUrl, parseUrlParams } from "./url-parser.utils";
+import { FRAGMENT_COLUMNS, PARAM_COLUMNS } from "./url-parser.utils";
 
 const { Link } = Typography;
 const { TextArea } = Input;
@@ -57,7 +58,11 @@ export const UrlParser = () => {
           </Link>
         )}
 
-        <Card title="URL Fragments" size={isMobile ? "small" : "default"} className={styles.tableCard}>
+        <Card
+          title="URL Fragments"
+          size={isMobile ? "small" : "default"}
+          className={styles.tableCard}
+        >
           <Table
             columns={FRAGMENT_COLUMNS}
             dataSource={fragmentsData}
@@ -69,7 +74,11 @@ export const UrlParser = () => {
         </Card>
 
         {paramsData.length > 0 && (
-          <Card title="Query Parameters" size={isMobile ? "small" : "default"} className={styles.tableCard}>
+          <Card
+            title="Query Parameters"
+            size={isMobile ? "small" : "default"}
+            className={styles.tableCard}
+          >
             <Table
               columns={PARAM_COLUMNS}
               dataSource={paramsData}

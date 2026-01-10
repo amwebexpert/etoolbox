@@ -1,11 +1,16 @@
-import { BranchesOutlined, ForkOutlined, StarOutlined } from "@ant-design/icons";
+import {
+  BranchesOutlined,
+  ForkOutlined,
+  StarOutlined,
+} from "@ant-design/icons";
 import { Card, Col, Row, Statistic, Tag, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { formatCount } from "~/utils/number.utils";
 
 import type { GithubUserProject } from "./github-user-projects.types";
-import { calculateProjectStats, formatCount } from "./github-user-projects.utils";
+import { calculateProjectStats } from "./github-user-projects.utils";
 
 const { Text } = Typography;
 
@@ -13,7 +18,9 @@ interface GithubUserProjectsStatsProps {
   projects: GithubUserProject[];
 }
 
-export const GithubUserProjectsStats = ({ projects }: GithubUserProjectsStatsProps) => {
+export const GithubUserProjectsStats = ({
+  projects,
+}: GithubUserProjectsStatsProps) => {
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
 
@@ -41,7 +48,9 @@ export const GithubUserProjectsStats = ({ projects }: GithubUserProjectsStatsPro
             title="Total Stars"
             value={formatCount(stats.totalStars)}
             prefix={<StarOutlined />}
-            styles={{ content: { fontSize: isMobile ? 18 : 24, color: "#faad14" } }}
+            styles={{
+              content: { fontSize: isMobile ? 18 : 24, color: "#faad14" },
+            }}
           />
         </Col>
 
@@ -66,7 +75,11 @@ export const GithubUserProjectsStats = ({ projects }: GithubUserProjectsStatsPro
                     {lang}
                   </Tag>
                 ))}
-                {stats.languages.length > 5 && <Text type="secondary">+{stats.languages.length - 5} more</Text>}
+                {stats.languages.length > 5 && (
+                  <Text type="secondary">
+                    +{stats.languages.length - 5} more
+                  </Text>
+                )}
               </div>
             </div>
           </Col>

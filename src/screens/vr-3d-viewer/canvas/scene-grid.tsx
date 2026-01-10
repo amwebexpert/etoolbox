@@ -1,6 +1,6 @@
 import { Grid } from "@react-three/drei";
 
-import { isLightColor } from "../vr-3d-viewer.utils";
+import { isLightColor } from "~/utils/color.utils";
 
 import type { SceneGridProps } from "./canvas.types";
 

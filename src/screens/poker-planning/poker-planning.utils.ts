@@ -1,7 +1,13 @@
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { v4 as uuidv4 } from "uuid";
 
-import { DEFAULT_HOSTNAME, DEFAULT_ROOM_NAME, SOCKET_STATES } from "./poker-planning.constants";
+import { isNumeric } from "~/utils/string.utils";
+
+import {
+  DEFAULT_HOSTNAME,
+  DEFAULT_ROOM_NAME,
+  SOCKET_STATES,
+} from "./poker-planning.constants";
 import type {
   BuildRouteURLParams,
   CreateSocketParams,
@@ -12,13 +18,9 @@ import type {
   UserMessage,
 } from "./poker-planning.types";
 
-const isNumeric = (value?: string): boolean => {
-  if (!value) return false;
-  return !isNaN(parseFloat(value)) && isFinite(Number(value));
-};
-
 const isDevMode = (): boolean =>
-  document.location.hostname === "localhost" || document.location.hostname === "127.0.0.1";
+  document.location.hostname === "localhost" ||
+  document.location.hostname === "127.0.0.1";
 
 const buildWebSocketUrl = (hostName: string, roomUUID: string): string => {
   // In development mode, use the Vite proxy to avoid CORS issues
@@ -61,14 +63,18 @@ export const createSocket = ({
   return socket;
 };
 
-export const getSocketState = (state: number): SocketState => (SOCKET_STATES.get(state) as SocketState) ?? "closed";
+export const getSocketState = (state: number): SocketState =>
+  (SOCKET_STATES.get(state) as SocketState) ?? "closed";
 
 interface ParseEstimatesParams {
   estimates: UserEstimate[];
   username?: string;
 }
 
-export const parseEstimates = ({ estimates, username }: ParseEstimatesParams): EstimatesStats => {
+export const parseEstimates = ({
+  estimates,
+  username,
+}: ParseEstimatesParams): EstimatesStats => {
   const values = estimates
     .map((e) => e.estimate)
     .filter((e): e is string => !!e)
@@ -78,9 +84,11 @@ export const parseEstimates = ({ estimates, username }: ParseEstimatesParams): E
   const estimatesSum = values.reduce((acc, val) => acc + val, 0);
   const average = values.length > 0 ? estimatesSum / values.length : 0;
   const estimatesAverage = Math.round(average * 10 + Number.EPSILON) / 10;
-  const isEstimatesCleared = estimates.length > 0 && estimates.every((e) => e.estimate === undefined);
+  const isEstimatesCleared =
+    estimates.length > 0 && estimates.every((e) => e.estimate === undefined);
   const isUsernameProvided = !!username?.trim();
-  const isUserMemberOfRoom = isUsernameProvided && estimates.some((e) => e.username === username);
+  const isUserMemberOfRoom =
+    isUsernameProvided && estimates.some((e) => e.username === username);
 
   return {
     values,
@@ -95,20 +103,26 @@ export const buildRouteURL = ({
   hostName = DEFAULT_HOSTNAME,
   roomName = DEFAULT_ROOM_NAME,
   roomUUID = uuidv4(),
-}: BuildRouteURLParams): string => `/poker-planning/${hostName}/${roomUUID}/${encodeURIComponent(roomName)}`;
+}: BuildRouteURLParams): string =>
+  `/poker-planning/${hostName}/${roomUUID}/${encodeURIComponent(roomName)}`;
 
 export const extractSinglePageAppBasePath = (): string => {
   const origin = document.location.origin;
   const basePath = import.meta.env.BASE_URL ?? "/";
   // Remove trailing slash from basePath to avoid double slashes before #
-  const normalizedBase = basePath.endsWith("/") ? basePath.slice(0, -1) : basePath;
+  const normalizedBase = basePath.endsWith("/")
+    ? basePath.slice(0, -1)
+    : basePath;
   return origin + normalizedBase;
 };
 
 export const buildFullRouteURL = (params: BuildRouteURLParams): string =>
   extractSinglePageAppBasePath() + "/#" + buildRouteURL(params);
 
-export const buildVoteMessage = (username = "", value?: string): UserMessage<UserEstimate> => ({
+export const buildVoteMessage = (
+  username = "",
+  value?: string,
+): UserMessage<UserEstimate> => ({
   type: "vote",
   payload: {
     username,
@@ -129,7 +143,10 @@ interface GenerateQRCodeDataUrlParams {
   width?: number;
 }
 
-export const generateQRCodeDataUrl = async ({ data, width = 200 }: GenerateQRCodeDataUrlParams): Promise<string> => {
+export const generateQRCodeDataUrl = async ({
+  data,
+  width = 200,
+}: GenerateQRCodeDataUrlParams): Promise<string> => {
   const QRCode = await import("qrcode");
   return QRCode.toDataURL(data, { type: "image/png", width });
 };

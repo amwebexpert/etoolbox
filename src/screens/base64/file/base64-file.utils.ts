@@ -1,11 +1,12 @@
 import prettyBytes from "pretty-bytes";
 
 import { downloadBlob } from "~/utils/download.utils";
-import { base64ToBlob, formatDataUri, getBase64ApproxSize } from "~/utils/encoding.utils";
-import { readFileAsBase64 as readFileAsBase64Util, type Base64FileResult } from "~/utils/file-reader.utils";
+import { base64ToBlob, getBase64ApproxSize } from "~/utils/encoding.utils";
+import {
+  readFileAsBase64 as readFileAsBase64Util,
+  type Base64FileResult,
+} from "~/utils/file-reader.utils";
 
-export { base64ToBlob, formatDataUri, getBase64ApproxSize };
-export { downloadBlob };
 export type { Base64FileResult };
 
 interface DownloadBase64AsFileArgs {
@@ -14,7 +15,11 @@ interface DownloadBase64AsFileArgs {
   fileName: string;
 }
 
-export const downloadBase64AsFile = ({ base64, mimeType, fileName }: DownloadBase64AsFileArgs): void => {
+export const downloadBase64AsFile = ({
+  base64,
+  mimeType,
+  fileName,
+}: DownloadBase64AsFileArgs): void => {
   const blob = base64ToBlob({ base64, mimeType });
   downloadBlob({ blob, fileName });
 };

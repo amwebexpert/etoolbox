@@ -1,5 +1,7 @@
 import mimeDb from "mime-db";
 
+import { capitalizeFirst } from "~/utils/string.utils";
+
 import type { MimeTypeCategory, MimeTypeEntry } from "./mime-types.types";
 
 // Transform mime-db into our format with categories
@@ -26,15 +28,16 @@ const extractCategory = (mimeType: string): string => {
 
 export const MIME_TYPES: MimeTypeEntry[] = initMimeTypes();
 
-export const CATEGORIES: string[] = [...new Set(MIME_TYPES.map((entry) => entry.category))].sort();
-
-const capitalizeFirst = (str: string): string => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
+export const CATEGORIES: string[] = [
+  ...new Set(MIME_TYPES.map((entry) => entry.category)),
+].sort();
 
 export const CATEGORY_OPTIONS = [
   { value: "all" as const, label: "All categories" },
-  ...CATEGORIES.map((category) => ({ value: category, label: capitalizeFirst(category) })),
+  ...CATEGORIES.map((category) => ({
+    value: category,
+    label: capitalizeFirst(category),
+  })),
 ];
 
 export const formatExtensions = (extensions: readonly string[]): string => {
@@ -47,7 +50,10 @@ interface ApplyFilteringArgs {
   filter: string;
 }
 
-export const applyFiltering = ({ category, filter }: ApplyFilteringArgs): MimeTypeEntry[] => {
+export const applyFiltering = ({
+  category,
+  filter,
+}: ApplyFilteringArgs): MimeTypeEntry[] => {
   let results = MIME_TYPES.slice();
 
   if (category && category !== "all") {

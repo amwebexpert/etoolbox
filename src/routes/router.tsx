@@ -1,4 +1,10 @@
-import { createRootRoute, createRoute, createRouter, createHashHistory, Navigate } from "@tanstack/react-router";
+import {
+  createHashHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  Navigate,
+} from "@tanstack/react-router";
 import { RootLayout } from "~/routes/root-layout";
 import { About } from "~/screens/about/about";
 import { Base64 } from "~/screens/base64/base64";
@@ -21,14 +27,14 @@ import { Json } from "~/screens/json/json";
 import { JsonRepair } from "~/screens/json/repair/json-repair";
 import { JwtDecoder } from "~/screens/jwt-decoder/jwt-decoder";
 import { PokerPlanning } from "~/screens/poker-planning/poker-planning";
-import { RegexTester } from "~/screens/regex-tester/regex-tester";
-import { Qrcode } from "~/screens/qrcode/qrcode";
 import { QrcodeDecoder } from "~/screens/qrcode/decoder/qrcode-decoder";
 import { QrcodeGenerator } from "~/screens/qrcode/generator/qrcode-generator";
-import { UrlCurl } from "~/screens/url-parse-encode/curl/url-curl";
-import { UrlEncoder } from "~/screens/url-parse-encode/encoder/url-encoder";
-import { UrlParser } from "~/screens/url-parse-encode/parser/url-parser";
-import { Url } from "~/screens/url-parse-encode/url";
+import { Qrcode } from "~/screens/qrcode/qrcode";
+import { RegexTester } from "~/screens/regex-tester/regex-tester";
+import { UrlCurl } from "~/screens/url/curl/url-curl";
+import { UrlEncoder } from "~/screens/url/encoder/url-encoder";
+import { UrlParser } from "~/screens/url/parser/url-parser";
+import { Url } from "~/screens/url/url";
 import { UuidGenerator } from "~/screens/uuid-generator/uuid-generator";
 import { Vr3dViewer } from "~/screens/vr-3d-viewer/vr-3d-viewer";
 
@@ -264,21 +270,54 @@ const vr3dViewerRoute = createRoute({
   component: Vr3dViewer,
 });
 
-export const ROUTES_WITH_CHILDREN = ["/url", "/base64", "/json", "/colors", "/common-lists", "/qrcode"];
+export const ROUTES_WITH_CHILDREN = [
+  "/url",
+  "/base64",
+  "/json",
+  "/colors",
+  "/common-lists",
+  "/qrcode",
+];
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
   aboutRoute,
-  base64Route.addChildren([base64IndexRoute, base64StringRoute, base64FileRoute]),
-  urlRoute.addChildren([urlIndexRoute, urlCurlRoute, urlParserRoute, urlEncoderRoute]),
-  jsonRoute.addChildren([jsonIndexRoute, jsonFormatterRoute, jsonConverterRoute, jsonRepairRoute]),
-  colorsRoute.addChildren([colorsIndexRoute, colorPickerRoute, namedColorsRoute]),
+  base64Route.addChildren([
+    base64IndexRoute,
+    base64StringRoute,
+    base64FileRoute,
+  ]),
+  urlRoute.addChildren([
+    urlIndexRoute,
+    urlCurlRoute,
+    urlParserRoute,
+    urlEncoderRoute,
+  ]),
+  jsonRoute.addChildren([
+    jsonIndexRoute,
+    jsonFormatterRoute,
+    jsonConverterRoute,
+    jsonRepairRoute,
+  ]),
+  colorsRoute.addChildren([
+    colorsIndexRoute,
+    colorPickerRoute,
+    namedColorsRoute,
+  ]),
   regexTesterRoute,
   uuidGeneratorRoute,
   jwtDecoderRoute,
-  qrcodeRoute.addChildren([qrcodeIndexRoute, qrcodeGeneratorRoute, qrcodeDecoderRoute]),
+  qrcodeRoute.addChildren([
+    qrcodeIndexRoute,
+    qrcodeGeneratorRoute,
+    qrcodeDecoderRoute,
+  ]),
   imageOcrRoute,
-  commonListsRoute.addChildren([commonListsIndexRoute, mimeTypesRoute, htmlEntitiesRoute]),
+  commonListsRoute.addChildren([
+    commonListsIndexRoute,
+    mimeTypesRoute,
+    htmlEntitiesRoute,
+  ]),
   githubUserProjectsRoute,
   dateConverterRoute,
   csvParserRoute,

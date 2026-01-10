@@ -15,7 +15,9 @@ const DEFAULT_CURL = `curl -X POST https://api.example.com/users \\
   -H "Authorization: Bearer token123" \\
   -d '{"name": "John", "email": "john@example.com"}'`;
 
-const stateCreator = (set: (partial: Partial<UrlCurlState>) => void): UrlCurlState => ({
+const stateCreator = (
+  set: (partial: Partial<UrlCurlState>) => void,
+): UrlCurlState => ({
   inputCurl: DEFAULT_CURL,
   targetLanguage: "JavaScript (Fetch)",
   transformedResult: "",
@@ -31,4 +33,6 @@ const persistedStateCreator = persist<UrlCurlState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useUrlCurlStore = create<UrlCurlState>()(devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }));
+export const useUrlCurlStore = create<UrlCurlState>()(
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+);

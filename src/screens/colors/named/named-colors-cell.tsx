@@ -1,10 +1,9 @@
 import { CopyOutlined } from "@ant-design/icons";
+import { getContrastTextColor } from "@lichens-innovation/ts-common";
 import { Tooltip, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
-
-import { getContrastTextColor } from "./named-colors.utils";
 
 const { Text } = Typography;
 
@@ -14,7 +13,11 @@ interface NamedColorsCellProps {
   tooltip: string;
 }
 
-export const NamedColorsCell = ({ value, hexCode, tooltip }: NamedColorsCellProps) => {
+export const NamedColorsCell = ({
+  value,
+  hexCode,
+  tooltip,
+}: NamedColorsCellProps) => {
   const { styles } = useStyles();
   const { copyTextToClipboard } = useClipboardCopy();
   const textColor = getContrastTextColor(hexCode);
@@ -25,11 +28,18 @@ export const NamedColorsCell = ({ value, hexCode, tooltip }: NamedColorsCellProp
 
   return (
     <Tooltip title={tooltip}>
-      <div className={styles.colorCell} style={{ backgroundColor: hexCode }} onClick={handleCopy}>
+      <div
+        className={styles.colorCell}
+        style={{ backgroundColor: hexCode }}
+        onClick={handleCopy}
+      >
         <Text className={styles.colorText} style={{ color: textColor }}>
           {value}
         </Text>
-        <CopyOutlined className={styles.copyIcon} style={{ color: textColor }} />
+        <CopyOutlined
+          className={styles.copyIcon}
+          style={{ color: textColor }}
+        />
       </div>
     </Tooltip>
   );

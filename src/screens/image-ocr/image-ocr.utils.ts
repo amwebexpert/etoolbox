@@ -3,6 +3,9 @@ import { Buffer } from "buffer";
 import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
 import Tesseract from "tesseract.js";
 
+import { formatDuration } from "~/utils/number.utils";
+import { countWords } from "~/utils/string.utils";
+
 import type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.types";
 
 export { LANGUAGE_OPTIONS } from "./image-ocr.types";
@@ -13,7 +16,10 @@ interface ProcessOcrArgs {
   onProgress?: (status: WorkerStatus) => void;
 }
 
-export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promise<OcrResult> => {
+export const processOcr = async ({
+  context,
+  onProgress,
+}: ProcessOcrArgs): Promise<OcrResult> => {
   const { imageDataUrl, language } = context;
 
   if (isBlank(imageDataUrl)) {
@@ -60,24 +66,10 @@ export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promi
   }
 };
 
-const countWords = (text: string): number => {
-  if (isBlank(text)) return 0;
-  return text.split(/\s+/).filter((word) => word.length > 0).length;
-};
-
-export const formatProcessingTime = (ms: number): string => {
-  if (ms < 1000) {
-    return `${ms}ms`;
-  }
-  return `${(ms / 1000).toFixed(1)}s`;
-};
-
-export const formatProgress = (progress: number): number => {
-  return Math.round(progress * 100);
-};
+export const formatProcessingTime = formatDuration;
 
 export const getProgressStatus = (progress: number, status: string): string => {
-  const percentage = formatProgress(progress);
+  const percentage = Math.round(progress * 100);
   if (status === "recognizing text") {
     return `Recognizing text... ${percentage}%`;
   }
@@ -87,7 +79,9 @@ export const getProgressStatus = (progress: number, status: string): string => {
   if (status === "initializing api") {
     return "Initializing OCR engine...";
   }
-  return status ? `${status}... ${percentage}%` : `Processing... ${percentage}%`;
+  return status
+    ? `${status}... ${percentage}%`
+    : `Processing... ${percentage}%`;
 };
 
 interface ClipboardToDataUrlArgs {
@@ -96,7 +90,11 @@ interface ClipboardToDataUrlArgs {
   onError?: (error: Error) => void;
 }
 
-export const clipboardToDataUrl = ({ items, onLoad, onError }: ClipboardToDataUrlArgs): void => {
+export const clipboardToDataUrl = ({
+  items,
+  onLoad,
+  onError,
+}: ClipboardToDataUrlArgs): void => {
   if (!items) return;
 
   for (let i = 0; i < items.length; i++) {
@@ -141,7 +139,10 @@ export const isValidImageFile = (file: File): boolean => {
   return file.type.startsWith("image/");
 };
 
-export const downloadTextFile = (text: string, filename = "extracted-text.txt"): void => {
+export const downloadTextFile = (
+  text: string,
+  filename = "extracted-text.txt",
+): void => {
   const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
