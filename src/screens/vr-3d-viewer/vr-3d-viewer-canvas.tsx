@@ -1,13 +1,14 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { createStyles } from "antd-style";
-import { Suspense, forwardRef, useImperativeHandle, useMemo, useRef } from "react";
+import { Suspense, forwardRef, useImperativeHandle, useRef } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
 import { LoadingIndicator } from "./canvas/loading-indicator";
 import { SceneContent } from "./canvas/scene-content";
 import type { CameraSettings, ModelFileInfo, SceneSettings } from "./vr-3d-viewer.types";
+import { determineCanvasHeight } from "./vr-3d-viewer.utils";
 
 // Types for the component
 interface Vr3dViewerCanvasProps {
@@ -32,12 +33,7 @@ export const Vr3dViewerCanvas = forwardRef<Vr3dViewerCanvasRef, Vr3dViewerCanvas
     const containerRef = useRef<HTMLDivElement>(null);
     const controlsRef = useRef<React.ComponentRef<typeof OrbitControls> | null>(null);
 
-    // Calculate canvas height based on device
-    const canvasHeight = useMemo(() => {
-      if (isMobile) return 300;
-      if (isTablet) return 400;
-      return 500;
-    }, [isMobile, isTablet]);
+    const canvasHeight = determineCanvasHeight({ isMobile, isTablet });
 
     useImperativeHandle(ref, () => ({
       resetCamera: () => {

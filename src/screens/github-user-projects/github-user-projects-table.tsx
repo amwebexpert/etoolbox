@@ -18,14 +18,7 @@ export const GithubUserProjectsTable = ({ projects, isLoading }: GithubUserProje
   const { isMobile } = useResponsive();
   const columns = useGithubUserProjectsColumns();
 
-  const { page, pageSize, setPage, setPageSize } = useGithubUserProjectsStore();
-
-  const handlePageChange = (newPage: number, newPageSize: number) => {
-    setPage(newPage);
-    if (newPageSize !== pageSize) {
-      setPageSize(newPageSize);
-    }
-  };
+  const { page, pageSize, handlePageChange } = useGithubUserProjectsStore();
 
   return (
     <Table

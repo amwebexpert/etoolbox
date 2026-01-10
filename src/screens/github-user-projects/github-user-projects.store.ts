@@ -44,12 +44,12 @@ interface GithubUserProjectsState {
   setSortOrder: (sortOrder: SortOrder) => void;
   toggleSortOrder: () => void;
   setPage: (page: number) => void;
-  setPageSize: (pageSize: number) => void;
+  handlePageChange: (page: number, pageSize: number) => void;
   resetFilters: () => void;
   resetAll: () => void;
 }
 
-const stateCreator: StateCreator<GithubUserProjectsState> = (set) => ({
+const stateCreator: StateCreator<GithubUserProjectsState> = (set, get) => ({
   // Initial state
   username: DEFAULT_USERNAME,
   lastSearchedUsername: DEFAULT_USERNAME,
@@ -76,7 +76,14 @@ const stateCreator: StateCreator<GithubUserProjectsState> = (set) => ({
       sortOrder: state.sortOrder === "asc" ? "desc" : "asc",
     })),
   setPage: (page) => set({ page }),
-  setPageSize: (pageSize) => set({ pageSize, page: DEFAULT_PAGE }),
+  handlePageChange: (page, pageSize) => {
+    const currentPageSize = get().pageSize;
+    if (pageSize !== currentPageSize) {
+      set({ page: DEFAULT_PAGE, pageSize });
+    } else {
+      set({ page });
+    }
+  },
   resetFilters: () =>
     set({
       filter: DEFAULT_FILTER,
