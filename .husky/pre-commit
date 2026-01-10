@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+# exit immediately if any command fails
+set -e
+
+yarn lint-staged
+yarn typecheck
