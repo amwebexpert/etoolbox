@@ -1,31 +1,23 @@
 import { Table } from "antd";
 import { createStyles } from "antd-style";
-import { useDeferredValue } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
 import { useMimeTypesStore } from "./mime-types.store";
-import { applyFiltering, PAGE_SIZE_OPTIONS } from "./mime-types.utils";
+import type { MimeTypeEntry } from "./mime-types.types";
+import { PAGE_SIZE_OPTIONS } from "./mime-types.utils";
 import { useMimeTypesColumns } from "./use-mime-types-columns";
 
-export const MimeTypesTable = () => {
+interface MimeTypesTableProps {
+  filteredMimeTypes: MimeTypeEntry[];
+}
+
+export const MimeTypesTable = ({ filteredMimeTypes }: MimeTypesTableProps) => {
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
   const columns = useMimeTypesColumns();
 
-  const { category, filter, page, pageSize, setPage, setPageSize } = useMimeTypesStore();
-
-  const deferredCategory = useDeferredValue(category);
-  const deferredFilter = useDeferredValue(filter);
-
-  const filteredMimeTypes = applyFiltering({ category: deferredCategory, filter: deferredFilter });
-
-  const handlePageChange = (newPage: number, newPageSize: number) => {
-    setPage(newPage);
-    if (newPageSize !== pageSize) {
-      setPageSize(newPageSize);
-    }
-  };
+  const { page, pageSize, handlePageChange } = useMimeTypesStore();
 
   return (
     <Table
