@@ -8,9 +8,6 @@ import { countWords } from "~/utils/string.utils";
 
 import type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.types";
 
-export { LANGUAGE_OPTIONS } from "./image-ocr.types";
-export type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.types";
-
 interface ProcessOcrArgs {
   context: OcrContext;
   onProgress?: (status: WorkerStatus) => void;

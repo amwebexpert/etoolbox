@@ -4,11 +4,10 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
 
 import { getResultMaxHeightPx, type ResponsiveContext } from "~/utils/responsive.utils";
 
-import type { ConversionContext } from "./json-converter.types";
+import type { ConversionContext, SourceType } from "./json-converter.types";
 import { LANGUAGES, SYNTAX_HIGHLIGHTER_LANGUAGE_MAP } from "./json-converter.types";
 
-export { TARGET_LANGUAGES } from "./json-converter.types";
-export type { ConversionContext, SourceType } from "./json-converter.types";
+export type { ConversionContext, SourceType };
 
 interface QuicktypeJsonArgs {
   targetLanguage: string;

@@ -13,7 +13,8 @@ import { ImageOcrImage } from "./image-ocr-image";
 import { ImageOcrResult } from "./image-ocr-result";
 import { ImageOcrToolbar } from "./image-ocr-toolbar";
 import { useImageOcrStore } from "./image-ocr.store";
-import { clipboardToDataUrl, fileToDataUrl, isValidImageFile, LANGUAGE_OPTIONS } from "./image-ocr.utils";
+import { LANGUAGE_OPTIONS } from "./image-ocr.types";
+import { clipboardToDataUrl, fileToDataUrl, isValidImageFile } from "./image-ocr.utils";
 import { useImageOcr } from "./use-image-ocr";
 
 export const ImageOcr = () => {
