@@ -86,7 +86,7 @@ const useStyles = createStyles(({ token }) => ({
     flexWrap: "wrap",
   },
   count: {
-    fontSize: 12,
+    fontSize: token.fontSizeSM,
   },
   formatSelect: {
     minWidth: 160,
@@ -102,7 +102,7 @@ const useStyles = createStyles(({ token }) => ({
   extractedContent: {
     margin: 0,
     fontFamily: "monospace",
-    fontSize: 13,
+    fontSize: token.fontSizeSM + 1,
     lineHeight: 1.6,
     whiteSpace: "pre-wrap",
     wordBreak: "break-word",
@@ -111,7 +111,7 @@ const useStyles = createStyles(({ token }) => ({
     fontStyle: "italic",
   },
   hint: {
-    fontSize: 12,
+    fontSize: token.fontSizeSM,
 
     "& code": {
       backgroundColor: token.colorBgTextHover,

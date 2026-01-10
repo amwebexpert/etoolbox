@@ -54,17 +54,17 @@ const useStyles = createStyles(({ token }) => ({
     },
   },
   featureIcon: {
-    fontSize: 32,
+    fontSize: token.fontSizeHeading2,
     marginBottom: 8,
   },
   featureName: {
     display: "block",
-    fontSize: 13,
+    fontSize: token.fontSizeSM,
     marginBottom: 4,
   },
   featureDesc: {
     display: "block",
-    fontSize: 11,
+    fontSize: token.fontSizeSM - 1,
     lineHeight: 1.3,
   },
 }));

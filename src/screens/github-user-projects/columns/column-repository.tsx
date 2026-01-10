@@ -71,61 +71,65 @@ export const ColumnRepository = ({ record, isMobile }: ColumnRepositoryProps) =>
   );
 };
 
-const useStyles = createStyles(({ token }) => ({
-  repoHeader: {
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    flexWrap: "wrap",
-  },
-  repoName: {
-    fontWeight: 600,
-    fontSize: 14,
-  },
-  privateIcon: {
-    color: token.colorWarning,
-    fontSize: 12,
-  },
-  forkIcon: {
-    color: token.colorTextSecondary,
-    fontSize: 12,
-  },
-  archivedTag: {
-    fontSize: 10,
-    lineHeight: 1.2,
-    padding: "0 4px",
-    marginInlineEnd: 0,
-  },
-  copyIcon: {
-    color: token.colorTextSecondary,
-    fontSize: 12,
-    cursor: "pointer",
-    opacity: 0.6,
-    transition: "opacity 0.2s",
-    "&:hover": {
-      opacity: 1,
+const useStyles = createStyles(({ token }) => {
+  const { fontSizeSM } = token;
+
+  return {
+    repoHeader: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      flexWrap: "wrap",
     },
-  },
-  description: {
-    fontSize: 12,
-    maxWidth: 400,
-  },
-  topics: {
-    display: "flex",
-    gap: 4,
-    marginTop: 4,
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
-  topicTag: {
-    fontSize: 10,
-    padding: "0 4px",
-    margin: 0,
-    backgroundColor: token.colorPrimaryBg,
-    borderColor: token.colorPrimaryBorder,
-    color: token.colorPrimary,
-  },
-  moreTopics: {
-    fontSize: 10,
-  },
-}));
+    repoName: {
+      fontWeight: 600,
+      fontSize: token.fontSize,
+    },
+    privateIcon: {
+      color: token.colorWarning,
+      fontSize: fontSizeSM,
+    },
+    forkIcon: {
+      color: token.colorTextSecondary,
+      fontSize: fontSizeSM,
+    },
+    archivedTag: {
+      fontSize: fontSizeSM - 2,
+      lineHeight: 1.2,
+      padding: "0 4px",
+      marginInlineEnd: 0,
+    },
+    copyIcon: {
+      color: token.colorTextSecondary,
+      fontSize: fontSizeSM,
+      cursor: "pointer",
+      opacity: 0.6,
+      transition: "opacity 0.2s",
+      "&:hover": {
+        opacity: 1,
+      },
+    },
+    description: {
+      fontSize: fontSizeSM,
+      maxWidth: 400,
+    },
+    topics: {
+      display: "flex",
+      gap: 4,
+      marginTop: 4,
+      flexWrap: "wrap",
+      alignItems: "center",
+    },
+    topicTag: {
+      fontSize: fontSizeSM - 2,
+      padding: "0 4px",
+      margin: 0,
+      backgroundColor: token.colorPrimaryBg,
+      borderColor: token.colorPrimaryBorder,
+      color: token.colorPrimary,
+    },
+    moreTopics: {
+      fontSize: fontSizeSM - 2,
+    },
+  };
+});
