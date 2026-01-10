@@ -83,7 +83,7 @@ export const UrlCurl = () => {
             disabled={isBlank(inputCurl)}
             className={styles.languageSelect}
             popupMatchSelectWidth={false}
-            showSearch
+            showSearch={!isMobile}
             placeholder="Target language"
           />
 

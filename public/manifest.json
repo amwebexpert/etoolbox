@@ -1,7 +1,9 @@
 {
   "short_name": "Web Toolbox",
-  "name": "Web Toolbox - Collection of web developer utilities packaged as a desktop app",
+  "name": "Web Toolbox - Collection of web developer utilities",
   "description": "Open source collection of web developer utilities",
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
       "src": "favicon.ico",
@@ -61,33 +63,44 @@
     {
       "src": "screen-captures/screen-Base64Encoder.png",
       "sizes": "1944x1750",
-      "type": "png"
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Base64 Encoder"
     },
     {
       "src": "screen-captures/screen-JWTDecoder.png",
       "sizes": "1856x1662",
-      "type": "png"
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "JWT Decoder"
     },
     {
       "src": "screen-captures/screen-URLEncoder.png",
       "sizes": "1944x1750",
-      "type": "png"
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "URL Encoder"
     },
     {
       "src": "screen-captures/screen-URLParser.png",
       "sizes": "1944x1750",
-      "type": "png"
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "URL Parser"
     },
     {
       "src": "screen-captures/screen-UUIDGenerator.png",
       "sizes": "1944x1750",
-      "type": "png"
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "UUID Generator"
     }
   ],
   "start_url": ".",
+  "scope": "/",
   "orientation": "any",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "categories": ["productivity", "utilities"]
+  "background_color": "#000000",
+  "categories": ["productivity", "utilities", "developer tools"]
 }
