@@ -1,10 +1,9 @@
 import { Buffer } from "buffer";
 
-import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
+import { getErrorMessage, isBlank, countWords } from "@lichens-innovation/ts-common";
 import Tesseract from "tesseract.js";
 
 import { formatDuration } from "~/utils/number-format.utils";
-import { countWords } from "~/utils/string.utils";
 
 import type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.types";
 

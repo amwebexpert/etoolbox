@@ -1069,12 +1069,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lichens-innovation/ts-common@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "@lichens-innovation/ts-common@npm:1.4.0"
+"@lichens-innovation/ts-common@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@lichens-innovation/ts-common@npm:1.5.0"
   dependencies:
     date-fns: "npm:^3.0.0"
-  checksum: 10c0/389be9318cc78f11b26de925cfcc20fa6f94f6e353f662d362a304fa30120ddbca89ae5d126afb6b03ff9ba688d8ebe1b03f5cc490f489c861ec0309683dcfa5
+  checksum: 10c0/c0599147f86bf71dca82053da7c09e36fcf716075dbeada8310d32fdea8ee4bb4eca500c0d592f3423023ed9ee20a9d1885f1b190d3b326308db39474e484873
   languageName: node
   linkType: hard
 
@@ -8588,7 +8588,7 @@ __metadata:
     "@commitlint/cli": "npm:^20.3.0"
     "@commitlint/config-conventional": "npm:^20.3.0"
     "@eslint/js": "npm:^9.39.1"
-    "@lichens-innovation/ts-common": "npm:^1.4.0"
+    "@lichens-innovation/ts-common": "npm:^1.5.0"
     "@react-three/drei": "npm:^10.7.7"
     "@react-three/fiber": "npm:^9.5.0"
     "@tanstack/react-query": "npm:^5.90.16"

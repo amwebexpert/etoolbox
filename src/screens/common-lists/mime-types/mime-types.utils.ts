@@ -1,6 +1,5 @@
 import mimeDb from "mime-db";
-
-import { capitalizeFirst } from "~/utils/string.utils";
+import { capitalizeFirst } from "@lichens-innovation/ts-common";
 
 import type { MimeTypeCategory, MimeTypeEntry } from "./mime-types.types";
 

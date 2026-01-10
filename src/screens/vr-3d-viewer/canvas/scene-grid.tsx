@@ -1,6 +1,5 @@
 import { Grid } from "@react-three/drei";
-
-import { isLightColor } from "~/utils/color.utils";
+import { isLightColor } from "@lichens-innovation/ts-common";
 
 import type { SceneGridProps } from "./canvas.types";
 
