@@ -52,16 +52,39 @@ Some screen captures of the implemented features...
 | `yarn generate:api:client` | Generates API client from OpenAPI specification                                         |
 | `yarn postinstall`         | Runs after install: applies patches                                                     |
 
+## Frameworks & Dependencies
+
+| Package                                         | Description                                        |
+| ----------------------------------------------- | -------------------------------------------------- |
+| [React](https://react.dev/)                     | UI library for building component-based interfaces |
+| [TypeScript](https://www.typescriptlang.org/)   | Type-safe JavaScript superset                      |
+| [Ant Design](https://ant.design/)               | Enterprise-class UI component library              |
+| [TanStack Router](https://tanstack.com/router)  | Type-safe routing for React                        |
+| [TanStack Query](https://tanstack.com/query)    | Async state management and data fetching           |
+| [Zustand](https://zustand-demo.pmnd.rs/)        | Lightweight state management                       |
+| [Immer](https://immerjs.github.io/immer/)       | Immutable state with mutable syntax                |
+| [Axios](https://axios-http.com/)                | HTTP client                                        |
+| [React Hook Form](https://react-hook-form.com/) | Performant form handling                           |
+| [@uidotdev/usehooks](https://usehooks.com/)     | Collection of React hooks                          |
+
+## Development Tools
+
+| Package                                    | Description                     |
+| ------------------------------------------ | ------------------------------- |
+| [Vite (Rolldown)](https://rolldown.rs/)    | Next-generation fast build tool |
+| [Vitest](https://vitest.dev/)              | Unit testing framework          |
+| [ESLint](https://eslint.org/)              | JavaScript/TypeScript linting   |
+| [Prettier](https://prettier.io/)           | Code formatting                 |
+| [Husky](https://typicode.github.io/husky/) | Git hooks management            |
+| [Commitlint](https://commitlint.js.org/)   | Commit message linting          |
+
 ## Roadmap (of next features)
 
-- Excel File reader
-- Text diff tooling
-- Image compressor
-- Mardown viewer
 - DataURI scheme viewer (Base64 raw data)
   - Like this website: [Data URL to image](https://base64.guru/tools/data-url-to-image)
-- Add list of all official HTTP Server codes (REST)
-- Markdown utilities, like [table formatter](https://tabletomarkdown.com/format-markdown-table/)
+- Text diff tooling
+- Image compressor
+- Mardown viewer & utilities, like [table formatter](https://tabletomarkdown.com/format-markdown-table/)
 - Suggests something or add your pull request!
 
 ## License
