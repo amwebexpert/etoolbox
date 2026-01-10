@@ -1,9 +1,10 @@
 name: Auto Tag on Version Change
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - master
+      - main
     paths:
       - "package.json"
 
