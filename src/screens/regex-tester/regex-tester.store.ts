@@ -64,6 +64,6 @@ export const useRegexTesterStore = create<RegexTesterState>()(
       name: PERSISTED_STORE_NAME,
       storage: createJSONStorage(() => localStorage),
     }),
-    { name: PERSISTED_STORE_NAME },
-  ),
+    { name: PERSISTED_STORE_NAME }
+  )
 );

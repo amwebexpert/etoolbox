@@ -3,9 +3,10 @@ import { Card, Col, Row, Statistic, Tag, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { formatCount } from "~/utils/number-format.utils";
 
 import type { GithubUserProject } from "./github-user-projects.types";
-import { calculateProjectStats, formatCount } from "./github-user-projects.utils";
+import { calculateProjectStats } from "./github-user-projects.utils";
 
 const { Text } = Typography;
 
@@ -41,7 +42,9 @@ export const GithubUserProjectsStats = ({ projects }: GithubUserProjectsStatsPro
             title="Total Stars"
             value={formatCount(stats.totalStars)}
             prefix={<StarOutlined />}
-            styles={{ content: { fontSize: isMobile ? 18 : 24, color: "#faad14" } }}
+            styles={{
+              content: { fontSize: isMobile ? 18 : 24, color: "#faad14" },
+            }}
           />
         </Col>
 

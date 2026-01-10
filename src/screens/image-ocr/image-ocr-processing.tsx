@@ -1,7 +1,7 @@
 import { Card, Progress, Typography } from "antd";
 import { createStyles } from "antd-style";
 
-import type { WorkerStatus } from "./image-ocr.utils";
+import type { WorkerStatus } from "./image-ocr.types";
 import { getProgressStatus } from "./image-ocr.utils";
 
 const { Text } = Typography;

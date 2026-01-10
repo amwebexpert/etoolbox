@@ -110,5 +110,5 @@ const persistedStateCreator = persist<GithubUserProjectsState>(stateCreator, {
 });
 
 export const useGithubUserProjectsStore = create<GithubUserProjectsState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

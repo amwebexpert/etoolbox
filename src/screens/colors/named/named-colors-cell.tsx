@@ -1,10 +1,9 @@
 import { CopyOutlined } from "@ant-design/icons";
+import { getContrastTextColor } from "@lichens-innovation/ts-common";
 import { Tooltip, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
-
-import { getContrastTextColor } from "./named-colors.utils";
 
 const { Text } = Typography;
 

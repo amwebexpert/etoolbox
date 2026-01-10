@@ -10,7 +10,7 @@ interface SettingsState {
 }
 
 const stateCreator = (
-  set: (partial: Partial<SettingsState> | ((state: SettingsState) => Partial<SettingsState>)) => void,
+  set: (partial: Partial<SettingsState> | ((state: SettingsState) => Partial<SettingsState>)) => void
 ): SettingsState => ({
   themeMode: "light",
   setThemeMode: (mode) => set({ themeMode: mode }),
@@ -28,7 +28,7 @@ const persistedStateCreator = persist<SettingsState>(stateCreator, {
 });
 
 export const useSettingsStore = create<SettingsState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );
 
 export const useIsDarkMode = (): boolean => {

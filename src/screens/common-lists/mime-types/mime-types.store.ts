@@ -41,5 +41,5 @@ const persistedStateCreator = persist<MimeTypesState>(stateCreator, {
 });
 
 export const useMimeTypesStore = create<MimeTypesState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

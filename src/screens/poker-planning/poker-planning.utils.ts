@@ -1,6 +1,7 @@
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { v4 as uuidv4 } from "uuid";
 
+import { isNumber } from "@lichens-innovation/ts-common";
 import { DEFAULT_HOSTNAME, DEFAULT_ROOM_NAME, SOCKET_STATES } from "./poker-planning.constants";
 import type {
   BuildRouteURLParams,
@@ -11,11 +12,6 @@ import type {
   UserEstimate,
   UserMessage,
 } from "./poker-planning.types";
-
-const isNumeric = (value?: string): boolean => {
-  if (!value) return false;
-  return !isNaN(parseFloat(value)) && isFinite(Number(value));
-};
 
 const isDevMode = (): boolean =>
   document.location.hostname === "localhost" || document.location.hostname === "127.0.0.1";
@@ -72,7 +68,7 @@ export const parseEstimates = ({ estimates, username }: ParseEstimatesParams): E
   const values = estimates
     .map((e) => e.estimate)
     .filter((e): e is string => !!e)
-    .filter(isNumeric)
+    .filter(isNumber)
     .map((e) => Number(e));
 
   const estimatesSum = values.reduce((acc, val) => acc + val, 0);

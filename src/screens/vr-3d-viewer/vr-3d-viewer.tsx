@@ -71,7 +71,7 @@ export const Vr3dViewer = () => {
     (progress: number) => {
       setLoadProgress(progress);
     },
-    [setLoadProgress],
+    [setLoadProgress]
   );
 
   const handleLoaded = useCallback(() => {
@@ -85,7 +85,7 @@ export const Vr3dViewer = () => {
       setError(errorMessage);
       messageApi.error(`Failed to load model: ${errorMessage}`);
     },
-    [setError, messageApi],
+    [setError, messageApi]
   );
 
   const handleClear = () => {

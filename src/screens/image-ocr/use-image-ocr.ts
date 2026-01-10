@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { useToastMessage } from "~/providers/toast-message-provider";
 
 import { useImageOcrStore } from "./image-ocr.store";
+import type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.types";
 import { processOcr } from "./image-ocr.utils";
-import type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.utils";
 
 interface UseImageOcrArgs {
   onProgress?: (status: WorkerStatus) => void;

@@ -14,7 +14,9 @@ import { useToastMessage } from "~/providers/toast-message-provider";
 import { Base64FileDropzone } from "./base64-file-dropzone";
 import { Base64FileInfo } from "./base64-file-info";
 import { Base64FileToolbar } from "./base64-file-toolbar";
-import { downloadBase64AsFile, formatDataUri, readFileAsBase64 } from "./base64-file.utils";
+import { formatDataUri } from "~/utils/encoding.utils";
+
+import { downloadBase64AsFile, readFileAsBase64 } from "./base64-file.utils";
 
 const { TextArea } = Input;
 
@@ -43,19 +45,29 @@ export const Base64File = () => {
   };
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: base64Output, successMessage: "Base64 copied to clipboard!" });
+    copyTextToClipboard({
+      text: base64Output,
+      successMessage: "Base64 copied to clipboard!",
+    });
   };
 
   const handleCopyDataUri = () => {
     const dataUri = base64Output ? formatDataUri({ mimeType, base64: base64Output }) : "";
-    copyTextToClipboard({ text: dataUri, successMessage: "Data URI copied to clipboard!" });
+    copyTextToClipboard({
+      text: dataUri,
+      successMessage: "Data URI copied to clipboard!",
+    });
   };
 
   const handleDownload = () => {
     if (!base64Output) return;
 
     try {
-      downloadBase64AsFile({ base64: base64Output, mimeType, fileName: fileName || "decoded-file" });
+      downloadBase64AsFile({
+        base64: base64Output,
+        mimeType,
+        fileName: fileName || "decoded-file",
+      });
       messageApi.success("File downloaded!");
     } catch (e: unknown) {
       messageApi.error("Failed to decode and download: " + getErrorMessage(e));

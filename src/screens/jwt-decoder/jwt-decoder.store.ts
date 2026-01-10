@@ -21,5 +21,5 @@ const persistedStateCreator = persist<JwtDecoderState>(stateCreator, {
 });
 
 export const useJwtDecoderStore = create<JwtDecoderState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

@@ -56,7 +56,7 @@ interface PokerPlanningState {
 
 const stateCreator = (
   set: (partial: Partial<PokerPlanningState> | ((state: PokerPlanningState) => Partial<PokerPlanningState>)) => void,
-  get: () => PokerPlanningState,
+  get: () => PokerPlanningState
 ): PokerPlanningState => ({
   // Initial persisted values
   hostName: "",
@@ -230,7 +230,7 @@ const persistedStateCreator = persist<PokerPlanningState>(stateCreator, {
 });
 
 export const usePokerPlanningStore = create<PokerPlanningState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );
 
 // Selector for socket cleanup

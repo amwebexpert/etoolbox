@@ -1,6 +1,5 @@
 import * as THREE from "three";
-
-import { hexToNormalizedRgb } from "../vr-3d-viewer.utils";
+import { hexToNormalizedRgb } from "@lichens-innovation/ts-common";
 
 /**
  * Computes a THREE.Color from a hex color string

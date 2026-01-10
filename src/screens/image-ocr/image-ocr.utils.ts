@@ -1,12 +1,11 @@
 import { Buffer } from "buffer";
 
-import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
+import { getErrorMessage, isBlank, countWords } from "@lichens-innovation/ts-common";
 import Tesseract from "tesseract.js";
 
-import type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.types";
+import { formatDuration } from "~/utils/number-format.utils";
 
-export { LANGUAGE_OPTIONS } from "./image-ocr.types";
-export type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.types";
+import type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.types";
 
 interface ProcessOcrArgs {
   context: OcrContext;
@@ -60,24 +59,10 @@ export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promi
   }
 };
 
-const countWords = (text: string): number => {
-  if (isBlank(text)) return 0;
-  return text.split(/\s+/).filter((word) => word.length > 0).length;
-};
-
-export const formatProcessingTime = (ms: number): string => {
-  if (ms < 1000) {
-    return `${ms}ms`;
-  }
-  return `${(ms / 1000).toFixed(1)}s`;
-};
-
-export const formatProgress = (progress: number): number => {
-  return Math.round(progress * 100);
-};
+export const formatProcessingTime = formatDuration;
 
 export const getProgressStatus = (progress: number, status: string): string => {
-  const percentage = formatProgress(progress);
+  const percentage = Math.round(progress * 100);
   if (status === "recognizing text") {
     return `Recognizing text... ${percentage}%`;
   }

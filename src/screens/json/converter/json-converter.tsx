@@ -12,7 +12,7 @@ import { useToastMessage } from "~/providers/toast-message-provider";
 import { JsonConverterResult } from "./json-converter-result";
 import { JsonConverterToolbar } from "./json-converter-toolbar";
 import { useJsonConverterStore } from "./json-converter.store";
-import { TARGET_LANGUAGES } from "./json-converter.utils";
+import { TARGET_LANGUAGES } from "./json-converter.types";
 import { useJsonConvert } from "./use-json-convert";
 
 const { TextArea } = Input;

@@ -82,7 +82,7 @@ export const QRCodeDecoderResult = ({ result, previewUrl }: QRCodeDecoderResultP
                 timestamp: result.timestamp.toISOString(),
               },
               null,
-              2,
+              2
             )}
             readOnly
             autoSize={{ minRows: isMobile ? 4 : 6, maxRows: isMobile ? 10 : 14 }}

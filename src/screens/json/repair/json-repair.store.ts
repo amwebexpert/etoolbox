@@ -23,5 +23,5 @@ const persistedStateCreator = persist<JsonRepairState>(stateCreator, {
 });
 
 export const useJsonRepairStore = create<JsonRepairState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

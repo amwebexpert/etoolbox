@@ -1,11 +1,9 @@
 import prettyBytes from "pretty-bytes";
 
 import { downloadBlob } from "~/utils/download.utils";
-import { base64ToBlob, formatDataUri, getBase64ApproxSize } from "~/utils/encoding.utils";
+import { base64ToBlob, getBase64ApproxSize } from "~/utils/encoding.utils";
 import { readFileAsBase64 as readFileAsBase64Util, type Base64FileResult } from "~/utils/file-reader.utils";
 
-export { base64ToBlob, formatDataUri, getBase64ApproxSize };
-export { downloadBlob };
 export type { Base64FileResult };
 
 interface DownloadBase64AsFileArgs {

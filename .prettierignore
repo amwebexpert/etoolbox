@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+docs/
+build/
+
+# Package manager files
+yarn.lock
+package-lock.json
+
+# Generated files
+*.min.js
+*.min.css
+
+# Public assets (copied as-is)
+public/screen-captures/

@@ -47,5 +47,5 @@ const persistedStateCreator = persist<JsonConverterState>(stateCreator, {
 });
 
 export const useJsonConverterStore = create<JsonConverterState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

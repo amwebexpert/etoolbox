@@ -1,4 +1,5 @@
 import mimeDb from "mime-db";
+import { capitalizeFirst } from "@lichens-innovation/ts-common";
 
 import type { MimeTypeCategory, MimeTypeEntry } from "./mime-types.types";
 
@@ -28,13 +29,12 @@ export const MIME_TYPES: MimeTypeEntry[] = initMimeTypes();
 
 export const CATEGORIES: string[] = [...new Set(MIME_TYPES.map((entry) => entry.category))].sort();
 
-const capitalizeFirst = (str: string): string => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
-
 export const CATEGORY_OPTIONS = [
   { value: "all" as const, label: "All categories" },
-  ...CATEGORIES.map((category) => ({ value: category, label: capitalizeFirst(category) })),
+  ...CATEGORIES.map((category) => ({
+    value: category,
+    label: capitalizeFirst(category),
+  })),
 ];
 
 export const formatExtensions = (extensions: readonly string[]): string => {
