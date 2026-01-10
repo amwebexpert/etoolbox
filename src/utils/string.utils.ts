@@ -20,16 +20,6 @@ export const countWords = (text: string): number => {
 };
 
 /**
- * Check if a string represents a numeric value.
- * @param value - The string to check
- * @returns True if the string can be parsed as a finite number
- */
-export const isNumeric = (value?: string): boolean => {
-  if (!value) return false;
-  return !isNaN(parseFloat(value)) && isFinite(Number(value));
-};
-
-/**
  * Truncate a string to a maximum length, adding an ellipsis if truncated.
  * @param str - The string to truncate
  * @param maxLength - Maximum length before truncation
