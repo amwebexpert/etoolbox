@@ -1,31 +1,23 @@
 import { Table } from "antd";
 import { createStyles } from "antd-style";
-import { useDeferredValue } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
 import { useHttpStatusCodesStore } from "./http-status-codes.store";
-import { applyFiltering, PAGE_SIZE_OPTIONS } from "./http-status-codes.utils";
+import type { HttpStatusCodeEntry } from "./http-status-codes.types";
+import { PAGE_SIZE_OPTIONS } from "./http-status-codes.utils";
 import { useHttpStatusCodesColumns } from "./use-http-status-codes-columns";
 
-export const HttpStatusCodesTable = () => {
+interface HttpStatusCodesTableProps {
+  filteredStatusCodes: HttpStatusCodeEntry[];
+}
+
+export const HttpStatusCodesTable = ({ filteredStatusCodes }: HttpStatusCodesTableProps) => {
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
   const columns = useHttpStatusCodesColumns();
 
-  const { category, filter, page, pageSize, setPage, setPageSize } = useHttpStatusCodesStore();
-
-  const deferredCategory = useDeferredValue(category);
-  const deferredFilter = useDeferredValue(filter);
-
-  const filteredStatusCodes = applyFiltering({ category: deferredCategory, filter: deferredFilter });
-
-  const handlePageChange = (newPage: number, newPageSize: number) => {
-    setPage(newPage);
-    if (newPageSize !== pageSize) {
-      setPageSize(newPageSize);
-    }
-  };
+  const { page, pageSize, handlePageChange } = useHttpStatusCodesStore();
 
   return (
     <Table

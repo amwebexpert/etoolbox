@@ -1,27 +1,24 @@
 import { ClearOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Row, Select, Space, Typography } from "antd";
 import { createStyles } from "antd-style";
-import { useDeferredValue } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
 import { HTTP_STATUS_CODES } from "./http-status-codes.constants";
 import { useHttpStatusCodesStore } from "./http-status-codes.store";
-import { applyFiltering, CATEGORY_OPTIONS, DEFAULT_CATEGORY } from "./http-status-codes.utils";
+import { CATEGORY_OPTIONS } from "./http-status-codes.utils";
 
 const { Text } = Typography;
 
-export const HttpStatusCodesToolbar = () => {
+interface HttpStatusCodesToolbarProps {
+  filteredCount: number;
+}
+
+export const HttpStatusCodesToolbar = ({ filteredCount }: HttpStatusCodesToolbarProps) => {
   const { styles } = useStyles();
   const { isDesktop } = useResponsive();
 
-  const { category, filter, setCategory, setFilter, resetFilters } = useHttpStatusCodesStore();
-
-  const deferredCategory = useDeferredValue(category);
-  const deferredFilter = useDeferredValue(filter);
-  const filteredCount = applyFiltering({ category: deferredCategory, filter: deferredFilter }).length;
-
-  const hasFilters = category !== DEFAULT_CATEGORY || filter !== "";
+  const { category, filter, hasFilters, setCategory, setFilter, resetFilters } = useHttpStatusCodesStore();
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value);
@@ -59,11 +56,9 @@ export const HttpStatusCodesToolbar = () => {
 
       <Col xs={12} sm={12} md={6} lg={8}>
         <Space className={styles.actions}>
-          {hasFilters && (
-            <Button icon={<ClearOutlined />} onClick={resetFilters}>
-              Clear filters
-            </Button>
-          )}
+          <Button icon={<ClearOutlined />} onClick={resetFilters} disabled={!hasFilters()}>
+            Clear filters
+          </Button>
         </Space>
       </Col>
     </Row>

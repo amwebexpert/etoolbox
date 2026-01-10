@@ -1,7 +1,14 @@
 import prettyBytes from "pretty-bytes";
 
+import type { ResponsiveContext } from "~/utils/responsive.utils";
 import type { BoundingBox, ModelFileInfo, ModelFormat, Vector3D } from "./vr-3d-viewer.types";
 import { SUPPORTED_EXTENSIONS } from "./vr-3d-viewer.types";
+
+export const determineCanvasHeight = ({ isMobile, isTablet }: ResponsiveContext) => {
+  if (isMobile) return 300;
+  if (isTablet) return 400;
+  return 500;
+};
 
 /**
  * Detect the format of a 3D model file from its extension

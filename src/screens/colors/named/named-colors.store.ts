@@ -10,20 +10,30 @@ interface NamedColorsState {
   pageSize: number;
   setFamily: (family: string) => void;
   setFilter: (filter: string) => void;
-  setPage: (page: number) => void;
-  setPageSize: (pageSize: number) => void;
+  handlePageChange: (page: number, pageSize: number) => void;
+  hasFilters: () => boolean;
   resetFilters: () => void;
 }
 
-const stateCreator = (set: (partial: Partial<NamedColorsState>) => void): NamedColorsState => ({
+const stateCreator = (
+  set: (partial: Partial<NamedColorsState>) => void,
+  get: () => NamedColorsState
+): NamedColorsState => ({
   family: DEFAULT_FAMILY,
   filter: DEFAULT_FILTER,
   page: DEFAULT_PAGE,
   pageSize: DEFAULT_PAGE_SIZE,
   setFamily: (family) => set({ family, page: DEFAULT_PAGE }),
   setFilter: (filter) => set({ filter, page: DEFAULT_PAGE }),
-  setPage: (page) => set({ page }),
-  setPageSize: (pageSize) => set({ pageSize, page: DEFAULT_PAGE }),
+  handlePageChange: (page, pageSize) => {
+    const currentPageSize = get().pageSize;
+    if (pageSize !== currentPageSize) {
+      set({ page: DEFAULT_PAGE, pageSize });
+    } else {
+      set({ page });
+    }
+  },
+  hasFilters: () => get().family !== DEFAULT_FAMILY || get().filter !== DEFAULT_FILTER,
   resetFilters: () =>
     set({
       family: DEFAULT_FAMILY,

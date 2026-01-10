@@ -1,26 +1,23 @@
 import { ClearOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Row, Select, Space, Typography } from "antd";
 import { createStyles } from "antd-style";
-import { useDeferredValue } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
 import { useMimeTypesStore } from "./mime-types.store";
-import { applyFiltering, CATEGORY_OPTIONS, DEFAULT_CATEGORY, MIME_TYPES } from "./mime-types.utils";
+import { CATEGORY_OPTIONS, MIME_TYPES } from "./mime-types.utils";
 
 const { Text } = Typography;
 
-export const MimeTypesToolbar = () => {
+interface MimeTypesToolbarProps {
+  filteredCount: number;
+}
+
+export const MimeTypesToolbar = ({ filteredCount }: MimeTypesToolbarProps) => {
   const { styles } = useStyles();
   const { isDesktop } = useResponsive();
 
-  const { category, filter, setCategory, setFilter, resetFilters } = useMimeTypesStore();
-
-  const deferredCategory = useDeferredValue(category);
-  const deferredFilter = useDeferredValue(filter);
-  const filteredCount = applyFiltering({ category: deferredCategory, filter: deferredFilter }).length;
-
-  const hasFilters = category !== DEFAULT_CATEGORY || filter !== "";
+  const { category, filter, setCategory, setFilter, hasFilters, resetFilters } = useMimeTypesStore();
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value);
@@ -58,11 +55,9 @@ export const MimeTypesToolbar = () => {
 
       <Col xs={12} sm={12} md={6} lg={8}>
         <Space className={styles.actions}>
-          {hasFilters && (
-            <Button icon={<ClearOutlined />} onClick={resetFilters}>
-              Clear filters
-            </Button>
-          )}
+          <Button icon={<ClearOutlined />} onClick={resetFilters} disabled={!hasFilters()}>
+            Clear filters
+          </Button>
         </Space>
       </Col>
     </Row>

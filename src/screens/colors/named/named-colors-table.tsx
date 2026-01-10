@@ -1,31 +1,23 @@
 import { Table } from "antd";
 import { createStyles } from "antd-style";
-import { useDeferredValue } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
 import { useNamedColorsStore } from "./named-colors.store";
-import { applyFiltering, PAGE_SIZE_OPTIONS } from "./named-colors.utils";
+import type { ColorInfo } from "./named-colors.utils";
+import { PAGE_SIZE_OPTIONS } from "./named-colors.utils";
 import { useNamedColorsColumns } from "./use-named-colors-columns";
 
-export const NamedColorsTable = () => {
+interface NamedColorsTableProps {
+  filteredColors: ColorInfo[];
+}
+
+export const NamedColorsTable = ({ filteredColors }: NamedColorsTableProps) => {
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
   const columns = useNamedColorsColumns();
 
-  const { family, filter, page, pageSize, setPage, setPageSize } = useNamedColorsStore();
-
-  const deferredFamily = useDeferredValue(family);
-  const deferredFilter = useDeferredValue(filter);
-
-  const filteredColors = applyFiltering({ family: deferredFamily, filter: deferredFilter });
-
-  const handlePageChange = (newPage: number, newPageSize: number) => {
-    setPage(newPage);
-    if (newPageSize !== pageSize) {
-      setPageSize(newPageSize);
-    }
-  };
+  const { page, pageSize, handlePageChange } = useNamedColorsStore();
 
   return (
     <Table
