@@ -9,6 +9,7 @@ import { NamedColors } from "~/screens/colors/named/named-colors";
 import { ColorPicker } from "~/screens/colors/picker/color-picker";
 import { CommonLists } from "~/screens/common-lists/common-lists";
 import { HtmlEntities } from "~/screens/common-lists/html-entities/html-entities";
+import { HttpStatusCodes } from "~/screens/common-lists/http-status-codes/http-status-codes";
 import { MimeTypes } from "~/screens/common-lists/mime-types/mime-types";
 import { CsvParser } from "~/screens/csv-parser/csv-parser";
 import { DateConverter } from "~/screens/date-converter/date-converter";
@@ -228,6 +229,12 @@ const htmlEntitiesRoute = createRoute({
   component: HtmlEntities,
 });
 
+const httpStatusCodesRoute = createRoute({
+  getParentRoute: () => commonListsRoute,
+  path: "/http-status-codes",
+  component: HttpStatusCodes,
+});
+
 const githubUserProjectsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/github-user-projects",
@@ -278,7 +285,7 @@ const routeTree = rootRoute.addChildren([
   jwtDecoderRoute,
   qrcodeRoute.addChildren([qrcodeIndexRoute, qrcodeGeneratorRoute, qrcodeDecoderRoute]),
   imageOcrRoute,
-  commonListsRoute.addChildren([commonListsIndexRoute, mimeTypesRoute, htmlEntitiesRoute]),
+  commonListsRoute.addChildren([commonListsIndexRoute, mimeTypesRoute, htmlEntitiesRoute, httpStatusCodesRoute]),
   githubUserProjectsRoute,
   dateConverterRoute,
   csvParserRoute,

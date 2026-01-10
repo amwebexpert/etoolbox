@@ -76,7 +76,7 @@ const menuItems: MenuItem[] = [
   {
     key: "/common-lists",
     icon: <UnorderedListOutlined />,
-    label: <Link to="/common-lists">Mime-types, HTML</Link>,
+    label: <Link to="/common-lists">Web References</Link>,
   },
   {
     key: "/github-user-projects",
