@@ -19,12 +19,15 @@ interface HtmlEntitiesState {
   setCategory: (category: HtmlEntityCategory) => void;
   setFilter: (filter: string) => void;
   setFilterField: (filterField: HtmlEntityFilterField) => void;
-  setPage: (page: number) => void;
-  setPageSize: (pageSize: number) => void;
+  handlePageChange: (page: number, pageSize: number) => void;
+  hasFilters: () => boolean;
   resetFilters: () => void;
 }
 
-const stateCreator = (set: (partial: Partial<HtmlEntitiesState>) => void): HtmlEntitiesState => ({
+const stateCreator = (
+  set: (partial: Partial<HtmlEntitiesState>) => void,
+  get: () => HtmlEntitiesState
+): HtmlEntitiesState => ({
   category: DEFAULT_CATEGORY,
   filter: DEFAULT_FILTER,
   filterField: DEFAULT_FILTER_FIELD,
@@ -33,8 +36,18 @@ const stateCreator = (set: (partial: Partial<HtmlEntitiesState>) => void): HtmlE
   setCategory: (category) => set({ category, page: DEFAULT_PAGE }),
   setFilter: (filter) => set({ filter, page: DEFAULT_PAGE }),
   setFilterField: (filterField) => set({ filterField, page: DEFAULT_PAGE }),
-  setPage: (page) => set({ page }),
-  setPageSize: (pageSize) => set({ pageSize, page: DEFAULT_PAGE }),
+  handlePageChange: (page, pageSize) => {
+    const currentPageSize = get().pageSize;
+    if (pageSize !== currentPageSize) {
+      set({ page: DEFAULT_PAGE, pageSize });
+    } else {
+      set({ page });
+    }
+  },
+  hasFilters: () =>
+    get().category !== DEFAULT_CATEGORY ||
+    get().filter !== DEFAULT_FILTER ||
+    get().filterField !== DEFAULT_FILTER_FIELD,
   resetFilters: () =>
     set({
       category: DEFAULT_CATEGORY,

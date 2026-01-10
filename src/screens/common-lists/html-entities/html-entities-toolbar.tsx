@@ -1,35 +1,25 @@
 import { ClearOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Row, Select, Space, Typography } from "antd";
 import { createStyles } from "antd-style";
-import { useDeferredValue } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
 import { CATEGORY_OPTIONS, FILTER_FIELD_OPTIONS, HTML_ENTITIES } from "./html-entities.constants";
 import { useHtmlEntitiesStore } from "./html-entities.store";
 import type { HtmlEntityCategory, HtmlEntityFilterField } from "./html-entities.types";
-import { applyFiltering, DEFAULT_CATEGORY, DEFAULT_FILTER_FIELD } from "./html-entities.utils";
 
 const { Text } = Typography;
 
-export const HtmlEntitiesToolbar = () => {
+interface HtmlEntitiesToolbarProps {
+  filteredCount: number;
+}
+
+export const HtmlEntitiesToolbar = ({ filteredCount }: HtmlEntitiesToolbarProps) => {
   const { styles } = useStyles();
   const { isDesktop } = useResponsive();
 
-  const { category, filter, filterField, setCategory, setFilter, setFilterField, resetFilters } =
+  const { category, filter, filterField, setCategory, setFilter, setFilterField, hasFilters, resetFilters } =
     useHtmlEntitiesStore();
-
-  const deferredCategory = useDeferredValue(category);
-  const deferredFilter = useDeferredValue(filter);
-  const deferredFilterField = useDeferredValue(filterField);
-
-  const filteredCount = applyFiltering({
-    category: deferredCategory,
-    filter: deferredFilter,
-    filterField: deferredFilterField,
-  }).length;
-
-  const hasFilters = category !== DEFAULT_CATEGORY || filter !== "" || filterField !== DEFAULT_FILTER_FIELD;
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value);
@@ -85,11 +75,9 @@ export const HtmlEntitiesToolbar = () => {
 
       <Col xs={12} sm={6} md={4} lg={8}>
         <Space className={styles.actions}>
-          {hasFilters && (
-            <Button icon={<ClearOutlined />} onClick={resetFilters}>
-              Clear
-            </Button>
-          )}
+          <Button icon={<ClearOutlined />} onClick={resetFilters} disabled={!hasFilters()}>
+            Clear
+          </Button>
         </Space>
       </Col>
     </Row>

@@ -1,37 +1,24 @@
 import { Table } from "antd";
 import { createStyles } from "antd-style";
-import { useDeferredValue } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
 import { PAGE_SIZE_OPTIONS } from "./html-entities.constants";
 import { useHtmlEntitiesStore } from "./html-entities.store";
-import { applyFiltering, getEntityUniqueKey } from "./html-entities.utils";
+import type { HtmlEntity } from "./html-entities.types";
+import { getEntityUniqueKey } from "./html-entities.utils";
 import { useHtmlEntitiesColumns } from "./use-html-entities-columns";
 
-export const HtmlEntitiesTable = () => {
+interface HtmlEntitiesTableProps {
+  filteredEntities: HtmlEntity[];
+}
+
+export const HtmlEntitiesTable = ({ filteredEntities }: HtmlEntitiesTableProps) => {
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
   const columns = useHtmlEntitiesColumns();
 
-  const { category, filter, filterField, page, pageSize, setPage, setPageSize } = useHtmlEntitiesStore();
-
-  const deferredCategory = useDeferredValue(category);
-  const deferredFilter = useDeferredValue(filter);
-  const deferredFilterField = useDeferredValue(filterField);
-
-  const filteredEntities = applyFiltering({
-    category: deferredCategory,
-    filter: deferredFilter,
-    filterField: deferredFilterField,
-  });
-
-  const handlePageChange = (newPage: number, newPageSize: number) => {
-    setPage(newPage);
-    if (newPageSize !== pageSize) {
-      setPageSize(newPageSize);
-    }
-  };
+  const { page, pageSize, handlePageChange } = useHtmlEntitiesStore();
 
   return (
     <Table
