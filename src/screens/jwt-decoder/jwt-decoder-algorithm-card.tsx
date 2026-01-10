@@ -44,6 +44,6 @@ const useStyles = createStyles(({ token }) => ({
     backgroundColor: token.colorBgContainer,
   },
   algorithmDesc: {
-    fontSize: 12,
+    fontSize: token.fontSizeSM,
   },
 }));

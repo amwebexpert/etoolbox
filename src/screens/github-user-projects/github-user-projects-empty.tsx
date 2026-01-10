@@ -2,7 +2,7 @@ import { GithubOutlined, SearchOutlined } from "@ant-design/icons";
 import { Empty, Typography } from "antd";
 import { createStyles } from "antd-style";
 
-const { Paragraph } = Typography;
+const { Paragraph, Title } = Typography;
 
 interface GithubUserProjectsEmptyProps {
   hasSearched: boolean;
@@ -58,9 +58,9 @@ export const GithubUserProjectsEmpty = ({
       image={<GithubOutlined className={styles.githubIcon} />}
       description={
         <div className={styles.description}>
-          <Paragraph strong className={styles.title}>
+          <Title level={5} className={styles.title}>
             Search GitHub Repositories
-          </Paragraph>
+          </Title>
           <Paragraph type="secondary">Enter a GitHub username above to view their public repositories.</Paragraph>
           <Paragraph type="secondary" className={styles.hint}>
             <SearchOutlined /> Press Enter or click Search to start
@@ -87,7 +87,6 @@ const useStyles = createStyles(({ token }) => ({
     textAlign: "center",
   },
   title: {
-    fontSize: 16,
     marginBottom: 8,
   },
   hint: {
@@ -96,6 +95,6 @@ const useStyles = createStyles(({ token }) => ({
     justifyContent: "center",
     gap: 8,
     marginTop: 16,
-    fontSize: 13,
+    fontSize: token.fontSizeSM,
   },
 }));

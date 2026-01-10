@@ -28,7 +28,9 @@ export const DateFormatCard = ({ format, date, epochValue, onCopy }: DateFormatC
       </Typography.Text>
       <div className={styles.cardValue}>
         {format.showCode ? (
-          <code className={styles.codeValue}>{displayValue}</code>
+          <Typography.Text code className={styles.codeValue}>
+            {displayValue}
+          </Typography.Text>
         ) : (
           <Typography.Text className={styles.valueText}>{displayValue}</Typography.Text>
         )}
@@ -51,7 +53,7 @@ const useStyles = createStyles(({ token }) => ({
   },
   cardDescription: {
     display: "block",
-    fontSize: 12,
+    fontSize: token.fontSizeSM,
     marginBottom: 8,
   },
   cardValue: {
@@ -64,7 +66,7 @@ const useStyles = createStyles(({ token }) => ({
   },
   codeValue: {
     fontFamily: "monospace",
-    fontSize: 13,
+    fontSize: token.fontSizeSM + 1,
     backgroundColor: token.colorBgTextHover,
     padding: "2px 6px",
     borderRadius: 4,
