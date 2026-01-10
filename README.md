@@ -68,8 +68,14 @@ Some screen captures of the implemented features...
 
 This project is licensed under the MIT license. For more information see [`LICENSE`](./LICENSE) file.
 
-## Project coding guidelines
+## Contributing & Community Guidelines
 
-Adhering to established coding guidelines is essential for developing efficient, maintainable, and scalable software. These guidelines promote consistency across codebases, making it easier for teams to collaborate and for new developers to understand existing code. By following standardized patterns, such as those outlined in the [Coding guidelines](https://github.com/amwebexpert/chrome-extensions-collection/blob/master/packages/coding-guide-helper/public/markdowns/table-of-content.md), developers can reduce errors and enhance code readability.
+We value **technical excellence and human respect equally**. To ensure a welcoming and productive environment for all contributors, please review the following resources:
 
-- [Coding guidelines](https://github.com/amwebexpert/chrome-extensions-collection/blob/master/packages/coding-guide-helper/public/markdowns/table-of-content.md)
+| Resource                                                                                                                                                       | Description                                                           |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [Code of Conduct](./CODE_OF_CONDUCT.md)                                                                                                                        | Our pledge for a respectful, inclusive, and collaborative environment |
+| [Contributing Guide](./CONTRIBUTING.md)                                                                                                                        | How to get started, project conventions, and pull request guidelines  |
+| [Coding Guidelines](https://github.com/amwebexpert/chrome-extensions-collection/blob/master/packages/coding-guide-helper/public/markdowns/table-of-content.md) | Best practices for clean, maintainable, and scalable code             |
+
+Adhering to established coding guidelines is essential for developing efficient, maintainable, and scalable software. These guidelines promote consistency across the codebase, making it easier for teams to collaborate and for new developers to understand existing code.

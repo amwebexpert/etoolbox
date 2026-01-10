@@ -4,8 +4,7 @@ import { createStyles } from "antd-style";
 
 const { Title, Paragraph } = Typography;
 
-const CONTRIBUTING_URL =
-  "https://github.com/amwebexpert/chrome-extensions-collection/blob/master/packages/coding-guide-helper/public/markdowns/table-of-content.md";
+const CONTRIBUTING_URL = "https://github.com/amwebexpert/etoolbox?tab=readme-ov-file#license";
 
 export const AboutCallToAction = () => {
   const { styles } = useStyles();
