@@ -1,11 +1,14 @@
-### Description
+## Changes Description
 
--
+- 🚧
 
-### Checklist
+## Checklist
 
+- [ ] code follows project [coding guidelines](https://github.com/amwebexpert/chrome-extensions-collection/blob/master/packages/coding-guide-helper/public/markdowns/table-of-content.md).
+- [ ] documentation has been updated (if applicable).
+- [ ] tests have been added or updated (if applicable).
 - [ ] e2e tests completed
-- [ ] Added corresponding screen capture or video (recording)
-- [ ] This pull request conforms to [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)
 
-### Demos
+## Screen capture(s) or recording
+
+- 🚫
