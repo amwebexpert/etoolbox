@@ -71,7 +71,7 @@ export const ImageOcr = () => {
         },
       });
     },
-    [setImageDataUrl, resetOcr, messageApi],
+    [setImageDataUrl, resetOcr, messageApi]
   );
 
   useEffect(() => {

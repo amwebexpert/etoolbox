@@ -16,10 +16,7 @@ interface ProcessOcrArgs {
   onProgress?: (status: WorkerStatus) => void;
 }
 
-export const processOcr = async ({
-  context,
-  onProgress,
-}: ProcessOcrArgs): Promise<OcrResult> => {
+export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promise<OcrResult> => {
   const { imageDataUrl, language } = context;
 
   if (isBlank(imageDataUrl)) {
@@ -79,9 +76,7 @@ export const getProgressStatus = (progress: number, status: string): string => {
   if (status === "initializing api") {
     return "Initializing OCR engine...";
   }
-  return status
-    ? `${status}... ${percentage}%`
-    : `Processing... ${percentage}%`;
+  return status ? `${status}... ${percentage}%` : `Processing... ${percentage}%`;
 };
 
 interface ClipboardToDataUrlArgs {
@@ -90,11 +85,7 @@ interface ClipboardToDataUrlArgs {
   onError?: (error: Error) => void;
 }
 
-export const clipboardToDataUrl = ({
-  items,
-  onLoad,
-  onError,
-}: ClipboardToDataUrlArgs): void => {
+export const clipboardToDataUrl = ({ items, onLoad, onError }: ClipboardToDataUrlArgs): void => {
   if (!items) return;
 
   for (let i = 0; i < items.length; i++) {
@@ -139,10 +130,7 @@ export const isValidImageFile = (file: File): boolean => {
   return file.type.startsWith("image/");
 };
 
-export const downloadTextFile = (
-  text: string,
-  filename = "extracted-text.txt",
-): void => {
+export const downloadTextFile = (text: string, filename = "extracted-text.txt"): void => {
   const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");

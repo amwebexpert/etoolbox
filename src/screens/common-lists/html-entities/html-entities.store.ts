@@ -52,5 +52,5 @@ const persistedStateCreator = persist<HtmlEntitiesState>(stateCreator, {
 });
 
 export const useHtmlEntitiesStore = create<HtmlEntitiesState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

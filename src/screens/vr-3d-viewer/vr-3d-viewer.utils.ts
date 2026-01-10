@@ -1,11 +1,6 @@
 import prettyBytes from "pretty-bytes";
 
-import type {
-  BoundingBox,
-  ModelFileInfo,
-  ModelFormat,
-  Vector3D,
-} from "./vr-3d-viewer.types";
+import type { BoundingBox, ModelFileInfo, ModelFormat, Vector3D } from "./vr-3d-viewer.types";
 import { SUPPORTED_EXTENSIONS } from "./vr-3d-viewer.types";
 
 /**

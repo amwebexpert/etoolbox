@@ -28,9 +28,7 @@ const extractCategory = (mimeType: string): string => {
 
 export const MIME_TYPES: MimeTypeEntry[] = initMimeTypes();
 
-export const CATEGORIES: string[] = [
-  ...new Set(MIME_TYPES.map((entry) => entry.category)),
-].sort();
+export const CATEGORIES: string[] = [...new Set(MIME_TYPES.map((entry) => entry.category))].sort();
 
 export const CATEGORY_OPTIONS = [
   { value: "all" as const, label: "All categories" },
@@ -50,10 +48,7 @@ interface ApplyFilteringArgs {
   filter: string;
 }
 
-export const applyFiltering = ({
-  category,
-  filter,
-}: ApplyFilteringArgs): MimeTypeEntry[] => {
+export const applyFiltering = ({ category, filter }: ApplyFilteringArgs): MimeTypeEntry[] => {
   let results = MIME_TYPES.slice();
 
   if (category && category !== "all") {

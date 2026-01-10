@@ -21,5 +21,5 @@ const persistedStateCreator = persist<JsonFormatterState>(stateCreator, {
 });
 
 export const useJsonFormatterStore = create<JsonFormatterState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

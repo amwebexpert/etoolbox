@@ -31,5 +31,5 @@ const persistedStateCreator = persist<ColorPickerState>(stateCreator, {
 });
 
 export const useColorPickerStore = create<ColorPickerState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

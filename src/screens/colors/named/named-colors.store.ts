@@ -40,5 +40,5 @@ const persistedStateCreator = persist<NamedColorsState>(stateCreator, {
 });
 
 export const useNamedColorsStore = create<NamedColorsState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

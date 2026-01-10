@@ -11,7 +11,7 @@ interface UrlEncoderState {
 
 const stateCreator = (
   set: (partial: Partial<UrlEncoderState>) => void,
-  get: () => UrlEncoderState,
+  get: () => UrlEncoderState
 ): UrlEncoderState => ({
   inputText: "Chuck Norris can chuck more wood than a woodchuck could.",
   outputText: "",
@@ -31,5 +31,5 @@ const persistedStateCreator = persist<UrlEncoderState>(stateCreator, {
 });
 
 export const useUrlEncoderStore = create<UrlEncoderState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

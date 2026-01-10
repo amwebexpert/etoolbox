@@ -14,11 +14,7 @@ type ColumnStatsProps = {
   isTablet: boolean;
 };
 
-export const ColumnStats = ({
-  record,
-  isMobile,
-  isTablet,
-}: ColumnStatsProps) => {
+export const ColumnStats = ({ record, isMobile, isTablet }: ColumnStatsProps) => {
   const { styles } = useStyles();
 
   return (

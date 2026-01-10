@@ -18,10 +18,7 @@ interface ApplyFilteringArgs {
   filter: string;
 }
 
-export const applyFiltering = ({
-  family,
-  filter,
-}: ApplyFilteringArgs): ColorInfo[] => {
+export const applyFiltering = ({ family, filter }: ApplyFilteringArgs): ColorInfo[] => {
   let results = NAMED_COLORS.slice();
 
   if (family && family !== "all") {

@@ -11,7 +11,7 @@ interface Base64StringState {
 
 const stateCreator = (
   set: (partial: Partial<Base64StringState>) => void,
-  get: () => Base64StringState,
+  get: () => Base64StringState
 ): Base64StringState => ({
   inputText: "Chuck Norris can encode and decode Base64 with his mind.",
   outputText: "",
@@ -31,5 +31,5 @@ const persistedStateCreator = persist<Base64StringState>(stateCreator, {
 });
 
 export const useBase64StringStore = create<Base64StringState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

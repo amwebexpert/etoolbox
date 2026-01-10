@@ -180,7 +180,7 @@ export const getSampleJwt = (): string => {
       exp: now + 3600,
       iss: "https://example.com",
       aud: "https://api.example.com",
-    }),
+    })
   );
   const signature = "dummySignatureForDemoOnly";
   return `${header}.${payload}.${signature}`;
@@ -198,7 +198,7 @@ export const SAMPLE_JWT_TOKENS = {
         iat: now - 7200,
         exp: now - 3600,
         iss: "https://auth.example.com",
-      }),
+      })
     );
     return `${header}.${payload}.expiredSignature`;
   })(),

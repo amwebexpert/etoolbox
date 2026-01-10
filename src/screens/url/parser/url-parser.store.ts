@@ -6,12 +6,9 @@ interface UrlParserState {
   setInputUrl: (url: string) => void;
 }
 
-const DEFAULT_URL =
-  "https://codesandbox.io/dashboard/home?lastProject=WowWWW&name=Smith";
+const DEFAULT_URL = "https://codesandbox.io/dashboard/home?lastProject=WowWWW&name=Smith";
 
-const stateCreator = (
-  set: (partial: Partial<UrlParserState>) => void,
-): UrlParserState => ({
+const stateCreator = (set: (partial: Partial<UrlParserState>) => void): UrlParserState => ({
   inputUrl: DEFAULT_URL,
   setInputUrl: (url) => set({ inputUrl: url }),
 });
@@ -24,5 +21,5 @@ const persistedStateCreator = persist<UrlParserState>(stateCreator, {
 });
 
 export const useUrlParserStore = create<UrlParserState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

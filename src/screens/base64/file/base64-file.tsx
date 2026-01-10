@@ -52,9 +52,7 @@ export const Base64File = () => {
   };
 
   const handleCopyDataUri = () => {
-    const dataUri = base64Output
-      ? formatDataUri({ mimeType, base64: base64Output })
-      : "";
+    const dataUri = base64Output ? formatDataUri({ mimeType, base64: base64Output }) : "";
     copyTextToClipboard({
       text: dataUri,
       successMessage: "Data URI copied to clipboard!",
@@ -101,16 +99,10 @@ export const Base64File = () => {
           description="Encode files to Base64 or decode Base64 back to files"
         />
 
-        <Base64FileDropzone
-          fileList={fileList}
-          onFileSelect={handleFileSelect}
-          onFileListChange={setFileList}
-        />
+        <Base64FileDropzone fileList={fileList} onFileSelect={handleFileSelect} onFileListChange={setFileList} />
 
         <div className={styles.orDivider}>
-          <Typography.Text type="secondary">
-            — OR paste Base64 to decode —
-          </Typography.Text>
+          <Typography.Text type="secondary">— OR paste Base64 to decode —</Typography.Text>
         </div>
 
         <TextArea
@@ -122,11 +114,7 @@ export const Base64File = () => {
           className={styles.textArea}
         />
 
-        <Base64FileInfo
-          fileName={fileName}
-          mimeType={mimeType}
-          base64Output={base64Output}
-        />
+        <Base64FileInfo fileName={fileName} mimeType={mimeType} base64Output={base64Output} />
 
         <Base64FileToolbar
           hasContent={!!base64Output || !!fileName}

@@ -3,13 +3,12 @@
 // ----------------------------------------------------------------------------------------
 export const APP_VERSION_INFO = Object.freeze({
   NAME: "web-toolbox",
-  DESCRIPTION:
-    "Collection of web development utilities. Like a Swiss knife for web developers.",
+  DESCRIPTION: "Collection of web development utilities. Like a Swiss knife for web developers.",
   REPOSITORY: "https://github.com/amwebexpert/etoolbox",
   AUTHOR: "amwebexpert@gmail.com",
   VERSION: "4.0.5",
   VERSION_DATE: "2026-01-10",
-  VERSION_DATE_ISO: "2026-01-10T09:36:23.394Z",
+  VERSION_DATE_ISO: "2026-01-10T09:42:00.251Z",
 });
 
 export const LONG_VERSION_DATE = "4.0.5 (2026-01-10)";

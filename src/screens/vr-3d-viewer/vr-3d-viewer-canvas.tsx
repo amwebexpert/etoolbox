@@ -73,7 +73,7 @@ export const Vr3dViewerCanvas = forwardRef<Vr3dViewerCanvasRef, Vr3dViewerCanvas
         </Canvas>
       </div>
     );
-  },
+  }
 );
 
 Vr3dViewerCanvas.displayName = "Vr3dViewerCanvas";

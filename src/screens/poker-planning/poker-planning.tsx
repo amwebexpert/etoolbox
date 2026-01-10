@@ -60,7 +60,7 @@ export const PokerPlanning = () => {
         onOk: () => removeUser(userToRemove),
       });
     },
-    [modal, removeUser],
+    [modal, removeUser]
   );
 
   return (

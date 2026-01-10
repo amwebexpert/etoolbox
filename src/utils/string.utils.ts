@@ -36,11 +36,7 @@ export const isNumeric = (value?: string): boolean => {
  * @param ellipsis - The ellipsis string to append (default: "...")
  * @returns The truncated string
  */
-export const truncate = (
-  str: string,
-  maxLength: number,
-  ellipsis = "...",
-): string => {
+export const truncate = (str: string, maxLength: number, ellipsis = "..."): string => {
   if (!str || str.length <= maxLength) return str;
   return str.slice(0, maxLength - ellipsis.length) + ellipsis;
 };

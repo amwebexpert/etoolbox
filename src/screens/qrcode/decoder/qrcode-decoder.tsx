@@ -46,7 +46,7 @@ export const QrcodeDecoder = () => {
       setFileList([{ uid: "-1", name: file.name, status: "done", url: newPreviewUrl }]);
       resetDecode();
     },
-    [messageApi, previewUrl, resetDecode],
+    [messageApi, previewUrl, resetDecode]
   );
 
   // Handle clipboard paste

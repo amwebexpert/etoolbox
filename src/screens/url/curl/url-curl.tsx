@@ -11,11 +11,7 @@ import { useResponsive } from "~/hooks/use-responsive";
 import { useSyntaxHighlightTheme } from "~/hooks/use-syntax-highlight-theme";
 
 import { useUrlCurlStore } from "./url-curl.store";
-import {
-  CONVERTERS_LIST,
-  getSyntaxLanguage,
-  transformCurl,
-} from "./url-curl.utils";
+import { CONVERTERS_LIST, getSyntaxLanguage, transformCurl } from "./url-curl.utils";
 
 const { TextArea } = Input;
 
@@ -25,14 +21,8 @@ export const UrlCurl = () => {
   const { copyTextToClipboard } = useClipboardCopy();
   const syntaxTheme = useSyntaxHighlightTheme();
 
-  const {
-    inputCurl,
-    targetLanguage,
-    transformedResult,
-    setInputCurl,
-    setTargetLanguage,
-    setTransformedResult,
-  } = useUrlCurlStore();
+  const { inputCurl, targetLanguage, transformedResult, setInputCurl, setTargetLanguage, setTransformedResult } =
+    useUrlCurlStore();
 
   const handleConvert = () => {
     const result = transformCurl(inputCurl, targetLanguage);
@@ -101,21 +91,12 @@ export const UrlCurl = () => {
 
           <Space size="small" wrap>
             <Tooltip title="Copy result to clipboard">
-              <Button
-                icon={<CopyOutlined />}
-                disabled={!transformedResult}
-                onClick={handleCopy}
-              >
+              <Button icon={<CopyOutlined />} disabled={!transformedResult} onClick={handleCopy}>
                 {!isMobile && "Copy"}
               </Button>
             </Tooltip>
 
-            <Button
-              type="primary"
-              icon={<CodeOutlined />}
-              disabled={isBlank(inputCurl)}
-              onClick={handleConvert}
-            >
+            <Button type="primary" icon={<CodeOutlined />} disabled={isBlank(inputCurl)} onClick={handleConvert}>
               {isMobile ? "Conv." : "Convert"}
             </Button>
           </Space>

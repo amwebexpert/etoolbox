@@ -15,7 +15,7 @@ interface DateConverterState {
 }
 
 const stateCreator = (
-  set: (partial: Partial<DateConverterState> | ((state: DateConverterState) => Partial<DateConverterState>)) => void,
+  set: (partial: Partial<DateConverterState> | ((state: DateConverterState) => Partial<DateConverterState>)) => void
 ): DateConverterState => ({
   epochValue: DEFAULT_EPOCH_VALUE,
   epochUnit: DEFAULT_EPOCH_UNIT,
@@ -39,5 +39,5 @@ const persistedStateCreator = persist<DateConverterState>(stateCreator, {
 });
 
 export const useDateConverterStore = create<DateConverterState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }),
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );

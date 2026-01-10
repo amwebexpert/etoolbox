@@ -29,9 +29,7 @@ export const hexToNormalizedRgb = (hex: string): NormalizedRgb => {
  * @param hex - Hex color string (with or without # prefix)
  * @returns RGB object with values between 0 and 255, or null if invalid
  */
-export const hexToRgb = (
-  hex: string,
-): { r: number; g: number; b: number } | null => {
+export const hexToRgb = (hex: string): { r: number; g: number; b: number } | null => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
     ? {
