@@ -11,9 +11,7 @@ export const NamedColorsToolbar = () => {
   const { styles } = useStyles();
   const { isDesktop } = useResponsive();
 
-  const { family, filter, setFamily, setFilter, resetFilters } = useNamedColorsStore();
-
-  const hasFilters = family !== "all" || filter !== "";
+  const { family, filter, setFamily, setFilter, hasFilters, resetFilters } = useNamedColorsStore();
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value);
@@ -45,11 +43,9 @@ export const NamedColorsToolbar = () => {
 
       <Col xs={24} sm={24} md={8} lg={12}>
         <Space className={styles.actions}>
-          {hasFilters && (
-            <Button icon={<ClearOutlined />} onClick={resetFilters}>
-              Clear filters
-            </Button>
-          )}
+          <Button icon={<ClearOutlined />} onClick={resetFilters} disabled={!hasFilters()}>
+            Clear filters
+          </Button>
         </Space>
       </Col>
     </Row>
