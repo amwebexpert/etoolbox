@@ -9,6 +9,7 @@ import { NamedColors } from "~/screens/colors/named/named-colors";
 import { ColorPicker } from "~/screens/colors/picker/color-picker";
 import { CommonLists } from "~/screens/common-lists/common-lists";
 import { HtmlEntities } from "~/screens/common-lists/html-entities/html-entities";
+import { HttpHeaders } from "~/screens/common-lists/http-headers/http-headers";
 import { HttpStatusCodes } from "~/screens/common-lists/http-status-codes/http-status-codes";
 import { MimeTypes } from "~/screens/common-lists/mime-types/mime-types";
 import { CsvParser } from "~/screens/csv-parser/csv-parser";
@@ -235,6 +236,12 @@ const httpStatusCodesRoute = createRoute({
   component: HttpStatusCodes,
 });
 
+const httpHeadersRoute = createRoute({
+  getParentRoute: () => commonListsRoute,
+  path: "/http-headers",
+  component: HttpHeaders,
+});
+
 const githubUserProjectsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/github-user-projects",
@@ -285,7 +292,13 @@ const routeTree = rootRoute.addChildren([
   jwtDecoderRoute,
   qrcodeRoute.addChildren([qrcodeIndexRoute, qrcodeGeneratorRoute, qrcodeDecoderRoute]),
   imageOcrRoute,
-  commonListsRoute.addChildren([commonListsIndexRoute, mimeTypesRoute, htmlEntitiesRoute, httpStatusCodesRoute]),
+  commonListsRoute.addChildren([
+    commonListsIndexRoute,
+    mimeTypesRoute,
+    htmlEntitiesRoute,
+    httpStatusCodesRoute,
+    httpHeadersRoute,
+  ]),
   githubUserProjectsRoute,
   dateConverterRoute,
   csvParserRoute,

@@ -33,3 +33,4 @@ cypress/videos
 /coverage-reports-temp
 /coverage-all
 /.yarn
+.playwright-mcp
