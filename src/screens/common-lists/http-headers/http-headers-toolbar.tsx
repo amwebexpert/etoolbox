@@ -1,32 +1,24 @@
 import { ClearOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Row, Select, Space, Typography } from "antd";
 import { createStyles } from "antd-style";
-import { useDeferredValue } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
 import { HTTP_HEADERS } from "./http-headers.constants";
 import { useHttpHeadersStore } from "./http-headers.store";
-import { applyFiltering, CATEGORY_OPTIONS, DEFAULT_CATEGORY, DEFAULT_TYPE, TYPE_OPTIONS } from "./http-headers.utils";
+import { CATEGORY_OPTIONS, TYPE_OPTIONS } from "./http-headers.utils";
 
 const { Text } = Typography;
 
-export const HttpHeadersToolbar = () => {
+interface HttpHeadersToolbarProps {
+  filteredCount: number;
+}
+
+export const HttpHeadersToolbar = ({ filteredCount }: HttpHeadersToolbarProps) => {
   const { styles } = useStyles();
   const { isDesktop } = useResponsive();
 
-  const { category, type, filter, setCategory, setType, setFilter, resetFilters } = useHttpHeadersStore();
-
-  const deferredCategory = useDeferredValue(category);
-  const deferredType = useDeferredValue(type);
-  const deferredFilter = useDeferredValue(filter);
-  const filteredCount = applyFiltering({
-    category: deferredCategory,
-    type: deferredType,
-    filter: deferredFilter,
-  }).length;
-
-  const hasFilters = category !== DEFAULT_CATEGORY || type !== DEFAULT_TYPE || filter !== "";
+  const { category, type, filter, hasFilters, setCategory, setType, setFilter, resetFilters } = useHttpHeadersStore();
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value);
@@ -74,11 +66,9 @@ export const HttpHeadersToolbar = () => {
 
       <Col xs={12} sm={6} md={4} lg={8}>
         <Space className={styles.actions}>
-          {hasFilters && (
-            <Button icon={<ClearOutlined />} onClick={resetFilters}>
-              Clear filters
-            </Button>
-          )}
+          <Button icon={<ClearOutlined />} onClick={resetFilters} disabled={!hasFilters()}>
+            Clear filters
+          </Button>
         </Space>
       </Col>
     </Row>

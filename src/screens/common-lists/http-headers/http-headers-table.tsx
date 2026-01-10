@@ -1,32 +1,23 @@
 import { Table } from "antd";
 import { createStyles } from "antd-style";
-import { useDeferredValue } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
 import { useHttpHeadersStore } from "./http-headers.store";
-import { applyFiltering, PAGE_SIZE_OPTIONS } from "./http-headers.utils";
+import type { HttpHeaderEntry } from "./http-headers.types";
+import { PAGE_SIZE_OPTIONS } from "./http-headers.utils";
 import { useHttpHeadersColumns } from "./use-http-headers-columns";
 
-export const HttpHeadersTable = () => {
+interface HttpHeadersTableProps {
+  filteredHeaders: HttpHeaderEntry[];
+}
+
+export const HttpHeadersTable = ({ filteredHeaders }: HttpHeadersTableProps) => {
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
   const columns = useHttpHeadersColumns();
 
-  const { category, type, filter, page, pageSize, setPage, setPageSize } = useHttpHeadersStore();
-
-  const deferredCategory = useDeferredValue(category);
-  const deferredType = useDeferredValue(type);
-  const deferredFilter = useDeferredValue(filter);
-
-  const filteredHeaders = applyFiltering({ category: deferredCategory, type: deferredType, filter: deferredFilter });
-
-  const handlePageChange = (newPage: number, newPageSize: number) => {
-    setPage(newPage);
-    if (newPageSize !== pageSize) {
-      setPageSize(newPageSize);
-    }
-  };
+  const { page, pageSize, handlePageChange } = useHttpHeadersStore();
 
   return (
     <Table
