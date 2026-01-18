@@ -22,5 +22,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "never",
     "source.organizeImports": "never"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   }
 }
