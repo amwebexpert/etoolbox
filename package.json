@@ -1,6 +1,6 @@
 {
   "name": "web-toolbox",
-  "version": "4.2.1",
+  "version": "4.3.0",
   "author": "amwebexpert@gmail.com",
   "repository": "https://github.com/amwebexpert/etoolbox",
   "contributors": [
@@ -26,7 +26,7 @@
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=4096 rimraf dist && yarn generate:version && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "githubpage:rebuild": "rimraf dist && npm run build && rimraf docs && shx mv dist docs",
+    "deploy": "rimraf dist && npm run build && rimraf docs && shx mv dist docs",
     "generate:version": "node scripts/generate-version",
     "generate:api:client": "npx @hey-api/openapi-ts -i ./public/openapi/openapi.json -o ./src/api/generated --client @hey-api/client-axios",
     "test": "vitest",
