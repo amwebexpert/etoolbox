@@ -1,9 +1,5 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib", // Use Typescript Version in the Workspace
-  "prettier.jsxSingleQuote": true,
-  "prettier.singleQuote": true,
-  "prettier.printWidth": 120,
-  "prettier.tabWidth": 2,
   "npm.packageManager": "yarn", // Set to "npm" if you don't have yarn installed.
   "workbench.editor.labelFormat": "default", // Set to short if you want to see the foldername beside the filename in tabs
   "explorer.compactFolders": false, // New Folders and empty folders will always be expanded
@@ -11,16 +7,8 @@
   "problems.decorations.enabled": true, // Error highlighing in explorer view
   "files.autoSave": "off", // Just so that when you have the dev server running, any focus change will save -> recompile
 
-  // Extension Specific settings
-  "eslint.alwaysShowStatus": true,
-  "helium-icon-theme.activeIconPack": "react_redux",
-
   // Fomatting Settings.
-  "editor.defaultFormatter": "esbenp.prettier-vscode", // Set Prettier as the default formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "editor.formatOnType": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "never",
-    "source.organizeImports": "never"
-  }
+  "editor.formatOnSaveMode": "file"
 }

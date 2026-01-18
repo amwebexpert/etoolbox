@@ -11,6 +11,7 @@ import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/providers/toast-message-provider";
 import { downloadJson } from "~/utils/download.utils";
 
+import { JsonFormatterConfigPanel } from "./json-formatter-config-panel";
 import { JsonFormatterResult } from "./json-formatter-result";
 import { JsonFormatterToolbar } from "./json-formatter-toolbar";
 import { useJsonFormatterStore } from "./json-formatter.store";
@@ -24,7 +25,7 @@ export const JsonFormatter = () => {
   const messageApi = useToastMessage();
   const { copyTextToClipboard } = useClipboardCopy();
 
-  const { inputText, setInputText } = useJsonFormatterStore();
+  const { inputText, setInputText, viewMode, setViewMode } = useJsonFormatterStore();
   const [isMinifiedMode, setIsMinifiedMode] = useState<boolean>(false);
 
   const formattedJson = getFormattedJson({ inputText, isMinifiedMode });
@@ -59,7 +60,7 @@ export const JsonFormatter = () => {
         <ScreenHeader
           icon={<FormatPainterOutlined />}
           title="JSON Formatter"
-          description="Format, minify, and beautify JSON content with syntax highlighting"
+          description="Format, minify, and beautify JSON content with syntax highlighting or interactive view"
         />
 
         <TextArea
@@ -76,10 +77,14 @@ export const JsonFormatter = () => {
         <JsonFormatterToolbar
           isMinified={isMinifiedMode}
           hasContent={!!formattedJson}
+          viewMode={viewMode}
           onToggleFormat={handleToggleFormat}
           onCopy={handleCopy}
           onSaveAs={handleSaveAs}
+          onViewModeChange={setViewMode}
         />
+
+        {viewMode === "react-json-view" && <JsonFormatterConfigPanel />}
 
         <JsonFormatterResult formattedJson={formattedJson} />
       </Flex>

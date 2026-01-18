@@ -1,29 +1,61 @@
-import { CompressOutlined, CopyOutlined, DownloadOutlined, FormatPainterOutlined } from "@ant-design/icons";
-import { Button, Space, Tooltip } from "antd";
+import {
+  CompressOutlined,
+  CopyOutlined,
+  DownloadOutlined,
+  EyeOutlined,
+  FormatPainterOutlined,
+} from "@ant-design/icons";
+import { Button, Space, Tooltip, Segmented } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
+import type { ViewMode } from "./json-formatter.types";
+
 interface JsonFormatterToolbarProps {
   isMinified: boolean;
   hasContent: boolean;
+  viewMode: ViewMode;
   onToggleFormat: () => void;
   onCopy: () => void;
   onSaveAs: () => void;
+  onViewModeChange: (mode: ViewMode) => void;
 }
 
 export const JsonFormatterToolbar = ({
   isMinified,
   hasContent,
+  viewMode,
   onToggleFormat,
   onCopy,
   onSaveAs,
+  onViewModeChange,
 }: JsonFormatterToolbarProps) => {
   const { isMobile } = useResponsive();
   const { styles } = useStyles();
 
   return (
     <div className={styles.toolbar}>
+      <Tooltip title="Choose how to display the formatted JSON">
+        <Segmented
+          value={viewMode}
+          onChange={(value) => onViewModeChange(value as ViewMode)}
+          options={[
+            {
+              label: isMobile ? "Syntax" : "Syntax Highlight",
+              value: "syntax-highlight",
+              icon: <FormatPainterOutlined />,
+            },
+            {
+              label: isMobile ? "Interactive" : "Interactive View",
+              value: "react-json-view",
+              icon: <EyeOutlined />,
+            },
+          ]}
+          disabled={!hasContent}
+        />
+      </Tooltip>
+
       <div className={styles.spacer} />
 
       <Space size="small" wrap>
