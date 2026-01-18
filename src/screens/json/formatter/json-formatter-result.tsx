@@ -22,6 +22,7 @@ export const JsonFormatterResult = ({ formattedJson }: JsonFormatterResultProps)
   const syntaxTheme = useSyntaxHighlightTheme();
   const { isMobile, isTablet } = useResponsive();
   const { viewMode, reactJsonConfig } = useJsonFormatterStore();
+  const fontSize = isMobile ? 12 : 14;
 
   if (!formattedJson) {
     return (
@@ -57,23 +58,14 @@ export const JsonFormatterResult = ({ formattedJson }: JsonFormatterResultProps)
               groupArraysAfterLength={reactJsonConfig.groupArraysAfterLength}
               sortKeys={reactJsonConfig.sortKeys}
               name={false}
-              style={{
-                padding: 16,
-                fontSize: isMobile ? 12 : 14,
-                fontFamily: "monospace",
-              }}
+              style={{ padding: 16, fontSize, fontFamily: "monospace" }}
             />
           </div>
         ) : (
           <SyntaxHighlighter
             language="json"
             style={syntaxTheme}
-            customStyle={{
-              margin: 0,
-              padding: 16,
-              background: "transparent",
-              fontSize: isMobile ? 12 : 14,
-            }}
+            customStyle={{ margin: 0, padding: 16, background: "transparent", fontSize }}
             wrapLongLines={true}
           >
             {`\n${formattedJson}`}
