@@ -107,7 +107,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.1.1",
     "patch-package": "^8.0.1",
-    "prettier": "^3.7.4",
+    "prettier": "^3.8.0",
     "rimraf": "^6.1.2",
     "shx": "^0.3.4",
     "typescript": "~5.9.3",

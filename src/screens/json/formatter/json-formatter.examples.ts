@@ -11,7 +11,7 @@ import type { ReactJsonViewConfig } from "./json-formatter.types";
  * Default Configuration
  * Balanced settings for general use
  */
-export const defaultConfig: ReactJsonViewConfig = {
+export const DEFAULT_CONFIG: ReactJsonViewConfig = {
   theme: "monokai",
   iconStyle: "triangle",
   indentWidth: 4,
@@ -29,7 +29,7 @@ export const defaultConfig: ReactJsonViewConfig = {
  * Minimal View Configuration
  * Clean, compact view with minimal visual clutter
  */
-export const minimalConfig: ReactJsonViewConfig = {
+export const MINIMAL_CONFIG: ReactJsonViewConfig = {
   theme: "rjv-default",
   iconStyle: "circle",
   indentWidth: 2,
@@ -47,7 +47,7 @@ export const minimalConfig: ReactJsonViewConfig = {
  * Developer View Configuration
  * Shows all available information for debugging
  */
-export const developerConfig: ReactJsonViewConfig = {
+export const DEVELOPER_CONFIG: ReactJsonViewConfig = {
   theme: "monokai",
   iconStyle: "triangle",
   indentWidth: 4,
@@ -65,7 +65,7 @@ export const developerConfig: ReactJsonViewConfig = {
  * Presentation Mode Configuration
  * Clean look for demos and presentations
  */
-export const presentationConfig: ReactJsonViewConfig = {
+export const PRESENTATION_CONFIG: ReactJsonViewConfig = {
   theme: "bright",
   iconStyle: "square",
   indentWidth: 4,
@@ -83,7 +83,7 @@ export const presentationConfig: ReactJsonViewConfig = {
  * Dark Mode Configuration
  * Optimized for dark theme environments
  */
-export const darkModeConfig: ReactJsonViewConfig = {
+export const DARK_MODE_CONFIG: ReactJsonViewConfig = {
   theme: "ocean",
   iconStyle: "triangle",
   indentWidth: 4,
@@ -101,7 +101,7 @@ export const darkModeConfig: ReactJsonViewConfig = {
  * Light Mode Configuration
  * Optimized for light theme environments
  */
-export const lightModeConfig: ReactJsonViewConfig = {
+export const LIGHT_MODE_CONFIG: ReactJsonViewConfig = {
   theme: "google",
   iconStyle: "circle",
   indentWidth: 4,
@@ -119,7 +119,7 @@ export const lightModeConfig: ReactJsonViewConfig = {
  * Compact View Configuration
  * For large JSON files where space is at a premium
  */
-export const compactConfig: ReactJsonViewConfig = {
+export const COMPACT_CONFIG: ReactJsonViewConfig = {
   theme: "grayscale",
   iconStyle: "circle",
   indentWidth: 2,
@@ -137,7 +137,7 @@ export const compactConfig: ReactJsonViewConfig = {
  * API Documentation View
  * Ideal for viewing API responses
  */
-export const apiDocConfig: ReactJsonViewConfig = {
+export const API_DOC_CONFIG: ReactJsonViewConfig = {
   theme: "solarized",
   iconStyle: "triangle",
   indentWidth: 4,
@@ -155,8 +155,8 @@ export const apiDocConfig: ReactJsonViewConfig = {
  * How to use these configurations:
  *
  * import { useJsonFormatterStore } from './json-formatter.store';
- * import { developerConfig } from './json-formatter.examples';
+ * import { DEVELOPER_CONFIG } from './json-formatter.examples';
  *
  * const { setReactJsonConfig } = useJsonFormatterStore();
- * setReactJsonConfig(developerConfig);
+ * setReactJsonConfig(DEVELOPER_CONFIG);
  */
