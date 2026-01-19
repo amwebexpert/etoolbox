@@ -4,5 +4,4 @@
 set -e
 
 yarn lint-staged
-yarn format
 yarn typecheck
