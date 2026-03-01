@@ -5,14 +5,13 @@ export interface GetSimilarityStyleParams {
   token: GlobalToken;
 }
 
-export const getSimilarityStyle = ({
-  similarity,
-  token,
-}: GetSimilarityStyleParams): {
+export interface SimilarityStyle {
   backgroundColor: string;
   color: string;
   borderColor: string;
-} => {
+}
+
+export const getSimilarityStyle = ({ similarity, token }: GetSimilarityStyleParams): SimilarityStyle => {
   if (similarity > 0.7) {
     return {
       backgroundColor: token.colorSuccessBg,
