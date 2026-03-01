@@ -41,7 +41,7 @@ export const useSemanticSearch = ({ rootNode, baseUrl }: UseSemanticSearchArgs) 
       });
     }, 500);
     return () => clearInterval(interval);
-  }, [isInitialized, setEmbeddingsProgress]);
+  }, [isInitialized, setEmbeddingsProgress, engine]);
 
   const performSearch = usePerformSearch();
   const search = useCallback(
