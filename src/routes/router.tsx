@@ -12,6 +12,7 @@ import { HtmlEntities } from "~/screens/common-lists/html-entities/html-entities
 import { HttpHeaders } from "~/screens/common-lists/http-headers/http-headers";
 import { HttpStatusCodes } from "~/screens/common-lists/http-status-codes/http-status-codes";
 import { MimeTypes } from "~/screens/common-lists/mime-types/mime-types";
+import { CodingStandards } from "~/screens/coding-standards/coding-standards";
 import { CsvParser } from "~/screens/csv-parser/csv-parser";
 import { DateConverter } from "~/screens/date-converter/date-converter";
 import { GithubUserProjects } from "~/screens/github-user-projects/github-user-projects";
@@ -278,6 +279,12 @@ const vr3dViewerRoute = createRoute({
   component: Vr3dViewer,
 });
 
+const codingStandardsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/coding-standards",
+  component: CodingStandards,
+});
+
 export const ROUTES_WITH_CHILDREN = ["/url", "/base64", "/json", "/colors", "/common-lists", "/qrcode"];
 
 const routeTree = rootRoute.addChildren([
@@ -305,6 +312,7 @@ const routeTree = rootRoute.addChildren([
   pokerPlanningRoute,
   pokerPlanningWithParamsRoute,
   vr3dViewerRoute,
+  codingStandardsRoute,
 ]);
 
 const hashHistory = createHashHistory();

@@ -7,7 +7,7 @@ import { useCallback, useEffect } from "react";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
-import { useToastMessage } from "~/providers/toast-message-provider";
+import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { ImageOcrImage } from "./image-ocr-image";
 import { ImageOcrResult } from "./image-ocr-result";

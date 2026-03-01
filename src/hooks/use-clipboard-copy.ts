@@ -1,6 +1,6 @@
 import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
 
-import { useToastMessage } from "~/providers/toast-message-provider";
+import { useToastMessage } from "~/hooks/use-toast-message";
 import * as clipboardUtils from "~/utils/clipboard.utils";
 
 interface CopyTextToClipboardArgs {

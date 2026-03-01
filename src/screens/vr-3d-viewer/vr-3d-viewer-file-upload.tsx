@@ -5,7 +5,7 @@ import { createStyles } from "antd-style";
 import { useRef } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
-import { useToastMessage } from "~/providers/toast-message-provider";
+import { useToastMessage } from "~/hooks/use-toast-message";
 
 import type { ModelFileInfo } from "./vr-3d-viewer.types";
 import { ACCEPT_3D_FILES, SUPPORTED_EXTENSIONS } from "./vr-3d-viewer.types";

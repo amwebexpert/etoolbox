@@ -6,7 +6,7 @@ import { useEffect, useMemo } from "react";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
-import { useToastMessage } from "~/providers/toast-message-provider";
+import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { GithubUserProjectsEmpty } from "./github-user-projects-empty";
 import { GithubUserProjectsStats } from "./github-user-projects-stats";

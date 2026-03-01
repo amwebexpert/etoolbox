@@ -3,6 +3,7 @@ import {
   CalendarOutlined,
   CodeSandboxOutlined,
   CodeOutlined,
+  FileSearchOutlined,
   FileTextOutlined,
   GithubOutlined,
   LinkOutlined,
@@ -121,5 +122,12 @@ export const FEATURES = [
     description: "View 3D models in VR/AR",
     color: "#fa541c",
     path: "/vr-3d-viewer",
+  },
+  {
+    icon: <FileSearchOutlined />,
+    name: "Coding Standards",
+    description: "Semantic search for best practices",
+    color: "#13c2c2",
+    path: "/coding-standards",
   },
 ];

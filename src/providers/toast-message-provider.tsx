@@ -1,8 +1,6 @@
 import { message } from "antd";
-import type { MessageInstance } from "antd/es/message/interface";
-import { createContext, useContext, type ReactNode } from "react";
-
-const ToastMessageContext = createContext<MessageInstance | null>(null);
+import type { ReactNode } from "react";
+import { ToastMessageContext } from "./toast-message-context";
 
 type ToastMessageProviderProps = {
   children: ReactNode;
@@ -17,12 +15,4 @@ export const ToastMessageProvider = ({ children }: ToastMessageProviderProps) =>
       {children}
     </ToastMessageContext.Provider>
   );
-};
-
-export const useToastMessage = (): MessageInstance => {
-  const context = useContext(ToastMessageContext);
-  if (!context) {
-    throw new Error("useToastMessage must be used within a ToastMessageProvider");
-  }
-  return context;
 };

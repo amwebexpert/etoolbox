@@ -7,7 +7,7 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
-import { useToastMessage } from "~/providers/toast-message-provider";
+import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { OptionsContainer as QRCodeGeneratorOptions } from "./options/options-container";
 import { QRCodeGeneratorResult } from "./qrcode-generator-result";

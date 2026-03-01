@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
-import { useToastMessage } from "~/providers/toast-message-provider";
+import { useToastMessage } from "~/hooks/use-toast-message";
 
 import type { Vr3dViewerCanvasRef } from "./vr-3d-viewer-canvas";
 import { Vr3dViewerCanvas } from "./vr-3d-viewer-canvas";
