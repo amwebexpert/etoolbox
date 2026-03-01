@@ -1,3 +1,4 @@
+import { isNullish } from "@lichens-innovation/ts-common";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -105,7 +106,7 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
       });
       return;
     }
-    if (!rootNode) {
+    if (isNullish(rootNode)) {
       set((state) => {
         state.searchResults = [];
       });
@@ -170,8 +171,8 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
       state.modelLoadProgress = progress;
     }),
   initializeEmbeddings: async (rootNode, baseUrl) => {
-    if (!rootNode?.children?.length) return;
-    if (get().embeddingsEngine) return;
+    if (isNullish(rootNode) || !rootNode.children?.length) return;
+    if (!isNullish(get().embeddingsEngine)) return;
 
     try {
       set((state) => {

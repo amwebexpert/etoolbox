@@ -1,3 +1,4 @@
+import { isNullish } from "@lichens-innovation/ts-common";
 import type { CodingCategory, GuidelineNode } from "../coding-standards.types";
 import { AVOID_PREFER_PREFIXES } from "../coding-standards.constants";
 
@@ -54,7 +55,7 @@ export const populateGuidelineNodesSearchableContent = ({
     }
 
     // populate markdownLines until next title line
-    while (line !== undefined && !line.startsWith("#")) {
+    while (!isNullish(line) && !line.startsWith("#")) {
       node.markdownLines.push(line);
       contentLineIndex++;
       line = allContentLines[contentLineIndex];
@@ -90,7 +91,7 @@ type SplitTocAndContentArgs = {
 export const splitTocAndContent = ({ text, baseUrl }: SplitTocAndContentArgs): SplitTocAndContentResult => {
   const regex = /^# .*\n/gm; // split at very first level one title line, starting with "# "
   const match = regex.exec(text);
-  if (!match) {
+  if (isNullish(match)) {
     const message = `No title found in markdown for ${baseUrl}`;
     console.error("[markdown-parser]", message, text);
     throw new Error(message);
@@ -136,7 +137,7 @@ type ParseTocLineResult = {
 export const parseTocLine = (line: string): ParseTocLineResult => {
   const regex = /^( *)-\s*\[(.*?)\]\(#(.*?)\)$/;
   const match = line.match(regex);
-  if (!match) throw new Error(`Invalid TOC line: ${line}`);
+  if (isNullish(match)) throw new Error(`Invalid TOC line: ${line}`);
 
   const level = match[1].length / 2 + 1;
   const title = match[2];
@@ -181,7 +182,7 @@ type FindParentNodeArgs = {
 export const findParentNodeForLevel = ({ node, level }: FindParentNodeArgs): GuidelineNode => {
   let currentNode = node;
   while (currentNode.level >= level) {
-    if (!currentNode.parent) throw new Error(`no parent for level ${level} - ${currentNode.title}`);
+    if (isNullish(currentNode.parent)) throw new Error(`no parent for level ${level} - ${currentNode.title}`);
     currentNode = currentNode.parent;
   }
 
@@ -203,7 +204,7 @@ export const buildGuidelineLinksFromLines = ({
 }: BuildGuidelineLinksFromLinesArgs): void => {
   const line = lines[currentLineIndex];
 
-  if (!line) return;
+  if (isNullish(line)) return;
 
   const { level, title, href } = parseTocLine(line);
 

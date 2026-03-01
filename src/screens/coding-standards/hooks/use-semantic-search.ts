@@ -1,3 +1,4 @@
+import { isNullish } from "@lichens-innovation/ts-common";
 import { useCallback, useEffect } from "react";
 import { useCodingStandardsStore } from "../coding-standards.store";
 import type { GuidelineNode } from "../coding-standards.types";
@@ -7,7 +8,7 @@ export const useSemanticSearch = (rootNode: GuidelineNode | null, baseUrl: strin
 
   // Initialize embeddings engine via store when rootNode is available
   useEffect(() => {
-    if (!rootNode || useCodingStandardsStore.getState().embeddingsEngine) return;
+    if (isNullish(rootNode) || useCodingStandardsStore.getState().embeddingsEngine) return;
     useCodingStandardsStore.getState().initializeEmbeddings(rootNode, baseUrl);
   }, [rootNode, baseUrl]);
 
@@ -16,7 +17,7 @@ export const useSemanticSearch = (rootNode: GuidelineNode | null, baseUrl: strin
     if (isInitialized) return;
     const interval = setInterval(() => {
       const engine = useCodingStandardsStore.getState().embeddingsEngine;
-      if (!engine) return;
+      if (isNullish(engine)) return;
       const stats = engine.computedEmbeddingsStats;
       setEmbeddingsProgress({
         isCompleted: stats.isCompleted,

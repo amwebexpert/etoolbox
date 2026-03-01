@@ -2,6 +2,7 @@ import { FileSearchOutlined } from "@ant-design/icons";
 import { Flex } from "antd";
 import { createStyles } from "antd-style";
 import { useEffect, useRef } from "react";
+import { isNullish } from "@lichens-innovation/ts-common";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useMarkdownLoader } from "./hooks/use-markdown-loader";
@@ -52,7 +53,7 @@ export const CodingStandards = () => {
 
     // Set new timer for debounced search
     debounceTimerRef.current = setTimeout(() => {
-      if (rootNode && searchQuery.trim()) {
+      if (!isNullish(rootNode) && searchQuery.trim()) {
         search(searchQuery);
       }
     }, 400);
@@ -66,7 +67,7 @@ export const CodingStandards = () => {
   }, [searchQuery, rootNode, search]);
 
   const handleSearch = () => {
-    if (searchQuery.trim() && rootNode) {
+    if (searchQuery.trim() && !isNullish(rootNode)) {
       search(searchQuery);
     }
   };
@@ -95,7 +96,7 @@ export const CodingStandards = () => {
 
         {isLoadingMarkdown && <div className={styles.loading}>Loading guidelines from sources...</div>}
 
-        {!isLoadingMarkdown && rootNode && (
+        {!isLoadingMarkdown && !isNullish(rootNode) && (
           <>
             <ModelLoadingProgress isLoading={isLoadingModel} progress={modelLoadProgress} />
 

@@ -1,3 +1,4 @@
+import { isNullish } from "@lichens-innovation/ts-common";
 import type { EmbeddingVector, Rule, SerializedEmbedding } from "../coding-standards.types";
 
 const STORAGE_KEY = "coding-standards-embeddings";
@@ -31,7 +32,7 @@ const saveStoredEmbeddings = (embeddings: Record<string, SerializedEmbedding>): 
 };
 
 export const saveEmbedding = (rule: Rule): void => {
-  if (!rule.embedding) return;
+  if (isNullish(rule.embedding)) return;
 
   const embeddings = getStoredEmbeddings();
   const key = buildStorageKey(rule);
@@ -51,7 +52,7 @@ export const loadEmbedding = (rule: Rule): EmbeddingVector | null => {
   const key = buildStorageKey(rule);
   const serializedEmbedding = embeddings[key];
 
-  if (!serializedEmbedding?.embedding) {
+  if (isNullish(serializedEmbedding?.embedding)) {
     return null;
   }
 

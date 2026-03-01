@@ -1,4 +1,5 @@
 import { env, pipeline, type FeatureExtractionPipeline, type Tensor } from "@xenova/transformers";
+import { isNullish } from "@lichens-innovation/ts-common";
 import type { EmbeddingVector, GuidelineNode, Rule } from "../coding-standards.types";
 import { cosineSimilarity } from "./cosine-similarity";
 import { loadEmbedding, saveEmbedding } from "./storage.utils";
@@ -52,13 +53,13 @@ export class EmbeddingsEngine {
   }
 
   get nextRuleToCompute(): Rule | null {
-    return this.rules.find((rule) => !rule.embedding) ?? null;
+    return this.rules.find((rule) => isNullish(rule.embedding)) ?? null;
   }
 
   async computeNextRuleEmbedding(): Promise<void> {
-    if (!this.featureExtractionEmbeddings) throw Error("Model should be loaded first");
+    if (isNullish(this.featureExtractionEmbeddings)) throw Error("Model should be loaded first");
     const rule = this.nextRuleToCompute;
-    if (!rule) return;
+    if (isNullish(rule)) return;
 
     const embeddings = loadEmbedding(rule);
     if (embeddings) {
@@ -74,7 +75,7 @@ export class EmbeddingsEngine {
   async computeRuleEmbedding(rule: Rule): Promise<void> {
     console.info(`[EmbeddingsEngine] Computing rule embeddings: ${rule.title}`);
 
-    if (!this.featureExtractionEmbeddings) return;
+    if (isNullish(this.featureExtractionEmbeddings)) return;
     const createEmbedding = this.featureExtractionEmbeddings;
 
     const tensor: Tensor = await createEmbedding(rule.content, { pooling: "mean", normalize: false });
@@ -83,7 +84,7 @@ export class EmbeddingsEngine {
   }
 
   async computeAllEmbeddings(): Promise<void> {
-    if (!this.featureExtractionEmbeddings) throw Error("Model should be loaded first");
+    if (isNullish(this.featureExtractionEmbeddings)) throw Error("Model should be loaded first");
 
     // @see Ticket-001 regarding multiple threads
     // const embeddingPromises = this.rules.map((rule) => this.computeRuleEmbedding(rule))
@@ -96,7 +97,7 @@ export class EmbeddingsEngine {
   }
 
   async init(rootNode: GuidelineNode | null, baseUrl: string): Promise<void> {
-    if (!rootNode?.children?.length) throw Error("Guidelines should be loaded first");
+    if (isNullish(rootNode) || !rootNode.children?.length) throw Error("Guidelines should be loaded first");
 
     this.rules = loadAllRulesWithCategory(rootNode, baseUrl).map((rule) => ({
       ...rule,
@@ -111,7 +112,7 @@ export class EmbeddingsEngine {
 
   async findRelevantDocuments(configs: RelevantDocumentsArgs): Promise<Rule[]> {
     if (!this.isReadyForSemanticSearch) return [];
-    if (!this.featureExtractionEmbeddings) throw Error("Cannot compute embeddings");
+    if (isNullish(this.featureExtractionEmbeddings)) throw Error("Cannot compute embeddings");
 
     const { queryText, maxResults = 5 } = configs;
     const tensor: Tensor = await this.featureExtractionEmbeddings(queryText, {

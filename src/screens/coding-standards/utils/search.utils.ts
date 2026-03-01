@@ -1,3 +1,4 @@
+import { isNullish } from "@lichens-innovation/ts-common";
 import type { GuidelineNode, Rule } from "../coding-standards.types";
 import { AVOID_PREFER_PREFIXES } from "../coding-standards.constants";
 import { buildOrderedNodes, cloneAndRemoveAllParents } from "./markdown-parser";
@@ -16,7 +17,7 @@ interface FilterGuidelinesArgs {
 }
 
 export const filterGuidelines = ({ search, rootNode }: FilterGuidelinesArgs): Rule[] => {
-  if (!rootNode) return [];
+  if (isNullish(rootNode)) return [];
 
   const normalizedSearch = normalizeForSearch(search);
   if (!normalizedSearch) return [];
