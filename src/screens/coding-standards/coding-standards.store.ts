@@ -1,4 +1,4 @@
-import { isNullish } from "@lichens-innovation/ts-common";
+import { isBlank, isNullish } from "@lichens-innovation/ts-common";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -100,13 +100,7 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
       state.isSearching = isSearching;
     }),
   performSearch: async (query, rootNode) => {
-    if (!query.trim()) {
-      set((state) => {
-        state.searchResults = [];
-      });
-      return;
-    }
-    if (isNullish(rootNode)) {
+    if (isBlank(query) || isNullish(rootNode)) {
       set((state) => {
         state.searchResults = [];
       });

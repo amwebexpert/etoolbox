@@ -1,18 +1,18 @@
 import { FileSearchOutlined } from "@ant-design/icons";
+import { isBlank, isNotBlank, isNullish } from "@lichens-innovation/ts-common";
+import { useDebounce } from "@uidotdev/usehooks";
 import { Flex } from "antd";
 import { createStyles } from "antd-style";
-import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { isNullish } from "@lichens-innovation/ts-common";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
-import { useMarkdownLoader } from "./hooks/use-markdown-loader";
-import { useSemanticSearch } from "./hooks/use-semantic-search";
+import { SearchInput } from "~/components/ui/search-input";
 import { useCodingStandardsStore, useDisposeEmbeddings, useSetSearchResults } from "./coding-standards.store";
 import { EmbeddingsProgress } from "./components/embeddings-progress";
 import { ModelLoadingProgress } from "./components/model-loading-progress";
 import { ResultsList } from "./components/results-list";
-import { SearchInput } from "~/components/ui/search-input";
+import { useMarkdownLoader } from "./hooks/use-markdown-loader";
+import { useSemanticSearch } from "./hooks/use-semantic-search";
 
 export const CodingStandards = () => {
   const { styles } = useStyles();
@@ -34,27 +34,25 @@ export const CodingStandards = () => {
   const { search, isReady } = useSemanticSearch(rootNode, baseUrl);
   const debouncedSearchQuery = useDebounce(searchQuery, 400);
 
-  // Dispose embeddings engine when leaving the screen to free memory
   useEffect(() => {
-    return disposeEmbeddings;
+    return disposeEmbeddings; // Dispose embeddings engine when leaving the screen to free memory
   }, [disposeEmbeddings]);
 
-  // Clear results immediately when user clears the input
   useEffect(() => {
-    if (!searchQuery.trim()) {
+    if (isBlank(searchQuery)) {
       setSearchResults([]);
     }
   }, [searchQuery, setSearchResults]);
 
   useEffect(() => {
-    if (!debouncedSearchQuery.trim() || isNullish(rootNode)) {
+    if (isBlank(debouncedSearchQuery) || isNullish(rootNode)) {
       return;
     }
     search(debouncedSearchQuery);
   }, [debouncedSearchQuery, rootNode, search]);
 
   const handleSearch = () => {
-    if (searchQuery.trim() && !isNullish(rootNode)) {
+    if (isNotBlank(searchQuery) && !isNullish(rootNode)) {
       search(searchQuery);
     }
   };
