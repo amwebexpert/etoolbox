@@ -9,7 +9,12 @@ import {
 } from "../coding-standards.store";
 import type { GuidelineNode } from "../coding-standards.types";
 
-export const useSemanticSearch = (rootNode: GuidelineNode | null, baseUrl: string) => {
+interface UseSemanticSearchArgs {
+  rootNode: GuidelineNode | null;
+  baseUrl: string;
+}
+
+export const useSemanticSearch = ({ rootNode, baseUrl }: UseSemanticSearchArgs) => {
   const { setEmbeddingsProgress, embeddingsProgress, isInitialized } = useCodingStandardsStore();
 
   const initializeEmbeddings = useInitializeEmbeddings();

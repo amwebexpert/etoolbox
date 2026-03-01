@@ -31,7 +31,7 @@ export const CodingStandards = () => {
   const disposeEmbeddings = useDisposeEmbeddings();
   const { rootNode, isLoading: isLoadingMarkdown, error: markdownError } = useMarkdownLoader(guidelineSources);
   const baseUrl = guidelineSources.find((s) => s.enabled)?.url ?? "";
-  const { search, isReady } = useSemanticSearch(rootNode, baseUrl);
+  const { search, isReady } = useSemanticSearch({ rootNode, baseUrl });
   const debouncedSearchQuery = useDebounce(searchQuery, 400);
 
   useEffect(() => {
