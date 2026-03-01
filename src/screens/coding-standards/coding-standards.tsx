@@ -1,7 +1,8 @@
 import { FileSearchOutlined } from "@ant-design/icons";
 import { Flex } from "antd";
 import { createStyles } from "antd-style";
-import { useEffect, useRef } from "react";
+import { useDebounce } from "@uidotdev/usehooks";
+import { useEffect } from "react";
 import { isNullish } from "@lichens-innovation/ts-common";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
@@ -31,42 +32,26 @@ export const CodingStandards = () => {
   const { rootNode, isLoading: isLoadingMarkdown, error: markdownError } = useMarkdownLoader(guidelineSources);
   const baseUrl = guidelineSources.find((s) => s.enabled)?.url ?? "";
   const { search, isReady } = useSemanticSearch(rootNode, baseUrl);
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const debouncedSearchQuery = useDebounce(searchQuery, 400);
 
   // Dispose embeddings engine when leaving the screen to free memory
   useEffect(() => {
-    return () => {
-      disposeEmbeddings();
-    };
+    return disposeEmbeddings;
   }, [disposeEmbeddings]);
 
-  // Debounce search: wait 400ms after user stops typing before triggering search
+  // Clear results immediately when user clears the input
   useEffect(() => {
-    // Clear previous timer
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-
-    // If search query is empty, clear results immediately
     if (!searchQuery.trim()) {
       setSearchResults([]);
+    }
+  }, [searchQuery, setSearchResults]);
+
+  useEffect(() => {
+    if (!debouncedSearchQuery.trim() || isNullish(rootNode)) {
       return;
     }
-
-    // Set new timer for debounced search
-    debounceTimerRef.current = setTimeout(() => {
-      if (!isNullish(rootNode) && searchQuery.trim()) {
-        search(searchQuery);
-      }
-    }, 400);
-
-    // Cleanup function
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
-  }, [searchQuery, rootNode, search, setSearchResults]);
+    search(debouncedSearchQuery);
+  }, [debouncedSearchQuery, rootNode, search]);
 
   const handleSearch = () => {
     if (searchQuery.trim() && !isNullish(rootNode)) {
