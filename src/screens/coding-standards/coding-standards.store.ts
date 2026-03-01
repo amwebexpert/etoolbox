@@ -64,12 +64,7 @@ interface CodingStandardsState {
   setSearchResults: (results: Rule[]) => void;
   setIsSearching: (isSearching: boolean) => void;
   performSearch: (args: PerformSearchArgs) => Promise<void>;
-  addGuidelineSource: (source: GuidelineSource) => void;
-  removeGuidelineSource: (id: string) => void;
   setEmbeddingsProgress: (progress: EmbeddingsProgress) => void;
-  setIsInitialized: (initialized: boolean) => void;
-  setIsLoadingModel: (loading: boolean) => void;
-  setModelLoadProgress: (progress: string) => void;
   initializeEmbeddings: (args: InitializeEmbeddingsArgs) => Promise<void>;
   disposeEmbeddings: () => void;
 }
@@ -142,29 +137,9 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
       });
     }
   },
-  addGuidelineSource: (source) =>
-    set((state) => {
-      state.guidelineSources.push(source);
-    }),
-  removeGuidelineSource: (id) =>
-    set((state) => {
-      state.guidelineSources = state.guidelineSources.filter((s) => s.id !== id);
-    }),
   setEmbeddingsProgress: (progress) =>
     set((state) => {
       state.embeddingsProgress = progress;
-    }),
-  setIsInitialized: (initialized) =>
-    set((state) => {
-      state.isInitialized = initialized;
-    }),
-  setIsLoadingModel: (loading) =>
-    set((state) => {
-      state.isLoadingModel = loading;
-    }),
-  setModelLoadProgress: (progress) =>
-    set((state) => {
-      state.modelLoadProgress = progress;
     }),
   initializeEmbeddings: async ({ rootNode, baseUrl }) => {
     if (isNullish(rootNode) || !rootNode.children?.length) return;
@@ -253,10 +228,18 @@ export const useCodingStandardsStore = create<CodingStandardsState>()(
 );
 
 // Selectors
-const getState = () => useCodingStandardsStore.getState();
-export const useSetSearchResults = () => getState().setSearchResults;
-export const useDisposeEmbeddings = () => getState().disposeEmbeddings;
-export const useInitializeEmbeddings = () => getState().initializeEmbeddings;
-export const usePerformSearch = () => getState().performSearch;
-export const useGetEmbeddingsEngine = () => getState().embeddingsEngine;
-export const useIsEngineAvailable = () => !isNullish(useGetEmbeddingsEngine());
+export const useSetSearchResults = () => useCodingStandardsStore((state) => state.setSearchResults);
+export const useDisposeEmbeddings = () => useCodingStandardsStore((state) => state.disposeEmbeddings);
+export const useInitializeEmbeddings = () => useCodingStandardsStore((state) => state.initializeEmbeddings);
+export const usePerformSearch = () => useCodingStandardsStore((state) => state.performSearch);
+
+export const useGetEmbeddingsEngine = () => useCodingStandardsStore((state) => state.embeddingsEngine);
+export const useIsInitialized = () => useCodingStandardsStore((state) => state.isInitialized);
+export const useIsEngineAvailable = () => {
+  const engine = useGetEmbeddingsEngine();
+  return !isNullish(engine);
+};
+export const useIsReadyForSemanticSearch = () =>
+  useCodingStandardsStore(
+    ({ isInitialized, embeddingsEngine }) => isInitialized && embeddingsEngine?.isReadyForSemanticSearch === true
+  );
