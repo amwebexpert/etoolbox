@@ -23,9 +23,9 @@ export const useRoomQRCode = () => {
 
   return {
     qrCodeDataUrl: data ?? null,
-    isLoading: isLoading && isSessionActive,
-    isError,
-    error: error as Error | null,
+    isLoadingQRCode: isLoading && isSessionActive,
+    isQRCodeError: isError,
+    qrCodeError: error as Error | null,
     isSessionActive,
   };
 };

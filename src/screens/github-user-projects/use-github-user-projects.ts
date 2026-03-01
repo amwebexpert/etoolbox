@@ -28,10 +28,10 @@ export const useGithubUserProjects = ({ username }: UseGithubUserProjectsArgs) =
   return {
     projects,
     hasProjects,
-    isLoading: isLoading && shouldFetch,
-    isFetching,
-    isError,
-    error: error as Error | null,
-    refetch,
+    isLoadingProjects: isLoading && shouldFetch,
+    isFetchingProjects: isFetching,
+    isProjectsError: isError,
+    projectsError: error as Error | null,
+    refetchProjects: refetch,
   };
 };

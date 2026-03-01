@@ -34,7 +34,15 @@ export const GithubUserProjects = () => {
     setPage,
   } = useGithubUserProjectsStore();
 
-  const { projects, hasProjects, isLoading, isFetching, isError, error, refetch } = useGithubUserProjects({
+  const {
+    projects,
+    hasProjects,
+    isLoadingProjects,
+    isFetchingProjects,
+    isProjectsError,
+    projectsError,
+    refetchProjects,
+  } = useGithubUserProjects({
     username: lastSearchedUsername,
   });
 
@@ -57,10 +65,10 @@ export const GithubUserProjects = () => {
 
   // Show error toast when fetch fails
   useEffect(() => {
-    if (isError && error) {
-      messageApi.error(error.message);
+    if (isProjectsError && projectsError) {
+      messageApi.error(projectsError.message);
     }
-  }, [isError, error, messageApi]);
+  }, [isProjectsError, projectsError, messageApi]);
 
   const handleSearch = () => {
     if (isNotBlank(username)) {
@@ -70,13 +78,13 @@ export const GithubUserProjects = () => {
   };
 
   const handleRefresh = () => {
-    refetch();
+    refetchProjects();
     messageApi.info("Refreshing repositories...");
   };
 
   const hasSearched = isNotBlank(lastSearchedUsername);
   const showTable = hasProjects && processedProjects.length > 0;
-  const showEmpty = !isLoading && (!hasProjects || processedProjects.length === 0);
+  const showEmpty = !isLoadingProjects && (!hasProjects || processedProjects.length === 0);
 
   return (
     <ScreenContainer>
@@ -90,8 +98,8 @@ export const GithubUserProjects = () => {
         <GithubUserProjectsToolbar
           projects={projects}
           filteredCount={processedProjects.length}
-          isLoading={isLoading}
-          isFetching={isFetching}
+          isLoading={isLoadingProjects}
+          isFetching={isFetchingProjects}
           onSearch={handleSearch}
           onRefresh={handleRefresh}
         />
@@ -102,12 +110,12 @@ export const GithubUserProjects = () => {
           <GithubUserProjectsEmpty
             hasSearched={hasSearched}
             username={lastSearchedUsername}
-            isError={isError}
-            errorMessage={error?.message}
+            isError={isProjectsError}
+            errorMessage={projectsError?.message}
           />
         )}
 
-        {showTable && <GithubUserProjectsTable projects={processedProjects} isLoading={isFetching} />}
+        {showTable && <GithubUserProjectsTable projects={processedProjects} isLoading={isFetchingProjects} />}
       </Flex>
     </ScreenContainer>
   );

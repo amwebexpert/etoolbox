@@ -9,7 +9,7 @@ import { useRoomQRCode } from "../hooks/use-room-qrcode";
 export const PokerPlanningQRCode = () => {
   const { styles } = useStyles();
   const { copyImageToClipboard } = useClipboardCopy();
-  const { qrCodeDataUrl, isLoading, isSessionActive } = useRoomQRCode();
+  const { qrCodeDataUrl, isLoadingQRCode, isSessionActive } = useRoomQRCode();
 
   const handleCopyQRCode = () => {
     if (qrCodeDataUrl) {
@@ -35,14 +35,14 @@ export const PokerPlanningQRCode = () => {
             type="text"
             size="small"
             icon={<CopyOutlined />}
-            disabled={!qrCodeDataUrl || isLoading}
+            disabled={!qrCodeDataUrl || isLoadingQRCode}
             onClick={handleCopyQRCode}
           />
         </Tooltip>
       }
     >
       <div className={styles.container}>
-        {isLoading ? (
+        {isLoadingQRCode ? (
           <Spin size="large" />
         ) : qrCodeDataUrl ? (
           <>
