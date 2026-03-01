@@ -24,7 +24,7 @@ export const useSemanticSearch = ({ rootNode, baseUrl }: UseSemanticSearchArgs) 
   // Initialize embeddings engine via store when rootNode is available
   useEffect(() => {
     if (isNullish(rootNode) || isEngineAvailable) return;
-    initializeEmbeddings(rootNode, baseUrl);
+    initializeEmbeddings({ rootNode: rootNode!, baseUrl });
   }, [rootNode, baseUrl, initializeEmbeddings, isEngineAvailable]);
 
   // Update progress periodically from store engine

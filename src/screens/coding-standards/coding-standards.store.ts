@@ -38,6 +38,11 @@ interface PerformSearchArgs {
   rootNode: GuidelineNode | null;
 }
 
+interface InitializeEmbeddingsArgs {
+  rootNode: GuidelineNode;
+  baseUrl: string;
+}
+
 interface CodingStandardsState {
   // Search
   searchQuery: string;
@@ -60,13 +65,12 @@ interface CodingStandardsState {
   setIsSearching: (isSearching: boolean) => void;
   performSearch: (args: PerformSearchArgs) => Promise<void>;
   addGuidelineSource: (source: GuidelineSource) => void;
-  updateGuidelineSource: (id: string, updates: Partial<GuidelineSource>) => void;
   removeGuidelineSource: (id: string) => void;
   setEmbeddingsProgress: (progress: EmbeddingsProgress) => void;
   setIsInitialized: (initialized: boolean) => void;
   setIsLoadingModel: (loading: boolean) => void;
   setModelLoadProgress: (progress: string) => void;
-  initializeEmbeddings: (rootNode: GuidelineNode, baseUrl: string) => Promise<void>;
+  initializeEmbeddings: (args: InitializeEmbeddingsArgs) => Promise<void>;
   disposeEmbeddings: () => void;
 }
 
@@ -142,13 +146,6 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
     set((state) => {
       state.guidelineSources.push(source);
     }),
-  updateGuidelineSource: (id, updates) =>
-    set((state) => {
-      const index = state.guidelineSources.findIndex((s) => s.id === id);
-      if (index >= 0) {
-        Object.assign(state.guidelineSources[index], updates);
-      }
-    }),
   removeGuidelineSource: (id) =>
     set((state) => {
       state.guidelineSources = state.guidelineSources.filter((s) => s.id !== id);
@@ -169,7 +166,7 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
     set((state) => {
       state.modelLoadProgress = progress;
     }),
-  initializeEmbeddings: async (rootNode, baseUrl) => {
+  initializeEmbeddings: async ({ rootNode, baseUrl }) => {
     if (isNullish(rootNode) || !rootNode.children?.length) return;
     if (!isNullish(get().embeddingsEngine)) return;
 
