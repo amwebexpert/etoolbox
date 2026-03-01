@@ -284,10 +284,12 @@ const detectCategory = (title: string, url: string): CodingCategory => {
   const lowerTitle = title.toLowerCase();
   const lowerUrl = url.toLowerCase();
 
-  if (lowerTitle.includes("react") || lowerUrl.includes("react")) return "react";
-  if (lowerTitle.includes("typescript") || lowerUrl.includes("typescript")) return "typescript";
-  if (lowerTitle.includes("test") || lowerUrl.includes("test")) return "testing";
-  if (lowerTitle.includes("naming") || lowerUrl.includes("naming")) return "naming";
+  const titleOrLink = [lowerTitle, lowerUrl];
+
+  if (titleOrLink.some((text) => text.includes("react"))) return "react";
+  if (titleOrLink.some((text) => text.includes("typescript"))) return "typescript";
+  if (titleOrLink.some((text) => text.includes("test"))) return "testing";
+  if (titleOrLink.some((text) => text.includes("naming"))) return "naming";
 
   return "general";
 };

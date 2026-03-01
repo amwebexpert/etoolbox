@@ -1,7 +1,7 @@
 import { isNullish } from "@lichens-innovation/ts-common";
 import type { EmbeddingVector, Rule, SerializedEmbedding } from "../coding-standards.types";
 
-const STORAGE_KEY = "coding-standards-embeddings";
+const STORAGE_KEY = "etoolbox-coding-standards-embeddings";
 
 const simpleHash = (str: string): string => {
   const hash = Array.from(str).reduce<number>((acc, _, i) => {
