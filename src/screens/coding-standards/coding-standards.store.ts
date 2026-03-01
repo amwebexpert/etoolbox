@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import type { EmbeddingsProgress, GuidelineSource, Rule } from "./coding-standards.types";
+import type { EmbeddingsProgress, GuidelineSource, GuidelineNode, Rule } from "./coding-standards.types";
+import { EmbeddingsEngine } from "./utils/embeddings-engine";
+import { combineSearchResults, filterGuidelines } from "./utils/search.utils";
 
 const DEFAULT_GUIDELINE_SOURCES: GuidelineSource[] = [
   {
@@ -40,6 +42,7 @@ interface CodingStandardsState {
   guidelineSources: GuidelineSource[];
 
   // Embeddings
+  embeddingsEngine: EmbeddingsEngine | null;
   embeddingsProgress: EmbeddingsProgress;
   isInitialized: boolean;
   isLoadingModel: boolean;
@@ -49,7 +52,7 @@ interface CodingStandardsState {
   setSearchQuery: (query: string) => void;
   setSearchResults: (results: Rule[]) => void;
   setIsSearching: (isSearching: boolean) => void;
-  performSearch: () => Promise<void>;
+  performSearch: (query: string, rootNode: GuidelineNode | null) => Promise<void>;
   addGuidelineSource: (source: GuidelineSource) => void;
   updateGuidelineSource: (id: string, updates: Partial<GuidelineSource>) => void;
   removeGuidelineSource: (id: string) => void;
@@ -57,10 +60,11 @@ interface CodingStandardsState {
   setIsInitialized: (initialized: boolean) => void;
   setIsLoadingModel: (loading: boolean) => void;
   setModelLoadProgress: (progress: string) => void;
-  initializeEmbeddings: () => Promise<void>;
+  initializeEmbeddings: (rootNode: GuidelineNode, baseUrl: string) => Promise<void>;
+  disposeEmbeddings: () => void;
 }
 
-const stateCreator = immer<CodingStandardsState>((set) => ({
+const stateCreator = immer<CodingStandardsState>((set, get) => ({
   // Search
   searchQuery: "",
   isSearching: false,
@@ -70,6 +74,7 @@ const stateCreator = immer<CodingStandardsState>((set) => ({
   guidelineSources: DEFAULT_GUIDELINE_SOURCES,
 
   // Embeddings
+  embeddingsEngine: null,
   embeddingsProgress: {
     isCompleted: false,
     total: 0,
@@ -93,8 +98,45 @@ const stateCreator = immer<CodingStandardsState>((set) => ({
     set((state) => {
       state.isSearching = isSearching;
     }),
-  performSearch: async () => {
-    // This will be implemented in the hook
+  performSearch: async (query, rootNode) => {
+    if (!query.trim()) {
+      set((state) => {
+        state.searchResults = [];
+      });
+      return;
+    }
+    if (!rootNode) {
+      set((state) => {
+        state.searchResults = [];
+      });
+      return;
+    }
+
+    set((state) => {
+      state.isSearching = true;
+    });
+
+    try {
+      const exactMatches = filterGuidelines({ search: query, rootNode });
+      const engine = get().embeddingsEngine;
+      const semanticMatches =
+        engine?.isReadyForSemanticSearch === true
+          ? await engine.findRelevantDocuments({ queryText: query, maxResults: 10 })
+          : [];
+      const combinedResults = combineSearchResults({ exactMatches, semanticMatches });
+      set((state) => {
+        state.searchResults = combinedResults;
+      });
+    } catch (error) {
+      console.error("[coding-standards.store] Search error:", error);
+      set((state) => {
+        state.searchResults = [];
+      });
+    } finally {
+      set((state) => {
+        state.isSearching = false;
+      });
+    }
   },
   addGuidelineSource: (source) =>
     set((state) => {
@@ -127,9 +169,74 @@ const stateCreator = immer<CodingStandardsState>((set) => ({
     set((state) => {
       state.modelLoadProgress = progress;
     }),
-  initializeEmbeddings: async () => {
-    // This will be implemented in the hook
+  initializeEmbeddings: async (rootNode, baseUrl) => {
+    if (!rootNode?.children?.length) return;
+    if (get().embeddingsEngine) return;
+
+    try {
+      set((state) => {
+        state.isLoadingModel = true;
+        state.modelLoadProgress = "Initializing Transformer.js...";
+      });
+
+      const engine = new EmbeddingsEngine();
+
+      set((state) => {
+        state.modelLoadProgress = "Downloading AI model (Xenova/all-MiniLM-L6-v2)...";
+      });
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      await engine.init(rootNode, baseUrl);
+
+      set((state) => {
+        state.embeddingsEngine = engine;
+        state.isLoadingModel = false;
+        state.modelLoadProgress = "Model loaded successfully! Computing embeddings...";
+      });
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      set((state) => {
+        state.modelLoadProgress = "";
+      });
+
+      const computeProgressively = async () => {
+        while (engine.nextRuleToCompute) {
+          await engine.computeNextRuleEmbedding();
+          const stats = engine.computedEmbeddingsStats;
+          set((state) => {
+            state.embeddingsProgress = {
+              isCompleted: stats.isCompleted,
+              total: stats.total,
+              completed: stats.completed,
+              currentRule: stats.nextRuleTitle,
+            };
+          });
+        }
+        set((state) => {
+          state.isInitialized = true;
+        });
+      };
+      computeProgressively();
+    } catch (error) {
+      console.error("[coding-standards.store] Failed to initialize embeddings engine:", error);
+      set((state) => {
+        state.isLoadingModel = false;
+        state.modelLoadProgress = `Error: ${error instanceof Error ? error.message : "Failed to load model"}`;
+      });
+    }
   },
+
+  disposeEmbeddings: () =>
+    set((state) => {
+      state.embeddingsEngine = null;
+      state.isInitialized = false;
+      state.embeddingsProgress = {
+        isCompleted: false,
+        total: 0,
+        completed: 0,
+        currentRule: "",
+      };
+      state.modelLoadProgress = "";
+    }),
 }));
 
 const PERSISTED_STORE_NAME = "etoolbox-coding-standards";

@@ -30,6 +30,13 @@ export const CodingStandards = () => {
   const { search, isReady } = useSemanticSearch(rootNode, baseUrl);
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Dispose embeddings engine when leaving the screen to free memory
+  useEffect(() => {
+    return () => {
+      useCodingStandardsStore.getState().disposeEmbeddings();
+    };
+  }, []);
+
   // Debounce search: wait 400ms after user stops typing before triggering search
   useEffect(() => {
     // Clear previous timer
