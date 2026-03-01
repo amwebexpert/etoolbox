@@ -33,6 +33,11 @@ const DEFAULT_GUIDELINE_SOURCES: GuidelineSource[] = [
   },
 ];
 
+interface PerformSearchArgs {
+  query: string;
+  rootNode: GuidelineNode | null;
+}
+
 interface CodingStandardsState {
   // Search
   searchQuery: string;
@@ -53,7 +58,7 @@ interface CodingStandardsState {
   setSearchQuery: (query: string) => void;
   setSearchResults: (results: Rule[]) => void;
   setIsSearching: (isSearching: boolean) => void;
-  performSearch: (query: string, rootNode: GuidelineNode | null) => Promise<void>;
+  performSearch: (args: PerformSearchArgs) => Promise<void>;
   addGuidelineSource: (source: GuidelineSource) => void;
   updateGuidelineSource: (id: string, updates: Partial<GuidelineSource>) => void;
   removeGuidelineSource: (id: string) => void;
@@ -99,7 +104,7 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
     set((state) => {
       state.isSearching = isSearching;
     }),
-  performSearch: async (query, rootNode) => {
+  performSearch: async ({ query, rootNode }) => {
     if (isBlank(query) || isNullish(rootNode)) {
       set((state) => {
         state.searchResults = [];

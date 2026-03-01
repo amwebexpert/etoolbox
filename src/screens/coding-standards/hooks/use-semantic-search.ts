@@ -45,7 +45,7 @@ export const useSemanticSearch = ({ rootNode, baseUrl }: UseSemanticSearchArgs) 
   const performSearch = usePerformSearch();
   const search = useCallback(
     (query: string) => {
-      performSearch(query, rootNode);
+      performSearch({ query, rootNode });
     },
     [rootNode, performSearch]
   );
