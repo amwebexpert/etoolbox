@@ -261,5 +261,5 @@ export const useSetSearchResults = () => getState().setSearchResults;
 export const useDisposeEmbeddings = () => getState().disposeEmbeddings;
 export const useInitializeEmbeddings = () => getState().initializeEmbeddings;
 export const usePerformSearch = () => getState().performSearch;
-export const getEmbeddingsEngine = () => getState().embeddingsEngine;
-export const isEngineAvailable = () => !isNullish(getEmbeddingsEngine());
+export const useGetEmbeddingsEngine = () => getState().embeddingsEngine;
+export const useIsEngineAvailable = () => !isNullish(useGetEmbeddingsEngine());

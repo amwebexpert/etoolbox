@@ -1,10 +1,10 @@
 import { isNullish } from "@lichens-innovation/ts-common";
 import { useCallback, useEffect } from "react";
 import {
-  getEmbeddingsEngine,
-  isEngineAvailable,
   useCodingStandardsStore,
+  useGetEmbeddingsEngine,
   useInitializeEmbeddings,
+  useIsEngineAvailable,
   usePerformSearch,
 } from "../coding-standards.store";
 import type { GuidelineNode } from "../coding-standards.types";
@@ -16,20 +16,21 @@ interface UseSemanticSearchArgs {
 
 export const useSemanticSearch = ({ rootNode, baseUrl }: UseSemanticSearchArgs) => {
   const { setEmbeddingsProgress, embeddingsProgress, isInitialized } = useCodingStandardsStore();
+  const isEngineAvailable = useIsEngineAvailable();
+  const engine = useGetEmbeddingsEngine();
 
   const initializeEmbeddings = useInitializeEmbeddings();
 
   // Initialize embeddings engine via store when rootNode is available
   useEffect(() => {
-    if (isNullish(rootNode) || isEngineAvailable()) return;
+    if (isNullish(rootNode) || isEngineAvailable) return;
     initializeEmbeddings(rootNode, baseUrl);
-  }, [rootNode, baseUrl, initializeEmbeddings]);
+  }, [rootNode, baseUrl, initializeEmbeddings, isEngineAvailable]);
 
   // Update progress periodically from store engine
   useEffect(() => {
     if (isInitialized) return;
     const interval = setInterval(() => {
-      const engine = getEmbeddingsEngine();
       if (isNullish(engine)) return;
       const stats = engine.computedEmbeddingsStats;
       setEmbeddingsProgress({
