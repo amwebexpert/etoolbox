@@ -2,6 +2,7 @@ import { isNullish } from "@lichens-innovation/ts-common";
 import { useCallback, useEffect } from "react";
 import {
   getEmbeddingsEngine,
+  isEngineAvailable,
   useCodingStandardsStore,
   useInitializeEmbeddings,
   usePerformSearch,
@@ -15,7 +16,7 @@ export const useSemanticSearch = (rootNode: GuidelineNode | null, baseUrl: strin
 
   // Initialize embeddings engine via store when rootNode is available
   useEffect(() => {
-    if (isNullish(rootNode) || getEmbeddingsEngine()) return;
+    if (isNullish(rootNode) || isEngineAvailable()) return;
     initializeEmbeddings(rootNode, baseUrl);
   }, [rootNode, baseUrl, initializeEmbeddings]);
 
