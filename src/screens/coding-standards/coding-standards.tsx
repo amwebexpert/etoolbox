@@ -7,7 +7,7 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useMarkdownLoader } from "./hooks/use-markdown-loader";
 import { useSemanticSearch } from "./hooks/use-semantic-search";
-import { useCodingStandardsStore } from "./coding-standards.store";
+import { useCodingStandardsStore, useDisposeEmbeddings, useSetSearchResults } from "./coding-standards.store";
 import { EmbeddingsProgress } from "./components/embeddings-progress";
 import { ModelLoadingProgress } from "./components/model-loading-progress";
 import { ResultsList } from "./components/results-list";
@@ -26,6 +26,8 @@ export const CodingStandards = () => {
     modelLoadProgress,
   } = useCodingStandardsStore();
 
+  const setSearchResults = useSetSearchResults();
+  const disposeEmbeddings = useDisposeEmbeddings();
   const { rootNode, isLoading: isLoadingMarkdown, error: markdownError } = useMarkdownLoader(guidelineSources);
   const baseUrl = guidelineSources.find((s) => s.enabled)?.url ?? "";
   const { search, isReady } = useSemanticSearch(rootNode, baseUrl);
@@ -34,9 +36,9 @@ export const CodingStandards = () => {
   // Dispose embeddings engine when leaving the screen to free memory
   useEffect(() => {
     return () => {
-      useCodingStandardsStore.getState().disposeEmbeddings();
+      disposeEmbeddings();
     };
-  }, []);
+  }, [disposeEmbeddings]);
 
   // Debounce search: wait 400ms after user stops typing before triggering search
   useEffect(() => {
@@ -47,7 +49,7 @@ export const CodingStandards = () => {
 
     // If search query is empty, clear results immediately
     if (!searchQuery.trim()) {
-      useCodingStandardsStore.getState().setSearchResults([]);
+      setSearchResults([]);
       return;
     }
 
@@ -64,7 +66,7 @@ export const CodingStandards = () => {
         clearTimeout(debounceTimerRef.current);
       }
     };
-  }, [searchQuery, rootNode, search]);
+  }, [searchQuery, rootNode, search, setSearchResults]);
 
   const handleSearch = () => {
     if (searchQuery.trim() && !isNullish(rootNode)) {

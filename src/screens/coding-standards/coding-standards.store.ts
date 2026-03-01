@@ -2,7 +2,7 @@ import { isNullish } from "@lichens-innovation/ts-common";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import type { EmbeddingsProgress, GuidelineSource, GuidelineNode, Rule } from "./coding-standards.types";
+import type { EmbeddingsProgress, GuidelineNode, GuidelineSource, Rule } from "./coding-standards.types";
 import { EmbeddingsEngine } from "./utils/embeddings-engine";
 import { combineSearchResults, filterGuidelines } from "./utils/search.utils";
 
@@ -255,3 +255,11 @@ export const useCodingStandardsStore = create<CodingStandardsState>()(
     { name: PERSISTED_STORE_NAME }
   )
 );
+
+// Selectors
+const getState = () => useCodingStandardsStore.getState();
+export const useSetSearchResults = () => getState().setSearchResults;
+export const useDisposeEmbeddings = () => getState().disposeEmbeddings;
+export const useInitializeEmbeddings = () => getState().initializeEmbeddings;
+export const usePerformSearch = () => getState().performSearch;
+export const getEmbeddingsEngine = () => getState().embeddingsEngine;
