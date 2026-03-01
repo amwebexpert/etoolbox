@@ -1,7 +1,7 @@
 import { createStyles } from "antd-style";
 import type { FunctionComponent } from "react";
 
-import { MarkdownContent } from "./markdown-content";
+import { MarkdownContent } from "~/components/ui/markdown-content";
 
 interface ResultCardContentProps {
   content: string;

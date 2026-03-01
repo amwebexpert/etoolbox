@@ -9,15 +9,24 @@ interface SearchInputProps {
   loading: boolean;
   onChange: (value: string) => void;
   onSearch: () => void;
+  placeholder?: string;
 }
 
-export const SearchInput: FunctionComponent<SearchInputProps> = ({ value, loading, onChange, onSearch }) => {
+const DEFAULT_PLACEHOLDER = "Search...";
+
+export const SearchInput: FunctionComponent<SearchInputProps> = ({
+  value,
+  loading,
+  onChange,
+  onSearch,
+  placeholder = DEFAULT_PLACEHOLDER,
+}) => {
   const { styles } = useStyles();
 
   return (
     <Search
       className={styles.search}
-      placeholder="Chercher une règle de coding standards..."
+      placeholder={placeholder}
       loading={loading}
       size="large"
       value={value}

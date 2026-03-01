@@ -10,7 +10,7 @@ import { useCodingStandardsStore } from "./coding-standards.store";
 import { EmbeddingsProgress } from "./components/embeddings-progress";
 import { ModelLoadingProgress } from "./components/model-loading-progress";
 import { ResultsList } from "./components/results-list";
-import { SearchInput } from "./components/search-input";
+import { SearchInput } from "~/components/ui/search-input";
 
 export const CodingStandards = () => {
   const { styles } = useStyles();
@@ -97,6 +97,7 @@ export const CodingStandards = () => {
               loading={isSearching || isLoadingModel}
               onChange={setSearchQuery}
               onSearch={handleSearch}
+              placeholder="Chercher une règle de coding standards..."
             />
 
             {!isReady && !isLoadingModel && <EmbeddingsProgress progress={embeddingsProgress} />}
