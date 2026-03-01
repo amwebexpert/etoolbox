@@ -102,11 +102,10 @@ export const useSemanticSearch = (rootNode: GuidelineNode | null, baseUrl: strin
         // Exact match search
         const exactMatches = filterGuidelines({ search: query, rootNode });
 
-        // Semantic search
-        if (!embeddingsEngineRef.current) return;
-        const { isReadyForSemanticSearch, findRelevantDocuments } = embeddingsEngineRef.current;
-        const semanticMatches = isReadyForSemanticSearch
-          ? await findRelevantDocuments({ queryText: query, maxResults: 10 })
+        const engine = embeddingsEngineRef.current;
+        if (!engine) return;
+        const semanticMatches = engine.isReadyForSemanticSearch
+          ? await engine.findRelevantDocuments({ queryText: query, maxResults: 10 })
           : [];
 
         // Combine results
