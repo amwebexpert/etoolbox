@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { SearchInput } from "~/components/ui/search-input";
-import { useCodingStandardsStore, useDisposeEmbeddings, useSetSearchResults } from "./coding-standards.store";
+import { useCodingStandardsStore, useDisposeEmbeddings } from "./coding-standards.store";
 import { EmbeddingsProgress } from "./components/embeddings-progress";
 import { ModelLoadingProgress } from "./components/model-loading-progress";
 import { ResultsList } from "./components/results-list";
@@ -27,7 +27,6 @@ export const CodingStandards = () => {
     modelLoadProgress,
   } = useCodingStandardsStore();
 
-  const setSearchResults = useSetSearchResults();
   const disposeEmbeddings = useDisposeEmbeddings();
   const { rootNode, isLoadingGuidelines, guidelinesError } = useMarkdownLoader(guidelineSources);
   const baseUrl = guidelineSources.find((s) => s.enabled)?.url ?? "";
@@ -39,10 +38,8 @@ export const CodingStandards = () => {
   }, [disposeEmbeddings]);
 
   useEffect(() => {
-    if (isBlank(searchQuery)) {
-      setSearchResults([]);
-    }
-  }, [searchQuery, setSearchResults]);
+    search(searchQuery);
+  }, [searchQuery, search]);
 
   useEffect(() => {
     if (isBlank(debouncedSearchQuery) || isNullish(rootNode)) {
