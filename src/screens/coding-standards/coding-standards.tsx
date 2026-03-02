@@ -31,7 +31,7 @@ export const CodingStandards = () => {
   const disposeEmbeddings = useDisposeEmbeddings();
   const { rootNode, isLoading: isLoadingMarkdown, error: markdownError } = useMarkdownLoader(guidelineSources);
   const baseUrl = guidelineSources.find((s) => s.enabled)?.url ?? "";
-  const { search, isReady } = useSemanticSearch({ rootNode, baseUrl });
+  const { search, isReadyForSemanticSearch } = useSemanticSearch({ rootNode, baseUrl });
   const debouncedSearchQuery = useDebounce(searchQuery, 400);
 
   useEffect(() => {
@@ -56,6 +56,8 @@ export const CodingStandards = () => {
       search(searchQuery);
     }
   };
+
+  const shouldShowEmbeddingsProgress = !isReadyForSemanticSearch && !isLoadingModel;
 
   if (markdownError) {
     return (
@@ -93,7 +95,7 @@ export const CodingStandards = () => {
               placeholder="Chercher une règle de coding standards..."
             />
 
-            {!isReady && !isLoadingModel && <EmbeddingsProgress progress={embeddingsProgress} />}
+            {shouldShowEmbeddingsProgress && <EmbeddingsProgress progress={embeddingsProgress} />}
 
             <ResultsList results={searchResults} isLoading={isSearching} />
           </>

@@ -10,7 +10,7 @@ interface UseSemanticSearchArgs {
 export const useSemanticSearch = ({ rootNode, baseUrl }: UseSemanticSearchArgs) => {
   const { embeddingsProgress, performSearch, initializeEmbeddings } = useCodingStandardsStore();
   const isEngineAvailable = useIsEngineAvailable();
-  const isReady = useIsReadyForSemanticSearch();
+  const isReadyForSemanticSearch = useIsReadyForSemanticSearch();
 
   useEffect(() => {
     initializeEmbeddings({ rootNode: rootNode!, baseUrl });
@@ -26,6 +26,6 @@ export const useSemanticSearch = ({ rootNode, baseUrl }: UseSemanticSearchArgs) 
   return {
     search,
     embeddingsProgress,
-    isReady,
+    isReadyForSemanticSearch,
   };
 };
