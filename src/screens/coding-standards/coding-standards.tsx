@@ -29,7 +29,7 @@ export const CodingStandards = () => {
 
   const setSearchResults = useSetSearchResults();
   const disposeEmbeddings = useDisposeEmbeddings();
-  const { rootNode, isLoading: isLoadingMarkdown, error: markdownError } = useMarkdownLoader(guidelineSources);
+  const { rootNode, isLoadingGuidelines, guidelinesError } = useMarkdownLoader(guidelineSources);
   const baseUrl = guidelineSources.find((s) => s.enabled)?.url ?? "";
   const { search, isReadyForSemanticSearch } = useSemanticSearch({ rootNode, baseUrl });
   const debouncedSearchQuery = useDebounce(searchQuery, 400);
@@ -59,7 +59,7 @@ export const CodingStandards = () => {
 
   const shouldShowEmbeddingsProgress = !isReadyForSemanticSearch && !isLoadingModel;
 
-  if (markdownError) {
+  if (guidelinesError) {
     return (
       <ScreenContainer>
         <ScreenHeader
@@ -67,7 +67,7 @@ export const CodingStandards = () => {
           title="Coding Standards Finder"
           description="Semantic search for React and TypeScript coding standards"
         />
-        <div className={styles.error}>Error loading guidelines: {markdownError.message}</div>
+        <div className={styles.error}>Error loading guidelines: {guidelinesError.message}</div>
       </ScreenContainer>
     );
   }
@@ -81,9 +81,9 @@ export const CodingStandards = () => {
           description="Semantic search for React and TypeScript coding standards and best practices"
         />
 
-        {isLoadingMarkdown && <div className={styles.loading}>Loading guidelines from sources...</div>}
+        {isLoadingGuidelines && <div className={styles.loading}>Loading guidelines from sources...</div>}
 
-        {!isLoadingMarkdown && !isNullish(rootNode) && (
+        {!isLoadingGuidelines && !isNullish(rootNode) && (
           <>
             <ModelLoadingProgress isLoading={isLoadingModel} progress={modelLoadProgress} />
 

@@ -1,4 +1,4 @@
-import { isNotBlank } from "@lichens-innovation/ts-common";
+import { isNotBlank, PeriodsInMS } from "@lichens-innovation/ts-common";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 import { GithubProjectsQueryKey } from "./github-user-projects.constants";
@@ -18,8 +18,8 @@ export const useGithubUserProjects = ({ username }: UseGithubUserProjectsArgs) =
     queryFn: () => fetchGithubUserProjects(trimmedUsername),
     enabled: shouldFetch,
     placeholderData: keepPreviousData,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 30 * 60 * 1000, // 30 minutes (formerly cacheTime)
+    staleTime: 5 * PeriodsInMS.oneMinute,
+    gcTime: 30 * PeriodsInMS.oneMinute,
   });
 
   const projects: GithubUserProject[] = data ?? [];

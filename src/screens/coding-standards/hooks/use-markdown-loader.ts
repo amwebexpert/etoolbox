@@ -1,4 +1,7 @@
-import { useState, useEffect } from "react";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+
+import { PeriodsInMS } from "@lichens-innovation/ts-common";
+import { GuidelinesQueryKey } from "../coding-standards.constants";
 import type { GuidelineNode, GuidelineSource } from "../coding-standards.types";
 import { buildNode, createGuidelineNodes } from "../utils/markdown-parser";
 
@@ -29,35 +32,26 @@ const collectAllGuidelinesIntoSingleRoot = async (sources: GuidelineSource[]): P
 };
 
 export const useMarkdownLoader = (sources: GuidelineSource[]) => {
-  const [rootNode, setRootNode] = useState<GuidelineNode | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const enabledSourceUrls = sources.filter((s) => s.enabled).map((s) => s.url);
+  const shouldFetch = enabledSourceUrls.length > 0;
 
-  useEffect(() => {
-    const loadGuidelines = async () => {
-      if (sources.length === 0 || !sources.some((s) => s.enabled)) {
-        setRootNode(null);
-        return;
-      }
+  const { data, isLoading, isFetching, isError, error, refetch } = useQuery({
+    queryKey: GuidelinesQueryKey.markdown(enabledSourceUrls),
+    queryFn: () => collectAllGuidelinesIntoSingleRoot(sources),
+    enabled: shouldFetch,
+    placeholderData: keepPreviousData,
+    staleTime: 5 * PeriodsInMS.oneMinute,
+    gcTime: 30 * PeriodsInMS.oneMinute,
+  });
 
-      setIsLoading(true);
-      setError(null);
+  const rootNode = data ?? null;
 
-      try {
-        const node = await collectAllGuidelinesIntoSingleRoot(sources);
-        setRootNode(node);
-      } catch (err) {
-        const error = err instanceof Error ? err : new Error("Failed to load guidelines");
-        console.error("[useMarkdownLoader] Failed to load guidelines:", error);
-        setError(error);
-        setRootNode(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadGuidelines();
-  }, [sources]);
-
-  return { rootNode, isLoading, error };
+  return {
+    rootNode,
+    isLoadingGuidelines: isLoading && shouldFetch,
+    isFetchingGuidelines: isFetching,
+    isGuidelinesError: isError,
+    guidelinesError: error as Error | null,
+    refetchGuidelines: refetch,
+  };
 };
