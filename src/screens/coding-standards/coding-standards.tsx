@@ -1,6 +1,5 @@
 import { FileSearchOutlined } from "@ant-design/icons";
 import { isBlank, isNotBlank, isNullish } from "@lichens-innovation/ts-common";
-import { useDebounce } from "@uidotdev/usehooks";
 import { Flex } from "antd";
 import { createStyles } from "antd-style";
 import { useEffect } from "react";
@@ -31,18 +30,17 @@ export const CodingStandards = () => {
   const { rootNode, isLoadingGuidelines, guidelinesError } = useMarkdownLoader(guidelineSources);
   const baseUrl = guidelineSources.find((s) => s.enabled)?.url ?? "";
   const { search, isReadyForSemanticSearch } = useSemanticSearch({ rootNode, baseUrl });
-  const debouncedSearchQuery = useDebounce(searchQuery, 400);
 
   useEffect(() => {
     return disposeEmbeddings; // Dispose embeddings engine when leaving the screen to free memory
   }, [disposeEmbeddings]);
 
   useEffect(() => {
-    if (isBlank(debouncedSearchQuery) || isNullish(rootNode)) {
+    if (isBlank(searchQuery) || isNullish(rootNode)) {
       return;
     }
-    search(debouncedSearchQuery);
-  }, [debouncedSearchQuery, rootNode, search]);
+    search(searchQuery);
+  }, [searchQuery, rootNode, search]);
 
   const handleSearch = () => {
     if (isNotBlank(searchQuery) && !isNullish(rootNode)) {
