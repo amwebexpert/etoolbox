@@ -1,4 +1,4 @@
-import { isNullish } from "@lichens-innovation/ts-common";
+import { isNullish, yieldToMainThread } from "@lichens-innovation/ts-common";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -125,7 +125,7 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
       set((state) => {
         state.modelLoadProgress = "Downloading AI model...";
       });
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await yieldToMainThread();
 
       await engine.init(rootNode, baseUrl);
 
@@ -134,7 +134,7 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
         state.isLoadingModel = false;
         state.modelLoadProgress = "Model loaded successfully! Computing embeddings...";
       });
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      await yieldToMainThread();
       set((state) => {
         state.modelLoadProgress = "";
       });

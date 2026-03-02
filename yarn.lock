@@ -1083,12 +1083,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lichens-innovation/ts-common@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "@lichens-innovation/ts-common@npm:1.5.0"
+"@lichens-innovation/ts-common@npm:^1.10.0":
+  version: 1.10.0
+  resolution: "@lichens-innovation/ts-common@npm:1.10.0"
   dependencies:
     date-fns: "npm:^3.0.0"
-  checksum: 10c0/c0599147f86bf71dca82053da7c09e36fcf716075dbeada8310d32fdea8ee4bb4eca500c0d592f3423023ed9ee20a9d1885f1b190d3b326308db39474e484873
+  peerDependencies:
+    exceljs: ^4.4.0
+    jspdf: ^4.1.0
+    jspdf-autotable: ^5.0.7
+    mime: ^4.1.0
+    papaparse: ^5.4.1
+  peerDependenciesMeta:
+    exceljs:
+      optional: true
+    jspdf:
+      optional: true
+    jspdf-autotable:
+      optional: true
+    mime:
+      optional: true
+    papaparse:
+      optional: true
+  checksum: 10c0/76fb276979a765369303e1ad2324d2a64ca0306f30bf4ee5ffa3e275b499b461399e3fe29a0046df43ea5f895766acee9d9a7ec96db1600a86d6dc2724d2833e
   languageName: node
   linkType: hard
 
@@ -9477,7 +9494,7 @@ __metadata:
     "@commitlint/cli": "npm:^20.3.0"
     "@commitlint/config-conventional": "npm:^20.3.0"
     "@eslint/js": "npm:^9.39.1"
-    "@lichens-innovation/ts-common": "npm:^1.5.0"
+    "@lichens-innovation/ts-common": "npm:^1.10.0"
     "@react-three/drei": "npm:^10.7.7"
     "@react-three/fiber": "npm:^9.5.0"
     "@tanstack/react-query": "npm:^5.90.16"
