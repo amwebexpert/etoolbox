@@ -43,7 +43,7 @@ export const useImageOcr = ({ onProgress }: UseImageOcrArgs = {}) => {
   return {
     ocrResult: data ?? null,
     runOcr: mutate,
-    isProcessing: isPending,
+    isOcrProcessing: isPending,
     isOcrError: isError,
     isOcrSuccess: isSuccess,
     ocrError: error,

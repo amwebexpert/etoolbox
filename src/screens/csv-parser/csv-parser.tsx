@@ -39,7 +39,7 @@ export const CsvParser = () => {
     clearAll,
   } = useCsvParserStore();
 
-  const { parse, isParsing, resetParse } = useCsvParse();
+  const { parseCsv, isParsingCsv, resetCsvParseResult } = useCsvParse();
 
   const handleFileLoaded = (content: string, loadedFileInfo: FileInfo) => {
     setCsvInput(content);
@@ -49,7 +49,7 @@ export const CsvParser = () => {
   const handleParse = () => {
     if (!csvInput) return;
 
-    parse({
+    parseCsv({
       csvData: csvInput,
       options: parserOptions,
     });
@@ -70,7 +70,7 @@ export const CsvParser = () => {
 
   const handleClear = () => {
     clearAll();
-    resetParse();
+    resetCsvParseResult();
   };
 
   const hasContent = isNotBlank(csvInput);
@@ -101,7 +101,7 @@ export const CsvParser = () => {
         <CsvParserToolbar
           hasContent={hasContent}
           hasResult={hasResult}
-          isParsing={isParsing}
+          isParsing={isParsingCsv}
           viewMode={viewMode}
           onParse={handleParse}
           onCopy={handleCopy}

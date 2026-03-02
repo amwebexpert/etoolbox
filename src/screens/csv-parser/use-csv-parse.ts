@@ -29,18 +29,18 @@ export const useCsvParse = () => {
     }
   }, [isError, error, messageApi]);
 
-  const resetParse = () => {
+  const resetCsvParseResult = () => {
     reset();
     setParseResult(null);
   };
 
   return {
-    result: data ?? null,
-    parse: mutate,
-    isParsing: isPending,
-    isParseError: isError,
-    isParseSuccess: isSuccess,
-    parseError: error,
-    resetParse,
+    csvParseResult: data ?? null,
+    parseCsv: mutate,
+    isParsingCsv: isPending,
+    isParseCsvError: isError,
+    isParseCsvSuccess: isSuccess,
+    parseCsvError: error,
+    resetCsvParseResult,
   };
 };

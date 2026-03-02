@@ -24,7 +24,7 @@ export const ImageOcr = () => {
 
   const { language, imageDataUrl, workerStatus, setLanguage, setImageDataUrl, clearImage } = useImageOcrStore();
 
-  const { ocrResult, runOcr, isProcessing, resetOcr } = useImageOcr();
+  const { ocrResult, runOcr, isOcrProcessing, resetOcr } = useImageOcr();
 
   const handleFileSelect = async (file: File) => {
     if (!isValidImageFile(file)) {
@@ -117,12 +117,12 @@ export const ImageOcr = () => {
         <ImageOcrToolbar
           hasImage={hasImage}
           resultText={ocrResult?.text}
-          isProcessing={isProcessing}
+          isProcessing={isOcrProcessing}
           onProcess={handleProcess}
           onClear={handleClear}
         />
 
-        <ImageOcrResult result={ocrResult} workerStatus={workerStatus} isProcessing={isProcessing} />
+        <ImageOcrResult result={ocrResult} workerStatus={workerStatus} isProcessing={isOcrProcessing} />
       </Flex>
     </ScreenContainer>
   );
