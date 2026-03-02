@@ -1,5 +1,5 @@
 import { FileSearchOutlined } from "@ant-design/icons";
-import { isBlank, isNotBlank, isNullish } from "@lichens-innovation/ts-common";
+import { isNullish } from "@lichens-innovation/ts-common";
 import { Flex } from "antd";
 import { createStyles } from "antd-style";
 import { useEffect } from "react";
@@ -36,17 +36,8 @@ export const CodingStandards = () => {
   }, [disposeEmbeddings]);
 
   useEffect(() => {
-    if (isBlank(searchQuery) || isNullish(rootNode)) {
-      return;
-    }
     search(searchQuery);
   }, [searchQuery, rootNode, search]);
-
-  const handleSearch = () => {
-    if (isNotBlank(searchQuery) && !isNullish(rootNode)) {
-      search(searchQuery);
-    }
-  };
 
   const shouldShowEmbeddingsProgress = !isReadyForSemanticSearch && !isLoadingModel;
 
@@ -82,7 +73,7 @@ export const CodingStandards = () => {
               value={searchQuery}
               loading={isSearching || isLoadingModel}
               onChange={setSearchQuery}
-              onSearch={handleSearch}
+              onSearch={() => search(searchQuery)}
               placeholder="Chercher une règle de coding standards..."
             />
 
