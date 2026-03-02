@@ -1,37 +1,15 @@
-import { isBlank, isNullish } from "@lichens-innovation/ts-common";
+import { isNullish } from "@lichens-innovation/ts-common";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+import {
+  DEFAULT_GUIDELINE_SOURCES,
+  INITIAL_EMBEDDINGS_PROGRESS,
+  runProgressiveEmbeddingComputation,
+  runSearch,
+} from "./coding-standards.store.utils";
 import type { EmbeddingsProgress, GuidelineNode, GuidelineSource, Rule } from "./coding-standards.types";
 import { EmbeddingsEngine } from "./utils/embeddings-engine";
-import { combineSearchResults, filterGuidelines } from "./utils/search.utils";
-
-const DEFAULT_GUIDELINE_SOURCES: GuidelineSource[] = [
-  {
-    id: "react-patterns",
-    name: "React Patterns",
-    url: "https://raw.githubusercontent.com/amwebexpert/chrome-extensions-collection/master/packages/coding-guide-helper/public/markdowns/common-react-patterns.md",
-    enabled: true,
-  },
-  {
-    id: "typescript-patterns",
-    name: "TypeScript Patterns",
-    url: "https://raw.githubusercontent.com/amwebexpert/chrome-extensions-collection/master/packages/coding-guide-helper/public/markdowns/common-coding-patterns.md",
-    enabled: true,
-  },
-  {
-    id: "testing-patterns",
-    name: "Testing Patterns",
-    url: "https://raw.githubusercontent.com/amwebexpert/chrome-extensions-collection/master/packages/coding-guide-helper/public/markdowns/common-unit-testing.md",
-    enabled: true,
-  },
-  {
-    id: "naming-patterns",
-    name: "Naming Patterns",
-    url: "https://raw.githubusercontent.com/amwebexpert/chrome-extensions-collection/master/packages/coding-guide-helper/public/markdowns/common-naming-patterns.md",
-    enabled: true,
-  },
-];
 
 interface PerformSearchArgs {
   query: string;
@@ -80,12 +58,7 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
 
   // Embeddings
   embeddingsEngine: null,
-  embeddingsProgress: {
-    isCompleted: false,
-    total: 0,
-    completed: 0,
-    currentRule: "",
-  },
+  embeddingsProgress: INITIAL_EMBEDDINGS_PROGRESS,
   isInitialized: false,
   isLoadingModel: false,
   modelLoadProgress: "",
@@ -104,27 +77,17 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
       state.isSearching = isSearching;
     }),
   performSearch: async ({ query, rootNode }) => {
-    if (isBlank(query) || isNullish(rootNode)) {
-      set((state) => {
-        state.searchResults = [];
-      });
-      return;
-    }
-
     set((state) => {
       state.isSearching = true;
     });
-
     try {
-      const exactMatches = filterGuidelines({ search: query, rootNode });
-      const engine = get().embeddingsEngine;
-      const semanticMatches =
-        engine?.isReadyForSemanticSearch === true
-          ? await engine.findRelevantDocuments({ queryText: query, maxResults: 10 })
-          : [];
-      const combinedResults = combineSearchResults({ exactMatches, semanticMatches });
+      const results = await runSearch({
+        query,
+        rootNode,
+        embeddingsEngine: get().embeddingsEngine,
+      });
       set((state) => {
-        state.searchResults = combinedResults;
+        state.searchResults = results;
       });
     } catch (error) {
       console.error("[coding-standards.store] Search error:", error);
@@ -170,24 +133,14 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
         state.modelLoadProgress = "";
       });
 
-      const computeProgressively = async () => {
-        while (engine.nextRuleToCompute) {
-          await engine.computeNextRuleEmbedding();
-          const stats = engine.computedEmbeddingsStats;
-          set((state) => {
-            state.embeddingsProgress = {
-              isCompleted: stats.isCompleted,
-              total: stats.total,
-              completed: stats.completed,
-              currentRule: stats.nextRuleTitle,
-            };
-          });
-        }
+      await runProgressiveEmbeddingComputation(engine, (progress) =>
         set((state) => {
-          state.isInitialized = true;
-        });
-      };
-      computeProgressively();
+          state.embeddingsProgress = progress;
+        })
+      );
+      set((state) => {
+        state.isInitialized = true;
+      });
     } catch (error) {
       console.error("[coding-standards.store] Failed to initialize embeddings engine:", error);
       set((state) => {
@@ -201,12 +154,7 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
     set((state) => {
       state.embeddingsEngine = null;
       state.isInitialized = false;
-      state.embeddingsProgress = {
-        isCompleted: false,
-        total: 0,
-        completed: 0,
-        currentRule: "",
-      };
+      state.embeddingsProgress = INITIAL_EMBEDDINGS_PROGRESS;
       state.modelLoadProgress = "";
     }),
 }));
