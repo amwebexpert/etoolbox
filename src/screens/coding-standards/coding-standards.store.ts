@@ -2,8 +2,8 @@ import { isNullish } from "@lichens-innovation/ts-common";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+import { DEFAULT_GUIDELINE_SOURCES } from "./coding-standards.constants";
 import {
-  DEFAULT_GUIDELINE_SOURCES,
   INITIAL_EMBEDDINGS_PROGRESS,
   runProgressiveEmbeddingComputation,
   runSearch,
@@ -68,18 +68,22 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
     set((state) => {
       state.searchQuery = query;
     }),
+
   setSearchResults: (results) =>
     set((state) => {
       state.searchResults = results;
     }),
+
   setIsSearching: (isSearching) =>
     set((state) => {
       state.isSearching = isSearching;
     }),
+
   performSearch: async ({ query, rootNode }) => {
     set((state) => {
       state.isSearching = true;
     });
+
     try {
       const results = await runSearch({
         query,
@@ -100,10 +104,12 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
       });
     }
   },
+
   setEmbeddingsProgress: (progress) =>
     set((state) => {
       state.embeddingsProgress = progress;
     }),
+
   initializeEmbeddings: async ({ rootNode, baseUrl }) => {
     if (isNullish(rootNode) || !rootNode.children?.length) return;
     if (!isNullish(get().embeddingsEngine)) return;
@@ -117,7 +123,7 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
       const engine = new EmbeddingsEngine();
 
       set((state) => {
-        state.modelLoadProgress = "Downloading AI model (Xenova/all-MiniLM-L6-v2)...";
+        state.modelLoadProgress = "Downloading AI model...";
       });
       await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -138,6 +144,7 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
           state.embeddingsProgress = progress;
         })
       );
+
       set((state) => {
         state.isInitialized = true;
       });
