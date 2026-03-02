@@ -38,10 +38,6 @@ export const CodingStandards = () => {
   }, [disposeEmbeddings]);
 
   useEffect(() => {
-    search(searchQuery);
-  }, [searchQuery, search]);
-
-  useEffect(() => {
     if (isBlank(debouncedSearchQuery) || isNullish(rootNode)) {
       return;
     }
