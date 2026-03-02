@@ -2,6 +2,7 @@ import {
   BgColorsOutlined,
   CalendarOutlined,
   CodeOutlined,
+  FileSearchOutlined,
   FileTextOutlined,
   GithubOutlined,
   HomeOutlined,
@@ -102,6 +103,11 @@ const menuItems: MenuItem[] = [
     key: "/vr-3d-viewer",
     icon: <ThunderboltOutlined />,
     label: <Link to="/vr-3d-viewer">3D Viewer</Link>,
+  },
+  {
+    key: "/coding-standards",
+    icon: <FileSearchOutlined />,
+    label: <Link to="/coding-standards">Coding Rules</Link>,
   },
 ];
 
