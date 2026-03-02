@@ -8,9 +8,10 @@ import { ResultCardTitle } from "./result-card-title";
 interface ResultsListProps {
   results: Rule[];
   isLoading: boolean;
+  isAutoOpenTopResult?: boolean;
 }
 
-export const ResultsList: FunctionComponent<ResultsListProps> = ({ results, isLoading }) => {
+export const ResultsList: FunctionComponent<ResultsListProps> = ({ results, isLoading, isAutoOpenTopResult }) => {
   const { styles } = useStyles();
 
   if (isLoading) {
@@ -29,12 +30,14 @@ export const ResultsList: FunctionComponent<ResultsListProps> = ({ results, isLo
     );
   }
 
+  const defaultActiveKey = isAutoOpenTopResult ? [results[0].href] : [];
+
   return (
     <div className={styles.container}>
       <Collapse
         className={styles.collapse}
         accordion={false}
-        defaultActiveKey={results.length > 0 ? [results[0].href] : []}
+        defaultActiveKey={defaultActiveKey}
         size="small"
         items={results.map((rule) => ({
           key: rule.href,
