@@ -33,7 +33,7 @@ export const HtmlEntitiesTable = ({ filteredEntities }: HtmlEntitiesTableProps) 
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) =>
           isMobile ? `${range[0]}-${range[1]} / ${total}` : `${range[0]}-${range[1]} of ${total} entities`,
-        size: isMobile ? "small" : "default",
+        size: isMobile ? "small" : undefined,
         onChange: handlePageChange,
       }}
       size="small"

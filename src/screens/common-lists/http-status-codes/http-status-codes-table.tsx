@@ -31,7 +31,7 @@ export const HttpStatusCodesTable = ({ filteredStatusCodes }: HttpStatusCodesTab
         showSizeChanger: true,
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} status codes`,
-        size: isMobile ? "small" : "default",
+        size: isMobile ? "small" : undefined,
         onChange: handlePageChange,
       }}
       size="small"

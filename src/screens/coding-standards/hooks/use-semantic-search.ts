@@ -1,20 +1,27 @@
 import { useCallback, useEffect } from "react";
-import { useCodingStandardsStore, useIsEngineAvailable, useIsReadyForSemanticSearch } from "../coding-standards.store";
+import {
+  useCodingStandardsStore,
+  useEnabledGuidelineSourceBaseUrl,
+  useIsEngineAvailable,
+  useIsReadyForSemanticSearch,
+} from "../coding-standards.store";
+import { useModelLoadStore } from "../model-load.store";
 import type { GuidelineNode } from "../coding-standards.types";
 
-interface UseSemanticSearchArgs {
-  rootNode: GuidelineNode | null;
-  baseUrl: string;
-}
-
-export const useSemanticSearch = ({ rootNode, baseUrl }: UseSemanticSearchArgs) => {
+export const useSemanticSearch = (rootNode: GuidelineNode | null) => {
+  const baseUrl = useEnabledGuidelineSourceBaseUrl();
   const { embeddingsProgress, performSearch, initializeEmbeddings } = useCodingStandardsStore();
+  const ingestHubEvent = useModelLoadStore((s) => s.ingestHubEvent);
   const isEngineAvailable = useIsEngineAvailable();
   const isReadyForSemanticSearch = useIsReadyForSemanticSearch();
 
   useEffect(() => {
-    initializeEmbeddings({ rootNode: rootNode!, baseUrl });
-  }, [rootNode, baseUrl, initializeEmbeddings, isEngineAvailable]);
+    initializeEmbeddings({
+      rootNode: rootNode!,
+      baseUrl,
+      onModelLoadProgress: ingestHubEvent,
+    });
+  }, [rootNode, baseUrl, initializeEmbeddings, isEngineAvailable, ingestHubEvent]);
 
   const search = useCallback(
     (query: string) => {

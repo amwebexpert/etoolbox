@@ -17,7 +17,7 @@ export const useNamedColorsColumns = (): ColumnsType<ColorInfo> => {
 
   return [
     {
-      title: "Name2",
+      title: "Name",
       dataIndex: "htmlName",
       key: "htmlName",
       width: isMobile ? 120 : 200,

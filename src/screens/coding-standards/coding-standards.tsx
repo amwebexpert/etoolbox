@@ -1,20 +1,18 @@
 import { FileSearchOutlined } from "@ant-design/icons";
-import { isNullish } from "@lichens-innovation/ts-common";
-import { Flex } from "antd";
-import { createStyles } from "antd-style";
+import { Alert, Flex, Spin } from "antd";
 import { useEffect } from "react";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { SearchInput } from "~/components/ui/search-input";
-import { useCodingStandardsStore, useDisposeEmbeddings } from "./coding-standards.store";
+import { useCodingStandardsStore } from "./coding-standards.store";
+import { CodingStandardsAdvancedOptions } from "./components/coding-standards-advanced-options";
 import { EmbeddingsProgress } from "./components/embeddings-progress";
-import { ModelLoadingProgress } from "./components/model-loading-progress";
+import { ModelLoadingProgress } from "./components/model-loading/model-loading-progress";
 import { ResultsList } from "./components/results-list";
 import { useMarkdownLoader } from "./hooks/use-markdown-loader";
 import { useSemanticSearch } from "./hooks/use-semantic-search";
 
 export const CodingStandards = () => {
-  const { styles } = useStyles();
   const {
     searchQuery,
     setSearchQuery,
@@ -23,81 +21,56 @@ export const CodingStandards = () => {
     guidelineSources,
     embeddingsProgress,
     isLoadingModel,
-    modelLoadProgress,
+    disposeEmbeddings,
   } = useCodingStandardsStore();
 
-  const disposeEmbeddings = useDisposeEmbeddings();
   const { rootNode, isLoadingGuidelines, guidelinesError } = useMarkdownLoader(guidelineSources);
-  const baseUrl = guidelineSources.find((s) => s.enabled)?.url ?? "";
-  const { search, isReadyForSemanticSearch } = useSemanticSearch({ rootNode, baseUrl });
+  const { search, isReadyForSemanticSearch } = useSemanticSearch(rootNode);
 
   useEffect(() => {
     return disposeEmbeddings; // Dispose embeddings engine when leaving the screen to free memory
   }, [disposeEmbeddings]);
 
   useEffect(() => {
+    if (!isReadyForSemanticSearch) return;
     search(searchQuery);
-  }, [searchQuery, rootNode, search]);
+  }, [searchQuery, rootNode, search, isReadyForSemanticSearch]);
 
   const shouldShowEmbeddingsProgress = !isReadyForSemanticSearch && !isLoadingModel;
 
-  if (guidelinesError) {
-    return (
-      <ScreenContainer>
-        <ScreenHeader
-          icon={<FileSearchOutlined />}
-          title="Coding Standards Finder"
-          description="Semantic search for React and TypeScript coding standards"
-        />
-        <div className={styles.error}>Error loading guidelines: {guidelinesError.message}</div>
-      </ScreenContainer>
-    );
-  }
-
   return (
     <ScreenContainer>
-      <Flex vertical gap="middle" className={styles.fullWidth}>
+      <Flex vertical gap="middle" style={{ width: "100%" }}>
         <ScreenHeader
           icon={<FileSearchOutlined />}
           title="Coding Standards Finder"
           description="Semantic search for React and TypeScript coding standards and best practices"
         />
 
-        {isLoadingGuidelines && <div className={styles.loading}>Loading guidelines from sources...</div>}
+        <CodingStandardsAdvancedOptions rootNode={rootNode} />
 
-        {!isLoadingGuidelines && !isNullish(rootNode) && (
-          <>
-            <ModelLoadingProgress isLoading={isLoadingModel} progress={modelLoadProgress} />
-
-            <SearchInput
-              value={searchQuery}
-              loading={isSearching || isLoadingModel}
-              onChange={setSearchQuery}
-              onSearch={() => search(searchQuery)}
-              placeholder="Chercher une règle de coding standards..."
-            />
-
-            {shouldShowEmbeddingsProgress && <EmbeddingsProgress progress={embeddingsProgress} />}
-
-            <ResultsList results={searchResults} isLoading={isSearching} />
-          </>
+        {guidelinesError && (
+          <Alert type="error" showIcon title={`Error loading guidelines: ${guidelinesError.message}`} />
         )}
+        {isLoadingGuidelines && (
+          <Flex justify="center" align="center" style={{ padding: 24 }}>
+            <Spin description="Loading guidelines from sources..." />
+          </Flex>
+        )}
+
+        <SearchInput
+          value={searchQuery}
+          loading={isSearching || !isReadyForSemanticSearch}
+          onChange={setSearchQuery}
+          onSearch={() => search(searchQuery)}
+          placeholder="Search for coding standards and best practices..."
+        />
+
+        {isReadyForSemanticSearch && <ResultsList results={searchResults} isLoading={isSearching} />}
+
+        <ModelLoadingProgress isLoading={isLoadingModel} />
+        {shouldShowEmbeddingsProgress && <EmbeddingsProgress progress={embeddingsProgress} />}
       </Flex>
     </ScreenContainer>
   );
 };
-
-const useStyles = createStyles(() => ({
-  fullWidth: {
-    width: "100%",
-  },
-  loading: {
-    padding: 24,
-    textAlign: "center",
-  },
-  error: {
-    padding: 24,
-    textAlign: "center",
-    color: "#ff4d4f",
-  },
-}));

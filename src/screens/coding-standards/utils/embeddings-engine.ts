@@ -1,6 +1,7 @@
 import { env, pipeline, type FeatureExtractionPipeline, type Tensor } from "@xenova/transformers";
 import { isNullish } from "@lichens-innovation/ts-common";
 import type { EmbeddingVector, GuidelineNode, Rule } from "../coding-standards.types";
+import type { ModelLoadHubProgressEvent } from "../model-load.store.type";
 import { cosineSimilarity } from "./cosine-similarity";
 import { loadEmbedding, saveEmbedding } from "./storage.utils";
 import { loadAllRulesWithCategory } from "./markdown-parser";
@@ -73,7 +74,7 @@ export class EmbeddingsEngine {
   }
 
   async computeRuleEmbedding(rule: Rule): Promise<void> {
-    console.info(`[EmbeddingsEngine] Computing rule embeddings: ${rule.title}`);
+    // console.info(`[EmbeddingsEngine] Computing rule embeddings: ${rule.title}`);
 
     if (isNullish(this.featureExtractionEmbeddings)) return;
     const createEmbedding = this.featureExtractionEmbeddings;
@@ -96,7 +97,11 @@ export class EmbeddingsEngine {
     console.info("[EmbeddingsEngine] Computed embeddings for all rules. END.");
   }
 
-  async init(rootNode: GuidelineNode | null, baseUrl: string): Promise<void> {
+  async init(
+    rootNode: GuidelineNode | null,
+    baseUrl: string,
+    onModelLoadProgress: (event: ModelLoadHubProgressEvent) => void
+  ): Promise<void> {
     if (isNullish(rootNode) || !rootNode.children?.length) throw Error("Guidelines should be loaded first");
 
     this.rules = loadAllRulesWithCategory(rootNode, baseUrl).map((rule) => ({
@@ -106,7 +111,9 @@ export class EmbeddingsEngine {
     }));
 
     console.info(`[EmbeddingsEngine] Initializing with ${this.rules.length} rules`);
-    this.featureExtractionEmbeddings = await pipeline("feature-extraction", LlmModel.all_minilm_l6_v2);
+    this.featureExtractionEmbeddings = await pipeline("feature-extraction", LlmModel.all_minilm_l6_v2, {
+      progress_callback: (data: unknown) => onModelLoadProgress(data as ModelLoadHubProgressEvent),
+    });
     // TODO Ticket-001: await this.computeEmbeddings()
   }
 

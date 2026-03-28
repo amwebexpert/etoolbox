@@ -17,7 +17,7 @@ export const ResultsList: FunctionComponent<ResultsListProps> = ({ results, isLo
   if (isLoading) {
     return (
       <div className={styles.container}>
-        <Spin size="large" />
+        <Spin />
       </div>
     );
   }

@@ -1,9 +1,9 @@
-import { Progress, Typography } from "antd";
+import { Flex, Progress } from "antd";
 import { createStyles } from "antd-style";
 import type { FunctionComponent } from "react";
-import type { EmbeddingsProgress as EmbeddingsProgressType } from "../coding-standards.types";
 
-const { Text } = Typography;
+import { MarkdownContent } from "~/components/ui/markdown-content";
+import type { EmbeddingsProgress as EmbeddingsProgressType } from "../coding-standards.types";
 
 interface EmbeddingsProgressProps {
   progress: EmbeddingsProgressType;
@@ -16,27 +16,51 @@ export const EmbeddingsProgress: FunctionComponent<EmbeddingsProgressProps> = ({
     return null;
   }
 
-  const percent = progress.total > 0 ? Math.round((progress.completed / progress.total) * 100) : 0;
+  const hasTotal = progress.total > 0;
+  const percent = hasTotal ? Math.ceil((progress.completed / progress.total) * 100) : 0;
 
   return (
-    <div className={styles.container}>
-      <Progress percent={percent} status="active" format={() => `${progress.completed}/${progress.total} rules`} />
-      {progress.currentRule && (
-        <Text type="secondary" className={styles.currentRule}>
-          Computing: {progress.currentRule}
-        </Text>
-      )}
-    </div>
+    <Flex gap="middle" vertical align="center" className={styles.wrapper}>
+      <p className={styles.intro}>Computing semantic index for guidelines for the very first time...</p>
+      <Progress type="circle" size={80} percent={percent} />
+      {progress.currentRule ? (
+        <div className={styles.ruleMarkdown}>
+          <MarkdownContent content={progress.currentRule} />
+        </div>
+      ) : null}
+      <p className={styles.fraction}>
+        {progress.completed} / {progress.total}
+      </p>
+    </Flex>
   );
 };
 
-const useStyles = createStyles(() => ({
-  container: {
+const useStyles = createStyles(({ token }) => ({
+  wrapper: {
     width: "100%",
+    padding: token.paddingLG,
+    backgroundColor: token.colorFillAlter,
+    border: `1px solid ${token.colorBorderSecondary}`,
+    borderRadius: token.borderRadiusLG,
   },
-  currentRule: {
-    display: "block",
-    marginTop: 8,
-    fontSize: 12,
+  intro: {
+    margin: 0,
+    textAlign: "center",
+  },
+  fraction: {
+    margin: 0,
+    textAlign: "center",
+  },
+  ruleMarkdown: {
+    textAlign: "center",
+    maxWidth: "100%",
+    "& p": {
+      margin: 0,
+    },
+    "& h1, & h2, & h3, & h4, & h5, & h6": {
+      margin: 0,
+      fontSize: token.fontSizeLG,
+      fontWeight: token.fontWeightStrong,
+    },
   },
 }));

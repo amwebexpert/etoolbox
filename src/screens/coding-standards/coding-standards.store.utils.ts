@@ -1,4 +1,4 @@
-import { isBlank, isNullish } from "@lichens-innovation/ts-common";
+import { isBlank, isNullish, yieldToMainThread } from "@lichens-innovation/ts-common";
 import type { EmbeddingsProgress, GuidelineNode, Rule } from "./coding-standards.types";
 import type { EmbeddingsEngine } from "./utils/embeddings-engine";
 import { combineSearchResults, filterGuidelines } from "./utils/search.utils";
@@ -11,6 +11,9 @@ export const INITIAL_EMBEDDINGS_PROGRESS: EmbeddingsProgress = {
   completed: 0,
   currentRule: "",
 };
+
+export const isValidRootNode = (rootNode?: GuidelineNode | null): rootNode is GuidelineNode =>
+  !isNullish(rootNode) && (rootNode.children?.length ?? 0) > 0;
 
 interface RunSearchArgs {
   query: string;
@@ -47,7 +50,10 @@ export const runProgressiveEmbeddingComputation = async (
   engine: EmbeddingsEngine,
   onProgress: (progress: EmbeddingsProgress) => void
 ): Promise<void> => {
+  onProgress(toEmbeddingsProgress(engine.computedEmbeddingsStats));
+
   while (engine.nextRuleToCompute) {
+    await yieldToMainThread();
     await engine.computeNextRuleEmbedding();
     onProgress(toEmbeddingsProgress(engine.computedEmbeddingsStats));
   }
