@@ -3,6 +3,7 @@ import { Card, Input, Tabs, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { generateImgTag } from "./qrcode-generator.utils";
 
@@ -88,7 +89,7 @@ export const QRCodeGeneratorResult = ({ dataUrl }: QRCodeGeneratorResultProps) =
 
   return (
     <Card className={styles.resultCard}>
-      <Tabs items={tabItems} defaultActiveKey="preview" size={isMobile ? "small" : "middle"} />
+      <Tabs items={tabItems} defaultActiveKey="preview" size={smallSizeOnMobile(isMobile)} />
     </Card>
   );
 };

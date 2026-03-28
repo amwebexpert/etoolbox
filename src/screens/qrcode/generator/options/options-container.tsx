@@ -2,6 +2,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import { Collapse, Form, Row } from "antd";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import type { QRCodeOptions } from "../qrcode-generator.types";
 
@@ -86,7 +87,7 @@ export const OptionsContainer = ({
       items={collapseItems}
       activeKey={showAdvanced ? ["advanced"] : []}
       onChange={(keys) => onShowAdvancedChange(keys.includes("advanced"))}
-      size={isMobile ? "small" : "middle"}
+      size={smallSizeOnMobile(isMobile)}
       className={styles.collapse}
     />
   );

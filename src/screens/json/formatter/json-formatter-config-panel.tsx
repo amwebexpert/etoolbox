@@ -3,6 +3,7 @@ import { Button, Collapse, Form, InputNumber, Select, Space } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { JsonFormatterConfigOption } from "./json-formatter-config-option";
 import { useJsonFormatterStore } from "./json-formatter.store";
@@ -33,7 +34,7 @@ export const JsonFormatterConfigPanel = () => {
           ),
           children: (
             <div className={styles.configPanel}>
-              <Form layout="vertical" size={isMobile ? "small" : "middle"}>
+              <Form layout="vertical" size={smallSizeOnMobile(isMobile)}>
                 {/* Preset Selection */}
                 <Form.Item label="Configuration Presets" tooltip="Load predefined configuration presets">
                   <Space orientation="vertical" className={styles.fullWidth}>

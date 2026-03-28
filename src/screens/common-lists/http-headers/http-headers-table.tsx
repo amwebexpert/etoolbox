@@ -2,6 +2,7 @@ import { Table } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { useHttpHeadersStore } from "./http-headers.store";
 import type { HttpHeaderEntry } from "./http-headers.types";
@@ -31,7 +32,7 @@ export const HttpHeadersTable = ({ filteredHeaders }: HttpHeadersTableProps) => 
         showSizeChanger: true,
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} headers`,
-        size: isMobile ? "small" : undefined,
+        size: smallSizeOnMobile(isMobile),
         onChange: handlePageChange,
       }}
       size="small"

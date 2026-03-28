@@ -2,6 +2,7 @@ import { Table } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { useNamedColorsStore } from "./named-colors.store";
 import type { ColorInfo } from "./named-colors.utils";
@@ -31,7 +32,7 @@ export const NamedColorsTable = ({ filteredColors }: NamedColorsTableProps) => {
         showSizeChanger: true,
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} colors`,
-        size: isMobile ? "small" : undefined,
+        size: smallSizeOnMobile(isMobile),
         onChange: handlePageChange,
       }}
       size="small"

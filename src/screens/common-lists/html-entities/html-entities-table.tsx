@@ -2,6 +2,7 @@ import { Table } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { PAGE_SIZE_OPTIONS } from "./html-entities.constants";
 import { useHtmlEntitiesStore } from "./html-entities.store";
@@ -33,7 +34,7 @@ export const HtmlEntitiesTable = ({ filteredEntities }: HtmlEntitiesTableProps) 
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) =>
           isMobile ? `${range[0]}-${range[1]} / ${total}` : `${range[0]}-${range[1]} of ${total} entities`,
-        size: isMobile ? "small" : undefined,
+        size: smallSizeOnMobile(isMobile),
         onChange: handlePageChange,
       }}
       size="small"

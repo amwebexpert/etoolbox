@@ -2,6 +2,7 @@ import { Table } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { useHttpStatusCodesStore } from "./http-status-codes.store";
 import type { HttpStatusCodeEntry } from "./http-status-codes.types";
@@ -31,7 +32,7 @@ export const HttpStatusCodesTable = ({ filteredStatusCodes }: HttpStatusCodesTab
         showSizeChanger: true,
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} status codes`,
-        size: isMobile ? "small" : undefined,
+        size: smallSizeOnMobile(isMobile),
         onChange: handlePageChange,
       }}
       size="small"

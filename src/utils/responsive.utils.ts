@@ -3,6 +3,9 @@ export interface ResponsiveContext {
   isTablet: boolean;
 }
 
+/** Ant Design `size`: `"small"` on mobile, `undefined` otherwise (default size, no forced `"middle"` / `"medium"`). */
+export const smallSizeOnMobile = (isMobile: boolean): "small" | undefined => (isMobile ? "small" : undefined);
+
 interface ResponsiveValue<T> {
   mobile: T;
   tablet: T;

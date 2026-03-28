@@ -2,6 +2,7 @@ import { Table } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { PAGE_SIZE_OPTIONS } from "./github-user-projects.constants";
 import { useGithubUserProjectsStore } from "./github-user-projects.store";
@@ -33,11 +34,11 @@ export const GithubUserProjectsTable = ({ projects, isLoading }: GithubUserProje
         showSizeChanger: true,
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} repositories`,
-        size: isMobile ? "small" : undefined,
+        size: smallSizeOnMobile(isMobile),
         onChange: handlePageChange,
         responsive: true,
       }}
-      size={isMobile ? "small" : "middle"}
+      size={smallSizeOnMobile(isMobile)}
       scroll={{ x: "max-content" }}
       className={styles.table}
     />

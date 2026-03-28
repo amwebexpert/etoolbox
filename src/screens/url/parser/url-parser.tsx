@@ -5,6 +5,7 @@ import { createStyles } from "antd-style";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
+import { smallSizeOnMobile } from "~/utils/responsive.utils";
 import { parseUrl, parseUrlParams } from "../url.utils";
 import { useUrlParserStore } from "./url-parser.store";
 import { FRAGMENT_COLUMNS, PARAM_COLUMNS } from "./url-parser.utils";
@@ -15,6 +16,7 @@ const { TextArea } = Input;
 export const UrlParser = () => {
   const { styles } = useStyles();
   const { isDesktop, isMobile } = useResponsive();
+  const compactSize = smallSizeOnMobile(isMobile);
 
   const { inputUrl, setInputUrl } = useUrlParserStore();
 
@@ -58,24 +60,24 @@ export const UrlParser = () => {
           </Link>
         )}
 
-        <Card title="URL Fragments" size={isMobile ? "small" : "medium"} className={styles.tableCard}>
+        <Card title="URL Fragments" size={compactSize} className={styles.tableCard}>
           <Table
             columns={FRAGMENT_COLUMNS}
             dataSource={fragmentsData}
             pagination={false}
-            size={isMobile ? "small" : "middle"}
+            size={compactSize}
             scroll={{ x: true }}
             locale={{ emptyText: "Enter a valid URL to see fragments" }}
           />
         </Card>
 
         {paramsData.length > 0 && (
-          <Card title="Query Parameters" size={isMobile ? "small" : "medium"} className={styles.tableCard}>
+          <Card title="Query Parameters" size={compactSize} className={styles.tableCard}>
             <Table
               columns={PARAM_COLUMNS}
               dataSource={paramsData}
               pagination={false}
-              size={isMobile ? "small" : "middle"}
+              size={compactSize}
               scroll={{ x: true }}
               locale={{ emptyText: "No query parameters found" }}
             />
