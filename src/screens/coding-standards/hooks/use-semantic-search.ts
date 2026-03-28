@@ -5,13 +5,13 @@ import {
   useIsEngineAvailable,
   useIsReadyForSemanticSearch,
 } from "../coding-standards.store";
-import { useModelLoadStore } from "../model-load.store";
+import { useIngestHubEvent } from "../model-load.store";
 import type { GuidelineNode } from "../coding-standards.types";
 
 export const useSemanticSearch = (rootNode: GuidelineNode | null) => {
   const baseUrl = useEnabledGuidelineSourceBaseUrl();
   const { embeddingsProgress, performSearch, initializeEmbeddings } = useCodingStandardsStore();
-  const ingestHubEvent = useModelLoadStore((s) => s.ingestHubEvent);
+  const ingestHubEvent = useIngestHubEvent();
   const isEngineAvailable = useIsEngineAvailable();
   const isReadyForSemanticSearch = useIsReadyForSemanticSearch();
 

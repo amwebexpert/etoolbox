@@ -66,3 +66,5 @@ export const useModelLoadStore = create<ModelLoadStore>()(
       }),
   }))
 );
+
+export const useIngestHubEvent = () => useModelLoadStore((state) => state.ingestHubEvent);
