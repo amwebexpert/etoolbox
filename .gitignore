@@ -36,3 +36,6 @@ cypress/videos
 .playwright-mcp
 
 .sandcastle-original
+
+# Since we use yarn, we don't need a package-lock.json
+package-lock.json
