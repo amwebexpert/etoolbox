@@ -32,6 +32,7 @@
     "test": "vitest",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
+    "sandcastle": "npx tsx .sandcastle/main.ts",
     "postinstall": "patch-package"
   },
   "dependencies": {
@@ -89,6 +90,11 @@
     "@ai-hero/sandcastle": "^0.5.8",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
+    "@effect/cluster": "^0.58.2",
+    "@effect/experimental": "^0.60.0",
+    "@effect/rpc": "^0.75.1",
+    "@effect/sql": "^0.51.1",
+    "@effect/typeclass": "^0.40.0",
     "@eslint/js": "^10.0.1",
     "@types/js-beautify": "^1.14.3",
     "@types/markdown-it": "^14.1.2",

@@ -583,6 +583,40 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@effect/cluster@npm:^0.58.2":
+  version: 0.58.2
+  resolution: "@effect/cluster@npm:0.58.2"
+  dependencies:
+    kubernetes-types: "npm:^1.30.0"
+  peerDependencies:
+    "@effect/platform": ^0.96.1
+    "@effect/rpc": ^0.75.1
+    "@effect/sql": ^0.51.1
+    "@effect/workflow": ^0.18.0
+    effect: ^3.21.2
+  checksum: 10c0/006a0e130b8f249cff8b07389ef614c77bb8fd2f7f5314804fad02d65d9d43af930046511d40f23cd445226b6e626a1d76aa5ba0e0429f14a1aa7c147c72ce7d
+  languageName: node
+  linkType: hard
+
+"@effect/experimental@npm:^0.60.0":
+  version: 0.60.0
+  resolution: "@effect/experimental@npm:0.60.0"
+  dependencies:
+    uuid: "npm:^11.0.3"
+  peerDependencies:
+    "@effect/platform": ^0.96.0
+    effect: ^3.21.0
+    ioredis: ^5
+    lmdb: ^3
+  peerDependenciesMeta:
+    ioredis:
+      optional: true
+    lmdb:
+      optional: true
+  checksum: 10c0/ff17417ae0f7f9fc70c5ffd63f89dd3529cc7ec926f9ff4800734478b04ba69633f61972f57bb78cc35f29ef7ac53c730ffb2759131b085710cc1ad8a3b64b5f
+  languageName: node
+  linkType: hard
+
 "@effect/platform-node-shared@npm:^0.58.0":
   version: 0.58.0
   resolution: "@effect/platform-node-shared@npm:0.58.0"
@@ -650,6 +684,40 @@ __metadata:
     "@effect/typeclass": ^0.39.0
     effect: ^3.20.0
   checksum: 10c0/78ff132c6632740b44d85a6944b674056184da076961d22fed670d016ab4912b31ae1261518790cc0811743307e195f3e0ba4ea5b98b29ce88c0a90533bbe569
+  languageName: node
+  linkType: hard
+
+"@effect/rpc@npm:^0.75.1":
+  version: 0.75.1
+  resolution: "@effect/rpc@npm:0.75.1"
+  dependencies:
+    msgpackr: "npm:^1.11.10"
+  peerDependencies:
+    "@effect/platform": ^0.96.1
+    effect: ^3.21.2
+  checksum: 10c0/d300116ccb0c0d5cfb465fa151a3074d68470631167a0956d9cd0f653e3a1884c25b1da97688a94200cc6220a9d7f94c7dd06e3828c4919a42a497f916cfea3a
+  languageName: node
+  linkType: hard
+
+"@effect/sql@npm:^0.51.1":
+  version: 0.51.1
+  resolution: "@effect/sql@npm:0.51.1"
+  dependencies:
+    uuid: "npm:^11.0.3"
+  peerDependencies:
+    "@effect/experimental": ^0.60.0
+    "@effect/platform": ^0.96.1
+    effect: ^3.21.2
+  checksum: 10c0/cec1e03126687607fa31ef8c7ebe0ff05e1ca97a65bfeea83e03c35fab7386f6ff1b11c7a02106ec2ceeb6e0b03c8177392f3e9d26bd21d55f97b5e88b68e791
+  languageName: node
+  linkType: hard
+
+"@effect/typeclass@npm:^0.40.0":
+  version: 0.40.0
+  resolution: "@effect/typeclass@npm:0.40.0"
+  peerDependencies:
+    effect: ^3.21.0
+  checksum: 10c0/7803fcdc69037cc49ba8fe848c4825881c3f2f528a0b32bb46eaf5e67a5dc97de3d73003be470f8c48f53583293f595186cddcc714e383d9e3b72591c53d1149
   languageName: node
   linkType: hard
 
@@ -6128,6 +6196,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"kubernetes-types@npm:^1.30.0":
+  version: 1.30.0
+  resolution: "kubernetes-types@npm:1.30.0"
+  checksum: 10c0/de3641e4f50cfc123c4102a73c12932e1db8e51783c7cae4ea8ad3561bd56fab0f1c2346801f84a4c36aae8cea0b25d21e9514cc0fcecd4d64b1314043263076
+  languageName: node
+  linkType: hard
+
 "levn@npm:^0.4.1":
   version: 0.4.1
   resolution: "levn@npm:0.4.1"
@@ -7281,7 +7356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msgpackr@npm:^1.11.4":
+"msgpackr@npm:^1.11.10, msgpackr@npm:^1.11.4":
   version: 1.11.12
   resolution: "msgpackr@npm:1.11.12"
   dependencies:
@@ -9905,6 +9980,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:^11.0.3":
+  version: 11.1.1
+  resolution: "uuid@npm:11.1.1"
+  bin:
+    uuid: dist/esm/bin/uuid
+  checksum: 10c0/9e3af58eba872ece5a5e76f4773a94fc78a0ef2c2444c38dbe6b42f41dadf76c01850fd783604f27986f6195e6286aef064d45987d401b2a33127b98ddf7c0c5
+  languageName: node
+  linkType: hard
+
 "validate.io-array@npm:^1.0.3, validate.io-array@npm:^1.0.5":
   version: 1.0.6
   resolution: "validate.io-array@npm:1.0.6"
@@ -10147,6 +10231,11 @@ __metadata:
     "@ai-hero/sandcastle": "npm:^0.5.8"
     "@commitlint/cli": "npm:^20.5.0"
     "@commitlint/config-conventional": "npm:^20.5.0"
+    "@effect/cluster": "npm:^0.58.2"
+    "@effect/experimental": "npm:^0.60.0"
+    "@effect/rpc": "npm:^0.75.1"
+    "@effect/sql": "npm:^0.51.1"
+    "@effect/typeclass": "npm:^0.40.0"
     "@eslint/js": "npm:^10.0.1"
     "@lichens-innovation/ts-common": "npm:^1.15.4"
     "@react-three/drei": "npm:^10.7.7"
