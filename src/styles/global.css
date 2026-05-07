@@ -41,7 +41,7 @@ html {
 
 /* Focus styles for accessibility */
 :focus-visible {
-  outline: 2px solid #bf3a2b;
+  outline: 2px solid var(--primary-color, #bf3a2b);
   outline-offset: 2px;
 }
 
@@ -133,5 +133,5 @@ code {
 
 /* Selection styling */
 ::selection {
-  background-color: rgba(191, 58, 43, 0.3);
+  background-color: color-mix(in srgb, var(--primary-color, #bf3a2b) 30%, transparent);
 }
