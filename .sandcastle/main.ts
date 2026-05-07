@@ -18,6 +18,7 @@
 
 import * as sandcastle from "@ai-hero/sandcastle";
 import { noSandbox } from "@ai-hero/sandcastle/sandboxes/no-sandbox";
+import { execFileSync } from "node:child_process";
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -38,12 +39,17 @@ const hooks = {
 // platform-specific binaries and any packages added since the last copy.
 const copyToWorktree = ["node_modules"];
 
+const runGit = (args: string[]): string => execFileSync("git", args, { encoding: "utf8" }).trim();
+
 // ---------------------------------------------------------------------------
 // Main loop
 // ---------------------------------------------------------------------------
 
 for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
   console.log(`\n=== Iteration ${iteration}/${MAX_ITERATIONS} ===\n`);
+
+  const sourceBranch = runGit(["rev-parse", "HEAD"]);
+  const targetBranch = runGit(["branch", "--show-current"]);
 
   // -------------------------------------------------------------------------
   // Phase 1: Implement
@@ -83,7 +89,7 @@ for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
   // It uses the {{BRANCH}} prompt argument to inspect the right branch, and
   // either approves or makes corrections directly on the branch.
   // -------------------------------------------------------------------------
-  await sandcastle.interactive({
+  const review = await sandcastle.interactive({
     hooks,
     copyToWorktree,
     sandbox: noSandbox(),
@@ -94,11 +100,19 @@ for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
     // Prompt arguments substitute {{BRANCH}} in review-prompt.md before the
     // agent sees the prompt.
     promptArgs: {
+      SOURCE_BRANCH: sourceBranch,
       BRANCH: branch,
     },
   });
 
   console.log("\nReview complete.");
+  console.log(`Review commits: ${review.commits.length}`);
+
+  if (review.commits.length > 0) {
+    runGit(["checkout", targetBranch]);
+    runGit(["merge", "--no-edit", branch]);
+    console.log(`Merged review branch ${branch} into ${targetBranch}.`);
+  }
 }
 
 console.log("\nAll done.");

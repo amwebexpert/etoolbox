@@ -34,3 +34,5 @@ cypress/videos
 /coverage-all
 /.yarn
 .playwright-mcp
+
+.sandcastle-original
