@@ -68,3 +68,6 @@ export const useModelLoadStore = create<ModelLoadStore>()(
 );
 
 export const useIngestHubEvent = () => useModelLoadStore((state) => state.ingestHubEvent);
+export const useModelLoadFileLoads = () => useModelLoadStore((state) => state.fileLoads);
+export const useModelLoadGlobalStatus = () => useModelLoadStore((state) => state.globalStatus);
+export const useModelLoadGlobalErrorMessage = () => useModelLoadStore((state) => state.globalErrorMessage);

@@ -5,7 +5,7 @@ import { createStyles } from "antd-style";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
 
-import { useUuidGeneratorStore } from "./uuid-generator.store";
+import { useGeneratedUuids } from "./uuid-generator.store";
 
 interface UuidGeneratorToolbarProps {
   hasResult: boolean;
@@ -17,7 +17,7 @@ export const UuidGeneratorToolbar = ({ hasResult, onGenerate, onClear }: UuidGen
   const { isMobile } = useResponsive();
   const { styles } = useStyles();
   const { copyTextToClipboard } = useClipboardCopy();
-  const generated = useUuidGeneratorStore((state) => state.generated);
+  const generated = useGeneratedUuids();
 
   const handleCopy = () => {
     copyTextToClipboard({ text: generated, successMessage: "UUIDs copied to clipboard!" });

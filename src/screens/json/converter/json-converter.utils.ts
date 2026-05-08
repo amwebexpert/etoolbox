@@ -91,7 +91,7 @@ const transformJSON = async (data: ConversionContext): Promise<string> => {
 
     return lines.join("\n");
   } catch (e: unknown) {
-    throw new Error(`Conversion failed: ${getErrorMessage(e)}`);
+    throw new Error(`Conversion failed: ${getErrorMessage(e)}`, { cause: e });
   }
 };
 
@@ -104,7 +104,7 @@ const transformJsObject = async (data: ConversionContext): Promise<string> => {
 
     return transform(newData);
   } catch (e: unknown) {
-    throw new Error(`JavaScript parsing failed: ${getErrorMessage(e)}`);
+    throw new Error(`JavaScript parsing failed: ${getErrorMessage(e)}`, { cause: e });
   }
 };
 

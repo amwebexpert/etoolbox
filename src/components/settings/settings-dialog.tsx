@@ -1,9 +1,10 @@
-import { MoonOutlined, SunOutlined } from "@ant-design/icons";
-import { Divider, Modal, Space, Switch, Typography } from "antd";
+import { Divider, Modal, Typography } from "antd";
 import { createStyles } from "antd-style";
-import { useIsDarkMode, useThemeToggler } from "~/stores/settings.store";
 
-const { Text, Title } = Typography;
+import { SettingsColorTheme } from "./settings-color-theme";
+import { SettingsDarkLight } from "./settings-dark-light";
+
+const { Title } = Typography;
 
 interface SettingsDialogProps {
   open: boolean;
@@ -12,8 +13,6 @@ interface SettingsDialogProps {
 
 export const SettingsDialog = ({ open, onClose }: SettingsDialogProps) => {
   const { styles } = useStyles();
-  const isDarkMode = useIsDarkMode();
-  const toggleThemeMode = useThemeToggler();
 
   return (
     <Modal
@@ -28,24 +27,10 @@ export const SettingsDialog = ({ open, onClose }: SettingsDialogProps) => {
       width={400}
     >
       <Divider className={styles.divider} />
+      <SettingsDarkLight />
 
-      <Space orientation="horizontal" className={styles.row}>
-        <Space orientation="horizontal" align="center">
-          {isDarkMode ? <MoonOutlined className={styles.icon} /> : <SunOutlined className={styles.icon} />}
-          <Text strong>Dark Mode</Text>
-        </Space>
-
-        <Switch
-          checked={isDarkMode}
-          onChange={toggleThemeMode}
-          checkedChildren={<MoonOutlined />}
-          unCheckedChildren={<SunOutlined />}
-        />
-      </Space>
-
-      <Text type="secondary" className={styles.hint}>
-        Toggle between light and dark theme
-      </Text>
+      <Divider className={styles.divider} />
+      <SettingsColorTheme />
     </Modal>
   );
 };
@@ -56,18 +41,5 @@ const useStyles = createStyles(() => ({
   },
   divider: {
     margin: "12px 0 24px",
-  },
-  row: {
-    width: "100%",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  icon: {
-    fontSize: 20,
-  },
-  hint: {
-    display: "block",
-    marginTop: 8,
-    fontSize: 12,
   },
 }));

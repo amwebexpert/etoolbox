@@ -1,9 +1,9 @@
 import { dark, docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
-import { useSettingsStore } from "~/stores/settings.store";
+import { useThemeMode } from "~/stores/settings.store";
 
 export const useSyntaxHighlightTheme = () => {
-  const themeMode = useSettingsStore((state) => state.themeMode);
+  const themeMode = useThemeMode();
 
   return themeMode === "dark" ? dark : docco;
 };

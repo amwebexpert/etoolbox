@@ -68,3 +68,5 @@ const persistedStateCreator = persist<ImageOcrState>(stateCreator, {
 export const useImageOcrStore = create<ImageOcrState>()(
   devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );
+
+export const useSetWorkerStatus = () => useImageOcrStore((state) => state.setWorkerStatus);

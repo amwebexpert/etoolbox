@@ -3,12 +3,12 @@ import { useEffect } from "react";
 
 import { useToastMessage } from "~/hooks/use-toast-message";
 
-import { useCsvParserStore } from "./csv-parser.store";
+import { useSetParseResult } from "./csv-parser.store";
 import { parseCsv } from "./csv-parser.utils";
 
 export const useCsvParse = () => {
   const messageApi = useToastMessage();
-  const setParseResult = useCsvParserStore((state) => state.setParseResult);
+  const setParseResult = useSetParseResult();
 
   const { data, mutate, isPending, isError, error, isSuccess, reset } = useMutation({
     mutationFn: parseCsv,

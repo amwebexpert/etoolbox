@@ -1,17 +1,22 @@
 import { theme } from "antd";
+import { useEffect } from "react";
 
-import { useIsDarkMode } from "~/stores/settings.store";
-
-const PRIMARY_COLOR = "#bf3a2b";
-const SECONDARY_COLOR = "#e84b3c";
+import { useColorTheme, useIsDarkMode } from "~/stores/settings.store";
+import { THEMES } from "~/themes";
 
 export const useAppTheme = () => {
   const isDarkMode = useIsDarkMode();
+  const colorTheme = useColorTheme();
+  const { primary, secondary } = THEMES[colorTheme];
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--primary-color", primary);
+  }, [primary]);
 
   const customTheme = {
     token: {
-      colorPrimary: PRIMARY_COLOR,
-      colorLink: SECONDARY_COLOR,
+      colorPrimary: primary,
+      colorLink: secondary,
       borderRadius: 8,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
     },

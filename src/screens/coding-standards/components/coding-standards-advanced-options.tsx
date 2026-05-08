@@ -4,10 +4,10 @@ import { Button, Collapse, Flex, Space } from "antd";
 import { createStyles } from "antd-style";
 import type { FunctionComponent } from "react";
 import {
-  useCodingStandardsStore,
   useEnabledGuidelineSourceBaseUrl,
   useGetEmbeddingsEngine,
   useIsClearingModelCache,
+  useIsLoadingModel,
   useRecomputeAllEmbeddings,
   useRedownloadModel,
 } from "../coding-standards.store";
@@ -24,7 +24,7 @@ export const CodingStandardsAdvancedOptions: FunctionComponent<CodingStandardsAd
   const { styles } = useStyles();
   const redownloadModel = useRedownloadModel();
   const recomputeAllEmbeddings = useRecomputeAllEmbeddings();
-  const isLoadingModel = useCodingStandardsStore((s) => s.isLoadingModel);
+  const isLoadingModel = useIsLoadingModel();
   const isClearingModelCache = useIsClearingModelCache();
   const embeddingsEngine = useGetEmbeddingsEngine();
 

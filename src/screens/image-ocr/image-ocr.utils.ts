@@ -55,7 +55,7 @@ export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promi
       processingTime: Math.round(endTime - startTime),
     };
   } catch (e: unknown) {
-    throw new Error(`OCR processing failed: ${getErrorMessage(e)}`);
+    throw new Error(`OCR processing failed: ${getErrorMessage(e)}`, { cause: e });
   }
 };
 

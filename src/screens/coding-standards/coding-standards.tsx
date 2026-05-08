@@ -3,7 +3,7 @@ import { Alert, Flex, Spin } from "antd";
 import { useEffect } from "react";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
-import { SearchInput } from "~/components/ui/search-input";
+import { SearchInput, useDebouncedSearchInput } from "~/components/ui/search-input";
 import { useCodingStandardsStore } from "./coding-standards.store";
 import { CodingStandardsAdvancedOptions } from "./components/coding-standards-advanced-options";
 import { EmbeddingsProgress } from "./components/embeddings-progress";
@@ -26,6 +26,11 @@ export const CodingStandards = () => {
 
   const { rootNode, isLoadingGuidelines, guidelinesError } = useMarkdownLoader(guidelineSources);
   const { search, isReadyForSemanticSearch } = useSemanticSearch(rootNode);
+  const { inputValue, setInputValue, handleSearch } = useDebouncedSearchInput({
+    initialValue: searchQuery,
+    onDebouncedChange: setSearchQuery,
+    onSearch: search,
+  });
 
   useEffect(() => {
     return disposeEmbeddings; // Dispose embeddings engine when leaving the screen to free memory
@@ -59,10 +64,10 @@ export const CodingStandards = () => {
         )}
 
         <SearchInput
-          value={searchQuery}
+          value={inputValue}
           loading={isSearching || !isReadyForSemanticSearch}
-          onChange={setSearchQuery}
-          onSearch={() => search(searchQuery)}
+          onChange={setInputValue}
+          onSearch={handleSearch}
           placeholder="Search for coding standards and best practices..."
         />
 

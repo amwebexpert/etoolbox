@@ -38,3 +38,5 @@ const persistedStateCreator = persist<UuidGeneratorState>(stateCreator, {
 export const useUuidGeneratorStore = create<UuidGeneratorState>()(
   devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );
+
+export const useGeneratedUuids = () => useUuidGeneratorStore((state) => state.generated);
