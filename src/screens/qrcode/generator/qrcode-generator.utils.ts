@@ -15,7 +15,7 @@ export const generateQRCode = async ({ text, options }: GenerateQRCodeContext): 
     const dataUrl = await QRCode.toDataURL(text, options);
     return dataUrl;
   } catch (e: unknown) {
-    throw new Error(`Failed to generate QR code: ${getErrorMessage(e)}`);
+    throw new Error(`Failed to generate QR code: ${getErrorMessage(e)}`, { cause: e });
   }
 };
 

@@ -25,7 +25,7 @@ export const decodeFromFile = async ({ file }: DecodeFromFileContext): Promise<Q
     const imageData = await fileToImageData(file);
     return decodeFromImageData(imageData);
   } catch (e: unknown) {
-    throw new Error(`Failed to decode QR code: ${getErrorMessage(e)}`);
+    throw new Error(`Failed to decode QR code: ${getErrorMessage(e)}`, { cause: e });
   }
 };
 

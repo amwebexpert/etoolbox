@@ -135,6 +135,10 @@
     "vite": "npm:rolldown-vite@7.3.1"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,css,json,md,html}": "node ./node_modules/prettier/bin/prettier.cjs --write"
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{css,json,md}": "prettier --write"
   }
 }
