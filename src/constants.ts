@@ -7,8 +7,8 @@ export const APP_VERSION_INFO = Object.freeze({
   REPOSITORY: "https://github.com/amwebexpert/etoolbox",
   AUTHOR: "amwebexpert@gmail.com",
   VERSION: "4.4.0",
-  VERSION_DATE: "2026-03-28",
-  VERSION_DATE_ISO: "2026-03-28T23:34:19.852Z",
+  VERSION_DATE: "2026-05-08",
+  VERSION_DATE_ISO: "2026-05-08T12:12:46.458Z",
 });
 
-export const LONG_VERSION_DATE = "4.4.0 (2026-03-28)";
+export const LONG_VERSION_DATE = "4.4.0 (2026-05-08)";
