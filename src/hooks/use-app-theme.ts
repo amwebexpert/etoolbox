@@ -1,13 +1,12 @@
 import { theme } from "antd";
 import { useEffect } from "react";
 
-import { useSettingsStore } from "~/stores/settings.store";
-import { useIsDarkMode } from "~/stores/settings.store";
+import { useColorTheme, useIsDarkMode } from "~/stores/settings.store";
 import { THEMES } from "~/themes";
 
 export const useAppTheme = () => {
   const isDarkMode = useIsDarkMode();
-  const colorTheme = useSettingsStore((state) => state.colorTheme);
+  const colorTheme = useColorTheme();
   const { primary, secondary } = THEMES[colorTheme];
 
   useEffect(() => {

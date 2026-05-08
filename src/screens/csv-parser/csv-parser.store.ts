@@ -89,3 +89,5 @@ const persistedStateCreator = persist<CsvParserState>(stateCreator, {
 export const useCsvParserStore = create<CsvParserState>()(
   devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );
+
+export const useSetParseResult = () => useCsvParserStore((state) => state.setParseResult);

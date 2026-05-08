@@ -37,11 +37,17 @@ export const useSettingsStore = create<SettingsState>()(
   devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );
 
+export const useThemeMode = () => useSettingsStore((state) => state.themeMode);
+export const useToggleThemeMode = () => useSettingsStore((state) => state.toggleThemeMode);
+
+export const useColorTheme = () => useSettingsStore((state) => state.colorTheme);
+export const useSetColorTheme = () => useSettingsStore((state) => state.setColorTheme);
+
 export const useIsDarkMode = (): boolean => {
-  const themeMode = useSettingsStore((state) => state.themeMode);
+  const themeMode = useThemeMode();
   return themeMode === "dark";
 };
 
 export const useThemeToggler = (): VoidFunction => {
-  return useSettingsStore((state) => state.toggleThemeMode);
+  return useToggleThemeMode();
 };

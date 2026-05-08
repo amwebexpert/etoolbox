@@ -30,6 +30,7 @@
     "generate:version": "node scripts/generate-version",
     "generate:api:client": "npx @hey-api/openapi-ts -i ./public/openapi/openapi.json -o ./src/api/generated --client @hey-api/client-axios",
     "test": "vitest",
+    "lint-staged": "lint-staged",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
     "sandcastle": "npx tsx .sandcastle/main.ts",
@@ -134,6 +135,6 @@
     "vite": "npm:rolldown-vite@7.3.1"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,css,json,md,html}": "prettier --write"
+    "*.{ts,tsx,js,jsx,css,json,md,html}": "node ./node_modules/prettier/bin/prettier.cjs --write"
   }
 }

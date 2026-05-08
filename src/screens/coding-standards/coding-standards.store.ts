@@ -240,3 +240,5 @@ export const useIsReadyForSemanticSearch = () =>
 
 export const useEnabledGuidelineSourceBaseUrl = () =>
   useCodingStandardsStore((state) => state.guidelineSources.find((s) => s.enabled)?.url ?? "");
+
+export const useIsLoadingModel = () => useCodingStandardsStore((state) => state.isLoadingModel);

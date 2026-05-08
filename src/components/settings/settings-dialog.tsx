@@ -2,7 +2,7 @@ import { BgColorsOutlined, CheckOutlined, MoonOutlined, SunOutlined } from "@ant
 import { Divider, Modal, Space, Switch, Typography } from "antd";
 import { createStyles } from "antd-style";
 
-import { useIsDarkMode, useSettingsStore, useThemeToggler } from "~/stores/settings.store";
+import { useColorTheme, useIsDarkMode, useSetColorTheme, useThemeToggler } from "~/stores/settings.store";
 import { THEMES } from "~/themes";
 import type { ColorTheme } from "~/themes";
 
@@ -19,8 +19,8 @@ export const SettingsDialog = ({ open, onClose }: SettingsDialogProps) => {
   const { styles } = useStyles();
   const isDarkMode = useIsDarkMode();
   const toggleThemeMode = useThemeToggler();
-  const colorTheme = useSettingsStore((s) => s.colorTheme);
-  const setColorTheme = useSettingsStore((s) => s.setColorTheme);
+  const colorTheme = useColorTheme();
+  const setColorTheme = useSetColorTheme();
 
   return (
     <Modal
