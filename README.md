@@ -87,6 +87,10 @@ Some screen captures of the implemented features...
 - Mardown viewer & utilities, like [table formatter](https://tabletomarkdown.com/format-markdown-table/)
 - Suggests something or add your pull request!
 
+## Technical Notes
+
+- [Technical notes](./TECH_NOTES.md)
+
 ## License
 
 This project is licensed under the MIT license. For more information see [`LICENSE`](./LICENSE) file.
