@@ -20,14 +20,17 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
 # --user 1000:1000 (Docker) map to the correct home directory owner.
 RUN usermod -d /home/agent -m -l agent node
 USER agent
+ENV HOME=/home/agent
+ENV ANTHROPIC_BASE_URL=http://host.docker.internal:1234
+ENV ANTHROPIC_AUTH_TOKEN=lmstudio
 
 # Install Claude Code CLI
 RUN curl -fsSL https://claude.ai/install.sh | bash
 
-# Add Claude to PATH
-ENV PATH="/home/agent/.local/bin:$PATH"
+# Add CLI tools to PATH
+ENV PATH="$HOME/.local/bin:$PATH"
 
-WORKDIR /home/agent
+WORKDIR $HOME
 
 # In worktree sandbox mode, Sandcastle bind-mounts the git worktree at /home/agent/workspace
 # and overrides the working directory to /home/agent/workspace at container start.
