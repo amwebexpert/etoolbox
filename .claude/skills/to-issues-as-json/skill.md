@@ -1,11 +1,16 @@
 ---
 name: to-issues-as-json
-description: Break a plan, spec, or PRD into independently-grabbable issues and serialize them to plans/prd.json using tracer-bullet vertical slices. Use when user wants to convert a plan into a JSON file, create a local prd.json, or break down work into JSON issues.
+version: 0.1.0
+description: >
+  This skill should be used when the user asks to "convert a plan to JSON",
+  "create a prd.json", "serialize issues to JSON", "break down work into JSON issues",
+  "write issues to ai-orchestrator/plan.json", or "break a plan into a JSON file".
+allowed-tools: Read, Write, WebFetch, AskUserQuestion, Agent
 ---
 
 # To Issues as JSON
 
-Break a plan into independently-grabbable issues using vertical slices (tracer bullets) and write them to `plans/prd.json`.
+Break a plan into independently-grabbable issues using vertical slices (tracer bullets) and write them to `ai-orchestrator/plan.json`.
 
 ## Process
 
@@ -15,7 +20,7 @@ Work from whatever is already in the conversation context. If the user passes an
 
 ### 2. Explore the codebase (optional)
 
-If you have not already explored the codebase, do so to understand the current state of the code. Issue titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
+Explore the codebase to understand the current state of the code. Issue titles and descriptions should use the project's domain glossary vocabulary and respect ADRs in the area being touched.
 
 ### 3. Draft vertical slices
 
@@ -38,14 +43,14 @@ Present the proposed breakdown as a numbered list. For each slice, show:
 - **Type**: HITL / AFK
 - **Blocked by**: which other slice IDs (if any) must complete first
 
-Ask the user:
+Request user feedback on:
 
-- Does the granularity feel right? (too coarse / too fine)
-- Are the dependency relationships correct?
-- Should any slices be merged or split further?
-- Are the correct slices marked as HITL and AFK?
+- Granularity (too coarse / too fine)
+- Dependency relationships
+- Slices to merge or split further
+- Correct HITL / AFK classification
 
-Iterate until the user approves the breakdown.
+Iterate until the breakdown is approved.
 
 ### 5. Write plans/prd.json
 
