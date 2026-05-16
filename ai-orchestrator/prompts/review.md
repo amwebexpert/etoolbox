@@ -27,10 +27,10 @@ Review the code changes on branch `{{BRANCH}}` relative to `{{SOURCE_BRANCH}}`. 
    - Does the implementation match the intent?
    - Are edge cases handled?
    - Are new behaviours covered by tests?
-   - Any unsafe casts, `any` types, or unchecked assumptions?
-   - Any injection vulnerabilities, credential leaks, or security issues?
 
-4. **Preserve functionality**: Never change what the code does — only how it does it. All original features, outputs, and behaviors must remain intact.
+4. **Run react-single-responsibility**: Execute the **react-single-responsibility** skill's simplification strategies on all files in scope (only apply the skill to the files identified in step 1). Let that skill define decomposition order, structure, and rules.
+
+5. **Preserve functionality**: Never change what the code does — only how it does it. All original features, outputs, and behaviors must remain intact.
 
 # EXECUTION
 
