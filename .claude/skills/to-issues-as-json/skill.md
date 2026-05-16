@@ -49,24 +49,26 @@ Iterate until the user approves the breakdown.
 
 ### 5. Write plans/prd.json
 
-Once approved, write the full array to `plans/prd.json`, overwriting any existing content. Use the schema below. Publish slices in dependency order (blockers first).
+Once approved, write the full array to `ai-orchestrator/plan.json`, overwriting any existing content. Use the schema below. Publish slices in dependency order (blockers first).
 
 <json-schema>
 [
   {
     "id": "short_snake_case_slug",
     "title": "Short descriptive title",
-    "what_to_build": "Concise description of this vertical slice. Describe end-to-end behavior, not layer-by-layer implementation.",
+    "whatToBuild": "Concise description of this vertical slice. Describe end-to-end behavior, not layer-by-layer implementation.",
     "acceptance_criteria": [
       "Criterion 1",
       "Criterion 2"
     ],
-    "blocked_by": ["other_slice_id"],
+    "blockedBy": [],
     "type": "AFK",
-    "passes": false
+    "passes": false,
+    "isPlanned": false
   }
 ]
 </json-schema>
 
-- `blocked_by` is an empty array when there are no blockers.
+- `blockedBy` is always an empty array on initial write — the orchestrator's planner agent will populate it.
 - `passes` is always `false` on initial write.
+- `isPlanned` is always `false` on initial write — the planner agent sets it to `true` after analyzing dependencies.
