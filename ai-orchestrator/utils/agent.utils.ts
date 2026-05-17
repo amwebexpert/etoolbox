@@ -5,7 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
 
-import { getLoggerForLabel, labelToSdkDebugFile } from "./agent-logger.utils.ts";
+import { getLoggerForLabel } from "./agent-logger.utils.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROMPTS_DIR = path.join(__dirname, "..", "prompts");
@@ -62,12 +62,7 @@ interface RunAgentArgs {
 }
 
 export const runAgent = async ({ prompt, options, label }: RunAgentArgs): Promise<SDKResultMessage | null> => {
-  const mergedOptions = {
-    ...options,
-    debugFile: options?.debugFile ?? labelToSdkDebugFile(label),
-  };
-
-  for await (const msg of ClaudeAgentSdk.query({ prompt, options: mergedOptions })) {
+  for await (const msg of ClaudeAgentSdk.query({ prompt, options })) {
     logMessage({ msg, label });
     if (msg.type === "result") {
       return msg;

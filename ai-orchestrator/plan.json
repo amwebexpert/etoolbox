@@ -27,7 +27,7 @@
       "scaffold_route"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   },
   {
@@ -44,7 +44,7 @@
       "core_diff_view"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   }
 ]
