@@ -74,16 +74,22 @@ interface RemoveWorktreeArgs {
   name: string;
   dir: string;
   force?: boolean;
+  quietIfMissing?: boolean;
 }
 
-const removeWorktree = async ({ name, dir, force }: RemoveWorktreeArgs): Promise<void> => {
+const removeWorktree = async ({ name, dir, force, quietIfMissing }: RemoveWorktreeArgs): Promise<void> => {
   const worktreePath = getWorktreePath({ repoDir: dir, branch: name });
   const forceFlag = force ? ["--force"] : [];
   const args = ["worktree", "remove", ...forceFlag, worktreePath];
   try {
     await runGit({ args, cwd: dir });
   } catch (error) {
-    logger.error(`Failed to remove worktree at "${worktreePath}"`, { error });
+    const message = `Failed to remove worktree at "${worktreePath}"`;
+    if (quietIfMissing) {
+      logger.debug(message, { error });
+    } else {
+      logger.error(message, { error });
+    }
   }
 };
 
@@ -116,5 +122,31 @@ export const hasCommits = ({ branch, repoDir }: HasCommitsArgs): boolean => {
   } catch (error) {
     logger.error(`Failed to inspect commits for branch "${branch}"`, { error });
     return false;
+  }
+};
+
+export type DeleteBranchResult = "deleted" | "not-found" | "failed";
+
+export interface DeleteBranchArgs {
+  branch: string;
+  repoDir: string;
+}
+
+export const deleteBranch = async ({ branch, repoDir }: DeleteBranchArgs): Promise<DeleteBranchResult> => {
+  await removeWorktree({ name: branch, dir: repoDir, force: true, quietIfMissing: true });
+  const exists = await branchExists({ branch, repoDir });
+
+  if (!exists) {
+    logger.debug(`Branch "${branch}" already absent`);
+    return "not-found";
+  }
+
+  try {
+    await runGit({ args: ["branch", "-d", branch], cwd: repoDir });
+    logger.info(`Deleted branch "${branch}"`);
+    return "deleted";
+  } catch (error) {
+    logger.warn(`Could not delete branch "${branch}"`, { error });
+    return "failed";
   }
 };

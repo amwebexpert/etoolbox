@@ -1,11 +1,12 @@
 import { logger } from "@lichens-innovation/ts-common/logger";
 import { z } from "zod";
 
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { setAgentLogDir } from "./utils/agent-logger.utils.ts";
 import { loadPrompt, runAgent, runTypedAgent } from "./utils/agent.utils.ts";
 import type { Issue, IssueWorktreeResult, OrchestratorOptions } from "./utils/orchestrator.types.ts";
 import { Plan } from "./utils/plan.ts";
-import { hasCommits, withWorktree } from "./utils/worktree.utils.ts";
+import { deleteBranch, hasCommits, withWorktree } from "./utils/worktree.utils.ts";
 
 const plannerOutputSchema = z.object({
   issues: z.array(z.object({ id: z.string(), blockedBy: z.array(z.string()) })),
@@ -16,11 +17,17 @@ const mergerOutputSchema = z.object({
   failed: z.array(z.string()),
 });
 
-type IssueWorktreeParams = {
+interface IssueWorktreeParams {
   issue: Issue;
   branch: string;
   worktreePath: string;
-};
+}
+
+interface DeleteImplementationBranchesResult {
+  deleted: string[];
+  notFound: string[];
+  failed: string[];
+}
 
 export class Orchestrator {
   private readonly repoDir: string;
@@ -56,6 +63,10 @@ export class Orchestrator {
       }
 
       await this.runMergePhase(completedIssues);
+    }
+
+    if (this.plan.remainingAfkIssues.length === 0) {
+      await this.cleanupImplementationBranches();
     }
 
     logger.info("\nAll done.");
@@ -217,6 +228,44 @@ export class Orchestrator {
     logger.info(`Merged: ${merged.length === 0 ? "none" : merged.join(", ")}`);
     if (failed.length > 0) {
       logger.info(`Failed to merge: ${failed.join(", ")}`);
+    }
+  }
+
+  private async deleteImplementationBranches(issues: Issue[]): Promise<DeleteImplementationBranchesResult> {
+    const results = await Promise.all(
+      issues.map(async (issue) => {
+        const branch = this.getBranchName(issue.id);
+        const outcome = await deleteBranch({ branch, repoDir: this.repoDir });
+        return { branch, outcome };
+      })
+    );
+
+    return {
+      deleted: results.filter((r) => r.outcome === "deleted").map((r) => r.branch),
+      notFound: results.filter((r) => r.outcome === "not-found").map((r) => r.branch),
+      failed: results.filter((r) => r.outcome === "failed").map((r) => r.branch),
+    };
+  }
+
+  private async cleanupImplementationBranches(): Promise<void> {
+    const passedAfk = this.plan.getAll().filter((issue) => issue.passes && issue.type === "AFK");
+    if (passedAfk.length === 0) {
+      return;
+    }
+
+    const { deleted, notFound, failed } = await this.deleteImplementationBranches(passedAfk);
+
+    const summaryParts = [
+      deleted.length > 0 ? `${deleted.length} deleted` : null,
+      notFound.length > 0 ? `${notFound.length} already absent` : null,
+      failed.length > 0 ? `${failed.length} failed (${failed.join(", ")})` : null,
+    ].filter(isNotBlank);
+
+    const message = `Cleaned up implementation branches: ${summaryParts.join(", ")}`;
+    if (failed.length > 0) {
+      logger.warn(message);
+    } else {
+      logger.info(message);
     }
   }
 }
