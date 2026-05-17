@@ -1,14 +1,16 @@
 import { DiffOutlined } from "@ant-design/icons";
 import { Col, Input, Row, Space, Typography } from "antd";
 import { createStyles } from "antd-style";
-import { useDeferredValue } from "react";
-import ReactDiffViewer from "react-diff-viewer-continued";
+import { useDeferredValue, useMemo } from "react";
+import ReactDiffViewer, { DiffMethod } from "react-diff-viewer-continued";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
 
+import { DiffViewerControls } from "./diff-viewer-controls";
 import { useDiffViewerStore } from "./diff-viewer.store";
+import { computeDiffSummary } from "./diff-viewer.utils";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -17,10 +19,29 @@ export const DiffViewer = () => {
   const { styles } = useStyles();
   const { isDesktop, isMobile } = useResponsive();
 
-  const { originalText, modifiedText, setOriginalText, setModifiedText } = useDiffViewerStore();
+  const {
+    originalText,
+    modifiedText,
+    ignoreWhitespace,
+    setOriginalText,
+    setModifiedText,
+    setIgnoreWhitespace,
+    swapTexts,
+  } = useDiffViewerStore();
 
   const deferredOriginal = useDeferredValue(originalText);
   const deferredModified = useDeferredValue(modifiedText);
+  const deferredIgnoreWhitespace = useDeferredValue(ignoreWhitespace);
+
+  const summary = useMemo(
+    () =>
+      computeDiffSummary({
+        originalText: deferredOriginal,
+        modifiedText: deferredModified,
+        ignoreWhitespace: deferredIgnoreWhitespace,
+      }),
+    [deferredOriginal, deferredModified, deferredIgnoreWhitespace]
+  );
 
   const handleOriginalChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setOriginalText(event.target.value ?? "");
@@ -72,6 +93,13 @@ export const DiffViewer = () => {
           </Col>
         </Row>
 
+        <DiffViewerControls
+          ignoreWhitespace={ignoreWhitespace}
+          summary={summary}
+          onIgnoreWhitespaceChange={setIgnoreWhitespace}
+          onSwap={swapTexts}
+        />
+
         <div className={styles.diffContainer}>
           <ReactDiffViewer
             oldValue={deferredOriginal}
@@ -79,6 +107,9 @@ export const DiffViewer = () => {
             splitView
             leftTitle="Original"
             rightTitle="Modified"
+            compareMethod={
+              deferredIgnoreWhitespace ? DiffMethod.TRIMMED_LINES : DiffMethod.LINES
+            }
           />
         </div>
       </Space>
