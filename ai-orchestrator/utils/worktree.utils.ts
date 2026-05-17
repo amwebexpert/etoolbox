@@ -74,7 +74,6 @@ interface RemoveWorktreeArgs {
   name: string;
   dir: string;
   force?: boolean;
-  /** Missing worktrees are expected during branch cleanup; log at debug instead of error. */
   quietIfMissing?: boolean;
 }
 
