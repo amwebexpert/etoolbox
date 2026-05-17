@@ -1,16 +1,93 @@
-import * as ClaudeAgentSdk from "@anthropic-ai/claude-agent-sdk";
 import { logger } from "@lichens-innovation/ts-common/logger";
-import { execSync } from "node:child_process";
-import { symlinkSync } from "node:fs";
+import { execFile, execSync } from "node:child_process";
+import { mkdirSync, symlinkSync } from "node:fs";
+import path from "node:path";
+import { promisify } from "node:util";
 
-type ClaudeAgentSdkWithWorktrees = typeof ClaudeAgentSdk & {
-  createWorktree: (args: { name: string; dir: string }) => Promise<{ path: string }>;
-  removeWorktree: (args: { name: string; dir: string; force?: boolean }) => Promise<void>;
+const execFileAsync = promisify(execFile);
+
+const WORKTREES_DIR = ".orchestrator-worktrees";
+
+const branchToWorktreeDirName = (branch: string): string => branch.replaceAll("/", "--");
+
+interface GetWorktreePathArgs {
+  repoDir: string;
+  branch: string;
+}
+
+const getWorktreePath = ({ repoDir, branch }: GetWorktreePathArgs): string =>
+  path.join(repoDir, WORKTREES_DIR, branchToWorktreeDirName(branch));
+
+interface RunGitArgs {
+  args: string[];
+  cwd: string;
+}
+
+const runGit = async ({ args, cwd }: RunGitArgs): Promise<void> => {
+  await execFileAsync("git", args, { cwd });
 };
 
-const { createWorktree, removeWorktree } = ClaudeAgentSdk as unknown as ClaudeAgentSdkWithWorktrees;
+interface BranchExistsArgs {
+  branch: string;
+  repoDir: string;
+}
 
-interface WithWorktreeArgs<T> {
+const branchExists = async ({ branch, repoDir }: BranchExistsArgs): Promise<boolean> => {
+  try {
+    await runGit({ args: ["rev-parse", "--verify", branch], cwd: repoDir });
+    return true;
+  } catch (error) {
+    logger.debug(`Branch "${branch}" does not exist`, { error });
+    return false;
+  }
+};
+
+interface CreateWorktreeArgs {
+  name: string;
+  dir: string;
+}
+
+interface WorktreeResult {
+  path: string;
+}
+
+const createWorktree = async ({ name, dir }: CreateWorktreeArgs): Promise<WorktreeResult> => {
+  const worktreePath = getWorktreePath({ repoDir: dir, branch: name });
+  mkdirSync(path.dirname(worktreePath), { recursive: true });
+
+  try {
+    await runGit({ args: ["worktree", "remove", "--force", worktreePath], cwd: dir });
+  } catch (error) {
+    logger.debug(`No stale worktree at "${worktreePath}"`, { error });
+  }
+
+  if (await branchExists({ branch: name, repoDir: dir })) {
+    await runGit({ args: ["worktree", "add", worktreePath, name], cwd: dir });
+  } else {
+    await runGit({ args: ["worktree", "add", "-b", name, worktreePath, "HEAD"], cwd: dir });
+  }
+
+  return { path: worktreePath };
+};
+
+interface RemoveWorktreeArgs {
+  name: string;
+  dir: string;
+  force?: boolean;
+}
+
+const removeWorktree = async ({ name, dir, force }: RemoveWorktreeArgs): Promise<void> => {
+  const worktreePath = getWorktreePath({ repoDir: dir, branch: name });
+  const forceFlag = force ? ["--force"] : [];
+  const args = ["worktree", "remove", ...forceFlag, worktreePath];
+  try {
+    await runGit({ args, cwd: dir });
+  } catch (error) {
+    logger.error(`Failed to remove worktree at "${worktreePath}"`, { error });
+  }
+};
+
+export interface WithWorktreeArgs<T> {
   name: string;
   dir: string;
   fn: (worktreePath: string) => Promise<T>;
@@ -19,7 +96,7 @@ interface WithWorktreeArgs<T> {
 export const withWorktree = async <T>({ name, dir, fn }: WithWorktreeArgs<T>): Promise<T> => {
   const worktree = await createWorktree({ name, dir });
   const symlinkType = process.platform === "win32" ? "junction" : "dir";
-  symlinkSync(`${dir}/node_modules`, `${worktree.path}/node_modules`, symlinkType);
+  symlinkSync(path.join(dir, "node_modules"), path.join(worktree.path, "node_modules"), symlinkType);
   try {
     return await fn(worktree.path);
   } finally {
@@ -27,7 +104,7 @@ export const withWorktree = async <T>({ name, dir, fn }: WithWorktreeArgs<T>): P
   }
 };
 
-interface HasCommitsArgs {
+export interface HasCommitsArgs {
   branch: string;
   repoDir: string;
 }

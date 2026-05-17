@@ -62,7 +62,7 @@ Once approved, write the full array to `ai-orchestrator/plan.json`, overwriting 
     "id": "short_snake_case_slug",
     "title": "Short descriptive title",
     "whatToBuild": "Concise description of this vertical slice. Describe end-to-end behavior, not layer-by-layer implementation.",
-    "acceptance_criteria": [
+    "acceptanceCriteria": [
       "Criterion 1",
       "Criterion 2"
     ],

@@ -1,5 +1,5 @@
+import type { SDKAssistantMessage, SDKResultMessage, SDKSystemMessage } from "@anthropic-ai/claude-agent-sdk";
 import * as ClaudeAgentSdk from "@anthropic-ai/claude-agent-sdk";
-import type { SDKResultMessage } from "@anthropic-ai/claude-agent-sdk";
 import { logger } from "@lichens-innovation/ts-common/logger";
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -24,13 +24,43 @@ export const loadPrompt = ({ name, substitutions }: LoadPromptArgs): string => {
 
 type AgentOptions = Parameters<typeof ClaudeAgentSdk.query>[0]["options"];
 
+const formatInput = (input: unknown): string =>
+  JSON.stringify(input, (_, v) => (typeof v === "string" && v.length > 2000 ? `${v.slice(0, 2000)}…` : v));
+
+interface LogMessageArgs {
+  msg: ClaudeAgentSdk.SDKMessage;
+  label: string;
+}
+
+const logMessage = ({ msg, label }: LogMessageArgs): void => {
+  if (msg.type === "system") {
+    const sys = msg as SDKSystemMessage;
+    logger.info(`[${label}] INIT model=${sys.model} tools=[${sys.tools.join(", ")}]`);
+    return;
+  }
+
+  if (msg.type === "assistant") {
+    const asst = msg as SDKAssistantMessage;
+    for (const block of asst.message.content) {
+      if (block.type === "text") {
+        const text = block.text.slice(0, 2000);
+        logger.info(`[${label}] > ${text}`);
+      } else if (block.type === "tool_use") {
+        logger.info(`[${label}] CALL ${block.name} ${formatInput(block.input)}`);
+      }
+    }
+  }
+};
+
 interface RunAgentArgs {
   prompt: string;
   options?: AgentOptions;
+  label: string;
 }
 
-export const runAgent = async ({ prompt, options }: RunAgentArgs): Promise<SDKResultMessage | null> => {
+export const runAgent = async ({ prompt, options, label }: RunAgentArgs): Promise<SDKResultMessage | null> => {
   for await (const msg of ClaudeAgentSdk.query({ prompt, options })) {
+    logMessage({ msg, label });
     if (msg.type === "result") {
       return msg;
     }
@@ -39,6 +69,7 @@ export const runAgent = async ({ prompt, options }: RunAgentArgs): Promise<SDKRe
 };
 
 interface RunTypedAgentArgs<T> {
+  label: string;
   prompt: string;
   schema: z.ZodSchema<T>;
   options?: AgentOptions;
@@ -50,9 +81,10 @@ const toSdkJsonSchema = <T>(schema: z.ZodSchema<T>): Record<string, unknown> => 
   return rest;
 };
 
-export const runTypedAgent = async <T>({ prompt, schema, options }: RunTypedAgentArgs<T>): Promise<T> => {
+export const runTypedAgent = async <T>({ prompt, schema, options, label }: RunTypedAgentArgs<T>): Promise<T> => {
   const result = await runAgent({
     prompt,
+    label,
     options: {
       ...options,
       outputFormat: {

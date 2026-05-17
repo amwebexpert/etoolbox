@@ -90,6 +90,7 @@ export class Orchestrator {
         substitutions: { PLAN_JSON: JSON.stringify(this.plan.getAll(), null, 2) },
       }),
       schema: plannerOutputSchema,
+      label: "planner",
       options: {
         cwd: this.repoDir,
         model: "claude-opus-4-7",
@@ -138,6 +139,7 @@ export class Orchestrator {
           BRANCH: branch,
         },
       }),
+      label: `impl:${issue.id}`,
       options: {
         cwd: worktreePath,
         model: "claude-opus-4-7",
@@ -155,6 +157,7 @@ export class Orchestrator {
         name: "review.md",
         substitutions: { BRANCH: branch, SOURCE_BRANCH: "HEAD" },
       }),
+      label: `review:${issue.id}`,
       options: {
         cwd: worktreePath,
         model: "claude-sonnet-4-6",
@@ -170,7 +173,7 @@ export class Orchestrator {
     for (const [index, outcome] of settled.entries()) {
       if (outcome.status === "rejected") {
         const issueId = unblockedIssues[index]?.id ?? `index-${index}`;
-        logger.error(`  ✗ ${issueId} failed`, { reason: outcome.reason });
+        logger.error(`  ✗ ${issueId} failed`, { err: outcome.reason });
       }
     }
 
@@ -195,6 +198,7 @@ export class Orchestrator {
         },
       }),
       schema: mergerOutputSchema,
+      label: "merger",
       options: {
         cwd: this.repoDir,
         model: "claude-sonnet-4-6",

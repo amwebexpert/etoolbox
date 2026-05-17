@@ -34,7 +34,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
     "sandcastle": "npx tsx .sandcastle/main.ts",
-    "ai:ralph:run": "npx tsx ai-orchestrator/main.ts",
+    "ai:run:plan": "npx tsx ai-orchestrator/main.ts",
     "postinstall": "patch-package"
   },
   "dependencies": {
