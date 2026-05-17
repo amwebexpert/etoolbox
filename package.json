@@ -72,6 +72,7 @@
     "quicktype-core": "^23.2.6",
     "re-resizable": "^6.11.2",
     "react": "^19.2.6",
+    "react-diff-viewer-continued": "4.2.2",
     "react-dom": "^19.2.6",
     "react-hook-form": "^7.76.0",
     "react-json-view": "^1.21.3",
