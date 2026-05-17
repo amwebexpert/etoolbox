@@ -3,6 +3,7 @@ import {
   CalendarOutlined,
   CodeSandboxOutlined,
   CodeOutlined,
+  DiffOutlined,
   FileSearchOutlined,
   FileTextOutlined,
   GithubOutlined,
@@ -129,5 +130,12 @@ export const FEATURES = [
     description: "Semantic search for best practices",
     color: "#13c2c2",
     path: "/coding-standards",
+  },
+  {
+    icon: <DiffOutlined />,
+    name: "Diff Viewer",
+    description: "Compare two texts side by side",
+    color: "#1890ff",
+    path: "/diff",
   },
 ];
