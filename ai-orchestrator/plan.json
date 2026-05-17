@@ -10,8 +10,8 @@
     ],
     "blockedBy": [],
     "type": "AFK",
-    "passes": false,
-    "isPlanned": false
+    "passes": true,
+    "isPlanned": true
   },
   {
     "id": "core_diff_view",
@@ -23,10 +23,12 @@
       "Line numbers are visible in both panels",
       "Added lines are highlighted green, removed lines red"
     ],
-    "blockedBy": [],
+    "blockedBy": [
+      "scaffold_route"
+    ],
     "type": "AFK",
     "passes": false,
-    "isPlanned": false
+    "isPlanned": true
   },
   {
     "id": "diff_controls",
@@ -38,9 +40,11 @@
       "Summary bar shows the correct count of added and removed lines",
       "Summary bar updates live as text changes"
     ],
-    "blockedBy": [],
+    "blockedBy": [
+      "core_diff_view"
+    ],
     "type": "AFK",
     "passes": false,
-    "isPlanned": false
+    "isPlanned": true
   }
 ]
