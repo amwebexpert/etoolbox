@@ -1,6 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 
+export interface PreToolUseInput {
+  tool_input?: {
+    command?: string;
+  };
+}
+
 const MAX_REASON_LENGTH = 12_000;
 
 export const findRepoRoot = (): string => {

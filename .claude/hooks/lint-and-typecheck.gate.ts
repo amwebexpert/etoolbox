@@ -12,12 +12,12 @@ import { deny, findRepoRoot, readStdinJson } from "./hooks-common.ts";
 
 const REPO_ROOT = findRepoRoot();
 
-type YarnRunResult = {
+interface YarnRunResult {
   ok: boolean;
   label: string;
   summary: string;
   output: string;
-};
+}
 
 const runYarn = (script = "lint"): YarnRunResult => {
   const result = spawnSync("yarn", [script], {
