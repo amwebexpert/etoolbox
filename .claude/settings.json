@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(npm *)",
+            "description": "Block npm and promote yarn to prevent package version conflicts",
+            "command": "npx --yes tsx \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-npm-prefer-yarn.gate.ts"
+          }
+        ]
+      }
+    ]
+  }
+}
