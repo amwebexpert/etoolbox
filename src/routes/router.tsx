@@ -15,6 +15,7 @@ import { MimeTypes } from "~/screens/common-lists/mime-types/mime-types";
 import { CodingStandards } from "~/screens/coding-standards/coding-standards";
 import { CsvParser } from "~/screens/csv-parser/csv-parser";
 import { DateConverter } from "~/screens/date-converter/date-converter";
+import { DiffViewer } from "~/screens/diff-viewer/diff-viewer";
 import { GithubUserProjects } from "~/screens/github-user-projects/github-user-projects";
 import { Home } from "~/screens/home/home";
 import { ImageOcr } from "~/screens/image-ocr/image-ocr";
@@ -285,6 +286,12 @@ const codingStandardsRoute = createRoute({
   component: CodingStandards,
 });
 
+const diffViewerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/diff",
+  component: DiffViewer,
+});
+
 export const ROUTES_WITH_CHILDREN = ["/url", "/base64", "/json", "/colors", "/common-lists", "/qrcode"];
 
 const routeTree = rootRoute.addChildren([
@@ -313,6 +320,7 @@ const routeTree = rootRoute.addChildren([
   pokerPlanningWithParamsRoute,
   vr3dViewerRoute,
   codingStandardsRoute,
+  diffViewerRoute,
 ]);
 
 const hashHistory = createHashHistory();

@@ -48,7 +48,7 @@ export const SettingsColorTheme = () => {
   );
 };
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles(({ token }) => ({
   row: {
     width: "100%",
     justifyContent: "space-between",
@@ -65,8 +65,8 @@ const useStyles = createStyles(() => ({
   swatch: {
     width: 28,
     height: 28,
-    borderRadius: "50%",
-    border: "2px solid transparent",
+    borderRadius: token.borderRadius,
+    border: `2px solid ${token.colorBorder}`,
     cursor: "pointer",
     display: "inline-flex",
     alignItems: "center",

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "scaffold_route",
+    "title": "Scaffold /diff route, sidebar entry, and home card",
+    "whatToBuild": "Add a /diff route to the router, a sidebar menu item, and a home screen card. The screen renders a placeholder (empty div or 'Coming soon' text). Navigation to /diff works end-to-end.",
+    "acceptanceCriteria": [
+      "Navigating to /#/diff renders the diff-viewer screen without errors",
+      "Sidebar shows a Diff Viewer entry that links to /diff",
+      "Home screen shows a Diff Viewer card that navigates to /diff"
+    ],
+    "blockedBy": [],
+    "type": "AFK",
+    "passes": true,
+    "isPlanned": true
+  },
+  {
+    "id": "core_diff_view",
+    "title": "Two-panel text input with live side-by-side diff",
+    "whatToBuild": "Install react-diff-viewer-continued. Create the Zustand store (original, modified text). Render two labeled textareas ('Original' / 'Modified') and a live side-by-side diff below using useDeferredValue for performance. Diff updates on every keystroke. Line numbers are shown in both panels.",
+    "acceptanceCriteria": [
+      "Typing in either textarea updates the diff output live",
+      "Diff renders side-by-side with 'Original' on the left and 'Modified' on the right",
+      "Line numbers are visible in both panels",
+      "Added lines are highlighted green, removed lines red"
+    ],
+    "blockedBy": [
+      "scaffold_route"
+    ],
+    "type": "AFK",
+    "passes": true,
+    "isPlanned": true
+  },
+  {
+    "id": "diff_controls",
+    "title": "Ignore-whitespace toggle, swap button, and +/- summary",
+    "whatToBuild": "Add an 'Ignore whitespace' checkbox (stored in Zustand) that suppresses whitespace-only diff lines. Add a Swap button that exchanges Original and Modified values. Add a summary bar showing '+X lines, −Y lines' computed from the diff result.",
+    "acceptanceCriteria": [
+      "Checking 'Ignore whitespace' removes whitespace-only changes from the diff",
+      "Clicking Swap exchanges the content of the two textareas",
+      "Summary bar shows the correct count of added and removed lines",
+      "Summary bar updates live as text changes"
+    ],
+    "blockedBy": [
+      "core_diff_view"
+    ],
+    "type": "AFK",
+    "passes": true,
+    "isPlanned": true
+  }
+]

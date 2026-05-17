@@ -1,27 +1,9 @@
 import { GithubOutlined, LinkedinOutlined } from "@ant-design/icons";
 import { Card, Flex, Typography } from "antd";
 import { createStyles } from "antd-style";
+import { CONTRIBUTORS } from "./about-contributor.utils";
 
 const { Title, Link } = Typography;
-
-interface Contributor {
-  name: string;
-  email: string;
-  url: string;
-}
-
-const CONTRIBUTORS: Contributor[] = [
-  {
-    name: "André Masson",
-    email: "amwebexpert@gmail.com",
-    url: "https://www.linkedin.com/in/amwebexpert/",
-  },
-  {
-    name: "Anthony Buchholz",
-    email: "anthony.buchholz@gmail.com",
-    url: "https://yodigi7.github.io/",
-  },
-];
 
 export const AboutContributors = () => {
   const { styles } = useStyles();

@@ -1,0 +1,41 @@
+{
+  "name": "etoolbox",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite dev server",
+      "onAutoForward": "notify"
+    }
+  },
+  "remoteUser": "${localEnv:USER}",
+  "mounts": [
+    "source=claude-devcontainer-auth-${localEnv:USER},target=/home/${localEnv:USER}/.claude,type=volume",
+    "source=claude-devcontainer-json-${localEnv:USER},target=/home/${localEnv:USER}/.claude.json,type=volume"
+  ],
+  "postCreateCommand": "yarn install",
+  "postStartCommand": "sudo chown -R $(id -un):$(id -un) /home/$(id -un)/.claude /home/$(id -un)/.claude.json",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next",
+        "vitest.explorer"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "typescript.preferences.importModuleSpecifier": "non-relative"
+      }
+    }
+  }
+}
