@@ -12,6 +12,7 @@ export interface Issue {
 export interface OrchestratorOptions {
   planFile: string;
   repoDir: string;
+  logDir: string;
   maxIterations?: number;
 }
 

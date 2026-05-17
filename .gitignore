@@ -37,5 +37,8 @@ cypress/videos
 
 .sandcastle-original
 
+# ai-orchestrator agent logs
+ai-orchestrator/logs/
+
 # Since we use yarn, we don't need a package-lock.json
 package-lock.json

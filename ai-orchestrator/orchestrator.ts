@@ -1,6 +1,7 @@
 import { logger } from "@lichens-innovation/ts-common/logger";
 import { z } from "zod";
 
+import { setAgentLogDir } from "./utils/agent-logger.utils.ts";
 import { loadPrompt, runAgent, runTypedAgent } from "./utils/agent.utils.ts";
 import type { Issue, IssueWorktreeResult, OrchestratorOptions } from "./utils/orchestrator.types.ts";
 import { Plan } from "./utils/plan.ts";
@@ -26,7 +27,8 @@ export class Orchestrator {
   private readonly maxIterations: number;
   private readonly plan: Plan;
 
-  constructor({ planFile, repoDir, maxIterations = 20 }: OrchestratorOptions) {
+  constructor({ planFile, repoDir, logDir, maxIterations = 20 }: OrchestratorOptions) {
+    setAgentLogDir(logDir);
     this.repoDir = repoDir;
     this.maxIterations = maxIterations;
     this.plan = new Plan(planFile);

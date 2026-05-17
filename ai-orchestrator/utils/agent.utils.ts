@@ -1,10 +1,11 @@
 import type { SDKAssistantMessage, SDKResultMessage, SDKSystemMessage } from "@anthropic-ai/claude-agent-sdk";
 import * as ClaudeAgentSdk from "@anthropic-ai/claude-agent-sdk";
-import { logger } from "@lichens-innovation/ts-common/logger";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
+
+import { getLoggerForLabel, labelToSdkDebugFile } from "./agent-logger.utils.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROMPTS_DIR = path.join(__dirname, "..", "prompts");
@@ -33,9 +34,11 @@ interface LogMessageArgs {
 }
 
 const logMessage = ({ msg, label }: LogMessageArgs): void => {
+  const agentLogger = getLoggerForLabel(label);
+
   if (msg.type === "system") {
     const sys = msg as SDKSystemMessage;
-    logger.info(`[${label}] INIT model=${sys.model} tools=[${sys.tools.join(", ")}]`);
+    agentLogger.info(`[${label}] INIT model=${sys.model} tools=[${sys.tools?.join(", ") ?? ""}]`);
     return;
   }
 
@@ -44,9 +47,9 @@ const logMessage = ({ msg, label }: LogMessageArgs): void => {
     for (const block of asst.message.content) {
       if (block.type === "text") {
         const text = block.text.slice(0, 2000);
-        logger.info(`[${label}] > ${text}`);
+        agentLogger.info(`[${label}] > ${text}`);
       } else if (block.type === "tool_use") {
-        logger.info(`[${label}] CALL ${block.name} ${formatInput(block.input)}`);
+        agentLogger.info(`[${label}] CALL ${block.name} ${formatInput(block.input)}`);
       }
     }
   }
@@ -59,7 +62,12 @@ interface RunAgentArgs {
 }
 
 export const runAgent = async ({ prompt, options, label }: RunAgentArgs): Promise<SDKResultMessage | null> => {
-  for await (const msg of ClaudeAgentSdk.query({ prompt, options })) {
+  const mergedOptions = {
+    ...options,
+    debugFile: options?.debugFile ?? labelToSdkDebugFile(label),
+  };
+
+  for await (const msg of ClaudeAgentSdk.query({ prompt, options: mergedOptions })) {
     logMessage({ msg, label });
     if (msg.type === "result") {
       return msg;
@@ -82,6 +90,8 @@ const toSdkJsonSchema = <T>(schema: z.ZodSchema<T>): Record<string, unknown> => 
 };
 
 export const runTypedAgent = async <T>({ prompt, schema, options, label }: RunTypedAgentArgs<T>): Promise<T> => {
+  const agentLogger = getLoggerForLabel(label);
+
   const result = await runAgent({
     prompt,
     label,
@@ -95,13 +105,13 @@ export const runTypedAgent = async <T>({ prompt, schema, options, label }: RunTy
   });
 
   if (result === null || result.type !== "result" || result.subtype !== "success") {
-    logger.error("Agent call failed, aborting.");
+    agentLogger.error("Agent call failed, aborting.");
     process.exit(1);
   }
 
   const parsed = schema.safeParse(result.structured_output);
   if (!parsed.success) {
-    logger.error(`Agent returned invalid structured output: ${parsed.error.message}`);
+    agentLogger.error(`Agent returned invalid structured output: ${parsed.error.message}`);
     process.exit(1);
   }
 

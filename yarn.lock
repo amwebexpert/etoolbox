@@ -1284,9 +1284,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lichens-innovation/ts-common@npm:^1.15.5":
-  version: 1.15.5
-  resolution: "@lichens-innovation/ts-common@npm:1.15.5"
+"@lichens-innovation/ts-common@npm:^1.16.0":
+  version: 1.16.0
+  resolution: "@lichens-innovation/ts-common@npm:1.16.0"
   dependencies:
     date-fns: "npm:^4.1.0"
   peerDependencies:
@@ -1327,7 +1327,7 @@ __metadata:
       optional: true
     react-i18next:
       optional: true
-  checksum: 10c0/2fd01d7d79d45ca1efa87e0e030f48d59414eb6885b0ede7ff498ca46a6c3c5867dd1e9fc095bd7a490e76f1dab8a5c87d7dc4110b07de53c87fbdd662551d93
+  checksum: 10c0/6b22d2639303efce507658d70befe0256881b492d46412763f9cbd05266e0153d51d6723bac5c9bf45092e9c37a072bd9ce07509a5a939776427bb8513466989
   languageName: node
   linkType: hard
 
@@ -10636,7 +10636,7 @@ __metadata:
     "@effect/sql": "npm:^0.51.1"
     "@effect/typeclass": "npm:^0.40.0"
     "@eslint/js": "npm:^10.0.1"
-    "@lichens-innovation/ts-common": "npm:^1.15.5"
+    "@lichens-innovation/ts-common": "npm:^1.16.0"
     "@react-three/drei": "npm:^10.7.7"
     "@react-three/fiber": "npm:^9.6.1"
     "@tanstack/react-query": "npm:^5.100.10"
