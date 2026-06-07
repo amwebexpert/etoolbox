@@ -1,11 +1,11 @@
 import { PictureOutlined } from "@ant-design/icons";
-import { Input, Space } from "antd";
+import { Alert, Input, Space } from "antd";
 import { createStyles } from "antd-style";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
-import { getImagePreviewSrc } from "~/utils/base64-image.utils";
+import { getImagePreviewSrc, getNonImageDataUri } from "~/utils/base64-image.utils";
 
 import { useBase64ImageStore } from "./base64-image.store";
 
@@ -22,6 +22,7 @@ export const Base64Image = () => {
   };
 
   const imagePreviewSrc = getImagePreviewSrc(inputText);
+  const nonImageDataUri = getNonImageDataUri(inputText);
 
   return (
     <ScreenContainer>
@@ -43,6 +44,18 @@ export const Base64Image = () => {
         />
 
         {imagePreviewSrc && <img src={imagePreviewSrc} alt="Decoded preview" className={styles.preview} />}
+
+        {nonImageDataUri && (
+          <Alert
+            type="info"
+            showIcon
+            title={
+              <a href={nonImageDataUri} target="_blank" rel="noopener noreferrer">
+                Open in new tab
+              </a>
+            }
+          />
+        )}
       </Space>
     </ScreenContainer>
   );

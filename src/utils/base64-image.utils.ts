@@ -37,6 +37,14 @@ export const getImagePreviewSrc = (input: string): string | null => {
   return input;
 };
 
+export const getNonImageDataUri = (input: string): string | null => {
+  const parsed = parseDataUri(input);
+  if (!parsed) return null;
+  if (isImageMimeType(parsed.mimeType)) return null;
+
+  return input;
+};
+
 export const mimeToExt = (mimeType: string): string => {
   const mapped = MIME_TO_EXT_MAP[mimeType];
   if (mapped) return mapped;
