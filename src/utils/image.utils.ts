@@ -1,6 +1,14 @@
 import type { RgbaColor } from "@lichens-innovation/ts-common";
 
-export const VALID_IMAGE_TYPES = ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp"];
+export const VALID_IMAGE_TYPES = [
+  "image/png",
+  "image/jpeg",
+  "image/jpg",
+  "image/gif",
+  "image/webp",
+  "image/bmp",
+  "image/svg+xml",
+];
 
 export const isValidImageFile = (file: File): boolean => {
   return VALID_IMAGE_TYPES.includes(file.type);
