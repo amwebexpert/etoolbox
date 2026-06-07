@@ -1192,9 +1192,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lichens-innovation/ts-common@npm:1.16.0":
-  version: 1.16.0
-  resolution: "@lichens-innovation/ts-common@npm:1.16.0"
+"@lichens-innovation/ts-common@npm:1.17.0":
+  version: 1.17.0
+  resolution: "@lichens-innovation/ts-common@npm:1.17.0"
   dependencies:
     date-fns: "npm:^4.1.0"
   peerDependencies:
@@ -1235,7 +1235,7 @@ __metadata:
       optional: true
     react-i18next:
       optional: true
-  checksum: 10c0/6b22d2639303efce507658d70befe0256881b492d46412763f9cbd05266e0153d51d6723bac5c9bf45092e9c37a072bd9ce07509a5a939776427bb8513466989
+  checksum: 10c0/88b3aa6e691ad7736894e20f622aff7855ce3005825f53f9221a37c3ce072daf52b75908efdb514ec332ab8bce571c3c765ae35c19668299662e400cb195e576
   languageName: node
   linkType: hard
 
@@ -7310,21 +7310,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mime@npm:4.1.0":
+  version: 4.1.0
+  resolution: "mime@npm:4.1.0"
+  bin:
+    mime: bin/cli.js
+  checksum: 10c0/3b8602e50dff1049aea8bb2d4c65afc55bf7f3eb5c17fd2bcb315b8c8ae225a7553297d424d3621757c24cdba99e930ecdc4108467009cdc7ed55614cd55031d
+  languageName: node
+  linkType: hard
+
 "mime@npm:^3.0.0":
   version: 3.0.0
   resolution: "mime@npm:3.0.0"
   bin:
     mime: cli.js
   checksum: 10c0/402e792a8df1b2cc41cb77f0dcc46472b7944b7ec29cb5bbcd398624b6b97096728f1239766d3fdeb20551dd8d94738344c195a6ea10c4f906eb0356323b0531
-  languageName: node
-  linkType: hard
-
-"mime@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "mime@npm:4.1.0"
-  bin:
-    mime: bin/cli.js
-  checksum: 10c0/3b8602e50dff1049aea8bb2d4c65afc55bf7f3eb5c17fd2bcb315b8c8ae225a7553297d424d3621757c24cdba99e930ecdc4108467009cdc7ed55614cd55031d
   languageName: node
   linkType: hard
 
@@ -10579,7 +10579,7 @@ __metadata:
     "@effect/sql": "npm:0.51.1"
     "@effect/typeclass": "npm:0.40.0"
     "@eslint/js": "npm:10.0.1"
-    "@lichens-innovation/ts-common": "npm:1.16.0"
+    "@lichens-innovation/ts-common": "npm:1.17.0"
     "@react-three/drei": "npm:10.7.7"
     "@react-three/fiber": "npm:9.6.1"
     "@tanstack/react-query": "npm:5.101.0"
@@ -10621,7 +10621,7 @@ __metadata:
     jwt-decode: "npm:4.0.0"
     lint-staged: "npm:17.0.7"
     markdown-it: "npm:14.2.0"
-    mime: "npm:^4.1.0"
+    mime: "npm:4.1.0"
     mime-db: "npm:1.54.0"
     papaparse: "npm:5.5.3"
     parse-curl: "npm:0.2.6"
