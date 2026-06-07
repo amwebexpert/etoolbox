@@ -12,7 +12,7 @@
     "blockedBy": [],
     "type": "AFK",
     "passes": false,
-    "isPlanned": false
+    "isPlanned": true
   },
   {
     "id": "data_uri_parsing_utils",
@@ -29,7 +29,7 @@
     "blockedBy": [],
     "type": "AFK",
     "passes": false,
-    "isPlanned": false
+    "isPlanned": true
   },
   {
     "id": "persisted_textarea_input",
@@ -41,10 +41,12 @@
       "Refreshing the page restores the previously pasted text",
       "The textarea is full-width with monospace font, consistent with other base64 tab inputs"
     ],
-    "blockedBy": [],
+    "blockedBy": [
+      "route_and_tab_shell"
+    ],
     "type": "AFK",
     "passes": false,
-    "isPlanned": false
+    "isPlanned": true
   },
   {
     "id": "live_image_preview",
@@ -56,10 +58,13 @@
       "Clearing the textarea removes the image from the view",
       "Pasting non-image or malformed text shows no image and no error"
     ],
-    "blockedBy": [],
+    "blockedBy": [
+      "data_uri_parsing_utils",
+      "persisted_textarea_input"
+    ],
     "type": "AFK",
     "passes": false,
-    "isPlanned": false
+    "isPlanned": true
   },
   {
     "id": "metadata_card_and_download",
@@ -74,10 +79,12 @@
       "Clicking Clear resets the input and removes the image and metadata",
       "The Download toolbar button triggers the same download as the metadata link"
     ],
-    "blockedBy": [],
+    "blockedBy": [
+      "live_image_preview"
+    ],
     "type": "AFK",
     "passes": false,
-    "isPlanned": false
+    "isPlanned": true
   },
   {
     "id": "non_image_uri_link",
@@ -89,9 +96,11 @@
       "No image preview or metadata is shown for non-image URIs",
       "Switching back to a valid image URI removes the alert and shows the image preview"
     ],
-    "blockedBy": [],
+    "blockedBy": [
+      "live_image_preview"
+    ],
     "type": "AFK",
     "passes": false,
-    "isPlanned": false
+    "isPlanned": true
   }
 ]
