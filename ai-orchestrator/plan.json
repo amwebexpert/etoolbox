@@ -63,7 +63,7 @@
       "persisted_textarea_input"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   },
   {

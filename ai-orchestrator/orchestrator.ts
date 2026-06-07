@@ -200,7 +200,7 @@ export class Orchestrator {
 
   private async runMergePhase(completedIssues: Issue[]): Promise<void> {
     const completedBranches = completedIssues.map((issue) => this.getBranchName(issue.id));
-    logger.info(`\n${completedBranches.length} branch(es) ready to merge.`);
+    logger.info(`${completedBranches.length} branch(es) ready to merge.`);
 
     const { merged, failed } = await runTypedAgent({
       prompt: loadPrompt({
@@ -225,9 +225,9 @@ export class Orchestrator {
     }
     this.plan.save();
 
-    logger.info(`Merged: ${merged.length === 0 ? "none" : merged.join(", ")}`);
+    logger.info(`\tMerged: ${merged.length === 0 ? "none" : merged.join(", ")}`);
     if (failed.length > 0) {
-      logger.info(`Failed to merge: ${failed.join(", ")}`);
+      logger.info(`\tFailed to merge: ${failed.join(", ")}`);
     }
   }
 
