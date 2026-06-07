@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { TAB_ITEMS } from "./base64";
+import { TAB_ITEMS } from "./base64.constants";
 
 describe("base64 TAB_ITEMS", () => {
   it("includes an Image URI tab keyed to /base64/image", () => {
