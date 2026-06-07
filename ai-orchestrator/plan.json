@@ -45,7 +45,7 @@
       "route_and_tab_shell"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   },
   {
