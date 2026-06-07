@@ -1,3 +1,5 @@
+import { extractBase64FromDataUri } from "@lichens-innovation/ts-common";
+
 export const readFileAsDataUrl = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -24,7 +26,7 @@ export const readFileAsBase64 = (file: File): Promise<Base64FileResult> => {
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
-      const base64 = result.split(",")[1] || result;
+      const base64 = extractBase64FromDataUri(result);
       const mimeType = file.type || "application/octet-stream";
       resolve({ base64, mimeType });
     };

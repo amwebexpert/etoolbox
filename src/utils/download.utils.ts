@@ -1,3 +1,5 @@
+import { mimeToExt, parseDataUri } from "@lichens-innovation/ts-common/mime";
+
 interface DownloadBlobArgs {
   blob: Blob;
   fileName: string;
@@ -49,10 +51,8 @@ export const downloadJson = ({ content, fileName = "data.json" }: DownloadJsonAr
 };
 
 export const getExtensionFromDataUrl = (dataUrl: string): string => {
-  if (dataUrl.includes("image/png")) return "png";
-  if (dataUrl.includes("image/jpeg") || dataUrl.includes("image/jpg")) return "jpg";
-  if (dataUrl.includes("image/gif")) return "gif";
-  if (dataUrl.includes("image/webp")) return "webp";
-  if (dataUrl.includes("image/svg")) return "svg";
-  return "bin";
+  const parsed = parseDataUri(dataUrl);
+  if (!parsed) return "bin";
+
+  return mimeToExt(parsed.mimeType);
 };

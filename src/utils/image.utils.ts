@@ -1,17 +1,8 @@
 import type { RgbaColor } from "@lichens-innovation/ts-common";
-
-export const VALID_IMAGE_TYPES = [
-  "image/png",
-  "image/jpeg",
-  "image/jpg",
-  "image/gif",
-  "image/webp",
-  "image/bmp",
-  "image/svg+xml",
-];
+import { isImageMimeType } from "@lichens-innovation/ts-common/mime";
 
 export const isValidImageFile = (file: File): boolean => {
-  return VALID_IMAGE_TYPES.includes(file.type);
+  return isImageMimeType(file.type);
 };
 
 export const fileToImageData = (file: File): Promise<ImageData> => {

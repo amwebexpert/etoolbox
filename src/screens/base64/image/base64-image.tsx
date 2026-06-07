@@ -5,7 +5,7 @@ import { createStyles } from "antd-style";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
-import { getImagePreviewSrc } from "~/utils/base64-image.utils";
+import { getImagePreviewSrc } from "@lichens-innovation/ts-common/mime";
 
 import { useBase64ImageStore } from "./base64-image.store";
 
