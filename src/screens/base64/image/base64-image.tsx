@@ -5,9 +5,12 @@ import { createStyles } from "antd-style";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
-import { getImagePreviewSrc } from "~/utils/base64-image.utils";
+import { downloadImageDataUri, getImageMetadata, getImagePreviewSrc } from "~/utils/base64-image.utils";
 
+import { Base64ImageMetadata } from "./base64-image-metadata";
+import { Base64ImageToolbar } from "./base64-image-toolbar";
 import { useBase64ImageStore } from "./base64-image.store";
+import { useImageDimensions } from "./use-image-dimensions";
 
 const { TextArea } = Input;
 
@@ -17,11 +20,25 @@ export const Base64Image = () => {
 
   const { inputText, setInputText } = useBase64ImageStore();
 
+  const imagePreviewSrc = getImagePreviewSrc(inputText);
+  const metadata = getImageMetadata(inputText);
+  const dimensions = useImageDimensions(imagePreviewSrc);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value ?? "");
   };
 
-  const imagePreviewSrc = getImagePreviewSrc(inputText);
+  const handleClear = () => {
+    setInputText("");
+  };
+
+  const handleDownload = () => {
+    if (!imagePreviewSrc || !metadata) return;
+    downloadImageDataUri({ dataUri: imagePreviewSrc, ext: metadata.ext });
+  };
+
+  const hasContent = inputText.length > 0;
+  const canDownload = imagePreviewSrc !== null && metadata !== null;
 
   return (
     <ScreenContainer>
@@ -43,6 +60,17 @@ export const Base64Image = () => {
         />
 
         {imagePreviewSrc && <img src={imagePreviewSrc} alt="Decoded preview" className={styles.preview} />}
+
+        {metadata && imagePreviewSrc && (
+          <Base64ImageMetadata dataUri={imagePreviewSrc} metadata={metadata} dimensions={dimensions} />
+        )}
+
+        <Base64ImageToolbar
+          hasContent={hasContent}
+          canDownload={canDownload}
+          onClear={handleClear}
+          onDownload={handleDownload}
+        />
       </Space>
     </ScreenContainer>
   );
