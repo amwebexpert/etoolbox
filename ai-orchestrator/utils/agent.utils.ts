@@ -106,19 +106,27 @@ const getRateLimitFailureDetails = (msg: ClaudeAgentSdk.SDKMessage): AgentFailur
   return null;
 };
 
+const resolveAgentFailureReason = (details: AgentFailureDetails): string => {
+  const subtype = typeof details.subtype === "string" ? details.subtype : undefined;
+  if (subtype) {
+    return REASON_BY_SUBTYPE[subtype] ?? subtype;
+  }
+
+  const detailsReason = typeof details.reason === "string" ? details.reason : undefined;
+  if (detailsReason) {
+    return REASON_BY_DETAILS[detailsReason] ?? detailsReason;
+  }
+
+  return String(details.result ?? "unknown failure");
+};
+
 interface FormatAgentFailureConsoleMessageArgs {
   label: string;
   details: AgentFailureDetails;
 }
 
 const formatAgentFailureConsoleMessage = ({ label, details }: FormatAgentFailureConsoleMessageArgs): string => {
-  const subtype = typeof details.subtype === "string" ? details.subtype : undefined;
-  const detailsReason = typeof details.reason === "string" ? details.reason : undefined;
-  const reason = subtype
-    ? (REASON_BY_SUBTYPE[subtype] ?? subtype)
-    : detailsReason
-      ? (REASON_BY_DETAILS[detailsReason] ?? detailsReason)
-      : String(details.result ?? "unknown failure");
+  const reason = resolveAgentFailureReason(details);
   const errors = Array.isArray(details.errors)
     ? details.errors.filter((entry): entry is string => typeof entry === "string")
     : [];
