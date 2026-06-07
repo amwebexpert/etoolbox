@@ -11,7 +11,7 @@
     ],
     "blockedBy": [],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   },
   {
@@ -28,7 +28,7 @@
     ],
     "blockedBy": [],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   },
   {
