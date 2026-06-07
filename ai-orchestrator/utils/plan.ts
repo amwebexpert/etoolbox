@@ -1,5 +1,6 @@
 import { logger } from "@lichens-innovation/ts-common/logger";
 import { readFileSync, writeFileSync } from "node:fs";
+
 import type { Issue } from "./orchestrator.types.ts";
 
 export class Plan {

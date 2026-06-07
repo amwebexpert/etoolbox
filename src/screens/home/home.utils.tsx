@@ -1,8 +1,8 @@
 import {
   BgColorsOutlined,
   CalendarOutlined,
-  CodeSandboxOutlined,
   CodeOutlined,
+  CodeSandboxOutlined,
   DiffOutlined,
   FileSearchOutlined,
   FileTextOutlined,

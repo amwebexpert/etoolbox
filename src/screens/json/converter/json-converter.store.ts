@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
+import type { SourceType } from "./json-converter.types";
 import {
   DEFAULT_ROOT_CLASS_NAME,
   DEFAULT_SOURCE_TEXT,
   DEFAULT_SOURCE_TYPE,
   DEFAULT_TARGET_LANGUAGE,
 } from "./json-converter.types";
-import type { SourceType } from "./json-converter.types";
 
 interface JsonConverterState {
   sourceText: string;

@@ -2,8 +2,8 @@ import { Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import type { CsvParseResult, ViewMode } from "./csv-parser.types";
-import { CsvParserResultTable } from "./csv-parser-result-table";
 import { CsvParserResultJson } from "./csv-parser-result-json";
+import { CsvParserResultTable } from "./csv-parser-result-table";
 
 interface CsvParserResultProps {
   result: CsvParseResult | null;

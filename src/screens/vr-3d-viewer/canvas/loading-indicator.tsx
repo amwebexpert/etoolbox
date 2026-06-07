@@ -1,5 +1,5 @@
 import { useProgress } from "@react-three/drei";
-import { useEffect, useRef, startTransition } from "react";
+import { startTransition, useEffect, useRef } from "react";
 
 import type { LoadingIndicatorProps } from "./canvas.types";
 

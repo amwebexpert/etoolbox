@@ -1192,9 +1192,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lichens-innovation/ts-common@npm:1.17.0":
-  version: 1.17.0
-  resolution: "@lichens-innovation/ts-common@npm:1.17.0"
+"@lichens-innovation/ts-common@npm:1.18.0":
+  version: 1.18.0
+  resolution: "@lichens-innovation/ts-common@npm:1.18.0"
   dependencies:
     date-fns: "npm:^4.1.0"
   peerDependencies:
@@ -1235,7 +1235,7 @@ __metadata:
       optional: true
     react-i18next:
       optional: true
-  checksum: 10c0/88b3aa6e691ad7736894e20f622aff7855ce3005825f53f9221a37c3ce072daf52b75908efdb514ec332ab8bce571c3c765ae35c19668299662e400cb195e576
+  checksum: 10c0/5ca4690f511a0cf4b4a4d1c6ec1d2dbda3cd9530b4ea205d727e12d1cda156b337c38d967a114fbab3ec856a2fc45a7cbf24370e4e063efd926ab77cb6b02c20
   languageName: node
   linkType: hard
 
@@ -4756,6 +4756,15 @@ __metadata:
   peerDependencies:
     eslint: ^9 || ^10
   checksum: 10c0/6e5b1b8ad673535ea1134fa16ecda986c389a045b87ca935e6c5f69070b1889218f3116bfb8b793ec10f37c286f28904d0b5b1d62a76760e465aa32e73e6010e
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-simple-import-sort@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "eslint-plugin-simple-import-sort@npm:13.0.0"
+  peerDependencies:
+    eslint: ">=5.0.0"
+  checksum: 10c0/f561f3483c1c18dfa2705326d38d62c62d4aeb5947ed6d1f028299c5dc668586b5ef144926e68fe187b3a937ee0159738dcbca8c286fe56f489de52fd8f9e678
   languageName: node
   linkType: hard
 
@@ -10579,7 +10588,7 @@ __metadata:
     "@effect/sql": "npm:0.51.1"
     "@effect/typeclass": "npm:0.40.0"
     "@eslint/js": "npm:10.0.1"
-    "@lichens-innovation/ts-common": "npm:1.17.0"
+    "@lichens-innovation/ts-common": "npm:1.18.0"
     "@react-three/drei": "npm:10.7.7"
     "@react-three/fiber": "npm:9.6.1"
     "@tanstack/react-query": "npm:5.101.0"
@@ -10611,6 +10620,7 @@ __metadata:
     eslint: "npm:10.4.1"
     eslint-plugin-react-hooks: "npm:7.1.1"
     eslint-plugin-react-refresh: "npm:0.5.2"
+    eslint-plugin-simple-import-sort: "npm:^13.0.0"
     globals: "npm:17.6.0"
     httpsnippet: "npm:3.0.10"
     husky: "npm:9.1.7"

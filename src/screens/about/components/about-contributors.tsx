@@ -1,6 +1,7 @@
 import { GithubOutlined, LinkedinOutlined } from "@ant-design/icons";
 import { Card, Flex, Typography } from "antd";
 import { createStyles } from "antd-style";
+
 import { CONTRIBUTORS } from "./about-contributor.utils";
 
 const { Title, Link } = Typography;

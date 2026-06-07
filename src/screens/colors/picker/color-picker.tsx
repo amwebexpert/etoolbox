@@ -1,18 +1,18 @@
 import { BgColorsOutlined } from "@ant-design/icons";
-import { ColorPicker as AntColorPicker, Col, Flex, Row, Typography } from "antd";
-import { createStyles } from "antd-style";
+import { Col, ColorPicker as AntColorPicker, Flex, Row, Typography } from "antd";
 import type { Color } from "antd/es/color-picker";
+import { createStyles } from "antd-style";
 import { useEffect } from "react";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
 
+import { useColorPickerStore } from "./color-picker.store";
+import { clipboardToDataURL, fileToDataURL, rgbaColorToRgbaString } from "./color-picker.utils";
 import { ColorPickerImage } from "./color-picker-image";
 import { ColorPickerSamples } from "./color-picker-samples";
 import { ColorPickerToolbar } from "./color-picker-toolbar";
-import { useColorPickerStore } from "./color-picker.store";
-import { clipboardToDataURL, fileToDataURL, rgbaColorToRgbaString } from "./color-picker.utils";
 
 const { Text } = Typography;
 

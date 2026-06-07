@@ -1,7 +1,6 @@
 import { Col, Form, Select } from "antd";
 
 import { IMAGE_TYPES, type QRCodeImgMimeType } from "../qrcode-generator.types";
-
 import { useOptionsStyles } from "./use-options-styles";
 
 interface OptionImageFormatProps {

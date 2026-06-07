@@ -2,6 +2,7 @@ import { isNullish, yieldToMainThread } from "@lichens-innovation/ts-common";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+
 import { DEFAULT_GUIDELINE_SOURCES } from "./coding-standards.constants";
 import {
   INITIAL_EMBEDDINGS_PROGRESS,
@@ -10,11 +11,11 @@ import {
   runSearch,
 } from "./coding-standards.store.utils";
 import type { EmbeddingsProgress, GuidelineNode, GuidelineSource, Rule } from "./coding-standards.types";
+import { useModelLoadStore } from "./model-load.store";
+import type { ModelLoadHubProgressEvent } from "./model-load.store.type";
 import { EmbeddingsEngine } from "./utils/embeddings-engine";
 import { clearCache } from "./utils/storage.utils";
 import { clearTransformersBrowserCache } from "./utils/transformers-cache.utils";
-import type { ModelLoadHubProgressEvent } from "./model-load.store.type";
-import { useModelLoadStore } from "./model-load.store";
 
 interface PerformSearchArgs {
   query: string;

@@ -1,7 +1,6 @@
 import { Col, Form, Select } from "antd";
 
 import { ERROR_CORRECTION_LEVELS, type QRCodeErrorCorrectionLevel } from "../qrcode-generator.types";
-
 import { useOptionsStyles } from "./use-options-styles";
 
 interface OptionErrorCorrectionProps {

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
+import type { WorkerStatus } from "./image-ocr.types";
 import {
   DEFAULT_EXTRACTED_TEXT,
   DEFAULT_IMAGE_DATA_URL,
@@ -8,7 +9,6 @@ import {
   INITIAL_WORKER_STATUS,
   PERSISTED_STORE_NAME,
 } from "./image-ocr.types";
-import type { WorkerStatus } from "./image-ocr.types";
 
 interface ImageOcrState {
   // Persisted preferences

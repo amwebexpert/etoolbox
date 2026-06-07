@@ -1,8 +1,7 @@
 import { EyeOutlined, ForkOutlined, StarOutlined } from "@ant-design/icons";
+import { formatCount } from "@lichens-innovation/ts-common";
 import { Tooltip, Typography } from "antd";
 import { createStyles } from "antd-style";
-
-import { formatCount } from "~/utils/number-format.utils";
 
 import type { GithubUserProject } from "../github-user-projects.types";
 

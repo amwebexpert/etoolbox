@@ -3,7 +3,6 @@ import { Typography } from "antd";
 
 import type { QRCodeErrorCorrectionLevel } from "../qrcode-generator.types";
 import { getCapacityInfo } from "../qrcode-generator.utils";
-
 import { useOptionsStyles } from "./use-options-styles";
 
 interface OptionCapacityInfoProps {

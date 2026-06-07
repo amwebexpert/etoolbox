@@ -7,15 +7,15 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
+import { useVr3dViewerStore } from "./vr-3d-viewer.store";
+import type { ModelFileInfo } from "./vr-3d-viewer.types";
+import { DEFAULT_DEMO_MODEL } from "./vr-3d-viewer.types";
 import type { Vr3dViewerCanvasRef } from "./vr-3d-viewer-canvas";
 import { Vr3dViewerCanvas } from "./vr-3d-viewer-canvas";
 import { Vr3dViewerFileUpload } from "./vr-3d-viewer-file-upload";
 import { Vr3dViewerLoading } from "./vr-3d-viewer-loading";
 import { Vr3dViewerSettings } from "./vr-3d-viewer-settings";
 import { Vr3dViewerToolbar } from "./vr-3d-viewer-toolbar";
-import { useVr3dViewerStore } from "./vr-3d-viewer.store";
-import type { ModelFileInfo } from "./vr-3d-viewer.types";
-import { DEFAULT_DEMO_MODEL } from "./vr-3d-viewer.types";
 
 export const Vr3dViewer = () => {
   const { styles } = useStyles();

@@ -7,9 +7,9 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 
 import { useHtmlEntitiesStore } from "./html-entities.store";
+import { applyFiltering } from "./html-entities.utils";
 import { HtmlEntitiesTable } from "./html-entities-table";
 import { HtmlEntitiesToolbar } from "./html-entities-toolbar";
-import { applyFiltering } from "./html-entities.utils";
 
 export const HtmlEntities = () => {
   const { styles } = useStyles();

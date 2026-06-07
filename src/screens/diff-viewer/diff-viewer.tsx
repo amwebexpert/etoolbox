@@ -8,9 +8,9 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
 
-import { DiffViewerControls } from "./diff-viewer-controls";
 import { useDiffViewerStore } from "./diff-viewer.store";
 import { computeDiffSummary } from "./diff-viewer.utils";
+import { DiffViewerControls } from "./diff-viewer-controls";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -54,11 +54,7 @@ export const DiffViewer = () => {
   return (
     <ScreenContainer>
       <Space orientation="vertical" size="middle" className={styles.fullWidth}>
-        <ScreenHeader
-          icon={<DiffOutlined />}
-          title="Diff Viewer"
-          description="Compare two texts side by side"
-        />
+        <ScreenHeader icon={<DiffOutlined />} title="Diff Viewer" description="Compare two texts side by side" />
 
         <Row gutter={[16, 16]}>
           <Col xs={24} md={12}>
@@ -107,9 +103,7 @@ export const DiffViewer = () => {
             splitView
             leftTitle="Original"
             rightTitle="Modified"
-            compareMethod={
-              deferredIgnoreWhitespace ? DiffMethod.TRIMMED_LINES : DiffMethod.LINES
-            }
+            compareMethod={deferredIgnoreWhitespace ? DiffMethod.TRIMMED_LINES : DiffMethod.LINES}
           />
         </div>
       </Space>

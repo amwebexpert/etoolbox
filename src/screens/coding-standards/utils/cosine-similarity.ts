@@ -1,4 +1,5 @@
 import similarity from "compute-cosine-similarity";
+
 import type { EmbeddingVector } from "../coding-standards.types";
 
 export const cosineSimilarity = (vecA: EmbeddingVector, vecB: EmbeddingVector): number => {

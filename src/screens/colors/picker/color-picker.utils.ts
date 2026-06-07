@@ -1,6 +1,6 @@
 import type { RgbaColor } from "@lichens-innovation/ts-common";
-import { rgbToString, rgbaToHex, rgbaToHexWithAlpha, rgbaToString } from "@lichens-innovation/ts-common";
-import { clipboardImageToDataUrl, readFileAsDataUrl } from "~/utils/file-reader.utils";
+import { rgbaToHex, rgbaToHexWithAlpha, rgbaToString, rgbToString } from "@lichens-innovation/ts-common";
+import { clipboardImageToDataUrl, readFileAsDataUrl } from "@lichens-innovation/ts-common/web";
 
 export const rgbaColorToHex = rgbaToHex;
 export const rgbaColorToHexWithAlpha = rgbaToHexWithAlpha;

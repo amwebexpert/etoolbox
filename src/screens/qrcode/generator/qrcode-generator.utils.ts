@@ -1,8 +1,7 @@
-import { getErrorMessage, isBlank, isNullish } from "@lichens-innovation/ts-common";
+import { getErrorMessage, isBlank, isNullish, safeJsonParse, safeJsonStringify } from "@lichens-innovation/ts-common";
+import { getExtensionFromDataUri } from "@lichens-innovation/ts-common/mime";
+import { downloadDataUrl } from "@lichens-innovation/ts-common/web";
 import QRCode from "qrcode";
-
-import { downloadDataUrl, getExtensionFromDataUrl } from "~/utils/download.utils";
-import { safeJsonParse, safeJsonStringify } from "~/utils/json.utils";
 
 import type { GenerateQRCodeContext, QRCodeOptions } from "./qrcode-generator.types";
 
@@ -29,7 +28,7 @@ interface DownloadQRCodeArgs {
 }
 
 export const downloadQRCode = ({ dataUrl, filename = "qrcode" }: DownloadQRCodeArgs): void => {
-  const extension = getExtensionFromDataUrl(dataUrl);
+  const extension = getExtensionFromDataUri(dataUrl);
   downloadDataUrl({ dataUrl, fileName: `${filename}.${extension}` });
 };
 

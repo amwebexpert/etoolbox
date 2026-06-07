@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { THEMES } from "./themes";
 import type { ColorTheme } from "./themes";
+import { THEMES } from "./themes";
 
 const EXPECTED_KEYS: ColorTheme[] = ["red", "green", "orange", "blue", "pink"];
 const HEX_PATTERN = /^#[0-9a-fA-F]{6}$/;

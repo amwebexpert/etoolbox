@@ -1,10 +1,10 @@
+import { safeJsonStringify } from "@lichens-innovation/ts-common";
 import { Typography } from "antd";
 import { createStyles } from "antd-style";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
 import { useResponsive } from "~/hooks/use-responsive";
 import { useSyntaxHighlightTheme } from "~/hooks/use-syntax-highlight-theme";
-import { safeJsonStringify } from "~/utils/json.utils";
 
 import type { CsvParseResult } from "./csv-parser.types";
 

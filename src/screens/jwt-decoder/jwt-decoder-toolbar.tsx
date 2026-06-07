@@ -1,13 +1,13 @@
 import { ClearOutlined, CopyOutlined, FileTextOutlined, UnlockOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Space, Tooltip } from "antd";
 import type { MenuProps } from "antd";
+import { Button, Dropdown, Space, Tooltip } from "antd";
 import { createStyles } from "antd-style";
 
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
 
-import { formatJson, SAMPLE_JWT_TOKENS } from "./jwt-decoder.utils";
 import type { DecodedJwt } from "./jwt-decoder.utils";
+import { formatJson, SAMPLE_JWT_TOKENS } from "./jwt-decoder.utils";
 
 interface JwtDecoderToolbarProps {
   hasToken: boolean;

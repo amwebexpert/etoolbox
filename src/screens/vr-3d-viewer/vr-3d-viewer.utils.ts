@@ -1,6 +1,7 @@
 import prettyBytes from "pretty-bytes";
 
 import type { ResponsiveContext } from "~/utils/responsive.utils";
+
 import type { BoundingBox, ModelFileInfo, ModelFormat, Vector3D } from "./vr-3d-viewer.types";
 import { SUPPORTED_EXTENSIONS } from "./vr-3d-viewer.types";
 

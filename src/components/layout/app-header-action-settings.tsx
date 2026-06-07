@@ -2,6 +2,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { createStyles } from "antd-style";
 import { useState } from "react";
+
 import { SettingsDialog } from "~/components/settings/settings-dialog";
 
 export const AppHeaderActionSettings = () => {

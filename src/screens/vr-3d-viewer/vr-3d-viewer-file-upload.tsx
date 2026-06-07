@@ -1,6 +1,6 @@
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
-import { Button, Typography, Upload } from "antd";
 import type { UploadProps } from "antd";
+import { Button, Typography, Upload } from "antd";
 import { createStyles } from "antd-style";
 import { useRef } from "react";
 

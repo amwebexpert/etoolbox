@@ -3,6 +3,7 @@
  */
 
 import { execSync } from "node:child_process";
+
 import { deny, PreToolUseInput, readStdinJson } from "./hooks-common.ts";
 
 const PROTECTED_BRANCHES = ["main", "master", "develop"];

@@ -6,10 +6,10 @@ import { useDeferredValue } from "react";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 
-import { HttpStatusCodesTable } from "./http-status-codes-table";
-import { HttpStatusCodesToolbar } from "./http-status-codes-toolbar";
 import { useHttpStatusCodesStore } from "./http-status-codes.store";
 import { applyFiltering } from "./http-status-codes.utils";
+import { HttpStatusCodesTable } from "./http-status-codes-table";
+import { HttpStatusCodesToolbar } from "./http-status-codes-toolbar";
 
 export const HttpStatusCodes = () => {
   const { styles } = useStyles();

@@ -1,3 +1,4 @@
+import type { RgbaColor } from "@lichens-innovation/ts-common";
 import { Typography } from "antd";
 import { createStyles } from "antd-style";
 import { Resizable } from "re-resizable";
@@ -6,7 +7,6 @@ import { useRef } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
-import type { RgbaColor } from "@lichens-innovation/ts-common";
 import { retrieveClickedColor } from "./color-picker.utils";
 
 const { Text } = Typography;

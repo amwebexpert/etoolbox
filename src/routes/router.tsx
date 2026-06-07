@@ -1,10 +1,12 @@
 import { createHashHistory, createRootRoute, createRoute, createRouter, Navigate } from "@tanstack/react-router";
+
 import { RootLayout } from "~/routes/root-layout";
 import { About } from "~/screens/about/about";
 import { Base64 } from "~/screens/base64/base64";
 import { Base64File } from "~/screens/base64/file/base64-file";
 import { Base64Image } from "~/screens/base64/image/base64-image";
 import { Base64String } from "~/screens/base64/string/base64-string";
+import { CodingStandards } from "~/screens/coding-standards/coding-standards";
 import { Colors } from "~/screens/colors/colors";
 import { NamedColors } from "~/screens/colors/named/named-colors";
 import { ColorPicker } from "~/screens/colors/picker/color-picker";
@@ -13,7 +15,6 @@ import { HtmlEntities } from "~/screens/common-lists/html-entities/html-entities
 import { HttpHeaders } from "~/screens/common-lists/http-headers/http-headers";
 import { HttpStatusCodes } from "~/screens/common-lists/http-status-codes/http-status-codes";
 import { MimeTypes } from "~/screens/common-lists/mime-types/mime-types";
-import { CodingStandards } from "~/screens/coding-standards/coding-standards";
 import { CsvParser } from "~/screens/csv-parser/csv-parser";
 import { DateConverter } from "~/screens/date-converter/date-converter";
 import { DiffViewer } from "~/screens/diff-viewer/diff-viewer";

@@ -1,4 +1,5 @@
-import { Flex, Progress, Typography, theme } from "antd";
+import { Flex, Progress, theme, Typography } from "antd";
+
 import type { ModelFileLoadEntry } from "../../model-load.store.type";
 import { formatModelFileLoadByteHint, getModelFileLoadProgressPercent } from "./model-loading-progress.utils";
 

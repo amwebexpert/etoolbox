@@ -1,7 +1,6 @@
+import { safeJsonStringify } from "@lichens-innovation/ts-common";
 import Papa, { type ParseConfig, type ParseResult } from "papaparse";
 import prettyBytes from "pretty-bytes";
-
-import { safeJsonStringify } from "~/utils/json.utils";
 
 import type { CsvParseResult, CsvParserOptions, FileInfo, ParseCsvArgs } from "./csv-parser.types";
 import { DEFAULT_CSV_OPTIONS } from "./csv-parser.types";

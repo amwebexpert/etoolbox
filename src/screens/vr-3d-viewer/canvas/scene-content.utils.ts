@@ -1,5 +1,5 @@
-import * as THREE from "three";
 import { hexToNormalizedRgb } from "@lichens-innovation/ts-common";
+import * as THREE from "three";
 
 /**
  * Computes a THREE.Color from a hex color string

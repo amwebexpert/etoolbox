@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
 import { createStyles } from "antd-style";
+import type { ReactNode } from "react";
 
 interface ScreenContainerProps {
   children: ReactNode;

@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
-import { mutateEntryFromProgress } from "./model-load.store.utils";
+
 import {
   buildModelFileKey,
   type ModelFileLoadMap,
   type ModelLoadGlobalStatus,
   type ModelLoadHubProgressEvent,
 } from "./model-load.store.type";
+import { mutateEntryFromProgress } from "./model-load.store.utils";
 
 export type ModelLoadStore = {
   fileLoads: ModelFileLoadMap;

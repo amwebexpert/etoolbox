@@ -1,12 +1,13 @@
 import { useCallback, useEffect } from "react";
+
 import {
   useCodingStandardsStore,
   useEnabledGuidelineSourceBaseUrl,
   useIsEngineAvailable,
   useIsReadyForSemanticSearch,
 } from "../coding-standards.store";
-import { useIngestHubEvent } from "../model-load.store";
 import type { GuidelineNode } from "../coding-standards.types";
+import { useIngestHubEvent } from "../model-load.store";
 
 export const useSemanticSearch = (rootNode: GuidelineNode | null) => {
   const baseUrl = useEnabledGuidelineSourceBaseUrl();

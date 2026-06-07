@@ -5,7 +5,7 @@ import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
-import { getResultMaxHeight, type ExtendedJwtPayload, type JwtHeader } from "../jwt-decoder.utils";
+import { type ExtendedJwtPayload, getResultMaxHeight, type JwtHeader } from "../jwt-decoder.utils";
 import { JwtDecoderSectionHeaderContent } from "./jwt-decoder-section-header-content";
 import { JwtDecoderSectionPayloadContent } from "./jwt-decoder-section-payload-content";
 import { JwtDecoderSectionSignatureContent } from "./jwt-decoder-section-signature-content";

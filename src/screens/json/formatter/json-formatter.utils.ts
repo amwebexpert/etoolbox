@@ -1,10 +1,10 @@
-import { getErrorMessage } from "@lichens-innovation/ts-common";
 import {
   formatJson as formatJsonUtil,
-  prettifyJson as prettifyJsonUtil,
-  minifyJson as minifyJsonUtil,
+  getErrorMessage,
   isMinifiedJson,
-} from "~/utils/json.utils";
+  minifyJson as minifyJsonUtil,
+  prettifyJson as prettifyJsonUtil,
+} from "@lichens-innovation/ts-common";
 
 import {
   API_DOC_CONFIG,

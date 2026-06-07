@@ -1,7 +1,7 @@
 import { ClearOutlined, UploadOutlined } from "@ant-design/icons";
 import { Button, Space, Tooltip, Upload } from "antd";
-import { createStyles } from "antd-style";
 import type { RcFile } from "antd/es/upload";
+import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
 

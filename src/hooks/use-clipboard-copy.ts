@@ -1,7 +1,7 @@
 import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
+import * as clipboardUtils from "@lichens-innovation/ts-common/web";
 
 import { useToastMessage } from "~/hooks/use-toast-message";
-import * as clipboardUtils from "~/utils/clipboard.utils";
 
 interface CopyTextToClipboardArgs {
   text: string | undefined | null;

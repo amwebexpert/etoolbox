@@ -1,4 +1,4 @@
-import { CopyOutlined, CodeOutlined } from "@ant-design/icons";
+import { CodeOutlined, CopyOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Row, Table, Tooltip, Typography } from "antd";
 import { createStyles } from "antd-style";
 import SyntaxHighlighter from "react-syntax-highlighter";

@@ -3,6 +3,7 @@ import type { ExtraProps } from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
 import { useSyntaxHighlightTheme } from "~/hooks/use-syntax-highlight-theme";
+
 import { extractLanguageFromClassName } from "./code-block.utils";
 
 type Props = ClassAttributes<HTMLElement> & HTMLAttributes<HTMLElement> & ExtraProps;

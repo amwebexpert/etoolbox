@@ -5,7 +5,7 @@ import {
   EyeOutlined,
   FormatPainterOutlined,
 } from "@ant-design/icons";
-import { Button, Space, Tooltip, Segmented } from "antd";
+import { Button, Segmented, Space, Tooltip } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
