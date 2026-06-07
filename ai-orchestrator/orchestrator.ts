@@ -29,6 +29,8 @@ interface DeleteImplementationBranchesResult {
   failed: string[];
 }
 
+const MAX_PARALLEL_UNBLOCKED_IMPLEMENTERS = 1; // parallelization limit since this is getting costly to run in parallel
+
 export class Orchestrator {
   private readonly repoDir: string;
   private readonly maxIterations: number;
@@ -47,7 +49,7 @@ export class Orchestrator {
 
       this.plan.load();
       await this.runPlanningPhase();
-      const unblockedIssues = this.plan.getUnblocked(1); // parallelization limit since this is costly
+      const unblockedIssues = this.plan.getUnblocked(MAX_PARALLEL_UNBLOCKED_IMPLEMENTERS);
 
       if (unblockedIssues.length === 0) {
         this.logNoUnblockedIssuesStatus();
