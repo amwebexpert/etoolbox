@@ -47,7 +47,7 @@ export class Orchestrator {
 
       this.plan.load();
       await this.runPlanningPhase();
-      const unblockedIssues = this.plan.getUnblocked();
+      const unblockedIssues = this.plan.getUnblocked(1); // parallelization limit since this is costly
 
       if (unblockedIssues.length === 0) {
         this.logNoUnblockedIssuesStatus();

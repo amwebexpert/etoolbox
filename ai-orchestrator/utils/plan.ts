@@ -45,11 +45,13 @@ export class Plan {
     return this.getIssueById(id)?.passes ?? false;
   }
 
-  getUnblocked(): Issue[] {
-    return this.issues.filter((issue: Issue) => {
-      const { isPlanned, passes, type, blockedBy } = issue;
-      return isPlanned && !passes && type === "AFK" && blockedBy.every((id) => this.isIssuePassed(id));
-    });
+  getUnblocked(maxUnblocked: number = Infinity): Issue[] {
+    return this.issues
+      .filter((issue: Issue) => {
+        const { isPlanned, passes, type, blockedBy } = issue;
+        return isPlanned && !passes && type === "AFK" && blockedBy.every((id) => this.isIssuePassed(id));
+      })
+      .slice(0, maxUnblocked);
   }
 
   get remainingAfkIssues(): Issue[] {
