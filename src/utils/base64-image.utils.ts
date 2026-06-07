@@ -1,11 +1,8 @@
+import mime from "mime";
+
 import { VALID_IMAGE_TYPES } from "./image.utils";
 
 const DATA_URI_PATTERN = /^data:([\w.+-]+\/[\w.+-]+);base64,(.+)$/;
-
-const MIME_TO_EXT_MAP: Record<string, string> = {
-  "image/jpeg": "jpg",
-  "image/svg+xml": "svg",
-};
 
 export interface ParseDataUriResult {
   mimeType: string;
@@ -38,8 +35,8 @@ export const getImagePreviewSrc = (input: string): string | null => {
 };
 
 export const mimeToExt = (mimeType: string): string => {
-  const mapped = MIME_TO_EXT_MAP[mimeType];
-  if (mapped) return mapped;
+  const ext = mime.getExtension(mimeType);
+  if (ext) return ext;
 
   const subtype = mimeType.split("/")[1] ?? mimeType;
   return subtype.split("+")[0] ?? subtype;

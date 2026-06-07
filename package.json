@@ -60,6 +60,7 @@
     "jsqr": "1.4.0",
     "jwt-decode": "4.0.0",
     "markdown-it": "14.2.0",
+    "mime": "4.1.0",
     "mime-db": "1.54.0",
     "papaparse": "5.5.3",
     "parse-curl": "0.2.6",
