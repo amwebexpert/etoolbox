@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
 
+import { isNullish } from "@lichens-innovation/ts-common";
 import { getLoggerForLabel } from "./agent-logger.utils.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -84,6 +85,18 @@ const toSdkJsonSchema = <T>(schema: z.ZodSchema<T>): Record<string, unknown> => 
   return rest;
 };
 
+const getAgentFailureDetails = (result: SDKResultMessage | null): Record<string, unknown> => {
+  if (result?.type === "result" && result.subtype !== "success") {
+    return { subtype: result.subtype, numTurns: result.num_turns, errors: result.errors };
+  }
+
+  if (isNullish(result)) {
+    return { result: "no result" };
+  }
+
+  return { result: "unexpected message type" };
+};
+
 export const runTypedAgent = async <T>({ prompt, schema, options, label }: RunTypedAgentArgs<T>): Promise<T> => {
   const agentLogger = getLoggerForLabel(label);
 
@@ -100,7 +113,7 @@ export const runTypedAgent = async <T>({ prompt, schema, options, label }: RunTy
   });
 
   if (result === null || result.type !== "result" || result.subtype !== "success") {
-    agentLogger.error("Agent call failed, aborting.");
+    agentLogger.error("Agent call failed, aborting.", getAgentFailureDetails(result));
     process.exit(1);
   }
 

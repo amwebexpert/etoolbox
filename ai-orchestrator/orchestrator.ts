@@ -107,7 +107,7 @@ export class Orchestrator {
       options: {
         cwd: this.repoDir,
         model: "claude-opus-4-7",
-        maxTurns: 5,
+        maxTurns: 20,
         permissionMode: "bypassPermissions",
       },
     });
