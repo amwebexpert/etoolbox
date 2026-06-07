@@ -5,6 +5,7 @@ import { createStyles } from "antd-style";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
+import { getImagePreviewSrc } from "~/utils/base64-image.utils";
 
 import { useBase64ImageStore } from "./base64-image.store";
 
@@ -19,6 +20,8 @@ export const Base64Image = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value ?? "");
   };
+
+  const imagePreviewSrc = getImagePreviewSrc(inputText);
 
   return (
     <ScreenContainer>
@@ -38,6 +41,8 @@ export const Base64Image = () => {
           onChange={handleInputChange}
           className={styles.textArea}
         />
+
+        {imagePreviewSrc && <img src={imagePreviewSrc} alt="Decoded preview" className={styles.preview} />}
       </Space>
     </ScreenContainer>
   );
@@ -49,5 +54,10 @@ const useStyles = createStyles(() => ({
   },
   textArea: {
     fontFamily: "monospace",
+  },
+  preview: {
+    maxWidth: "100%",
+    maxHeight: "60vh",
+    objectFit: "contain",
   },
 }));
