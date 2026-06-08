@@ -27,6 +27,14 @@ export const getImageMetadata = (input: string): ImageMetadata | null => {
   };
 };
 
+export const getNonImageDataUri = (input: string): string | null => {
+  const parsed = parseDataUri(input);
+  if (!parsed) return null;
+  if (isImageMimeType(parsed.mimeType)) return null;
+
+  return input;
+};
+
 export const getImageDownloadFilename = (ext: string): string => `image.${ext}`;
 
 interface DownloadImageDataUriArgs {

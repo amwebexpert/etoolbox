@@ -1,12 +1,12 @@
 import { PictureOutlined } from "@ant-design/icons";
 import { getImagePreviewSrc } from "@lichens-innovation/ts-common/mime";
-import { Input, Space } from "antd";
+import { Alert, Input, Space } from "antd";
 import { createStyles } from "antd-style";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
-import { downloadImageDataUri, getImageMetadata } from "~/utils/base64-image.utils";
+import { downloadImageDataUri, getImageMetadata, getNonImageDataUri } from "~/utils/base64-image.utils";
 
 import { useBase64ImageStore } from "./base64-image.store";
 import { Base64ImageMetadata } from "./base64-image-metadata";
@@ -24,6 +24,7 @@ export const Base64Image = () => {
   const imagePreviewSrc = getImagePreviewSrc(inputText);
   const metadata = getImageMetadata(inputText);
   const dimensions = useImageDimensions(imagePreviewSrc);
+  const nonImageDataUri = getNonImageDataUri(inputText);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value ?? "");
@@ -64,6 +65,18 @@ export const Base64Image = () => {
 
         {metadata && imagePreviewSrc && (
           <Base64ImageMetadata dataUri={imagePreviewSrc} metadata={metadata} dimensions={dimensions} />
+        )}
+
+        {nonImageDataUri && (
+          <Alert
+            type="info"
+            showIcon
+            title={
+              <a href={nonImageDataUri} target="_blank" rel="noopener noreferrer">
+                Open in new tab
+              </a>
+            }
+          />
         )}
 
         <Base64ImageToolbar
