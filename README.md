@@ -78,15 +78,6 @@ Some screen captures of the implemented features...
 | [Husky](https://typicode.github.io/husky/) | Git hooks management            |
 | [Commitlint](https://commitlint.js.org/)   | Commit message linting          |
 
-## Roadmap (of next features)
-
-- DataURI scheme viewer (Base64 raw data)
-  - Like this website: [Data URL to image](https://base64.guru/tools/data-url-to-image)
-- Text diff tooling
-- Image compressor
-- Mardown viewer & utilities, like [table formatter](https://tabletomarkdown.com/format-markdown-table/)
-- Suggests something or add your pull request!
-
 ## Technical Notes
 
 - [Technical notes](./TECH_NOTES.md)
