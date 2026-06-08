@@ -1,4 +1,5 @@
 import { isNullish } from "@lichens-innovation/ts-common";
+
 import type { EmbeddingVector, Rule, SerializedEmbedding } from "../coding-standards.types";
 
 const STORAGE_KEY = "etoolbox-coding-standards-embeddings";

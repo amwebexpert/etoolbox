@@ -7,8 +7,6 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
 
-import { UuidGeneratorResult } from "./uuid-generator-result";
-import { UuidGeneratorToolbar } from "./uuid-generator-toolbar";
 import { useUuidGeneratorStore } from "./uuid-generator.store";
 import {
   generateUuids,
@@ -18,6 +16,8 @@ import {
   MIN_QUANTITY,
   UUID_VERSION_OPTIONS,
 } from "./uuid-generator.utils";
+import { UuidGeneratorResult } from "./uuid-generator-result";
+import { UuidGeneratorToolbar } from "./uuid-generator-toolbar";
 
 export const UuidGenerator = () => {
   const { styles } = useStyles();

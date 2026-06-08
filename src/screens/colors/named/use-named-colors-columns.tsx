@@ -5,8 +5,8 @@ import { createStyles } from "antd-style";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
 
+import { type ColorInfo, formatHexCode, formatRGB } from "./named-colors.utils";
 import { NamedColorsCell } from "./named-colors-cell";
-import { formatHexCode, formatRGB, type ColorInfo } from "./named-colors.utils";
 
 const { Text } = Typography;
 

@@ -1,4 +1,5 @@
 import { isBlank, isNullish, yieldToMainThread } from "@lichens-innovation/ts-common";
+
 import type { EmbeddingsProgress, GuidelineNode, Rule } from "./coding-standards.types";
 import type { EmbeddingsEngine } from "./utils/embeddings-engine";
 import { combineSearchResults, filterGuidelines } from "./utils/search.utils";

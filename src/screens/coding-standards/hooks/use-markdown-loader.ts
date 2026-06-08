@@ -1,6 +1,6 @@
+import { PeriodsInMS } from "@lichens-innovation/ts-common";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-import { PeriodsInMS } from "@lichens-innovation/ts-common";
 import { GuidelinesQueryKey } from "../coding-standards.constants";
 import type { GuidelineNode, GuidelineSource } from "../coding-standards.types";
 import { buildNode, createGuidelineNodes } from "../utils/markdown-parser";

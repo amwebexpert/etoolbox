@@ -1,5 +1,5 @@
 import { CATEGORY_LABELS, HTTP_STATUS_CODES } from "./http-status-codes.constants";
-import type { HttpStatusCodeEntry, HttpStatusCategoryFilter } from "./http-status-codes.types";
+import type { HttpStatusCategoryFilter, HttpStatusCodeEntry } from "./http-status-codes.types";
 
 export const CATEGORIES: HttpStatusCategoryFilter[] = ["1xx", "2xx", "3xx", "4xx", "5xx"];
 

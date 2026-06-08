@@ -1,10 +1,11 @@
-import { env, pipeline, type FeatureExtractionPipeline, type Tensor } from "@xenova/transformers";
 import { isNullish } from "@lichens-innovation/ts-common";
+import { env, type FeatureExtractionPipeline, pipeline, type Tensor } from "@xenova/transformers";
+
 import type { EmbeddingVector, GuidelineNode, Rule } from "../coding-standards.types";
 import type { ModelLoadHubProgressEvent } from "../model-load.store.type";
 import { cosineSimilarity } from "./cosine-similarity";
-import { loadEmbedding, saveEmbedding } from "./storage.utils";
 import { loadAllRulesWithCategory } from "./markdown-parser";
+import { loadEmbedding, saveEmbedding } from "./storage.utils";
 
 // Skip initial check for local models, since we are not loading any local models.
 env.allowLocalModels = false;

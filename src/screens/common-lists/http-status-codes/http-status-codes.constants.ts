@@ -1,4 +1,4 @@
-import type { HttpStatusCodeEntry, HttpStatusCategory } from "./http-status-codes.types";
+import type { HttpStatusCategory, HttpStatusCodeEntry } from "./http-status-codes.types";
 
 const MDN_BASE_URL = "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status";
 

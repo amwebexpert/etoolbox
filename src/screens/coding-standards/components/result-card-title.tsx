@@ -1,8 +1,8 @@
 import { CopyOutlined } from "@ant-design/icons";
-import { Tag, Typography, theme } from "antd";
+import { isNullish } from "@lichens-innovation/ts-common";
+import { Tag, theme, Typography } from "antd";
 import { createStyles } from "antd-style";
 import type { FunctionComponent } from "react";
-import { isNullish } from "@lichens-innovation/ts-common";
 
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 

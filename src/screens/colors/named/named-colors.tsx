@@ -7,9 +7,9 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 
 import { useNamedColorsStore } from "./named-colors.store";
+import { applyFiltering } from "./named-colors.utils";
 import { NamedColorsTable } from "./named-colors-table";
 import { NamedColorsToolbar } from "./named-colors-toolbar";
-import { applyFiltering } from "./named-colors.utils";
 
 export const NamedColors = () => {
   const { styles } = useStyles();

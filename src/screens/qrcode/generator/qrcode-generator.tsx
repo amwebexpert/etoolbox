@@ -10,10 +10,10 @@ import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { OptionsContainer as QRCodeGeneratorOptions } from "./options/options-container";
-import { QRCodeGeneratorResult } from "./qrcode-generator-result";
-import { QRCodeGeneratorToolbar } from "./qrcode-generator-toolbar";
 import { useQRCodeGeneratorStore } from "./qrcode-generator.store";
 import { downloadQRCode } from "./qrcode-generator.utils";
+import { QRCodeGeneratorResult } from "./qrcode-generator-result";
+import { QRCodeGeneratorToolbar } from "./qrcode-generator-toolbar";
 import { useQRCodeGenerate } from "./use-qrcode-generate";
 
 const { TextArea } = Input;

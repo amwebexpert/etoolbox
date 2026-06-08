@@ -1,4 +1,4 @@
-import type { HttpHeaderEntry, HttpHeaderCategory, HttpHeaderType } from "./http-headers.types";
+import type { HttpHeaderCategory, HttpHeaderEntry, HttpHeaderType } from "./http-headers.types";
 
 const MDN_BASE_URL = "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers";
 

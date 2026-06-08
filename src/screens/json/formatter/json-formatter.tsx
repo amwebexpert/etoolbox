@@ -1,5 +1,6 @@
 import { FormatPainterOutlined } from "@ant-design/icons";
 import { getErrorMessage } from "@lichens-innovation/ts-common";
+import { downloadJson } from "@lichens-innovation/ts-common/web";
 import { Flex, Input } from "antd";
 import { createStyles } from "antd-style";
 import { useState } from "react";
@@ -9,13 +10,12 @@ import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
-import { downloadJson } from "~/utils/download.utils";
 
+import { useJsonFormatterStore } from "./json-formatter.store";
+import { getFormattedJson } from "./json-formatter.utils";
 import { JsonFormatterConfigPanel } from "./json-formatter-config-panel";
 import { JsonFormatterResult } from "./json-formatter-result";
 import { JsonFormatterToolbar } from "./json-formatter-toolbar";
-import { useJsonFormatterStore } from "./json-formatter.store";
-import { getFormattedJson } from "./json-formatter.utils";
 
 const { TextArea } = Input;
 

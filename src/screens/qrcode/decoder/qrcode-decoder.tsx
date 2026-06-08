@@ -1,4 +1,5 @@
 import { InboxOutlined, ScanOutlined } from "@ant-design/icons";
+import { clipboardImageToFile } from "@lichens-innovation/ts-common/web";
 import type { UploadFile } from "antd";
 import { Card, Flex, Typography, Upload } from "antd";
 import { createStyles } from "antd-style";
@@ -8,11 +9,10 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useToastMessage } from "~/hooks/use-toast-message";
-import { clipboardImageToFile } from "~/utils/file-reader.utils";
 
+import { isValidImageFile } from "./qrcode-decoder.utils";
 import { QRCodeDecoderResult } from "./qrcode-decoder-result";
 import { QRCodeDecoderToolbar } from "./qrcode-decoder-toolbar";
-import { isValidImageFile } from "./qrcode-decoder.utils";
 import { useQRCodeDecode } from "./use-qrcode-decode";
 
 const { Dragger } = Upload;

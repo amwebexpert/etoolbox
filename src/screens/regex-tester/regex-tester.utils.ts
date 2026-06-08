@@ -1,7 +1,5 @@
 import { getErrorMessage, isBlank, isNullish } from "@lichens-innovation/ts-common";
-
-import { escapeHtml } from "~/utils/html.utils";
-import { safeJsonStringify } from "~/utils/json.utils";
+import { escapeHtml, safeJsonStringify } from "@lichens-innovation/ts-common";
 
 export interface RegexTestResult {
   highlightedHtml: string;

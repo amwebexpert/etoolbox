@@ -1,10 +1,10 @@
 // Node.js polyfills must be imported FIRST (required by httpsnippet)
 import "~/utils/node-polyfills";
+import "~/styles/global.css";
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-import "~/styles/global.css";
 import { Webapp } from "~/webapp";
 
 const root = document.getElementById("root");

@@ -5,7 +5,6 @@ import { useResponsive } from "~/hooks/use-responsive";
 import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import type { QRCodeOptions } from "../qrcode-generator.types";
-
 import { OptionCapacityInfo } from "./option-capacity-info";
 import { OptionColors } from "./option-colors";
 import { OptionErrorCorrection } from "./option-error-correction";

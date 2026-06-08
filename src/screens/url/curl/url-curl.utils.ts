@@ -1,6 +1,6 @@
 import { getErrorMessage } from "@lichens-innovation/ts-common";
+import { type HarRequest, HTTPSnippet } from "httpsnippet";
 import parseCurl from "parse-curl";
-import { HTTPSnippet, type HarRequest } from "httpsnippet";
 
 // HTTPSnippet target IDs - must match httpsnippet's internal types
 type TargetId =

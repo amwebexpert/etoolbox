@@ -1,12 +1,12 @@
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { logger } from "@lichens-innovation/ts-common/logger";
 import { z } from "zod";
 
-import { isNotBlank } from "@lichens-innovation/ts-common";
 import { setAgentLogDir } from "./utils/agent-logger.utils.ts";
 import { loadPrompt, runAgent, runTypedAgent } from "./utils/agent.utils.ts";
 import type { Issue, IssueWorktreeResult, OrchestratorOptions } from "./utils/orchestrator.types.ts";
 import { Plan } from "./utils/plan.ts";
-import { deleteBranch, hasCommits, withWorktree } from "./utils/worktree.utils.ts";
+import { deleteBranch, getCurrentHead, hasCommits, withWorktree } from "./utils/worktree.utils.ts";
 
 const plannerOutputSchema = z.object({
   issues: z.array(z.object({ id: z.string(), blockedBy: z.array(z.string()) })),
@@ -29,6 +29,9 @@ interface DeleteImplementationBranchesResult {
   failed: string[];
 }
 
+// parallelization limit since this is getting costly to run in parallel
+const MAX_PARALLEL_UNBLOCKED_IMPLEMENTERS = 2;
+
 export class Orchestrator {
   private readonly repoDir: string;
   private readonly maxIterations: number;
@@ -42,12 +45,14 @@ export class Orchestrator {
   }
 
   async run(): Promise<void> {
+    const initialHead = getCurrentHead({ repoDir: this.repoDir });
+
     for (let iteration = 1; iteration <= this.maxIterations; iteration++) {
       logger.info(`\n=== Iteration ${iteration}/${this.maxIterations} ===\n`);
 
       this.plan.load();
       await this.runPlanningPhase();
-      const unblockedIssues = this.plan.getUnblocked();
+      const unblockedIssues = this.plan.getUnblocked(MAX_PARALLEL_UNBLOCKED_IMPLEMENTERS);
 
       if (unblockedIssues.length === 0) {
         this.logNoUnblockedIssuesStatus();
@@ -66,6 +71,7 @@ export class Orchestrator {
     }
 
     if (this.plan.remainingAfkIssues.length === 0) {
+      await this.runReviewPhase(initialHead);
       await this.cleanupImplementationBranches();
     }
 
@@ -107,7 +113,7 @@ export class Orchestrator {
       options: {
         cwd: this.repoDir,
         model: "claude-opus-4-7",
-        maxTurns: 5,
+        maxTurns: 20,
         permissionMode: "bypassPermissions",
       },
     });
@@ -119,7 +125,7 @@ export class Orchestrator {
     logger.info("Planning complete.");
   }
 
-  private async implementAndReviewIssue(issue: Issue): Promise<IssueWorktreeResult> {
+  private async implementIssue(issue: Issue): Promise<IssueWorktreeResult> {
     const branch = this.getBranchName(issue.id);
 
     return withWorktree({
@@ -129,11 +135,8 @@ export class Orchestrator {
         await this.runImplementAgent({ issue, branch, worktreePath });
 
         if (!hasCommits({ branch, repoDir: this.repoDir })) {
-          logger.info(`  ${issue.id}: no commits produced, skipping review`);
           return { issue, hasProducedCommits: false };
         }
-
-        await this.runReviewAgent({ issue, branch, worktreePath });
 
         return { issue, hasProducedCommits: true };
       },
@@ -162,26 +165,26 @@ export class Orchestrator {
     });
   }
 
-  private async runReviewAgent({ issue, branch, worktreePath }: IssueWorktreeParams): Promise<void> {
-    logger.info(`  ${issue.id}: reviewing code changes`);
+  private async runReviewPhase(initialHead: string): Promise<void> {
+    logger.info("Running review phase...");
 
     await runAgent({
       prompt: loadPrompt({
         name: "review.md",
-        substitutions: { BRANCH: branch, SOURCE_BRANCH: "HEAD" },
+        substitutions: { BRANCH: "HEAD", SOURCE_BRANCH: initialHead },
       }),
-      label: `review:${issue.id}`,
+      label: "review",
       options: {
-        cwd: worktreePath,
+        cwd: this.repoDir,
         model: "claude-sonnet-4-6",
-        maxTurns: 10,
+        maxTurns: 100,
         permissionMode: "bypassPermissions",
       },
     });
   }
 
   private async runImplementationPhase(unblockedIssues: Issue[]): Promise<Issue[]> {
-    const settled = await Promise.allSettled(unblockedIssues.map((issue) => this.implementAndReviewIssue(issue)));
+    const settled = await Promise.allSettled(unblockedIssues.map((issue) => this.implementIssue(issue)));
 
     for (const [index, outcome] of settled.entries()) {
       if (outcome.status === "rejected") {
@@ -200,7 +203,7 @@ export class Orchestrator {
 
   private async runMergePhase(completedIssues: Issue[]): Promise<void> {
     const completedBranches = completedIssues.map((issue) => this.getBranchName(issue.id));
-    logger.info(`\n${completedBranches.length} branch(es) ready to merge.`);
+    logger.info(`${completedBranches.length} branch(es) ready to merge.`);
 
     const { merged, failed } = await runTypedAgent({
       prompt: loadPrompt({
@@ -215,7 +218,7 @@ export class Orchestrator {
       options: {
         cwd: this.repoDir,
         model: "claude-sonnet-4-6",
-        maxTurns: 20,
+        maxTurns: 100,
         permissionMode: "bypassPermissions",
       },
     });
@@ -225,9 +228,9 @@ export class Orchestrator {
     }
     this.plan.save();
 
-    logger.info(`Merged: ${merged.length === 0 ? "none" : merged.join(", ")}`);
+    logger.info(`\tMerged: ${merged.length === 0 ? "none" : merged.join(", ")}`);
     if (failed.length > 0) {
-      logger.info(`Failed to merge: ${failed.join(", ")}`);
+      logger.info(`\tFailed to merge: ${failed.join(", ")}`);
     }
   }
 

@@ -1,9 +1,12 @@
 import { createHashHistory, createRootRoute, createRoute, createRouter, Navigate } from "@tanstack/react-router";
+
 import { RootLayout } from "~/routes/root-layout";
 import { About } from "~/screens/about/about";
 import { Base64 } from "~/screens/base64/base64";
+import { DataUri } from "~/screens/base64/data-uri/data-uri";
 import { Base64File } from "~/screens/base64/file/base64-file";
 import { Base64String } from "~/screens/base64/string/base64-string";
+import { CodingStandards } from "~/screens/coding-standards/coding-standards";
 import { Colors } from "~/screens/colors/colors";
 import { NamedColors } from "~/screens/colors/named/named-colors";
 import { ColorPicker } from "~/screens/colors/picker/color-picker";
@@ -12,7 +15,6 @@ import { HtmlEntities } from "~/screens/common-lists/html-entities/html-entities
 import { HttpHeaders } from "~/screens/common-lists/http-headers/http-headers";
 import { HttpStatusCodes } from "~/screens/common-lists/http-status-codes/http-status-codes";
 import { MimeTypes } from "~/screens/common-lists/mime-types/mime-types";
-import { CodingStandards } from "~/screens/coding-standards/coding-standards";
 import { CsvParser } from "~/screens/csv-parser/csv-parser";
 import { DateConverter } from "~/screens/date-converter/date-converter";
 import { DiffViewer } from "~/screens/diff-viewer/diff-viewer";
@@ -74,6 +76,12 @@ const base64FileRoute = createRoute({
   getParentRoute: () => base64Route,
   path: "/file",
   component: Base64File,
+});
+
+const dataUriRoute = createRoute({
+  getParentRoute: () => base64Route,
+  path: "/data-uri",
+  component: DataUri,
 });
 
 const urlRoute = createRoute({
@@ -297,7 +305,7 @@ export const ROUTES_WITH_CHILDREN = ["/url", "/base64", "/json", "/colors", "/co
 const routeTree = rootRoute.addChildren([
   homeRoute,
   aboutRoute,
-  base64Route.addChildren([base64IndexRoute, base64StringRoute, base64FileRoute]),
+  base64Route.addChildren([base64IndexRoute, base64StringRoute, base64FileRoute, dataUriRoute]),
   urlRoute.addChildren([urlIndexRoute, urlCurlRoute, urlParserRoute, urlEncoderRoute]),
   jsonRoute.addChildren([jsonIndexRoute, jsonFormatterRoute, jsonConverterRoute, jsonRepairRoute]),
   colorsRoute.addChildren([colorsIndexRoute, colorPickerRoute, namedColorsRoute]),

@@ -1,7 +1,7 @@
 import { getErrorMessage } from "@lichens-innovation/ts-common";
+import { isValidImageFile as isValidImage } from "@lichens-innovation/ts-common/mime";
+import { fileToImageData } from "@lichens-innovation/ts-common/web";
 import jsQR from "jsqr";
-
-import { fileToImageData, isValidImageFile as isValidImage } from "~/utils/image.utils";
 
 import type { DecodeFromFileContext, QRCodeDecodeResult } from "./qrcode-decoder.types";
 

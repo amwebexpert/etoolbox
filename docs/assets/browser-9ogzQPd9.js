@@ -1,0 +1,1 @@
+import{t as e}from"./index-BvczoHk_.js";export default e();

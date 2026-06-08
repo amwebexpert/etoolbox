@@ -3,7 +3,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 
 import { useSyntaxHighlightTheme } from "~/hooks/use-syntax-highlight-theme";
 
-import { formatJson, type ExtendedJwtPayload } from "../jwt-decoder.utils";
+import { type ExtendedJwtPayload, formatJson } from "../jwt-decoder.utils";
 
 interface JwtDecoderSectionPayloadContentProps {
   payload: ExtendedJwtPayload | null;

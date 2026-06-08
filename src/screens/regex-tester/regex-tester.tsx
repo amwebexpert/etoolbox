@@ -7,11 +7,11 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
 
+import { useRegexTesterStore } from "./regex-tester.store";
+import { extractMatches, REGEX_FLAG_OPTIONS, testRegex } from "./regex-tester.utils";
 import { RegexTesterExtracted } from "./regex-tester-extracted";
 import { RegexTesterMatches } from "./regex-tester-matches";
 import { RegexTesterToolbar } from "./regex-tester-toolbar";
-import { useRegexTesterStore } from "./regex-tester.store";
-import { extractMatches, REGEX_FLAG_OPTIONS, testRegex } from "./regex-tester.utils";
 
 const { TextArea } = Input;
 

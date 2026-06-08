@@ -1,6 +1,7 @@
 import { isNullish } from "@lichens-innovation/ts-common";
-import type { CodingCategory, GuidelineNode } from "../coding-standards.types";
+
 import { AVOID_PREFER_PREFIXES } from "../coding-standards.constants";
+import type { CodingCategory, GuidelineNode } from "../coding-standards.types";
 
 type GuidelineFromTextArgs = {
   rootNode: GuidelineNode;

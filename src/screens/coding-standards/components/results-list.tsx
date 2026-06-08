@@ -1,6 +1,7 @@
 import { Collapse, Empty, Spin } from "antd";
 import { createStyles } from "antd-style";
 import type { FunctionComponent } from "react";
+
 import type { Rule } from "../coding-standards.types";
 import { ResultCardContent } from "./result-card-content";
 import { ResultCardTitle } from "./result-card-title";

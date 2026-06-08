@@ -3,6 +3,7 @@ import { createStyles } from "antd-style";
 import type { FunctionComponent } from "react";
 
 import { MarkdownContent } from "~/components/ui/markdown-content";
+
 import type { EmbeddingsProgress as EmbeddingsProgressType } from "../coding-standards.types";
 
 interface EmbeddingsProgressProps {

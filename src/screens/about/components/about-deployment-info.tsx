@@ -1,6 +1,7 @@
 import { ExperimentOutlined } from "@ant-design/icons";
 import { Table, Typography } from "antd";
 import { createStyles } from "antd-style";
+
 import { COLUMNS, VERSION_DATA } from "../about.utils";
 
 const { Title } = Typography;

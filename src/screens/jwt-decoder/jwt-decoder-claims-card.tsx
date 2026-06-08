@@ -1,8 +1,8 @@
 import { Card, Col, Row, Typography } from "antd";
 import { createStyles } from "antd-style";
 
-import { JwtDecoderClaimTag } from "./jwt-decoder-claim-tag";
 import type { JwtClaimInfo } from "./jwt-decoder.utils";
+import { JwtDecoderClaimTag } from "./jwt-decoder-claim-tag";
 
 interface JwtDecoderClaimsCardProps {
   claims: JwtClaimInfo[];

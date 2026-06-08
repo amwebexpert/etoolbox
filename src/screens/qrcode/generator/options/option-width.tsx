@@ -2,7 +2,6 @@ import { isNullish } from "@lichens-innovation/ts-common";
 import { Col, Form, InputNumber, Select } from "antd";
 
 import { WIDTH_PRESETS } from "../qrcode-generator.types";
-
 import { useOptionsStyles } from "./use-options-styles";
 
 interface OptionWidthProps {

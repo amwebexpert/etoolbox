@@ -1,7 +1,7 @@
+import { isNumber } from "@lichens-innovation/ts-common";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { v4 as uuidv4 } from "uuid";
 
-import { isNumber } from "@lichens-innovation/ts-common";
 import { DEFAULT_HOSTNAME, DEFAULT_ROOM_NAME, SOCKET_STATES } from "./poker-planning.constants";
 import type {
   BuildRouteURLParams,

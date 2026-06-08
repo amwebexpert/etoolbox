@@ -3,9 +3,9 @@ import { Button, Col, Form, Row, Select, Typography } from "antd";
 import { createStyles } from "antd-style";
 import { useRef } from "react";
 
+import type { FileInfo } from "../csv-parser.types";
 import { FILE_ENCODING_OPTIONS } from "../csv-parser.types";
 import { formatFileInfo, readFileAsTextWithEncoding } from "../csv-parser.utils";
-import type { FileInfo } from "../csv-parser.types";
 
 interface CsvFileUploadProps {
   fileEncoding: string;

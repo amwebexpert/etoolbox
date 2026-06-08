@@ -9,12 +9,12 @@ import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
-import { ImageOcrImage } from "./image-ocr-image";
-import { ImageOcrResult } from "./image-ocr-result";
-import { ImageOcrToolbar } from "./image-ocr-toolbar";
 import { useImageOcrStore } from "./image-ocr.store";
 import { LANGUAGE_OPTIONS } from "./image-ocr.types";
 import { clipboardToDataUrl, fileToDataUrl, isValidImageFile } from "./image-ocr.utils";
+import { ImageOcrImage } from "./image-ocr-image";
+import { ImageOcrResult } from "./image-ocr-result";
+import { ImageOcrToolbar } from "./image-ocr-toolbar";
 import { useImageOcr } from "./use-image-ocr";
 
 export const ImageOcr = () => {

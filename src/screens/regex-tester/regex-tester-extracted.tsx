@@ -1,7 +1,7 @@
 import { Select, Typography } from "antd";
 import { createStyles } from "antd-style";
 
-import { EXTRACT_FORMAT_OPTIONS, formatExtractedValues, type ExtractFormat } from "./regex-tester.utils";
+import { EXTRACT_FORMAT_OPTIONS, type ExtractFormat, formatExtractedValues } from "./regex-tester.utils";
 
 interface RegexTesterExtractedProps {
   matches: string[];

@@ -1,6 +1,7 @@
 import { isNullish } from "@lichens-innovation/ts-common";
-import type { GuidelineNode, Rule } from "../coding-standards.types";
+
 import { AVOID_PREFER_PREFIXES } from "../coding-standards.constants";
+import type { GuidelineNode, Rule } from "../coding-standards.types";
 import { buildOrderedNodes, cloneAndRemoveAllParents } from "./markdown-parser";
 
 const normalizeForSearch = (search: string): string => search.toLowerCase().replaceAll("`", "").trim();

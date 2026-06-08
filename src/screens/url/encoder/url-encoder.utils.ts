@@ -1,4 +1,4 @@
-import { decodeUrl, encodeUrl } from "~/utils/encoding.utils";
+import { decodeUrl, encodeUrl } from "@lichens-innovation/ts-common";
 
 interface TransformUrlArgs {
   value?: string;

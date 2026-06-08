@@ -1,12 +1,13 @@
 [
   {
-    "id": "scaffold_route",
-    "title": "Scaffold /diff route, sidebar entry, and home card",
-    "whatToBuild": "Add a /diff route to the router, a sidebar menu item, and a home screen card. The screen renders a placeholder (empty div or 'Coming soon' text). Navigation to /diff works end-to-end.",
+    "id": "route_and_tab_shell",
+    "title": "Register /base64/image route and Image URI tab entry",
+    "whatToBuild": "Add a /base64/image child route to the router and a { key: '/base64/image', label: 'Image URI' } entry to TAB_ITEMS in the base64 tab container. The route renders a placeholder component. Navigating to /#/base64/image works end-to-end and the tab is visible in the tab bar.",
     "acceptanceCriteria": [
-      "Navigating to /#/diff renders the diff-viewer screen without errors",
-      "Sidebar shows a Diff Viewer entry that links to /diff",
-      "Home screen shows a Diff Viewer card that navigates to /diff"
+      "Navigating to /#/base64/image renders without errors",
+      "An 'Image URI' tab appears in the /base64 tab bar alongside String and File",
+      "Clicking the tab navigates to /base64/image",
+      "The /base64 index redirect to /base64/string is unchanged"
     ],
     "blockedBy": [],
     "type": "AFK",
@@ -14,34 +15,89 @@
     "isPlanned": true
   },
   {
-    "id": "core_diff_view",
-    "title": "Two-panel text input with live side-by-side diff",
-    "whatToBuild": "Install react-diff-viewer-continued. Create the Zustand store (original, modified text). Render two labeled textareas ('Original' / 'Modified') and a live side-by-side diff below using useDeferredValue for performance. Diff updates on every keystroke. Line numbers are shown in both panels.",
+    "id": "data_uri_parsing_utils",
+    "title": "Pure data URI parsing utilities and unit tests",
+    "whatToBuild": "Implement base64-image.utils.ts with three pure functions: parseDataUri (regex-extracts mimeType, base64, ext from a raw string, returns null for non-matching input), isImageMimeType (checks against VALID_IMAGE_TYPES from image.utils.ts), and mimeToExt (maps MIME type to file extension, falls back to the MIME subtype segment). Co-locate base64-image.utils.test.ts with parametrised vitest cases for all three functions.",
     "acceptanceCriteria": [
-      "Typing in either textarea updates the diff output live",
-      "Diff renders side-by-side with 'Original' on the left and 'Modified' on the right",
-      "Line numbers are visible in both panels",
-      "Added lines are highlighted green, removed lines red"
+      "parseDataUri returns { mimeType, base64, ext } for a well-formed image data URI",
+      "parseDataUri returns null for empty string, plain text, and malformed data URIs",
+      "isImageMimeType returns true for all VALID_IMAGE_TYPES entries and false for application/pdf and audio/mp3",
+      "mimeToExt returns the correct extension for all mapped MIME types and a sensible fallback for unknown ones",
+      "All test cases use it.each and follow the AAA pattern",
+      "npx vitest run passes with no failures"
+    ],
+    "blockedBy": [],
+    "type": "AFK",
+    "passes": true,
+    "isPlanned": true
+  },
+  {
+    "id": "persisted_textarea_input",
+    "title": "Textarea wired to persisted Zustand store",
+    "whatToBuild": "Implement base64-image.store.ts with a single inputText field persisted to localStorage via zustand/middleware, mirroring the base64-string store pattern. Render a full-width textarea in base64-image.tsx bound to the store. The input survives page navigation and browser refresh.",
+    "acceptanceCriteria": [
+      "Pasting text into the textarea updates inputText in the store",
+      "Navigating away and back to /base64/image restores the previously pasted text",
+      "Refreshing the page restores the previously pasted text",
+      "The textarea is full-width with monospace font, consistent with other base64 tab inputs"
     ],
     "blockedBy": [
-      "scaffold_route"
+      "route_and_tab_shell"
     ],
     "type": "AFK",
     "passes": true,
     "isPlanned": true
   },
   {
-    "id": "diff_controls",
-    "title": "Ignore-whitespace toggle, swap button, and +/- summary",
-    "whatToBuild": "Add an 'Ignore whitespace' checkbox (stored in Zustand) that suppresses whitespace-only diff lines. Add a Swap button that exchanges Original and Modified values. Add a summary bar showing '+X lines, −Y lines' computed from the diff result.",
+    "id": "live_image_preview",
+    "title": "Constrained image rendered live from a valid image data URI",
+    "whatToBuild": "Wire parseDataUri and isImageMimeType into base64-image.tsx. When the input is a valid image data URI, render an <img> element with max-width: 100% and max-height: 60vh. The image updates immediately on every input change with no button press required. When the input is empty or not a valid image data URI, no image is shown.",
     "acceptanceCriteria": [
-      "Checking 'Ignore whitespace' removes whitespace-only changes from the diff",
-      "Clicking Swap exchanges the content of the two textareas",
-      "Summary bar shows the correct count of added and removed lines",
-      "Summary bar updates live as text changes"
+      "Pasting a valid image data URI renders the decoded image immediately",
+      "The image is constrained to the viewport (max-width 100%, max-height 60vh)",
+      "Clearing the textarea removes the image from the view",
+      "Pasting non-image or malformed text shows no image and no error"
     ],
     "blockedBy": [
-      "core_diff_view"
+      "data_uri_parsing_utils",
+      "persisted_textarea_input"
+    ],
+    "type": "AFK",
+    "passes": true,
+    "isPlanned": true
+  },
+  {
+    "id": "metadata_card_and_download",
+    "title": "Metadata card (resolution, MIME, size) with download and clear toolbar",
+    "whatToBuild": "Below the image, display a metadata description list: Resolution (width x height via async HTMLImageElement load, with a spinner until resolved), MIME type, Extension, Size (getBase64ApproxSize + pretty-bytes), and a Download link (downloadDataUrl with filename image.{ext}). Add a toolbar with a Clear button (resets inputText to '') and a Download button. Show a dash fallback for resolution if the image fails to load.",
+    "acceptanceCriteria": [
+      "Resolution shows the correct pixel dimensions once the image loads",
+      "A spinner is shown in place of resolution while dimensions are loading",
+      "Resolution shows a dash if the image element fails to load",
+      "MIME type, Extension, and Size display correct values for the pasted URI",
+      "Clicking the Download link saves the file as image.{ext}",
+      "Clicking Clear resets the input and removes the image and metadata",
+      "The Download toolbar button triggers the same download as the metadata link"
+    ],
+    "blockedBy": [
+      "live_image_preview"
+    ],
+    "type": "AFK",
+    "passes": true,
+    "isPlanned": true
+  },
+  {
+    "id": "non_image_uri_link",
+    "title": "Open-in-new-tab link for non-image data URIs",
+    "whatToBuild": "When parseDataUri succeeds but isImageMimeType returns false, render an Ant Design Alert (type info) containing an anchor tag with href set to the full data URI and target='_blank'. No image, no metadata, and no download button are shown in this case.",
+    "acceptanceCriteria": [
+      "Pasting a data:application/pdf;base64,... URI shows the info alert and 'Open in new tab' link",
+      "Clicking the link opens the decoded content in a new browser tab",
+      "No image preview or metadata is shown for non-image URIs",
+      "Switching back to a valid image URI removes the alert and shows the image preview"
+    ],
+    "blockedBy": [
+      "live_image_preview"
     ],
     "type": "AFK",
     "passes": true,

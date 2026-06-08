@@ -1,10 +1,63 @@
 // Per-agent log files: logs/implementer-{issueId}.log, logs/reviewer-{issueId}.log, logs/planner.log, logs/merger.log
 import { isNullish } from "@lichens-innovation/ts-common";
-import { createLogger, type Logger } from "@lichens-innovation/ts-common/logger";
+import type { Logger } from "@lichens-innovation/ts-common/logger";
+import { mkdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import pino from "pino";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const MESSAGE_KEY = "msg";
+
+const basePinoOptions: pino.LoggerOptions = {
+  timestamp: pino.stdTimeFunctions.isoTime,
+  messageKey: MESSAGE_KEY,
+};
+
+const createPrettyFileTransport = (logFile: string): pino.DestinationStream => {
+  try {
+    return pino.transport({
+      target: "pino-pretty",
+      options: {
+        colorize: false,
+        destination: logFile,
+        append: true,
+        mkdir: true,
+        translateTime: "SYS:standard",
+        messageKey: MESSAGE_KEY,
+      },
+    });
+  } catch (error) {
+    console.warn(`pino-pretty unavailable for "${logFile}", falling back to JSON`, error);
+    mkdirSync(path.dirname(logFile), { recursive: true });
+    return pino.destination({ dest: logFile, append: true, mkdir: true });
+  }
+};
+
+const buildLoggerApi = (pinoInstance: pino.Logger): Logger => {
+  const logAtLevel =
+    (level: "trace" | "debug" | "info" | "warn" | "error" | "fatal") =>
+    (message: string, payload?: Record<string, unknown>): void => {
+      if (isNullish(payload)) {
+        pinoInstance[level](message);
+      } else {
+        pinoInstance[level](payload, message);
+      }
+    };
+
+  return {
+    trace: logAtLevel("trace"),
+    debug: logAtLevel("debug"),
+    info: logAtLevel("info"),
+    warn: logAtLevel("warn"),
+    error: logAtLevel("error"),
+    fatal: logAtLevel("fatal"),
+    log: logAtLevel("info"),
+  };
+};
+
+const createFileLogger = (logFile: string): Logger => buildLoggerApi(pino(basePinoOptions, createPrettyFileTransport(logFile)));
 
 let logDir = path.join(__dirname, "..", "logs");
 
@@ -40,7 +93,7 @@ export const getLoggerForLabel = (label: string): Logger => {
     return cached;
   }
 
-  const instance = createLogger({ logFile: file });
+  const instance = createFileLogger(file);
   loggerCache.set(file, instance);
   return instance;
 };

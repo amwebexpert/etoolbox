@@ -1,9 +1,9 @@
 import { BranchesOutlined, ForkOutlined, StarOutlined } from "@ant-design/icons";
+import { formatCount } from "@lichens-innovation/ts-common";
 import { Card, Col, Row, Statistic, Tag, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
-import { formatCount } from "~/utils/number-format.utils";
 
 import type { GithubUserProject } from "./github-user-projects.types";
 import { calculateProjectStats } from "./github-user-projects.utils";

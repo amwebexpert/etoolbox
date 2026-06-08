@@ -1,7 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Card, Col, Row, Typography } from "antd";
 import { createStyles } from "antd-style";
+
 import { ScreenContainer } from "~/components/ui/screen-container";
+
 import { FEATURES } from "./home.utils";
 
 const { Text } = Typography;

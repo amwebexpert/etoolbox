@@ -1,12 +1,13 @@
 import { Card, Flex } from "antd";
+
 import {
   useModelLoadFileLoads,
   useModelLoadGlobalErrorMessage,
   useModelLoadGlobalStatus,
 } from "../../model-load.store";
+import { sortModelFileLoadEntries } from "./model-loading-progress.utils";
 import { ModelLoadingProgressContent } from "./model-loading-progress-content";
 import { ModelLoadingProgressErrorAlert } from "./model-loading-progress-error-alert";
-import { sortModelFileLoadEntries } from "./model-loading-progress.utils";
 
 interface ModelLoadingProgressProps {
   isLoading: boolean;

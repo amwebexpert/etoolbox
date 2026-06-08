@@ -8,13 +8,13 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
+import { DEFAULT_PAGE } from "./github-user-projects.constants";
+import { useGithubUserProjectsStore } from "./github-user-projects.store";
+import { applyFiltering, applySorting } from "./github-user-projects.utils";
 import { GithubUserProjectsEmpty } from "./github-user-projects-empty";
 import { GithubUserProjectsStats } from "./github-user-projects-stats";
 import { GithubUserProjectsTable } from "./github-user-projects-table";
 import { GithubUserProjectsToolbar } from "./github-user-projects-toolbar";
-import { DEFAULT_PAGE } from "./github-user-projects.constants";
-import { useGithubUserProjectsStore } from "./github-user-projects.store";
-import { applyFiltering, applySorting } from "./github-user-projects.utils";
 import { useGithubUserProjects } from "./use-github-user-projects";
 
 export const GithubUserProjects = () => {

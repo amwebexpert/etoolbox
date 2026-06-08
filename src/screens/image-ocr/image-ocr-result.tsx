@@ -3,9 +3,9 @@ import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
-import { ImageOcrProcessing } from "./image-ocr-processing";
 import type { OcrResult, WorkerStatus } from "./image-ocr.types";
 import { formatProcessingTime } from "./image-ocr.utils";
+import { ImageOcrProcessing } from "./image-ocr-processing";
 
 const { Text, Paragraph } = Typography;
 

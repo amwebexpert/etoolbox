@@ -5,10 +5,10 @@ import { createStyles } from "antd-style";
 import { useResponsive } from "~/hooks/use-responsive";
 import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
-import { JsonFormatterConfigOption } from "./json-formatter-config-option";
 import { useJsonFormatterStore } from "./json-formatter.store";
 import type { ReactJsonViewConfig } from "./json-formatter.types";
 import { ICON_STYLE_OPTIONS, PRESET_OPTIONS, THEME_OPTIONS } from "./json-formatter.utils";
+import { JsonFormatterConfigOption } from "./json-formatter-config-option";
 
 export const JsonFormatterConfigPanel = () => {
   const { styles } = useStyles();

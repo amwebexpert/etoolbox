@@ -7,9 +7,9 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 
 import { useMimeTypesStore } from "./mime-types.store";
+import { applyFiltering } from "./mime-types.utils";
 import { MimeTypesTable } from "./mime-types-table";
 import { MimeTypesToolbar } from "./mime-types-toolbar";
-import { applyFiltering } from "./mime-types.utils";
 
 export const MimeTypes = () => {
   const { styles } = useStyles();

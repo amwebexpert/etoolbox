@@ -6,10 +6,10 @@ import { useDeferredValue } from "react";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 
-import { HttpHeadersTable } from "./http-headers-table";
-import { HttpHeadersToolbar } from "./http-headers-toolbar";
 import { useHttpHeadersStore } from "./http-headers.store";
 import { applyFiltering } from "./http-headers.utils";
+import { HttpHeadersTable } from "./http-headers-table";
+import { HttpHeadersToolbar } from "./http-headers-toolbar";
 
 export const HttpHeaders = () => {
   const { styles } = useStyles();

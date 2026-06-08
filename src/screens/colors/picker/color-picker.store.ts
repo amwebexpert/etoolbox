@@ -1,7 +1,6 @@
+import type { RgbaColor } from "@lichens-innovation/ts-common";
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
-
-import type { RgbaColor } from "@lichens-innovation/ts-common";
 
 interface ColorPickerState {
   imageDataUrl: string;

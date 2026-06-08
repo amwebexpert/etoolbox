@@ -1,8 +1,9 @@
-import { isNullish } from "@lichens-innovation/ts-common";
 import { SettingOutlined } from "@ant-design/icons";
+import { isNullish } from "@lichens-innovation/ts-common";
 import { Button, Collapse, Flex, Space } from "antd";
 import { createStyles } from "antd-style";
 import type { FunctionComponent } from "react";
+
 import {
   useEnabledGuidelineSourceBaseUrl,
   useGetEmbeddingsEngine,

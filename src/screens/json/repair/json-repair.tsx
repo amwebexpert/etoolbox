@@ -1,5 +1,6 @@
 import { ToolOutlined } from "@ant-design/icons";
 import { getErrorMessage, isBlank, isNotBlank } from "@lichens-innovation/ts-common";
+import { downloadJson } from "@lichens-innovation/ts-common/web";
 import { Flex, Input } from "antd";
 import { createStyles } from "antd-style";
 
@@ -8,11 +9,10 @@ import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
-import { downloadJson } from "~/utils/download.utils";
 
+import { useJsonRepairStore } from "./json-repair.store";
 import { JsonRepairResult } from "./json-repair-result";
 import { JsonRepairToolbar } from "./json-repair-toolbar";
-import { useJsonRepairStore } from "./json-repair.store";
 import { useJsonRepair } from "./use-json-repair";
 
 const { TextArea } = Input;

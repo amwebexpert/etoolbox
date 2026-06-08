@@ -1,7 +1,8 @@
 import { FileOutlined } from "@ant-design/icons";
 import { getErrorMessage } from "@lichens-innovation/ts-common";
-import { Input, Space, Typography } from "antd";
+import { formatDataUri } from "@lichens-innovation/ts-common";
 import type { UploadFile } from "antd";
+import { Input, Space, Typography } from "antd";
 import { createStyles } from "antd-style";
 import { useState } from "react";
 
@@ -11,12 +12,10 @@ import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
+import { downloadBase64AsFile, readFileAsBase64 } from "./base64-file.utils";
 import { Base64FileDropzone } from "./base64-file-dropzone";
 import { Base64FileInfo } from "./base64-file-info";
 import { Base64FileToolbar } from "./base64-file-toolbar";
-import { formatDataUri } from "~/utils/encoding.utils";
-
-import { downloadBase64AsFile, readFileAsBase64 } from "./base64-file.utils";
 
 const { TextArea } = Input;
 

@@ -1,9 +1,9 @@
 import { CATEGORY_LABELS, HTTP_HEADERS } from "./http-headers.constants";
 import type {
-  HttpHeaderEntry,
-  HttpHeaderCategoryFilter,
-  HttpHeaderTypeFilter,
   HttpHeaderCategory,
+  HttpHeaderCategoryFilter,
+  HttpHeaderEntry,
+  HttpHeaderTypeFilter,
 } from "./http-headers.types";
 
 export const CATEGORIES: HttpHeaderCategory[] = [
