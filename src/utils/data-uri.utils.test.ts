@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { getImageDownloadFilename, getImageMetadata, getNonImageDataUri } from "./base64-image.utils";
+import { getImageDownloadFilename, getImageMetadata, getNonImageDataUri } from "./data-uri.utils";
 
-describe("base64-image.utils", () => {
+describe("data-uri.utils", () => {
   describe("getImageMetadata", () => {
     it("returns mime, extension, size in bytes, and pretty-formatted size for a valid PNG data URI", () => {
       // Arrange

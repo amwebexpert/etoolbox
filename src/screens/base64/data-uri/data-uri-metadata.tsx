@@ -2,7 +2,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import { Descriptions, Spin, Typography } from "antd";
 import { createStyles } from "antd-style";
 
-import { getImageDownloadFilename, type ImageMetadata } from "~/utils/base64-image.utils";
+import { getImageDownloadFilename, type ImageMetadata } from "~/utils/data-uri.utils";
 
 import { type ImageDimensionsState } from "./use-image-dimensions";
 
@@ -28,13 +28,13 @@ const ResolutionValue = ({ dimensions }: ResolutionValueProps) => {
   return <Spin size="small" />;
 };
 
-interface Base64ImageMetadataProps {
+interface DataUriMetadataProps {
   dataUri: string;
   metadata: ImageMetadata;
   dimensions: ImageDimensionsState;
 }
 
-export const Base64ImageMetadata = ({ dataUri, metadata, dimensions }: Base64ImageMetadataProps) => {
+export const DataUriMetadata = ({ dataUri, metadata, dimensions }: DataUriMetadataProps) => {
   const { styles } = useStyles();
   const downloadFileName = getImageDownloadFilename(metadata.ext);
 

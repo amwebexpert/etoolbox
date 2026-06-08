@@ -3,8 +3,8 @@ import { createHashHistory, createRootRoute, createRoute, createRouter, Navigate
 import { RootLayout } from "~/routes/root-layout";
 import { About } from "~/screens/about/about";
 import { Base64 } from "~/screens/base64/base64";
+import { DataUri } from "~/screens/base64/data-uri/data-uri";
 import { Base64File } from "~/screens/base64/file/base64-file";
-import { Base64Image } from "~/screens/base64/image/base64-image";
 import { Base64String } from "~/screens/base64/string/base64-string";
 import { CodingStandards } from "~/screens/coding-standards/coding-standards";
 import { Colors } from "~/screens/colors/colors";
@@ -78,10 +78,10 @@ const base64FileRoute = createRoute({
   component: Base64File,
 });
 
-const base64ImageRoute = createRoute({
+const dataUriRoute = createRoute({
   getParentRoute: () => base64Route,
-  path: "/image",
-  component: Base64Image,
+  path: "/data-uri",
+  component: DataUri,
 });
 
 const urlRoute = createRoute({
@@ -305,7 +305,7 @@ export const ROUTES_WITH_CHILDREN = ["/url", "/base64", "/json", "/colors", "/co
 const routeTree = rootRoute.addChildren([
   homeRoute,
   aboutRoute,
-  base64Route.addChildren([base64IndexRoute, base64StringRoute, base64FileRoute, base64ImageRoute]),
+  base64Route.addChildren([base64IndexRoute, base64StringRoute, base64FileRoute, dataUriRoute]),
   urlRoute.addChildren([urlIndexRoute, urlCurlRoute, urlParserRoute, urlEncoderRoute]),
   jsonRoute.addChildren([jsonIndexRoute, jsonFormatterRoute, jsonConverterRoute, jsonRepairRoute]),
   colorsRoute.addChildren([colorsIndexRoute, colorPickerRoute, namedColorsRoute]),

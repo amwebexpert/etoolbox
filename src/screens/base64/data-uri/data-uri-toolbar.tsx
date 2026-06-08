@@ -4,14 +4,14 @@ import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
-interface Base64ImageToolbarProps {
+interface DataUriToolbarProps {
   hasContent: boolean;
   canDownload: boolean;
   onClear: () => void;
   onDownload: () => void;
 }
 
-export const Base64ImageToolbar = ({ hasContent, canDownload, onClear, onDownload }: Base64ImageToolbarProps) => {
+export const DataUriToolbar = ({ hasContent, canDownload, onClear, onDownload }: DataUriToolbarProps) => {
   const { isMobile } = useResponsive();
   const { styles } = useStyles();
 

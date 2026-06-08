@@ -3,10 +3,10 @@ import { describe, expect, it } from "vitest";
 import { TAB_ITEMS } from "./base64.constants";
 
 describe("base64 TAB_ITEMS", () => {
-  it("includes an Image URI tab keyed to /base64/image", () => {
-    const imageTab = TAB_ITEMS.find((item) => item.key === "/base64/image");
+  it("includes a Data URI tab keyed to /base64/data-uri", () => {
+    const dataUriTab = TAB_ITEMS.find((item) => item.key === "/base64/data-uri");
 
-    expect(imageTab).toBeDefined();
-    expect(imageTab?.label).toBe("Image URI");
+    expect(dataUriTab).toBeDefined();
+    expect(dataUriTab?.label).toBe("Data URI");
   });
 });

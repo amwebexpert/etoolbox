@@ -11,20 +11,20 @@ import {
   getImageMetadata,
   getNonImageDataUri,
   openNonImageDataUri,
-} from "~/utils/base64-image.utils";
+} from "~/utils/data-uri.utils";
 
-import { useBase64ImageStore } from "./base64-image.store";
-import { Base64ImageMetadata } from "./base64-image-metadata";
-import { Base64ImageToolbar } from "./base64-image-toolbar";
+import { useDataUriStore } from "./data-uri.store";
+import { DataUriMetadata } from "./data-uri-metadata";
+import { DataUriToolbar } from "./data-uri-toolbar";
 import { useImageDimensions } from "./use-image-dimensions";
 
 const { TextArea } = Input;
 
-export const Base64Image = () => {
+export const DataUri = () => {
   const { styles } = useStyles();
   const { isDesktop, isMobile } = useResponsive();
 
-  const { inputText, setInputText } = useBase64ImageStore();
+  const { inputText, setInputText } = useDataUriStore();
 
   const imagePreviewSrc = getImagePreviewSrc(inputText);
   const metadata = getImageMetadata(inputText);
@@ -52,12 +52,12 @@ export const Base64Image = () => {
       <Space orientation="vertical" size="middle" className={styles.fullWidth}>
         <ScreenHeader
           icon={<PictureOutlined />}
-          title="Base64 Image URI"
-          description="Encode and decode images to/from Base64 data URIs"
+          title="Base64 Data URI"
+          description="Decode and preview Base64 data URIs — images, text, and other media types"
         />
 
         <TextArea
-          placeholder="Paste a Base64 image data URI here"
+          placeholder="Paste a Base64 data URI here"
           autoFocus={isDesktop}
           rows={isMobile ? 4 : 6}
           autoSize={{ minRows: 4, maxRows: isDesktop ? 20 : 6 }}
@@ -69,7 +69,7 @@ export const Base64Image = () => {
         {imagePreviewSrc && <img src={imagePreviewSrc} alt="Decoded preview" className={styles.preview} />}
 
         {metadata && imagePreviewSrc && (
-          <Base64ImageMetadata dataUri={imagePreviewSrc} metadata={metadata} dimensions={dimensions} />
+          <DataUriMetadata dataUri={imagePreviewSrc} metadata={metadata} dimensions={dimensions} />
         )}
 
         {nonImageDataUri && (
@@ -90,7 +90,7 @@ export const Base64Image = () => {
           />
         )}
 
-        <Base64ImageToolbar
+        <DataUriToolbar
           hasContent={hasContent}
           canDownload={canDownload}
           onClear={handleClear}
