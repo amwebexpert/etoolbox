@@ -6,7 +6,12 @@ import { createStyles } from "antd-style";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
-import { downloadImageDataUri, getImageMetadata, getNonImageDataUri } from "~/utils/base64-image.utils";
+import {
+  downloadImageDataUri,
+  getImageMetadata,
+  getNonImageDataUri,
+  openNonImageDataUri,
+} from "~/utils/base64-image.utils";
 
 import { useBase64ImageStore } from "./base64-image.store";
 import { Base64ImageMetadata } from "./base64-image-metadata";
@@ -72,7 +77,13 @@ export const Base64Image = () => {
             type="info"
             showIcon
             message={
-              <a href={nonImageDataUri} target="_blank" rel="noopener noreferrer">
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  openNonImageDataUri(nonImageDataUri);
+                }}
+              >
                 Open in new tab
               </a>
             }

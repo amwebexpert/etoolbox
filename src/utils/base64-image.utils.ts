@@ -1,6 +1,6 @@
-import { getBase64ApproxSize } from "@lichens-innovation/ts-common";
+import { getBase64ApproxSize, PeriodsInMS } from "@lichens-innovation/ts-common";
 import { isImageMimeType, mimeToExt, parseDataUri } from "@lichens-innovation/ts-common/mime";
-import { downloadDataUrl } from "@lichens-innovation/ts-common/web";
+import { base64ToBlob, downloadDataUrl } from "@lichens-innovation/ts-common/web";
 import prettyBytes from "pretty-bytes";
 
 export interface ImageMetadata {
@@ -33,6 +33,16 @@ export const getNonImageDataUri = (input: string): string | null => {
   if (isImageMimeType(parsed.mimeType)) return null;
 
   return input;
+};
+
+export const openNonImageDataUri = (dataUri: string): void => {
+  const parsed = parseDataUri(dataUri);
+  if (!parsed) return;
+
+  const blob = base64ToBlob({ base64: parsed.base64, mimeType: parsed.mimeType });
+  const objectUrl = URL.createObjectURL(blob);
+  window.open(objectUrl, "_blank", "noopener,noreferrer");
+  setTimeout(() => URL.revokeObjectURL(objectUrl), PeriodsInMS.oneMinute);
 };
 
 export const getImageDownloadFilename = (ext: string): string => `image.${ext}`;
