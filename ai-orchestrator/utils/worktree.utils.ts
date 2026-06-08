@@ -115,6 +115,13 @@ export interface HasCommitsArgs {
   repoDir: string;
 }
 
+interface GetCurrentHeadArgs {
+  repoDir: string;
+}
+
+export const getCurrentHead = ({ repoDir }: GetCurrentHeadArgs): string =>
+  execSync("git rev-parse HEAD", { cwd: repoDir }).toString().trim();
+
 export const hasCommits = ({ branch, repoDir }: HasCommitsArgs): boolean => {
   try {
     const out = execSync(`git log "${branch}" ^HEAD --oneline`, { cwd: repoDir }).toString().trim();
