@@ -83,7 +83,7 @@
       "live_image_preview"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   },
   {
@@ -100,7 +100,7 @@
       "live_image_preview"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   }
 ]

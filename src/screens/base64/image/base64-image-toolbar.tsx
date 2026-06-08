@@ -1,5 +1,5 @@
 import { DownloadOutlined } from "@ant-design/icons";
-import { Button, Space, Tooltip } from "antd";
+import { Button, Tooltip } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
@@ -23,13 +23,11 @@ export const Base64ImageToolbar = ({ hasContent, canDownload, onClear, onDownloa
 
       <div className={styles.spacer} />
 
-      <Space size="small" wrap>
-        <Tooltip title="Download the decoded image">
-          <Button type="primary" icon={<DownloadOutlined />} disabled={!canDownload} onClick={onDownload}>
-            {isMobile ? "DL" : "Download"}
-          </Button>
-        </Tooltip>
-      </Space>
+      <Tooltip title="Download the decoded image">
+        <Button type="primary" icon={<DownloadOutlined />} disabled={!canDownload} onClick={onDownload}>
+          {isMobile ? "DL" : "Download"}
+        </Button>
+      </Tooltip>
     </div>
   );
 };

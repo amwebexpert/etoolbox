@@ -71,7 +71,7 @@ export const Base64Image = () => {
           <Alert
             type="info"
             showIcon
-            title={
+            message={
               <a href={nonImageDataUri} target="_blank" rel="noopener noreferrer">
                 Open in new tab
               </a>
