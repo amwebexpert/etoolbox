@@ -1,0 +1,1 @@
+export const CompressorSettings = () => null;
