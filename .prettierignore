@@ -7,7 +7,7 @@ docs/
 build/
 
 # Package manager files
-yarn.lock
+bun.lock
 package-lock.json
 
 # Generated files

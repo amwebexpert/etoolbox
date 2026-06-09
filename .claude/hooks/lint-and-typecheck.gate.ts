@@ -1,5 +1,5 @@
 /**
- * PreToolUse: run `yarn lint` and `yarn typecheck` from the repo root.
+ * PreToolUse: run `bun run lint` and `bun run typecheck` from the repo root.
  * On failure, deny the tool and surface command output to the model via permissionDecisionReason.
  *
  * Note: if Husky is configured in the project (e.g. pre-commit running lint/typecheck),
@@ -12,15 +12,15 @@ import { deny, findRepoRoot, readStdinJson } from "./hooks-common.ts";
 
 const REPO_ROOT = findRepoRoot();
 
-interface YarnRunResult {
+interface BunRunResult {
   ok: boolean;
   label: string;
   summary: string;
   output: string;
 }
 
-const runYarn = (script = "lint"): YarnRunResult => {
-  const result = spawnSync("yarn", [script], {
+const runBun = (script = "lint"): BunRunResult => {
+  const result = spawnSync("bun", ["run", script], {
     cwd: REPO_ROOT,
     encoding: "utf8",
     env: process.env,
@@ -37,21 +37,21 @@ const runYarn = (script = "lint"): YarnRunResult => {
   return {
     ok: isOK,
     label: script,
-    summary: isOK ? `yarn ${script} passed` : `yarn ${script} failed with exit ${exitCode}${signal}`,
+    summary: isOK ? `bun run ${script} passed` : `bun run ${script} failed with exit ${exitCode}${signal}`,
     output: combined.trim() || "(no output)",
   };
 };
 
 readStdinJson(() => {
-  const lint = runYarn("lint");
+  const lint = runBun("lint");
   if (!lint.ok) {
-    deny(`Quality gate: ${lint.summary}.\n\n--- yarn lint ---\n${lint.output}`);
+    deny(`Quality gate: ${lint.summary}.\n\n--- bun run lint ---\n${lint.output}`);
     return;
   }
 
-  const typecheck = runYarn("typecheck");
+  const typecheck = runBun("typecheck");
   if (!typecheck.ok) {
-    deny(`Quality gate: ${typecheck.summary}.\n\n--- yarn typecheck ---\n${typecheck.output}`);
+    deny(`Quality gate: ${typecheck.summary}.\n\n--- bun run typecheck ---\n${typecheck.output}`);
     return;
   }
 

@@ -7,8 +7,14 @@
           {
             "type": "command",
             "if": "Bash(npm *)",
-            "description": "Block npm and promote yarn to prevent package version conflicts",
-            "command": "npx --yes tsx \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-npm-prefer-yarn.gate.ts"
+            "description": "Block npm and promote bun to prevent package version conflicts",
+            "command": "npx --yes tsx \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-npm-prefer-bun.gate.ts"
+          },
+          {
+            "type": "command",
+            "if": "Bash(yarn *)",
+            "description": "Block yarn and promote bun to prevent package version conflicts",
+            "command": "npx --yes tsx \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-npm-prefer-bun.gate.ts"
           },
           {
             "type": "command",

@@ -2,7 +2,8 @@
   "name": "etoolbox",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
   "features": {
-    "ghcr.io/devcontainers/features/git:1": {}
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers-extra/features/bun:2": {}
   },
   "forwardPorts": [5173],
   "portsAttributes": {
@@ -16,7 +17,7 @@
     "source=claude-devcontainer-auth-${localEnv:USER},target=/home/${localEnv:USER}/.claude,type=volume",
     "source=claude-devcontainer-json-${localEnv:USER},target=/home/${localEnv:USER}/.claude.json,type=volume"
   ],
-  "postCreateCommand": "yarn install",
+  "postCreateCommand": "bun install",
   "postStartCommand": "sudo chown -R $(id -un):$(id -un) /home/$(id -un)/.claude /home/$(id -un)/.claude.json",
   "customizations": {
     "vscode": {
