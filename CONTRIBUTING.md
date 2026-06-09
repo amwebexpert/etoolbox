@@ -12,11 +12,11 @@ Thanks for your interest in contributing! This repository is a React (TypeScript
    ```
 2. **Install** dependencies:
    ```bash
-   yarn install   # or npm install
+   bun install
    ```
 3. **Run** the app locally:
    ```bash
-   yarn start       # or npm run start
+   bun start
    ```
 4. **Commit** and push your changes, then open a **Pull Request** to `main`.
 
@@ -67,7 +67,7 @@ If your change is large (new feature, big refactor), please open an issue first 
 
 - Lint & format before committing:
   ```bash
-  yarn lint && yarn format
+  bun run lint && bun run format
   ```
 - Commit messages: short, imperative (e.g., `fix: button alignment`, `feat: add user list`).
 - Keep PRs focused and small; add screenshots for UI changes.

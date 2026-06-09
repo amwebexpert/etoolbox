@@ -34,7 +34,7 @@ Use red-green-refactor:
 
 # FEEDBACK LOOPS
 
-Before committing, run `yarn typecheck` and `yarn test` to confirm everything passes.
+Before committing, run `bun run typecheck` and `bun run test` to confirm everything passes.
 
 # COMMIT
 

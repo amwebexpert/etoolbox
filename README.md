@@ -4,7 +4,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-LTS-green.svg?style=flat-square&logo=node.js)](https://nodejs.org/)
 [![Vitest](https://img.shields.io/badge/Vitest-4.0-6E9F18.svg?style=flat-square&logo=vitest)](https://vitest.dev/)
-[![Yarn](https://img.shields.io/badge/Yarn-1.22+-2C8EBB.svg?style=flat-square&logo=yarn)](https://yarnpkg.com/)
+[![Bun](https://img.shields.io/badge/Bun-1.3+-000000.svg?style=flat-square&logo=bun)](https://bun.sh/)
 
 Open source collection of web developer utilities.
 The web application has been deployed and you can use it [just here!](https://amwebexpert.github.io/etoolbox)
@@ -36,21 +36,20 @@ Some screen captures of the implemented features...
 
 | Script                     | Description                                                                             |
 | -------------------------- | --------------------------------------------------------------------------------------- |
-| `yarn start`               | Alias for `yarn dev` - starts the development server                                    |
-| `yarn dev`                 | Starts Vite development server with hot reload                                          |
-| `yarn build`               | Builds the production application (cleans dist, generates version, compiles TypeScript) |
-| `yarn preview`             | Previews the production build locally (from `dist/`)                                    |
-| `yarn deploy`              | Rebuilds the app and moves output to `docs/` for GitHub Pages deployment                |
-| `yarn test`                | Runs tests with Vitest                                                                  |
-| `yarn lint`                | Runs ESLint on the codebase                                                             |
-| `yarn typecheck`           | Runs TypeScript type checking without emitting files                                    |
-| `yarn format`              | Formats code with Prettier                                                              |
-| `yarn format:check`        | Checks code formatting without making changes                                           |
-| `yarn clean:node`          | Removes `node_modules` and `yarn.lock` for a fresh install                              |
-| `yarn deploy`              | Deploys the application using the deploy script                                         |
-| `yarn generate:version`    | Generates version information file                                                      |
-| `yarn generate:api:client` | Generates API client from OpenAPI specification                                         |
-| `yarn postinstall`         | Runs after install: applies patches                                                     |
+| `bun start`               | Alias for `bun dev` - starts the development server                                    |
+| `bun dev`                 | Starts Vite development server with hot reload                                          |
+| `bun run build`           | Builds the production application (cleans dist, generates version, compiles TypeScript) |
+| `bun run preview`         | Previews the production build locally (from `dist/`)                                    |
+| `bun run deploy`          | Rebuilds the app and moves output to `docs/` for GitHub Pages deployment                |
+| `bun run test`            | Runs tests with Vitest                                                                  |
+| `bun run lint`            | Runs ESLint on the codebase                                                             |
+| `bun run typecheck`       | Runs TypeScript type checking without emitting files                                    |
+| `bun run format`          | Formats code with Prettier                                                              |
+| `bun run format:check`    | Checks code formatting without making changes                                           |
+| `bun run clean:node`      | Removes `node_modules` and `bun.lock` for a fresh install                               |
+| `bun run generate:version`    | Generates version information file                                                  |
+| `bun run generate:api:client` | Generates API client from OpenAPI specification                                     |
+| `bun run postinstall`     | Runs after install: applies patches                                                     |
 
 ## Frameworks & Dependencies
 

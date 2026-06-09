@@ -13,7 +13,7 @@ Skills to run in order to produce the `plan.json`
 Entry point: [main.ts](main.ts) — resolves the repository root (`..`), `plan.json`, and `logs/`.
 
 ```bash
-npm run ai:run:plan
+bun run ai:run:plan
 ```
 
 This runs `npx tsx ai-orchestrator/main.ts`.

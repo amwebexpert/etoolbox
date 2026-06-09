@@ -37,7 +37,7 @@ Review the code changes on branch `{{BRANCH}}` relative to `{{SOURCE_BRANCH}}`. 
 If improvements are needed:
 
 1. Make the changes directly on this branch
-2. Run `yarn typecheck` and `yarn test` to ensure nothing is broken
+2. Run `bun run typecheck` and `bun run test` to ensure nothing is broken
 3. Commit using conventional format: `refactor(orchestrator): [review] description`
 
 If the code is already clean and well-structured, do nothing and make no commit.
