@@ -1,6 +1,6 @@
 # AI Orchestrator
 
-The AI orchestrator drives a multi-issue implementation plan from [plan.json](plan.json): it plans dependencies, implements AFK (away-from-keyboard) issues in isolated git worktrees, reviews changes, merges successful branches into the main repo, and cleans up implementation branches when all AFK work is done.
+The AI orchestrator drives a multi-issue implementation plan from [plan.json](plan.json): it plans dependencies, implements AFK (away-from-keyboard) issues in isolated git worktrees, merges successful branches into the main repo, runs a final review over all accumulated changes, and cleans up implementation branches when all AFK work is done.
 
 Skills to run in order to produce the `plan.json`
 
@@ -39,26 +39,27 @@ The plan file is reloaded at the start of each iteration and saved after plannin
 
 1. **Reload plan** — `plan.load()` re-reads `plan.json` from disk.
 2. **Planning** — If any issue has `isPlanned: false`, the **planner** agent runs (`prompts/plan.md`) with the full plan JSON. It returns `{ id, blockedBy }[]`; the orchestrator calls `markPlanned` and saves the plan.
-3. **Select work** — `getUnblocked()`. If there are no unblocked issues, the loop exits (logs distinguish: all AFK complete vs. blocked/circular dependency vs. remaining HITL).
-4. **Implementation** — Unblocked issues run in parallel via `Promise.allSettled`:
+3. **Select work** — `getUnblocked(2)` returns up to **2** unblocked AFK issues per iteration (`MAX_PARALLEL_UNBLOCKED_IMPLEMENTERS`). If there are no unblocked issues, the loop exits (logs distinguish: all AFK complete vs. blocked/circular dependency vs. remaining HITL).
+4. **Implementation** — Selected issues run in parallel via `Promise.allSettled`:
    - Branch name: `orchestrator/implementation-task-{issueId}`
-   - [withWorktree](utils/worktree.utils.ts) creates a worktree under `.orchestrator-worktrees/`, symlinks `node_modules`, runs the callback, then removes the worktree in `finally`
-   - **Implement** agent (`implement.md`, cwd = worktree)
-   - If the branch has commits not on `HEAD` (`hasCommits`), run the **Review** agent (`review.md`); otherwise skip review
-   - Collect issues that produced commits; failures are logged and the iteration continues
+   - [withWorktree](utils/worktree.utils.ts) creates a worktree under `.orchestrator-worktrees/`, symlinks `node_modules`, runs the **Implement** agent (`implement.md`), then removes the worktree in `finally`
+   - Collect issues whose branch has commits not on `HEAD` (`hasCommits`); failures are logged and the iteration continues
 5. **Merge** — If any issue produced commits this iteration, the **merger** agent (`merge.md`) runs in the main repo. Structured output `{ merged, failed }`; merged issue ids get `markPassed` and the plan is saved.
 6. If no issue produced commits, skip merge and start the next iteration.
 
-After the loop, if there are **no remaining AFK issues** (`remainingAfkIssues.length === 0`), **cleanup** deletes `orchestrator/implementation-task-*` branches for passed AFK issues.
+After the loop, if there are **no remaining AFK issues** (`remainingAfkIssues.length === 0`):
+
+1. **Review** — A single **review** agent run (`review.md`) in the main repo. It diffs `initialHead` (the repo HEAD captured at the start of `run()`) against current `HEAD`, applying project standards and optional refactors. See [review.md](prompts/review.md) for the full process.
+2. **Cleanup** — Deletes `orchestrator/implementation-task-*` branches for passed AFK issues.
 
 ## Agents
 
-| Phase     | Prompt                               | Model             | Working directory |
-| --------- | ------------------------------------ | ----------------- | ----------------- |
-| Plan      | [plan.md](prompts/plan.md)           | claude-opus-4-7   | repo root         |
-| Implement | [implement.md](prompts/implement.md) | claude-opus-4-7   | worktree          |
-| Review    | [review.md](prompts/review.md)       | claude-sonnet-4-6 | worktree          |
-| Merge     | [merge.md](prompts/merge.md)         | claude-sonnet-4-6 | repo root         |
+| Phase     | Prompt                               | Model             | Working directory | When |
+| --------- | ------------------------------------ | ----------------- | ----------------- | ---- |
+| Plan      | [plan.md](prompts/plan.md)           | claude-opus-4-7   | repo root         | Each iteration with unplanned issues |
+| Implement | [implement.md](prompts/implement.md) | claude-opus-4-7   | worktree          | Per unblocked issue (up to 2 in parallel) |
+| Merge     | [merge.md](prompts/merge.md)         | claude-sonnet-4-6 | repo root         | After each iteration with commits |
+| Review    | [review.md](prompts/review.md)       | claude-sonnet-4-6 | repo root         | Once, after all AFK issues pass |
 
 Agent execution uses the Claude Agent SDK in [agent.utils.ts](utils/agent.utils.ts). Per-agent logs are written under `logs/` via [agent-logger.utils.ts](utils/agent-logger.utils.ts).
 
@@ -66,8 +67,9 @@ Agent execution uses the Claude Agent SDK in [agent.utils.ts](utils/agent.utils.
 
 - Implementation branches: `orchestrator/implementation-task-{issueId}`
 - Worktrees live under `.orchestrator-worktrees/` (branch slashes become `--` in the directory name)
-- The worktree is removed after each issue’s implement/review callback; the branch may remain until global cleanup
-- Cleanup runs only when all AFK issues have `passes: true`
+- The worktree is removed after each issue’s implement callback; the branch may remain until global cleanup
+- Review runs on the main repo after all AFK issues have `passes: true`, before branch cleanup
+- Branch cleanup runs immediately after the review phase
 
 ## Project layout
 
@@ -98,18 +100,18 @@ flowchart TD
   unblocked -->|yes| implParallel[Parallel: worktree per issue]
   implParallel --> implement[Implement agent]
   implement --> hasCommits{commits on branch?}
-  hasCommits -->|yes| review[Review agent]
-  hasCommits -->|no| skipReview[skip review]
-  review --> collect[collect issues with commits]
-  skipReview --> collect
+  hasCommits -->|yes| collect[collect issues with commits]
+  hasCommits -->|no| skipCollect[skip]
+  skipCollect --> anyDone
   collect --> anyDone{any completed?}
   anyDone -->|no| iter
   anyDone -->|yes| merger[Merger agent]
   merger --> markPassed[markPassed + save plan]
   markPassed --> iter
-  exitLoop --> cleanup{all AFK done?}
-  cleanup -->|yes| deleteBranches[delete implementation branches]
-  cleanup -->|no| done([All done])
+  exitLoop --> allAfkDone{all AFK done?}
+  allAfkDone -->|yes| review[Review agent: diff initialHead to HEAD]
+  allAfkDone -->|no| done([All done])
+  review --> deleteBranches[delete implementation branches]
   deleteBranches --> done
 ```
 
@@ -118,9 +120,15 @@ Per-issue worktree lifecycle:
 ```mermaid
 flowchart LR
   create[create worktree + symlink node_modules] --> implement[Implement agent]
-  implement --> check{hasCommits?}
-  check -->|yes| review[Review agent]
-  check -->|no| remove[remove worktree]
-  review --> remove
-  remove --> branchRemains[branch kept until cleanup]
+  implement --> remove[remove worktree]
+  remove --> branchRemains[branch kept until post-run cleanup]
+```
+
+Post-run review (main repo, all AFK issues complete):
+
+```mermaid
+flowchart LR
+  captureHead[initialHead captured at run start] --> merges[iterations merge into HEAD]
+  merges --> review[Review agent: git diff initialHead...HEAD]
+  review --> cleanup[delete implementation branches]
 ```
