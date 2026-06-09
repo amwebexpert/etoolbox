@@ -3,9 +3,9 @@ import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
-import type { OcrResult, WorkerStatus } from "./image-ocr.types";
-import { formatProcessingTime } from "./image-ocr.utils";
-import { ImageOcrProcessing } from "./image-ocr-processing";
+import type { OcrResult, WorkerStatus } from "./ocr.types";
+import { formatProcessingTime } from "./ocr.utils";
+import { OcrProcessing } from "./ocr-processing";
 
 const { Text, Paragraph } = Typography;
 
@@ -22,7 +22,7 @@ export const ImageOcrResult = ({ result, workerStatus, isProcessing }: ImageOcrR
   const statisticClassName = isMobile ? styles.statisticMobile : styles.statistic;
 
   if (isProcessing) {
-    return <ImageOcrProcessing workerStatus={workerStatus} />;
+    return <OcrProcessing workerStatus={workerStatus} />;
   }
 
   if (!result) {

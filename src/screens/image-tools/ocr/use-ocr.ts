@@ -3,15 +3,15 @@ import { useEffect } from "react";
 
 import { useToastMessage } from "~/hooks/use-toast-message";
 
-import { useSetWorkerStatus } from "./image-ocr.store";
-import type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.types";
-import { processOcr } from "./image-ocr.utils";
+import { useSetWorkerStatus } from "./ocr.store";
+import type { OcrContext, OcrResult, WorkerStatus } from "./ocr.types";
+import { processOcr } from "./ocr.utils";
 
-interface UseImageOcrArgs {
+interface UseOcrArgs {
   onProgress?: (status: WorkerStatus) => void;
 }
 
-export const useImageOcr = ({ onProgress }: UseImageOcrArgs = {}) => {
+export const useOcr = ({ onProgress }: UseOcrArgs = {}) => {
   const messageApi = useToastMessage();
   const setWorkerStatus = useSetWorkerStatus();
 

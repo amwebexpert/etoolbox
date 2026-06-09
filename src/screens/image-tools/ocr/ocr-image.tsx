@@ -9,13 +9,13 @@ import { useResponsive } from "~/hooks/use-responsive";
 const { Dragger } = Upload;
 const { Text } = Typography;
 
-interface ImageOcrImageProps {
+interface OcrImageProps {
   imageDataUrl: string;
   onFileSelect: (file: File) => void;
   onClear: () => void;
 }
 
-export const ImageOcrImage = ({ imageDataUrl, onFileSelect, onClear }: ImageOcrImageProps) => {
+export const OcrImage = ({ imageDataUrl, onFileSelect, onClear }: OcrImageProps) => {
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
 

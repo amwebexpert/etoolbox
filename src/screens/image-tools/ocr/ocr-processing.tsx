@@ -1,16 +1,16 @@
 import { Card, Progress, Typography } from "antd";
 import { createStyles } from "antd-style";
 
-import type { WorkerStatus } from "./image-ocr.types";
-import { getProgressStatus } from "./image-ocr.utils";
+import type { WorkerStatus } from "./ocr.types";
+import { getProgressStatus } from "./ocr.utils";
 
 const { Text } = Typography;
 
-interface ImageOcrProcessingProps {
+interface OcrProcessingProps {
   workerStatus: WorkerStatus;
 }
 
-export const ImageOcrProcessing = ({ workerStatus }: ImageOcrProcessingProps) => {
+export const OcrProcessing = ({ workerStatus }: OcrProcessingProps) => {
   const { styles } = useStyles();
 
   const progressPercent = Math.round(workerStatus.progress * 100);

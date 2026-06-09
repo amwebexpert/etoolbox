@@ -9,22 +9,22 @@ import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
-import { useImageOcrStore } from "../image-ocr.store";
-import { LANGUAGE_OPTIONS } from "../image-ocr.types";
-import { clipboardToDataUrl, fileToDataUrl, isValidImageFile } from "../image-ocr.utils";
-import { ImageOcrImage } from "../image-ocr-image";
-import { ImageOcrResult } from "../image-ocr-result";
-import { ImageOcrToolbar } from "../image-ocr-toolbar";
-import { useImageOcr } from "../use-image-ocr";
+import { useOcrStore } from "./ocr.store";
+import { LANGUAGE_OPTIONS } from "./ocr.types";
+import { clipboardToDataUrl, fileToDataUrl, isValidImageFile } from "./ocr.utils";
+import { OcrImage } from "./ocr-image";
+import { ImageOcrResult } from "./ocr-result";
+import { OcrToolbar } from "./ocr-toolbar";
+import { useOcr } from "./use-ocr";
 
-export const ImageOcrOcr = () => {
+export const Ocr = () => {
   const { styles } = useStyles();
   const { isDesktop } = useResponsive();
   const messageApi = useToastMessage();
 
-  const { language, imageDataUrl, workerStatus, setLanguage, setImageDataUrl, clearImage } = useImageOcrStore();
+  const { language, imageDataUrl, workerStatus, setLanguage, setImageDataUrl, clearImage } = useOcrStore();
 
-  const { ocrResult, runOcr, isOcrProcessing, resetOcr } = useImageOcr();
+  const { ocrResult, runOcr, isOcrProcessing, resetOcr } = useOcr();
 
   const handleFileSelect = async (file: File) => {
     if (!isValidImageFile(file)) {
@@ -111,10 +111,10 @@ export const ImageOcrOcr = () => {
         </Form>
 
         <Card className={styles.card}>
-          <ImageOcrImage imageDataUrl={imageDataUrl} onFileSelect={handleFileSelect} onClear={handleClear} />
+          <OcrImage imageDataUrl={imageDataUrl} onFileSelect={handleFileSelect} onClear={handleClear} />
         </Card>
 
-        <ImageOcrToolbar
+        <OcrToolbar
           hasImage={hasImage}
           resultText={ocrResult?.text}
           isProcessing={isOcrProcessing}

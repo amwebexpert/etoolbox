@@ -20,9 +20,9 @@ import { DateConverter } from "~/screens/date-converter/date-converter";
 import { DiffViewer } from "~/screens/diff-viewer/diff-viewer";
 import { GithubUserProjects } from "~/screens/github-user-projects/github-user-projects";
 import { Home } from "~/screens/home/home";
-import { ImageOcrCompressor } from "~/screens/image-ocr/compressor/image-ocr-compressor";
-import { ImageOcr } from "~/screens/image-ocr/image-ocr";
-import { ImageOcrOcr } from "~/screens/image-ocr/ocr/image-ocr-ocr";
+import { ImageOcrCompressor } from "~/screens/image-tools/compressor/image-compressor";
+import { ImageOcr } from "~/screens/image-tools/image-tools";
+import { Ocr } from "~/screens/image-tools/ocr/ocr";
 import { JsonConverter } from "~/screens/json/converter/json-converter";
 import { JsonFormatter } from "~/screens/json/formatter/json-formatter";
 import { Json } from "~/screens/json/json";
@@ -227,7 +227,7 @@ const imageOcrIndexRoute = createRoute({
 const imageOcrOcrRoute = createRoute({
   getParentRoute: () => imageOcrRoute,
   path: "/ocr",
-  component: ImageOcrOcr,
+  component: Ocr,
 });
 
 const imageOcrCompressorRoute = createRoute({

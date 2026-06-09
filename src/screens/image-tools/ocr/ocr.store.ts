@@ -1,16 +1,16 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
-import type { WorkerStatus } from "./image-ocr.types";
+import type { WorkerStatus } from "./ocr.types";
 import {
   DEFAULT_EXTRACTED_TEXT,
   DEFAULT_IMAGE_DATA_URL,
   DEFAULT_LANGUAGE,
   INITIAL_WORKER_STATUS,
   PERSISTED_STORE_NAME,
-} from "./image-ocr.types";
+} from "./ocr.types";
 
-interface ImageOcrState {
+interface OcrState {
   // Persisted preferences
   language: string;
 
@@ -28,7 +28,7 @@ interface ImageOcrState {
   clearAll: () => void;
 }
 
-const stateCreator = (set: (partial: Partial<ImageOcrState>) => void): ImageOcrState => ({
+const stateCreator = (set: (partial: Partial<OcrState>) => void): OcrState => ({
   language: DEFAULT_LANGUAGE,
   imageDataUrl: DEFAULT_IMAGE_DATA_URL,
   extractedText: DEFAULT_EXTRACTED_TEXT,
@@ -55,18 +55,16 @@ const stateCreator = (set: (partial: Partial<ImageOcrState>) => void): ImageOcrS
     }),
 });
 
-const persistedStateCreator = persist<ImageOcrState>(stateCreator, {
+const persistedStateCreator = persist<OcrState>(stateCreator, {
   name: PERSISTED_STORE_NAME,
   storage: createJSONStorage(() => localStorage),
   // Only persist the language preference, not the image data or processing state
   partialize: (state) =>
     ({
       language: state.language,
-    }) as ImageOcrState,
+    }) as OcrState,
 });
 
-export const useImageOcrStore = create<ImageOcrState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
-);
+export const useOcrStore = create<OcrState>()(devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }));
 
-export const useSetWorkerStatus = () => useImageOcrStore((state) => state.setWorkerStatus);
+export const useSetWorkerStatus = () => useOcrStore((state) => state.setWorkerStatus);

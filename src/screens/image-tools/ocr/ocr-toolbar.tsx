@@ -6,9 +6,9 @@ import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
-import { downloadTextFile } from "./image-ocr.utils";
+import { downloadTextFile } from "./ocr.utils";
 
-interface ImageOcrToolbarProps {
+interface OcrToolbarProps {
   hasImage: boolean;
   resultText: string | undefined;
   isProcessing: boolean;
@@ -16,7 +16,7 @@ interface ImageOcrToolbarProps {
   onClear: () => void;
 }
 
-export const ImageOcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onClear }: ImageOcrToolbarProps) => {
+export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onClear }: OcrToolbarProps) => {
   const { isMobile } = useResponsive();
   const { styles } = useStyles();
   const { copyTextToClipboard } = useClipboardCopy();

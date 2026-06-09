@@ -3,7 +3,7 @@ import { formatDuration } from "@lichens-innovation/ts-common";
 import { Buffer } from "buffer";
 import Tesseract from "tesseract.js";
 
-import type { OcrContext, OcrResult, WorkerStatus } from "./image-ocr.types";
+import type { OcrContext, OcrResult, WorkerStatus } from "./ocr.types";
 
 interface ProcessOcrArgs {
   context: OcrContext;
