@@ -29,14 +29,17 @@ interface CompressorActions {
   setResize: (value: CompressorResizeMode) => void;
   setConvertSize: (value: number) => void;
   setCheckOrientation: (value: boolean) => void;
+  setSelectedFile: (file: File) => void;
+  clearSelectedFile: () => void;
 }
 
-export type CompressorStoreState = CompressorSettings & CompressorActions;
+export type CompressorStoreState = CompressorSettings & { selectedFile: File | null } & CompressorActions;
 
 type SetState = (partial: Partial<CompressorStoreState>) => void;
 
 const stateCreator = (set: SetState): CompressorStoreState => ({
   ...COMPRESSOR_DEFAULTS,
+  selectedFile: null,
   setQuality: (quality) => set({ quality }),
   setMimeType: (mimeType) => set({ mimeType }),
   setMaxWidth: (maxWidth) => set({ maxWidth }),
@@ -48,13 +51,28 @@ const stateCreator = (set: SetState): CompressorStoreState => ({
   setResize: (resize) => set({ resize }),
   setConvertSize: (convertSize) => set({ convertSize }),
   setCheckOrientation: (checkOrientation) => set({ checkOrientation }),
+  setSelectedFile: (file) => set({ selectedFile: file }),
+  clearSelectedFile: () => set({ selectedFile: null }),
 });
 
 const PERSISTED_STORE_NAME = "etoolbox-compressor";
 
-const persistedStateCreator = persist<CompressorStoreState>(stateCreator, {
+const persistedStateCreator = persist<CompressorStoreState, [], [], CompressorSettings>(stateCreator, {
   name: PERSISTED_STORE_NAME,
   storage: createJSONStorage(() => localStorage),
+  partialize: (state) => ({
+    quality: state.quality,
+    mimeType: state.mimeType,
+    maxWidth: state.maxWidth,
+    maxHeight: state.maxHeight,
+    minWidth: state.minWidth,
+    minHeight: state.minHeight,
+    width: state.width,
+    height: state.height,
+    resize: state.resize,
+    convertSize: state.convertSize,
+    checkOrientation: state.checkOrientation,
+  }),
 });
 
 export const useCompressorStore = create<CompressorStoreState>()(

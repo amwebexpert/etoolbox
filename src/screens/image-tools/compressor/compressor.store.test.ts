@@ -25,9 +25,11 @@ vi.hoisted(() => {
 
 import { COMPRESSOR_DEFAULTS, useCompressorStore } from "./compressor.store";
 
+const makeImageFile = (): File => new File(["x"], "img.png", { type: "image/png" });
+
 describe("useCompressorStore", () => {
   beforeEach(() => {
-    useCompressorStore.setState({ ...COMPRESSOR_DEFAULTS });
+    useCompressorStore.setState({ ...COMPRESSOR_DEFAULTS, selectedFile: null });
     localStorage.clear();
   });
 
@@ -45,6 +47,10 @@ describe("useCompressorStore", () => {
     expect(state.resize).toBe(COMPRESSOR_DEFAULTS.resize);
     expect(state.convertSize).toBe(COMPRESSOR_DEFAULTS.convertSize);
     expect(state.checkOrientation).toBe(COMPRESSOR_DEFAULTS.checkOrientation);
+  });
+
+  it("starts with selectedFile null", () => {
+    expect(useCompressorStore.getState().selectedFile).toBeNull();
   });
 
   it("updates quality via setQuality", () => {
@@ -100,6 +106,22 @@ describe("useCompressorStore", () => {
   it("updates checkOrientation via setCheckOrientation", () => {
     useCompressorStore.getState().setCheckOrientation(false);
     expect(useCompressorStore.getState().checkOrientation).toBe(false);
+  });
+
+  it("sets selectedFile via setSelectedFile", () => {
+    const file = makeImageFile();
+
+    useCompressorStore.getState().setSelectedFile(file);
+
+    expect(useCompressorStore.getState().selectedFile).toBe(file);
+  });
+
+  it("clears selectedFile via clearSelectedFile", () => {
+    useCompressorStore.getState().setSelectedFile(makeImageFile());
+
+    useCompressorStore.getState().clearSelectedFile();
+
+    expect(useCompressorStore.getState().selectedFile).toBeNull();
   });
 
   it("persists state changes to localStorage under the store name", () => {

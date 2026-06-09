@@ -53,4 +53,25 @@ export const buildExportFilename = (originalName: string, mimeType: string): str
 /**
  * Type guard accepting any browser File whose MIME type denotes an image.
  */
-export const isValidImageFile = (file: File): boolean => file.type.startsWith("image/");
+export const isImageFile = (file: File): boolean => file.type.startsWith("image/");
+
+interface ClipboardLikeItem {
+  kind: string;
+  type: string;
+  getAsFile: () => File | null;
+}
+
+/**
+ * Extract the first image File from a clipboard DataTransferItemList.
+ * Returns null when no image item is present or getAsFile() returns null.
+ */
+export const extractImageFromClipboardItems = (items: ReadonlyArray<ClipboardLikeItem>): File | null => {
+  for (const item of items) {
+    if (!item.type.startsWith("image/")) continue;
+
+    const file = item.getAsFile();
+    if (file) return file;
+  }
+
+  return null;
+};

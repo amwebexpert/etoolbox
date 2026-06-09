@@ -1,11 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   buildExportFilename,
   compressImage,
   computeCompressionRatio,
+  extractImageFromClipboardItems,
   formatFileSize,
-  isValidImageFile,
+  isImageFile,
 } from "./compressor.utils";
 
 describe("formatFileSize", () => {
@@ -62,50 +63,77 @@ describe("buildExportFilename", () => {
   });
 });
 
-describe("isValidImageFile", () => {
-  it("returns true for image/png", () => {
-    const file = { type: "image/png" } as File;
-    expect(isValidImageFile(file)).toBe(true);
+const makeFile = (type: string): File => new File(["x"], `f.${type.split("/")[1] ?? "bin"}`, { type });
+
+describe("isImageFile", () => {
+  it.each([
+    ["image/png", true],
+    ["image/jpeg", true],
+    ["image/webp", true],
+    ["text/plain", false],
+    ["application/pdf", false],
+    ["", false],
+  ])("returns %s for type=%s -> %s", (type, expected) => {
+    const file = makeFile(type);
+
+    const result = isImageFile(file);
+
+    expect(result).toBe(expected);
+  });
+});
+
+interface FakeClipboardItem {
+  kind: string;
+  type: string;
+  getAsFile: () => File | null;
+}
+
+const makeItem = (type: string, file: File | null): FakeClipboardItem => ({
+  kind: file ? "file" : "string",
+  type,
+  getAsFile: vi.fn(() => file),
+});
+
+describe("extractImageFromClipboardItems", () => {
+  it("returns the first image file from items", () => {
+    const imageFile = makeFile("image/png");
+    const items = [makeItem("text/plain", null), makeItem("image/png", imageFile)];
+
+    const result = extractImageFromClipboardItems(items);
+
+    expect(result).toBe(imageFile);
   });
 
-  it("returns true for image/jpeg", () => {
-    const file = { type: "image/jpeg" } as File;
-    expect(isValidImageFile(file)).toBe(true);
+  it("returns null when no image item exists", () => {
+    const items = [makeItem("text/plain", null), makeItem("text/html", null)];
+
+    const result = extractImageFromClipboardItems(items);
+
+    expect(result).toBeNull();
   });
 
-  it("returns true for image/webp", () => {
-    const file = { type: "image/webp" } as File;
-    expect(isValidImageFile(file)).toBe(true);
+  it("returns null when items list is empty", () => {
+    const result = extractImageFromClipboardItems([]);
+
+    expect(result).toBeNull();
   });
 
-  it("returns false for application/pdf", () => {
-    const file = { type: "application/pdf" } as File;
-    expect(isValidImageFile(file)).toBe(false);
-  });
+  it("ignores image items whose getAsFile returns null", () => {
+    const items = [makeItem("image/png", null)];
 
-  it("returns false for text/plain", () => {
-    const file = { type: "text/plain" } as File;
-    expect(isValidImageFile(file)).toBe(false);
-  });
+    const result = extractImageFromClipboardItems(items);
 
-  it("returns false for empty MIME type", () => {
-    const file = { type: "" } as File;
-    expect(isValidImageFile(file)).toBe(false);
+    expect(result).toBeNull();
   });
 });
 
 describe("compressImage", () => {
-  it("is an exported function", () => {
-    expect(typeof compressImage).toBe("function");
-  });
-
   it("returns a Promise", () => {
-    // Invoke with a stub File; compressorjs will fail asynchronously on a
-    // non-image blob, but we only verify the Promise contract here.
     const stub = new File([new Uint8Array([0])], "stub.png", { type: "image/png" });
+
     const result = compressImage(stub);
+
     expect(result).toBeInstanceOf(Promise);
-    // Swallow rejection so the test does not surface an unhandled rejection.
     result.catch(() => undefined);
   });
 });
