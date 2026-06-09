@@ -48,7 +48,7 @@
       "compression_utils_and_store"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   },
   {
@@ -86,7 +86,7 @@
       "compression_utils_and_store"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   },
   {
