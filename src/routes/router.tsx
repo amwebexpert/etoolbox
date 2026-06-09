@@ -20,7 +20,9 @@ import { DateConverter } from "~/screens/date-converter/date-converter";
 import { DiffViewer } from "~/screens/diff-viewer/diff-viewer";
 import { GithubUserProjects } from "~/screens/github-user-projects/github-user-projects";
 import { Home } from "~/screens/home/home";
+import { ImageOcrCompressor } from "~/screens/image-ocr/compressor/image-ocr-compressor";
 import { ImageOcr } from "~/screens/image-ocr/image-ocr";
+import { ImageOcrOcr } from "~/screens/image-ocr/ocr/image-ocr-ocr";
 import { JsonConverter } from "~/screens/json/converter/json-converter";
 import { JsonFormatter } from "~/screens/json/formatter/json-formatter";
 import { Json } from "~/screens/json/json";
@@ -216,6 +218,24 @@ const imageOcrRoute = createRoute({
   component: ImageOcr,
 });
 
+const imageOcrIndexRoute = createRoute({
+  getParentRoute: () => imageOcrRoute,
+  path: "/",
+  component: () => <Navigate to="/image-ocr/ocr" replace />,
+});
+
+const imageOcrOcrRoute = createRoute({
+  getParentRoute: () => imageOcrRoute,
+  path: "/ocr",
+  component: ImageOcrOcr,
+});
+
+const imageOcrCompressorRoute = createRoute({
+  getParentRoute: () => imageOcrRoute,
+  path: "/compressor",
+  component: ImageOcrCompressor,
+});
+
 const commonListsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/common-lists",
@@ -300,7 +320,7 @@ const diffViewerRoute = createRoute({
   component: DiffViewer,
 });
 
-export const ROUTES_WITH_CHILDREN = ["/url", "/base64", "/json", "/colors", "/common-lists", "/qrcode"];
+export const ROUTES_WITH_CHILDREN = ["/url", "/base64", "/json", "/colors", "/common-lists", "/qrcode", "/image-ocr"];
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
@@ -313,7 +333,7 @@ const routeTree = rootRoute.addChildren([
   uuidGeneratorRoute,
   jwtDecoderRoute,
   qrcodeRoute.addChildren([qrcodeIndexRoute, qrcodeGeneratorRoute, qrcodeDecoderRoute]),
-  imageOcrRoute,
+  imageOcrRoute.addChildren([imageOcrIndexRoute, imageOcrOcrRoute, imageOcrCompressorRoute]),
   commonListsRoute.addChildren([
     commonListsIndexRoute,
     mimeTypesRoute,
