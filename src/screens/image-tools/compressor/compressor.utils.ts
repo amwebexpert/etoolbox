@@ -1,1 +1,56 @@
-export const compressImage = () => {};
+import { mimeToExt } from "@lichens-innovation/ts-common/mime";
+import Compressor from "compressorjs";
+
+const BYTES_PER_KB = 1024;
+const BYTES_PER_MB = BYTES_PER_KB * 1024;
+const BYTES_PER_GB = BYTES_PER_MB * 1024;
+const TWO_DECIMALS = 2;
+
+/**
+ * Promise-based wrapper around the imperative compressorjs constructor.
+ */
+export const compressImage = (file: File | Blob, options: Compressor.Options = {}): Promise<File | Blob> =>
+  new Promise((resolve, reject) => {
+    new Compressor(file, {
+      ...options,
+      success: (result) => resolve(result),
+      error: (error) => reject(error),
+    });
+  });
+
+/**
+ * Human-readable byte count using binary (1024) units with two decimals.
+ * Example: formatFileSize(1024) === "1.00 KB".
+ */
+export const formatFileSize = (bytes: number): string => {
+  if (bytes >= BYTES_PER_GB) return `${(bytes / BYTES_PER_GB).toFixed(TWO_DECIMALS)} GB`;
+  if (bytes >= BYTES_PER_MB) return `${(bytes / BYTES_PER_MB).toFixed(TWO_DECIMALS)} MB`;
+  if (bytes >= BYTES_PER_KB) return `${(bytes / BYTES_PER_KB).toFixed(TWO_DECIMALS)} KB`;
+  return `${bytes} B`;
+};
+
+/**
+ * Signed compression ratio as a percentage string.
+ * Example: computeCompressionRatio(1000, 500) === "-50%".
+ */
+export const computeCompressionRatio = (originalBytes: number, compressedBytes: number): string => {
+  if (originalBytes <= 0) return "0%";
+  const ratio = ((compressedBytes - originalBytes) / originalBytes) * 100;
+  return `${Math.round(ratio)}%`;
+};
+
+/**
+ * Build an export filename from the source name and the target MIME type.
+ * Example: buildExportFilename("photo.png", "image/webp") === "photo_compressed.webp".
+ */
+export const buildExportFilename = (originalName: string, mimeType: string): string => {
+  const lastDot = originalName.lastIndexOf(".");
+  const baseName = lastDot > 0 ? originalName.slice(0, lastDot) : originalName;
+  const ext = mimeToExt(mimeType);
+  return `${baseName}_compressed.${ext}`;
+};
+
+/**
+ * Type guard accepting any browser File whose MIME type denotes an image.
+ */
+export const isValidImageFile = (file: File): boolean => file.type.startsWith("image/");
