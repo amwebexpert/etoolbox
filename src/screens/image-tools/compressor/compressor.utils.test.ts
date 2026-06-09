@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 
+import type { CompressorSettings } from "./compressor.types";
 import {
+  buildCompressorOptions,
   buildExportFilename,
   compressImage,
   computeCompressionRatio,
@@ -124,6 +126,77 @@ describe("extractImageFromClipboardItems", () => {
     const result = extractImageFromClipboardItems(items);
 
     expect(result).toBeNull();
+  });
+});
+
+const BASE_SETTINGS: CompressorSettings = {
+  quality: 0.8,
+  mimeType: "auto",
+  maxWidth: 4096,
+  maxHeight: 4096,
+  minWidth: 0,
+  minHeight: 0,
+  width: 0,
+  height: 0,
+  resize: "none",
+  convertSize: 5_000_000,
+  checkOrientation: true,
+};
+
+describe("buildCompressorOptions", () => {
+  it("omits mimeType when set to 'auto'", () => {
+    const result = buildCompressorOptions(BASE_SETTINGS);
+
+    expect(result.mimeType).toBeUndefined();
+  });
+
+  it("forwards explicit mimeType", () => {
+    const result = buildCompressorOptions({ ...BASE_SETTINGS, mimeType: "image/webp" });
+
+    expect(result.mimeType).toBe("image/webp");
+  });
+
+  it("omits zero width / height / minWidth / minHeight", () => {
+    const result = buildCompressorOptions(BASE_SETTINGS);
+
+    expect(result.width).toBeUndefined();
+    expect(result.height).toBeUndefined();
+    expect(result.minWidth).toBeUndefined();
+    expect(result.minHeight).toBeUndefined();
+  });
+
+  it("forwards positive width / height / minWidth / minHeight", () => {
+    const result = buildCompressorOptions({
+      ...BASE_SETTINGS,
+      width: 800,
+      height: 600,
+      minWidth: 100,
+      minHeight: 50,
+    });
+
+    expect(result.width).toBe(800);
+    expect(result.height).toBe(600);
+    expect(result.minWidth).toBe(100);
+    expect(result.minHeight).toBe(50);
+  });
+
+  it("forwards quality, resize, convertSize, checkOrientation, maxWidth, maxHeight", () => {
+    const result = buildCompressorOptions({
+      ...BASE_SETTINGS,
+      quality: 0.5,
+      resize: "cover",
+      convertSize: 1_000_000,
+      checkOrientation: false,
+      maxWidth: 1280,
+      maxHeight: 720,
+    });
+
+    expect(result.quality).toBe(0.5);
+    expect(result.resize).toBe("cover");
+    expect(result.convertSize).toBe(1_000_000);
+    expect(result.checkOrientation).toBe(false);
+    expect(result.maxWidth).toBe(1280);
+    expect(result.maxHeight).toBe(720);
   });
 });
 

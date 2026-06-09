@@ -1,6 +1,10 @@
 import { mimeToExt } from "@lichens-innovation/ts-common/mime";
 import Compressor from "compressorjs";
 
+import type { CompressorSettings } from "./compressor.types";
+
+const AUTO_MIME_TYPE = "auto";
+
 const BYTES_PER_KB = 1024;
 const BYTES_PER_MB = BYTES_PER_KB * 1024;
 const BYTES_PER_GB = BYTES_PER_MB * 1024;
@@ -48,6 +52,30 @@ export const buildExportFilename = (originalName: string, mimeType: string): str
   const baseName = lastDot > 0 ? originalName.slice(0, lastDot) : originalName;
   const ext = mimeToExt(mimeType);
   return `${baseName}_compressed.${ext}`;
+};
+
+/**
+ * Map persisted CompressorSettings to a runtime compressorjs Options object.
+ * Drops sentinel values ("auto" mimeType, zero width/height bounds) so the
+ * underlying library falls back to its own defaults rather than clamping to 0.
+ */
+export const buildCompressorOptions = (settings: CompressorSettings): Compressor.Options => {
+  const options: Compressor.Options = {
+    quality: settings.quality,
+    maxWidth: settings.maxWidth,
+    maxHeight: settings.maxHeight,
+    resize: settings.resize,
+    convertSize: settings.convertSize,
+    checkOrientation: settings.checkOrientation,
+  };
+
+  if (settings.mimeType !== AUTO_MIME_TYPE) options.mimeType = settings.mimeType;
+  if (settings.minWidth > 0) options.minWidth = settings.minWidth;
+  if (settings.minHeight > 0) options.minHeight = settings.minHeight;
+  if (settings.width > 0) options.width = settings.width;
+  if (settings.height > 0) options.height = settings.height;
+
+  return options;
 };
 
 /**
