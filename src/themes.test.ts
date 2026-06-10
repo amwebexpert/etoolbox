@@ -11,15 +11,16 @@ describe("THEMES", () => {
     expect(Object.keys(THEMES).sort()).toEqual([...EXPECTED_KEYS].sort());
   });
 
-  it.each(EXPECTED_KEYS)("theme '%s' has a non-empty primary hex string", (key) => {
+  it.each`
+    key
+    ${"red"}
+    ${"green"}
+    ${"orange"}
+    ${"blue"}
+    ${"pink"}
+  `("theme '$key' exposes valid primary, secondary, and label", ({ key }: { key: ColorTheme }) => {
     expect(THEMES[key].primary).toMatch(HEX_PATTERN);
-  });
-
-  it.each(EXPECTED_KEYS)("theme '%s' has a non-empty secondary hex string", (key) => {
     expect(THEMES[key].secondary).toMatch(HEX_PATTERN);
-  });
-
-  it.each(EXPECTED_KEYS)("theme '%s' has a non-empty label string", (key) => {
     expect(THEMES[key].label).toBeTruthy();
     expect(typeof THEMES[key].label).toBe("string");
   });

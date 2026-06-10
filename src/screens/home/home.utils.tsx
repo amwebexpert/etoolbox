@@ -77,8 +77,8 @@ export const FEATURES = [
   },
   {
     icon: <PictureOutlined />,
-    name: "Image OCR",
-    description: "Extract text from images",
+    name: "Image Tools",
+    description: "OCR, compression and more",
     color: "#a0d911",
     path: "/image-ocr",
   },

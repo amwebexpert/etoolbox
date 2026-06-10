@@ -71,7 +71,7 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     key: "/image-ocr",
     icon: <PictureOutlined />,
-    label: <Link to="/image-ocr">Image OCR</Link>,
+    label: <Link to="/image-ocr">Image Tools</Link>,
   },
   {
     key: "/common-lists",

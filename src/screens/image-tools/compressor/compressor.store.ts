@@ -1,0 +1,125 @@
+import { create } from "zustand";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
+
+import type { CompressorResizeMode, CompressorSettings } from "./compressor.types";
+
+export const COMPRESSOR_DEFAULTS: CompressorSettings = {
+  quality: 0.8,
+  mimeType: "auto",
+  maxWidth: 4096,
+  maxHeight: 4096,
+  minWidth: 0,
+  minHeight: 0,
+  width: 0,
+  height: 0,
+  resize: "none",
+  convertSize: 5_000_000,
+  checkOrientation: true,
+};
+
+interface CompressorActions {
+  setShowCompressionSettings: (show: boolean) => void;
+  setQuality: (value: number) => void;
+  setMimeType: (value: string) => void;
+  setMaxWidth: (value: number | null) => void;
+  setMaxHeight: (value: number | null) => void;
+  setMinWidth: (value: number | null) => void;
+  setMinHeight: (value: number | null) => void;
+  setWidth: (value: number | null) => void;
+  setHeight: (value: number | null) => void;
+  setResize: (value: CompressorResizeMode) => void;
+  setConvertSize: (value: number | null) => void;
+  setCheckOrientation: (value: boolean) => void;
+  setSelectedFile: (file: File) => void;
+  clearSelectedFile: () => void;
+}
+
+export type CompressorStoreState = CompressorSettings & {
+  selectedFile: File | null;
+  showCompressionSettings: boolean;
+} & CompressorActions;
+
+type SetState = (partial: Partial<CompressorStoreState>) => void;
+
+const coerceInputNumber = (value: number | null): number => value ?? 0;
+
+const stateCreator = (set: SetState): CompressorStoreState => ({
+  ...COMPRESSOR_DEFAULTS,
+  selectedFile: null,
+  showCompressionSettings: false,
+  setShowCompressionSettings: (showCompressionSettings) => set({ showCompressionSettings }),
+  setQuality: (quality) => set({ quality }),
+  setMimeType: (mimeType) => set({ mimeType }),
+  setMaxWidth: (maxWidth) => set({ maxWidth: coerceInputNumber(maxWidth) }),
+  setMaxHeight: (maxHeight) => set({ maxHeight: coerceInputNumber(maxHeight) }),
+  setMinWidth: (minWidth) => set({ minWidth: coerceInputNumber(minWidth) }),
+  setMinHeight: (minHeight) => set({ minHeight: coerceInputNumber(minHeight) }),
+  setWidth: (width) => set({ width: coerceInputNumber(width) }),
+  setHeight: (height) => set({ height: coerceInputNumber(height) }),
+  setResize: (resize) => set({ resize }),
+  setConvertSize: (convertSize) => set({ convertSize: coerceInputNumber(convertSize) }),
+  setCheckOrientation: (checkOrientation) => set({ checkOrientation }),
+  setSelectedFile: (file) => set({ selectedFile: file }),
+  clearSelectedFile: () => set({ selectedFile: null }),
+});
+
+const PERSISTED_STORE_NAME = "etoolbox-compressor";
+
+const persistedStateCreator = persist<CompressorStoreState, [], [], CompressorSettings>(stateCreator, {
+  name: PERSISTED_STORE_NAME,
+  storage: createJSONStorage(() => localStorage),
+  partialize: (state) => ({
+    quality: state.quality,
+    mimeType: state.mimeType,
+    maxWidth: state.maxWidth,
+    maxHeight: state.maxHeight,
+    minWidth: state.minWidth,
+    minHeight: state.minHeight,
+    width: state.width,
+    height: state.height,
+    resize: state.resize,
+    convertSize: state.convertSize,
+    checkOrientation: state.checkOrientation,
+  }),
+});
+
+export const useCompressorStore = create<CompressorStoreState>()(
+  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+);
+
+export const useCompressorQuality = () => useCompressorStore((state) => state.quality);
+export const useSetCompressorQuality = () => useCompressorStore((state) => state.setQuality);
+
+export const useCompressorMimeType = () => useCompressorStore((state) => state.mimeType);
+export const useSetCompressorMimeType = () => useCompressorStore((state) => state.setMimeType);
+
+export const useCompressorMaxWidth = () => useCompressorStore((state) => state.maxWidth);
+export const useSetCompressorMaxWidth = () => useCompressorStore((state) => state.setMaxWidth);
+
+export const useCompressorMaxHeight = () => useCompressorStore((state) => state.maxHeight);
+export const useSetCompressorMaxHeight = () => useCompressorStore((state) => state.setMaxHeight);
+
+export const useCompressorMinWidth = () => useCompressorStore((state) => state.minWidth);
+export const useSetCompressorMinWidth = () => useCompressorStore((state) => state.setMinWidth);
+
+export const useCompressorMinHeight = () => useCompressorStore((state) => state.minHeight);
+export const useSetCompressorMinHeight = () => useCompressorStore((state) => state.setMinHeight);
+
+export const useCompressorWidth = () => useCompressorStore((state) => state.width);
+export const useSetCompressorWidth = () => useCompressorStore((state) => state.setWidth);
+
+export const useCompressorHeight = () => useCompressorStore((state) => state.height);
+export const useSetCompressorHeight = () => useCompressorStore((state) => state.setHeight);
+
+export const useCompressorResize = () => useCompressorStore((state) => state.resize);
+export const useSetCompressorResize = () => useCompressorStore((state) => state.setResize);
+
+export const useCompressorConvertSize = () => useCompressorStore((state) => state.convertSize);
+export const useSetCompressorConvertSize = () => useCompressorStore((state) => state.setConvertSize);
+
+export const useCompressorCheckOrientation = () => useCompressorStore((state) => state.checkOrientation);
+export const useSetCompressorCheckOrientation = () => useCompressorStore((state) => state.setCheckOrientation);
+
+export const useCompressorShowCompressionSettings = () => useCompressorStore((state) => state.showCompressionSettings);
+export const useSetCompressorShowCompressionSettings = () =>
+  useCompressorStore((state) => state.setShowCompressionSettings);
