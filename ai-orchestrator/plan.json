@@ -106,7 +106,7 @@
       "use_compressor_hook"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   },
   {
@@ -125,7 +125,7 @@
       "use_compressor_hook"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   },
   {
@@ -150,7 +150,7 @@
       "download_toolbar"
     ],
     "type": "AFK",
-    "passes": false,
+    "passes": true,
     "isPlanned": true
   }
 ]
