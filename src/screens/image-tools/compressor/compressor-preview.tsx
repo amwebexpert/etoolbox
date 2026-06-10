@@ -1,23 +1,23 @@
 import { Col, Row } from "antd";
 
-import { useCompressorStore } from "./compressor.store";
 import { computeCompressionRatio } from "./compressor.utils";
 import { CompressorImagePanel } from "./compressor-image-panel";
-import { useCompressor } from "./use-compressor";
 import { useFileDataUrl } from "./use-file-data-url";
 import { useImageDimensions } from "./use-image-dimensions";
 
 const MISSING_VALUE_PLACEHOLDER = "—";
 
-export const CompressorPreview = () => {
-  const file = useCompressorStore((state) => state.selectedFile);
-  const { compressedBlob, compressedObjectUrl, isCompressing } = useCompressor(file);
+interface CompressorPreviewProps {
+  file: File;
+  compressedBlob: Blob | null;
+  compressedObjectUrl: string | null;
+  isCompressing: boolean;
+}
 
+export const CompressorPreview = ({ file, compressedBlob, compressedObjectUrl, isCompressing }: CompressorPreviewProps) => {
   const originalSrc = useFileDataUrl(file);
   const originalDims = useImageDimensions(originalSrc);
   const compressedDims = useImageDimensions(compressedObjectUrl);
-
-  if (!file) return null;
 
   const compressionRatio = compressedBlob
     ? computeCompressionRatio(file.size, compressedBlob.size)
