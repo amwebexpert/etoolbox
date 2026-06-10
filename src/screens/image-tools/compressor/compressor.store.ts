@@ -21,14 +21,14 @@ interface CompressorActions {
   setShowCompressionSettings: (show: boolean) => void;
   setQuality: (value: number) => void;
   setMimeType: (value: string) => void;
-  setMaxWidth: (value: number) => void;
-  setMaxHeight: (value: number) => void;
-  setMinWidth: (value: number) => void;
-  setMinHeight: (value: number) => void;
-  setWidth: (value: number) => void;
-  setHeight: (value: number) => void;
+  setMaxWidth: (value: number | null) => void;
+  setMaxHeight: (value: number | null) => void;
+  setMinWidth: (value: number | null) => void;
+  setMinHeight: (value: number | null) => void;
+  setWidth: (value: number | null) => void;
+  setHeight: (value: number | null) => void;
   setResize: (value: CompressorResizeMode) => void;
-  setConvertSize: (value: number) => void;
+  setConvertSize: (value: number | null) => void;
   setCheckOrientation: (value: boolean) => void;
   setSelectedFile: (file: File) => void;
   clearSelectedFile: () => void;
@@ -41,6 +41,8 @@ export type CompressorStoreState = CompressorSettings & {
 
 type SetState = (partial: Partial<CompressorStoreState>) => void;
 
+const coerceInputNumber = (value: number | null): number => value ?? 0;
+
 const stateCreator = (set: SetState): CompressorStoreState => ({
   ...COMPRESSOR_DEFAULTS,
   selectedFile: null,
@@ -48,14 +50,14 @@ const stateCreator = (set: SetState): CompressorStoreState => ({
   setShowCompressionSettings: (showCompressionSettings) => set({ showCompressionSettings }),
   setQuality: (quality) => set({ quality }),
   setMimeType: (mimeType) => set({ mimeType }),
-  setMaxWidth: (maxWidth) => set({ maxWidth }),
-  setMaxHeight: (maxHeight) => set({ maxHeight }),
-  setMinWidth: (minWidth) => set({ minWidth }),
-  setMinHeight: (minHeight) => set({ minHeight }),
-  setWidth: (width) => set({ width }),
-  setHeight: (height) => set({ height }),
+  setMaxWidth: (maxWidth) => set({ maxWidth: coerceInputNumber(maxWidth) }),
+  setMaxHeight: (maxHeight) => set({ maxHeight: coerceInputNumber(maxHeight) }),
+  setMinWidth: (minWidth) => set({ minWidth: coerceInputNumber(minWidth) }),
+  setMinHeight: (minHeight) => set({ minHeight: coerceInputNumber(minHeight) }),
+  setWidth: (width) => set({ width: coerceInputNumber(width) }),
+  setHeight: (height) => set({ height: coerceInputNumber(height) }),
   setResize: (resize) => set({ resize }),
-  setConvertSize: (convertSize) => set({ convertSize }),
+  setConvertSize: (convertSize) => set({ convertSize: coerceInputNumber(convertSize) }),
   setCheckOrientation: (checkOrientation) => set({ checkOrientation }),
   setSelectedFile: (file) => set({ selectedFile: file }),
   clearSelectedFile: () => set({ selectedFile: null }),

@@ -71,12 +71,6 @@ export const CompressorSettings = () => {
     setQuality(percentToQuality(percent));
   };
 
-  const handleNumberChange =
-    (setter: (value: number) => void) =>
-    (value: number | null): void => {
-      setter(value ?? 0);
-    };
-
   const collapseItems = [
     {
       key: COLLAPSE_KEY,
@@ -107,57 +101,32 @@ export const CompressorSettings = () => {
             </Col>
             <Col xs={8} md={4}>
               <Form.Item label="Max width">
-                <InputNumber
-                  min={0}
-                  value={maxWidth}
-                  onChange={handleNumberChange(setMaxWidth)}
-                  style={{ width: "100%" }}
-                />
+                <InputNumber min={0} value={maxWidth} onChange={setMaxWidth} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={8} md={4}>
               <Form.Item label="Max height">
-                <InputNumber
-                  min={0}
-                  value={maxHeight}
-                  onChange={handleNumberChange(setMaxHeight)}
-                  style={{ width: "100%" }}
-                />
+                <InputNumber min={0} value={maxHeight} onChange={setMaxHeight} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={8} md={4}>
               <Form.Item label="Min width">
-                <InputNumber
-                  min={0}
-                  value={minWidth}
-                  onChange={handleNumberChange(setMinWidth)}
-                  style={{ width: "100%" }}
-                />
+                <InputNumber min={0} value={minWidth} onChange={setMinWidth} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={8} md={4}>
               <Form.Item label="Min height">
-                <InputNumber
-                  min={0}
-                  value={minHeight}
-                  onChange={handleNumberChange(setMinHeight)}
-                  style={{ width: "100%" }}
-                />
+                <InputNumber min={0} value={minHeight} onChange={setMinHeight} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={8} md={4}>
               <Form.Item label="Width (exact)">
-                <InputNumber min={0} value={width} onChange={handleNumberChange(setWidth)} style={{ width: "100%" }} />
+                <InputNumber min={0} value={width} onChange={setWidth} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={8} md={4}>
               <Form.Item label="Height (exact)">
-                <InputNumber
-                  min={0}
-                  value={height}
-                  onChange={handleNumberChange(setHeight)}
-                  style={{ width: "100%" }}
-                />
+                <InputNumber min={0} value={height} onChange={setHeight} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={8} md={4}>
@@ -167,12 +136,7 @@ export const CompressorSettings = () => {
             </Col>
             <Col xs={8} md={4}>
               <Form.Item label="Convert size threshold (bytes)">
-                <InputNumber
-                  min={0}
-                  value={convertSize}
-                  onChange={handleNumberChange(setConvertSize)}
-                  style={{ width: "100%" }}
-                />
+                <InputNumber min={0} value={convertSize} onChange={setConvertSize} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={8} md={4}>

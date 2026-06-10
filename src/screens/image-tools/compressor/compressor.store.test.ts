@@ -103,6 +103,23 @@ describe("useCompressorStore", () => {
     expect(useCompressorStore.getState().convertSize).toBe(2_000_000);
   });
 
+  it.each([
+    ["setMaxWidth", "maxWidth"],
+    ["setMaxHeight", "maxHeight"],
+    ["setMinWidth", "minWidth"],
+    ["setMinHeight", "minHeight"],
+    ["setWidth", "width"],
+    ["setHeight", "height"],
+    ["setConvertSize", "convertSize"],
+  ] as const)("coerces null to 0 via %s", (setterName, stateKey) => {
+    useCompressorStore.getState()[setterName](1280);
+    expect(useCompressorStore.getState()[stateKey]).toBe(1280);
+
+    useCompressorStore.getState()[setterName](null);
+
+    expect(useCompressorStore.getState()[stateKey]).toBe(0);
+  });
+
   it("updates checkOrientation via setCheckOrientation", () => {
     useCompressorStore.getState().setCheckOrientation(false);
     expect(useCompressorStore.getState().checkOrientation).toBe(false);
