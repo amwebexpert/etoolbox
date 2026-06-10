@@ -1,3 +1,4 @@
+import { isNullish } from "@lichens-innovation/ts-common";
 import { mimeToExt } from "@lichens-innovation/ts-common/mime";
 import Compressor from "compressorjs";
 
@@ -129,7 +130,7 @@ interface CanEnableDownloadArgs {
  * is available and no compression is currently running.
  */
 export const canEnableDownload = ({ isCompressing, compressedBlob }: CanEnableDownloadArgs): boolean =>
-  !isCompressing && compressedBlob !== null;
+  !isCompressing && !isNullish(compressedBlob);
 
 interface TriggerDownloadArgs {
   blob: Blob;
