@@ -1,26 +1,61 @@
 import { FileImageOutlined } from "@ant-design/icons";
-import { Alert, Flex } from "antd";
+import { Flex } from "antd";
 import { createStyles } from "antd-style";
+import { useEffect } from "react";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 
 import { useCompressorStore } from "./compressor.store";
+import { buildExportFilename, triggerDownload } from "./compressor.utils";
 import { CompressorImageUpload } from "./compressor-image-upload";
 import { CompressorPreview } from "./compressor-preview";
 import { CompressorSettings } from "./compressor-settings";
 import { CompressorToolbar } from "./compressor-toolbar";
-import { useCompressor } from "./use-compressor";
+import { selectCompressorSettings, useCompressor } from "./use-compressor";
 
 const SCREEN_TITLE = "Image Compressor";
 const SCREEN_DESCRIPTION =
-  "Resize and re-encode images directly in your browser. Adjust quality, dimensions and format, then download the result.";
+  "Resize and re-encode images directly in your browser. Adjust quality, dimensions and format, then compress and download the result.";
 
 export const ImageOcrCompressor = () => {
   const { styles } = useStyles();
   const selectedFile = useCompressorStore((state) => state.selectedFile);
   const setSelectedFile = useCompressorStore((state) => state.setSelectedFile);
-  const { compressedBlob, compressedObjectUrl, isCompressing, compressionError } = useCompressor(selectedFile);
+  const clearSelectedFile = useCompressorStore((state) => state.clearSelectedFile);
+  const { compressedBlob, compressedObjectUrl, isCompressing, compress, resetCompress } = useCompressor();
+
+  const handleCompress = (): void => {
+    if (!selectedFile) return;
+
+    compress({
+      file: selectedFile,
+      settings: selectCompressorSettings(useCompressorStore.getState()),
+    });
+  };
+
+  const handleDownload = (): void => {
+    if (!compressedBlob || !selectedFile) return;
+
+    const filename = buildExportFilename(selectedFile.name, compressedBlob.type);
+    triggerDownload({ blob: compressedBlob, filename });
+  };
+
+  const handleClear = (): void => {
+    clearSelectedFile();
+    resetCompress();
+  };
+
+  useEffect(() => {
+    if (!compressedObjectUrl) {
+      return;
+    }
+
+    return () => URL.revokeObjectURL(compressedObjectUrl);
+  }, [compressedObjectUrl]);
+
+  const hasFile = !!selectedFile;
+  const hasResult = !!compressedBlob;
 
   return (
     <ScreenContainer>
@@ -33,21 +68,20 @@ export const ImageOcrCompressor = () => {
           <>
             <CompressorSettings />
 
-            {compressionError && (
-              <Alert type="error" showIcon message="Compression failed" description={compressionError.message} />
-            )}
+            <CompressorToolbar
+              hasFile={hasFile}
+              hasResult={hasResult}
+              isCompressing={isCompressing}
+              onCompress={handleCompress}
+              onDownload={handleDownload}
+              onClear={handleClear}
+            />
 
             <CompressorPreview
               file={selectedFile}
               compressedBlob={compressedBlob}
               compressedObjectUrl={compressedObjectUrl}
               isCompressing={isCompressing}
-            />
-
-            <CompressorToolbar
-              compressedBlob={compressedBlob}
-              isCompressing={isCompressing}
-              originalFileName={selectedFile.name}
             />
           </>
         )}

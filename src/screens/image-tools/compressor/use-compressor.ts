@@ -1,23 +1,27 @@
-import { useDebounce } from "@uidotdev/usehooks";
-import { useCallback, useEffect, useState } from "react";
-import { useShallow } from "zustand/react/shallow";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
+
+import { useToastMessage } from "~/hooks/use-toast-message";
 
 import type { CompressorStoreState } from "./compressor.store";
-import { useCompressorStore } from "./compressor.store";
 import type { CompressorSettings } from "./compressor.types";
 import { buildCompressorOptions, compressImage } from "./compressor.utils";
 
-const COMPRESSION_DEBOUNCE_MS = 500;
+export interface CompressInput {
+  file: File;
+  settings: CompressorSettings;
+}
 
 export interface UseCompressorReturn {
   compressedBlob: Blob | null;
   compressedObjectUrl: string | null;
   isCompressing: boolean;
   compressionError: Error | null;
-  reset: () => void;
+  compress: (input: CompressInput) => void;
+  resetCompress: () => void;
 }
 
-const selectSettings = (state: CompressorStoreState): CompressorSettings => ({
+export const selectCompressorSettings = (state: CompressorStoreState): CompressorSettings => ({
   quality: state.quality,
   mimeType: state.mimeType,
   maxWidth: state.maxWidth,
@@ -31,65 +35,36 @@ const selectSettings = (state: CompressorStoreState): CompressorSettings => ({
   checkOrientation: state.checkOrientation,
 });
 
-const toError = (value: unknown): Error => (value instanceof Error ? value : new Error(String(value)));
+const compressWithSettings = async ({ file, settings }: CompressInput): Promise<Blob> => {
+  const result = await compressImage(file, buildCompressorOptions(settings));
+  return result;
+};
 
-export const useCompressor = (file: File | null): UseCompressorReturn => {
-  const settings = useCompressorStore(useShallow(selectSettings));
+export const useCompressor = (): UseCompressorReturn => {
+  const messageApi = useToastMessage();
 
-  const debouncedFile = useDebounce(file, COMPRESSION_DEBOUNCE_MS);
-  const debouncedSettings = useDebounce(settings, COMPRESSION_DEBOUNCE_MS);
-
-  const [compressedBlob, setCompressedBlob] = useState<Blob | null>(null);
-  const [compressedObjectUrl, setCompressedObjectUrl] = useState<string | null>(null);
-  const [isCompressing, setIsCompressing] = useState<boolean>(false);
-  const [compressionError, setCompressionError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    if (!debouncedFile) {
-      setIsCompressing(false);
-      return;
-    }
-
-    let cancelled = false;
-    setIsCompressing(true);
-    setCompressionError(null);
-
-    compressImage(debouncedFile, buildCompressorOptions(debouncedSettings))
-      .then((result) => {
-        if (cancelled) return;
-        setCompressedBlob(result);
-        setIsCompressing(false);
-      })
-      .catch((error: unknown) => {
-        if (cancelled) return;
-        setCompressionError(toError(error));
-        setIsCompressing(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [debouncedFile, debouncedSettings]);
+  const { data, mutate, isPending, error, reset } = useMutation({
+    mutationFn: compressWithSettings,
+    onSuccess: () => {
+      messageApi.success("Image compressed successfully!");
+    },
+  });
 
   useEffect(() => {
-    if (!compressedBlob) {
-      setCompressedObjectUrl(null);
-      return;
+    if (error) {
+      messageApi.error(`Compression failed: ${error.message}`);
     }
+  }, [error, messageApi]);
 
-    const url = URL.createObjectURL(compressedBlob);
-    setCompressedObjectUrl(url);
+  const compressedBlob = data ?? null;
+  const compressedObjectUrl = compressedBlob ? URL.createObjectURL(compressedBlob) : null;
 
-    return () => {
-      URL.revokeObjectURL(url);
-    };
-  }, [compressedBlob]);
-
-  const reset = useCallback((): void => {
-    setCompressedBlob(null);
-    setCompressionError(null);
-    setIsCompressing(false);
-  }, []);
-
-  return { compressedBlob, compressedObjectUrl, isCompressing, compressionError, reset };
+  return {
+    compressedBlob,
+    compressedObjectUrl,
+    isCompressing: isPending,
+    compressionError: error,
+    compress: mutate,
+    resetCompress: reset,
+  };
 };

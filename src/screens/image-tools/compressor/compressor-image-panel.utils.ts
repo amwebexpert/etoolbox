@@ -1,6 +1,6 @@
 import { isBlank, isNullish } from "@lichens-innovation/ts-common";
 
-import { formatFileSize } from "./compressor.utils";
+import { formatBytesPretty } from "~/utils/number-format.utils";
 
 const MISSING_VALUE_PLACEHOLDER = "—";
 
@@ -10,7 +10,7 @@ export interface PanelStat {
 }
 
 export interface PanelStatsInput {
-  sizeBytes: number;
+  sizeBytes: number | null;
   width: number | null;
   height: number | null;
   mimeType: string;
@@ -26,8 +26,10 @@ export const buildPanelStats = (input: PanelStatsInput): PanelStat[] => {
   const dimensions =
     isNullish(input.width) || isNullish(input.height) ? MISSING_VALUE_PLACEHOLDER : `${input.width} × ${input.height}`;
 
+  const size = isNullish(input.sizeBytes) ? MISSING_VALUE_PLACEHOLDER : formatBytesPretty(input.sizeBytes);
+
   const stats: PanelStat[] = [
-    { label: "Size", value: formatFileSize(input.sizeBytes) },
+    { label: "Size", value: size },
     { label: "Dimensions", value: dimensions },
     { label: "Type", value: isBlank(input.mimeType) ? MISSING_VALUE_PLACEHOLDER : input.mimeType },
   ];

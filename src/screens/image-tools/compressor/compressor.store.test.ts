@@ -29,7 +29,7 @@ const makeImageFile = (): File => new File(["x"], "img.png", { type: "image/png"
 
 describe("useCompressorStore", () => {
   beforeEach(() => {
-    useCompressorStore.setState({ ...COMPRESSOR_DEFAULTS, selectedFile: null });
+    useCompressorStore.setState({ ...COMPRESSOR_DEFAULTS, selectedFile: null, showCompressionSettings: false });
     localStorage.clear();
   });
 

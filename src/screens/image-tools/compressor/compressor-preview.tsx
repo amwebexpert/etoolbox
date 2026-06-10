@@ -14,7 +14,12 @@ interface CompressorPreviewProps {
   isCompressing: boolean;
 }
 
-export const CompressorPreview = ({ file, compressedBlob, compressedObjectUrl, isCompressing }: CompressorPreviewProps) => {
+export const CompressorPreview = ({
+  file,
+  compressedBlob,
+  compressedObjectUrl,
+  isCompressing,
+}: CompressorPreviewProps) => {
   const originalSrc = useFileDataUrl(file);
   const originalDims = useImageDimensions(originalSrc);
   const compressedDims = useImageDimensions(compressedObjectUrl);
@@ -39,7 +44,7 @@ export const CompressorPreview = ({ file, compressedBlob, compressedObjectUrl, i
         <CompressorImagePanel
           title="Compressed"
           src={compressedObjectUrl}
-          sizeBytes={compressedBlob?.size ?? 0}
+          sizeBytes={compressedBlob?.size ?? null}
           width={compressedDims?.width ?? null}
           height={compressedDims?.height ?? null}
           mimeType={compressedBlob?.type ?? ""}

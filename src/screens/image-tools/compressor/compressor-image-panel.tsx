@@ -6,7 +6,7 @@ import { buildPanelStats } from "./compressor-image-panel.utils";
 export interface CompressorImagePanelProps {
   title: string;
   src: string | null;
-  sizeBytes: number;
+  sizeBytes: number | null;
   width: number | null;
   height: number | null;
   mimeType: string;

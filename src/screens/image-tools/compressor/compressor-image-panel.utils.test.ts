@@ -12,7 +12,7 @@ describe("buildPanelStats", () => {
     });
 
     expect(result).toEqual([
-      { label: "Size", value: "2.00 KB" },
+      { label: "Size", value: "2.04 kB" },
       { label: "Dimensions", value: "1920 × 1080" },
       { label: "Type", value: "image/png" },
     ]);
@@ -31,9 +31,22 @@ describe("buildPanelStats", () => {
     expect(result).toHaveLength(4);
   });
 
+  it("falls back to a placeholder when size is not yet known", () => {
+    const result = buildPanelStats({
+      sizeBytes: null,
+      width: null,
+      height: null,
+      mimeType: "image/jpeg",
+    });
+
+    const sizeRow = result.find((row) => row.label === "Size");
+
+    expect(sizeRow?.value).toBe("—");
+  });
+
   it("falls back to a placeholder when dimensions are not yet known", () => {
     const result = buildPanelStats({
-      sizeBytes: 0,
+      sizeBytes: 1024,
       width: null,
       height: null,
       mimeType: "image/jpeg",
@@ -67,6 +80,6 @@ describe("buildPanelStats", () => {
 
     const sizeRow = result.find((row) => row.label === "Size");
 
-    expect(sizeRow?.value).toBe("3.00 MB");
+    expect(sizeRow?.value).toBe("3.14 MB");
   });
 });

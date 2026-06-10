@@ -1,43 +1,55 @@
-import { DownloadOutlined } from "@ant-design/icons";
+import { ClearOutlined, CompressOutlined, DownloadOutlined } from "@ant-design/icons";
 import { Button, Space, Tooltip } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
-import { buildExportFilename, canEnableDownload, triggerDownload } from "./compressor.utils";
-
 interface CompressorToolbarProps {
-  compressedBlob: Blob | null;
+  hasFile: boolean;
+  hasResult: boolean;
   isCompressing: boolean;
-  originalFileName: string;
+  onCompress: () => void;
+  onDownload: () => void;
+  onClear: () => void;
 }
 
-export const CompressorToolbar = ({ compressedBlob, isCompressing, originalFileName }: CompressorToolbarProps) => {
+export const CompressorToolbar = ({
+  hasFile,
+  hasResult,
+  isCompressing,
+  onCompress,
+  onDownload,
+  onClear,
+}: CompressorToolbarProps) => {
   const { isMobile } = useResponsive();
   const { styles } = useStyles();
-
-  const isDownloadEnabled = canEnableDownload({ isCompressing, compressedBlob });
-
-  const handleDownload = (): void => {
-    if (!compressedBlob) return;
-
-    const filename = buildExportFilename(originalFileName, compressedBlob.type);
-    triggerDownload({ blob: compressedBlob, filename });
-  };
 
   return (
     <div className={styles.toolbar}>
       <div className={styles.spacer} />
 
       <Space size="small" wrap>
+        <Tooltip title="Clear selected image and compression result">
+          <Button icon={<ClearOutlined />} disabled={!hasFile && !hasResult} onClick={onClear}>
+            {!isMobile && "Clear"}
+          </Button>
+        </Tooltip>
+
         <Tooltip title="Download the compressed image">
+          <Button icon={<DownloadOutlined />} disabled={!hasResult} onClick={onDownload}>
+            {!isMobile && "Download"}
+          </Button>
+        </Tooltip>
+
+        <Tooltip title="Compress the selected image with the current settings">
           <Button
             type="primary"
-            icon={<DownloadOutlined />}
-            disabled={!isDownloadEnabled}
-            onClick={handleDownload}
+            icon={<CompressOutlined />}
+            disabled={!hasFile}
+            loading={isCompressing}
+            onClick={onCompress}
           >
-            {!isMobile && "Download"}
+            Compress
           </Button>
         </Tooltip>
       </Space>

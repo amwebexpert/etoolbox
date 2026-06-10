@@ -18,6 +18,7 @@ export const COMPRESSOR_DEFAULTS: CompressorSettings = {
 };
 
 interface CompressorActions {
+  setShowCompressionSettings: (show: boolean) => void;
   setQuality: (value: number) => void;
   setMimeType: (value: string) => void;
   setMaxWidth: (value: number) => void;
@@ -33,13 +34,18 @@ interface CompressorActions {
   clearSelectedFile: () => void;
 }
 
-export type CompressorStoreState = CompressorSettings & { selectedFile: File | null } & CompressorActions;
+export type CompressorStoreState = CompressorSettings & {
+  selectedFile: File | null;
+  showCompressionSettings: boolean;
+} & CompressorActions;
 
 type SetState = (partial: Partial<CompressorStoreState>) => void;
 
 const stateCreator = (set: SetState): CompressorStoreState => ({
   ...COMPRESSOR_DEFAULTS,
   selectedFile: null,
+  showCompressionSettings: false,
+  setShowCompressionSettings: (showCompressionSettings) => set({ showCompressionSettings }),
   setQuality: (quality) => set({ quality }),
   setMimeType: (mimeType) => set({ mimeType }),
   setMaxWidth: (maxWidth) => set({ maxWidth }),
