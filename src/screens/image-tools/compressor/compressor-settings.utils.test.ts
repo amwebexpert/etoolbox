@@ -1,19 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  MIME_TYPE_OPTIONS,
-  percentToQuality,
-  qualityToPercent,
-  RESIZE_OPTIONS,
-} from "./compressor-settings.utils";
+import { MIME_TYPE_OPTIONS, percentToQuality, qualityToPercent, RESIZE_OPTIONS } from "./compressor-settings.utils";
 
 describe("qualityToPercent", () => {
-  it.each([
-    [0, 0],
-    [0.5, 50],
-    [0.8, 80],
-    [1, 100],
-  ])("maps quality=%s to %s", (quality, expected) => {
+  it.each`
+    quality | expected
+    ${0}    | ${0}
+    ${0.5}  | ${50}
+    ${0.8}  | ${80}
+    ${1}    | ${100}
+  `("maps quality $quality to $expected", ({ quality, expected }: { quality: number; expected: number }) => {
     expect(qualityToPercent(quality)).toBe(expected);
   });
 
@@ -23,12 +19,13 @@ describe("qualityToPercent", () => {
 });
 
 describe("percentToQuality", () => {
-  it.each([
-    [0, 0],
-    [50, 0.5],
-    [80, 0.8],
-    [100, 1],
-  ])("maps percent=%s to %s", (percent, expected) => {
+  it.each`
+    percent | expected
+    ${0}    | ${0}
+    ${50}   | ${0.5}
+    ${80}   | ${0.8}
+    ${100}  | ${1}
+  `("maps percent $percent to $expected", ({ percent, expected }: { percent: number; expected: number }) => {
     expect(percentToQuality(percent)).toBeCloseTo(expected);
   });
 });

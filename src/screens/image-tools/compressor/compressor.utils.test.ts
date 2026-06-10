@@ -70,14 +70,15 @@ describe("buildExportFilename", () => {
 const makeFile = (type: string): File => new File(["x"], `f.${type.split("/")[1] ?? "bin"}`, { type });
 
 describe("isImageFile", () => {
-  it.each([
-    ["image/png", true],
-    ["image/jpeg", true],
-    ["image/webp", true],
-    ["text/plain", false],
-    ["application/pdf", false],
-    ["", false],
-  ])("returns %s for type=%s -> %s", (type, expected) => {
+  it.each`
+    type                 | expected
+    ${"image/png"}       | ${true}
+    ${"image/jpeg"}      | ${true}
+    ${"image/webp"}      | ${true}
+    ${"text/plain"}      | ${false}
+    ${"application/pdf"} | ${false}
+    ${""}                | ${false}
+  `("returns $expected for type $type", ({ type, expected }: { type: string; expected: boolean }) => {
     const file = makeFile(type);
 
     const result = isImageFile(file);
@@ -222,15 +223,19 @@ describe("canEnableDownload", () => {
     expect(result).toBe(true);
   });
 
-  it.each([
-    [{ isCompressing: true, compressedBlob: new Blob(["x"]) }],
-    [{ isCompressing: false, compressedBlob: null }],
-    [{ isCompressing: true, compressedBlob: null }],
-  ])("returns false when isCompressing or no blob (%j)", (input) => {
-    const result = canEnableDownload(input);
+  it.each`
+    scenario                            | isCompressing | compressedBlob
+    ${"still compressing with a blob"}  | ${true}       | ${new Blob(["x"])}
+    ${"finished but no blob"}           | ${false}      | ${null}
+    ${"still compressing without blob"} | ${true}       | ${null}
+  `(
+    "returns false when $scenario",
+    ({ isCompressing, compressedBlob }: { isCompressing: boolean; compressedBlob: Blob | null }) => {
+      const result = canEnableDownload({ isCompressing, compressedBlob });
 
-    expect(result).toBe(false);
-  });
+      expect(result).toBe(false);
+    }
+  );
 });
 
 interface FakeAnchor {
