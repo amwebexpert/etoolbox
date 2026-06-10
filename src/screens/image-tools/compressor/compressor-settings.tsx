@@ -5,7 +5,32 @@ import { createStyles } from "antd-style";
 import { useResponsive } from "~/hooks/use-responsive";
 import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
-import { useCompressorStore } from "./compressor.store";
+import {
+  useCompressorCheckOrientation,
+  useCompressorConvertSize,
+  useCompressorHeight,
+  useCompressorMaxHeight,
+  useCompressorMaxWidth,
+  useCompressorMimeType,
+  useCompressorMinHeight,
+  useCompressorMinWidth,
+  useCompressorQuality,
+  useCompressorResize,
+  useCompressorShowCompressionSettings,
+  useCompressorWidth,
+  useSetCompressorCheckOrientation,
+  useSetCompressorConvertSize,
+  useSetCompressorHeight,
+  useSetCompressorMaxHeight,
+  useSetCompressorMaxWidth,
+  useSetCompressorMimeType,
+  useSetCompressorMinHeight,
+  useSetCompressorMinWidth,
+  useSetCompressorQuality,
+  useSetCompressorResize,
+  useSetCompressorShowCompressionSettings,
+  useSetCompressorWidth,
+} from "./compressor.store";
 import { MIME_TYPE_OPTIONS, percentToQuality, qualityToPercent, RESIZE_OPTIONS } from "./compressor-settings.utils";
 
 const PERCENT_FORMATTER = (value?: number): string => `${value ?? 0}%`;
@@ -16,31 +41,31 @@ export const CompressorSettings = () => {
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
 
-  const quality = useCompressorStore((state) => state.quality);
-  const mimeType = useCompressorStore((state) => state.mimeType);
-  const maxWidth = useCompressorStore((state) => state.maxWidth);
-  const maxHeight = useCompressorStore((state) => state.maxHeight);
-  const minWidth = useCompressorStore((state) => state.minWidth);
-  const minHeight = useCompressorStore((state) => state.minHeight);
-  const width = useCompressorStore((state) => state.width);
-  const height = useCompressorStore((state) => state.height);
-  const resize = useCompressorStore((state) => state.resize);
-  const convertSize = useCompressorStore((state) => state.convertSize);
-  const checkOrientation = useCompressorStore((state) => state.checkOrientation);
-  const showCompressionSettings = useCompressorStore((state) => state.showCompressionSettings);
+  const quality = useCompressorQuality();
+  const mimeType = useCompressorMimeType();
+  const maxWidth = useCompressorMaxWidth();
+  const maxHeight = useCompressorMaxHeight();
+  const minWidth = useCompressorMinWidth();
+  const minHeight = useCompressorMinHeight();
+  const width = useCompressorWidth();
+  const height = useCompressorHeight();
+  const resize = useCompressorResize();
+  const convertSize = useCompressorConvertSize();
+  const checkOrientation = useCompressorCheckOrientation();
+  const showCompressionSettings = useCompressorShowCompressionSettings();
 
-  const setQuality = useCompressorStore((state) => state.setQuality);
-  const setMimeType = useCompressorStore((state) => state.setMimeType);
-  const setMaxWidth = useCompressorStore((state) => state.setMaxWidth);
-  const setMaxHeight = useCompressorStore((state) => state.setMaxHeight);
-  const setMinWidth = useCompressorStore((state) => state.setMinWidth);
-  const setMinHeight = useCompressorStore((state) => state.setMinHeight);
-  const setWidth = useCompressorStore((state) => state.setWidth);
-  const setHeight = useCompressorStore((state) => state.setHeight);
-  const setResize = useCompressorStore((state) => state.setResize);
-  const setConvertSize = useCompressorStore((state) => state.setConvertSize);
-  const setCheckOrientation = useCompressorStore((state) => state.setCheckOrientation);
-  const setShowCompressionSettings = useCompressorStore((state) => state.setShowCompressionSettings);
+  const setQuality = useSetCompressorQuality();
+  const setMimeType = useSetCompressorMimeType();
+  const setMaxWidth = useSetCompressorMaxWidth();
+  const setMaxHeight = useSetCompressorMaxHeight();
+  const setMinWidth = useSetCompressorMinWidth();
+  const setMinHeight = useSetCompressorMinHeight();
+  const setWidth = useSetCompressorWidth();
+  const setHeight = useSetCompressorHeight();
+  const setResize = useSetCompressorResize();
+  const setConvertSize = useSetCompressorConvertSize();
+  const setCheckOrientation = useSetCompressorCheckOrientation();
+  const setShowCompressionSettings = useSetCompressorShowCompressionSettings();
 
   const handleQualityChange = (percent: number): void => {
     setQuality(percentToQuality(percent));

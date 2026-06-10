@@ -84,3 +84,40 @@ const persistedStateCreator = persist<CompressorStoreState, [], [], CompressorSe
 export const useCompressorStore = create<CompressorStoreState>()(
   devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );
+
+export const useCompressorQuality = () => useCompressorStore((state) => state.quality);
+export const useSetCompressorQuality = () => useCompressorStore((state) => state.setQuality);
+
+export const useCompressorMimeType = () => useCompressorStore((state) => state.mimeType);
+export const useSetCompressorMimeType = () => useCompressorStore((state) => state.setMimeType);
+
+export const useCompressorMaxWidth = () => useCompressorStore((state) => state.maxWidth);
+export const useSetCompressorMaxWidth = () => useCompressorStore((state) => state.setMaxWidth);
+
+export const useCompressorMaxHeight = () => useCompressorStore((state) => state.maxHeight);
+export const useSetCompressorMaxHeight = () => useCompressorStore((state) => state.setMaxHeight);
+
+export const useCompressorMinWidth = () => useCompressorStore((state) => state.minWidth);
+export const useSetCompressorMinWidth = () => useCompressorStore((state) => state.setMinWidth);
+
+export const useCompressorMinHeight = () => useCompressorStore((state) => state.minHeight);
+export const useSetCompressorMinHeight = () => useCompressorStore((state) => state.setMinHeight);
+
+export const useCompressorWidth = () => useCompressorStore((state) => state.width);
+export const useSetCompressorWidth = () => useCompressorStore((state) => state.setWidth);
+
+export const useCompressorHeight = () => useCompressorStore((state) => state.height);
+export const useSetCompressorHeight = () => useCompressorStore((state) => state.setHeight);
+
+export const useCompressorResize = () => useCompressorStore((state) => state.resize);
+export const useSetCompressorResize = () => useCompressorStore((state) => state.setResize);
+
+export const useCompressorConvertSize = () => useCompressorStore((state) => state.convertSize);
+export const useSetCompressorConvertSize = () => useCompressorStore((state) => state.setConvertSize);
+
+export const useCompressorCheckOrientation = () => useCompressorStore((state) => state.checkOrientation);
+export const useSetCompressorCheckOrientation = () => useCompressorStore((state) => state.setCheckOrientation);
+
+export const useCompressorShowCompressionSettings = () => useCompressorStore((state) => state.showCompressionSettings);
+export const useSetCompressorShowCompressionSettings = () =>
+  useCompressorStore((state) => state.setShowCompressionSettings);
