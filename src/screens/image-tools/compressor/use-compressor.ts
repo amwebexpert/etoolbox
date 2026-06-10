@@ -36,7 +36,7 @@ export const selectCompressorSettings = (state: CompressorStoreState): Compresso
 });
 
 const compressWithSettings = async ({ file, settings }: CompressInput): Promise<Blob> => {
-  const result = await compressImage(file, buildCompressorOptions(settings));
+  const result = await compressImage({ file, options: buildCompressorOptions(settings) });
   return result;
 };
 

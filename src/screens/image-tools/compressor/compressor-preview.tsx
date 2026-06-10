@@ -25,7 +25,7 @@ export const CompressorPreview = ({
   const compressedDims = useImageDimensions(compressedObjectUrl);
 
   const compressionRatio = compressedBlob
-    ? computeCompressionRatio(file.size, compressedBlob.size)
+    ? computeCompressionRatio({ originalBytes: file.size, compressedBytes: compressedBlob.size })
     : MISSING_VALUE_PLACEHOLDER;
 
   return (

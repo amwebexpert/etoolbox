@@ -10,10 +10,15 @@ const BYTES_PER_MB = BYTES_PER_KB * 1024;
 const BYTES_PER_GB = BYTES_PER_MB * 1024;
 const TWO_DECIMALS = 2;
 
+export interface CompressImageArgs {
+  file: File | Blob;
+  options: Compressor.Options;
+}
+
 /**
  * Promise-based wrapper around the imperative compressorjs constructor.
  */
-export const compressImage = (file: File | Blob, options: Compressor.Options = {}): Promise<File | Blob> =>
+export const compressImage = ({ file, options }: CompressImageArgs): Promise<File | Blob> =>
   new Promise((resolve, reject) => {
     new Compressor(file, {
       ...options,
@@ -33,21 +38,31 @@ export const formatFileSize = (bytes: number): string => {
   return `${bytes} B`;
 };
 
+export interface ComputeCompressionRatioArgs {
+  originalBytes: number;
+  compressedBytes: number;
+}
+
 /**
  * Signed compression ratio as a percentage string.
  * Example: computeCompressionRatio(1000, 500) === "-50%".
  */
-export const computeCompressionRatio = (originalBytes: number, compressedBytes: number): string => {
+export const computeCompressionRatio = ({ originalBytes, compressedBytes }: ComputeCompressionRatioArgs): string => {
   if (originalBytes <= 0) return "0%";
   const ratio = ((compressedBytes - originalBytes) / originalBytes) * 100;
   return `${Math.round(ratio)}%`;
 };
 
+export interface BuildExportFilenameArgs {
+  originalName: string;
+  mimeType: string;
+}
+
 /**
  * Build an export filename from the source name and the target MIME type.
  * Example: buildExportFilename("photo.png", "image/webp") === "photo_compressed.webp".
  */
-export const buildExportFilename = (originalName: string, mimeType: string): string => {
+export const buildExportFilename = ({ originalName, mimeType }: BuildExportFilenameArgs): string => {
   const lastDot = originalName.lastIndexOf(".");
   const baseName = lastDot > 0 ? originalName.slice(0, lastDot) : originalName;
   const ext = mimeToExt(mimeType);

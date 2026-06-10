@@ -33,37 +33,39 @@ describe("formatFileSize", () => {
 
 describe("computeCompressionRatio", () => {
   it("returns '-50%' when compressed is half of original", () => {
-    expect(computeCompressionRatio(1000, 500)).toBe("-50%");
+    expect(computeCompressionRatio({ originalBytes: 1000, compressedBytes: 500 })).toBe("-50%");
   });
 
   it("returns '0%' when compressed equals original", () => {
-    expect(computeCompressionRatio(1000, 1000)).toBe("0%");
+    expect(computeCompressionRatio({ originalBytes: 1000, compressedBytes: 1000 })).toBe("0%");
   });
 
   it("returns positive percentage when compressed is larger than original", () => {
-    expect(computeCompressionRatio(100, 150)).toBe("50%");
+    expect(computeCompressionRatio({ originalBytes: 100, compressedBytes: 150 })).toBe("50%");
   });
 
   it("returns '0%' when original is zero (avoids division by zero)", () => {
-    expect(computeCompressionRatio(0, 100)).toBe("0%");
+    expect(computeCompressionRatio({ originalBytes: 0, compressedBytes: 100 })).toBe("0%");
   });
 });
 
 describe("buildExportFilename", () => {
   it("returns 'photo_compressed.webp' for ('photo.png', 'image/webp')", () => {
-    expect(buildExportFilename("photo.png", "image/webp")).toBe("photo_compressed.webp");
+    expect(buildExportFilename({ originalName: "photo.png", mimeType: "image/webp" })).toBe("photo_compressed.webp");
   });
 
   it("preserves the original base name when extension differs", () => {
-    expect(buildExportFilename("my-image.jpg", "image/png")).toBe("my-image_compressed.png");
+    expect(buildExportFilename({ originalName: "my-image.jpg", mimeType: "image/png" })).toBe(
+      "my-image_compressed.png"
+    );
   });
 
   it("handles filenames without an extension", () => {
-    expect(buildExportFilename("photo", "image/jpeg")).toBe("photo_compressed.jpg");
+    expect(buildExportFilename({ originalName: "photo", mimeType: "image/jpeg" })).toBe("photo_compressed.jpg");
   });
 
   it("strips only the final extension when name has multiple dots", () => {
-    expect(buildExportFilename("a.b.png", "image/webp")).toBe("a.b_compressed.webp");
+    expect(buildExportFilename({ originalName: "a.b.png", mimeType: "image/webp" })).toBe("a.b_compressed.webp");
   });
 });
 
@@ -207,7 +209,7 @@ describe("compressImage", () => {
   it("returns a Promise", () => {
     const stub = new File([new Uint8Array([0])], "stub.png", { type: "image/png" });
 
-    const result = compressImage(stub);
+    const result = compressImage({ file: stub, options: {} });
 
     expect(result).toBeInstanceOf(Promise);
     result.catch(() => undefined);
@@ -271,7 +273,7 @@ describe("triggerDownload", () => {
     vi.stubGlobal("URL", { createObjectURL, revokeObjectURL });
     const blob = new Blob(["data"], { type: "image/webp" });
 
-    triggerDownload({ blob, filename: "photo_compressed.webp" });
+    triggerDownload({ blob, filename: "photo_compressed.webp" as const });
 
     expect(createObjectURL).toHaveBeenCalledWith(blob);
     expect(anchor.href).toBe("blob:fake-url");

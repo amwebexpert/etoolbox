@@ -37,7 +37,7 @@ export const ImageOcrCompressor = () => {
   const handleDownload = (): void => {
     if (!compressedBlob || !selectedFile) return;
 
-    const filename = buildExportFilename(selectedFile.name, compressedBlob.type);
+    const filename = buildExportFilename({ originalName: selectedFile.name, mimeType: compressedBlob.type });
     triggerDownload({ blob: compressedBlob, filename });
   };
 
