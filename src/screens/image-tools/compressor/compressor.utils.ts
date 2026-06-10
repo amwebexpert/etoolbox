@@ -103,3 +103,36 @@ export const extractImageFromClipboardItems = (items: ReadonlyArray<ClipboardLik
 
   return null;
 };
+
+interface CanEnableDownloadArgs {
+  isCompressing: boolean;
+  compressedBlob: Blob | null;
+}
+
+/**
+ * Pure predicate: the download action is enabled only when a compressed blob
+ * is available and no compression is currently running.
+ */
+export const canEnableDownload = ({ isCompressing, compressedBlob }: CanEnableDownloadArgs): boolean =>
+  !isCompressing && compressedBlob !== null;
+
+interface TriggerDownloadArgs {
+  blob: Blob;
+  filename: string;
+}
+
+/**
+ * Trigger a browser file-save for the given blob using a synthetic anchor
+ * element. The object URL is revoked immediately after the click so the
+ * browser does not retain the blob in memory.
+ */
+export const triggerDownload = ({ blob, filename }: TriggerDownloadArgs): void => {
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = filename;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+};

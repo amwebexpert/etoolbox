@@ -4,11 +4,14 @@ import { useCompressorStore } from "./compressor.store";
 import { CompressorImageUpload } from "./compressor-image-upload";
 import { CompressorPreview } from "./compressor-preview";
 import { CompressorSettings } from "./compressor-settings";
+import { CompressorToolbar } from "./compressor-toolbar";
+import { useCompressor } from "./use-compressor";
 
 export const ImageOcrCompressor = () => {
   const selectedFile = useCompressorStore((state) => state.selectedFile);
   const setSelectedFile = useCompressorStore((state) => state.setSelectedFile);
   const clearSelectedFile = useCompressorStore((state) => state.clearSelectedFile);
+  const { compressedBlob, isCompressing } = useCompressor(selectedFile);
 
   if (!selectedFile) {
     return <CompressorImageUpload onFileSelect={setSelectedFile} />;
@@ -20,6 +23,11 @@ export const ImageOcrCompressor = () => {
       <Button onClick={clearSelectedFile}>Change image</Button>
       <CompressorSettings />
       <CompressorPreview />
+      <CompressorToolbar
+        compressedBlob={compressedBlob}
+        isCompressing={isCompressing}
+        originalFileName={selectedFile.name}
+      />
     </Space>
   );
 };
