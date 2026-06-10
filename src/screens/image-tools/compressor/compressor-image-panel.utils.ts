@@ -34,7 +34,7 @@ export const buildPanelStats = (input: PanelStatsInput): PanelStat[] => {
     { label: "Type", value: isBlank(input.mimeType) ? MISSING_VALUE_PLACEHOLDER : input.mimeType },
   ];
 
-  if (input.compressionRatio !== undefined) {
+  if (!isNullish(input.compressionRatio)) {
     stats.push({ label: "Ratio", value: input.compressionRatio });
   }
 
