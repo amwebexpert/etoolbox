@@ -25,24 +25,28 @@ The web application has been deployed and you can use it [just here!](https://am
 - Industry Best Practices
   - Serve as an exemplary codebase demonstrating optimal coding patterns, clean architecture, and modern development standards for the industry
 
+| Desktop                                                                | Mobile                                                                       |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| <img alt="Green theme" src="public/screen-captures/screen-home.png" /> | <img alt="Blue theme" src="public/screen-captures/screen-home-mobile.png" /> |
+
 ## Development commands
 
-| Script                     | Description                                                                             |
-| -------------------------- | --------------------------------------------------------------------------------------- |
-| `bun start`               | Alias for `bun dev` - starts the development server                                    |
-| `bun dev`                 | Starts Vite development server with hot reload                                          |
-| `bun run build`           | Builds the production application (cleans dist, generates version, compiles TypeScript) |
-| `bun run preview`         | Previews the production build locally (from `dist/`)                                    |
-| `bun run deploy`          | Rebuilds the app and moves output to `docs/` for GitHub Pages deployment                |
-| `bun run test`            | Runs tests with Vitest                                                                  |
-| `bun run lint`            | Runs ESLint on the codebase                                                             |
-| `bun run typecheck`       | Runs TypeScript type checking without emitting files                                    |
-| `bun run format`          | Formats code with Prettier                                                              |
-| `bun run format:check`    | Checks code formatting without making changes                                           |
-| `bun run clean:node`      | Removes `node_modules` and `bun.lock` for a fresh install                               |
-| `bun run generate:version`    | Generates version information file                                                  |
-| `bun run generate:api:client` | Generates API client from OpenAPI specification                                     |
-| `bun run postinstall`     | Runs after install: applies patches                                                     |
+| Script                        | Description                                                                             |
+| ----------------------------- | --------------------------------------------------------------------------------------- |
+| `bun start`                   | Alias for `bun dev` - starts the development server                                     |
+| `bun dev`                     | Starts Vite development server with hot reload                                          |
+| `bun run build`               | Builds the production application (cleans dist, generates version, compiles TypeScript) |
+| `bun run preview`             | Previews the production build locally (from `dist/`)                                    |
+| `bun run deploy`              | Rebuilds the app and moves output to `docs/` for GitHub Pages deployment                |
+| `bun run test`                | Runs tests with Vitest                                                                  |
+| `bun run lint`                | Runs ESLint on the codebase                                                             |
+| `bun run typecheck`           | Runs TypeScript type checking without emitting files                                    |
+| `bun run format`              | Formats code with Prettier                                                              |
+| `bun run format:check`        | Checks code formatting without making changes                                           |
+| `bun run clean:node`          | Removes `node_modules` and `bun.lock` for a fresh install                               |
+| `bun run generate:version`    | Generates version information file                                                      |
+| `bun run generate:api:client` | Generates API client from OpenAPI specification                                         |
+| `bun run postinstall`         | Runs after install: applies patches                                                     |
 
 ## Frameworks & Dependencies
 
