@@ -2,8 +2,8 @@ import { isNotBlank } from "@lichens-innovation/ts-common";
 import { logger } from "@lichens-innovation/ts-common/logger";
 import { z } from "zod";
 
-import { setAgentLogDir } from "./utils/agent-logger.utils.ts";
 import { loadPrompt, runAgent, runTypedAgent } from "./utils/agent.utils.ts";
+import { setAgentLogDir } from "./utils/agent-logger.utils.ts";
 import type { Issue, IssueWorktreeResult, OrchestratorOptions } from "./utils/orchestrator.types.ts";
 import { Plan } from "./utils/plan.ts";
 import { deleteBranch, getCurrentHead, hasCommits, withWorktree } from "./utils/worktree.utils.ts";
