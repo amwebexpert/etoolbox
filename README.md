@@ -10,7 +10,6 @@ Open source collection of web developer utilities.
 The web application has been deployed and you can use it [just here!](https://amwebexpert.github.io/etoolbox)
 
 <div align="center">
-  <img src="public/icon-512x512.png" width="100" alt="Web Toolbox" />
   <div>Like the project? Don't forget to give it a ⭐️!</div>
   <div>Icon made by: <a href="https://therealjerrylow.com/">Jerry Low</a></div>
 </div>
@@ -25,12 +24,6 @@ The web application has been deployed and you can use it [just here!](https://am
   - Mobile-first approach with full support for smartphones, tablets, and desktop devices for a seamless experience across all platforms
 - Industry Best Practices
   - Serve as an exemplary codebase demonstrating optimal coding patterns, clean architecture, and modern development standards for the industry
-
-Some screen captures of the implemented features...
-
-| JSON format                                                 | File encoder                                               | RegEx tester                                              | Imaging OCR                                            |
-| ----------------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------------ |
-| <img src="public/screen-captures/JSONFormatter-demo.gif" /> | <img src="public/screen-captures/ImageEncoder-demo.gif" /> | <img src="public/screen-captures/RegexTester-demo.gif" /> | <img src="public/screen-captures/ImageOCR-demo.gif" /> |
 
 ## Development commands
 
