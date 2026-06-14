@@ -25,7 +25,7 @@ export const AppHeader = ({ onMenuClick }: AppHeaderProps) => {
       />
 
       <div className={styles.titleContainer}>
-        <img src="icon.png" alt="eToolbox" className={styles.logo} />
+        <img src="icon.svg" alt="eToolbox" className={styles.logo} />
         <span className={styles.title}>Web Toolbox</span>
       </div>
 

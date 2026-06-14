@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { Card, Col, Row, Typography } from "antd";
+import { Card, Col, Row, theme, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
@@ -7,9 +7,11 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { FEATURES } from "./home.utils";
 
 const { Text } = Typography;
+const { useToken } = theme;
 
 export const Home = () => {
   const { styles } = useStyles();
+  const { token } = useToken();
   const navigate = useNavigate();
 
   return (
@@ -25,7 +27,7 @@ export const Home = () => {
                 styles={{ body: { padding: 16, textAlign: "center" } }}
                 onClick={() => navigate({ to: feature.path })}
               >
-                <div className={styles.featureIcon} style={{ color: feature.color }}>
+                <div className={styles.featureIcon} style={{ color: token.colorPrimary }}>
                   {feature.icon}
                 </div>
                 <Text strong className={styles.featureName}>

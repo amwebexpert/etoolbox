@@ -8,7 +8,7 @@ export const CONTRIBUTORS: Contributor[] = [
   {
     name: "André Masson",
     email: "amwebexpert@gmail.com",
-    url: "https://www.linkedin.com/in/amwebexpert/",
+    url: "https://amwebexpert.github.io/amwebexpert",
   },
   {
     name: "Anthony Buchholz",
