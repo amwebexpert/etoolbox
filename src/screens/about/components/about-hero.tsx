@@ -1,6 +1,8 @@
 import { Typography } from "antd";
 import { createStyles } from "antd-style";
 
+import { AppLogo } from "~/components/layout/app-logo";
+
 const { Title, Paragraph } = Typography;
 
 export const AboutHero = () => {
@@ -10,7 +12,7 @@ export const AboutHero = () => {
     <div className={styles.hero}>
       <Title level={2} className={styles.heroTitle}>
         <span>Web</span>
-        <img src="logo192.png" alt="Web Toolbox" width={36} height={36} />
+        <AppLogo className={styles.logo} />
         <span>Toolbox</span>
       </Title>
       <Paragraph className={styles.heroSubtitle}>A Swiss Army knife for web developers</Paragraph>
@@ -23,6 +25,10 @@ const useStyles = createStyles(({ token }) => ({
     paddingBlock: 24,
     paddingInline: 0,
     textAlign: "center",
+  },
+  logo: {
+    width: 36,
+    height: 36,
   },
   heroTitle: {
     display: "flex !important",

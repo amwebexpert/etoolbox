@@ -4,6 +4,7 @@ import { createStyles } from "antd-style";
 
 import { AppHeaderActionAbout } from "./app-header-action-about";
 import { AppHeaderActionSettings } from "./app-header-action-settings";
+import { AppLogo } from "./app-logo";
 
 const { Header } = Layout;
 
@@ -25,7 +26,7 @@ export const AppHeader = ({ onMenuClick }: AppHeaderProps) => {
       />
 
       <div className={styles.titleContainer}>
-        <img src="icon.svg" alt="eToolbox" className={styles.logo} />
+        <AppLogo className={styles.logo} />
         <span className={styles.title}>Web Toolbox</span>
       </div>
 
