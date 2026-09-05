@@ -11,8 +11,8 @@ import { loadEmbedding, saveEmbedding } from "./storage.utils";
 
 env.allowLocalModels = false;
 
-// TODO Ticket-001 Due to a bug in onnxruntime-web, we must disable multithreading for now.
-// @see https://github.com/microsoft/onnxruntime/issues/14445 for more information.
+// TODO Ticket-001 Due to a bug in onnxruntime-web, we must disable multithreading for now. habit-hooks-disable non-essential-comment
+// @see https://github.com/microsoft/onnxruntime/issues/14445 for more information. habit-hooks-disable non-essential-comment
 env.backends.onnx.wasm.numThreads = 1;
 
 const LlmModel = {
