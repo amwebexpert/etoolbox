@@ -16,17 +16,17 @@ export const Base64FileInfo = ({ fileName, mimeType, base64Output }: Base64FileI
 
   return (
     <div className={styles.infoSection}>
-      {fileName && (
+      {!!fileName && (
         <Typography.Text>
           <strong>File:</strong> {fileName}
         </Typography.Text>
       )}
-      {mimeType && (
+      {!!mimeType && (
         <Typography.Text>
           <strong>Type:</strong> {mimeType}
         </Typography.Text>
       )}
-      {base64Output && (
+      {!!base64Output && (
         <Typography.Text>
           <strong>Size: ≈</strong> {formatBase64Size(base64Output)}
         </Typography.Text>

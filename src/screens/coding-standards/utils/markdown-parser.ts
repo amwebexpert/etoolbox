@@ -1,26 +1,28 @@
 import { isNullish } from "@lichens-innovation/ts-common";
 
+import { logger } from "~/utils/logger";
+
 import { AVOID_PREFER_PREFIXES } from "../coding-standards.constants";
 import type { CodingCategory, GuidelineNode } from "../coding-standards.types";
 
-type GuidelineFromTextArgs = {
+interface GuidelineFromTextArgs {
   rootNode: GuidelineNode;
   text: string;
   baseUrl: string;
-};
+}
 
-type RuleWithoutCategory = {
+interface RuleWithoutCategory {
   title: string;
   href: string;
   content: string;
-};
+}
 
-type RuleWithCategory = {
+interface RuleWithCategory {
   title: string;
   href: string;
   content: string;
   category: CodingCategory;
-};
+}
 
 export const createGuidelineNodes = ({ rootNode, text, baseUrl }: GuidelineFromTextArgs): GuidelineNode => {
   const { toc, content } = splitTocAndContent({ text, baseUrl });
@@ -32,10 +34,10 @@ export const createGuidelineNodes = ({ rootNode, text, baseUrl }: GuidelineFromT
   return rootNode;
 };
 
-type PopulateMarkdownLinesFromContentArgs = {
+interface PopulateMarkdownLinesFromContentArgs {
   allOrderedNodes: GuidelineNode[];
   content: string;
-};
+}
 
 export const populateGuidelineNodesSearchableContent = ({
   allOrderedNodes,
@@ -64,10 +66,10 @@ export const populateGuidelineNodesSearchableContent = ({
   }
 };
 
-type BuildOrderedNodesArgs = {
+interface BuildOrderedNodesArgs {
   node: GuidelineNode;
   allOrderedNodes?: GuidelineNode[];
-};
+}
 
 export const buildOrderedNodes = ({ node, allOrderedNodes = [] }: BuildOrderedNodesArgs): GuidelineNode[] => {
   allOrderedNodes.push(node);
@@ -79,22 +81,22 @@ export const buildOrderedNodes = ({ node, allOrderedNodes = [] }: BuildOrderedNo
   return allOrderedNodes;
 };
 
-type SplitTocAndContentResult = {
+interface SplitTocAndContentResult {
   toc: string;
   content: string;
-};
+}
 
-type SplitTocAndContentArgs = {
+interface SplitTocAndContentArgs {
   text: string;
   baseUrl: string;
-};
+}
 
 export const splitTocAndContent = ({ text, baseUrl }: SplitTocAndContentArgs): SplitTocAndContentResult => {
   const regex = /^# .*\n/gm; // split at very first level one title line, starting with "# "
   const match = regex.exec(text);
   if (isNullish(match)) {
     const message = `No title found in markdown for ${baseUrl}`;
-    console.error("[markdown-parser]", message, text);
+    logger.error({ text }, `[markdown-parser] ${message}`);
     throw new Error(message);
   }
 
@@ -117,11 +119,11 @@ export const buildGuidelineNodesFromToC = ({ rootNode, text, baseUrl }: Guidelin
   return rootNode;
 };
 
-type ParseTocLineResult = {
+interface ParseTocLineResult {
   level: number;
   title: string;
   href: string;
-};
+}
 
 /**
  * Extract title, level and href from line
@@ -149,18 +151,21 @@ export const parseTocLine = (line: string): ParseTocLineResult => {
 
 const normalizeTitle = (title: string): string => title.replaceAll("\\", "");
 
-type BuildTitleMarkdownArgs = { level: number; title: string };
+interface BuildTitleMarkdownArgs {
+  level: number;
+  title: string;
+}
 
 const buildTitleMarkdown = ({ level, title }: BuildTitleMarkdownArgs): string =>
   `${"#".repeat(level)} ${normalizeTitle(title)}`;
 
-type BuildNodeArgs = {
+interface BuildNodeArgs {
   parent?: GuidelineNode;
   level: number;
   title: string;
   baseUrl: string;
   href: string;
-};
+}
 
 export const buildNode = ({ parent, level, title, href, baseUrl }: BuildNodeArgs): GuidelineNode => ({
   parent,
@@ -175,10 +180,10 @@ export const buildNode = ({ parent, level, title, href, baseUrl }: BuildNodeArgs
   children: [],
 });
 
-type FindParentNodeArgs = {
+interface FindParentNodeArgs {
   node: GuidelineNode;
   level: number;
-};
+}
 
 export const findParentNodeForLevel = ({ node, level }: FindParentNodeArgs): GuidelineNode => {
   let currentNode = node;
@@ -190,12 +195,12 @@ export const findParentNodeForLevel = ({ node, level }: FindParentNodeArgs): Gui
   return currentNode;
 };
 
-type BuildGuidelineLinksFromLinesArgs = {
+interface BuildGuidelineLinksFromLinesArgs {
   baseUrl: string;
   node: GuidelineNode;
   lines: string[];
   currentLineIndex?: number;
-};
+}
 
 export const buildGuidelineLinksFromLines = ({
   baseUrl,
@@ -281,7 +286,12 @@ export const loadAllRules = (rootNode: GuidelineNode): RuleWithoutCategory[] => 
   return rules;
 };
 
-const detectCategory = (title: string, url: string): CodingCategory => {
+interface DetectCategoryArgs {
+  title: string;
+  url: string;
+}
+
+const detectCategory = ({ title, url }: DetectCategoryArgs): CodingCategory => {
   const lowerTitle = title.toLowerCase();
   const lowerUrl = url.toLowerCase();
 
@@ -295,11 +305,16 @@ const detectCategory = (title: string, url: string): CodingCategory => {
   return "general";
 };
 
-export const loadAllRulesWithCategory = (rootNode: GuidelineNode, baseUrl: string): RuleWithCategory[] => {
+interface LoadAllRulesWithCategoryArgs {
+  rootNode: GuidelineNode;
+  baseUrl: string;
+}
+
+export const loadAllRulesWithCategory = ({ rootNode, baseUrl }: LoadAllRulesWithCategoryArgs): RuleWithCategory[] => {
   const rules: RuleWithCategory[] = [];
 
   for (const guidelineNode of rootNode.children) {
-    const category = detectCategory(guidelineNode.title, baseUrl);
+    const category = detectCategory({ title: guidelineNode.title, url: baseUrl });
     const guidelineNodeRules = loadRules(guidelineNode);
     rules.push(...guidelineNodeRules.map((rule) => ({ ...rule, category })));
   }

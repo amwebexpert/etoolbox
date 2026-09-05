@@ -3,8 +3,7 @@ import { Space, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { useColorTheme, useSetColorTheme } from "~/stores/settings.store";
-import type { ColorTheme } from "~/themes";
-import { THEMES } from "~/themes";
+import { type ColorTheme, THEMES } from "~/themes";
 
 const { Text } = Typography;
 

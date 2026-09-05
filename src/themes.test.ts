@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import type { ColorTheme } from "./themes";
-import { THEMES } from "./themes";
+import { type ColorTheme, THEMES } from "./themes";
 
 const EXPECTED_KEYS: ColorTheme[] = ["red", "green", "orange", "blue", "pink"];
 const HEX_PATTERN = /^#[0-9a-fA-F]{6}$/;
+
+interface ThemeKeyCase {
+  key: ColorTheme;
+}
 
 describe("THEMES", () => {
   it("contains exactly the five expected theme keys", () => {
@@ -18,7 +21,7 @@ describe("THEMES", () => {
     ${"orange"}
     ${"blue"}
     ${"pink"}
-  `("theme '$key' exposes valid primary, secondary, and label", ({ key }: { key: ColorTheme }) => {
+  `("theme '$key' exposes valid primary, secondary, and label", ({ key }: ThemeKeyCase) => {
     expect(THEMES[key].primary).toMatch(HEX_PATTERN);
     expect(THEMES[key].secondary).toMatch(HEX_PATTERN);
     expect(THEMES[key].label).toBeTruthy();

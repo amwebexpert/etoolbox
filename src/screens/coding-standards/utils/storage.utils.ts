@@ -1,14 +1,16 @@
 import { isNullish } from "@lichens-innovation/ts-common";
 
+import { logger } from "~/utils/logger";
+
 import type { EmbeddingVector, Rule, SerializedEmbedding } from "../coding-standards.types";
 
 const STORAGE_KEY = "etoolbox-coding-standards-embeddings";
 
 const simpleHash = (str: string): string => {
-  const hash = Array.from(str).reduce<number>((acc, _, i) => {
-    const char = str.charCodeAt(i);
-    return ((acc << 5) - acc + char) | 0;
-  }, 0);
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash + str.charCodeAt(i)) | 0;
+  }
   return hash.toString(36);
 };
 
@@ -19,7 +21,7 @@ const getStoredEmbeddings = (): Record<string, SerializedEmbedding> => {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : {};
   } catch (error) {
-    console.error("[storage.utils] Failed to load embeddings:", error);
+    logger.error({ error }, "[storage.utils] Failed to load embeddings");
     return {};
   }
 };
@@ -28,7 +30,7 @@ const saveStoredEmbeddings = (embeddings: Record<string, SerializedEmbedding>): 
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(embeddings));
   } catch (error) {
-    console.error("[storage.utils] Failed to save embeddings:", error);
+    logger.error({ error }, "[storage.utils] Failed to save embeddings");
   }
 };
 

@@ -1,0 +1,16 @@
+language = "typescript"
+# Project override of the plugin default: restates it verbatim plus this repo's
+# own build/vendor exclusions (dist, docs (gh-pages build output), .yarn, and
+# the not-yet-generated src/api/generated client) — a project override replaces
+# the plugin default wholesale rather than merging.
+files = ["**/*.ts", "**/*.tsx", "!**/node_modules/**", "!dist/**", "!docs/**", "!.yarn/**", "!src/api/generated/**"]
+sensors = ["eslint", "knip", "comment"]
+transformers = []
+
+detectors = [
+  { name = "node", kind = "command", install = "brew install node" },
+  { name = "eslint", kind = "command", install = "npm install --save-dev eslint" },
+  { name = "knip", kind = "command", install = "npm install --save-dev knip" },
+  { name = "ts-morph", kind = "node-module", install = "npm install --save-dev ts-morph" },
+  { name = "jq", kind = "command", install = "brew install jq" },
+]

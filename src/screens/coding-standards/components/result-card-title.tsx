@@ -23,7 +23,7 @@ export const ResultCardTitle: FunctionComponent<ResultCardTitleProps> = ({ rule 
 
   const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation();
-    copyTextToClipboard({ text: rule.href, successMessage: "Rule link copied!" });
+    void copyTextToClipboard({ text: rule.href, successMessage: "Rule link copied!" });
   };
 
   return (

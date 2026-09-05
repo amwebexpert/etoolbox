@@ -24,11 +24,11 @@ export const EmbeddingsProgress: FunctionComponent<EmbeddingsProgressProps> = ({
     <Flex gap="middle" vertical align="center" className={styles.wrapper}>
       <p className={styles.intro}>Computing semantic index for guidelines for the very first time...</p>
       <Progress type="circle" size={80} percent={percent} />
-      {progress.currentRule ? (
+      {!!progress.currentRule && (
         <div className={styles.ruleMarkdown}>
           <MarkdownContent content={progress.currentRule} />
         </div>
-      ) : null}
+      )}
       <p className={styles.fraction}>
         {progress.completed} / {progress.total}
       </p>

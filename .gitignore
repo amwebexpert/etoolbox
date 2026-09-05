@@ -44,3 +44,4 @@ ai-orchestrator/logs/
 # Since we use bun, we don't need other package manager lockfiles
 package-lock.json
 yarn.lock
+public/screen-captures/Thumbs.db

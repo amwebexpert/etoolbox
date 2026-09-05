@@ -1,8 +1,8 @@
 import { writeFileSync } from "node:fs";
 import packageMetadata from "../package.json" with { type: "json" };
 
-const constantsFilename = "./src/constants.ts";
-const { name, description, version, author, repository, releaseNotes } = packageMetadata;
+const constantsFilename = "./src/version.constants.ts";
+const { name, description, version, author, repository } = packageMetadata;
 const dateIso = new Date().toISOString();
 const dateOnly = dateIso.split("T")[0];
 const data = `// ----------------------------------------------------------------------------------------

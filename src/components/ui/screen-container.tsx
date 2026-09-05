@@ -1,12 +1,11 @@
 import { createStyles } from "antd-style";
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 
 interface ScreenContainerProps {
-  children: ReactNode;
   className?: string;
 }
 
-export const ScreenContainer = ({ children, className }: ScreenContainerProps) => {
+export const ScreenContainer = ({ children, className }: PropsWithChildren<ScreenContainerProps>) => {
   const { styles, cx } = useStyles();
 
   return <div className={cx(styles.container, className)}>{children}</div>;

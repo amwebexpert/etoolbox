@@ -1,0 +1,25 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "project": ["src/**/*.{ts,tsx}", "ai-orchestrator/**/*.ts", ".claude/hooks/**/*.ts"],
+  "rules": {
+    "exports": "warn",
+    "types": "warn"
+  },
+  "ignore": [
+    "src/api/generated/**",
+    ".claude/**",
+    "src/stubs/util.ts",
+    "src/stubs/fs.ts"
+  ],
+  "ignoreDependencies": [
+    "buffer",
+    "path-browserify",
+    "querystring-es3",
+    "stream-browserify",
+    "string_decoder",
+    "url",
+    "@ai-hero/sandcastle",
+    "ts-morph"
+  ],
+  "ignoreBinaries": ["habit-hooks", "habit-snooze"]
+}

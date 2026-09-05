@@ -5,8 +5,7 @@ import { useResponsive } from "~/hooks/use-responsive";
 import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { useNamedColorsStore } from "./named-colors.store";
-import type { ColorInfo } from "./named-colors.utils";
-import { PAGE_SIZE_OPTIONS } from "./named-colors.utils";
+import { type ColorInfo, PAGE_SIZE_OPTIONS } from "./named-colors.utils";
 import { useNamedColorsColumns } from "./use-named-colors-columns";
 
 interface NamedColorsTableProps {
@@ -33,7 +32,7 @@ export const NamedColorsTable = ({ filteredColors }: NamedColorsTableProps) => {
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} colors`,
         size: smallSizeOnMobile(isMobile),
-        onChange: handlePageChange,
+        onChange: (page, pageSize) => handlePageChange({ page, pageSize }),
       }}
       size="small"
       scroll={{ x: "max-content" }}

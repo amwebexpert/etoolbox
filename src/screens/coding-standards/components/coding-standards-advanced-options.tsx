@@ -33,8 +33,12 @@ export const CodingStandardsAdvancedOptions: FunctionComponent<CodingStandardsAd
   const isComputingEmbeddings = !isNullish(embeddingsEngine) && embeddingsEngine.isReadyForSemanticSearch !== true;
   const isMaintenanceDisabled = !hasGuidelineTree || isLoadingModel || isClearingModelCache || isComputingEmbeddings;
 
-  const handleRedownloadModel = () => redownloadModel({ rootNode, baseUrl });
-  const handleRecomputeAllEmbeddings = () => recomputeAllEmbeddings({ rootNode, baseUrl });
+  const handleRedownloadModel = () => {
+    void redownloadModel({ rootNode, baseUrl });
+  };
+  const handleRecomputeAllEmbeddings = () => {
+    void recomputeAllEmbeddings({ rootNode, baseUrl });
+  };
 
   const items = [
     {

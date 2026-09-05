@@ -3,6 +3,11 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 import { DEFAULT_FAMILY, DEFAULT_FILTER, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "./named-colors.utils";
 
+interface HandlePageChangeArgs {
+  page: number;
+  pageSize: number;
+}
+
 interface NamedColorsState {
   family: string;
   filter: string;
@@ -10,7 +15,7 @@ interface NamedColorsState {
   pageSize: number;
   setFamily: (family: string) => void;
   setFilter: (filter: string) => void;
-  handlePageChange: (page: number, pageSize: number) => void;
+  handlePageChange: ({ page, pageSize }: HandlePageChangeArgs) => void;
   hasFilters: () => boolean;
   resetFilters: () => void;
 }
@@ -25,7 +30,7 @@ const stateCreator = (
   pageSize: DEFAULT_PAGE_SIZE,
   setFamily: (family) => set({ family, page: DEFAULT_PAGE }),
   setFilter: (filter) => set({ filter, page: DEFAULT_PAGE }),
-  handlePageChange: (page, pageSize) => {
+  handlePageChange: ({ page, pageSize }) => {
     const currentPageSize = get().pageSize;
     if (pageSize !== currentPageSize) {
       set({ page: DEFAULT_PAGE, pageSize });

@@ -1,8 +1,6 @@
 import { FileOutlined } from "@ant-design/icons";
-import { getErrorMessage } from "@lichens-innovation/ts-common";
-import { formatDataUri } from "@lichens-innovation/ts-common";
-import type { UploadFile } from "antd";
-import { Input, Space, Typography } from "antd";
+import { formatDataUri, getErrorMessage } from "@lichens-innovation/ts-common";
+import { Input, Space, Typography, type UploadFile } from "antd";
 import { createStyles } from "antd-style";
 import { useState } from "react";
 
@@ -32,10 +30,10 @@ export const Base64File = () => {
 
   const handleFileSelect = (file: File) => {
     readFileAsBase64(file)
-      .then(({ base64, mimeType }) => {
+      .then(({ base64, mimeType: decodedMimeType }) => {
         setBase64Output(base64);
         setFileName(file.name);
-        setMimeType(mimeType);
+        setMimeType(decodedMimeType);
       })
       .catch((e: unknown) => {
         messageApi.error("Failed to read file: " + getErrorMessage(e));
@@ -44,7 +42,7 @@ export const Base64File = () => {
   };
 
   const handleCopy = () => {
-    copyTextToClipboard({
+    void copyTextToClipboard({
       text: base64Output,
       successMessage: "Base64 copied to clipboard!",
     });
@@ -52,7 +50,7 @@ export const Base64File = () => {
 
   const handleCopyDataUri = () => {
     const dataUri = base64Output ? formatDataUri({ mimeType, base64: base64Output }) : "";
-    copyTextToClipboard({
+    void copyTextToClipboard({
       text: dataUri,
       successMessage: "Data URI copied to clipboard!",
     });

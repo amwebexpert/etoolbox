@@ -11,7 +11,9 @@ interface AppSideMenuProps {
 export const AppSideMenu = ({ selectedKeys, onClick }: AppSideMenuProps) => {
   const { styles } = useStyles();
 
-  return <Menu mode="inline" selectedKeys={selectedKeys} items={MENU_ITEMS} onClick={onClick} className={styles.menu} />;
+  return (
+    <Menu mode="inline" selectedKeys={selectedKeys} items={MENU_ITEMS} onClick={onClick} className={styles.menu} />
+  );
 };
 
 const useStyles = createStyles(() => ({

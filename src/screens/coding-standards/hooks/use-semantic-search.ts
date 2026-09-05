@@ -17,8 +17,8 @@ export const useSemanticSearch = (rootNode: GuidelineNode | null) => {
   const isReadyForSemanticSearch = useIsReadyForSemanticSearch();
 
   useEffect(() => {
-    initializeEmbeddings({
-      rootNode: rootNode!,
+    void initializeEmbeddings({
+      rootNode,
       baseUrl,
       onModelLoadProgress: ingestHubEvent,
     });
@@ -26,7 +26,7 @@ export const useSemanticSearch = (rootNode: GuidelineNode | null) => {
 
   const search = useCallback(
     (query: string) => {
-      performSearch({ query, rootNode });
+      void performSearch({ query, rootNode });
     },
     [rootNode, performSearch]
   );

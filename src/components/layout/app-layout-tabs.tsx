@@ -21,7 +21,9 @@ export const AppLayoutTabs = ({ items }: AppLayoutTabsProps) => {
       <Tabs
         activeKey={location.pathname}
         items={items}
-        onChange={(to: string) => navigate({ to })}
+        onChange={(to: string) => {
+          void navigate({ to });
+        }}
         className={styles.tabs}
       />
 

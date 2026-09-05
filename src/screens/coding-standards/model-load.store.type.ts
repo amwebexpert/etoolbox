@@ -5,10 +5,10 @@ export type ModelLoadHubProgressEvent =
   | ModelLoadHubProgressProgress
   | ModelLoadHubProgressDone;
 
-type HubBase = {
+interface HubBase {
   name: string;
   file: string;
-};
+}
 
 export type ModelLoadHubProgressInitiate = HubBase & {
   status: "initiate";
@@ -33,7 +33,7 @@ export type ModelLoadGlobalStatus = "idle" | "loading" | "ready" | "error";
 
 export type ModelFileLoadStatus = "pending" | "downloading" | "done" | "error";
 
-export type ModelFileLoadEntry = {
+export interface ModelFileLoadEntry {
   modelId: string;
   file: string;
   status: ModelFileLoadStatus;
@@ -41,8 +41,13 @@ export type ModelFileLoadEntry = {
   total?: number;
   percent?: number;
   errorMessage?: string;
-};
+}
 
 export type ModelFileLoadMap = Record<string, ModelFileLoadEntry>;
 
-export const buildModelFileKey = (modelId: string, file: string): string => `${modelId}::${file}`;
+interface BuildModelFileKeyArgs {
+  modelId: string;
+  file: string;
+}
+
+export const buildModelFileKey = ({ modelId, file }: BuildModelFileKeyArgs): string => `${modelId}::${file}`;

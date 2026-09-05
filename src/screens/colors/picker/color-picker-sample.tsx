@@ -17,7 +17,7 @@ export const ColorPickerSample = ({ format }: ColorPickerSampleProps) => {
   const { copyTextToClipboard } = useClipboardCopy();
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: format.value, successMessage: `Copied: ${format.value}` });
+    void copyTextToClipboard({ text: format.value, successMessage: `Copied: ${format.value}` });
   };
 
   return (

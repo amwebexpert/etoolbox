@@ -2,10 +2,10 @@ import { isNullish } from "@lichens-innovation/ts-common";
 
 import type { ModelFileLoadEntry, ModelLoadHubProgressEvent } from "./model-load.store.type";
 
-type MutateEntryFromProgressArgs = {
+interface MutateEntryFromProgressArgs {
   event: ModelLoadHubProgressEvent;
   entry: ModelFileLoadEntry;
-};
+}
 
 export const mutateEntryFromProgress = ({ event, entry }: MutateEntryFromProgressArgs): void => {
   if (event.status === "initiate") {

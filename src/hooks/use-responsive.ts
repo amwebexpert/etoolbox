@@ -6,8 +6,8 @@ export const useResponsive = () => {
   const screens = useBreakpoint();
 
   const isMobile = !!screens.xs && !screens.sm;
-  const isTablet = !!(screens.sm || screens.md) && !screens.lg;
-  const isDesktop = !!(screens.lg || screens.xl || screens.xxl);
+  const isTablet = (Boolean(screens.sm) || Boolean(screens.md)) && !screens.lg;
+  const isDesktop = Boolean(screens.lg) || Boolean(screens.xl) || Boolean(screens.xxl);
   const shouldCollapseSidebar = !isDesktop;
   const shouldUseDrawer = isMobile;
 

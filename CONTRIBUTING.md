@@ -14,11 +14,16 @@ Thanks for your interest in contributing! This repository is a React (TypeScript
    ```bash
    bun install
    ```
-3. **Run** the app locally:
+   This also wires up the git hooks (`prepare` script runs `husky`).
+3. **Install [habit-hooks](https://github.com/habit-hooks/habit-hooks)** (used by `bun run lint` and the pre-commit hook to coach code-quality findings):
+   ```bash
+   uv tool install "habit-hooks[typescript]"
+   ```
+4. **Run** the app locally:
    ```bash
    bun start
    ```
-4. **Commit** and push your changes, then open a **Pull Request** to `main`.
+5. **Commit** and push your changes, then open a **Pull Request** to `main`.
 
 ---
 
@@ -69,7 +74,7 @@ If your change is large (new feature, big refactor), please open an issue first 
   ```bash
   bun run lint && bun run format
   ```
-- Commit messages: short, imperative (e.g., `fix: button alignment`, `feat: add user list`).
+- Commit messages: [Conventional Commits](https://www.conventionalcommits.org/) with a **required scope** (e.g., `fix(base64): button alignment`, `feat(json-formatter): add user list`). Enforced by commitlint on commit.
 - Keep PRs focused and small; add screenshots for UI changes.
 
 ---

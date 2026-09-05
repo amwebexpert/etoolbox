@@ -1,3 +1,5 @@
+import { logger } from "~/utils/logger";
+
 /**
  * Cache name used by @xenova/transformers in the browser (see hub.js, caches.open).
  * If the library changes this string, update here.
@@ -11,6 +13,6 @@ export const clearTransformersBrowserCache = async (): Promise<void> => {
   try {
     await caches.delete(TRANSFORMERS_BROWSER_CACHE_NAME);
   } catch (error) {
-    console.error("[transformers-cache.utils] Failed to clear Transformers.js browser cache:", error);
+    logger.error({ error }, "[transformers-cache.utils] Failed to clear Transformers.js browser cache");
   }
 };

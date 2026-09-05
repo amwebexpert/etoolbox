@@ -23,10 +23,13 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Lint
-        run: bun run lint
+        run: bun run lint:ci
 
       - name: Lint package.json
         run: bun run lint:package
+
+      - name: Check unused files/exports/dependencies
+        run: bun run lint:unused
 
       - name: Typecheck
         run: bun run typecheck

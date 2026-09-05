@@ -3,5 +3,6 @@
 # exit immediately if any command fails
 set -e
 
-bun run lint-staged
 bun run typecheck
+bun run lint-staged
+bun run habit:hooks

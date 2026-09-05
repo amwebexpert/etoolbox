@@ -47,10 +47,15 @@ const toEmbeddingsProgress = (stats: EmbeddingsStatsFromEngine): EmbeddingsProgr
   currentRule: stats.nextRuleTitle,
 });
 
-export const runProgressiveEmbeddingComputation = async (
-  engine: EmbeddingsEngine,
-  onProgress: (progress: EmbeddingsProgress) => void
-): Promise<void> => {
+interface RunProgressiveEmbeddingComputationArgs {
+  engine: EmbeddingsEngine;
+  onProgress: (progress: EmbeddingsProgress) => void;
+}
+
+export const runProgressiveEmbeddingComputation = async ({
+  engine,
+  onProgress,
+}: RunProgressiveEmbeddingComputationArgs): Promise<void> => {
   onProgress(toEmbeddingsProgress(engine.computedEmbeddingsStats));
 
   while (engine.nextRuleToCompute) {

@@ -19,14 +19,25 @@ const hexToRgb = (hex: string): Rgb => {
 const rgbToHex = ({ r, g, b }: Rgb): string =>
   `#${[r, g, b].map((v) => Math.round(v).toString(16).padStart(2, "0")).join("")}`;
 
-const blend = (hex1: string, hex2: string, t: number): string => {
+interface BlendArgs {
+  hex1: string;
+  hex2: string;
+  t: number;
+}
+
+const blend = ({ hex1, hex2, t }: BlendArgs): string => {
   const a = hexToRgb(hex1);
   const b = hexToRgb(hex2);
   return rgbToHex({ r: a.r + (b.r - a.r) * t, g: a.g + (b.g - a.g) * t, b: a.b + (b.b - a.b) * t });
 };
 
-const lighten = (hex: string, amount: number): string => blend(hex, "#ffffff", amount);
-const darken = (hex: string, amount: number): string => blend(hex, "#000000", amount);
+interface ShadeArgs {
+  hex: string;
+  amount: number;
+}
+
+const lighten = ({ hex, amount }: ShadeArgs): string => blend({ hex1: hex, hex2: "#ffffff", t: amount });
+const darken = ({ hex, amount }: ShadeArgs): string => blend({ hex1: hex, hex2: "#000000", t: amount });
 
 interface LogoColors {
   shade1: string;
@@ -37,19 +48,24 @@ interface LogoColors {
   shade6: string;
 }
 
-const deriveLogoColors = (primary: string, secondary: string): LogoColors => ({
-  shade1: darken(primary, 0.1),
+interface DeriveLogoColorsArgs {
+  primary: string;
+  secondary: string;
+}
+
+const deriveLogoColors = ({ primary, secondary }: DeriveLogoColorsArgs): LogoColors => ({
+  shade1: darken({ hex: primary, amount: 0.1 }),
   shade2: primary,
   shade3: primary,
-  shade4: blend(primary, secondary, 0.5),
+  shade4: blend({ hex1: primary, hex2: secondary, t: 0.5 }),
   shade5: secondary,
-  shade6: lighten(secondary, 0.08),
+  shade6: lighten({ hex: secondary, amount: 0.08 }),
 });
 
 export const AppLogo = ({ className }: AppLogoProps) => {
   const colorTheme = useColorTheme();
   const { primary, secondary } = THEMES[colorTheme];
-  const c = deriveLogoColors(primary, secondary);
+  const c = deriveLogoColors({ primary, secondary });
 
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" className={className}>

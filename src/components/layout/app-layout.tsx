@@ -1,7 +1,7 @@
 import { useLocation } from "@tanstack/react-router";
 import { Drawer, Layout } from "antd";
 import { createStyles } from "antd-style";
-import { useState } from "react";
+import { type PropsWithChildren, useState } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
@@ -14,11 +14,7 @@ const { Sider, Content } = Layout;
 const SIDER_WIDTH = 240;
 const SIDER_COLLAPSED_WIDTH = 64;
 
-interface AppLayoutProps {
-  children: React.ReactNode;
-}
-
-export const AppLayout = ({ children }: AppLayoutProps) => {
+export const AppLayout = ({ children }: PropsWithChildren) => {
   const { styles } = useStyles();
   const { isDesktop, isMobile } = useResponsive();
   const location = useLocation();

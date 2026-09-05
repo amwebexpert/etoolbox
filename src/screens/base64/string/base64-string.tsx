@@ -32,7 +32,7 @@ export const Base64String = () => {
   };
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: outputText });
+    void copyTextToClipboard({ text: outputText });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

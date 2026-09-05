@@ -4,7 +4,7 @@ import * as clipboardUtils from "@lichens-innovation/ts-common/web";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
 interface CopyTextToClipboardArgs {
-  text: string | undefined | null;
+  text?: string | null;
   successMessage?: string;
 }
 

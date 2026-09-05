@@ -11,7 +11,9 @@ export const AppHeaderActionAbout = () => {
     <Button
       type="text"
       icon={<InfoCircleOutlined className={styles.icon} />}
-      onClick={() => navigate({ to: "/about" })}
+      onClick={() => {
+        void navigate({ to: "/about" });
+      }}
       className={styles.button}
       aria-label="About"
     />
