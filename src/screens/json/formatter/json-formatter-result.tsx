@@ -11,7 +11,7 @@ import { parseJsonForView } from "./json-formatter.utils";
 
 // Handle potential default export wrapper
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ReactJson = (ReactJsonImport as any)?.default || ReactJsonImport;
+const ReactJson = (ReactJsonImport as any)?.default ?? ReactJsonImport;
 
 interface JsonFormatterResultProps {
   formattedJson: string;
@@ -32,7 +32,12 @@ export const JsonFormatterResult = ({ formattedJson }: JsonFormatterResultProps)
     );
   }
 
-  const maxHeight = isMobile ? "300px" : isTablet ? "400px" : "500px";
+  const getMaxHeight = (): string => {
+    if (isMobile) return "300px";
+    if (isTablet) return "400px";
+    return "500px";
+  };
+  const maxHeight = getMaxHeight();
   const jsonObject = parseJsonForView(formattedJson);
 
   return (

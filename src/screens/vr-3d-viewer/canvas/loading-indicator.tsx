@@ -32,7 +32,9 @@ export const LoadingIndicator = ({ onProgress }: LoadingIndicatorProps) => {
       onProgressRef.current(initialProgress);
     });
 
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return null;

@@ -14,7 +14,7 @@ export const OcrProcessing = ({ workerStatus }: OcrProcessingProps) => {
   const { styles } = useStyles();
 
   const progressPercent = Math.round(workerStatus.progress * 100);
-  const progressStatus = getProgressStatus(workerStatus.progress, workerStatus.status);
+  const progressStatus = getProgressStatus({ progress: workerStatus.progress, status: workerStatus.status });
 
   return (
     <Card className={styles.card}>

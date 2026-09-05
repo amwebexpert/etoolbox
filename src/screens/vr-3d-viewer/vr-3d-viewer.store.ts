@@ -1,8 +1,14 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
-import type { CameraSettings, ModelFileInfo, SceneSettings, ViewMode } from "./vr-3d-viewer.types";
-import { DEFAULT_CAMERA_SETTINGS, DEFAULT_SCENE_SETTINGS } from "./vr-3d-viewer.types";
+import {
+  type CameraSettings,
+  DEFAULT_CAMERA_SETTINGS,
+  DEFAULT_SCENE_SETTINGS,
+  type ModelFileInfo,
+  type SceneSettings,
+  type ViewMode,
+} from "./vr-3d-viewer.types";
 
 interface Vr3dViewerState {
   // Model state (not persisted)

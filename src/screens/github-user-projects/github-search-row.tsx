@@ -70,25 +70,26 @@ export const GithubSearchRow = ({
             {isMobile ? "" : "Search"}
           </Button>
 
-          {hasProjects && (
+          {hasProjects ? (
             <Tooltip title="Refresh data">
               <Button
+                // eslint-disable-next-line react/jsx-no-leaked-render -- isFetching/isLoading are both `boolean` props, not JSX children; no leak risk
                 icon={<ReloadOutlined spin={isFetching && !isLoading} />}
                 onClick={onRefresh}
                 disabled={isFetching}
               />
             </Tooltip>
-          )}
+          ) : null}
         </Space>
       </Col>
 
-      {hasProjects && (
+      {hasProjects ? (
         <Col xs={12} sm={8} md={6} lg={4}>
           <Text type="secondary" className={styles.count}>
             {filteredCount} / {totalCount} repos
           </Text>
         </Col>
-      )}
+      ) : null}
     </Row>
   );
 };

@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
-import type { WorkerStatus } from "./ocr.types";
 import {
   DEFAULT_EXTRACTED_TEXT,
   DEFAULT_IMAGE_DATA_URL,
   DEFAULT_LANGUAGE,
   INITIAL_WORKER_STATUS,
   PERSISTED_STORE_NAME,
+  type WorkerStatus,
 } from "./ocr.types";
 
 interface OcrState {

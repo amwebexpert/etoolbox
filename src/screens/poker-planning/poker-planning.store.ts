@@ -17,9 +17,9 @@ interface PokerPlanningState {
   // Session state (not persisted)
   roomUUID: string;
   socketState: SocketState;
-  myEstimate: string | undefined;
+  myEstimate?: string;
   isEstimatesVisible: boolean;
-  session: PokerPlanningSession | undefined;
+  session?: PokerPlanningSession;
 
   // Socket (not persisted - excluded via partialize)
   socket: ReconnectingWebSocket | null;
@@ -34,9 +34,9 @@ interface PokerPlanningState {
   // Setters for session state
   setRoomUUID: (roomUUID: string) => void;
   setSocketState: (socketState: SocketState) => void;
-  setMyEstimate: (estimate: string | undefined) => void;
+  setMyEstimate: (estimate?: string) => void;
   setIsEstimatesVisible: (isVisible: boolean) => void;
-  setSession: (session: PokerPlanningSession | undefined) => void;
+  setSession: (session?: PokerPlanningSession) => void;
 
   // High-level actions
   createRoom: () => void;
@@ -54,27 +54,31 @@ interface PokerPlanningState {
   clearSocket: () => void;
 }
 
-const stateCreator = (
-  set: (partial: Partial<PokerPlanningState> | ((state: PokerPlanningState) => Partial<PokerPlanningState>)) => void,
-  get: () => PokerPlanningState
-): PokerPlanningState => ({
-  // Initial persisted values
-  hostName: "",
-  roomName: "",
-  username: "",
-  cardsCategory: DEFAULT_CARDS_LISTING_CATEGORY,
+type PokerPlanningSet = (
+  partial: Partial<PokerPlanningState> | ((state: PokerPlanningState) => Partial<PokerPlanningState>)
+) => void;
+type PokerPlanningGet = () => PokerPlanningState;
 
-  // Initial session values
-  roomUUID: "",
-  socketState: "closed",
-  myEstimate: undefined,
-  isEstimatesVisible: false,
-  session: undefined,
+interface PokerPlanningSliceArgs {
+  set: PokerPlanningSet;
+  get: PokerPlanningGet;
+}
 
-  // Socket state
-  socket: null,
-  postponedMessage: null,
-
+const createSettersSlice = ({
+  set,
+  get,
+}: PokerPlanningSliceArgs): Pick<
+  PokerPlanningState,
+  | "setHostName"
+  | "setRoomName"
+  | "setUsername"
+  | "setCardsCategory"
+  | "setRoomUUID"
+  | "setSocketState"
+  | "setMyEstimate"
+  | "setIsEstimatesVisible"
+  | "setSession"
+> => ({
   // Setters for persisted settings (with guards to prevent unnecessary re-renders)
   setHostName: (hostName) => {
     if (get().hostName !== hostName) set({ hostName });
@@ -103,8 +107,12 @@ const stateCreator = (
     if (get().isEstimatesVisible !== isVisible) set({ isEstimatesVisible: isVisible });
   },
   setSession: (session) => set({ session }),
+});
 
-  // Socket management
+const createSocketSlice = ({
+  set,
+  get,
+}: PokerPlanningSliceArgs): Pick<PokerPlanningState, "connect" | "sendMessage" | "clearSocket"> => ({
   connect: () => {
     const { hostName, roomUUID, socketState } = get();
     if (!hostName || !roomUUID || socketState === "open" || socketState === "connecting") {
@@ -143,8 +151,22 @@ const stateCreator = (
     socket?.close();
     set({ socket: null, postponedMessage: null });
   },
+});
 
-  // High-level actions
+const createActionsSlice = ({
+  set,
+  get,
+}: PokerPlanningSliceArgs): Pick<
+  PokerPlanningState,
+  | "createRoom"
+  | "joinRoom"
+  | "vote"
+  | "clearVotes"
+  | "removeUser"
+  | "toggleEstimatesVisibility"
+  | "disconnect"
+  | "resetSession"
+> => ({
   createRoom: () => {
     const { hostName, roomName, setRoomUUID, connect } = get();
     if (!hostName || !roomName) return;
@@ -158,18 +180,18 @@ const stateCreator = (
   joinRoom: () => {
     const { username, sendMessage } = get();
     if (!username) return;
-    sendMessage(buildVoteMessage(username));
+    sendMessage(buildVoteMessage({ username }));
   },
 
   vote: (value: string) => {
     const { myEstimate, username, sendMessage, setMyEstimate } = get();
     if (value !== myEstimate) {
       setMyEstimate(value);
-      sendMessage(buildVoteMessage(username, value));
+      sendMessage(buildVoteMessage({ username, value }));
     } else {
       // User is un-voting
       setMyEstimate(undefined);
-      sendMessage(buildVoteMessage(username));
+      sendMessage(buildVoteMessage({ username }));
     }
   },
 
@@ -212,6 +234,29 @@ const stateCreator = (
       isEstimatesVisible: false,
       session: undefined,
     }),
+});
+
+const stateCreator = (set: PokerPlanningSet, get: PokerPlanningGet): PokerPlanningState => ({
+  // Initial persisted values
+  hostName: "",
+  roomName: "",
+  username: "",
+  cardsCategory: DEFAULT_CARDS_LISTING_CATEGORY,
+
+  // Initial session values
+  roomUUID: "",
+  socketState: "closed",
+  myEstimate: undefined,
+  isEstimatesVisible: false,
+  session: undefined,
+
+  // Socket state
+  socket: null,
+  postponedMessage: null,
+
+  ...createSettersSlice({ set, get }),
+  ...createSocketSlice({ set, get }),
+  ...createActionsSlice({ set, get }),
 });
 
 const PERSISTED_STORE_NAME = "etoolbox-poker-planning";

@@ -4,6 +4,11 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import type { MimeTypeCategory } from "./mime-types.types";
 import { DEFAULT_CATEGORY, DEFAULT_FILTER, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "./mime-types.utils";
 
+interface HandlePageChangeArgs {
+  page: number;
+  pageSize: number;
+}
+
 interface MimeTypesState {
   category: MimeTypeCategory;
   filter: string;
@@ -11,7 +16,7 @@ interface MimeTypesState {
   pageSize: number;
   setCategory: (category: MimeTypeCategory) => void;
   setFilter: (filter: string) => void;
-  handlePageChange: (page: number, pageSize: number) => void;
+  handlePageChange: ({ page, pageSize }: HandlePageChangeArgs) => void;
   hasFilters: () => boolean;
   resetFilters: () => void;
 }
@@ -23,7 +28,7 @@ const stateCreator = (set: (partial: Partial<MimeTypesState>) => void, get: () =
   pageSize: DEFAULT_PAGE_SIZE,
   setCategory: (category) => set({ category, page: DEFAULT_PAGE }),
   setFilter: (filter) => set({ filter, page: DEFAULT_PAGE }),
-  handlePageChange: (page, pageSize) => {
+  handlePageChange: ({ page, pageSize }) => {
     const currentPageSize = get().pageSize;
     if (pageSize !== currentPageSize) {
       set({ page: DEFAULT_PAGE, pageSize });

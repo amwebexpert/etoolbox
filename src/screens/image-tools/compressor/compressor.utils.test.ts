@@ -71,6 +71,11 @@ describe("buildExportFilename", () => {
 
 const makeFile = (type: string): File => new File(["x"], `f.${type.split("/")[1] ?? "bin"}`, { type });
 
+interface IsImageFileCase {
+  type: string;
+  expected: boolean;
+}
+
 describe("isImageFile", () => {
   it.each`
     type                 | expected
@@ -80,7 +85,7 @@ describe("isImageFile", () => {
     ${"text/plain"}      | ${false}
     ${"application/pdf"} | ${false}
     ${""}                | ${false}
-  `("returns $expected for type $type", ({ type, expected }: { type: string; expected: boolean }) => {
+  `("returns $expected for type $type", ({ type, expected }: IsImageFileCase) => {
     const file = makeFile(type);
 
     const result = isImageFile(file);
@@ -95,7 +100,12 @@ interface FakeClipboardItem {
   getAsFile: () => File | null;
 }
 
-const makeItem = (type: string, file: File | null): FakeClipboardItem => ({
+interface MakeItemArgs {
+  type: string;
+  file: File | null;
+}
+
+const makeItem = ({ type, file }: MakeItemArgs): FakeClipboardItem => ({
   kind: file ? "file" : "string",
   type,
   getAsFile: vi.fn(() => file),
@@ -104,7 +114,7 @@ const makeItem = (type: string, file: File | null): FakeClipboardItem => ({
 describe("extractImageFromClipboardItems", () => {
   it("returns the first image file from items", () => {
     const imageFile = makeFile("image/png");
-    const items = [makeItem("text/plain", null), makeItem("image/png", imageFile)];
+    const items = [makeItem({ type: "text/plain", file: null }), makeItem({ type: "image/png", file: imageFile })];
 
     const result = extractImageFromClipboardItems(items);
 
@@ -112,7 +122,7 @@ describe("extractImageFromClipboardItems", () => {
   });
 
   it("returns null when no image item exists", () => {
-    const items = [makeItem("text/plain", null), makeItem("text/html", null)];
+    const items = [makeItem({ type: "text/plain", file: null }), makeItem({ type: "text/html", file: null })];
 
     const result = extractImageFromClipboardItems(items);
 
@@ -126,7 +136,7 @@ describe("extractImageFromClipboardItems", () => {
   });
 
   it("ignores image items whose getAsFile returns null", () => {
-    const items = [makeItem("image/png", null)];
+    const items = [makeItem({ type: "image/png", file: null })];
 
     const result = extractImageFromClipboardItems(items);
 
@@ -216,6 +226,11 @@ describe("compressImage", () => {
   });
 });
 
+interface CanEnableDownloadCase {
+  isCompressing: boolean;
+  compressedBlob: Blob | null;
+}
+
 describe("canEnableDownload", () => {
   it("returns true when not compressing and a compressed blob exists", () => {
     const blob = new Blob(["x"], { type: "image/webp" });
@@ -230,14 +245,11 @@ describe("canEnableDownload", () => {
     ${"still compressing with a blob"}  | ${true}       | ${new Blob(["x"])}
     ${"finished but no blob"}           | ${false}      | ${null}
     ${"still compressing without blob"} | ${true}       | ${null}
-  `(
-    "returns false when $scenario",
-    ({ isCompressing, compressedBlob }: { isCompressing: boolean; compressedBlob: Blob | null }) => {
-      const result = canEnableDownload({ isCompressing, compressedBlob });
+  `("returns false when $scenario", ({ isCompressing, compressedBlob }: CanEnableDownloadCase) => {
+    const result = canEnableDownload({ isCompressing, compressedBlob });
 
-      expect(result).toBe(false);
-    }
-  );
+    expect(result).toBe(false);
+  });
 });
 
 interface FakeAnchor {

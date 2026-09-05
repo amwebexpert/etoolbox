@@ -1,13 +1,11 @@
 import { ClearOutlined, CopyOutlined, FileTextOutlined, UnlockOutlined } from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Button, Dropdown, Space, Tooltip } from "antd";
+import { Button, Dropdown, type MenuProps, Space, Tooltip } from "antd";
 import { createStyles } from "antd-style";
 
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
 
-import type { DecodedJwt } from "./jwt-decoder.utils";
-import { formatJson, SAMPLE_JWT_TOKENS } from "./jwt-decoder.utils";
+import { type DecodedJwt, formatJson, SAMPLE_JWT_TOKENS } from "./jwt-decoder.utils";
 
 interface JwtDecoderToolbarProps {
   hasToken: boolean;
@@ -22,14 +20,14 @@ export const JwtDecoderToolbar = ({ hasToken, decoded, onLoadSample, onClear }: 
   const { copyTextToClipboard } = useClipboardCopy();
 
   const handleCopyHeader = () => {
-    copyTextToClipboard({
+    void copyTextToClipboard({
       text: formatJson(decoded.header),
       successMessage: "Header copied to clipboard!",
     });
   };
 
   const handleCopyPayload = () => {
-    copyTextToClipboard({
+    void copyTextToClipboard({
       text: formatJson(decoded.payload),
       successMessage: "Payload copied to clipboard!",
     });
@@ -40,7 +38,7 @@ export const JwtDecoderToolbar = ({ hasToken, decoded, onLoadSample, onClear }: 
       header: decoded.header,
       payload: decoded.payload,
     };
-    copyTextToClipboard({
+    void copyTextToClipboard({
       text: formatJson(combined),
       successMessage: "Decoded JWT copied to clipboard!",
     });

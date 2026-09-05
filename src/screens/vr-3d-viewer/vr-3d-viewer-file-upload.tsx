@@ -1,14 +1,12 @@
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
-import type { UploadProps } from "antd";
-import { Button, Typography, Upload } from "antd";
+import { Button, Typography, Upload, type UploadProps } from "antd";
 import { createStyles } from "antd-style";
-import { useRef } from "react";
+import { type ElementRef, useRef } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
-import type { ModelFileInfo } from "./vr-3d-viewer.types";
-import { ACCEPT_3D_FILES, SUPPORTED_EXTENSIONS } from "./vr-3d-viewer.types";
+import { ACCEPT_3D_FILES, type ModelFileInfo, SUPPORTED_EXTENSIONS } from "./vr-3d-viewer.types";
 import { createModelFileInfo, formatModelInfo, isSupportedFormat } from "./vr-3d-viewer.utils";
 
 const { Dragger } = Upload;
@@ -22,7 +20,7 @@ export const Vr3dViewerFileUpload = ({ modelFile, onFileLoaded }: Vr3dViewerFile
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
   const messageApi = useToastMessage();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<ElementRef<"input">>(null);
 
   const handleFileChange = (file: File) => {
     if (!isSupportedFormat(file.name)) {
@@ -73,7 +71,7 @@ export const Vr3dViewerFileUpload = ({ modelFile, onFileLoaded }: Vr3dViewerFile
         <Button icon={<UploadOutlined />} onClick={() => fileInputRef.current?.click()} className={styles.uploadButton}>
           Select 3D Model
         </Button>
-        {fileInfoText && (
+        {!!fileInfoText && (
           <Typography.Text type="secondary" className={styles.fileInfo}>
             {fileInfoText}
           </Typography.Text>
@@ -91,7 +89,7 @@ export const Vr3dViewerFileUpload = ({ modelFile, onFileLoaded }: Vr3dViewerFile
         <p className="ant-upload-text">Click or drag a 3D model file here</p>
         <p className="ant-upload-hint">Supports: {SUPPORTED_EXTENSIONS.join(", ")}</p>
       </Dragger>
-      {fileInfoText && (
+      {!!fileInfoText && (
         <Typography.Text type="secondary" className={styles.fileInfoDesktop}>
           Current: {fileInfoText}
         </Typography.Text>

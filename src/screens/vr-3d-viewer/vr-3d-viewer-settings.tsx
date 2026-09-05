@@ -1,8 +1,13 @@
 import { Col, Form, Row, Select, Slider, Switch } from "antd";
 import { createStyles } from "antd-style";
 
-import type { CameraSettings, SceneSettings } from "./vr-3d-viewer.types";
-import { BACKGROUND_COLOR_OPTIONS, LIGHTING_PRESET_OPTIONS, MODEL_SCALE_OPTIONS } from "./vr-3d-viewer.types";
+import {
+  BACKGROUND_COLOR_OPTIONS,
+  type CameraSettings,
+  LIGHTING_PRESET_OPTIONS,
+  MODEL_SCALE_OPTIONS,
+  type SceneSettings,
+} from "./vr-3d-viewer.types";
 
 interface Vr3dViewerSettingsProps {
   sceneSettings: SceneSettings;
@@ -103,7 +108,7 @@ export const Vr3dViewerSettings = ({
           </Col>
 
           {/* Auto Rotate Speed */}
-          {cameraSettings.autoRotate && (
+          {cameraSettings.autoRotate ? (
             <Col xs={24} sm={12} md={6} lg={4}>
               <Form.Item label="Rotation speed" className={styles.formItem}>
                 <Slider
@@ -115,7 +120,7 @@ export const Vr3dViewerSettings = ({
                 />
               </Form.Item>
             </Col>
-          )}
+          ) : null}
         </Row>
       </Form>
     </div>

@@ -116,7 +116,7 @@ const curlToHar = (curlCommand: string): HarRequest => {
   let postData: HarRequest["postData"] = undefined;
   if (parsed.body) {
     // Try to find content-type from headers
-    const contentType = parsed.header?.["Content-Type"] || parsed.header?.["content-type"] || "application/json";
+    const contentType = parsed.header?.["Content-Type"] ?? parsed.header?.["content-type"] ?? "application/json";
 
     postData = {
       mimeType: String(contentType),
@@ -140,7 +140,12 @@ const curlToHar = (curlCommand: string): HarRequest => {
   return harRequest;
 };
 
-export const transformCurl = (value?: string, targetLanguage = "JavaScript (Fetch)"): string => {
+interface TransformCurlArgs {
+  value?: string;
+  targetLanguage?: string;
+}
+
+export const transformCurl = ({ value, targetLanguage = "JavaScript (Fetch)" }: TransformCurlArgs): string => {
   if (!value) {
     return "";
   }

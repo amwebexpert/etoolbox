@@ -1,6 +1,5 @@
 import { CalendarOutlined, ClearOutlined, ClockCircleOutlined, CopyOutlined, DownOutlined } from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Button, Dropdown, Space, Tooltip } from "antd";
+import { Button, Dropdown, type MenuProps, Space, Tooltip } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";

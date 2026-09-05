@@ -18,6 +18,11 @@ interface CsvParserToolbarProps {
   onViewModeChange: (mode: ViewMode) => void;
 }
 
+const VIEW_MODE_OPTIONS = [
+  { value: "json", label: "JSON", icon: <CopyOutlined /> },
+  { value: "table", label: "Table", icon: <TableOutlined /> },
+];
+
 export const CsvParserToolbar = ({
   hasContent,
   hasResult,
@@ -32,21 +37,16 @@ export const CsvParserToolbar = ({
   const { isMobile } = useResponsive();
   const { styles } = useStyles();
 
-  const viewModeOptions = [
-    { value: "json", label: "JSON", icon: <CopyOutlined /> },
-    { value: "table", label: "Table", icon: <TableOutlined /> },
-  ];
-
   return (
     <div className={styles.toolbar}>
-      {hasResult && (
+      {hasResult ? (
         <Segmented
           value={viewMode}
           onChange={(value) => onViewModeChange(value as ViewMode)}
-          options={viewModeOptions}
+          options={VIEW_MODE_OPTIONS}
           size="middle"
         />
-      )}
+      ) : null}
 
       <div className={styles.spacer} />
 

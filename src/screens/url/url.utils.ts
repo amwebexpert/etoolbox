@@ -1,3 +1,5 @@
+import { isNullish } from "@lichens-innovation/ts-common";
+
 /**
  * Parse a URL string into its component fragments.
  * @param value - The URL string to parse
@@ -58,7 +60,7 @@ export const parseUrlParams = (value?: string): Map<string, string> => {
 export const buildQueryString = (params: Record<string, string>): string => {
   const searchParams = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== null) {
+    if (!isNullish(value)) {
       searchParams.set(key, value);
     }
   }

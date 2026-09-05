@@ -1,18 +1,19 @@
 import { CodeOutlined, CopyOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Row, Table, Tooltip, Typography } from "antd";
-import { createStyles } from "antd-style";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
 import { useResponsive } from "~/hooks/use-responsive";
 import { useSyntaxHighlightTheme } from "~/hooks/use-syntax-highlight-theme";
 
+import type { CopyHandlerArgs } from "../date-converter.constants";
 import { CODE_EXAMPLES, DATE_FORMATS } from "../date-converter.utils";
+import { useStyles } from "./result-desktop-layout.styles";
 
 interface ResultDesktopLayoutProps {
   date: Date;
   epochValue: number;
   showCodeExamples: boolean;
-  onCopy: (value: string, label: string) => void;
+  onCopy: (args: CopyHandlerArgs) => void;
 }
 
 export const ResultDesktopLayout = ({ date, epochValue, showCodeExamples, onCopy }: ResultDesktopLayoutProps) => {
@@ -34,6 +35,7 @@ export const ResultDesktopLayout = ({ date, epochValue, showCodeExamples, onCopy
       dataIndex: "label",
       key: "label",
       width: isDesktop ? 200 : 150,
+      // eslint-disable-next-line coding-guide/max-params-project -- antd ColumnType.render(value, record, index) signature
       render: (label: string, record: (typeof tableData)[0]) => (
         <Tooltip title={record.description}>
           <span className={styles.formatLabel}>{label}</span>
@@ -44,6 +46,7 @@ export const ResultDesktopLayout = ({ date, epochValue, showCodeExamples, onCopy
       title: "Value",
       dataIndex: "value",
       key: "value",
+      // eslint-disable-next-line coding-guide/max-params-project -- antd ColumnType.render(value, record, index) signature
       render: (value: string, record: (typeof tableData)[0]) => {
         if (record.format.showCode && record.format.getCode) {
           return <code className={styles.codeValue}>{record.format.getCode(date, epochValue)}</code>;
@@ -55,6 +58,7 @@ export const ResultDesktopLayout = ({ date, epochValue, showCodeExamples, onCopy
       title: "",
       key: "action",
       width: 60,
+      // eslint-disable-next-line coding-guide/max-params-project -- antd ColumnType.render(value, record, index) signature
       render: (_: unknown, record: (typeof tableData)[0]) => (
         <Tooltip title="Copy to clipboard">
           <Button
@@ -63,7 +67,7 @@ export const ResultDesktopLayout = ({ date, epochValue, showCodeExamples, onCopy
             icon={<CopyOutlined />}
             onClick={() => {
               const copyValue = record.format.getCode?.(date, epochValue) ?? record.value;
-              onCopy(copyValue, record.label);
+              onCopy({ value: copyValue, label: record.label });
             }}
           />
         </Tooltip>
@@ -81,7 +85,7 @@ export const ResultDesktopLayout = ({ date, epochValue, showCodeExamples, onCopy
         className={styles.table}
       />
 
-      {showCodeExamples && (
+      {showCodeExamples ? (
         <div className={styles.codeExamplesSection}>
           <Typography.Title level={5} className={styles.codeExamplesTitle}>
             <CodeOutlined /> Code Examples
@@ -99,7 +103,7 @@ export const ResultDesktopLayout = ({ date, epochValue, showCodeExamples, onCopy
                       type="text"
                       size="small"
                       icon={<CopyOutlined />}
-                      onClick={() => onCopy(example.getCode(date), example.label)}
+                      onClick={() => onCopy({ value: example.getCode(date), label: example.label })}
                     />
                   }
                 >
@@ -121,48 +125,7 @@ export const ResultDesktopLayout = ({ date, epochValue, showCodeExamples, onCopy
             ))}
           </Row>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };
-
-const useStyles = createStyles(({ token }) => ({
-  resultContainer: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 24,
-  },
-  table: {
-    "& .ant-table-cell": {
-      verticalAlign: "middle",
-    },
-  },
-  formatLabel: {
-    fontWeight: 500,
-    cursor: "help",
-  },
-  valueText: {
-    fontFamily: "monospace",
-    wordBreak: "break-all",
-  },
-  codeValue: {
-    fontFamily: "monospace",
-    fontSize: 13,
-    backgroundColor: token.colorBgTextHover,
-    padding: "2px 6px",
-    borderRadius: 4,
-    wordBreak: "break-all",
-  },
-  codeExamplesSection: {
-    marginTop: 8,
-  },
-  codeExamplesTitle: {
-    marginBottom: 16,
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-  },
-  codeCard: {
-    height: "100%",
-  },
-}));

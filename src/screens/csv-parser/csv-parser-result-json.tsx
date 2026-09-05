@@ -12,12 +12,23 @@ interface CsvParserResultJsonProps {
   result: CsvParseResult;
 }
 
+interface GetMaxHeightArgs {
+  isMobile: boolean;
+  isTablet: boolean;
+}
+
+const getMaxHeight = ({ isMobile, isTablet }: GetMaxHeightArgs): number => {
+  if (isMobile) return 300;
+  if (isTablet) return 400;
+  return 500;
+};
+
 export const CsvParserResultJson = ({ result }: CsvParserResultJsonProps) => {
   const { styles } = useStyles();
   const syntaxTheme = useSyntaxHighlightTheme();
   const { isMobile, isTablet } = useResponsive();
 
-  const maxHeight = isMobile ? 300 : isTablet ? 400 : 500;
+  const maxHeight = getMaxHeight({ isMobile, isTablet });
   const jsonOutput = safeJsonStringify(result.data);
 
   return (

@@ -2,6 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import { MIME_TYPE_OPTIONS, percentToQuality, qualityToPercent, RESIZE_OPTIONS } from "./compressor-settings.utils";
 
+interface QualityToPercentCase {
+  quality: number;
+  expected: number;
+}
+
 describe("qualityToPercent", () => {
   it.each`
     quality | expected
@@ -9,7 +14,7 @@ describe("qualityToPercent", () => {
     ${0.5}  | ${50}
     ${0.8}  | ${80}
     ${1}    | ${100}
-  `("maps quality $quality to $expected", ({ quality, expected }: { quality: number; expected: number }) => {
+  `("maps quality $quality to $expected", ({ quality, expected }: QualityToPercentCase) => {
     expect(qualityToPercent(quality)).toBe(expected);
   });
 
@@ -18,6 +23,11 @@ describe("qualityToPercent", () => {
   });
 });
 
+interface PercentToQualityCase {
+  percent: number;
+  expected: number;
+}
+
 describe("percentToQuality", () => {
   it.each`
     percent | expected
@@ -25,7 +35,7 @@ describe("percentToQuality", () => {
     ${50}   | ${0.5}
     ${80}   | ${0.8}
     ${100}  | ${1}
-  `("maps percent $percent to $expected", ({ percent, expected }: { percent: number; expected: number }) => {
+  `("maps percent $percent to $expected", ({ percent, expected }: PercentToQualityCase) => {
     expect(percentToQuality(percent)).toBeCloseTo(expected);
   });
 });

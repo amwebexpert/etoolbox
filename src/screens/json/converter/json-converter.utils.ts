@@ -1,11 +1,16 @@
 import { getErrorMessage, isBlank, isNullish } from "@lichens-innovation/ts-common";
 import beautify from "js-beautify";
+import JSON5 from "json5";
 import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core";
 
 import { getResultMaxHeightPx, type ResponsiveContext } from "~/utils/responsive.utils";
 
-import type { ConversionContext, SourceType } from "./json-converter.types";
-import { LANGUAGES, SYNTAX_HIGHLIGHTER_LANGUAGE_MAP } from "./json-converter.types";
+import {
+  type ConversionContext,
+  LANGUAGES,
+  type SourceType,
+  SYNTAX_HIGHLIGHTER_LANGUAGE_MAP,
+} from "./json-converter.types";
 
 export type { ConversionContext, SourceType };
 
@@ -78,7 +83,13 @@ const transformJSON = async (data: ConversionContext): Promise<string> => {
   const { targetLanguage, source, rootClassName } = data;
 
   if (targetLanguage === "javascript") {
-    const jsCode = objToSource(JSON.parse(data.source));
+    let parsedSource: unknown;
+    try {
+      parsedSource = JSON.parse(data.source);
+    } catch (e: unknown) {
+      throw new Error(`Invalid JSON: ${getErrorMessage(e)}`, { cause: e });
+    }
+    const jsCode = objToSource(parsedSource);
     return beautify(jsCode, { indent_size: 2, space_in_empty_paren: true });
   }
 
@@ -97,8 +108,9 @@ const transformJSON = async (data: ConversionContext): Promise<string> => {
 
 const transformJsObject = async (data: ConversionContext): Promise<string> => {
   try {
-    const fn = new Function(`return ${data.source}`) as () => unknown;
-    const result = fn();
+    // Parse the JS object literal without executing it as code (JSON5 is a strict superset of
+    // JSON supporting unquoted keys, single quotes, trailing commas, etc. — no eval/new Function).
+    const result: unknown = JSON5.parse(data.source);
     const jsonData = JSON.stringify(result, null, 4);
     const newData: ConversionContext = { ...data, sourceType: "json", source: jsonData };
 

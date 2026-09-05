@@ -1,9 +1,15 @@
 import type { CardsListingCategory, CardsListingCategoryName, UserEstimate } from "./poker-planning.types";
 
+interface PokerPlanningQrcodeQueryKeyArgs {
+  hostName: string;
+  roomUUID: string;
+  roomName: string;
+}
+
 // Query keys for TanStack Query cache
 export const PokerPlanningQueryKey = {
   all: ["poker-planning"] as const,
-  qrcode: (hostName: string, roomUUID: string, roomName: string) =>
+  qrcode: ({ hostName, roomUUID, roomName }: PokerPlanningQrcodeQueryKeyArgs) =>
     [...PokerPlanningQueryKey.all, "qrcode", hostName, roomUUID, roomName] as const,
 } as const;
 
@@ -36,6 +42,7 @@ export const POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHANCED: string[] = ["?", "XS
 type PokerVotesSorter = (a: UserEstimate, b: UserEstimate) => number;
 
 const createSorter = (valuesArray: string[]): PokerVotesSorter => {
+  // eslint-disable-next-line coding-guide/max-params-project -- Array.prototype.sort comparator shape (a, b) is imposed by the native API, not ours to redesign
   return (a: UserEstimate, b: UserEstimate) =>
     valuesArray.indexOf(a.estimate ?? "?") - valuesArray.indexOf(b.estimate ?? "?");
 };

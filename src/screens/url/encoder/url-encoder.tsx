@@ -30,7 +30,7 @@ export const UrlEncoder = () => {
   };
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: outputText });
+    void copyTextToClipboard({ text: outputText });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -84,7 +84,7 @@ export const UrlEncoder = () => {
           </Space>
         </div>
 
-        {outputText && (
+        {!!outputText && (
           <div className={styles.resultSection}>
             <Typography.Text type="secondary" className={styles.resultLabel}>
               Result

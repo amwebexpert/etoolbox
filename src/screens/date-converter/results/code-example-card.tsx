@@ -3,12 +3,13 @@ import { Button, Card, Typography } from "antd";
 import { createStyles } from "antd-style";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
+import type { CopyHandlerArgs } from "../date-converter.constants";
 import type { CodeExample } from "../date-converter.utils";
 
 interface CodeExampleCardProps {
   example: CodeExample;
   date: Date;
-  onCopy: (value: string, label: string) => void;
+  onCopy: (args: CopyHandlerArgs) => void;
   syntaxTheme: Record<string, React.CSSProperties>;
 }
 
@@ -20,7 +21,12 @@ export const CodeExampleCard = ({ example, date, onCopy, syntaxTheme }: CodeExam
     <Card size="small" className={styles.codeExampleCard}>
       <div className={styles.cardHeader}>
         <Typography.Text strong>{example.label}</Typography.Text>
-        <Button type="text" size="small" icon={<CopyOutlined />} onClick={() => onCopy(code, example.label)} />
+        <Button
+          type="text"
+          size="small"
+          icon={<CopyOutlined />}
+          onClick={() => onCopy({ value: code, label: example.label })}
+        />
       </div>
       <SyntaxHighlighter
         language="javascript"

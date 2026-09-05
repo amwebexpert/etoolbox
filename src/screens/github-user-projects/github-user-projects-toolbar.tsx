@@ -36,7 +36,7 @@ export const GithubUserProjectsToolbar = ({
         onRefresh={onRefresh}
       />
 
-      {hasProjects && <GithubFiltersRow projects={projects} />}
+      {hasProjects ? <GithubFiltersRow projects={projects} /> : null}
     </div>
   );
 };

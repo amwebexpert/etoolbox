@@ -5,9 +5,9 @@ import { formatRelativeTime } from "../github-user-projects.utils";
 
 const { Text } = Typography;
 
-type ColumnUpdatedAtProps = {
+interface ColumnUpdatedAtProps {
   updatedAt: string;
-};
+}
 
 export const ColumnUpdatedAt = ({ updatedAt }: ColumnUpdatedAtProps) => {
   const { styles } = useStyles();

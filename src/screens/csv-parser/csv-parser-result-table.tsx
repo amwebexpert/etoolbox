@@ -11,11 +11,22 @@ interface CsvParserResultTableProps {
   result: CsvParseResult;
 }
 
+interface GetMaxHeightArgs {
+  isMobile: boolean;
+  isTablet: boolean;
+}
+
+const getMaxHeight = ({ isMobile, isTablet }: GetMaxHeightArgs): number => {
+  if (isMobile) return 300;
+  if (isTablet) return 400;
+  return 500;
+};
+
 export const CsvParserResultTable = ({ result }: CsvParserResultTableProps) => {
   const { styles } = useStyles();
   const { isMobile, isTablet } = useResponsive();
 
-  const maxHeight = isMobile ? 300 : isTablet ? 400 : 500;
+  const maxHeight = getMaxHeight({ isMobile, isTablet });
 
   const tableColumns: ColumnsType<Record<string, unknown>> =
     result.meta.fields?.map((field) => ({

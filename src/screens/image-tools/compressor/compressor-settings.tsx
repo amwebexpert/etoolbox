@@ -1,6 +1,5 @@
 import { SettingOutlined } from "@ant-design/icons";
-import { Col, Collapse, Form, InputNumber, Row, Select, Slider, Switch } from "antd";
-import { createStyles } from "antd-style";
+import { Collapse } from "antd";
 
 import { useResponsive } from "~/hooks/use-responsive";
 import { smallSizeOnMobile } from "~/utils/responsive.utils";
@@ -31,9 +30,8 @@ import {
   useSetCompressorShowCompressionSettings,
   useSetCompressorWidth,
 } from "./compressor.store";
-import { MIME_TYPE_OPTIONS, percentToQuality, qualityToPercent, RESIZE_OPTIONS } from "./compressor-settings.utils";
-
-const PERCENT_FORMATTER = (value?: number): string => `${value ?? 0}%`;
+import { useStyles } from "./compressor-settings.styles";
+import { CompressorSettingsFields } from "./compressor-settings-fields";
 
 const COLLAPSE_KEY = "compression-settings";
 
@@ -67,10 +65,6 @@ export const CompressorSettings = () => {
   const setCheckOrientation = useSetCompressorCheckOrientation();
   const setShowCompressionSettings = useSetCompressorShowCompressionSettings();
 
-  const handleQualityChange = (percent: number): void => {
-    setQuality(percentToQuality(percent));
-  };
-
   const collapseItems = [
     {
       key: COLLAPSE_KEY,
@@ -80,72 +74,30 @@ export const CompressorSettings = () => {
         </span>
       ),
       children: (
-        <Form layout="vertical" className={styles.form}>
-          <Row gutter={16}>
-            <Col xs={8} md={4}>
-              <Form.Item label={`Quality (${qualityToPercent(quality)}%)`}>
-                <Slider
-                  min={0}
-                  max={100}
-                  step={1}
-                  value={qualityToPercent(quality)}
-                  onChange={handleQualityChange}
-                  tooltip={{ formatter: PERCENT_FORMATTER }}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={8} md={4}>
-              <Form.Item label="MIME type">
-                <Select value={mimeType} onChange={setMimeType} options={[...MIME_TYPE_OPTIONS]} />
-              </Form.Item>
-            </Col>
-            <Col xs={8} md={4}>
-              <Form.Item label="Max width">
-                <InputNumber min={0} value={maxWidth} onChange={setMaxWidth} style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-            <Col xs={8} md={4}>
-              <Form.Item label="Max height">
-                <InputNumber min={0} value={maxHeight} onChange={setMaxHeight} style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-            <Col xs={8} md={4}>
-              <Form.Item label="Min width">
-                <InputNumber min={0} value={minWidth} onChange={setMinWidth} style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-            <Col xs={8} md={4}>
-              <Form.Item label="Min height">
-                <InputNumber min={0} value={minHeight} onChange={setMinHeight} style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-            <Col xs={8} md={4}>
-              <Form.Item label="Width (exact)">
-                <InputNumber min={0} value={width} onChange={setWidth} style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-            <Col xs={8} md={4}>
-              <Form.Item label="Height (exact)">
-                <InputNumber min={0} value={height} onChange={setHeight} style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-            <Col xs={8} md={4}>
-              <Form.Item label="Resize strategy">
-                <Select value={resize} onChange={setResize} options={[...RESIZE_OPTIONS]} />
-              </Form.Item>
-            </Col>
-            <Col xs={8} md={4}>
-              <Form.Item label="Convert size threshold (bytes)">
-                <InputNumber min={0} value={convertSize} onChange={setConvertSize} style={{ width: "100%" }} />
-              </Form.Item>
-            </Col>
-            <Col xs={8} md={4}>
-              <Form.Item label="Check EXIF orientation">
-                <Switch checked={checkOrientation} onChange={setCheckOrientation} />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
+        <CompressorSettingsFields
+          quality={quality}
+          mimeType={mimeType}
+          maxWidth={maxWidth}
+          maxHeight={maxHeight}
+          minWidth={minWidth}
+          minHeight={minHeight}
+          width={width}
+          height={height}
+          resize={resize}
+          convertSize={convertSize}
+          checkOrientation={checkOrientation}
+          setQuality={setQuality}
+          setMimeType={setMimeType}
+          setMaxWidth={setMaxWidth}
+          setMaxHeight={setMaxHeight}
+          setMinWidth={setMinWidth}
+          setMinHeight={setMinHeight}
+          setWidth={setWidth}
+          setHeight={setHeight}
+          setResize={setResize}
+          setConvertSize={setConvertSize}
+          setCheckOrientation={setCheckOrientation}
+        />
       ),
     },
   ];
@@ -160,17 +112,3 @@ export const CompressorSettings = () => {
     />
   );
 };
-
-const useStyles = createStyles(() => ({
-  collapse: {
-    width: "100%",
-  },
-  collapseLabel: {
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-  },
-  form: {
-    width: "100%",
-  },
-}));

@@ -31,12 +31,12 @@ export const RegexTesterToolbar = () => {
   const hasExtracted = matches.length > 0;
 
   const handleCopyPattern = () => {
-    copyTextToClipboard({ text: pattern, successMessage: "Pattern copied to clipboard!" });
+    void copyTextToClipboard({ text: pattern, successMessage: "Pattern copied to clipboard!" });
   };
 
   const handleCopyExtracted = () => {
     const formattedValue = formatExtractedValues({ matches, format: extractFormat });
-    copyTextToClipboard({ text: formattedValue, successMessage: "Extracted values copied to clipboard!" });
+    void copyTextToClipboard({ text: formattedValue, successMessage: "Extracted values copied to clipboard!" });
   };
 
   return (

@@ -7,6 +7,12 @@ import { useResponsive } from "~/hooks/use-responsive";
 import type { CsvParseResult } from "./csv-parser.types";
 import { formatLineBreak, getCsvStats } from "./csv-parser.utils";
 
+const getDelimiterDisplay = (delimiter: string): string => {
+  if (delimiter === "\t") return "Tab";
+  if (delimiter === " ") return "Space";
+  return delimiter;
+};
+
 interface CsvParserStatsProps {
   result: CsvParseResult | null;
 }
@@ -21,7 +27,7 @@ export const CsvParserStats = ({ result }: CsvParserStatsProps) => {
     return null;
   }
 
-  const delimiterDisplay = stats.delimiter === "\t" ? "Tab" : stats.delimiter === " " ? "Space" : stats.delimiter;
+  const delimiterDisplay = getDelimiterDisplay(stats.delimiter);
 
   const statisticFontSize = isMobile ? 18 : 24;
 
@@ -85,6 +91,8 @@ export const CsvParserStats = ({ result }: CsvParserStatsProps) => {
           </Typography.Text>
           <div className={styles.columnTags}>
             {stats.columnNames.map((col, index) => (
+              // Column names aren't guaranteed unique (a CSV can have duplicate headers); index is the only stable key.
+              // eslint-disable-next-line react/no-array-index-key
               <Tooltip key={index} title={`Column ${index + 1}`}>
                 <Tag className={styles.columnTag}>{col}</Tag>
               </Tooltip>

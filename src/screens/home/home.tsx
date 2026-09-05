@@ -25,7 +25,9 @@ export const Home = () => {
                 hoverable
                 className={styles.featureCard}
                 styles={{ body: { padding: 16, textAlign: "center" } }}
-                onClick={() => navigate({ to: feature.path })}
+                onClick={() => {
+                  void navigate({ to: feature.path });
+                }}
               >
                 <div className={styles.featureIcon} style={{ color: token.colorPrimary }}>
                   {feature.icon}

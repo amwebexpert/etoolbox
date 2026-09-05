@@ -58,7 +58,11 @@ export const ColorPicker = () => {
           description="Pick colors from images or use the color picker. Click on any color format to copy."
         />
 
-        <ColorPickerToolbar hasImage={!!imageDataUrl} onClear={clearImage} onFileSelect={handleFileSelect} />
+        <ColorPickerToolbar
+          hasImage={!!imageDataUrl}
+          onClear={clearImage}
+          onFileSelect={(file) => void handleFileSelect(file)}
+        />
 
         <Row gutter={[24, 24]}>
           <Col xs={24} lg={14}>
@@ -86,7 +90,7 @@ export const ColorPicker = () => {
           </Col>
         </Row>
 
-        {isDesktop && <div className={styles.spacer} />}
+        {isDesktop ? <div className={styles.spacer} /> : null}
       </Flex>
     </ScreenContainer>
   );

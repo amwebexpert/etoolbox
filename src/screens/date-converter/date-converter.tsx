@@ -1,6 +1,5 @@
 import { CalendarOutlined, CodeOutlined } from "@ant-design/icons";
 import { Col, DatePicker, Flex, Form, Input, Row, Select, Switch } from "antd";
-import { createStyles } from "antd-style";
 import dayjs from "dayjs";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
@@ -10,6 +9,7 @@ import { useResponsive } from "~/hooks/use-responsive";
 
 import { EPOCH_UNIT_OPTIONS } from "./date-converter.constants";
 import { useDateConverterStore } from "./date-converter.store";
+import { useStyles } from "./date-converter.styles";
 import {
   dateToEpoch,
   exportAllFormats,
@@ -37,11 +37,11 @@ export const DateConverter = () => {
   const parsedDate = parseEpochToDate({ epochValue, epochUnit });
 
   // Get the epoch value as a number for formatting functions
-  const epochNumber = parsedDate
-    ? epochUnit === "seconds"
-      ? Math.floor(parsedDate.getTime() / 1000)
-      : parsedDate.getTime()
-    : 0;
+  const getEpochNumber = (): number => {
+    if (!parsedDate) return 0;
+    return epochUnit === "seconds" ? Math.floor(parsedDate.getTime() / 1000) : parsedDate.getTime();
+  };
+  const epochNumber = getEpochNumber();
 
   const isValidInput = isValidEpochInput(epochValue);
   const hasDate = parsedDate !== null;
@@ -84,7 +84,7 @@ export const DateConverter = () => {
   const handleCopyAll = () => {
     if (!parsedDate) return;
     const allFormats = exportAllFormats({ date: parsedDate, epochValue: epochNumber });
-    copyTextToClipboard({ text: allFormats, successMessage: "All formats copied!" });
+    void copyTextToClipboard({ text: allFormats, successMessage: "All formats copied!" });
   };
 
   const handleClear = () => {
@@ -106,8 +106,8 @@ export const DateConverter = () => {
               <Form.Item
                 label="Epoch Value"
                 className={styles.formItem}
-                validateStatus={!isValidInput ? "error" : undefined}
-                help={!isValidInput ? "Must be a valid number" : undefined}
+                validateStatus={isValidInput ? undefined : "error"}
+                help={isValidInput ? undefined : "Must be a valid number"}
               >
                 <Input
                   placeholder="Enter epoch timestamp"
@@ -173,36 +173,3 @@ export const DateConverter = () => {
     </ScreenContainer>
   );
 };
-
-const useStyles = createStyles(() => ({
-  fullWidth: {
-    width: "100%",
-  },
-  form: {
-    width: "100%",
-  },
-  formItem: {
-    marginBottom: 16,
-  },
-  epochInput: {
-    fontFamily: "monospace",
-  },
-  select: {
-    width: "100%",
-  },
-  datePicker: {
-    width: "100%",
-  },
-  optionsRow: {
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    height: 32,
-  },
-  switchLabel: {
-    fontSize: 13,
-    display: "flex",
-    alignItems: "center",
-    gap: 4,
-  },
-}));

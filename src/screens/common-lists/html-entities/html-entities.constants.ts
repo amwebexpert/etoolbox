@@ -1,264 +1,276 @@
 import type { HtmlEntity, HtmlEntityCategory, HtmlEntityFilterField } from "./html-entities.types";
 
-// Helper to determine entity category based on character/description
-const determineCategory = (entity: {
+interface EntityCategoryInput {
   character: string;
   entityName: string;
   description: string;
-}): HtmlEntityCategory => {
-  const desc = entity.description.toLowerCase();
-  const char = entity.character;
-  const charCode = char.charCodeAt(0);
+}
 
-  // Digits
-  if (desc.includes("digit")) {
-    return "numbers";
-  }
+interface DetectionContext {
+  desc: string;
+  entityName: string;
+}
 
-  // Uppercase/lowercase letters (basic A-Z, a-z)
-  if (desc.startsWith("uppercase") || desc.startsWith("lowercase")) {
-    // Check if it's accented
-    if (
-      desc.includes("with") ||
-      desc.includes("ae") ||
-      desc.includes("hook") ||
-      desc.includes("caron") ||
-      desc.includes("diaer")
-    ) {
-      return "letters-accented";
-    }
-    return "letters";
-  }
+// Greek alphabet entity names (upper + lower case + a few symbol variants)
+const GREEK_ENTITY_NAMES = new Set([
+  "&Alpha;",
+  "&Beta;",
+  "&Gamma;",
+  "&Delta;",
+  "&Epsilon;",
+  "&Zeta;",
+  "&Eta;",
+  "&Theta;",
+  "&Iota;",
+  "&Kappa;",
+  "&Lambda;",
+  "&Mu;",
+  "&Nu;",
+  "&Xi;",
+  "&Omicron;",
+  "&Pi;",
+  "&Rho;",
+  "&Sigma;",
+  "&Tau;",
+  "&Upsilon;",
+  "&Phi;",
+  "&Chi;",
+  "&Psi;",
+  "&Omega;",
+  "&alpha;",
+  "&beta;",
+  "&gamma;",
+  "&delta;",
+  "&epsilon;",
+  "&zeta;",
+  "&eta;",
+  "&theta;",
+  "&iota;",
+  "&kappa;",
+  "&lambda;",
+  "&mu;",
+  "&nu;",
+  "&xi;",
+  "&omicron;",
+  "&pi;",
+  "&rho;",
+  "&sigma;",
+  "&tau;",
+  "&upsilon;",
+  "&phi;",
+  "&chi;",
+  "&psi;",
+  "&omega;",
+  "&sigmaf;",
+  "&thetasym;",
+  "&upsih;",
+  "&piv;",
+]);
 
-  // Capital/Lowercase with accents (before Greek detection)
-  if (
-    (desc.startsWith("capital") || desc.includes("lowercase")) &&
-    (desc.includes("with") ||
-      desc.includes("accent") ||
-      desc.includes("umlaut") ||
-      desc.includes("tilde") ||
-      desc.includes("ring") ||
-      desc.includes("cedilla") ||
-      desc.includes("slash") ||
-      desc.includes("caron") ||
-      desc.includes("diaer"))
-  ) {
-    return "letters-accented";
-  }
+interface CategoryRule {
+  category: HtmlEntityCategory;
+  matches: (ctx: DetectionContext) => boolean;
+}
 
-  // Ligatures
-  if (
-    desc.includes("ligature") ||
-    desc.includes("eth") ||
-    desc.includes("thorn") ||
-    desc.includes("sharp s") ||
-    desc.includes("capital ae") ||
-    desc.includes("lowercase ae")
-  ) {
-    return "letters-accented";
-  }
+interface IncludesAnyKeywordArgs {
+  desc: string;
+  keywords: string[];
+}
 
-  // Greek letters - check entityName for Greek alphabet
-  const greekNames = [
-    "&Alpha;",
-    "&Beta;",
-    "&Gamma;",
-    "&Delta;",
-    "&Epsilon;",
-    "&Zeta;",
-    "&Eta;",
-    "&Theta;",
-    "&Iota;",
-    "&Kappa;",
-    "&Lambda;",
-    "&Mu;",
-    "&Nu;",
-    "&Xi;",
-    "&Omicron;",
-    "&Pi;",
-    "&Rho;",
-    "&Sigma;",
-    "&Tau;",
-    "&Upsilon;",
-    "&Phi;",
-    "&Chi;",
-    "&Psi;",
-    "&Omega;",
-    "&alpha;",
-    "&beta;",
-    "&gamma;",
-    "&delta;",
-    "&epsilon;",
-    "&zeta;",
-    "&eta;",
-    "&theta;",
-    "&iota;",
-    "&kappa;",
-    "&lambda;",
-    "&mu;",
-    "&nu;",
-    "&xi;",
-    "&omicron;",
-    "&pi;",
-    "&rho;",
-    "&sigma;",
-    "&tau;",
-    "&upsilon;",
-    "&phi;",
-    "&chi;",
-    "&psi;",
-    "&omega;",
-    "&sigmaf;",
-    "&thetasym;",
-    "&upsih;",
-    "&piv;",
-  ];
-  if (greekNames.includes(entity.entityName)) {
-    return "greek";
-  }
+const includesAnyKeyword = ({ desc, keywords }: IncludesAnyKeywordArgs): boolean =>
+  keywords.some((keyword) => desc.includes(keyword));
 
-  // Math symbols
-  if (
-    desc.includes("plus or minus") ||
-    desc.includes("plus sign") ||
-    desc.includes("minus") ||
-    desc.includes("multiplication") ||
-    desc.includes("divide") ||
-    desc.includes("sum") ||
-    desc.includes("product") ||
-    desc.includes("integral") ||
-    desc.includes("infinity") ||
-    desc.includes("angle") ||
-    desc.includes("perpendicular") ||
-    desc.includes("subset") ||
-    desc.includes("superset") ||
-    desc.includes("square root") ||
-    desc.includes("for all") ||
-    desc.includes("exist") ||
-    desc.includes("nabla") ||
-    desc.includes("congruent") ||
-    desc.includes("proportional") ||
-    desc.includes("equivalent") ||
-    desc === "cap" ||
-    desc === "cup" ||
-    desc.includes("therefore") ||
-    desc.includes("similar") ||
-    desc.includes("dot operator") ||
-    desc.includes("lowast") ||
-    desc.includes("circled") ||
-    desc.includes("fraction") ||
-    desc.includes("superscript") ||
-    desc.includes("not equal") ||
-    desc.includes("less or equal") ||
-    desc.includes("greater or equal") ||
-    desc.includes("almost equal") ||
-    desc.includes("is in") ||
-    desc.includes("not in") ||
-    desc === "ni" ||
-    desc === "and" ||
-    desc === "or" ||
-    desc === "empty" ||
-    desc === "part"
-  ) {
-    return "math";
-  }
+const MATH_KEYWORDS = [
+  "plus or minus",
+  "plus sign",
+  "minus",
+  "multiplication",
+  "divide",
+  "sum",
+  "product",
+  "integral",
+  "infinity",
+  "angle",
+  "perpendicular",
+  "subset",
+  "superset",
+  "square root",
+  "for all",
+  "exist",
+  "nabla",
+  "congruent",
+  "proportional",
+  "equivalent",
+  "therefore",
+  "similar",
+  "dot operator",
+  "lowast",
+  "circled",
+  "fraction",
+  "superscript",
+  "not equal",
+  "less or equal",
+  "greater or equal",
+  "almost equal",
+  "is in",
+  "not in",
+];
+const MATH_EXACT_VALUES = new Set(["cap", "cup", "ni", "and", "or", "empty", "part"]);
 
-  // Currency
-  if (
-    desc === "cent" ||
-    desc === "pound" ||
-    desc === "yen" ||
-    desc === "euro" ||
-    desc.includes("currency") ||
-    desc.includes("dollar sign")
-  ) {
-    return "currency";
-  }
+const PUNCTUATION_KEYWORDS = [
+  "exclamation",
+  "question",
+  "quotation",
+  "quote",
+  "bracket",
+  "brace",
+  "parenthesis",
+  "comma",
+  "period",
+  "colon",
+  "semicolon",
+  "slash",
+  "hyphen",
+  "dash",
+  "apostrophe",
+  "bullet",
+  "ellipsis",
+  "dagger",
+  "per mille",
+  "overline",
+  "ampersand",
+  "minutes",
+  "seconds",
+];
 
-  // Arrows
-  if (desc.includes("arrow") || desc.includes("ceiling") || desc.includes("floor")) {
-    return "arrows";
-  }
+const SYMBOL_KEYWORDS = [
+  "trademark",
+  "copyright",
+  "registered",
+  "degree",
+  "section",
+  "paragraph",
+  "micro",
+  "lozenge",
+  "spade",
+  "club",
+  "heart",
+  "diamond",
+  "ordinal",
+  "negation",
+  "broken",
+  "macron",
+  "cedilla",
+  "caret",
+  "tilde",
+  "underscore",
+  "vertical bar",
+  "at sign",
+  "asterisk",
+  "number sign",
+  "circumflex",
+  "percent",
+  "backslash",
+  "grave",
+];
 
-  // Whitespace (more specific)
-  if (
-    desc.includes("space") ||
-    desc.includes("joiner") ||
-    desc.includes("left-to-right mark") ||
-    desc.includes("right-to-left mark")
-  ) {
-    return "whitespace";
-  }
+// Ordered rules: first match wins (mirrors the priority of the original if/else chain)
+const CATEGORY_RULES: CategoryRule[] = [
+  { category: "numbers", matches: ({ desc }) => desc.includes("digit") },
+  {
+    // Accented uppercase/lowercase letters
+    category: "letters-accented",
+    matches: ({ desc }) =>
+      (desc.startsWith("uppercase") || desc.startsWith("lowercase")) &&
+      (desc.includes("with") ||
+        desc.includes("ae") ||
+        desc.includes("hook") ||
+        desc.includes("caron") ||
+        desc.includes("diaer")),
+  },
+  {
+    // Basic uppercase/lowercase letters (A-Z, a-z)
+    category: "letters",
+    matches: ({ desc }) => desc.startsWith("uppercase") || desc.startsWith("lowercase"),
+  },
+  {
+    // Capital/Lowercase with accents (before Greek detection)
+    category: "letters-accented",
+    matches: ({ desc }) =>
+      (desc.startsWith("capital") || desc.includes("lowercase")) &&
+      (desc.includes("with") ||
+        desc.includes("accent") ||
+        desc.includes("umlaut") ||
+        desc.includes("tilde") ||
+        desc.includes("ring") ||
+        desc.includes("cedilla") ||
+        desc.includes("slash") ||
+        desc.includes("caron") ||
+        desc.includes("diaer")),
+  },
+  {
+    // Ligatures
+    category: "letters-accented",
+    matches: ({ desc }) =>
+      desc.includes("ligature") ||
+      desc.includes("eth") ||
+      desc.includes("thorn") ||
+      desc.includes("sharp s") ||
+      desc.includes("capital ae") ||
+      desc.includes("lowercase ae"),
+  },
+  {
+    // Greek letters - check entityName for Greek alphabet
+    category: "greek",
+    matches: ({ entityName }) => GREEK_ENTITY_NAMES.has(entityName),
+  },
+  {
+    category: "math",
+    matches: ({ desc }) => includesAnyKeyword({ desc, keywords: MATH_KEYWORDS }) || MATH_EXACT_VALUES.has(desc),
+  },
+  {
+    category: "currency",
+    matches: ({ desc }) =>
+      desc === "cent" ||
+      desc === "pound" ||
+      desc === "yen" ||
+      desc === "euro" ||
+      desc.includes("currency") ||
+      desc.includes("dollar sign"),
+  },
+  {
+    category: "arrows",
+    matches: ({ desc }) => desc.includes("arrow") || desc.includes("ceiling") || desc.includes("floor"),
+  },
+  {
+    // Whitespace (more specific)
+    category: "whitespace",
+    matches: ({ desc }) =>
+      desc.includes("space") ||
+      desc.includes("joiner") ||
+      desc.includes("left-to-right mark") ||
+      desc.includes("right-to-left mark"),
+  },
+  {
+    // Punctuation and quotes
+    category: "punctuation",
+    matches: ({ desc }) => includesAnyKeyword({ desc, keywords: PUNCTUATION_KEYWORDS }),
+  },
+  {
+    // Symbols (trademark, copyright, etc.)
+    category: "symbols",
+    matches: ({ desc }) => includesAnyKeyword({ desc, keywords: SYMBOL_KEYWORDS }),
+  },
+];
 
-  // Punctuation and quotes
-  if (
-    desc.includes("exclamation") ||
-    desc.includes("question") ||
-    desc.includes("quotation") ||
-    desc.includes("quote") ||
-    desc.includes("bracket") ||
-    desc.includes("brace") ||
-    desc.includes("parenthesis") ||
-    desc.includes("comma") ||
-    desc.includes("period") ||
-    desc.includes("colon") ||
-    desc.includes("semicolon") ||
-    desc.includes("slash") ||
-    desc.includes("hyphen") ||
-    desc.includes("dash") ||
-    desc.includes("apostrophe") ||
-    desc.includes("bullet") ||
-    desc.includes("ellipsis") ||
-    desc.includes("dagger") ||
-    desc.includes("per mille") ||
-    desc.includes("overline") ||
-    desc.includes("ampersand") ||
-    desc.includes("minutes") ||
-    desc.includes("seconds")
-  ) {
-    return "punctuation";
-  }
+// Determine entity category based on character/description; falls back to "symbols" when no rule matches
+const determineCategory = (entity: EntityCategoryInput): HtmlEntityCategory => {
+  const ctx: DetectionContext = {
+    desc: entity.description.toLowerCase(),
+    entityName: entity.entityName,
+  };
 
-  // Symbols (trademark, copyright, etc.)
-  if (
-    desc.includes("trademark") ||
-    desc.includes("copyright") ||
-    desc.includes("registered") ||
-    desc.includes("degree") ||
-    desc.includes("section") ||
-    desc.includes("paragraph") ||
-    desc.includes("micro") ||
-    desc.includes("lozenge") ||
-    desc.includes("spade") ||
-    desc.includes("club") ||
-    desc.includes("heart") ||
-    desc.includes("diamond") ||
-    desc.includes("ordinal") ||
-    desc.includes("negation") ||
-    desc.includes("broken") ||
-    desc.includes("macron") ||
-    desc.includes("cedilla") ||
-    desc.includes("caret") ||
-    desc.includes("tilde") ||
-    desc.includes("underscore") ||
-    desc.includes("vertical bar") ||
-    desc.includes("at sign") ||
-    desc.includes("asterisk") ||
-    desc.includes("number sign") ||
-    desc.includes("circumflex") ||
-    desc.includes("percent") ||
-    desc.includes("backslash") ||
-    desc.includes("grave")
-  ) {
-    return "symbols";
-  }
-
-  // Default to symbols for remaining special characters
-  if (charCode < 48 || (charCode > 57 && charCode < 65) || (charCode > 90 && charCode < 97) || charCode > 122) {
-    return "symbols";
-  }
-
-  return "symbols";
+  return CATEGORY_RULES.find((rule) => rule.matches(ctx))?.category ?? "symbols";
 };
 
 const rawHtmlEntities: Omit<HtmlEntity, "category">[] = [

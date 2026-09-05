@@ -29,7 +29,7 @@ export const useMimeTypesColumns = (): ColumnsType<MimeTypeEntry> => {
   const { copyTextToClipboard } = useClipboardCopy();
 
   const handleCopy = (text: string) => {
-    copyTextToClipboard({ text, successMessage: `Copied: ${text}` });
+    void copyTextToClipboard({ text, successMessage: `Copied: ${text}` });
   };
 
   return [

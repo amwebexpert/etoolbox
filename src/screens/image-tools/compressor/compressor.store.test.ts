@@ -148,7 +148,12 @@ describe("useCompressorStore", () => {
     const raw = localStorage.getItem("etoolbox-compressor");
     expect(raw).not.toBeNull();
 
-    const parsed = JSON.parse(raw as string) as { state: { quality: number; mimeType: string } };
+    let parsed: { state: { quality: number; mimeType: string } };
+    try {
+      parsed = JSON.parse(raw as string) as { state: { quality: number; mimeType: string } };
+    } catch (error) {
+      throw new Error(`Failed to parse persisted compressor state: ${String(error)}`, { cause: error });
+    }
     expect(parsed.state.quality).toBe(0.33);
     expect(parsed.state.mimeType).toBe("image/jpeg");
   });

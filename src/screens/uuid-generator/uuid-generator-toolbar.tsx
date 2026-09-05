@@ -20,7 +20,7 @@ export const UuidGeneratorToolbar = ({ hasResult, onGenerate, onClear }: UuidGen
   const generated = useGeneratedUuids();
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: generated, successMessage: "UUIDs copied to clipboard!" });
+    void copyTextToClipboard({ text: generated, successMessage: "UUIDs copied to clipboard!" });
   };
 
   return (

@@ -1,8 +1,14 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
-import type { CsvParseResult, CsvParserOptions, FileInfo, ViewMode } from "./csv-parser.types";
-import { DEFAULT_CSV_OPTIONS, DEFAULT_ENCODING } from "./csv-parser.types";
+import {
+  type CsvParseResult,
+  type CsvParserOptions,
+  DEFAULT_CSV_OPTIONS,
+  DEFAULT_ENCODING,
+  type FileInfo,
+  type ViewMode,
+} from "./csv-parser.types";
 
 interface CsvParserState {
   // Input state

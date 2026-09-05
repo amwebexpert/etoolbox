@@ -33,7 +33,7 @@ export const MimeTypesTable = ({ filteredMimeTypes }: MimeTypesTableProps) => {
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} MIME types`,
         size: smallSizeOnMobile(isMobile),
-        onChange: handlePageChange,
+        onChange: (page, pageSize) => handlePageChange({ page, pageSize }),
       }}
       size="small"
       scroll={{ x: "max-content" }}

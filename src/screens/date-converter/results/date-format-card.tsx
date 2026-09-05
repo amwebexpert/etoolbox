@@ -2,13 +2,13 @@ import { CopyOutlined } from "@ant-design/icons";
 import { Button, Card, Typography } from "antd";
 import { createStyles } from "antd-style";
 
-import type { DateFormat } from "../date-converter.constants";
+import type { CopyHandlerArgs, DateFormat } from "../date-converter.constants";
 
 interface DateFormatCardProps {
   format: DateFormat;
   date: Date;
   epochValue: number;
-  onCopy: (value: string, label: string) => void;
+  onCopy: (args: CopyHandlerArgs) => void;
 }
 
 export const DateFormatCard = ({ format, date, epochValue, onCopy }: DateFormatCardProps) => {
@@ -21,7 +21,12 @@ export const DateFormatCard = ({ format, date, epochValue, onCopy }: DateFormatC
     <Card size="small" className={styles.formatCard}>
       <div className={styles.cardHeader}>
         <Typography.Text strong>{format.label}</Typography.Text>
-        <Button type="text" size="small" icon={<CopyOutlined />} onClick={() => onCopy(displayValue, format.label)} />
+        <Button
+          type="text"
+          size="small"
+          icon={<CopyOutlined />}
+          onClick={() => onCopy({ value: displayValue, label: format.label })}
+        />
       </div>
       <Typography.Text type="secondary" className={styles.cardDescription}>
         {format.description}

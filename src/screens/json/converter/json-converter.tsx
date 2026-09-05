@@ -1,7 +1,6 @@
 import { SwapOutlined } from "@ant-design/icons";
 import { isBlank, isNotBlank } from "@lichens-innovation/ts-common";
 import { Col, Flex, Form, Input, Row, Select } from "antd";
-import { createStyles } from "antd-style";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
@@ -10,6 +9,7 @@ import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { useJsonConverterStore } from "./json-converter.store";
+import { useStyles } from "./json-converter.styles";
 import { TARGET_LANGUAGES } from "./json-converter.types";
 import { JsonConverterResult } from "./json-converter-result";
 import { JsonConverterToolbar } from "./json-converter-toolbar";
@@ -70,7 +70,7 @@ export const JsonConverter = () => {
   };
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: result, successMessage: "Result copied to clipboard!" });
+    void copyTextToClipboard({ text: result, successMessage: "Result copied to clipboard!" });
   };
 
   const handleClear = () => {
@@ -160,21 +160,3 @@ export const JsonConverter = () => {
     </ScreenContainer>
   );
 };
-
-const useStyles = createStyles(() => ({
-  fullWidth: {
-    width: "100%",
-  },
-  form: {
-    width: "100%",
-  },
-  formItem: {
-    marginBottom: 16,
-  },
-  select: {
-    width: "100%",
-  },
-  textArea: {
-    fontFamily: "monospace",
-  },
-}));

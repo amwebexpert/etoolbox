@@ -33,7 +33,7 @@ export const HttpHeadersTable = ({ filteredHeaders }: HttpHeadersTableProps) => 
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} headers`,
         size: smallSizeOnMobile(isMobile),
-        onChange: handlePageChange,
+        onChange: (page, pageSize) => handlePageChange({ page, pageSize }),
       }}
       size="small"
       className={styles.table}

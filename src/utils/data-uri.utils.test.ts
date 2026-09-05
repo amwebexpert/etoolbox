@@ -2,6 +2,23 @@ import { describe, expect, it } from "vitest";
 
 import { getImageDownloadFilename, getImageMetadata, getNonImageDataUri } from "./data-uri.utils";
 
+interface InvalidImageInputCase {
+  input: string;
+}
+
+interface NonImageDataUriCase {
+  input: string;
+}
+
+interface InvalidNonImageDataUriCase {
+  input: string;
+}
+
+interface ImageDownloadFilenameCase {
+  ext: string;
+  expected: string;
+}
+
 describe("data-uri.utils", () => {
   describe("getImageMetadata", () => {
     it("returns mime, extension, size in bytes, and pretty-formatted size for a valid PNG data URI", () => {
@@ -47,7 +64,7 @@ describe("data-uri.utils", () => {
       ${"data:image/png"}
       ${"data:application/pdf;base64,JVBERi0xLjQK"}
       ${"data:audio/mp3;base64,SUQzAw=="}
-    `("returns null for empty, malformed, or non-image input ($input)", ({ input }: { input: string }) => {
+    `("returns null for empty, malformed, or non-image input ($input)", ({ input }: InvalidImageInputCase) => {
       // Arrange / Act
       const result = getImageMetadata(input);
 
@@ -63,7 +80,7 @@ describe("data-uri.utils", () => {
       ${"data:audio/mp3;base64,SUQzAw=="}
       ${"data:text/plain;base64,aGVsbG8="}
       ${"data:application/json;base64,eyJhIjoxfQ=="}
-    `("returns the input data URI for a parseable non-image data URI ($input)", ({ input }: { input: string }) => {
+    `("returns the input data URI for a parseable non-image data URI ($input)", ({ input }: NonImageDataUriCase) => {
       // Arrange / Act
       const result = getNonImageDataUri(input);
 
@@ -84,7 +101,7 @@ describe("data-uri.utils", () => {
       ${"data:image/webp;base64,UklGRiQAAABXRUJQVlA="}
       ${"data:image/bmp;base64,Qk0eAAAAAAAAAB4A"}
       ${"data:image/svg+xml;base64,PHN2Zy8+"}
-    `("returns null for empty, malformed, or image data URI ($input)", ({ input }: { input: string }) => {
+    `("returns null for empty, malformed, or image data URI ($input)", ({ input }: InvalidNonImageDataUriCase) => {
       // Arrange / Act
       const result = getNonImageDataUri(input);
 
@@ -101,7 +118,7 @@ describe("data-uri.utils", () => {
       ${"gif"}  | ${"image.gif"}
       ${"webp"} | ${"image.webp"}
       ${"bmp"}  | ${"image.bmp"}
-    `("builds image.$ext for extension $ext", ({ ext, expected }: { ext: string; expected: string }) => {
+    `("builds image.$ext for extension $ext", ({ ext, expected }: ImageDownloadFilenameCase) => {
       // Arrange / Act
       const result = getImageDownloadFilename(ext);
 

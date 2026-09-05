@@ -2,8 +2,13 @@ import { safeJsonStringify } from "@lichens-innovation/ts-common";
 import Papa, { type ParseConfig, type ParseResult } from "papaparse";
 import prettyBytes from "pretty-bytes";
 
-import type { CsvParseResult, CsvParserOptions, FileInfo, ParseCsvArgs } from "./csv-parser.types";
-import { DEFAULT_CSV_OPTIONS } from "./csv-parser.types";
+import {
+  type CsvParseResult,
+  type CsvParserOptions,
+  DEFAULT_CSV_OPTIONS,
+  type FileInfo,
+  type ParseCsvArgs,
+} from "./csv-parser.types";
 
 /**
  * Parse CSV data using PapaParse
@@ -106,10 +111,15 @@ export const getCsvStats = (result: CsvParseResult | null): CsvStats | null => {
   };
 };
 
+interface ConvertToFormatArgs {
+  data: unknown[];
+  format: "json" | "csv";
+}
+
 /**
  * Export CSV data to different formats
  */
-export const convertToFormat = (data: unknown[], format: "json" | "csv"): string => {
+export const convertToFormat = ({ data, format }: ConvertToFormatArgs): string => {
   if (format === "json") {
     return safeJsonStringify(data);
   }
@@ -132,7 +142,7 @@ export const looksLikeCsv = (text: string): boolean => {
   const delimiters = [",", ";", "\t", "|"];
 
   return delimiters.some((d) => {
-    const count = (firstLine.match(new RegExp(d.replace(/[|]/g, "\\$&"), "g")) || []).length;
+    const count = (firstLine.match(new RegExp(d.replace(/[|]/g, "\\$&"), "g")) ?? []).length;
     return count >= 1;
   });
 };
@@ -140,7 +150,7 @@ export const looksLikeCsv = (text: string): boolean => {
 /**
  * Format line break for display
  */
-export const formatLineBreak = (linebreak: string | undefined): string => {
+export const formatLineBreak = (linebreak?: string): string => {
   if (!linebreak) return "Unknown";
   if (linebreak === "\r\n") return "CRLF (Windows)";
   if (linebreak === "\n") return "LF (Unix/Mac)";

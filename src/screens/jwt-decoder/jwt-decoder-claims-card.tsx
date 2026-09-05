@@ -18,8 +18,8 @@ export const JwtDecoderClaimsCard = ({ claims }: JwtDecoderClaimsCardProps) => {
   return (
     <Card size="small" title="Token Claims" className={styles.claimsCard}>
       <Row gutter={[16, 12]}>
-        {claims.map((claim, index) => (
-          <Col xs={24} sm={12} key={index}>
+        {claims.map((claim) => (
+          <Col xs={24} sm={12} key={claim.label}>
             <div className={styles.claimItem}>
               <Typography.Text type="secondary" className={styles.claimLabel}>
                 {claim.label}

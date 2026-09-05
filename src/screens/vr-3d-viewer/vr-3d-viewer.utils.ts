@@ -2,8 +2,13 @@ import prettyBytes from "pretty-bytes";
 
 import type { ResponsiveContext } from "~/utils/responsive.utils";
 
-import type { BoundingBox, ModelFileInfo, ModelFormat, Vector3D } from "./vr-3d-viewer.types";
-import { SUPPORTED_EXTENSIONS } from "./vr-3d-viewer.types";
+import {
+  type BoundingBox,
+  type ModelFileInfo,
+  type ModelFormat,
+  SUPPORTED_EXTENSIONS,
+  type Vector3D,
+} from "./vr-3d-viewer.types";
 
 export const determineCanvasHeight = ({ isMobile, isTablet }: ResponsiveContext) => {
   if (isMobile) return 300;

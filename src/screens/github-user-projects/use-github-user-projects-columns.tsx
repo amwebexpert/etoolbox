@@ -4,7 +4,13 @@ import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
-import { ColumnBranch, ColumnLanguage, ColumnRepository, ColumnStats, ColumnUpdatedAt } from "./columns";
+import {
+  ColumnBranch,
+  ColumnLanguage,
+  ColumnRepository,
+  ColumnStats,
+  ColumnUpdatedAt,
+} from "./columns/github-user-projects-columns.index";
 import type { GithubUserProject } from "./github-user-projects.types";
 
 export const useGithubUserProjectsColumns = (): ColumnsType<GithubUserProject> => {

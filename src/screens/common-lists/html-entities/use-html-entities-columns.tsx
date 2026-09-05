@@ -1,7 +1,5 @@
-import { CopyOutlined } from "@ant-design/icons";
-import { Tag, Tooltip, Typography } from "antd";
+import { Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { createStyles } from "antd-style";
 
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
@@ -9,30 +7,18 @@ import { useResponsive } from "~/hooks/use-responsive";
 import { CATEGORY_LABELS } from "./html-entities.constants";
 import type { HtmlEntity, HtmlEntityCategory } from "./html-entities.types";
 import { formatCodePoint } from "./html-entities.utils";
+import { HtmlEntityCopyableCell } from "./html-entities-copyable-cell";
+import { CATEGORY_COLORS, useHtmlEntitiesColumnsStyles } from "./use-html-entities-columns.styles";
 
 const { Text } = Typography;
 
-const CATEGORY_COLORS: Record<HtmlEntityCategory, string> = {
-  all: "default",
-  letters: "blue",
-  "letters-accented": "cyan",
-  numbers: "green",
-  punctuation: "orange",
-  math: "purple",
-  greek: "magenta",
-  currency: "gold",
-  arrows: "geekblue",
-  symbols: "volcano",
-  whitespace: "default",
-};
-
 export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
-  const { styles } = useStyles();
+  const { styles } = useHtmlEntitiesColumnsStyles();
   const { isMobile, isTablet } = useResponsive();
   const { copyTextToClipboard } = useClipboardCopy();
 
   const handleCopy = (text: string) => {
-    copyTextToClipboard({ text, successMessage: `Copied: ${text}` });
+    void copyTextToClipboard({ text, successMessage: `Copied: ${text}` });
   };
 
   const columns: ColumnsType<HtmlEntity> = [
@@ -45,12 +31,14 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
       render: (character: string) => {
         const displayChar = character.trim() === "" ? "␣" : character;
         return (
-          <Tooltip title="Click to copy character">
-            <div className={styles.characterCell} onClick={() => handleCopy(character)}>
-              <Text className={styles.characterText}>{displayChar}</Text>
-              <CopyOutlined className={styles.copyIconSmall} />
-            </div>
-          </Tooltip>
+          <HtmlEntityCopyableCell
+            displayValue={<Text className={styles.characterText}>{displayChar}</Text>}
+            copyValue={character}
+            tooltip="Click to copy character"
+            onCopy={handleCopy}
+            cellClassName={styles.characterCell}
+            iconClassName={styles.copyIconSmall}
+          />
         );
       },
     },
@@ -65,14 +53,18 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
           return <Text type="secondary">—</Text>;
         }
         return (
-          <Tooltip title="Click to copy entity name">
-            <div className={styles.entityCell} onClick={() => handleCopy(entityName)}>
+          <HtmlEntityCopyableCell
+            displayValue={
               <Text code className={styles.entityText}>
                 {entityName}
               </Text>
-              <CopyOutlined className={styles.copyIcon} />
-            </div>
-          </Tooltip>
+            }
+            copyValue={entityName}
+            tooltip="Click to copy entity name"
+            onCopy={handleCopy}
+            cellClassName={styles.entityCell}
+            iconClassName={styles.copyIcon}
+          />
         );
       },
     },
@@ -82,14 +74,18 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
       key: "entityNumber",
       width: isMobile ? 80 : 100,
       render: (entityNumber: string) => (
-        <Tooltip title="Click to copy entity number">
-          <div className={styles.entityCell} onClick={() => handleCopy(entityNumber)}>
+        <HtmlEntityCopyableCell
+          displayValue={
             <Text code className={styles.numberText}>
               {entityNumber}
             </Text>
-            <CopyOutlined className={styles.copyIcon} />
-          </div>
-        </Tooltip>
+          }
+          copyValue={entityNumber}
+          tooltip="Click to copy entity number"
+          onCopy={handleCopy}
+          cellClassName={styles.entityCell}
+          iconClassName={styles.copyIcon}
+        />
       ),
     },
   ];
@@ -104,14 +100,18 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
       render: (entityNumber: string) => {
         const unicode = formatCodePoint(entityNumber);
         return (
-          <Tooltip title="Click to copy Unicode code point">
-            <div className={styles.entityCell} onClick={() => handleCopy(unicode)}>
+          <HtmlEntityCopyableCell
+            displayValue={
               <Text type="secondary" className={styles.unicodeText}>
                 {unicode}
               </Text>
-              <CopyOutlined className={styles.copyIconSmall} />
-            </div>
-          </Tooltip>
+            }
+            copyValue={unicode}
+            tooltip="Click to copy Unicode code point"
+            onCopy={handleCopy}
+            cellClassName={styles.entityCell}
+            iconClassName={styles.copyIconSmall}
+          />
         );
       },
     });
@@ -150,61 +150,3 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
 
   return columns;
 };
-
-const useStyles = createStyles(({ token }) => ({
-  characterCell: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 4,
-    cursor: "pointer",
-    "&:hover": {
-      opacity: 0.8,
-    },
-  },
-  characterText: {
-    fontSize: 20,
-    fontWeight: 600,
-    lineHeight: 1,
-  },
-  entityCell: {
-    display: "flex",
-    alignItems: "center",
-    gap: 6,
-    cursor: "pointer",
-    "&:hover": {
-      opacity: 0.8,
-    },
-  },
-  entityText: {
-    fontSize: 12,
-    fontFamily: "monospace",
-  },
-  numberText: {
-    fontSize: 11,
-    fontFamily: "monospace",
-  },
-  unicodeText: {
-    fontSize: 11,
-    fontFamily: "monospace",
-  },
-  descriptionText: {
-    fontSize: 13,
-  },
-  categoryTag: {
-    fontSize: 11,
-    marginRight: 0,
-  },
-  copyIcon: {
-    opacity: 0.4,
-    fontSize: 12,
-    color: token.colorTextSecondary,
-    flexShrink: 0,
-  },
-  copyIconSmall: {
-    opacity: 0.3,
-    fontSize: 10,
-    color: token.colorTextSecondary,
-    flexShrink: 0,
-  },
-}));

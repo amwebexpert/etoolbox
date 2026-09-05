@@ -66,7 +66,7 @@ export const JsonFormatterToolbar = ({
             disabled={!hasContent}
             onClick={onToggleFormat}
           >
-            {isMinified ? (isMobile ? "Format" : "Format") : isMobile ? "Minify" : "Minify"}
+            {isMinified ? "Format" : "Minify"}
           </Button>
         </Tooltip>
 

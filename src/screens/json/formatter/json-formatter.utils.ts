@@ -6,6 +6,8 @@ import {
   prettifyJson as prettifyJsonUtil,
 } from "@lichens-innovation/ts-common";
 
+import { logger } from "~/utils/logger";
+
 import {
   API_DOC_CONFIG,
   COMPACT_CONFIG,
@@ -118,7 +120,7 @@ export const parseJsonForView = (formattedJson: string): object | null => {
   try {
     return JSON.parse(formattedJson);
   } catch (e: unknown) {
-    console.error("Failed to parse JSON", getErrorMessage(e));
+    logger.error({ error: getErrorMessage(e) }, "Failed to parse JSON");
     return null;
   }
 };

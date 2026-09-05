@@ -78,7 +78,7 @@ export const GithubUserProjects = () => {
   };
 
   const handleRefresh = () => {
-    refetchProjects();
+    void refetchProjects();
     messageApi.info("Refreshing repositories...");
   };
 
@@ -104,18 +104,18 @@ export const GithubUserProjects = () => {
           onRefresh={handleRefresh}
         />
 
-        {hasProjects && <GithubUserProjectsStats projects={projects} />}
+        {hasProjects ? <GithubUserProjectsStats projects={projects} /> : null}
 
-        {showEmpty && (
+        {showEmpty ? (
           <GithubUserProjectsEmpty
             hasSearched={hasSearched}
             username={lastSearchedUsername}
             isError={isProjectsError}
             errorMessage={projectsError?.message}
           />
-        )}
+        ) : null}
 
-        {showTable && <GithubUserProjectsTable projects={processedProjects} isLoading={isFetchingProjects} />}
+        {showTable ? <GithubUserProjectsTable projects={processedProjects} isLoading={isFetchingProjects} /> : null}
       </Flex>
     </ScreenContainer>
   );

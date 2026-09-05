@@ -67,7 +67,7 @@ export const PokerPlanningTable = ({ isUserMemberOfRoom, onRemoveUser }: PokerPl
       key: "estimate",
       width: 120,
       align: "center",
-      render: (value: string | undefined) => {
+      render: (value?: string) => {
         if (isEstimatesVisible) {
           return <Text strong>{value ?? "…"}</Text>;
         }

@@ -14,6 +14,11 @@ import {
 } from "./github-user-projects.constants";
 import type { SortField, SortOrder } from "./github-user-projects.types";
 
+interface HandlePageChangeArgs {
+  page: number;
+  pageSize: number;
+}
+
 interface GithubUserProjectsState {
   // Search state
   username: string;
@@ -44,7 +49,7 @@ interface GithubUserProjectsState {
   setSortOrder: (sortOrder: SortOrder) => void;
   toggleSortOrder: () => void;
   setPage: (page: number) => void;
-  handlePageChange: (page: number, pageSize: number) => void;
+  handlePageChange: ({ page, pageSize }: HandlePageChangeArgs) => void;
   resetFilters: () => void;
   resetAll: () => void;
 }
@@ -76,7 +81,7 @@ const stateCreator: StateCreator<GithubUserProjectsState> = (set, get) => ({
       sortOrder: state.sortOrder === "asc" ? "desc" : "asc",
     })),
   setPage: (page) => set({ page }),
-  handlePageChange: (page, pageSize) => {
+  handlePageChange: ({ page, pageSize }) => {
     const currentPageSize = get().pageSize;
     if (pageSize !== currentPageSize) {
       set({ page: DEFAULT_PAGE, pageSize });

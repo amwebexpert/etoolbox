@@ -2,6 +2,9 @@ import { isNumber } from "@lichens-innovation/ts-common";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { v4 as uuidv4 } from "uuid";
 
+import { getBasePath } from "~/utils/environment.utils";
+import { logger } from "~/utils/logger";
+
 import { DEFAULT_HOSTNAME, DEFAULT_ROOM_NAME, SOCKET_STATES } from "./poker-planning.constants";
 import type {
   BuildRouteURLParams,
@@ -13,10 +16,14 @@ import type {
   UserMessage,
 } from "./poker-planning.types";
 
-const isDevMode = (): boolean =>
-  document.location.hostname === "localhost" || document.location.hostname === "127.0.0.1";
+const isDevMode = (): boolean => ["localhost", "127.0.0.1"].includes(document.location.hostname);
 
-const buildWebSocketUrl = (hostName: string, roomUUID: string): string => {
+interface BuildWebSocketUrlArgs {
+  hostName: string;
+  roomUUID: string;
+}
+
+const buildWebSocketUrl = ({ hostName, roomUUID }: BuildWebSocketUrlArgs): string => {
   // In development mode, use the Vite proxy to avoid CORS issues
   if (isDevMode()) {
     const protocol = document.location.protocol === "https:" ? "wss" : "ws";
@@ -43,15 +50,19 @@ export const createSocket = ({
   onSocketStateUpdate,
   onSessionUpdate,
 }: CreateSocketParams): ReconnectingWebSocket => {
-  const url = buildWebSocketUrl(hostName, roomUUID);
+  const url = buildWebSocketUrl({ hostName, roomUUID });
 
   const socket = new ReconnectingWebSocket(url, [], RECONNECT_OPTIONS);
   socket.onopen = () => onSocketStateUpdate(getSocketState(socket.readyState));
   socket.onerror = () => onSocketStateUpdate(getSocketState(socket.readyState));
   socket.onclose = () => onSocketStateUpdate(getSocketState(socket.readyState));
   socket.onmessage = (ev: MessageEvent<string>) => {
-    const session = JSON.parse(ev.data) as PokerPlanningSession;
-    onSessionUpdate(session);
+    try {
+      const session = JSON.parse(ev.data) as PokerPlanningSession;
+      onSessionUpdate(session);
+    } catch (err) {
+      logger.error({ err }, "Failed to parse poker-planning session message");
+    }
   };
 
   return socket;
@@ -95,7 +106,7 @@ export const buildRouteURL = ({
 
 export const extractSinglePageAppBasePath = (): string => {
   const origin = document.location.origin;
-  const basePath = import.meta.env.BASE_URL ?? "/";
+  const basePath = getBasePath();
   // Remove trailing slash from basePath to avoid double slashes before #
   const normalizedBase = basePath.endsWith("/") ? basePath.slice(0, -1) : basePath;
   return origin + normalizedBase;
@@ -104,7 +115,12 @@ export const extractSinglePageAppBasePath = (): string => {
 export const buildFullRouteURL = (params: BuildRouteURLParams): string =>
   extractSinglePageAppBasePath() + "/#" + buildRouteURL(params);
 
-export const buildVoteMessage = (username = "", value?: string): UserMessage<UserEstimate> => ({
+interface BuildVoteMessageArgs {
+  username?: string;
+  value?: string;
+}
+
+export const buildVoteMessage = ({ username = "", value }: BuildVoteMessageArgs = {}): UserMessage<UserEstimate> => ({
   type: "vote",
   payload: {
     username,

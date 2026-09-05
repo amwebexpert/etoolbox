@@ -85,7 +85,9 @@ export const DATE_FORMATS: DateFormat[] = [
     id: "js-epoch",
     label: "JavaScript (epoch)",
     description: "JavaScript code using epoch timestamp",
+    // eslint-disable-next-line coding-guide/max-params-project -- shared `DateFormat.getValue`/`getCode` strategy signature, called uniformly across every entry in this array
     getValue: (_date, epochValue) => `new Date(${epochValue})`,
+    // eslint-disable-next-line coding-guide/max-params-project -- shared `DateFormat.getValue`/`getCode` strategy signature, called uniformly across every entry in this array
     getCode: (_date, epochValue) => `const date = new Date(${epochValue});`,
     showCode: true,
   },

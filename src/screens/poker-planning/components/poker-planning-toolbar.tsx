@@ -30,7 +30,7 @@ export const PokerPlanningToolbar = ({ isUserMemberOfRoom, onClearVotes }: Poker
 
   const handleCopyLink = () => {
     const url = buildFullRouteURL({ hostName, roomUUID, roomName });
-    copyTextToClipboard({ text: url, successMessage: "Room link copied to clipboard!" });
+    void copyTextToClipboard({ text: url, successMessage: "Room link copied to clipboard!" });
   };
 
   return (
@@ -70,13 +70,13 @@ export const PokerPlanningToolbar = ({ isUserMemberOfRoom, onClearVotes }: Poker
           </Button>
         </Tooltip>
 
-        {isConnected && (
+        {isConnected ? (
           <Tooltip title="Disconnect from the room">
             <Button icon={<DisconnectOutlined />} onClick={disconnect}>
               {!isMobile && "Disconnect"}
             </Button>
           </Tooltip>
-        )}
+        ) : null}
       </Space>
     </div>
   );

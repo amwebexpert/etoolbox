@@ -26,10 +26,10 @@ export const SceneContent = ({
       <Environment preset={getEnvironmentPreset(sceneSettings.lightingPreset)} />
       <CameraController settings={cameraSettings} controlsRef={controlsRef} />
 
-      {sceneSettings.showGrid && <SceneGrid backgroundColor={sceneSettings.backgroundColor} />}
-      {sceneSettings.showAxes && <axesHelper args={[5]} />}
+      {sceneSettings.showGrid ? <SceneGrid backgroundColor={sceneSettings.backgroundColor} /> : null}
+      {sceneSettings.showAxes ? <axesHelper args={[5]} /> : null}
 
-      {modelFile && (
+      {!!modelFile && (
         <ModelLoader modelFile={modelFile} scale={sceneSettings.modelScale} onLoaded={onLoaded} onError={onError} />
       )}
     </>

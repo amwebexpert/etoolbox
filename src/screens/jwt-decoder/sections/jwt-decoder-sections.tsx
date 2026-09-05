@@ -1,6 +1,5 @@
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import type { CollapseProps } from "antd";
-import { Collapse, Tag, Typography } from "antd";
+import { Collapse, type CollapseProps, Tag, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
@@ -29,8 +28,8 @@ export const JwtDecoderSections = ({ header, payload, signature, expired }: JwtD
       label: (
         <div className={styles.collapseLabel}>
           <Typography.Text strong>Header</Typography.Text>
-          <Tag color="blue">{header?.alg || "Unknown"}</Tag>
-          {header?.typ && <Tag>{header.typ}</Tag>}
+          <Tag color="blue">{header?.alg ?? "Unknown"}</Tag>
+          {!!header?.typ && <Tag>{header.typ}</Tag>}
         </div>
       ),
       children: <JwtDecoderSectionHeaderContent header={header} maxHeight={maxHeight} />,
@@ -40,12 +39,12 @@ export const JwtDecoderSections = ({ header, payload, signature, expired }: JwtD
       label: (
         <div className={styles.collapseLabel}>
           <Typography.Text strong>Payload</Typography.Text>
-          {expired && (
+          {expired ? (
             <Tag icon={<CloseCircleOutlined />} color="error">
               Expired
             </Tag>
-          )}
-          {!expired && payload?.exp && (
+          ) : null}
+          {!expired && !!payload?.exp && (
             <Tag icon={<CheckCircleOutlined />} color="success">
               Valid
             </Tag>

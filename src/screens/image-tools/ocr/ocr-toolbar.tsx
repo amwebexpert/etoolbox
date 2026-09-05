@@ -10,7 +10,7 @@ import { downloadTextFile } from "./ocr.utils";
 
 interface OcrToolbarProps {
   hasImage: boolean;
-  resultText: string | undefined;
+  resultText?: string;
   isProcessing: boolean;
   onProcess: () => void;
   onClear: () => void;
@@ -25,7 +25,7 @@ export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onCl
   const hasResult = !!resultText;
 
   const handleCopy = () => {
-    copyTextToClipboard({
+    void copyTextToClipboard({
       text: resultText,
       successMessage: "Extracted text copied to clipboard!",
     });
@@ -33,7 +33,7 @@ export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onCl
 
   const handleDownload = () => {
     if (resultText) {
-      downloadTextFile(resultText, "extracted-text.txt");
+      downloadTextFile({ text: resultText, filename: "extracted-text.txt" });
       messageApi.success("Text file downloaded!");
     }
   };

@@ -1,7 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { createStyles } from "antd-style";
-import { forwardRef, Suspense, useImperativeHandle, useRef } from "react";
+import { type ElementRef, forwardRef, Suspense, useImperativeHandle, useRef } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
@@ -30,7 +30,7 @@ export const Vr3dViewerCanvas = forwardRef<Vr3dViewerCanvasRef, Vr3dViewerCanvas
   ({ modelFile, sceneSettings, cameraSettings, onProgress, onError, onLoaded }, ref) => {
     const { styles } = useStyles();
     const { isMobile, isTablet } = useResponsive();
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<ElementRef<"div">>(null);
     const controlsRef = useRef<React.ComponentRef<typeof OrbitControls> | null>(null);
 
     const canvasHeight = determineCanvasHeight({ isMobile, isTablet });
@@ -44,7 +44,7 @@ export const Vr3dViewerCanvas = forwardRef<Vr3dViewerCanvasRef, Vr3dViewerCanvas
       },
       requestFullscreen: () => {
         if (containerRef.current) {
-          containerRef.current.requestFullscreen?.();
+          void containerRef.current.requestFullscreen?.();
         }
       },
     }));

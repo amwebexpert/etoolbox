@@ -25,20 +25,20 @@ export const UrlCurl = () => {
     useUrlCurlStore();
 
   const handleConvert = () => {
-    const result = transformCurl(inputCurl, targetLanguage);
+    const result = transformCurl({ value: inputCurl, targetLanguage });
     setTransformedResult(result);
   };
 
   const handleLanguageChange = (value: string) => {
     setTargetLanguage(value);
     if (isNotBlank(inputCurl)) {
-      const result = transformCurl(inputCurl, value);
+      const result = transformCurl({ value: inputCurl, targetLanguage: value });
       setTransformedResult(result);
     }
   };
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: transformedResult });
+    void copyTextToClipboard({ text: transformedResult });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -102,7 +102,7 @@ export const UrlCurl = () => {
           </Space>
         </div>
 
-        {transformedResult && (
+        {!!transformedResult && (
           <SyntaxHighlighter
             language={syntaxLanguage}
             style={syntaxTheme}

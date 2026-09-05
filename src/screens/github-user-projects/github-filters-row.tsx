@@ -117,7 +117,7 @@ export const GithubFiltersRow = ({ projects }: GithubFiltersRowProps) => {
         </>
       )}
 
-      {hasFilters && (
+      {hasFilters ? (
         <Col xs={6} sm={4} md={3} lg={2}>
           <Tooltip title="Clear all filters">
             <Button icon={<ClearOutlined />} onClick={resetFilters} size="small">
@@ -125,7 +125,7 @@ export const GithubFiltersRow = ({ projects }: GithubFiltersRowProps) => {
             </Button>
           </Tooltip>
         </Col>
-      )}
+      ) : null}
     </Row>
   );
 };

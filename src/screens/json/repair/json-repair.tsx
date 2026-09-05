@@ -40,7 +40,7 @@ export const JsonRepair = () => {
   };
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: repairedJson, successMessage: "Repaired JSON copied to clipboard!" });
+    void copyTextToClipboard({ text: repairedJson, successMessage: "Repaired JSON copied to clipboard!" });
   };
 
   const handleSaveAs = () => {

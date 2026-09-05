@@ -6,15 +6,13 @@ import {
   isBlank,
   isExpiredTimestamp,
   isNotBlank,
+  safeJsonStringify,
 } from "@lichens-innovation/ts-common";
-import { safeJsonStringify } from "@lichens-innovation/ts-common";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
 
 import { getResultMaxHeight as getResponsiveMaxHeight, type ResponsiveContext } from "~/utils/responsive.utils";
 
-export interface ExtendedJwtPayload extends JwtPayload {
-  [key: string]: unknown;
-}
+export type ExtendedJwtPayload = JwtPayload & Record<string, unknown>;
 
 export interface JwtHeader {
   alg: string;
@@ -85,7 +83,7 @@ export const isTokenExpired = (payload: ExtendedJwtPayload | null): boolean => {
   return isExpiredTimestamp(payload.exp);
 };
 
-export const formatTimestamp = (timestamp: number | undefined): string => {
+export const formatTimestamp = (timestamp?: number): string => {
   if (!timestamp) return "N/A";
   return formatUnixTimestamp(timestamp);
 };
@@ -162,7 +160,7 @@ const algorithms: Record<string, string> = {
   PS512: "RSASSA-PSS using SHA-512",
 };
 
-export const getAlgorithmDescription = (alg: string | undefined): string => {
+export const getAlgorithmDescription = (alg?: string): string => {
   return alg ? (algorithms[alg] ?? "Unknown algorithm") : "Unknown algorithm";
 };
 

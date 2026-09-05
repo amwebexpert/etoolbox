@@ -26,9 +26,9 @@ const LANGUAGE_COLORS: Record<string, string> = {
   dart: "#00B4AB",
 };
 
-type ColumnLanguageProps = {
+interface ColumnLanguageProps {
   language: string | null;
-};
+}
 
 export const ColumnLanguage = ({ language }: ColumnLanguageProps) => {
   const { styles } = useStyles();

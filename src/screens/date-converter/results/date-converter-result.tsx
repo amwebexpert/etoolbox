@@ -4,6 +4,7 @@ import { createStyles } from "antd-style";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
 
+import type { CopyHandlerArgs } from "../date-converter.constants";
 import { ResultDesktopLayout } from "./result-desktop-layout";
 import { ResultMobileLayout } from "./result-mobile-layout";
 
@@ -26,8 +27,8 @@ export const DateConverterResult = ({ date, epochValue, showCodeExamples }: Date
     );
   }
 
-  const handleCopy = (value: string, label: string) => {
-    copyTextToClipboard({ text: value, successMessage: `${label} copied!` });
+  const handleCopy = ({ value, label }: CopyHandlerArgs) => {
+    void copyTextToClipboard({ text: value, successMessage: `${label} copied!` });
   };
 
   if (isMobile) {

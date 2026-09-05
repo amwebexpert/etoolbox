@@ -9,19 +9,25 @@ interface JsonFormatterState {
   viewMode: ViewMode;
   setViewMode: (mode: ViewMode) => void;
   reactJsonConfig: ReactJsonViewConfig;
-  setReactJsonConfig: (config: ReactJsonViewConfig) => void;
+  setReactJsonConfig: (config: ReactJsonViewConfig | ((current: ReactJsonViewConfig) => ReactJsonViewConfig)) => void;
   resetReactJsonConfig: () => void;
 }
 
 const DEFAULT_INPUT_TEXT = '{ "firstName": "Chuck", "lastName": "Norris" }';
 
-const stateCreator = (set: (partial: Partial<JsonFormatterState>) => void): JsonFormatterState => ({
+const stateCreator = (
+  set: (partial: Partial<JsonFormatterState>) => void,
+  get: () => JsonFormatterState
+): JsonFormatterState => ({
   inputText: DEFAULT_INPUT_TEXT,
   setInputText: (text) => set({ inputText: text }),
   viewMode: "syntax-highlight",
   setViewMode: (mode) => set({ viewMode: mode }),
   reactJsonConfig: DEFAULT_REACT_JSON_VIEW_CONFIG,
-  setReactJsonConfig: (config) => set({ reactJsonConfig: config }),
+  setReactJsonConfig: (config) =>
+    set({
+      reactJsonConfig: typeof config === "function" ? config(get().reactJsonConfig) : config,
+    }),
   resetReactJsonConfig: () => set({ reactJsonConfig: DEFAULT_REACT_JSON_VIEW_CONFIG }),
 });
 

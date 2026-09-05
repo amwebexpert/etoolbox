@@ -43,11 +43,11 @@ export const QrcodeGenerator = () => {
   };
 
   const handleCopyDataUrl = () => {
-    copyTextToClipboard({ text: qrCodeDataUrl, successMessage: "Data URL copied to clipboard!" });
+    void copyTextToClipboard({ text: qrCodeDataUrl, successMessage: "Data URL copied to clipboard!" });
   };
 
   const handleCopyImage = () => {
-    copyImageToClipboard({ dataUrl: qrCodeDataUrl, successMessage: "QR code image copied to clipboard!" });
+    void copyImageToClipboard({ dataUrl: qrCodeDataUrl, successMessage: "QR code image copied to clipboard!" });
   };
 
   const handleDownload = () => {

@@ -8,10 +8,10 @@ import type { GithubUserProject } from "../github-user-projects.types";
 
 const { Text, Link } = Typography;
 
-type ColumnRepositoryProps = {
+interface ColumnRepositoryProps {
   record: GithubUserProject;
   isMobile: boolean;
-};
+}
 
 export const ColumnRepository = ({ record, isMobile }: ColumnRepositoryProps) => {
   const { styles } = useStyles();
@@ -20,7 +20,7 @@ export const ColumnRepository = ({ record, isMobile }: ColumnRepositoryProps) =>
   const handleCopyUrl = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    copyTextToClipboard({ text: record.html_url, successMessage: "Repository URL copied!" });
+    void copyTextToClipboard({ text: record.html_url, successMessage: "Repository URL copied!" });
   };
 
   return (
@@ -29,31 +29,31 @@ export const ColumnRepository = ({ record, isMobile }: ColumnRepositoryProps) =>
         <Link href={record.html_url} target="_blank" rel="noreferrer noopener" className={styles.repoName}>
           {record.name}
         </Link>
-        {record.private && (
+        {record.private ? (
           <Tooltip title="Private repository">
             <LockOutlined className={styles.privateIcon} />
           </Tooltip>
-        )}
-        {record.fork && (
+        ) : null}
+        {record.fork ? (
           <Tooltip title="Forked repository">
             <ForkOutlined className={styles.forkIcon} />
           </Tooltip>
-        )}
-        {record.archived && (
+        ) : null}
+        {record.archived ? (
           <Tag color="orange" className={styles.archivedTag}>
             Archived
           </Tag>
-        )}
+        ) : null}
         <Tooltip title="Copy repository URL">
           <CopyOutlined className={styles.copyIcon} onClick={handleCopyUrl} />
         </Tooltip>
       </div>
-      {record.description && !isMobile && (
+      {!!record.description && !isMobile && (
         <Text type="secondary" ellipsis className={styles.description}>
           {record.description}
         </Text>
       )}
-      {record.topics && record.topics.length > 0 && !isMobile && (
+      {!!record.topics && record.topics.length > 0 && !isMobile && (
         <div className={styles.topics}>
           {record.topics.slice(0, 3).map((topic) => (
             <Tag key={topic} className={styles.topicTag}>

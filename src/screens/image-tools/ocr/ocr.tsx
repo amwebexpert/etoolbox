@@ -111,7 +111,13 @@ export const Ocr = () => {
         </Form>
 
         <Card className={styles.card}>
-          <OcrImage imageDataUrl={imageDataUrl} onFileSelect={handleFileSelect} onClear={handleClear} />
+          <OcrImage
+            imageDataUrl={imageDataUrl}
+            onFileSelect={(file) => {
+              void handleFileSelect(file);
+            }}
+            onClear={handleClear}
+          />
         </Card>
 
         <OcrToolbar

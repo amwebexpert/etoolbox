@@ -81,18 +81,23 @@ type Comparator = (a: GithubUserProject, b: GithubUserProject) => number;
 
 const getComparator = (sortField: SortField): Comparator => {
   if (sortField === "name") {
+    // eslint-disable-next-line coding-guide/max-params-project -- Array.prototype.sort comparator shape (a, b) is imposed by the native API, not ours to redesign
     return (a, b) => a.name.localeCompare(b.name);
   }
   if (sortField === "updated_at") {
+    // eslint-disable-next-line coding-guide/max-params-project -- Array.prototype.sort comparator shape (a, b) is imposed by the native API, not ours to redesign
     return (a, b) => new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime();
   }
   if (sortField === "stargazers_count") {
+    // eslint-disable-next-line coding-guide/max-params-project -- Array.prototype.sort comparator shape (a, b) is imposed by the native API, not ours to redesign
     return (a, b) => a.stargazers_count - b.stargazers_count;
   }
   if (sortField === "watchers_count") {
+    // eslint-disable-next-line coding-guide/max-params-project -- Array.prototype.sort comparator shape (a, b) is imposed by the native API, not ours to redesign
     return (a, b) => a.watchers_count - b.watchers_count;
   }
   if (sortField === "forks_count") {
+    // eslint-disable-next-line coding-guide/max-params-project -- Array.prototype.sort comparator shape (a, b) is imposed by the native API, not ours to redesign
     return (a, b) => a.forks_count - b.forks_count;
   }
   return () => 0;
