@@ -31,7 +31,7 @@ type ModelLoadHubProgressDone = HubBase & {
 
 export type ModelLoadGlobalStatus = "idle" | "loading" | "ready" | "error";
 
-export type ModelFileLoadStatus = "pending" | "downloading" | "done" | "error";
+type ModelFileLoadStatus = "pending" | "downloading" | "done" | "error";
 
 export interface ModelFileLoadEntry {
   modelId: string;

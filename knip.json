@@ -5,7 +5,7 @@
     "exports": "warn",
     "types": "warn"
   },
-  "ignore": ["src/api/generated/**", ".claude/**", "src/stubs/util.ts", "src/stubs/fs.ts"],
+  "ignore": [".claude/**", "src/stubs/util.ts", "src/stubs/fs.ts"],
   "ignoreDependencies": [
     "buffer",
     "jscpd",

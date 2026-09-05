@@ -13,7 +13,7 @@ export const DEFAULT_SOURCE_TEXT = '{ "firstName": "Chuck", "lastName": "Norris"
 export const DEFAULT_SOURCE_TYPE: SourceType = "json";
 export const DEFAULT_TARGET_LANGUAGE = "typescript";
 
-export const LANGUAGES: Map<string, string> = new Map([
+const LANGUAGES: Map<string, string> = new Map([
   ["csharp", "C#"],
   ["cpp", "C++"],
   ["dart", "Dart"],
