@@ -17,6 +17,9 @@ guide = "sonarjs-cognitive-complexity.md"
 [smells.non-essential-comment]
 severity = "enforced"
 
+[smells.duplicated-code]
+severity = "enforced"
+
 [smells."coding-guide/max-params-project"]
 severity = "enforced"
 guide = "max-params-project.md"

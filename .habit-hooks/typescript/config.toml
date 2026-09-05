@@ -4,7 +4,7 @@ language = "typescript"
 # splitting them to satisfy oversized-file would break the shadcn update
 # convention). Everything else restates the plugin default verbatim, since
 # a project override replaces it wholesale rather than merging.
-files = ["**/*.ts", "**/*.tsx", "!**/node_modules/**", "!dist/**", "!docs/**", "!.yarn/**", "!src/api/generated/**"]
+files = ["**/*.ts", "**/*.tsx", "!**/node_modules/**", "!dist/**", "!docs/**", "!src/stubs/**", "!.claude/**", "!.yarn/**", "!src/api/generated/**"]
 sensors = ["eslint", "knip", "comment"]
 transformers = []
 

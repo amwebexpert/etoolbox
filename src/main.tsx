@@ -1,4 +1,4 @@
-// Node.js polyfills must be imported FIRST (required by httpsnippet)
+// Node.js polyfills must be imported FIRST (required by httpsnippet) habit-hooks-disable non-essential-comment
 import "~/utils/node-polyfills";
 import "~/styles/global.css";
 
