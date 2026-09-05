@@ -76,7 +76,7 @@ export const DataUri = () => {
           <Alert
             type="info"
             showIcon
-            message={
+            title={
               <a
                 href="#"
                 onClick={(e) => {
