@@ -11,7 +11,7 @@ const ObjModelSimple = ({ url, scale, onLoaded }: ModelComponentProps) => {
   const obj = useLoader(OBJLoader, url);
 
   useEffect(() => {
-    // Use requestAnimationFrame to defer callback until after the current render cycle
+    // Use requestAnimationFrame to defer callback until after the current render cycle habit-hooks-disable non-essential-comment
     const frameId = requestAnimationFrame(onLoaded);
     return () => cancelAnimationFrame(frameId);
   }, [obj, onLoaded]);
@@ -34,7 +34,7 @@ const ObjModelWithMaterial = ({ url, materialUrl, scale, onLoaded }: ModelCompon
     const box = new THREE.Box3().setFromObject(obj);
     const center = box.getCenter(new THREE.Vector3());
     obj.position.sub(center);
-    // Use requestAnimationFrame to defer callback until after the current render cycle
+    // Use requestAnimationFrame to defer callback until after the current render cycle habit-hooks-disable non-essential-comment
     const frameId = requestAnimationFrame(onLoaded);
     return () => cancelAnimationFrame(frameId);
   }, [obj, onLoaded]);

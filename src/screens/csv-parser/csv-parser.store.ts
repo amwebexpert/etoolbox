@@ -18,7 +18,6 @@ interface CsvParserState {
 
   viewMode: ViewMode;
 
-  // Result state (non-persisted, but managed by store)
   parseResult: CsvParseResult | null;
 
   setCsvInput: (input: string) => void;
@@ -73,10 +72,8 @@ const persistedStateCreator = persist<CsvParserState>(stateCreator, {
     fileEncoding: state.fileEncoding,
     parserOptions: state.parserOptions,
     viewMode: state.viewMode,
-    // Don't persist fileInfo and parseResult
     fileInfo: null,
     parseResult: null,
-    // Include actions (they will be overwritten by the stateCreator)
     setCsvInput: state.setCsvInput,
     setFileEncoding: state.setFileEncoding,
     setParserOptions: state.setParserOptions,

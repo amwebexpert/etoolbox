@@ -1,4 +1,3 @@
-// Types
 export interface WorkerStatus {
   workerId: string;
   jobId: string;
@@ -35,7 +34,7 @@ export const DEFAULT_LANGUAGE = "eng";
 export const DEFAULT_IMAGE_DATA_URL = "";
 export const DEFAULT_EXTRACTED_TEXT = "";
 
-/**
+/** habit-hooks-disable non-essential-comment
  * Tesseract.js supported languages
  * Full list: https://tesseract-ocr.github.io/tessdoc/Data-Files#data-files-for-version-400-november-29-2016
  */

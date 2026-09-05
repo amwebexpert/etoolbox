@@ -111,13 +111,3 @@ export const API_DOC_CONFIG: ReactJsonViewConfig = {
   groupArraysAfterLength: 100,
   sortKeys: true,
 };
-
-/**
- * How to use these configurations:
- *
- * import { useJsonFormatterStore } from './json-formatter.store';
- * import { DEVELOPER_CONFIG } from './json-formatter.examples';
- *
- * const { setReactJsonConfig } = useJsonFormatterStore();
- * setReactJsonConfig(DEVELOPER_CONFIG);
- */

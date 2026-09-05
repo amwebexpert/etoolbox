@@ -38,7 +38,7 @@ export const CsvFileUpload = ({ fileEncoding, fileInfo, onEncodingChange, onFile
       logger.error({ error }, "Failed to read file");
     }
 
-    // Reset file input so the same file can be selected again
+    // Reset file input so the same file can be selected again habit-hooks-disable non-essential-comment
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }

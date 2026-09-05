@@ -23,7 +23,7 @@ const buildRuleFromNode = (node: GuidelineNode): Rule => {
   };
 };
 
-// Extract rules from a matching node: its children (Avoid/Prefer sections) if it has any, else itself directly
+// Extract rules from a matching node: its children (Avoid/Prefer sections) if it has any, else itself directly habit-hooks-disable non-essential-comment
 const extractRulesFromNode = (node: GuidelineNode): Rule[] =>
   node.children.length > 0 ? node.children.map(buildRuleFromNode) : [buildRuleFromNode(node)];
 

@@ -22,7 +22,7 @@ export const RegexTester = () => {
   const { pattern, inputText, flags, extractFormat, setPattern, setInputText, toggleFlag, setExtractFormat } =
     useRegexTesterStore();
 
-  // Use deferred values to prevent UI blocking on large inputs
+  // Use deferred values to prevent UI blocking on large inputs habit-hooks-disable non-essential-comment
   const deferredPattern = useDeferredValue(pattern);
   const deferredInputText = useDeferredValue(inputText);
   const deferredFlags = useDeferredValue(flags);

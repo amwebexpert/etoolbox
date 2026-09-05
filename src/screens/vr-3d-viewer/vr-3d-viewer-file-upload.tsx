@@ -38,7 +38,7 @@ export const Vr3dViewerFileUpload = ({ modelFile, onFileLoaded }: Vr3dViewerFile
     if (file) {
       handleFileChange(file);
     }
-    // Reset input to allow selecting same file again
+    // Reset input to allow selecting same file again habit-hooks-disable non-essential-comment
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }

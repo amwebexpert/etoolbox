@@ -13,14 +13,12 @@ interface PokerPlanningState {
   username: string;
   cardsCategory: CardsListingCategoryName;
 
-  // Session state (not persisted)
   roomUUID: string;
   socketState: SocketState;
   myEstimate?: string;
   isEstimatesVisible: boolean;
   session?: PokerPlanningSession;
 
-  // Socket (not persisted - excluded via partialize)
   socket: ReconnectingWebSocket | null;
   postponedMessage: UserMessage | null;
 
@@ -74,7 +72,6 @@ const createSettersSlice = ({
   | "setIsEstimatesVisible"
   | "setSession"
 > => ({
-  // Setters for persisted settings (with guards to prevent unnecessary re-renders)
   setHostName: (hostName) => {
     if (get().hostName !== hostName) set({ hostName });
   },
@@ -88,7 +85,6 @@ const createSettersSlice = ({
     if (get().cardsCategory !== cardsCategory) set({ cardsCategory });
   },
 
-  // Setters for session state (with guards to prevent unnecessary re-renders)
   setRoomUUID: (roomUUID) => {
     if (get().roomUUID !== roomUUID) set({ roomUUID });
   },
@@ -167,7 +163,7 @@ const createActionsSlice = ({
 
     const newRoomUUID = uuidv4();
     setRoomUUID(newRoomUUID);
-    // Connection will be triggered after roomUUID is set
+    // Connection will be triggered after roomUUID is set habit-hooks-disable non-essential-comment
     setTimeout(() => connect(), 0);
   },
 
@@ -183,7 +179,6 @@ const createActionsSlice = ({
       setMyEstimate(value);
       sendMessage(buildVoteMessage({ username, value }));
     } else {
-      // User is un-voting
       setMyEstimate(undefined);
       sendMessage(buildVoteMessage({ username }));
     }
@@ -255,7 +250,7 @@ const PERSISTED_STORE_NAME = "etoolbox-poker-planning";
 const persistedStateCreator = persist<PokerPlanningState>(stateCreator, {
   name: PERSISTED_STORE_NAME,
   storage: createJSONStorage(() => localStorage),
-  // Only persist user preferences, not session state or socket
+  // Only persist user preferences, not session state or socket habit-hooks-disable non-essential-comment
   partialize: (state) =>
     ({
       hostName: state.hostName,

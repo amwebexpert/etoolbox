@@ -5,9 +5,7 @@ export interface ModelFileInfo {
   size: number;
   format: ModelFormat;
   url: string;
-  /** Optional material URL for OBJ files with MTL materials */
   materialUrl?: string;
-  /** Suggested scale for this model (used for demo models with known dimensions) */
   suggestedScale?: number;
 }
 
@@ -89,7 +87,7 @@ export const MODEL_SCALE_OPTIONS = [
   { value: 100, label: "100x" },
 ];
 
-// Default demo model (R2-D2 from learnthreejs)
+// Default demo model (R2-D2 from learnthreejs) habit-hooks-disable non-essential-comment
 const DEFAULT_MODEL_BASE_URL =
   "https://raw.githubusercontent.com/learnthreejs/three-js-boilerplate/master/public/examples/3d-obj-loader/assets";
 

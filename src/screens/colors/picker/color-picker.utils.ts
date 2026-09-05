@@ -27,8 +27,8 @@ interface ComputeImageClickCoordinatesArgs {
 const computeImageClickCoordinates = ({ event, image }: ComputeImageClickCoordinatesArgs): ClickCoordinates => {
   const bounds = image.getBoundingClientRect();
 
-  // Use clientX/clientY (relative to viewport) to match getBoundingClientRect()
-  // pageX/pageY includes scroll offset which causes incorrect positioning
+  // Use clientX/clientY (relative to viewport) to match getBoundingClientRect() habit-hooks-disable non-essential-comment
+  // pageX/pageY includes scroll offset which causes incorrect positioning habit-hooks-disable non-essential-comment
   const x = event.clientX - bounds.left;
   const y = event.clientY - bounds.top;
   const cw = image.clientWidth;

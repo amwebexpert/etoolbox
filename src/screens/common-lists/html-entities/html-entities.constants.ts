@@ -173,7 +173,7 @@ const SYMBOL_KEYWORDS = [
   "grave",
 ];
 
-// Ordered rules: first match wins (mirrors the priority of the original if/else chain)
+// Ordered rules: first match wins (mirrors the priority of the original if/else chain) habit-hooks-disable non-essential-comment
 const CATEGORY_RULES: CategoryRule[] = [
   { category: "numbers", matches: ({ desc }) => desc.includes("digit") },
   {

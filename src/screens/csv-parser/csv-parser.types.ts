@@ -1,6 +1,5 @@
 import type { ParseMeta } from "papaparse";
 
-// Types
 export interface CsvParseResult {
   data: unknown[];
   meta: ParseMeta;
@@ -19,7 +18,6 @@ export interface FileEncoding {
   name: string;
 }
 
-// Simplified parser options for UI usage
 export interface CsvParserOptions {
   delimiter: string;
   quoteChar: string;

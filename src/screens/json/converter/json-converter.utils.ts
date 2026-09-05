@@ -101,8 +101,8 @@ const transformJSON = async (data: ConversionContext): Promise<string> => {
 
 const transformJsObject = async (data: ConversionContext): Promise<string> => {
   try {
-    // Parse the JS object literal without executing it as code (JSON5 is a strict superset of
-    // JSON supporting unquoted keys, single quotes, trailing commas, etc. — no eval/new Function).
+    // Parse the JS object literal without executing it as code (JSON5 is a strict superset of habit-hooks-disable non-essential-comment
+    // JSON supporting unquoted keys, single quotes, trailing commas, etc. — no eval/new Function). habit-hooks-disable non-essential-comment
     const result: unknown = JSON5.parse(data.source);
     const jsonData = JSON.stringify(result, null, 4);
     const newData: ConversionContext = { ...data, sourceType: "json", source: jsonData };

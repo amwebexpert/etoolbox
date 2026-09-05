@@ -121,7 +121,7 @@ interface ParseTocLineResult {
   href: string;
 }
 
-/**
+/** habit-hooks-disable non-essential-comment
  * Extract title, level and href from line
  *
  * Example 1: '- [Project coding standards](#project-coding-standards)'

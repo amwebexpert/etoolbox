@@ -14,7 +14,7 @@ export const StlModel = ({ url, scale, onLoaded }: ModelComponentProps) => {
     if (geometry) {
       geometry.center();
       geometry.computeVertexNormals();
-      // Use requestAnimationFrame to defer callback until after the current render cycle
+      // Use requestAnimationFrame to defer callback until after the current render cycle habit-hooks-disable non-essential-comment
       const frameId = requestAnimationFrame(onLoaded);
       return () => cancelAnimationFrame(frameId);
     }

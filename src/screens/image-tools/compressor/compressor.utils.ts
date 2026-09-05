@@ -55,8 +55,8 @@ export const buildExportFilename = ({ originalName, mimeType }: BuildExportFilen
   return `${baseName}_compressed.${ext}`;
 };
 
-// Drops sentinel values ("auto" mimeType, zero width/height bounds) so the
-// underlying library falls back to its own defaults rather than clamping to 0.
+// Drops sentinel values ("auto" mimeType, zero width/height bounds) so the habit-hooks-disable non-essential-comment
+// underlying library falls back to its own defaults rather than clamping to 0. habit-hooks-disable non-essential-comment
 export const buildCompressorOptions = (settings: CompressorSettings): Compressor.Options => {
   const options: Compressor.Options = {
     quality: settings.quality,
@@ -108,7 +108,7 @@ interface TriggerDownloadArgs {
   filename: string;
 }
 
-// Revoke the object URL right after the click so the browser doesn't retain the blob in memory.
+// Revoke the object URL right after the click so the browser doesn't retain the blob in memory. habit-hooks-disable non-essential-comment
 export const triggerDownload = ({ blob, filename }: TriggerDownloadArgs): void => {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");

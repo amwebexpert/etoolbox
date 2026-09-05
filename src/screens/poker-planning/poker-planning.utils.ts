@@ -24,7 +24,7 @@ interface BuildWebSocketUrlArgs {
 }
 
 const buildWebSocketUrl = ({ hostName, roomUUID }: BuildWebSocketUrlArgs): string => {
-  // In development mode, use the Vite proxy to avoid CORS issues
+  // In development mode, use the Vite proxy to avoid CORS issues habit-hooks-disable non-essential-comment
   if (isDevMode()) {
     const protocol = document.location.protocol === "https:" ? "wss" : "ws";
     return `${protocol}://${document.location.host}/ws?roomUUID=${roomUUID}`;
@@ -34,7 +34,7 @@ const buildWebSocketUrl = ({ hostName, roomUUID }: BuildWebSocketUrlArgs): strin
   return `${protocol}://${hostName}/ws?roomUUID=${roomUUID}`;
 };
 
-// WebSocket reconnection configuration - less aggressive than defaults
+// WebSocket reconnection configuration - less aggressive than defaults habit-hooks-disable non-essential-comment
 const RECONNECT_OPTIONS = {
   connectionTimeout: 5000, // Time to wait before considering a connection failed (ms)
   maxRetries: 10, // Maximum number of reconnection attempts (Infinity by default)
@@ -106,7 +106,7 @@ const buildRouteURL = ({
 const extractSinglePageAppBasePath = (): string => {
   const origin = document.location.origin;
   const basePath = getBasePath();
-  // Remove trailing slash from basePath to avoid double slashes before #
+  // Remove trailing slash from basePath to avoid double slashes before # habit-hooks-disable non-essential-comment
   const normalizedBase = basePath.endsWith("/") ? basePath.slice(0, -1) : basePath;
   return origin + normalizedBase;
 };

@@ -10,7 +10,6 @@ interface PokerPlanningRouteParams {
   roomName?: string;
 }
 
-// Populates the store from URL params when the user navigates to a room via a shared link.
 export const useRouteParamsSync = () => {
   const routeParams = useParams({ strict: false }) as PokerPlanningRouteParams;
   const { setHostName, setRoomUUID, setRoomName, connect, socketState } = usePokerPlanningStore();

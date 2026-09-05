@@ -9,7 +9,7 @@ import { useSyntaxHighlightTheme } from "~/hooks/use-syntax-highlight-theme";
 import { useJsonFormatterStore } from "./json-formatter.store";
 import { parseJsonForView } from "./json-formatter.utils";
 
-// Handle potential default export wrapper
+// Handle potential default export wrapper habit-hooks-disable non-essential-comment
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ReactJson = (ReactJsonImport as any)?.default ?? ReactJsonImport;
 

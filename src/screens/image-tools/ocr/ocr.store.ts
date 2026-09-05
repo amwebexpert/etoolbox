@@ -13,7 +13,6 @@ import {
 interface OcrState {
   language: string;
 
-  // Session state — not persisted, but kept in this same store for convenience
   imageDataUrl: string;
   extractedText: string;
   workerStatus: WorkerStatus;

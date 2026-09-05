@@ -1,6 +1,6 @@
 import { logger } from "~/utils/logger";
 
-/**
+/** habit-hooks-disable non-essential-comment
  * Cache name used by @xenova/transformers in the browser (see hub.js, caches.open).
  * If the library changes this string, update here.
  */

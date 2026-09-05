@@ -1,4 +1,4 @@
-/** Payloads emitted by `@xenova/transformers` `getModelFile` → `progress_callback`. */
+/** Payloads emitted by `@xenova/transformers` `getModelFile` → `progress_callback`. habit-hooks-disable non-essential-comment */
 export type ModelLoadHubProgressEvent =
   | ModelLoadHubProgressInitiate
   | ModelLoadHubProgressDownload

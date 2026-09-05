@@ -1,4 +1,4 @@
-/**
+/** habit-hooks-disable non-essential-comment
  * Node.js polyfills for browser compatibility
  *
  * Required by httpsnippet library used in the cURL converter feature.

@@ -21,7 +21,7 @@ export const QrcodeDecoder = () => {
   const messageApi = useToastMessage();
   const { copyTextToClipboard } = useClipboardCopy();
 
-  // Local state for file handling (File objects don't serialize well in Zustand)
+  // Local state for file handling (File objects don't serialize well in Zustand) habit-hooks-disable non-essential-comment
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [fileList, setFileList] = useState<UploadFile[]>([]);

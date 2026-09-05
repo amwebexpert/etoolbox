@@ -9,7 +9,7 @@ import {
   type ParseCsvArgs,
 } from "./csv-parser.types";
 
-// @see https://www.papaparse.com/docs#config
+// @see https://www.papaparse.com/docs#config habit-hooks-disable non-essential-comment
 export const parseCsv = ({ csvData, options = {} }: ParseCsvArgs): Promise<CsvParseResult> => {
   return new Promise((resolve, reject) => {
     try {
