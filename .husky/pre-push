@@ -5,6 +5,7 @@ set -e
 
 # Git feeds this hook one line per ref being pushed on stdin:
 #   <local ref> <local sha> <remote ref> <remote sha>
+# (knip above uses </dev/null so it cannot steal that stdin.)
 #
 # All-zero SHA = remote ref does not exist yet (first push of a branch).
 zero="0000000000000000000000000000000000000000"

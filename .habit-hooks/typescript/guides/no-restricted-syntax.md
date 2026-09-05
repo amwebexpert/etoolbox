@@ -2,7 +2,7 @@ Reading `import.meta.env.VITE_*` directly from wherever a value is needed means 
 
 **Fix**: add (or reuse) a named getter in `src/utils/environment.utils.ts` — e.g. `export const getApiBaseUrl = (): string => import.meta.env.VITE_PUBLIC_API_BASE_URL;` — and import that getter everywhere the value is needed, instead of reading `import.meta.env` inline.
 
-**Known, deliberate exception**: `src/utils/environment.utils.ts` itself is exempt in `eslint.config.js` — it's the one file allowed to read `import.meta.env` directly, since it's where the named getters live.
+**Known, deliberate exception**: a debug/introspection screen that must enumerate *every* env var generically (like the app's env-vars debug panel) genuinely can't route through named getters — that file is explicitly allow-listed in `eslint.config.js`, not disabled line-by-line.
 
 **AVOID**: reaching for a bare `eslint-disable` at each call site instead of adding the getter — that defeats the point (one place to see and validate the app's env contract) and just relocates the scatter.
 

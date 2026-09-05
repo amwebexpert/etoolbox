@@ -1,0 +1,7 @@
+{
+  "path": ["src"],
+  "ignore": ["tests/fixtures/**", "dist/**", "node_modules/**"],
+  "threshold": 0,
+  "minLines": 15,
+  "minTokens": 50
+}

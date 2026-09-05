@@ -1,27 +1,21 @@
-plugins = ["typescript"]
+plugins = ["typescript", "generic"]
 transformers = ["allow-aaa", "snooze", "habit-hooks-disable"]
 
-# knip findings — this is a small personal utils-heavy "toolbox" app where many
-# exported helpers are kept for consistency/reuse rather than actively imported
-# elsewhere yet, so unused-export/type is coaching, not a hard blocker. An
-# actually-unused file or dependency is a stronger, rarer signal — keep blocking.
-[smells."unused-export"]
-severity = "suggested"
+# Generic line-count (raw 200) duplicates ESLint max-lines (oversized-file).
+# ESLint remains the file-length detector: .ts 400, .tsx 150.
+[sensors.line-count]
+disabled = true
 
-[smells."unused-file"]
+[smells."oversized-file"]
 severity = "enforced"
-
-[smells."unused-dependency"]
-severity = "enforced"
+guide = "oversized-file.md"
 
 [smells."sonarjs/cognitive-complexity"]
 severity = "enforced"
 guide = "sonarjs-cognitive-complexity.md"
 
 [smells.non-essential-comment]
-# 300+ pre-existing comments across a codebase that predates this rule — coaching only
-# for now; ratchet to "enforced" once the backlog is worked down.
-severity = "suggested"
+severity = "enforced"
 
 [smells."coding-guide/max-params-project"]
 severity = "enforced"

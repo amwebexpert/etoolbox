@@ -86,6 +86,7 @@
         "eslint-plugin-unicorn": "74.0.0",
         "globals": "17.12.0",
         "husky": "9.1.7",
+        "jscpd": "5.1.2",
         "knip": "6.34.0",
         "lint-staged": "17.0.7",
         "npm-package-json-lint": "10.4.1",
@@ -1488,6 +1489,24 @@
     "js-tokens": ["js-tokens@4.0.0", "", {}, ""],
 
     "js-yaml": ["js-yaml@4.1.1", "", { "dependencies": { "argparse": "^2.0.1" }, "bin": "bin/js-yaml.js" }, ""],
+
+    "jscpd": ["jscpd@5.1.2", "", { "optionalDependencies": { "jscpd-darwin-arm64": "5.1.2", "jscpd-darwin-x64": "5.1.2", "jscpd-linux-arm64-gnu": "5.1.2", "jscpd-linux-arm64-musl": "5.1.2", "jscpd-linux-x64-gnu": "5.1.2", "jscpd-linux-x64-musl": "5.1.2", "jscpd-windows-arm64-msvc": "5.1.2", "jscpd-windows-x64-msvc": "5.1.2" }, "bin": { "jscpd": "run-jscpd.js" } }, "sha512-7innyzaMstgJcluIwLxUESsP7znUFtRxiENhcUzv34aDrjzH3mJOF7m/5ecNyQGST8BBlmz8alpTuId0c6OdkQ=="],
+
+    "jscpd-darwin-arm64": ["jscpd-darwin-arm64@5.1.2", "", { "os": "darwin", "cpu": "arm64" }, "sha512-6fYVCBHgE154jVVYcRA+9K17q5AXe0/V9wfPf3hBrDQMxqOiI+99ii2CfMT6OkcEtJULqpi+uJENCsjtYn+nmQ=="],
+
+    "jscpd-darwin-x64": ["jscpd-darwin-x64@5.1.2", "", { "os": "darwin", "cpu": "x64" }, "sha512-udNKAqu7ty6NcHvSwaZ7qCktyN+JwET0Z81e6/s1WmRtHkdd6Hnv0Gix04gRN3aVkfqZzI6YKle0YnYPJe4hOA=="],
+
+    "jscpd-linux-arm64-gnu": ["jscpd-linux-arm64-gnu@5.1.2", "", { "os": "linux", "cpu": "arm64" }, "sha512-FYX3IZPXwEooiDn7fQzHEytRbbsSBNqqHUEzxu32EKBXNyQ1Fx1/8hms26X1RFUJ80zpcKkRQCz1J3hPYsYhFA=="],
+
+    "jscpd-linux-arm64-musl": ["jscpd-linux-arm64-musl@5.1.2", "", { "os": "linux", "cpu": "arm64" }, "sha512-SuoKN9xv4pIopLS2yPx3E+ysnmZPNAKdxxAYTwvd6ixrEcO36xIKUma+DGKUw1PLXq1HO6A9M3FlqmnrTCnzYA=="],
+
+    "jscpd-linux-x64-gnu": ["jscpd-linux-x64-gnu@5.1.2", "", { "os": "linux", "cpu": "x64" }, "sha512-1B+rqrw7Jt7/5Sye7ssedRnN8I1qatjUq9tFRcUQvlteR1OgW4lZuGV+DTYOgNaPNzeJN21aLzBGBa9OsxRWMA=="],
+
+    "jscpd-linux-x64-musl": ["jscpd-linux-x64-musl@5.1.2", "", { "os": "linux", "cpu": "x64" }, "sha512-46Astr0LnVh/prpqq5/Vehtx18MCvcs0KL8vi49kAIksOe6QdlQ/hdBKH8V61pAAmAgCr64hU9p0dv6DDKHJdg=="],
+
+    "jscpd-windows-arm64-msvc": ["jscpd-windows-arm64-msvc@5.1.2", "", { "os": "win32", "cpu": "arm64" }, "sha512-19gpnY+Mid71EGGytBcFwsif/Y1+Vfu2Qp0IJ+L3WFD32Zui9O4vvASwvxocgA7z77kiZNh9zF5sZY9+oQB62A=="],
+
+    "jscpd-windows-x64-msvc": ["jscpd-windows-x64-msvc@5.1.2", "", { "os": "win32", "cpu": "x64" }, "sha512-RZlAnXP7Jmx39LBC66IIpFIGl/Bg4FcSkz4Jr6ThrDm5D1NvM201MDG70Z1i+N3wRrfI8UcDkWp5rsHzGHViSA=="],
 
     "jsesc": ["jsesc@3.1.0", "", { "bin": "bin/jsesc" }, ""],
 

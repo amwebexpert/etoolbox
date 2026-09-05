@@ -1,0 +1,38 @@
+/** habit-hooks-disable non-essential-comment
+ * This is a "Demo" example that should trigger the sonarjs/cognitive-complexity rule
+ */
+
+interface ClassifyArgs {
+  status: string;
+  value: number;
+  urgent: boolean;
+  retries: number;
+}
+
+export const classify = ({ status, value, urgent, retries }: ClassifyArgs): string => {
+  if (status === "pending") {
+    if (value > 100) {
+      if (urgent) {
+        return "urgent-high-pending";
+      } else if (retries > 3) {
+        return "stale-pending";
+      }
+    } else if (value > 10) {
+      return "mid-pending";
+    } else {
+      return "low-pending";
+    }
+  } else if (status === "active") {
+    for (let i = 0; i < retries; i++) {
+      if (i % 2 === 0 && urgent) {
+        return "active-urgent-even";
+      } else if (i % 2 !== 0 || value < 0) {
+        continue;
+      }
+    }
+    return "active-default";
+  } else if (status === "closed" || status === "cancelled") {
+    return urgent && value > 50 ? "closed-urgent" : "closed-normal";
+  }
+  return "unknown";
+};
