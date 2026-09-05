@@ -2,7 +2,7 @@ import type { RgbaColor } from "@lichens-innovation/ts-common";
 import { Typography } from "antd";
 import { createStyles } from "antd-style";
 import { Resizable } from "re-resizable";
-import { type ElementRef, type MouseEvent, useRef } from "react";
+import { type ComponentRef, type MouseEvent, useRef } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
@@ -18,7 +18,7 @@ interface ColorPickerImageProps {
 export const ColorPickerImage = ({ imageDataUrl, onColorPicked }: ColorPickerImageProps) => {
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
-  const imageRef = useRef<ElementRef<"img">>(null);
+  const imageRef = useRef<ComponentRef<"img">>(null);
 
   const handleImageClick = (event: MouseEvent<HTMLImageElement>) => {
     const image = imageRef.current;

@@ -49,6 +49,6 @@ paths:
 | `text={"Click me"}` curly braces for static string props | `text="Click me"` direct quoted assignment |
 | `JSX.Element \| null \| undefined` prop typing | `ReactNode` for any renderable child |
 | Adding `{ children: ReactNode }` to props by hand | `PropsWithChildren<Props>` from `react` |
-| `useRef<HTMLDivElement>(null)` with raw DOM type names | `useRef<ElementRef<"div">>(null)` via the type helper |
+| `useRef<HTMLDivElement>(null)` with raw DOM type names | `useRef<ComponentRef<"div">>(null)` via the type helper |
 | `{items.length && <List />}` (renders literal `0` when empty) | `{items.length > 0 && <List />}` strict boolean condition |
 | `key={index}` when items have stable identifiers | `key={item.id}` (or another unique attribute as fallback) |

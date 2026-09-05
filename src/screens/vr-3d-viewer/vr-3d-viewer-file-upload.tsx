@@ -1,7 +1,7 @@
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import { Button, Typography, Upload, type UploadProps } from "antd";
 import { createStyles } from "antd-style";
-import { type ElementRef, useRef } from "react";
+import { type ComponentRef, useRef } from "react";
 
 import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
@@ -20,7 +20,7 @@ export const Vr3dViewerFileUpload = ({ modelFile, onFileLoaded }: Vr3dViewerFile
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
   const messageApi = useToastMessage();
-  const fileInputRef = useRef<ElementRef<"input">>(null);
+  const fileInputRef = useRef<ComponentRef<"input">>(null);
 
   const handleFileChange = (file: File) => {
     if (!isSupportedFormat(file.name)) {

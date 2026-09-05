@@ -1,7 +1,7 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Row, Select, Typography } from "antd";
 import { createStyles } from "antd-style";
-import { type ElementRef, useRef } from "react";
+import { type ComponentRef, useRef } from "react";
 
 import { logger } from "~/utils/logger";
 
@@ -22,7 +22,7 @@ interface CsvFileUploadProps {
 
 export const CsvFileUpload = ({ fileEncoding, fileInfo, onEncodingChange, onFileLoaded }: CsvFileUploadProps) => {
   const { styles } = useStyles();
-  const fileInputRef = useRef<ElementRef<"input">>(null);
+  const fileInputRef = useRef<ComponentRef<"input">>(null);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
