@@ -1,7 +1,7 @@
 import { CalendarOutlined, ClearOutlined, ClockCircleOutlined, CopyOutlined, DownOutlined } from "@ant-design/icons";
 import { Button, Dropdown, type MenuProps, Space, Tooltip } from "antd";
-import { createStyles } from "antd-style";
 
+import { ScreenToolbar } from "~/components/ui/screen-toolbar";
 import { useResponsive } from "~/hooks/use-responsive";
 
 interface DateConverterToolbarProps {
@@ -28,7 +28,6 @@ export const DateConverterToolbar = ({
   onClear,
 }: DateConverterToolbarProps) => {
   const { isMobile } = useResponsive();
-  const { styles } = useStyles();
 
   const quickDatesItems: MenuProps["items"] = [
     {
@@ -60,48 +59,37 @@ export const DateConverterToolbar = ({
   ];
 
   return (
-    <div className={styles.toolbar}>
-      <Space size="small" wrap>
-        <Tooltip title="Set to current date and time">
-          <Button type="primary" icon={<ClockCircleOutlined />} onClick={onSetNow}>
-            Now
-          </Button>
-        </Tooltip>
+    <ScreenToolbar
+      leading={
+        <Space size="small" wrap>
+          <Tooltip title="Set to current date and time">
+            <Button type="primary" icon={<ClockCircleOutlined />} onClick={onSetNow}>
+              Now
+            </Button>
+          </Tooltip>
 
-        <Dropdown menu={{ items: quickDatesItems }} trigger={["click"]}>
-          <Button icon={<CalendarOutlined />}>
-            Quick Dates <DownOutlined />
-          </Button>
-        </Dropdown>
-      </Space>
+          <Dropdown menu={{ items: quickDatesItems }} trigger={["click"]}>
+            <Button icon={<CalendarOutlined />}>
+              Quick Dates <DownOutlined />
+            </Button>
+          </Dropdown>
+        </Space>
+      }
+      actions={
+        <Space size="small" wrap>
+          <Tooltip title="Clear all">
+            <Button icon={<ClearOutlined />} disabled={!hasDate} onClick={onClear}>
+              {!isMobile && "Clear"}
+            </Button>
+          </Tooltip>
 
-      <div className={styles.spacer} />
-
-      <Space size="small" wrap>
-        <Tooltip title="Clear all">
-          <Button icon={<ClearOutlined />} disabled={!hasDate} onClick={onClear}>
-            {!isMobile && "Clear"}
-          </Button>
-        </Tooltip>
-
-        <Tooltip title="Copy all formats to clipboard">
-          <Button icon={<CopyOutlined />} disabled={!hasDate} onClick={onCopyAll}>
-            {!isMobile && "Copy All"}
-          </Button>
-        </Tooltip>
-      </Space>
-    </div>
+          <Tooltip title="Copy all formats to clipboard">
+            <Button icon={<CopyOutlined />} disabled={!hasDate} onClick={onCopyAll}>
+              {!isMobile && "Copy All"}
+            </Button>
+          </Tooltip>
+        </Space>
+      }
+    />
   );
 };
-
-const useStyles = createStyles(() => ({
-  toolbar: {
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    flexWrap: "wrap",
-  },
-  spacer: {
-    flex: 1,
-  },
-}));

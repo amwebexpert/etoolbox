@@ -1,6 +1,8 @@
 import { Select, Typography } from "antd";
 import { createStyles } from "antd-style";
 
+import { ResultSection } from "~/components/ui/result-section";
+
 import { EXTRACT_FORMAT_OPTIONS, type ExtractFormat, formatExtractedValues } from "./regex-tester.utils";
 
 interface RegexTesterExtractedProps {
@@ -22,12 +24,9 @@ export const RegexTesterExtracted = ({
   const hasMatches = matches.length > 0;
 
   return (
-    <div className={styles.section}>
-      <div className={styles.labelRow}>
-        <Typography.Text type="secondary" className={styles.label}>
-          Extracted Values
-        </Typography.Text>
-
+    <ResultSection
+      label="Extracted Values"
+      trailing={
         <div className={styles.controls}>
           {hasMatches ? (
             <Typography.Text type="secondary" className={styles.count}>
@@ -43,8 +42,8 @@ export const RegexTesterExtracted = ({
             className={styles.formatSelect}
           />
         </div>
-      </div>
-
+      }
+    >
       <div className={styles.extractedBox}>
         {hasMatches ? (
           <pre className={styles.extractedContent}>{formattedValue}</pre>
@@ -59,26 +58,11 @@ export const RegexTesterExtracted = ({
         💡 Tip: Use format like <code>/pattern/g</code> or select flags above. The Jira format is useful for expressions
         like: <strong>issueKey in (FS-3456, WS-3213, FS-9988)</strong>
       </Typography.Text>
-    </div>
+    </ResultSection>
   );
 };
 
 const useStyles = createStyles(({ token }) => ({
-  section: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 8,
-  },
-  labelRow: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: 8,
-  },
-  label: {
-    fontWeight: 500,
-  },
   controls: {
     display: "flex",
     alignItems: "center",

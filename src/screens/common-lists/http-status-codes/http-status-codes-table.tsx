@@ -1,7 +1,7 @@
 import { Table } from "antd";
-import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { useTopAlignedListTableStyles } from "~/styles/list-table.styles";
 import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { useHttpStatusCodesStore } from "./http-status-codes.store";
@@ -14,7 +14,7 @@ interface HttpStatusCodesTableProps {
 }
 
 export const HttpStatusCodesTable = ({ filteredStatusCodes }: HttpStatusCodesTableProps) => {
-  const { styles } = useStyles();
+  const { styles } = useTopAlignedListTableStyles();
   const { isMobile } = useResponsive();
   const columns = useHttpStatusCodesColumns();
 
@@ -40,17 +40,3 @@ export const HttpStatusCodesTable = ({ filteredStatusCodes }: HttpStatusCodesTab
     />
   );
 };
-
-const useStyles = createStyles(({ token }) => ({
-  table: {
-    ".ant-table-thead > tr > th": {
-      backgroundColor: token.colorPrimaryBg,
-    },
-    ".ant-table-tbody > tr > td": {
-      borderBottom: "none",
-      paddingBlock: 8,
-      paddingInline: 8,
-      verticalAlign: "top",
-    },
-  },
-}));

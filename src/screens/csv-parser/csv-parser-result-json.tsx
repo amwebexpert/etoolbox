@@ -1,10 +1,9 @@
 import { safeJsonStringify } from "@lichens-innovation/ts-common";
-import { Typography } from "antd";
-import { createStyles } from "antd-style";
-import SyntaxHighlighter from "react-syntax-highlighter";
 
+import { ResultBox, ResultSection } from "~/components/ui/result-section";
+import { SyntaxHighlightBlock } from "~/components/ui/syntax-highlight-block";
 import { useResponsive } from "~/hooks/use-responsive";
-import { useSyntaxHighlightTheme } from "~/hooks/use-syntax-highlight-theme";
+import { getResultMaxHeight } from "~/utils/responsive.utils";
 
 import type { CsvParseResult } from "./csv-parser.types";
 
@@ -12,63 +11,17 @@ interface CsvParserResultJsonProps {
   result: CsvParseResult;
 }
 
-interface GetMaxHeightArgs {
-  isMobile: boolean;
-  isTablet: boolean;
-}
-
-const getMaxHeight = ({ isMobile, isTablet }: GetMaxHeightArgs): number => {
-  if (isMobile) return 300;
-  if (isTablet) return 400;
-  return 500;
-};
-
 export const CsvParserResultJson = ({ result }: CsvParserResultJsonProps) => {
-  const { styles } = useStyles();
-  const syntaxTheme = useSyntaxHighlightTheme();
   const { isMobile, isTablet } = useResponsive();
 
-  const maxHeight = getMaxHeight({ isMobile, isTablet });
+  const maxHeight = getResultMaxHeight({ isMobile, isTablet });
   const jsonOutput = safeJsonStringify(result.data);
 
   return (
-    <div className={styles.resultSection}>
-      <Typography.Text type="secondary" className={styles.resultLabel}>
-        Parsed Data (JSON)
-      </Typography.Text>
-
-      <div className={styles.resultBox} style={{ maxHeight }}>
-        <SyntaxHighlighter
-          language="json"
-          style={syntaxTheme}
-          customStyle={{
-            margin: 0,
-            padding: 16,
-            background: "transparent",
-          }}
-          wrapLongLines={true}
-        >
-          {`\n${jsonOutput}`}
-        </SyntaxHighlighter>
-      </div>
-    </div>
+    <ResultSection label="Parsed Data (JSON)">
+      <ResultBox style={{ maxHeight }}>
+        <SyntaxHighlightBlock code={`\n${jsonOutput}`} variant="bare" />
+      </ResultBox>
+    </ResultSection>
   );
 };
-
-const useStyles = createStyles(({ token }) => ({
-  resultSection: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 8,
-  },
-  resultLabel: {
-    fontWeight: 500,
-  },
-  resultBox: {
-    backgroundColor: token.colorBgContainer,
-    border: `1px solid ${token.colorBorder}`,
-    borderRadius: token.borderRadius,
-    overflow: "auto",
-    width: "100%",
-  },
-}));

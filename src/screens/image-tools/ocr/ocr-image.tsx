@@ -2,9 +2,8 @@ import { CameraOutlined, DeleteOutlined } from "@ant-design/icons";
 import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Button, Typography, Upload } from "antd";
 import { createStyles } from "antd-style";
-import { Resizable } from "re-resizable";
 
-import { useResponsive } from "~/hooks/use-responsive";
+import { ResizableImage } from "~/components/ui/resizable-image";
 
 const { Dragger } = Upload;
 const { Text } = Typography;
@@ -17,52 +16,31 @@ interface OcrImageProps {
 
 export const OcrImage = ({ imageDataUrl, onFileSelect, onClear }: OcrImageProps) => {
   const { styles } = useStyles();
-  const { isMobile } = useResponsive();
 
   const handleBeforeUpload = (file: File) => {
     onFileSelect(file);
-    return false; // Prevent automatic upload
+    return false;
   };
 
   const hasImage = isNotBlank(imageDataUrl);
-  const defaultWidth = isMobile ? 280 : 400;
 
   if (hasImage) {
     return (
       <div className={styles.imageContainer}>
-        <Resizable
-          defaultSize={{ width: defaultWidth, height: "auto" }}
-          minWidth={150}
-          maxWidth="100%"
-          lockAspectRatio
-          enable={{
-            top: false,
-            right: true,
-            bottom: true,
-            left: false,
-            topRight: false,
-            bottomRight: true,
-            bottomLeft: false,
-            topLeft: false,
-          }}
-          handleStyles={{
-            right: { cursor: "ew-resize" },
-            bottom: { cursor: "ns-resize" },
-            bottomRight: { cursor: "nwse-resize" },
-          }}
-          className={styles.resizable}
-        >
-          <img src={imageDataUrl} alt="Image to process with OCR" className={styles.image} />
-        </Resizable>
-
-        <div className={styles.imageActions}>
-          <Button icon={<DeleteOutlined />} danger size="small" onClick={onClear}>
-            Remove image
-          </Button>
-          <Text type="secondary" className={styles.hint}>
-            Drag corners to resize
-          </Text>
-        </div>
+        <ResizableImage
+          src={imageDataUrl}
+          alt="Image to process with OCR"
+          footer={
+            <div className={styles.imageActions}>
+              <Button icon={<DeleteOutlined />} danger size="small" onClick={onClear}>
+                Remove image
+              </Button>
+              <Text type="secondary" className={styles.hint}>
+                Drag corners to resize
+              </Text>
+            </div>
+          }
+        />
       </div>
     );
   }
@@ -110,18 +88,6 @@ const useStyles = createStyles(({ token }) => ({
     border: `1px solid ${token.colorBorder}`,
     borderRadius: token.borderRadius,
     backgroundColor: token.colorBgContainer,
-  },
-  resizable: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    width: "100%",
-    height: "auto",
-    objectFit: "contain",
-    borderRadius: token.borderRadiusSM,
-    display: "block",
   },
   imageActions: {
     display: "flex",

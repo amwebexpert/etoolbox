@@ -1,8 +1,8 @@
 import { ClearOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Row, Select, Space, Typography } from "antd";
-import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { useListFilterToolbarStyles } from "~/styles/list-filter-toolbar.styles";
 
 import { HTTP_HEADERS } from "./http-headers.constants";
 import { useHttpHeadersStore } from "./http-headers.store";
@@ -15,7 +15,7 @@ interface HttpHeadersToolbarProps {
 }
 
 export const HttpHeadersToolbar = ({ filteredCount }: HttpHeadersToolbarProps) => {
-  const { styles } = useStyles();
+  const { styles } = useListFilterToolbarStyles();
   const { isDesktop } = useResponsive();
 
   const { category, type, filter, hasFilters, setCategory, setType, setFilter, resetFilters } = useHttpHeadersStore();
@@ -74,23 +74,3 @@ export const HttpHeadersToolbar = ({ filteredCount }: HttpHeadersToolbarProps) =
     </Row>
   );
 };
-
-const useStyles = createStyles(() => ({
-  toolbar: {
-    marginBottom: 16,
-  },
-  select: {
-    width: "100%",
-  },
-  input: {
-    width: "100%",
-  },
-  count: {
-    fontFamily: "monospace",
-  },
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end",
-    width: "100%",
-  },
-}));

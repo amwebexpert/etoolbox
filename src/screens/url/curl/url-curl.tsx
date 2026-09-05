@@ -2,13 +2,14 @@ import { CodeOutlined, CopyOutlined } from "@ant-design/icons";
 import { isBlank, isNotBlank } from "@lichens-innovation/ts-common";
 import { Button, Input, Select, Space, Tooltip } from "antd";
 import { createStyles } from "antd-style";
-import SyntaxHighlighter from "react-syntax-highlighter";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
+import { ScreenToolbar } from "~/components/ui/screen-toolbar";
+import { SyntaxHighlightBlock } from "~/components/ui/syntax-highlight-block";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
-import { useSyntaxHighlightTheme } from "~/hooks/use-syntax-highlight-theme";
+import { useScreenFormStyles } from "~/styles/screen-form.styles";
 
 import { useUrlCurlStore } from "./url-curl.store";
 import { CONVERTERS_LIST, getSyntaxLanguage, transformCurl } from "./url-curl.utils";
@@ -16,10 +17,10 @@ import { CONVERTERS_LIST, getSyntaxLanguage, transformCurl } from "./url-curl.ut
 const { TextArea } = Input;
 
 export const UrlCurl = () => {
+  const { styles: formStyles } = useScreenFormStyles();
   const { styles } = useStyles();
   const { isDesktop, isMobile } = useResponsive();
   const { copyTextToClipboard } = useClipboardCopy();
-  const syntaxTheme = useSyntaxHighlightTheme();
 
   const { inputCurl, targetLanguage, transformedResult, setInputCurl, setTargetLanguage, setTransformedResult } =
     useUrlCurlStore();
@@ -58,7 +59,7 @@ export const UrlCurl = () => {
 
   return (
     <ScreenContainer>
-      <Space orientation="vertical" size="middle" className={styles.fullWidth}>
+      <Space orientation="vertical" size="middle" className={formStyles.fullWidth}>
         <ScreenHeader
           icon={<CodeOutlined />}
           title="cURL Converter"
@@ -72,43 +73,43 @@ export const UrlCurl = () => {
           autoSize={{ minRows: 4, maxRows: isDesktop ? 20 : 6 }}
           value={inputCurl}
           onChange={handleInputChange}
-          className={styles.textArea}
+          className={formStyles.textArea}
         />
 
-        <div className={styles.toolbar}>
-          <Select
-            value={targetLanguage}
-            onChange={handleLanguageChange}
-            options={languageOptions}
-            disabled={isBlank(inputCurl)}
-            className={styles.languageSelect}
-            popupMatchSelectWidth={false}
-            showSearch={!isMobile}
-            placeholder="Target language"
-          />
+        <ScreenToolbar
+          leading={
+            <Select
+              value={targetLanguage}
+              onChange={handleLanguageChange}
+              options={languageOptions}
+              disabled={isBlank(inputCurl)}
+              className={styles.languageSelect}
+              popupMatchSelectWidth={false}
+              showSearch={!isMobile}
+              placeholder="Target language"
+            />
+          }
+          actions={
+            <Space size="small" wrap>
+              <Tooltip title="Copy result to clipboard">
+                <Button icon={<CopyOutlined />} disabled={!transformedResult} onClick={handleCopy}>
+                  {!isMobile && "Copy"}
+                </Button>
+              </Tooltip>
 
-          <div className={styles.spacer} />
-
-          <Space size="small" wrap>
-            <Tooltip title="Copy result to clipboard">
-              <Button icon={<CopyOutlined />} disabled={!transformedResult} onClick={handleCopy}>
-                {!isMobile && "Copy"}
+              <Button type="primary" icon={<CodeOutlined />} disabled={isBlank(inputCurl)} onClick={handleConvert}>
+                {isMobile ? "Conv." : "Convert"}
               </Button>
-            </Tooltip>
-
-            <Button type="primary" icon={<CodeOutlined />} disabled={isBlank(inputCurl)} onClick={handleConvert}>
-              {isMobile ? "Conv." : "Convert"}
-            </Button>
-          </Space>
-        </div>
+            </Space>
+          }
+        />
 
         {!!transformedResult && (
-          <SyntaxHighlighter
+          <SyntaxHighlightBlock
+            code={`\n${transformedResult}`}
             language={syntaxLanguage}
-            style={syntaxTheme}
             className={styles.syntaxHighlighter}
-            wrapLongLines={true}
-          >{`\n${transformedResult}`}</SyntaxHighlighter>
+          />
         )}
       </Space>
     </ScreenContainer>
@@ -116,21 +117,6 @@ export const UrlCurl = () => {
 };
 
 const useStyles = createStyles(({ token }) => ({
-  fullWidth: {
-    width: "100%",
-  },
-  textArea: {
-    fontFamily: "monospace",
-  },
-  toolbar: {
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    flexWrap: "wrap",
-  },
-  spacer: {
-    flex: 1,
-  },
   languageSelect: {
     minWidth: 140,
     "@media (max-width: 576px)": {
@@ -138,12 +124,9 @@ const useStyles = createStyles(({ token }) => ({
     },
   },
   syntaxHighlighter: {
-    padding: "16px !important",
-    borderRadius: token.borderRadius,
-    border: `1px solid ${token.colorBorder}`,
     maxHeight: 500,
-    overflow: "auto !important",
     fontSize: 13,
-    lineHeight: "1.5 !important",
+    lineHeight: 1.5,
+    borderRadius: token.borderRadius,
   },
 }));

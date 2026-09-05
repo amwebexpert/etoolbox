@@ -1,21 +1,18 @@
-import { ClearOutlined, SearchOutlined } from "@ant-design/icons";
-import { Button, Col, Input, Row, Select, Space } from "antd";
-import { createStyles } from "antd-style";
+import { ClearOutlined } from "@ant-design/icons";
+import { Button, Col, Row, Select, Space } from "antd";
 
+import { ListFilterSearchInput } from "~/components/ui/list-filter-search-input";
 import { useResponsive } from "~/hooks/use-responsive";
+import { useListFilterToolbarStyles } from "~/styles/list-filter-toolbar.styles";
 
 import { useNamedColorsStore } from "./named-colors.store";
 import { FAMILY_OPTIONS } from "./named-colors.utils";
 
 export const NamedColorsToolbar = () => {
-  const { styles } = useStyles();
+  const { styles } = useListFilterToolbarStyles();
   const { isDesktop } = useResponsive();
 
   const { family, filter, setFamily, setFilter, hasFilters, resetFilters } = useNamedColorsStore();
-
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilter(e.target.value);
-  };
 
   return (
     <Row gutter={[16, 12]} align="middle" className={styles.toolbar}>
@@ -31,12 +28,10 @@ export const NamedColorsToolbar = () => {
       </Col>
 
       <Col xs={24} sm={12} md={8} lg={6}>
-        <Input
+        <ListFilterSearchInput
           value={filter}
-          onChange={handleFilterChange}
+          onValueChange={setFilter}
           placeholder="Search by name, RGB, or HEX..."
-          prefix={<SearchOutlined />}
-          allowClear
           className={styles.input}
         />
       </Col>
@@ -51,20 +46,3 @@ export const NamedColorsToolbar = () => {
     </Row>
   );
 };
-
-const useStyles = createStyles(() => ({
-  toolbar: {
-    marginBottom: 16,
-  },
-  select: {
-    width: "100%",
-  },
-  input: {
-    width: "100%",
-  },
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end",
-    width: "100%",
-  },
-}));

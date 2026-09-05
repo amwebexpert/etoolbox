@@ -6,6 +6,7 @@ import { createStyles } from "antd-style";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
+import { useScreenFormStyles } from "~/styles/screen-form.styles";
 
 import { useUuidGeneratorStore } from "./uuid-generator.store";
 import {
@@ -20,6 +21,7 @@ import { UuidGeneratorResult } from "./uuid-generator-result";
 import { UuidGeneratorToolbar } from "./uuid-generator-toolbar";
 
 export const UuidGenerator = () => {
+  const { styles: formStyles } = useScreenFormStyles();
   const { styles } = useStyles();
   const { isDesktop } = useResponsive();
 
@@ -45,17 +47,17 @@ export const UuidGenerator = () => {
 
   return (
     <ScreenContainer>
-      <Flex vertical gap="middle" className={styles.fullWidth}>
+      <Flex vertical gap="middle" className={formStyles.fullWidth}>
         <ScreenHeader
           icon={<IdcardOutlined />}
           title="UUID Generator"
           description="Generate universally unique identifiers (UUIDs) in various RFC 4122 versions"
         />
 
-        <Form layout="vertical" className={styles.form}>
+        <Form layout="vertical" className={formStyles.form}>
           <Row gutter={[16, 0]}>
             <Col xs={12} sm={8} md={6}>
-              <Form.Item label="Version" help="RFC 4122 version" className={styles.formItem}>
+              <Form.Item label="Version" help="RFC 4122 version" className={formStyles.formItem}>
                 <Select
                   value={version}
                   onChange={setVersion}
@@ -74,7 +76,7 @@ export const UuidGenerator = () => {
                 label="Quantity"
                 help={quantityError ?? "Number of UUIDs to generate"}
                 validateStatus={quantityError ? "error" : undefined}
-                className={styles.formItem}
+                className={formStyles.formItem}
               >
                 <InputNumber
                   value={quantity}
@@ -97,15 +99,6 @@ export const UuidGenerator = () => {
 };
 
 const useStyles = createStyles(() => ({
-  fullWidth: {
-    width: "100%",
-  },
-  form: {
-    width: "100%",
-  },
-  formItem: {
-    marginBottom: 16,
-  },
   select: {
     width: "100%",
   },

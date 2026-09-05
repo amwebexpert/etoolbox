@@ -1,11 +1,11 @@
 import { UnlockOutlined } from "@ant-design/icons";
 import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Flex, Form, Input } from "antd";
-import { createStyles } from "antd-style";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
+import { useScreenFormStyles } from "~/styles/screen-form.styles";
 
 import { useJwtDecoderStore } from "./jwt-decoder.store";
 import { decodeJwt } from "./jwt-decoder.utils";
@@ -15,7 +15,7 @@ import { JwtDecoderToolbar } from "./jwt-decoder-toolbar";
 const { TextArea } = Input;
 
 export const JwtDecoder = () => {
-  const { styles } = useStyles();
+  const { styles } = useScreenFormStyles();
   const { isDesktop, isMobile } = useResponsive();
 
   const { token, setToken, clearToken } = useJwtDecoderStore();
@@ -63,18 +63,3 @@ export const JwtDecoder = () => {
     </ScreenContainer>
   );
 };
-
-const useStyles = createStyles(() => ({
-  fullWidth: {
-    width: "100%",
-  },
-  form: {
-    width: "100%",
-  },
-  formItem: {
-    marginBottom: 16,
-  },
-  textArea: {
-    fontFamily: "monospace",
-  },
-}));

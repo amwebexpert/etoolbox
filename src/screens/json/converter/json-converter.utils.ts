@@ -3,8 +3,6 @@ import beautify from "js-beautify";
 import JSON5 from "json5";
 import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core";
 
-import { getResultMaxHeightPx, type ResponsiveContext } from "~/utils/responsive.utils";
-
 import { type ConversionContext, SYNTAX_HIGHLIGHTER_LANGUAGE_MAP } from "./json-converter.types";
 
 interface QuicktypeJsonArgs {
@@ -135,8 +133,4 @@ export const transform = async (data: ConversionContext): Promise<string> => {
 
 export const getSyntaxHighlighterLanguage = (targetLanguage: string): string => {
   return SYNTAX_HIGHLIGHTER_LANGUAGE_MAP[targetLanguage] ?? "plaintext";
-};
-
-export const getResultMaxHeight = (ctx: ResponsiveContext): string => {
-  return getResultMaxHeightPx(ctx);
 };

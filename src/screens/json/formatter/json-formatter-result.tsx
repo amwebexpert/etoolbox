@@ -1,10 +1,10 @@
-import { Typography } from "antd";
 import { createStyles } from "antd-style";
 import ReactJsonImport from "react-json-view";
-import SyntaxHighlighter from "react-syntax-highlighter";
 
+import { ResultBox, ResultPlaceholder, ResultSection } from "~/components/ui/result-section";
+import { SyntaxHighlightBlock } from "~/components/ui/syntax-highlight-block";
 import { useResponsive } from "~/hooks/use-responsive";
-import { useSyntaxHighlightTheme } from "~/hooks/use-syntax-highlight-theme";
+import { getResultMaxHeightPx } from "~/utils/responsive.utils";
 
 import { useJsonFormatterStore } from "./json-formatter.store";
 import { parseJsonForView } from "./json-formatter.utils";
@@ -19,34 +19,20 @@ interface JsonFormatterResultProps {
 
 export const JsonFormatterResult = ({ formattedJson }: JsonFormatterResultProps) => {
   const { styles } = useStyles();
-  const syntaxTheme = useSyntaxHighlightTheme();
   const { isMobile, isTablet } = useResponsive();
   const { viewMode, reactJsonConfig } = useJsonFormatterStore();
   const fontSize = isMobile ? 12 : 14;
 
   if (!formattedJson) {
-    return (
-      <div className={styles.placeholder}>
-        <Typography.Text type="secondary">Formatted JSON will appear here</Typography.Text>
-      </div>
-    );
+    return <ResultPlaceholder message="Formatted JSON will appear here" />;
   }
 
-  const getMaxHeight = (): string => {
-    if (isMobile) return "300px";
-    if (isTablet) return "400px";
-    return "500px";
-  };
-  const maxHeight = getMaxHeight();
+  const maxHeight = getResultMaxHeightPx({ isMobile, isTablet });
   const jsonObject = parseJsonForView(formattedJson);
 
   return (
-    <div className={styles.resultSection}>
-      <Typography.Text type="secondary" className={styles.resultLabel}>
-        Formatted Result
-      </Typography.Text>
-
-      <div className={styles.resultBox} style={{ maxHeight }}>
+    <ResultSection label="Formatted Result">
+      <ResultBox style={{ maxHeight }}>
         {viewMode === "react-json-view" && jsonObject ? (
           <div className={styles.reactJsonContainer}>
             <ReactJson
@@ -67,46 +53,17 @@ export const JsonFormatterResult = ({ formattedJson }: JsonFormatterResultProps)
             />
           </div>
         ) : (
-          <SyntaxHighlighter
-            language="json"
-            style={syntaxTheme}
-            customStyle={{ margin: 0, padding: 16, background: "transparent", fontSize }}
-            wrapLongLines={true}
-          >
-            {`\n${formattedJson}`}
-          </SyntaxHighlighter>
+          <SyntaxHighlightBlock code={`\n${formattedJson}`} variant="bare" customStyle={{ fontSize }} />
         )}
-      </div>
-    </div>
+      </ResultBox>
+    </ResultSection>
   );
 };
 
-const useStyles = createStyles(({ token }) => ({
-  resultSection: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 8,
-  },
-  resultLabel: {
-    fontWeight: 500,
-  },
-  resultBox: {
-    backgroundColor: token.colorBgContainer,
-    border: `1px solid ${token.colorBorder}`,
-    borderRadius: token.borderRadius,
-    overflow: "auto",
-    width: "100%",
-  },
+const useStyles = createStyles(() => ({
   reactJsonContainer: {
     "& .react-json-view": {
       backgroundColor: "transparent !important",
     },
-  },
-  placeholder: {
-    padding: 24,
-    textAlign: "center",
-    backgroundColor: token.colorBgContainer,
-    border: `1px dashed ${token.colorBorder}`,
-    borderRadius: token.borderRadius,
   },
 }));

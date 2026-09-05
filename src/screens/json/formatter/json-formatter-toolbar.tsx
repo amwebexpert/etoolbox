@@ -6,8 +6,8 @@ import {
   FormatPainterOutlined,
 } from "@ant-design/icons";
 import { Button, Segmented, Space, Tooltip } from "antd";
-import { createStyles } from "antd-style";
 
+import { ScreenToolbar } from "~/components/ui/screen-toolbar";
 import { useResponsive } from "~/hooks/use-responsive";
 
 import type { ViewMode } from "./json-formatter.types";
@@ -32,68 +32,56 @@ export const JsonFormatterToolbar = ({
   onViewModeChange,
 }: JsonFormatterToolbarProps) => {
   const { isMobile } = useResponsive();
-  const { styles } = useStyles();
 
   return (
-    <div className={styles.toolbar}>
-      <Tooltip title="Choose how to display the formatted JSON">
-        <Segmented
-          value={viewMode}
-          onChange={(value) => onViewModeChange(value as ViewMode)}
-          options={[
-            {
-              label: isMobile ? "Syntax" : "Syntax Highlight",
-              value: "syntax-highlight",
-              icon: <FormatPainterOutlined />,
-            },
-            {
-              label: isMobile ? "Interactive" : "Interactive View",
-              value: "react-json-view",
-              icon: <EyeOutlined />,
-            },
-          ]}
-          disabled={!hasContent}
-        />
-      </Tooltip>
-
-      <div className={styles.spacer} />
-
-      <Space size="small" wrap>
-        <Tooltip title={isMinified ? "Format JSON with indentation" : "Minify JSON (remove whitespace)"}>
-          <Button
-            type="primary"
-            icon={isMinified ? <FormatPainterOutlined /> : <CompressOutlined />}
+    <ScreenToolbar
+      leading={
+        <Tooltip title="Choose how to display the formatted JSON">
+          <Segmented
+            value={viewMode}
+            onChange={(value) => onViewModeChange(value as ViewMode)}
+            options={[
+              {
+                label: isMobile ? "Syntax" : "Syntax Highlight",
+                value: "syntax-highlight",
+                icon: <FormatPainterOutlined />,
+              },
+              {
+                label: isMobile ? "Interactive" : "Interactive View",
+                value: "react-json-view",
+                icon: <EyeOutlined />,
+              },
+            ]}
             disabled={!hasContent}
-            onClick={onToggleFormat}
-          >
-            {isMinified ? "Format" : "Minify"}
-          </Button>
+          />
         </Tooltip>
+      }
+      actions={
+        <Space size="small" wrap>
+          <Tooltip title={isMinified ? "Format JSON with indentation" : "Minify JSON (remove whitespace)"}>
+            <Button
+              type="primary"
+              icon={isMinified ? <FormatPainterOutlined /> : <CompressOutlined />}
+              disabled={!hasContent}
+              onClick={onToggleFormat}
+            >
+              {isMinified ? "Format" : "Minify"}
+            </Button>
+          </Tooltip>
 
-        <Tooltip title="Copy formatted JSON to clipboard">
-          <Button icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopy}>
-            {!isMobile && "Copy"}
-          </Button>
-        </Tooltip>
+          <Tooltip title="Copy formatted JSON to clipboard">
+            <Button icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopy}>
+              {!isMobile && "Copy"}
+            </Button>
+          </Tooltip>
 
-        <Tooltip title="Save JSON to file">
-          <Button icon={<DownloadOutlined />} disabled={!hasContent} onClick={onSaveAs}>
-            {isMobile ? "Save" : "Save As…"}
-          </Button>
-        </Tooltip>
-      </Space>
-    </div>
+          <Tooltip title="Save JSON to file">
+            <Button icon={<DownloadOutlined />} disabled={!hasContent} onClick={onSaveAs}>
+              {isMobile ? "Save" : "Save As…"}
+            </Button>
+          </Tooltip>
+        </Space>
+      }
+    />
   );
 };
-
-const useStyles = createStyles(() => ({
-  toolbar: {
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    flexWrap: "wrap",
-  },
-  spacer: {
-    flex: 1,
-  },
-}));

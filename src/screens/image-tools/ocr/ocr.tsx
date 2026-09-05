@@ -8,6 +8,7 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
 import { useToastMessage } from "~/hooks/use-toast-message";
+import { useScreenFormStyles } from "~/styles/screen-form.styles";
 
 import { useOcrStore } from "./ocr.store";
 import { LANGUAGE_OPTIONS } from "./ocr.types";
@@ -18,6 +19,7 @@ import { OcrToolbar } from "./ocr-toolbar";
 import { useOcr } from "./use-ocr";
 
 export const Ocr = () => {
+  const { styles: formStyles } = useScreenFormStyles();
   const { styles } = useStyles();
   const { isDesktop } = useResponsive();
   const messageApi = useToastMessage();
@@ -86,17 +88,17 @@ export const Ocr = () => {
 
   return (
     <ScreenContainer>
-      <Flex vertical gap="middle" className={styles.fullWidth}>
+      <Flex vertical gap="middle" className={formStyles.fullWidth}>
         <ScreenHeader
           icon={<ScanOutlined />}
           title="Image OCR"
           description="Extract text from images using Optical Character Recognition. Supports multiple languages."
         />
 
-        <Form layout="vertical" className={styles.form}>
+        <Form layout="vertical" className={formStyles.form}>
           <Row gutter={[16, 0]}>
             <Col xs={24} sm={12} md={8} lg={6}>
-              <Form.Item label="Image language" className={styles.formItem}>
+              <Form.Item label="Image language" className={formStyles.formItem}>
                 <Select
                   value={language}
                   onChange={setLanguage}
@@ -135,15 +137,6 @@ export const Ocr = () => {
 };
 
 const useStyles = createStyles(() => ({
-  fullWidth: {
-    width: "100%",
-  },
-  form: {
-    width: "100%",
-  },
-  formItem: {
-    marginBottom: 16,
-  },
   select: {
     width: "100%",
   },
