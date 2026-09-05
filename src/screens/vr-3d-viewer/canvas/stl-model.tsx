@@ -6,9 +6,6 @@ import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
 
 import type { ModelComponentProps } from "./canvas.types";
 
-/**
- * Model loader component for STL files
- */
 export const StlModel = ({ url, scale, onLoaded }: ModelComponentProps) => {
   const geometry = useLoader(STLLoader, url);
   const meshRef = useRef<THREE.Mesh>(null);

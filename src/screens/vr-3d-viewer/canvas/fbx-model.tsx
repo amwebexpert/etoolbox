@@ -5,9 +5,6 @@ import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 
 import type { ModelComponentProps } from "./canvas.types";
 
-/**
- * Model loader component for FBX files
- */
 export const FbxModel = ({ url, scale, onLoaded }: ModelComponentProps) => {
   const fbx = useLoader(FBXLoader, url);
 

@@ -24,7 +24,6 @@ export interface GenerateQRCodeContext {
   options: QRCodeOptions;
 }
 
-// Constants
 export const DEFAULT_QR_OPTIONS: QRCodeOptions = {
   errorCorrectionLevel: "H",
   type: "image/png",

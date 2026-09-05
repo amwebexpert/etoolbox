@@ -27,14 +27,12 @@ export const RegexTester = () => {
   const deferredInputText = useDeferredValue(inputText);
   const deferredFlags = useDeferredValue(flags);
 
-  // Compute regex results
   const result = testRegex({
     pattern: deferredPattern,
     inputText: deferredInputText,
     flags: deferredFlags,
   });
 
-  // Extract matches for formatted output
   const matches = extractMatches({
     pattern: deferredPattern,
     inputText: deferredInputText,

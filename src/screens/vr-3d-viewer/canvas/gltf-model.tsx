@@ -5,9 +5,6 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 import type { ModelComponentProps } from "./canvas.types";
 
-/**
- * Model loader component for GLTF/GLB files
- */
 export const GltfModel = ({ url, scale, onLoaded }: ModelComponentProps) => {
   const gltf = useLoader(GLTFLoader, url);
 

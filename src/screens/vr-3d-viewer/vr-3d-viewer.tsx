@@ -21,11 +21,9 @@ export const Vr3dViewer = () => {
   const messageApi = useToastMessage();
   const canvasRef = useRef<Vr3dViewerCanvasRef>(null);
 
-  // UI state
   const [showSettings, setShowSettings] = useState(false);
   const hasLoadedDefaultModelRef = useRef(false);
 
-  // Store state
   const {
     modelFile,
     isLoading,
@@ -42,12 +40,10 @@ export const Vr3dViewer = () => {
     clearModel,
   } = useVr3dViewerStore();
 
-  // Load default demo model on mount if no model is loaded
   useEffect(() => {
     if (!modelFile && !hasLoadedDefaultModelRef.current) {
       hasLoadedDefaultModelRef.current = true;
       setModelFile(DEFAULT_DEMO_MODEL);
-      // Apply suggested scale for demo model
       if (DEFAULT_DEMO_MODEL.suggestedScale) {
         setSceneSettings({ modelScale: DEFAULT_DEMO_MODEL.suggestedScale });
       }
@@ -57,7 +53,6 @@ export const Vr3dViewer = () => {
   }, [modelFile, setModelFile, setSceneSettings, setIsLoading, setLoadProgress]);
 
   const handleFileLoaded = (fileInfo: ModelFileInfo) => {
-    // Revoke previous URL to free memory
     if (modelFile?.url) {
       URL.revokeObjectURL(modelFile.url);
     }

@@ -11,18 +11,15 @@ import {
 } from "./vr-3d-viewer.types";
 
 interface Vr3dViewerState {
-  // Model state (not persisted)
   modelFile: ModelFileInfo | null;
   isLoading: boolean;
   loadProgress: number;
   error: string | null;
 
-  // Settings (persisted)
   sceneSettings: SceneSettings;
   cameraSettings: CameraSettings;
   viewMode: ViewMode;
 
-  // Actions
   setModelFile: (file: ModelFileInfo | null) => void;
   setIsLoading: (loading: boolean) => void;
   setLoadProgress: (progress: number) => void;
@@ -88,16 +85,13 @@ const persistedStateCreator = persist<Vr3dViewerState>(stateCreator, {
   name: PERSISTED_STORE_NAME,
   storage: createJSONStorage(() => localStorage),
   partialize: (state) => ({
-    // Only persist settings, not model data
     sceneSettings: state.sceneSettings,
     cameraSettings: state.cameraSettings,
     viewMode: state.viewMode,
-    // Don't persist these
     modelFile: null,
     isLoading: false,
     loadProgress: 0,
     error: null,
-    // Actions are automatically handled
     setModelFile: state.setModelFile,
     setIsLoading: state.setIsLoading,
     setLoadProgress: state.setLoadProgress,

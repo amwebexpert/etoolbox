@@ -2,9 +2,6 @@ import { OrbitControls } from "@react-three/drei";
 
 import type { CameraControllerProps } from "./canvas.types";
 
-/**
- * Camera controller with orbit controls and reset functionality
- */
 export const CameraController = ({ settings, controlsRef }: CameraControllerProps) => {
   return (
     <OrbitControls

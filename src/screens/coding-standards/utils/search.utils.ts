@@ -38,7 +38,6 @@ export const filterGuidelines = ({ search, rootNode }: FilterGuidelinesArgs): Ru
   const normalizedSearch = normalizeForSearch(search);
   if (!normalizedSearch) return [];
 
-  // traverse the tree and mark nodes that match the search inside its markdownLines
   const clonedRoot = cloneAndRemoveAllParents(rootNode);
   const allOrderedNodes = buildOrderedNodes({ node: clonedRoot });
   for (const node of allOrderedNodes) {
@@ -47,7 +46,6 @@ export const filterGuidelines = ({ search, rootNode }: FilterGuidelinesArgs): Ru
       node.markdownLines.some((line) => normalizeForSearch(line).includes(normalizedSearch));
   }
 
-  // traverse the tree and determine which nodes to show
   for (const node of allOrderedNodes) {
     if (!isParentOfAvoidPreferSection(node)) continue;
 

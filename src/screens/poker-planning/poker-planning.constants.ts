@@ -6,16 +6,15 @@ interface PokerPlanningQrcodeQueryKeyArgs {
   roomName: string;
 }
 
-// Query keys for TanStack Query cache
 export const PokerPlanningQueryKey = {
   all: ["poker-planning"] as const,
   qrcode: ({ hostName, roomUUID, roomName }: PokerPlanningQrcodeQueryKeyArgs) =>
     [...PokerPlanningQueryKey.all, "qrcode", hostName, roomUUID, roomName] as const,
 } as const;
 
-export const POKER_PLANNING_RATINGS_FIBONACCI: string[] = ["?", "0", "1", "2", "3", "5", "8", "13", "20", "40", "100"];
+const POKER_PLANNING_RATINGS_FIBONACCI: string[] = ["?", "0", "1", "2", "3", "5", "8", "13", "20", "40", "100"];
 
-export const POKER_PLANNING_RATINGS_FIBONACCI_ENHANCED: string[] = [
+const POKER_PLANNING_RATINGS_FIBONACCI_ENHANCED: string[] = [
   "?",
   "0",
   "0.5",
@@ -35,9 +34,9 @@ export const POKER_PLANNING_RATINGS_FIBONACCI_ENHANCED: string[] = [
   "100",
 ];
 
-export const POKER_PLANNING_RATINGS_T_SHIRT_SIZES: string[] = ["?", "S", "M", "L", "XL"];
+const POKER_PLANNING_RATINGS_T_SHIRT_SIZES: string[] = ["?", "S", "M", "L", "XL"];
 
-export const POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHANCED: string[] = ["?", "XS", "S", "M", "L", "XL", "XXL"];
+const POKER_PLANNING_RATINGS_T_SHIRT_SIZES_ENHANCED: string[] = ["?", "XS", "S", "M", "L", "XL", "XXL"];
 
 type PokerVotesSorter = (a: UserEstimate, b: UserEstimate) => number;
 
@@ -74,7 +73,6 @@ export const CARDS_LISTING_CATEGORIES: Record<CardsListingCategoryName, CardsLis
 };
 
 export const DEFAULT_CARDS_LISTING_CATEGORY: CardsListingCategoryName = "fibonacci";
-export const DEFAULT_ROOM_UUID = "default";
 export const DEFAULT_ROOM_NAME = "default";
 export const DEFAULT_HOSTNAME = "ws-poker-planning.onrender.com";
 

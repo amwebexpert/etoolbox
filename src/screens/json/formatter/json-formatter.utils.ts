@@ -1,7 +1,5 @@
 import {
-  formatJson as formatJsonUtil,
   getErrorMessage,
-  isMinifiedJson,
   minifyJson as minifyJsonUtil,
   prettifyJson as prettifyJsonUtil,
 } from "@lichens-innovation/ts-common";
@@ -71,20 +69,11 @@ export const ICON_STYLE_OPTIONS = [
   { label: "Square", value: "square" },
 ];
 
-interface FormatJsonArgs {
-  value?: string;
-  space: number;
-}
-
-export const formatJson = ({ value, space }: FormatJsonArgs): string => {
-  return formatJsonUtil({ value, space, sortKeys: true });
-};
-
 interface PrettifyJsonArgs {
   value?: string;
 }
 
-export const prettifyJson = ({ value }: PrettifyJsonArgs): string => {
+const prettifyJson = ({ value }: PrettifyJsonArgs): string => {
   return prettifyJsonUtil(value);
 };
 
@@ -92,16 +81,8 @@ interface MinifyJsonArgs {
   value?: string;
 }
 
-export const minifyJson = ({ value }: MinifyJsonArgs): string => {
+const minifyJson = ({ value }: MinifyJsonArgs): string => {
   return minifyJsonUtil(value);
-};
-
-interface IsMinifiedArgs {
-  value: string;
-}
-
-export const isMinified = ({ value }: IsMinifiedArgs): boolean => {
-  return isMinifiedJson(value);
 };
 
 interface GetFormattedJsonArgs {

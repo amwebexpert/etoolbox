@@ -30,7 +30,6 @@ const buildWebSocketUrl = ({ hostName, roomUUID }: BuildWebSocketUrlArgs): strin
     return `${protocol}://${document.location.host}/ws?roomUUID=${roomUUID}`;
   }
 
-  // In production, connect directly to the specified host
   const protocol = document.location.protocol === "https:" ? "wss" : "ws";
   return `${protocol}://${hostName}/ws?roomUUID=${roomUUID}`;
 };
@@ -68,7 +67,7 @@ export const createSocket = ({
   return socket;
 };
 
-export const getSocketState = (state: number): SocketState => (SOCKET_STATES.get(state) as SocketState) ?? "closed";
+const getSocketState = (state: number): SocketState => (SOCKET_STATES.get(state) as SocketState) ?? "closed";
 
 interface ParseEstimatesParams {
   estimates: UserEstimate[];
@@ -98,13 +97,13 @@ export const parseEstimates = ({ estimates, username }: ParseEstimatesParams): E
   };
 };
 
-export const buildRouteURL = ({
+const buildRouteURL = ({
   hostName = DEFAULT_HOSTNAME,
   roomName = DEFAULT_ROOM_NAME,
   roomUUID = uuidv4(),
 }: BuildRouteURLParams): string => `/poker-planning/${hostName}/${roomUUID}/${encodeURIComponent(roomName)}`;
 
-export const extractSinglePageAppBasePath = (): string => {
+const extractSinglePageAppBasePath = (): string => {
   const origin = document.location.origin;
   const basePath = getBasePath();
   // Remove trailing slash from basePath to avoid double slashes before #

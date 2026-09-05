@@ -1,4 +1,4 @@
-export type ThemeKeys =
+type ThemeKeys =
   | "apathy"
   | "apathy:inverted"
   | "ashes"

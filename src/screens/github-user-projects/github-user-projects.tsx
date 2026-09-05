@@ -46,7 +46,6 @@ export const GithubUserProjects = () => {
     username: lastSearchedUsername,
   });
 
-  // Apply filtering and sorting
   const processedProjects = useMemo(() => {
     const filtered = applyFiltering({
       projects,
@@ -63,7 +62,6 @@ export const GithubUserProjects = () => {
     });
   }, [projects, filter, language, showForks, showArchived, sortField, sortOrder]);
 
-  // Show error toast when fetch fails
   useEffect(() => {
     if (isProjectsError && projectsError) {
       messageApi.error(projectsError.message);

@@ -24,7 +24,6 @@ export const PokerPlanning = () => {
 
   const { roomName, roomUUID, username, socketState, session, clearVotes, removeUser } = usePokerPlanningStore();
 
-  // Sync URL params and session state
   useRouteParamsSync();
   useSessionSync();
   useCleanupSocketOnUnmount();

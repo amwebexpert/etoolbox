@@ -2,7 +2,6 @@ import { isNullish } from "@lichens-innovation/ts-common";
 
 import { logger } from "~/utils/logger";
 
-import { AVOID_PREFER_PREFIXES } from "../coding-standards.constants";
 import type { CodingCategory, GuidelineNode } from "../coding-standards.types";
 
 interface GuidelineFromTextArgs {
@@ -39,7 +38,7 @@ interface PopulateMarkdownLinesFromContentArgs {
   content: string;
 }
 
-export const populateGuidelineNodesSearchableContent = ({
+const populateGuidelineNodesSearchableContent = ({
   allOrderedNodes,
   content,
 }: PopulateMarkdownLinesFromContentArgs): void => {
@@ -47,17 +46,14 @@ export const populateGuidelineNodesSearchableContent = ({
   let contentLineIndex = 0;
   const orderedNodes = allOrderedNodes.slice(1); // skip root 'TOC' node level 0
 
-  // traverse all lines and populate markdownLines of each node when line is not a title
   for (const node of orderedNodes) {
     let line = allContentLines[contentLineIndex];
 
-    // move to next line if current line is the title of the node
     if (line === node.titleMarkdown) {
       contentLineIndex++;
       line = allContentLines[contentLineIndex];
     }
 
-    // populate markdownLines until next title line
     while (!isNullish(line) && !line.startsWith("#")) {
       node.markdownLines.push(line);
       contentLineIndex++;
@@ -91,7 +87,7 @@ interface SplitTocAndContentArgs {
   baseUrl: string;
 }
 
-export const splitTocAndContent = ({ text, baseUrl }: SplitTocAndContentArgs): SplitTocAndContentResult => {
+const splitTocAndContent = ({ text, baseUrl }: SplitTocAndContentArgs): SplitTocAndContentResult => {
   const regex = /^# .*\n/gm; // split at very first level one title line, starting with "# "
   const match = regex.exec(text);
   if (isNullish(match)) {
@@ -109,7 +105,7 @@ export const splitTocAndContent = ({ text, baseUrl }: SplitTocAndContentArgs): S
   };
 };
 
-export const buildGuidelineNodesFromToC = ({ rootNode, text, baseUrl }: GuidelineFromTextArgs): GuidelineNode => {
+const buildGuidelineNodesFromToC = ({ rootNode, text, baseUrl }: GuidelineFromTextArgs): GuidelineNode => {
   const lines = text
     .split("\n")
     .filter((line) => line.trim().length > 0)
@@ -137,7 +133,7 @@ interface ParseTocLineResult {
  *     title: 'avoid `{renderAbc()}` pattern'
  *     href: 'avoid-renderabc-pattern'
  */
-export const parseTocLine = (line: string): ParseTocLineResult => {
+const parseTocLine = (line: string): ParseTocLineResult => {
   const regex = /^( *)-\s*\[(.*?)\]\(#(.*?)\)$/;
   const match = line.match(regex);
   if (isNullish(match)) throw new Error(`Invalid TOC line: ${line}`);
@@ -185,7 +181,7 @@ interface FindParentNodeArgs {
   level: number;
 }
 
-export const findParentNodeForLevel = ({ node, level }: FindParentNodeArgs): GuidelineNode => {
+const findParentNodeForLevel = ({ node, level }: FindParentNodeArgs): GuidelineNode => {
   let currentNode = node;
   while (currentNode.level >= level) {
     if (isNullish(currentNode.parent)) throw new Error(`no parent for level ${level} - ${currentNode.title}`);
@@ -202,7 +198,7 @@ interface BuildGuidelineLinksFromLinesArgs {
   currentLineIndex?: number;
 }
 
-export const buildGuidelineLinksFromLines = ({
+const buildGuidelineLinksFromLines = ({
   baseUrl,
   node,
   lines,
@@ -245,9 +241,6 @@ export const cloneAndRemoveAllParents = (node: GuidelineNode): GuidelineNode => 
   return newNode;
 };
 
-export const isAvoidOrPreferTitle = (title: string): boolean =>
-  AVOID_PREFER_PREFIXES.some((prefix) => title.toLowerCase().startsWith(prefix));
-
 const extractRuleContent = (node: GuidelineNode): string => {
   const content = node.children
     .map(({ title, markdownLines }) => {
@@ -259,28 +252,17 @@ const extractRuleContent = (node: GuidelineNode): string => {
   return content;
 };
 
-export const extractFullRule = (node: GuidelineNode): RuleWithoutCategory => {
+const extractFullRule = (node: GuidelineNode): RuleWithoutCategory => {
   const { title, href } = node;
   const content = extractRuleContent(node);
 
   return { title, href, content };
 };
 
-export const loadRules = (guidelineNode: GuidelineNode): RuleWithoutCategory[] => {
+const loadRules = (guidelineNode: GuidelineNode): RuleWithoutCategory[] => {
   const rules: RuleWithoutCategory[] = [];
   for (const child of guidelineNode.children) {
     rules.push(extractFullRule(child));
-  }
-
-  return rules;
-};
-
-export const loadAllRules = (rootNode: GuidelineNode): RuleWithoutCategory[] => {
-  const rules: RuleWithoutCategory[] = [];
-
-  for (const guidelineNode of rootNode.children) {
-    const guidelineNodeRules = loadRules(guidelineNode);
-    rules.push(...guidelineNodeRules);
   }
 
   return rules;

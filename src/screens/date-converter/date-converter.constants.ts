@@ -15,7 +15,6 @@ export interface CopyHandlerArgs {
   label: string;
 }
 
-// Constants
 export const DEFAULT_EPOCH_VALUE = "";
 export const DEFAULT_EPOCH_UNIT: EpochUnit = "milliseconds";
 

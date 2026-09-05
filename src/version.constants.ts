@@ -10,5 +10,3 @@ export const APP_VERSION_INFO = Object.freeze({
   VERSION_DATE: "2026-09-05",
   VERSION_DATE_ISO: "2026-09-05T17:43:08.290Z",
 });
-
-export const LONG_VERSION_DATE = "4.8.0 (2026-09-05)";

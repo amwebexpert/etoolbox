@@ -9,7 +9,7 @@ export interface PokerPlanningSession {
   estimates: UserEstimate[];
 }
 
-export type MessageType = "reset" | "vote" | "remove";
+type MessageType = "reset" | "vote" | "remove";
 
 export interface UserMessage<TPayload = unknown> {
   type: MessageType;

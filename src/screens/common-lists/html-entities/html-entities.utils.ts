@@ -16,17 +16,14 @@ interface ApplyFilteringArgs {
 export const applyFiltering = ({ category, filter, filterField }: ApplyFilteringArgs): HtmlEntity[] => {
   let results = HTML_ENTITIES.slice();
 
-  // Filter by category
   if (category && category !== "all") {
     results = results.filter((entity) => entity.category === category);
   }
 
-  // Filter by named-only
   if (filterField === "named-only") {
     results = results.filter((entity) => entity.entityName !== "");
   }
 
-  // Filter by search term
   if (filter) {
     const filterLowercase = filter.toLowerCase();
 
@@ -43,19 +40,11 @@ export const applyFiltering = ({ category, filter, filterField }: ApplyFiltering
   return results;
 };
 
-export const formatEntityDisplay = (entity: HtmlEntity): string => {
-  if (entity.entityName) {
-    return entity.entityName;
-  }
-  return entity.entityNumber;
-};
-
 export const getEntityUniqueKey = (entity: HtmlEntity): string => {
   return entity.entityNumber;
 };
 
-export const extractCodePointFromEntityNumber = (entityNumber: string): number | null => {
-  // Parse &#123; format
+const extractCodePointFromEntityNumber = (entityNumber: string): number | null => {
   const match = entityNumber.match(/&#(\d+);/);
   if (match) {
     return parseInt(match[1], 10);

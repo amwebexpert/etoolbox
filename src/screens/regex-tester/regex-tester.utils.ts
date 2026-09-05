@@ -25,7 +25,7 @@ interface ParseRegexArgs {
   flags: string[];
 }
 
-export const parseRegex = ({ pattern, flags }: ParseRegexArgs): RegExp | null => {
+const parseRegex = ({ pattern, flags }: ParseRegexArgs): RegExp | null => {
   if (isBlank(pattern)) return null;
 
   try {
@@ -54,7 +54,7 @@ const escapeAndBreak = (text: string): string => {
   return escapeHtml(text).replace(/\n/g, "<br />");
 };
 
-export const transformWithHighlights = ({ pattern, inputText, flags }: TransformArgs): string => {
+const transformWithHighlights = ({ pattern, inputText, flags }: TransformArgs): string => {
   if (isBlank(pattern) || isBlank(inputText)) {
     return escapeAndBreak(inputText ?? "");
   }

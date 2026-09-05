@@ -7,9 +7,9 @@ import {
 } from "@lichens-innovation/ts-common";
 import { clipboardImageToDataUrl, readFileAsDataUrl } from "@lichens-innovation/ts-common/web";
 
-export const rgbaColorToHex = rgbaToHex;
-export const rgbaColorToHexWithAlpha = rgbaToHexWithAlpha;
-export const rgbaColorToRgbString = rgbToString;
+const rgbaColorToHex = rgbaToHex;
+const rgbaColorToHexWithAlpha = rgbaToHexWithAlpha;
+const rgbaColorToRgbString = rgbToString;
 export const rgbaColorToRgbaString = rgbaToString;
 
 interface ClickCoordinates {
@@ -24,7 +24,7 @@ interface ComputeImageClickCoordinatesArgs {
   image: HTMLImageElement;
 }
 
-export const computeImageClickCoordinates = ({ event, image }: ComputeImageClickCoordinatesArgs): ClickCoordinates => {
+const computeImageClickCoordinates = ({ event, image }: ComputeImageClickCoordinatesArgs): ClickCoordinates => {
   const bounds = image.getBoundingClientRect();
 
   // Use clientX/clientY (relative to viewport) to match getBoundingClientRect()

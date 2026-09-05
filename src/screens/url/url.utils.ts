@@ -1,10 +1,3 @@
-import { isNullish } from "@lichens-innovation/ts-common";
-
-/**
- * Parse a URL string into its component fragments.
- * @param value - The URL string to parse
- * @returns A Map containing URL components (host, protocol, hash, origin, pathname, port, search)
- */
 export const parseUrl = (value?: string): Map<string, string> => {
   const fragments: Map<string, string> = new Map();
 
@@ -29,11 +22,6 @@ export const parseUrl = (value?: string): Map<string, string> => {
   return fragments;
 };
 
-/**
- * Parse URL query parameters into a Map.
- * @param value - The URL string to parse
- * @returns A Map of parameter names to values
- */
 export const parseUrlParams = (value?: string): Map<string, string> => {
   const params: Map<string, string> = new Map();
 
@@ -50,47 +38,4 @@ export const parseUrlParams = (value?: string): Map<string, string> => {
   }
 
   return params;
-};
-
-/**
- * Build a query string from an object of key-value pairs.
- * @param params - Object with string key-value pairs
- * @returns Query string without the leading "?"
- */
-export const buildQueryString = (params: Record<string, string>): string => {
-  const searchParams = new URLSearchParams();
-  for (const [key, value] of Object.entries(params)) {
-    if (!isNullish(value)) {
-      searchParams.set(key, value);
-    }
-  }
-  return searchParams.toString();
-};
-
-/**
- * Check if a string is a valid URL.
- * @param value - The string to validate
- * @returns True if the string is a valid URL
- */
-export const isValidUrl = (value: string): boolean => {
-  try {
-    new URL(value);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-/**
- * Extract the domain from a URL string.
- * @param value - The URL string
- * @returns The hostname/domain, or empty string if invalid
- */
-export const extractDomain = (value: string): string => {
-  try {
-    const url = new URL(value);
-    return url.hostname;
-  } catch {
-    return "";
-  }
 };

@@ -10,22 +10,22 @@ interface HubBase {
   file: string;
 }
 
-export type ModelLoadHubProgressInitiate = HubBase & {
+type ModelLoadHubProgressInitiate = HubBase & {
   status: "initiate";
 };
 
-export type ModelLoadHubProgressDownload = HubBase & {
+type ModelLoadHubProgressDownload = HubBase & {
   status: "download";
 };
 
-export type ModelLoadHubProgressProgress = HubBase & {
+type ModelLoadHubProgressProgress = HubBase & {
   status: "progress";
   progress: number;
   loaded?: number;
   total?: number;
 };
 
-export type ModelLoadHubProgressDone = HubBase & {
+type ModelLoadHubProgressDone = HubBase & {
   status: "done";
 };
 

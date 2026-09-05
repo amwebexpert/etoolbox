@@ -5,14 +5,7 @@ import { InputData, jsonInputForTargetLanguage, quicktype } from "quicktype-core
 
 import { getResultMaxHeightPx, type ResponsiveContext } from "~/utils/responsive.utils";
 
-import {
-  type ConversionContext,
-  LANGUAGES,
-  type SourceType,
-  SYNTAX_HIGHLIGHTER_LANGUAGE_MAP,
-} from "./json-converter.types";
-
-export type { ConversionContext, SourceType };
+import { type ConversionContext, SYNTAX_HIGHLIGHTER_LANGUAGE_MAP } from "./json-converter.types";
 
 interface QuicktypeJsonArgs {
   targetLanguage: string;
@@ -138,10 +131,6 @@ export const transform = async (data: ConversionContext): Promise<string> => {
     default:
       return source;
   }
-};
-
-export const getLanguageDisplayName = (key: string): string => {
-  return LANGUAGES.get(key) ?? key;
 };
 
 export const getSyntaxHighlighterLanguage = (targetLanguage: string): string => {

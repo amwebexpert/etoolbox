@@ -29,9 +29,8 @@ interface CurlConverterType {
   client: string;
 }
 
-// Map display names to HTTPSnippet target/client pairs
 // See: https://github.com/Kong/httpsnippet#targets
-export const CONVERTERS: Map<string, CurlConverterType> = new Map([
+const CONVERTERS: Map<string, CurlConverterType> = new Map([
   ["C (libcurl)", { syntaxLanguage: "c", target: "c", client: "libcurl" }],
   ["Clojure", { syntaxLanguage: "clojure", target: "clojure", client: "clj_http" }],
   ["C#", { syntaxLanguage: "csharp", target: "csharp", client: "httpclient" }],
@@ -86,14 +85,9 @@ export const CONVERTERS: Map<string, CurlConverterType> = new Map([
 
 export const CONVERTERS_LIST = [...CONVERTERS.keys()];
 
-/**
- * Converts a parsed cURL command to HAR (HTTP Archive) format
- * required by HTTPSnippet
- */
 const curlToHar = (curlCommand: string): HarRequest => {
   const parsed = parseCurl(curlCommand);
 
-  // Build headers array from parsed headers object
   const headers: Array<{ name: string; value: string }> = [];
   if (parsed.header) {
     Object.entries(parsed.header).forEach(([name, value]) => {
@@ -101,7 +95,6 @@ const curlToHar = (curlCommand: string): HarRequest => {
     });
   }
 
-  // Parse URL to extract query string
   const queryString: Array<{ name: string; value: string }> = [];
   try {
     const urlObj = new URL(parsed.url);
@@ -112,10 +105,8 @@ const curlToHar = (curlCommand: string): HarRequest => {
     // URL parsing failed, continue without query params
   }
 
-  // Build postData if body is present
   let postData: HarRequest["postData"] = undefined;
   if (parsed.body) {
-    // Try to find content-type from headers
     const contentType = parsed.header?.["Content-Type"] ?? parsed.header?.["content-type"] ?? "application/json";
 
     postData = {
@@ -124,7 +115,6 @@ const curlToHar = (curlCommand: string): HarRequest => {
     };
   }
 
-  // Build the HAR request object
   const harRequest: HarRequest = {
     method: parsed.method || "GET",
     url: parsed.url,
@@ -157,16 +147,12 @@ export const transformCurl = ({ value, targetLanguage = "JavaScript (Fetch)" }: 
       .replaceAll(/[\r\n]+/g, " ") // Remove remaining newlines
       .trim();
 
-    // Get converter configuration
     const converter = CONVERTERS.get(targetLanguage);
     if (!converter) {
       return `Warning: no converter found matching "${targetLanguage}"`;
     }
 
-    // Parse cURL to HAR format
     const harRequest = curlToHar(curlCommand);
-
-    // Create HTTPSnippet and generate code
     const snippet = new HTTPSnippet(harRequest);
     const result = snippet.convert(converter.target, converter.client);
 

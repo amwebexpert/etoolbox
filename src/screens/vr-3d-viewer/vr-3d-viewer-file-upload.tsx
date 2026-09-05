@@ -57,7 +57,6 @@ export const Vr3dViewerFileUpload = ({ modelFile, onFileLoaded }: Vr3dViewerFile
 
   const fileInfoText = formatModelInfo(modelFile);
 
-  // Use simple button on mobile for better UX
   if (isMobile) {
     return (
       <div className={styles.mobileContainer}>

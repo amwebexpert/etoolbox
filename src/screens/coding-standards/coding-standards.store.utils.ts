@@ -4,7 +4,7 @@ import type { EmbeddingsProgress, GuidelineNode, Rule } from "./coding-standards
 import type { EmbeddingsEngine } from "./utils/embeddings-engine";
 import { combineSearchResults, filterGuidelines } from "./utils/search.utils";
 
-export const MAX_RESULTS_FOR_SEMANTIC_SEARCH = 10;
+const MAX_RESULTS_FOR_SEMANTIC_SEARCH = 10;
 
 export const INITIAL_EMBEDDINGS_PROGRESS: EmbeddingsProgress = {
   isCompleted: false,

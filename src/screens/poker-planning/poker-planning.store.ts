@@ -8,7 +8,6 @@ import type { CardsListingCategoryName, PokerPlanningSession, SocketState, UserM
 import { buildRemoveUserMessage, buildResetMessage, buildVoteMessage, createSocket } from "./poker-planning.utils";
 
 interface PokerPlanningState {
-  // Persisted settings
   hostName: string;
   roomName: string;
   username: string;
@@ -25,20 +24,17 @@ interface PokerPlanningState {
   socket: ReconnectingWebSocket | null;
   postponedMessage: UserMessage | null;
 
-  // Setters for persisted settings
   setHostName: (hostName: string) => void;
   setRoomName: (roomName: string) => void;
   setUsername: (username: string) => void;
   setCardsCategory: (cardsCategory: CardsListingCategoryName) => void;
 
-  // Setters for session state
   setRoomUUID: (roomUUID: string) => void;
   setSocketState: (socketState: SocketState) => void;
   setMyEstimate: (estimate?: string) => void;
   setIsEstimatesVisible: (isVisible: boolean) => void;
   setSession: (session?: PokerPlanningSession) => void;
 
-  // High-level actions
   createRoom: () => void;
   joinRoom: () => void;
   vote: (value: string) => void;
@@ -48,7 +44,6 @@ interface PokerPlanningState {
   disconnect: () => void;
   resetSession: () => void;
 
-  // Socket management
   connect: () => void;
   sendMessage: (message: UserMessage) => void;
   clearSocket: () => void;
@@ -125,7 +120,6 @@ const createSocketSlice = ({
       onSessionUpdate: (session) => set({ session }),
       onSocketStateUpdate: (newSocketState) => {
         set({ socketState: newSocketState });
-        // Send postponed message when connected
         const { socket: currentSocket, postponedMessage } = get();
         if (newSocketState === "open" && postponedMessage && currentSocket) {
           currentSocket.send(JSON.stringify(postponedMessage));
@@ -237,20 +231,17 @@ const createActionsSlice = ({
 });
 
 const stateCreator = (set: PokerPlanningSet, get: PokerPlanningGet): PokerPlanningState => ({
-  // Initial persisted values
   hostName: "",
   roomName: "",
   username: "",
   cardsCategory: DEFAULT_CARDS_LISTING_CATEGORY,
 
-  // Initial session values
   roomUUID: "",
   socketState: "closed",
   myEstimate: undefined,
   isEstimatesVisible: false,
   session: undefined,
 
-  // Socket state
   socket: null,
   postponedMessage: null,
 
@@ -278,5 +269,4 @@ export const usePokerPlanningStore = create<PokerPlanningState>()(
   devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
 );
 
-// Selector for socket cleanup
 export const useClearSocket = () => usePokerPlanningStore((state) => state.clearSocket);

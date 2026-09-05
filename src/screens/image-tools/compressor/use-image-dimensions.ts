@@ -11,10 +11,6 @@ interface DimensionsResult {
   height: number;
 }
 
-/**
- * Loads the natural pixel dimensions of an image source URL.
- * Returns null while the image has not finished loading, on error, or when src is null.
- */
 export const useImageDimensions = (src: string | null): ImageDimensions | null => {
   const [result, setResult] = useState<DimensionsResult | null>(null);
 

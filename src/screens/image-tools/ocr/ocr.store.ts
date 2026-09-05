@@ -11,15 +11,13 @@ import {
 } from "./ocr.types";
 
 interface OcrState {
-  // Persisted preferences
   language: string;
 
-  // Session state (not persisted but managed here for convenience)
+  // Session state — not persisted, but kept in this same store for convenience
   imageDataUrl: string;
   extractedText: string;
   workerStatus: WorkerStatus;
 
-  // Actions
   setLanguage: (language: string) => void;
   setImageDataUrl: (dataUrl: string) => void;
   setExtractedText: (text: string) => void;
@@ -58,7 +56,6 @@ const stateCreator = (set: (partial: Partial<OcrState>) => void): OcrState => ({
 const persistedStateCreator = persist<OcrState>(stateCreator, {
   name: PERSISTED_STORE_NAME,
   storage: createJSONStorage(() => localStorage),
-  // Only persist the language preference, not the image data or processing state
   partialize: (state) =>
     ({
       language: state.language,

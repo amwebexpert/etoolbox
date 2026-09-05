@@ -24,7 +24,6 @@ export interface LanguageOption {
   label: string;
 }
 
-// Constants
 export const INITIAL_WORKER_STATUS: WorkerStatus = {
   workerId: "",
   jobId: "",

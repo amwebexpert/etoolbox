@@ -10,7 +10,6 @@ import { SceneContent } from "./canvas/scene-content";
 import type { CameraSettings, ModelFileInfo, SceneSettings } from "./vr-3d-viewer.types";
 import { determineCanvasHeight } from "./vr-3d-viewer.utils";
 
-// Types for the component
 interface Vr3dViewerCanvasProps {
   modelFile: ModelFileInfo | null;
   sceneSettings: SceneSettings;
@@ -25,7 +24,6 @@ export interface Vr3dViewerCanvasRef {
   requestFullscreen: () => void;
 }
 
-// Main canvas component
 export const Vr3dViewerCanvas = forwardRef<Vr3dViewerCanvasRef, Vr3dViewerCanvasProps>(
   ({ modelFile, sceneSettings, cameraSettings, onProgress, onError, onLoaded }, ref) => {
     const { styles } = useStyles();

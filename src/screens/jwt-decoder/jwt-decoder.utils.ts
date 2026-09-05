@@ -73,17 +73,12 @@ export const formatJson = (obj: unknown): string => {
   return safeJsonStringify(obj);
 };
 
-export const getTokenParts = (token: string): string[] => {
-  if (isBlank(token)) return [];
-  return token.trim().split(".");
-};
-
 export const isTokenExpired = (payload: ExtendedJwtPayload | null): boolean => {
   if (!payload?.exp) return false;
   return isExpiredTimestamp(payload.exp);
 };
 
-export const formatTimestamp = (timestamp?: number): string => {
+const formatTimestamp = (timestamp?: number): string => {
   if (!timestamp) return "N/A";
   return formatUnixTimestamp(timestamp);
 };
@@ -168,7 +163,7 @@ export const getResultMaxHeight = (ctx: ResponsiveContext): number => {
   return getResponsiveMaxHeight(ctx);
 };
 
-export const getSampleJwt = (): string => {
+const getSampleJwt = (): string => {
   const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
   const now = getCurrentUnixTimestamp();
   const payload = btoa(

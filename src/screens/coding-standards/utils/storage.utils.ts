@@ -59,12 +59,10 @@ export const loadEmbedding = (rule: Rule): EmbeddingVector | null => {
     return null;
   }
 
-  // Verify content hash matches
   if (simpleHash(rule.content) === serializedEmbedding.contentSha256) {
     return serializedEmbedding.embedding;
   }
 
-  // Remove outdated embedding
   delete embeddings[key];
   saveStoredEmbeddings(embeddings);
   return null;

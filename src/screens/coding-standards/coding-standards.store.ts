@@ -42,17 +42,14 @@ interface CodingStandardsState {
   isSearching: boolean;
   searchResults: Rule[];
 
-  // Guidelines sources
   guidelineSources: GuidelineSource[];
 
-  // Embeddings
   embeddingsEngine: EmbeddingsEngine | null;
   embeddingsProgress: EmbeddingsProgress;
   isInitialized: boolean;
   isLoadingModel: boolean;
   isClearingModelCache: boolean;
 
-  // Actions
   setSearchQuery: (query: string) => void;
   setSearchResults: (results: Rule[]) => void;
   setIsSearching: (isSearching: boolean) => void;
@@ -230,10 +227,8 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
   isSearching: false,
   searchResults: [],
 
-  // Guidelines sources
   guidelineSources: DEFAULT_GUIDELINE_SOURCES,
 
-  // Embeddings
   embeddingsEngine: null,
   embeddingsProgress: INITIAL_EMBEDDINGS_PROGRESS,
   isInitialized: false,
@@ -260,7 +255,6 @@ export const useCodingStandardsStore = create<CodingStandardsState>()(
   )
 );
 
-// Selectors
 export const useRedownloadModel = () => useCodingStandardsStore((state) => state.redownloadModel);
 export const useRecomputeAllEmbeddings = () => useCodingStandardsStore((state) => state.recomputeAllEmbeddings);
 export const useIsClearingModelCache = () => useCodingStandardsStore((state) => state.isClearingModelCache);

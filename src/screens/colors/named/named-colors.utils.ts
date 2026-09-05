@@ -49,7 +49,7 @@ export const DEFAULT_PAGE_SIZE = 5;
 
 export const PAGE_SIZE_OPTIONS = [5, 10, 25, 50, 100, 200];
 
-export const NAMED_COLORS: ColorInfo[] = [
+const NAMED_COLORS: ColorInfo[] = [
   {
     family: "Blue",
     htmlName: "Navy",
@@ -892,7 +892,7 @@ export const NAMED_COLORS: ColorInfo[] = [
   },
 ];
 
-export const FAMILY_NAMES = NAMED_COLORS.reduce((acc, colorInfo) => {
+const FAMILY_NAMES = NAMED_COLORS.reduce((acc, colorInfo) => {
   if (!acc.includes(colorInfo.family)) {
     acc.push(colorInfo.family);
   }

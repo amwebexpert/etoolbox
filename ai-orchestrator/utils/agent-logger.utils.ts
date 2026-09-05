@@ -1,4 +1,3 @@
-// Per-agent log files: logs/implementer-{issueId}.log, logs/reviewer-{issueId}.log, logs/planner.log, logs/merger.log
 import { isNullish } from "@lichens-innovation/ts-common";
 import type { Logger } from "@lichens-innovation/ts-common/logger";
 import { mkdirSync } from "node:fs";
@@ -66,7 +65,7 @@ export const setAgentLogDir = (dir: string): void => {
   loggerCache.clear();
 };
 
-export const labelToLogFile = (label: string): string => {
+const labelToLogFile = (label: string): string => {
   if (label.startsWith("impl:")) {
     return path.join(logDir, `implementer-${label.slice(5)}.log`);
   }
@@ -81,8 +80,6 @@ export const labelToLogFile = (label: string): string => {
 
   return path.join(logDir, `${label.replaceAll(":", "-")}.log`);
 };
-
-export const labelToSdkDebugFile = (label: string): string => labelToLogFile(label).replace(/\.log$/, "-sdk-debug.log");
 
 const loggerCache = new Map<string, Logger>();
 

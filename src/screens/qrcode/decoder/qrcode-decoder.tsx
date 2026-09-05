@@ -48,7 +48,6 @@ export const QrcodeDecoder = () => {
     [messageApi, previewUrl, resetDecode]
   );
 
-  // Handle clipboard paste
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
       const { items } = e.clipboardData ?? {};

@@ -11,7 +11,6 @@ interface DetectionContext {
   entityName: string;
 }
 
-// Greek alphabet entity names (upper + lower case + a few symbol variants)
 const GREEK_ENTITY_NAMES = new Set([
   "&Alpha;",
   "&Beta;",
@@ -178,7 +177,6 @@ const SYMBOL_KEYWORDS = [
 const CATEGORY_RULES: CategoryRule[] = [
   { category: "numbers", matches: ({ desc }) => desc.includes("digit") },
   {
-    // Accented uppercase/lowercase letters
     category: "letters-accented",
     matches: ({ desc }) =>
       (desc.startsWith("uppercase") || desc.startsWith("lowercase")) &&
@@ -189,12 +187,10 @@ const CATEGORY_RULES: CategoryRule[] = [
         desc.includes("diaer")),
   },
   {
-    // Basic uppercase/lowercase letters (A-Z, a-z)
     category: "letters",
     matches: ({ desc }) => desc.startsWith("uppercase") || desc.startsWith("lowercase"),
   },
   {
-    // Capital/Lowercase with accents (before Greek detection)
     category: "letters-accented",
     matches: ({ desc }) =>
       (desc.startsWith("capital") || desc.includes("lowercase")) &&
@@ -209,7 +205,6 @@ const CATEGORY_RULES: CategoryRule[] = [
         desc.includes("diaer")),
   },
   {
-    // Ligatures
     category: "letters-accented",
     matches: ({ desc }) =>
       desc.includes("ligature") ||
@@ -220,7 +215,6 @@ const CATEGORY_RULES: CategoryRule[] = [
       desc.includes("lowercase ae"),
   },
   {
-    // Greek letters - check entityName for Greek alphabet
     category: "greek",
     matches: ({ entityName }) => GREEK_ENTITY_NAMES.has(entityName),
   },
@@ -243,7 +237,6 @@ const CATEGORY_RULES: CategoryRule[] = [
     matches: ({ desc }) => desc.includes("arrow") || desc.includes("ceiling") || desc.includes("floor"),
   },
   {
-    // Whitespace (more specific)
     category: "whitespace",
     matches: ({ desc }) =>
       desc.includes("space") ||
@@ -252,18 +245,15 @@ const CATEGORY_RULES: CategoryRule[] = [
       desc.includes("right-to-left mark"),
   },
   {
-    // Punctuation and quotes
     category: "punctuation",
     matches: ({ desc }) => includesAnyKeyword({ desc, keywords: PUNCTUATION_KEYWORDS }),
   },
   {
-    // Symbols (trademark, copyright, etc.)
     category: "symbols",
     matches: ({ desc }) => includesAnyKeyword({ desc, keywords: SYMBOL_KEYWORDS }),
   },
 ];
 
-// Determine entity category based on character/description; falls back to "symbols" when no rule matches
 const determineCategory = (entity: EntityCategoryInput): HtmlEntityCategory => {
   const ctx: DetectionContext = {
     desc: entity.description.toLowerCase(),
@@ -606,13 +596,11 @@ const rawHtmlEntities: Omit<HtmlEntity, "category">[] = [
   { character: "♦", entityName: "&diams;", entityNumber: "&#9830;", description: "Diamond" },
 ];
 
-// Build entities with categories
 export const HTML_ENTITIES: HtmlEntity[] = rawHtmlEntities.map((entity) => ({
   ...entity,
   category: determineCategory(entity),
 }));
 
-// Extract unique categories for the filter dropdown
 export const CATEGORY_LABELS: Record<HtmlEntityCategory, string> = {
   all: "All categories",
   letters: "Letters (A-Z)",

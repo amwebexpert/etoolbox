@@ -20,25 +20,20 @@ interface HandlePageChangeArgs {
 }
 
 interface GithubUserProjectsState {
-  // Search state
   username: string;
   lastSearchedUsername: string;
 
-  // Filter state
   filter: string;
   language: string;
   showForks: boolean;
   showArchived: boolean;
 
-  // Sort state
   sortField: SortField;
   sortOrder: SortOrder;
 
-  // Pagination state
   page: number;
   pageSize: number;
 
-  // Actions
   setUsername: (username: string) => void;
   setLastSearchedUsername: (username: string) => void;
   setFilter: (filter: string) => void;
@@ -55,7 +50,6 @@ interface GithubUserProjectsState {
 }
 
 const stateCreator: StateCreator<GithubUserProjectsState> = (set, get) => ({
-  // Initial state
   username: DEFAULT_USERNAME,
   lastSearchedUsername: DEFAULT_USERNAME,
   filter: DEFAULT_FILTER,
@@ -67,7 +61,6 @@ const stateCreator: StateCreator<GithubUserProjectsState> = (set, get) => ({
   page: DEFAULT_PAGE,
   pageSize: DEFAULT_PAGE_SIZE,
 
-  // Actions
   setUsername: (username) => set({ username }),
   setLastSearchedUsername: (lastSearchedUsername) => set({ lastSearchedUsername, username: lastSearchedUsername }),
   setFilter: (filter) => set({ filter, page: DEFAULT_PAGE }),

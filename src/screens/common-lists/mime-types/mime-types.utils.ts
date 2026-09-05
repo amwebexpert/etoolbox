@@ -3,7 +3,6 @@ import mimeDb from "mime-db";
 
 import type { MimeTypeCategory, MimeTypeEntry } from "./mime-types.types";
 
-// Transform mime-db into our format with categories
 const initMimeTypes = (): MimeTypeEntry[] => {
   const entries: MimeTypeEntry[] = [];
 
@@ -27,7 +26,7 @@ const extractCategory = (mimeType: string): string => {
 
 export const MIME_TYPES: MimeTypeEntry[] = initMimeTypes();
 
-export const CATEGORIES: string[] = [...new Set(MIME_TYPES.map((entry) => entry.category))].sort();
+const CATEGORIES: string[] = [...new Set(MIME_TYPES.map((entry) => entry.category))].sort();
 
 export const CATEGORY_OPTIONS = [
   { value: "all" as const, label: "All categories" },

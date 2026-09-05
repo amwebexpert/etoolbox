@@ -1,4 +1,4 @@
-import { getErrorMessage, isBlank, isNullish, safeJsonParse, safeJsonStringify } from "@lichens-innovation/ts-common";
+import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
 import { getExtensionFromDataUri } from "@lichens-innovation/ts-common/mime";
 import { downloadDataUrl } from "@lichens-innovation/ts-common/web";
 import QRCode from "qrcode";
@@ -30,36 +30,6 @@ interface DownloadQRCodeArgs {
 export const downloadQRCode = ({ dataUrl, filename = "qrcode" }: DownloadQRCodeArgs): void => {
   const extension = getExtensionFromDataUri(dataUrl);
   downloadDataUrl({ dataUrl, fileName: `${filename}.${extension}` });
-};
-
-export const formatOptionsAsJson = (options: QRCodeOptions): string => {
-  return safeJsonStringify(options);
-};
-
-export const parseOptionsFromJson = (json: string): QRCodeOptions => {
-  const result = safeJsonParse<QRCodeOptions>(json);
-  if (isNullish(result)) {
-    throw new Error("Invalid JSON format for QR code options");
-  }
-  return result;
-};
-
-export const validateOptions = (options: QRCodeOptions): string[] => {
-  const errors: string[] = [];
-
-  if (options.width < 50 || options.width > 1000) {
-    errors.push("Width must be between 50 and 1000 pixels");
-  }
-
-  if (options.margin < 0 || options.margin > 10) {
-    errors.push("Margin must be between 0 and 10");
-  }
-
-  if (options.quality < 0 || options.quality > 1) {
-    errors.push("Quality must be between 0 and 1");
-  }
-
-  return errors;
 };
 
 interface GetCapacityInfoArgs {

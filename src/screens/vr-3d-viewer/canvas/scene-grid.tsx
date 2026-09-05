@@ -3,9 +3,6 @@ import { Grid } from "@react-three/drei";
 
 import type { SceneGridProps } from "./canvas.types";
 
-/**
- * Grid helper component for the 3D scene
- */
 export const SceneGrid = ({ backgroundColor }: SceneGridProps) => {
   const isLight = isLightColor(backgroundColor);
   const gridColor = isLight ? "#333333" : "#555555";

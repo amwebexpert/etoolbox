@@ -6,7 +6,7 @@ import type {
   HttpHeaderTypeFilter,
 } from "./http-headers.types";
 
-export const CATEGORIES: HttpHeaderCategory[] = [
+const CATEGORIES: HttpHeaderCategory[] = [
   "authentication",
   "caching",
   "conditionals",

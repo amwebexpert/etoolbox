@@ -5,10 +5,6 @@ interface DataUrlResult {
   url: string;
 }
 
-/**
- * Reads a File as a base64 data URL via FileReader.
- * Returns null until the read completes, on error, or when file is null.
- */
 export const useFileDataUrl = (file: File | null): string | null => {
   const [result, setResult] = useState<DataUrlResult | null>(null);
 

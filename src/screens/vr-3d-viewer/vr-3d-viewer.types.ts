@@ -1,7 +1,5 @@
-// Supported 3D model file formats
 export type ModelFormat = "gltf" | "glb" | "obj" | "fbx" | "stl" | "unknown";
 
-// Model file information
 export interface ModelFileInfo {
   name: string;
   size: number;
@@ -13,10 +11,8 @@ export interface ModelFileInfo {
   suggestedScale?: number;
 }
 
-// Lighting presets
 export type LightingPreset = "studio" | "outdoor" | "dramatic" | "soft";
 
-// Camera controls settings
 export interface CameraSettings {
   autoRotate: boolean;
   autoRotateSpeed: number;
@@ -26,7 +22,6 @@ export interface CameraSettings {
   maxDistance: number;
 }
 
-// Scene settings
 export interface SceneSettings {
   backgroundColor: string;
   showGrid: boolean;
@@ -36,30 +31,8 @@ export interface SceneSettings {
   modelScale: number;
 }
 
-// View mode for the 3D viewer
 export type ViewMode = "normal" | "wireframe";
 
-// 3D Vector type for positions/coordinates
-export interface Vector3D {
-  x: number;
-  y: number;
-  z: number;
-}
-
-// Bounding box with min/max corners
-export interface BoundingBox {
-  min: Vector3D;
-  max: Vector3D;
-}
-
-// RGB color values normalized to 0-1 range (for Three.js)
-export interface NormalizedRgb {
-  r: number;
-  g: number;
-  b: number;
-}
-
-// Constants
 export const DEFAULT_CAMERA_SETTINGS: CameraSettings = {
   autoRotate: false,
   autoRotateSpeed: 2,

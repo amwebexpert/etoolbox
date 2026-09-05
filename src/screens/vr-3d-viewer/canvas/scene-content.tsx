@@ -6,9 +6,6 @@ import { ModelLoader } from "./model-loader";
 import { computeBackgroundColor } from "./scene-content.utils";
 import { SceneGrid } from "./scene-grid";
 
-/**
- * Main scene content component that assembles all 3D elements
- */
 export const SceneContent = ({
   modelFile,
   sceneSettings,

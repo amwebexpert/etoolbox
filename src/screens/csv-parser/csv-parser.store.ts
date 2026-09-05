@@ -11,19 +11,16 @@ import {
 } from "./csv-parser.types";
 
 interface CsvParserState {
-  // Input state
   csvInput: string;
   fileEncoding: string;
   parserOptions: CsvParserOptions;
   fileInfo: FileInfo | null;
 
-  // View state
   viewMode: ViewMode;
 
   // Result state (non-persisted, but managed by store)
   parseResult: CsvParseResult | null;
 
-  // Actions
   setCsvInput: (input: string) => void;
   setFileEncoding: (encoding: string) => void;
   setParserOptions: (options: Partial<CsvParserOptions>) => void;
@@ -72,7 +69,6 @@ const persistedStateCreator = persist<CsvParserState>(stateCreator, {
   name: PERSISTED_STORE_NAME,
   storage: createJSONStorage(() => localStorage),
   partialize: (state) => ({
-    // Only persist these fields
     csvInput: state.csvInput,
     fileEncoding: state.fileEncoding,
     parserOptions: state.parserOptions,

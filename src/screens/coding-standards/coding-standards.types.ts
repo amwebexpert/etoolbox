@@ -16,11 +16,6 @@ export interface GuidelineSource {
   enabled: boolean;
 }
 
-export interface SearchFilters {
-  categories: string[];
-  minSimilarity: number;
-}
-
 export interface EmbeddingsProgress {
   isCompleted: boolean;
   total: number;

@@ -17,7 +17,7 @@ interface GetResponsiveValueArgs<T> {
   values: ResponsiveValue<T>;
 }
 
-export const getResponsiveValue = <T>({ ctx, values }: GetResponsiveValueArgs<T>): T => {
+const getResponsiveValue = <T>({ ctx, values }: GetResponsiveValueArgs<T>): T => {
   if (ctx.isMobile) return values.mobile;
   if (ctx.isTablet) return values.tablet;
   return values.desktop;

@@ -90,7 +90,6 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
     },
   ];
 
-  // Add Unicode column for non-mobile
   if (!isMobile) {
     columns.push({
       title: "Unicode",
@@ -117,7 +116,6 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
     });
   }
 
-  // Add description column (hidden on mobile)
   if (!isMobile) {
     columns.push({
       title: "Description",
@@ -129,7 +127,6 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
     });
   }
 
-  // Add category tag column (hidden on small devices)
   if (!isMobile && !isTablet) {
     columns.push({
       title: "Category",

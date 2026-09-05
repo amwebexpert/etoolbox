@@ -19,7 +19,6 @@ export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promi
   const startTime = performance.now();
 
   try {
-    // Extract base64 data from data URL
     const base64Data = imageDataUrl.split(",")[1];
     if (!base64Data) {
       throw new Error("Invalid image data URL format");

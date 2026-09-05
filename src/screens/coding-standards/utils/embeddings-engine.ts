@@ -9,7 +9,6 @@ import { cosineSimilarity } from "./cosine-similarity";
 import { loadAllRulesWithCategory } from "./markdown-parser";
 import { loadEmbedding, saveEmbedding } from "./storage.utils";
 
-// Skip initial check for local models, since we are not loading any local models.
 env.allowLocalModels = false;
 
 // TODO Ticket-001 Due to a bug in onnxruntime-web, we must disable multithreading for now.
@@ -78,13 +77,9 @@ export class EmbeddingsEngine {
       await this.computeRuleEmbedding(rule);
       saveEmbedding(rule);
     }
-
-    //console.info(`[EmbeddingsEngine] Computed embedding for: ${rule.title}`);
   }
 
   async computeRuleEmbedding(rule: Rule): Promise<void> {
-    // console.info(`[EmbeddingsEngine] Computing rule embeddings: ${rule.title}`);
-
     if (isNullish(this.featureExtractionEmbeddings)) return;
     const createEmbedding = this.featureExtractionEmbeddings;
 
@@ -96,9 +91,6 @@ export class EmbeddingsEngine {
   async computeAllEmbeddings(): Promise<void> {
     if (isNullish(this.featureExtractionEmbeddings)) throw Error("Model should be loaded first");
 
-    // @see Ticket-001 regarding multiple threads
-    // const embeddingPromises = this.rules.map((rule) => this.computeRuleEmbedding(rule))
-    // await Promise.all(embeddingPromises)
     while (this.nextRuleToCompute) {
       await this.computeNextRuleEmbedding();
     }
@@ -119,7 +111,6 @@ export class EmbeddingsEngine {
     this.featureExtractionEmbeddings = await pipeline("feature-extraction", LlmModel.all_minilm_l6_v2, {
       progress_callback: (data: unknown) => onModelLoadProgress(data as ModelLoadHubProgressEvent),
     });
-    // TODO Ticket-001: await this.computeEmbeddings()
   }
 
   async findRelevantDocuments(configs: RelevantDocumentsArgs): Promise<Rule[]> {

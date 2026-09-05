@@ -8,13 +8,11 @@ export interface ConversionContext {
   rootClassName: string;
 }
 
-// Constants
 export const DEFAULT_ROOT_CLASS_NAME = "RootClass";
 export const DEFAULT_SOURCE_TEXT = '{ "firstName": "Chuck", "lastName": "Norris" }';
 export const DEFAULT_SOURCE_TYPE: SourceType = "json";
 export const DEFAULT_TARGET_LANGUAGE = "typescript";
 
-// Language mapping: [key, display name]
 export const LANGUAGES: Map<string, string> = new Map([
   ["csharp", "C#"],
   ["cpp", "C++"],

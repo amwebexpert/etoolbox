@@ -1,13 +1,10 @@
 import { getBase64ApproxSize } from "@lichens-innovation/ts-common";
 import {
-  type Base64FileResult,
   base64ToBlob,
   downloadBlob,
   readFileAsBase64 as readFileAsBase64Util,
 } from "@lichens-innovation/ts-common/web";
 import prettyBytes from "pretty-bytes";
-
-export type { Base64FileResult };
 
 interface DownloadBase64AsFileArgs {
   base64: string;

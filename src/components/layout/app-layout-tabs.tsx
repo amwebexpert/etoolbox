@@ -2,7 +2,7 @@ import { Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { Tabs } from "antd";
 import { createStyles } from "antd-style";
 
-export interface TabItem {
+interface TabItem {
   key: string;
   label: string;
 }

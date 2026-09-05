@@ -33,10 +33,8 @@ export const DateConverter = () => {
   const { epochValue, epochUnit, showCodeExamples, setEpochValue, setEpochUnit, setShowCodeExamples, reset } =
     useDateConverterStore();
 
-  // Parse the epoch value to a Date object
   const parsedDate = parseEpochToDate({ epochValue, epochUnit });
 
-  // Get the epoch value as a number for formatting functions
   const getEpochNumber = (): number => {
     if (!parsedDate) return 0;
     return epochUnit === "seconds" ? Math.floor(parsedDate.getTime() / 1000) : parsedDate.getTime();

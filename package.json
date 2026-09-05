@@ -39,6 +39,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
     "lint:package": "npmPkgJsonLint .",
     "habit:hooks": "habit-hooks --branch main",
+    "habit:hooks:full": "habit-hooks",
     "habit:snoozed": "habit-snooze --list",
     "sandcastle": "npx tsx .sandcastle/main.ts",
     "ai:run:plan": "npx tsx ai-orchestrator/main.ts",
