@@ -94,10 +94,14 @@ const parseQueryStringFromUrl = (url: string): Array<{ name: string; value: stri
     });
     return queryString;
   } catch {
+    // URL parsing failed, continue without query params habit-hooks-disable non-essential-comment
     return [];
   }
 };
 
+/** habit-hooks-disable non-essential-comment
+ * Converts a parsed cURL command to HAR (HTTP Archive) format required by HTTPSnippet.
+ */
 const curlToHar = (curlCommand: string): HarRequest => {
   const parsed = parseCurl(curlCommand);
 

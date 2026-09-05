@@ -41,9 +41,11 @@ export const Vr3dViewer = () => {
   } = useVr3dViewerStore();
 
   useEffect(() => {
+    // Load default demo model on mount if no model is loaded habit-hooks-disable non-essential-comment
     if (!modelFile && !hasLoadedDefaultModelRef.current) {
       hasLoadedDefaultModelRef.current = true;
       setModelFile(DEFAULT_DEMO_MODEL);
+      // Apply suggested scale for demo model habit-hooks-disable non-essential-comment
       if (DEFAULT_DEMO_MODEL.suggestedScale) {
         setSceneSettings({ modelScale: DEFAULT_DEMO_MODEL.suggestedScale });
       }
@@ -53,6 +55,7 @@ export const Vr3dViewer = () => {
   }, [modelFile, setModelFile, setSceneSettings, setIsLoading, setLoadProgress]);
 
   const handleFileLoaded = (fileInfo: ModelFileInfo) => {
+    // Revoke previous URL to free memory habit-hooks-disable non-essential-comment
     if (modelFile?.url) {
       URL.revokeObjectURL(modelFile.url);
     }

@@ -91,6 +91,9 @@ export class EmbeddingsEngine {
   async computeAllEmbeddings(): Promise<void> {
     if (isNullish(this.featureExtractionEmbeddings)) throw Error("Model should be loaded first");
 
+    // @see Ticket-001 regarding multiple threads habit-hooks-disable non-essential-comment
+    // const embeddingPromises = this.rules.map((rule) => this.computeRuleEmbedding(rule))
+    // await Promise.all(embeddingPromises)
     while (this.nextRuleToCompute) {
       await this.computeNextRuleEmbedding();
     }
@@ -111,6 +114,7 @@ export class EmbeddingsEngine {
     this.featureExtractionEmbeddings = await pipeline("feature-extraction", LlmModel.all_minilm_l6_v2, {
       progress_callback: (data: unknown) => onModelLoadProgress(data as ModelLoadHubProgressEvent),
     });
+    // TODO Ticket-001: await this.computeEmbeddings() habit-hooks-disable non-essential-comment
   }
 
   async findRelevantDocuments(configs: RelevantDocumentsArgs): Promise<Rule[]> {

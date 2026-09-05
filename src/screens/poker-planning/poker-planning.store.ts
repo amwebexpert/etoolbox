@@ -19,6 +19,7 @@ interface PokerPlanningState {
   isEstimatesVisible: boolean;
   session?: PokerPlanningSession;
 
+  // Socket (not persisted — excluded via partialize) habit-hooks-disable non-essential-comment
   socket: ReconnectingWebSocket | null;
   postponedMessage: UserMessage | null;
 

@@ -10,6 +10,11 @@ interface PokerPlanningRouteParams {
   roomName?: string;
 }
 
+/** habit-hooks-disable non-essential-comment
+ * Synchronizes URL route parameters with the poker planning store.
+ * When the user navigates to a room via a shared link, this hook populates
+ * the store with the room information from the URL.
+ */
 export const useRouteParamsSync = () => {
   const routeParams = useParams({ strict: false }) as PokerPlanningRouteParams;
   const { setHostName, setRoomUUID, setRoomName, connect, socketState } = usePokerPlanningStore();

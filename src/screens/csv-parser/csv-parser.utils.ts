@@ -18,6 +18,7 @@ export const parseCsv = ({ csvData, options = {} }: ParseCsvArgs): Promise<CsvPa
         ...options,
       };
 
+      // Convert our simplified options to PapaParse config habit-hooks-disable non-essential-comment
       const papaConfig: ParseConfig = {
         delimiter: mergedOptions.delimiter || undefined, // empty string means auto-detect
         quoteChar: mergedOptions.quoteChar,

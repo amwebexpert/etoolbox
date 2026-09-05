@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => ({
   base: mode === 'production' ? '/etoolbox/' : '/',
   plugins: [react(), viteTsconfigPaths()],
   server: {
+    // Proxy WebSocket connections for Poker Planning habit-hooks-disable non-essential-comment
     proxy: {
       '/ws': {
         target: 'wss://ws-poker-planning.onrender.com',
@@ -23,6 +24,7 @@ export default defineConfig(({ mode }) => ({
     target: 'esnext',
   },
   resolve: {
+    // Node.js polyfills for browser compatibility (required by httpsnippet in the cURL converter) habit-hooks-disable non-essential-comment
     alias: {
       path: 'path-browserify',
       url: 'url',

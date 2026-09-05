@@ -59,10 +59,12 @@ export const loadEmbedding = (rule: Rule): EmbeddingVector | null => {
     return null;
   }
 
+  // Verify content hash matches habit-hooks-disable non-essential-comment
   if (simpleHash(rule.content) === serializedEmbedding.contentSha256) {
     return serializedEmbedding.embedding;
   }
 
+  // Remove outdated embedding habit-hooks-disable non-essential-comment
   delete embeddings[key];
   saveStoredEmbeddings(embeddings);
   return null;

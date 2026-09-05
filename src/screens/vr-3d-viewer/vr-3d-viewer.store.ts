@@ -84,6 +84,7 @@ const PERSISTED_STORE_NAME = "etoolbox-vr-3d-viewer";
 const persistedStateCreator = persist<Vr3dViewerState>(stateCreator, {
   name: PERSISTED_STORE_NAME,
   storage: createJSONStorage(() => localStorage),
+  // Model state is not persisted — only viewer settings habit-hooks-disable non-essential-comment
   partialize: (state) => ({
     sceneSettings: state.sceneSettings,
     cameraSettings: state.cameraSettings,

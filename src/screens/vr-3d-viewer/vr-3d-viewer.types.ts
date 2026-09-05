@@ -5,7 +5,9 @@ export interface ModelFileInfo {
   size: number;
   format: ModelFormat;
   url: string;
+  /** Optional material URL for OBJ files with MTL materials habit-hooks-disable non-essential-comment */
   materialUrl?: string;
+  /** Suggested scale for this model (used for demo models with known dimensions) habit-hooks-disable non-essential-comment */
   suggestedScale?: number;
 }
 

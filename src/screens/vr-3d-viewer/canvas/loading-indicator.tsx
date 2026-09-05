@@ -14,6 +14,7 @@ export const LoadingIndicator = ({ onProgress }: LoadingIndicatorProps) => {
   useEffect(() => {
     // This avoids reactive re-renders that can conflict with Three.js loader render cycles habit-hooks-disable non-essential-comment
     const unsubscribe = useProgress.subscribe((state) => {
+      // Use startTransition to mark this as a non-urgent update habit-hooks-disable non-essential-comment
       // This prevents "Cannot update component while rendering" errors habit-hooks-disable non-essential-comment
       startTransition(() => {
         onProgressRef.current(state.progress);

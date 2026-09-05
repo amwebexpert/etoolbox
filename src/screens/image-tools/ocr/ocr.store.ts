@@ -55,6 +55,7 @@ const stateCreator = (set: (partial: Partial<OcrState>) => void): OcrState => ({
 const persistedStateCreator = persist<OcrState>(stateCreator, {
   name: PERSISTED_STORE_NAME,
   storage: createJSONStorage(() => localStorage),
+  // Only persist the language preference, not the image data or processing state habit-hooks-disable non-essential-comment
   partialize: (state) =>
     ({
       language: state.language,

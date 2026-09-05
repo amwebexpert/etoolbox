@@ -190,6 +190,7 @@ const CATEGORY_RULES: CategoryRule[] = [
     category: "letters",
     matches: ({ desc }) => desc.startsWith("uppercase") || desc.startsWith("lowercase"),
   },
+  // Capital/Lowercase with accents (before Greek detection) habit-hooks-disable non-essential-comment
   {
     category: "letters-accented",
     matches: ({ desc }) =>
@@ -260,6 +261,7 @@ const determineCategory = (entity: EntityCategoryInput): HtmlEntityCategory => {
     entityName: entity.entityName,
   };
 
+  // Default to symbols for remaining special characters habit-hooks-disable non-essential-comment
   return CATEGORY_RULES.find((rule) => rule.matches(ctx))?.category ?? "symbols";
 };
 
