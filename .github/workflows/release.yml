@@ -90,6 +90,12 @@ jobs:
         if: steps.version.outputs.skip == 'false' && steps.check_tag.outputs.exists == 'false'
         run: |
           bun run build
+          EXPECTED="${{ steps.version.outputs.next }}"
+          if ! grep -q "VERSION: \"${EXPECTED}\"" src/version.constants.ts; then
+            echo "version.constants.ts out of sync (expected ${EXPECTED})"
+            cat src/version.constants.ts
+            exit 1
+          fi
           rm -rf docs && mv dist docs
 
       - name: Create or update release PR
@@ -104,7 +110,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git checkout -B "$BRANCH"
-          git add package.json CHANGELOG.md docs/
+          git add package.json CHANGELOG.md src/version.constants.ts docs/
           git commit -m "chore(release): v${NEXT}"
           git push origin "$BRANCH" --force
 
@@ -118,7 +124,7 @@ jobs:
           Automated release PR — merge to publish the GitHub release.
 
           - Bumps \`package.json\` to \`${NEXT}\`
-          - Updates \`CHANGELOG.md\`
+          - Updates \`CHANGELOG.md\` and \`src/version.constants.ts\`
           - Rebuilds \`docs/\` bundle
 
           > ⚠️ Use **squash merge** with the default commit title to trigger the finalize workflow.
