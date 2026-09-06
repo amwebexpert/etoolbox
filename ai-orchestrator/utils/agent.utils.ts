@@ -35,9 +35,12 @@ const formatInput = (input: unknown): string =>
 interface LogMessageArgs {
   msg: ClaudeAgentSdk.SDKMessage;
   label: string;
+  assistantTurnCount: number;
+  maxTurns?: number;
+  hasWarnedTurnBudget: { value: boolean };
 }
 
-const logMessage = ({ msg, label }: LogMessageArgs): void => {
+const logMessage = ({ msg, label, assistantTurnCount, maxTurns, hasWarnedTurnBudget }: LogMessageArgs): void => {
   const agentLogger = getLoggerForLabel(label);
 
   if (msg.type === "system") {
@@ -56,6 +59,18 @@ const logMessage = ({ msg, label }: LogMessageArgs): void => {
         agentLogger.info(`[${label}] CALL ${block.name} ${formatInput(block.input)}`);
       }
     }
+
+    if (
+      !isNullish(maxTurns) &&
+      maxTurns > 0 &&
+      !hasWarnedTurnBudget.value &&
+      assistantTurnCount >= Math.floor(maxTurns * 0.8)
+    ) {
+      hasWarnedTurnBudget.value = true;
+      const warning = `[${label}] Approaching turn budget: ${assistantTurnCount}/${maxTurns} turns (~80%)`;
+      logger.warn(warning);
+      agentLogger.warn(warning);
+    }
   }
 };
 
@@ -66,6 +81,18 @@ interface RunAgentArgs {
 }
 
 type AgentFailureDetails = Record<string, unknown>;
+
+export class AgentFailureError extends Error {
+  readonly label: string;
+  readonly details: AgentFailureDetails;
+
+  constructor({ label, details, message }: { label: string; details: AgentFailureDetails; message: string }) {
+    super(message);
+    this.name = "AgentFailureError";
+    this.label = label;
+    this.details = details;
+  }
+}
 
 const REASON_BY_SUBTYPE: Record<string, string> = {
   error_max_turns: "maximum turn limit reached (token/usage budget may be exhausted)",
@@ -134,51 +161,109 @@ const formatAgentFailureConsoleMessage = ({ label, details }: FormatAgentFailure
   return `Agent "${label}" aborted — ${reason}${errorSuffix}`;
 };
 
-interface AbortOrchestratorOnAgentFailureArgs {
+interface ThrowAgentFailureArgs {
   label: string;
   details: AgentFailureDetails;
 }
 
-const abortOrchestratorOnAgentFailure = ({ label, details }: AbortOrchestratorOnAgentFailureArgs): never => {
+const throwAgentFailure = ({ label, details }: ThrowAgentFailureArgs): never => {
   const agentLogger = getLoggerForLabel(label);
   const message = formatAgentFailureConsoleMessage({ label, details });
-  logger.error(`Aborting orchestrator: ${message}`);
+  logger.error(message);
   agentLogger.error("Agent call failed", details);
-  process.exit(1);
+  throw new AgentFailureError({ label, details, message });
 };
 
-interface AbortOrchestratorOnSdkErrorArgs {
+interface ThrowSdkErrorArgs {
   label: string;
   error: unknown;
 }
 
-const abortOrchestratorOnSdkError = ({ label, error }: AbortOrchestratorOnSdkErrorArgs): never => {
+const throwSdkError = ({ label, error }: ThrowSdkErrorArgs): never => {
   const agentLogger = getLoggerForLabel(label);
   const message = error instanceof Error ? error.message : String(error);
-  console.error(`[orchestrator] Agent "${label}" aborted — SDK error: ${message}`);
-  agentLogger.error("Agent call failed with SDK error, aborting orchestrator.", { error: message });
-  process.exit(1);
+  logger.error(`Agent "${label}" aborted — SDK error: ${message}`);
+  agentLogger.error("Agent call failed with SDK error", { error: message });
+  throw new AgentFailureError({
+    label,
+    details: { reason: "sdk_error", error: message },
+    message: `Agent "${label}" aborted — SDK error: ${message}`,
+  });
+};
+
+interface LogAgentUsageArgs {
+  label: string;
+  numTurns?: number;
+  totalCostUsd?: number;
+  outcome: "success" | "failure";
+}
+
+const logAgentUsage = ({ label, numTurns, totalCostUsd, outcome }: LogAgentUsageArgs): void => {
+  const agentLogger = getLoggerForLabel(label);
+  const turnsPart = isNullish(numTurns) ? "turns=unknown" : `turns=${numTurns}`;
+  const costPart = isNullish(totalCostUsd) ? "cost=unknown" : `cost_usd=${totalCostUsd.toFixed(4)}`;
+  const message = `[${label}] ${outcome}: ${turnsPart} ${costPart}`;
+  if (outcome === "success") {
+    logger.info(message);
+    agentLogger.info(message);
+  } else {
+    logger.warn(message);
+    agentLogger.warn(message);
+  }
+};
+
+const getUsageFromResult = (
+  result: SDKResultMessage | null
+): { numTurns?: number; totalCostUsd?: number } => {
+  if (isNullish(result) || result.type !== "result") {
+    return {};
+  }
+
+  return {
+    numTurns: result.num_turns,
+    totalCostUsd: result.total_cost_usd,
+  };
 };
 
 export const runAgent = async ({ prompt, options, label }: RunAgentArgs): Promise<SDKResultSuccess> => {
+  const maxTurns = options?.maxTurns;
+  const hasWarnedTurnBudget = { value: false };
+  let assistantTurnCount = 0;
+
   try {
     for await (const msg of ClaudeAgentSdk.query({ prompt, options })) {
-      logMessage({ msg, label });
+      if (msg.type === "assistant") {
+        assistantTurnCount += 1;
+      }
+
+      logMessage({ msg, label, assistantTurnCount, maxTurns, hasWarnedTurnBudget });
 
       const rateLimitFailure = getRateLimitFailureDetails(msg);
       if (rateLimitFailure) {
-        return abortOrchestratorOnAgentFailure({ label, details: rateLimitFailure });
+        logAgentUsage({ label, outcome: "failure" });
+        return throwAgentFailure({ label, details: rateLimitFailure });
       }
 
       if (msg.type !== "result") continue;
-      if (msg.subtype === "success") return msg;
 
-      return abortOrchestratorOnAgentFailure({ label, details: getAgentFailureDetails(msg) });
+      const usage = getUsageFromResult(msg);
+      if (msg.subtype === "success") {
+        logAgentUsage({ label, ...usage, outcome: "success" });
+        return msg;
+      }
+
+      logAgentUsage({ label, ...usage, outcome: "failure" });
+      return throwAgentFailure({ label, details: getAgentFailureDetails(msg) });
     }
 
-    return abortOrchestratorOnAgentFailure({ label, details: getAgentFailureDetails(null) });
+    logAgentUsage({ label, numTurns: assistantTurnCount, outcome: "failure" });
+    return throwAgentFailure({ label, details: getAgentFailureDetails(null) });
   } catch (error) {
-    return abortOrchestratorOnSdkError({ label, error });
+    if (error instanceof AgentFailureError) {
+      throw error;
+    }
+
+    return throwSdkError({ label, error });
   }
 };
 
@@ -195,7 +280,7 @@ const toSdkJsonSchema = <T>(schema: z.ZodSchema<T>): Record<string, unknown> => 
   return rest;
 };
 
-const getAgentFailureDetails = (result: SDKResultMessage | null): Record<string, unknown> => {
+const getAgentFailureDetails = (result: SDKResultMessage | null): AgentFailureDetails => {
   if (result?.type === "result" && result.subtype !== "success") {
     return { subtype: result.subtype, numTurns: result.num_turns, errors: result.errors };
   }
@@ -225,7 +310,7 @@ export const runTypedAgent = async <T>({ prompt, schema, options, label }: RunTy
     return parsed.data;
   }
 
-  return abortOrchestratorOnAgentFailure({
+  return throwAgentFailure({
     label,
     details: { reason: "invalid structured output", error: parsed.error.message },
   });

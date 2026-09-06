@@ -3,6 +3,7 @@ import {
   CalendarOutlined,
   CodeOutlined,
   DiffOutlined,
+  FileMarkdownOutlined,
   FileSearchOutlined,
   FileTextOutlined,
   GithubOutlined,
@@ -112,5 +113,10 @@ export const MENU_ITEMS: MenuItem[] = [
     key: "/diff",
     icon: <DiffOutlined />,
     label: <Link to="/diff">Diff Viewer</Link>,
+  },
+  {
+    key: "/markdown-composer",
+    icon: <FileMarkdownOutlined />,
+    label: <Link to="/markdown-composer">Markdown Composer</Link>,
   },
 ];

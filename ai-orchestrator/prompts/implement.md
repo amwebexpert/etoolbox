@@ -13,24 +13,41 @@ Implement the following task on branch `{{BRANCH}}`.
 
 {{ACCEPTANCE_CRITERIA}}
 
+# WORKTREE
+
+You are in an isolated git worktree at: `{{WORKTREE_PATH}}`
+Branch: `{{BRANCH}}`
+
+CRITICAL:
+
+- Use ONLY relative paths for Read/Write/Edit (e.g. `src/routes/router.tsx`)
+- NEVER use absolute paths outside this worktree
+- Run all git commands here; do not `cd` to the parent repo
+
 # CONTEXT
 
 <recent-commits>
 !`git log -n 10 --format="%H%n%ad%n%B---" --date=short`
 </recent-commits>
 
-# EXPLORATION
+# REFERENCE PATTERNS
 
-Explore the repo and read all relevant source files and test files before writing any code. Understand the existing patterns and conventions.
+Read these first — do not explore further unless blocked:
+
+- Screen: `src/screens/diff-viewer/`
+- Router: `src/routes/router.tsx`
+- Side menu: `src/components/layout/app-side-menu.utils.tsx`
+- E2E: `e2e/tests/diff-viewer/`, `e2e/pages/diff-viewer-page.ts`, `e2e/fixtures/pages.fixture.ts`, `e2e/helpers/storage.ts`
+
+Do not deep-read `node_modules` library sources unless the package README/types are insufficient.
 
 # EXECUTION
 
-Use red-green-refactor:
+Cover each acceptance criterion with tests; batch related tests and implementation rather than one test at a time.
 
-1. RED: write one failing test covering an acceptance criterion
-2. GREEN: write the minimal implementation to make it pass
-3. REPEAT until all acceptance criteria are covered
-4. REFACTOR for clarity and consistency
+1. Write the tests that cover the acceptance criteria (group related cases)
+2. Implement the minimal code to make them pass
+3. Refactor for clarity and consistency once green
 
 # FEEDBACK LOOPS
 

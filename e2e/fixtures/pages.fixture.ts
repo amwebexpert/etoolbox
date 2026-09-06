@@ -11,6 +11,7 @@ import { GithubUserProjectsPage } from "../pages/github-user-projects-page";
 import { ImageOcrPage } from "../pages/image-ocr-page";
 import { JsonPage } from "../pages/json-page";
 import { JwtDecoderPage } from "../pages/jwt-decoder-page";
+import { MarkdownComposerPage } from "../pages/markdown-composer-page";
 import { PokerPlanningPage } from "../pages/poker-planning-page";
 import { QrcodePage } from "../pages/qrcode-page";
 import { RegexTesterPage } from "../pages/regex-tester-page";
@@ -36,6 +37,7 @@ interface PageFixtures {
   githubUserProjectsPage: GithubUserProjectsPage;
   codingStandardsPage: CodingStandardsPage;
   pokerPlanningPage: PokerPlanningPage;
+  markdownComposerPage: MarkdownComposerPage;
 }
 
 export const test = base.extend<PageFixtures>({
@@ -89,6 +91,9 @@ export const test = base.extend<PageFixtures>({
   },
   pokerPlanningPage: async ({ page }, provideFixture) => {
     await provideFixture(new PokerPlanningPage(page));
+  },
+  markdownComposerPage: async ({ page }, provideFixture) => {
+    await provideFixture(new MarkdownComposerPage(page));
   },
 });
 

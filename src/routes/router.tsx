@@ -28,6 +28,7 @@ import { JsonFormatter } from "~/screens/json/formatter/json-formatter";
 import { Json } from "~/screens/json/json";
 import { JsonRepair } from "~/screens/json/repair/json-repair";
 import { JwtDecoder } from "~/screens/jwt-decoder/jwt-decoder";
+import { MarkdownComposerScreen } from "~/screens/markdown-composer/markdown-composer";
 import { PokerPlanning } from "~/screens/poker-planning/poker-planning";
 import { QrcodeDecoder } from "~/screens/qrcode/decoder/qrcode-decoder";
 import { QrcodeGenerator } from "~/screens/qrcode/generator/qrcode-generator";
@@ -320,6 +321,12 @@ const diffViewerRoute = createRoute({
   component: DiffViewer,
 });
 
+const markdownComposerRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/markdown-composer",
+  component: MarkdownComposerScreen,
+});
+
 export const ROUTES_WITH_CHILDREN = ["/url", "/base64", "/json", "/colors", "/common-lists", "/qrcode", "/image-ocr"];
 
 const routeTree = rootRoute.addChildren([
@@ -349,6 +356,7 @@ const routeTree = rootRoute.addChildren([
   vr3dViewerRoute,
   codingStandardsRoute,
   diffViewerRoute,
+  markdownComposerRoute,
 ]);
 
 const hashHistory = createHashHistory();
