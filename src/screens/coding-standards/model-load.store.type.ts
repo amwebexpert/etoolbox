@@ -1,9 +1,6 @@
 /** Payloads emitted by `@xenova/transformers` `getModelFile` → `progress_callback`. habit-hooks-disable non-essential-comment */
 export type ModelLoadHubProgressEvent =
-  | ModelLoadHubProgressInitiate
-  | ModelLoadHubProgressDownload
-  | ModelLoadHubProgressProgress
-  | ModelLoadHubProgressDone;
+  ModelLoadHubProgressInitiate | ModelLoadHubProgressDownload | ModelLoadHubProgressProgress | ModelLoadHubProgressDone;
 
 interface HubBase {
   name: string;
