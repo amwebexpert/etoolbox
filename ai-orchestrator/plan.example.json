@@ -1,0 +1,15 @@
+[
+  {
+    "id": "example_slice",
+    "title": "Example vertical slice",
+    "whatToBuild": "Replace this with a concise description of one end-to-end vertical slice. Describe behavior, not layer-by-layer implementation.",
+    "acceptanceCriteria": [
+      "Criterion 1 is verifiable",
+      "Criterion 2 is verifiable"
+    ],
+    "blockedBy": [],
+    "type": "AFK",
+    "passes": false,
+    "isPlanned": false
+  }
+]

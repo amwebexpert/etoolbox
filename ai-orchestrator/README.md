@@ -1,8 +1,8 @@
 # AI Orchestrator
 
-The AI orchestrator drives a multi-issue implementation plan from [plan.json](plan.json): it plans dependencies, implements AFK (away-from-keyboard) issues in isolated git worktrees, merges successful branches into the main repo, runs a final review over all accumulated changes, and cleans up implementation branches when all AFK work is done.
+The AI orchestrator drives a multi-issue implementation plan from an external plan file (`PLAN_FILE`): it plans dependencies, implements AFK (away-from-keyboard) issues in isolated git worktrees, merges successful branches into the main repo, runs a final review over all accumulated changes, and cleans up implementation branches when all AFK work is done.
 
-Skills to run in order to produce the `plan.json`
+Skills to run in order to produce the plan file:
 
 - grill-with-docs
 - to-prd
@@ -10,17 +10,25 @@ Skills to run in order to produce the `plan.json`
 
 ## Running
 
-Entry point: [main.ts](main.ts) — resolves the repository root (`..`), `plan.json`, and `logs/`.
+Entry point: [main.ts](main.ts) — resolves the repository root (`..`), `logs/`, and the required `PLAN_FILE` env var.
+
+`PLAN_FILE` must point to a JSON plan **outside the repo**. Leading `~` is expanded to the home directory.
+
+Convention (reusable across repos):
 
 ```bash
-bun run ai:run:plan
+PLAN_FILE=~/ai-orchestrator-plans/<repo-slug>-<feature-slug>.json bun run ai:run:plan
+# example:
+PLAN_FILE=~/ai-orchestrator-plans/etoolbox-compressor.json bun run ai:run:plan
 ```
 
-This runs `npx tsx ai-orchestrator/main.ts`.
+This runs `npx tsx ai-orchestrator/main.ts`. If `PLAN_FILE` is unset, the process exits with an error.
 
-## Plan file (`plan.json`)
+## Plan file (`PLAN_FILE`)
 
-Each issue in `plan.json` follows the [Issue](utils/orchestrator.types.ts) shape:
+The plan lives under `~/ai-orchestrator-plans/` as `<repo-slug>-<feature-slug>.json`. See [plan.example.json](plan.example.json) for the schema shape.
+
+Each issue follows the [Issue](utils/orchestrator.types.ts) shape:
 
 | Field                                              | Role                                                                         |
 | -------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -31,13 +39,13 @@ Each issue in `plan.json` follows the [Issue](utils/orchestrator.types.ts) shape
 
 An issue is **unblocked** when it is `isPlanned`, not yet `passes`, has `type === "AFK"`, and every id in `blockedBy` has `passes: true` (see [plan.ts](utils/plan.ts) `getUnblocked()`).
 
-The plan file is reloaded at the start of each iteration and saved after planning and merge phases.
+The plan file is reloaded at the start of each iteration and saved after planning and merge phases. Parent directories are created on save if missing.
 
 ## Workflow
 
 `Orchestrator.run()` in [orchestrator.ts](orchestrator.ts) runs up to `maxIterations` (default **20**). Each iteration:
 
-1. **Reload plan** — `plan.load()` re-reads `plan.json` from disk.
+1. **Reload plan** — `plan.load()` re-reads `PLAN_FILE` from disk.
 2. **Planning** — If any issue has `isPlanned: false`, the **planner** agent runs (`prompts/plan.md`) with the full plan JSON. It returns `{ id, blockedBy }[]`; the orchestrator calls `markPlanned` and saves the plan.
 3. **Select work** — `getUnblocked(2)` returns up to **2** unblocked AFK issues per iteration (`MAX_PARALLEL_UNBLOCKED_IMPLEMENTERS`). If there are no unblocked issues, the loop exits (logs distinguish: all AFK complete vs. blocked/circular dependency vs. remaining HITL).
 4. **Implementation** — Selected issues run in parallel via `Promise.allSettled`:
@@ -49,7 +57,7 @@ The plan file is reloaded at the start of each iteration and saved after plannin
 
 After the loop, if there are **no remaining AFK issues** (`remainingAfkIssues.length === 0`):
 
-1. **Review** — A single **review** agent run (`review.md`) in the main repo. It diffs `initialHead` (the repo HEAD captured at the start of `run()`) against current `HEAD`, applying project standards and optional refactors. See [review.md](prompts/review.md) for the full process.
+1. **Review** — A single **review** agent run (`review.md`) in the main repo. It diffs `initialHead` (the repo HEAD captured at the start of `run()`) against current `HEAD`, applying project standards and optional refactors. The review prompt receives the absolute `PLAN_FILE` path as the spec source. See [review.md](prompts/review.md) for the full process.
 2. **Cleanup** — Deletes `orchestrator/implementation-task-*` branches for passed AFK issues.
 
 ## Agents
@@ -75,9 +83,9 @@ Agent execution uses the Claude Agent SDK in [agent.utils.ts](utils/agent.utils.
 
 ```
 ai-orchestrator/
-  main.ts              # CLI entry
+  main.ts              # CLI entry (requires PLAN_FILE)
   orchestrator.ts      # Orchestrator class
-  plan.json            # Issue backlog (mutable at runtime)
+  plan.example.json    # Schema example (copy to PLAN_FILE path)
   prompts/             # Agent prompt templates
   utils/               # plan, worktree, agent helpers
   logs/                # Per-agent run logs (created at runtime)
@@ -90,7 +98,7 @@ Main iteration loop:
 ```mermaid
 flowchart TD
   start([run]) --> iter{iteration le maxIterations}
-  iter --> load[load plan.json]
+  iter --> load[load PLAN_FILE]
   load --> planPhase{unplanned issues?}
   planPhase -->|yes| planner[Planner agent: set blockedBy]
   planPhase -->|no| unblocked

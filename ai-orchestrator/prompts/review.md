@@ -16,7 +16,7 @@ A change can pass one axis and fail the other. Report them separately; do not me
 
 ## Orchestrator plan (spec source)
 
-Read `ai-orchestrator/plan.json`. Match commits to issues via conventional commit tags `[issue_id]` (e.g. `[compression_utils_and_store]`).
+Read `{{PLAN_FILE}}`. Match commits to issues via conventional commit tags `[issue_id]` (e.g. `[compression_utils_and_store]`).
 
 # REVIEW PROCESS
 
@@ -32,7 +32,7 @@ Diff command (three-dot, merge-base comparison): `git diff {{SOURCE_BRANCH}}...{
 
 Use this order:
 
-1. **Orchestrator plan** — `ai-orchestrator/plan.json`: for each issue referenced in commit messages, use `whatToBuild` and `acceptanceCriteria` as the spec.
+1. **Orchestrator plan** — `{{PLAN_FILE}}`: for each issue referenced in commit messages, use `whatToBuild` and `acceptanceCriteria` as the spec.
 2. **Issue references in commits** — `#123`, `Closes #45`, etc.; fetch details if an issue tracker is available.
 3. **Spec files** under `docs/`, `specs/`, or `.scratch/` matching the branch or feature name.
 

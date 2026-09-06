@@ -1,5 +1,6 @@
 import { logger } from "@lichens-innovation/ts-common/logger";
-import { readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import path from "node:path";
 
 import type { Issue } from "./orchestrator.types.ts";
 
@@ -16,7 +17,7 @@ export class Plan {
       const raw = readFileSync(this.filePath, "utf-8");
       const parsed: unknown = JSON.parse(raw);
       if (!Array.isArray(parsed)) {
-        throw new Error("plan.json root must be a JSON array");
+        throw new Error("plan file root must be a JSON array");
       }
       this.issues = parsed as Issue[];
     } catch (error) {
@@ -26,6 +27,7 @@ export class Plan {
   }
 
   save(): void {
+    mkdirSync(path.dirname(this.filePath), { recursive: true });
     writeFileSync(this.filePath, JSON.stringify(this.issues, null, 2));
   }
 
