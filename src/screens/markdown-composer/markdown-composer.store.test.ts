@@ -12,40 +12,74 @@ describe("useMarkdownComposerStore", () => {
   });
 
   it("starts with the default markdown template", () => {
-    expect(useMarkdownComposerStore.getState().markdown).toBe(DEFAULT_MARKDOWN);
+    // act
+    const markdown = useMarkdownComposerStore.getState().markdown;
+
+    // assert
+    expect(markdown).toBe(DEFAULT_MARKDOWN);
   });
 
   it("starts with the default JSON data", () => {
-    expect(useMarkdownComposerStore.getState().jsonDataText).toBe(DEFAULT_JSON_DATA_TEXT);
+    // act
+    const jsonDataText = useMarkdownComposerStore.getState().jsonDataText;
+
+    // assert
+    expect(jsonDataText).toBe(DEFAULT_JSON_DATA_TEXT);
   });
 
   it("starts with the handlebars engine", () => {
-    expect(useMarkdownComposerStore.getState().engine).toBe("handlebars");
+    // act
+    const engine = useMarkdownComposerStore.getState().engine;
+
+    // assert
+    expect(engine).toBe("handlebars");
   });
 
   it("updates the markdown via setMarkdown", () => {
-    useMarkdownComposerStore.getState().setMarkdown("# custom");
+    // arrange
+    const store = useMarkdownComposerStore.getState();
+    const nextMarkdown = "# custom";
 
-    expect(useMarkdownComposerStore.getState().markdown).toBe("# custom");
+    // act
+    store.setMarkdown(nextMarkdown);
+
+    // assert
+    expect(useMarkdownComposerStore.getState().markdown).toBe(nextMarkdown);
   });
 
   it("updates the JSON data text via setJsonDataText", () => {
-    useMarkdownComposerStore.getState().setJsonDataText('{"a":1}');
+    // arrange
+    const store = useMarkdownComposerStore.getState();
+    const nextJson = '{"a":1}';
 
-    expect(useMarkdownComposerStore.getState().jsonDataText).toBe('{"a":1}');
+    // act
+    store.setJsonDataText(nextJson);
+
+    // assert
+    expect(useMarkdownComposerStore.getState().jsonDataText).toBe(nextJson);
   });
 
   it("updates the engine via setEngine", () => {
-    useMarkdownComposerStore.getState().setEngine("eta");
+    // arrange
+    const store = useMarkdownComposerStore.getState();
 
+    // act
+    store.setEngine("eta");
+
+    // assert
     expect(useMarkdownComposerStore.getState().engine).toBe("eta");
   });
 
   it("keeps the markdown and JSON data independent", () => {
-    useMarkdownComposerStore.getState().setMarkdown("body");
-    useMarkdownComposerStore.getState().setJsonDataText('{"x":true}');
+    // arrange
+    const store = useMarkdownComposerStore.getState();
 
+    // act
+    store.setMarkdown("body");
+    store.setJsonDataText('{"x":true}');
     const state = useMarkdownComposerStore.getState();
+
+    // assert
     expect(state.markdown).toBe("body");
     expect(state.jsonDataText).toBe('{"x":true}');
   });

@@ -4,6 +4,10 @@ import { DiffViewer } from "./diff-viewer";
 
 describe("DiffViewer", () => {
   it("is an exported React component", () => {
-    expect(typeof DiffViewer).toBe("function");
+    // act
+    const componentType = typeof DiffViewer;
+
+    // assert
+    expect(componentType).toBe("function");
   });
 });

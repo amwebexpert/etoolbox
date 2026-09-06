@@ -46,7 +46,10 @@ test("formats json input and supports minify and interactive view", async ({ pag
 
 test("copy and save actions are enabled when formatted json is available", async ({ page, jsonPage }) => {
   // arrange
-  await page.getByPlaceholder("Paste or type the JSON content here").fill(SAMPLE_JSON);
+  const input = page.getByPlaceholder("Paste or type the JSON content here");
+
+  // act
+  await input.fill(SAMPLE_JSON);
 
   // assert
   await expect(jsonPage.resultSection("Formatted Result")).toBeVisible();

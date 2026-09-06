@@ -4,6 +4,10 @@ import { useImageDimensions } from "./use-image-dimensions";
 
 describe("useImageDimensions", () => {
   it("is an exported React hook", () => {
-    expect(typeof useImageDimensions).toBe("function");
+    // act
+    const hookType = typeof useImageDimensions;
+
+    // assert
+    expect(hookType).toBe("function");
   });
 });

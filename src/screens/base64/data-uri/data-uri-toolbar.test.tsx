@@ -4,6 +4,10 @@ import { DataUriToolbar } from "./data-uri-toolbar";
 
 describe("DataUriToolbar", () => {
   it("is an exported React component", () => {
-    expect(typeof DataUriToolbar).toBe("function");
+    // act
+    const componentType = typeof DataUriToolbar;
+
+    // assert
+    expect(componentType).toBe("function");
   });
 });

@@ -8,21 +8,34 @@ describe("useDataUriStore", () => {
   });
 
   it("starts with empty inputText", () => {
+    // act
     const state = useDataUriStore.getState();
 
+    // assert
     expect(state.inputText).toBe("");
   });
 
   it("updates inputText via setInputText", () => {
-    useDataUriStore.getState().setInputText("data:image/png;base64,abc");
+    // arrange
+    const store = useDataUriStore.getState();
+    const nextInput = "data:image/png;base64,abc";
 
-    expect(useDataUriStore.getState().inputText).toBe("data:image/png;base64,abc");
+    // act
+    store.setInputText(nextInput);
+
+    // assert
+    expect(useDataUriStore.getState().inputText).toBe(nextInput);
   });
 
   it("replaces previous inputText on subsequent setInputText calls", () => {
-    useDataUriStore.getState().setInputText("first");
-    useDataUriStore.getState().setInputText("second");
+    // arrange
+    const store = useDataUriStore.getState();
 
+    // act
+    store.setInputText("first");
+    store.setInputText("second");
+
+    // assert
     expect(useDataUriStore.getState().inputText).toBe("second");
   });
 });

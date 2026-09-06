@@ -4,6 +4,10 @@ import { CompressorImageUpload } from "./compressor-image-upload";
 
 describe("CompressorImageUpload", () => {
   it("is an exported React component", () => {
-    expect(typeof CompressorImageUpload).toBe("function");
+    // act
+    const componentType = typeof CompressorImageUpload;
+
+    // assert
+    expect(componentType).toBe("function");
   });
 });

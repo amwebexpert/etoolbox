@@ -4,6 +4,10 @@ import { CompressorPreview } from "./compressor-preview";
 
 describe("CompressorPreview", () => {
   it("is an exported React component", () => {
-    expect(typeof CompressorPreview).toBe("function");
+    // act
+    const componentType = typeof CompressorPreview;
+
+    // assert
+    expect(componentType).toBe("function");
   });
 });
