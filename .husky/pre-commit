@@ -11,6 +11,10 @@ echo "Running lint-staged to apply automatic fixes to staged files…"
 bunx lint-staged
 echo "✅ Lint staged completed"
 
-echo "Running habit-hooks to catches structural smells…"
-bun run habit:hooks
-echo "✅ Habit Hooks completed"
+if [ -n "$CI" ]; then
+  echo "⏭️  CI detected — skipping habit-hooks (not required for CI lint:ci)"
+else
+  echo "Running habit-hooks to catches structural smells…"
+  bun run habit:hooks
+  echo "✅ Habit Hooks completed"
+fi
