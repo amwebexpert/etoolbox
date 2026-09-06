@@ -49,7 +49,7 @@
     "habit:snoozed": "habit-snooze --list",
     "sandcastle": "npx tsx .sandcastle/main.ts",
     "ai:run:plan": "npx tsx ai-orchestrator/main.ts",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package && sh scripts/install-habit-hooks.sh"
   },
   "dependencies": {
     "@ant-design/icons": "6.3.4",
