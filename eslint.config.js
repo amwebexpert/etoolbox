@@ -16,6 +16,13 @@ const unitTestFiles = ["src/**/__tests__/**", "src/**/*.test.{ts,tsx}"];
 
 export default tseslint.config(
   globalIgnores(["dist", "docs/**", "src/api/generated/**", ".yarn/**"]),
+  {
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   // Tooling scripts live outside tsconfig.app.json's "src" include, so they can't use

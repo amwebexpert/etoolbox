@@ -1,5 +1,16 @@
 import type { MarkdownComposerEngine } from "./markdown-composer.store";
 
+interface EngineOption {
+  value: MarkdownComposerEngine;
+  label: string;
+}
+
+export const ENGINE_OPTIONS: EngineOption[] = [
+  { value: "handlebars", label: "Handlebars" },
+  { value: "eta", label: "Eta" },
+  { value: "liquidjs", label: "LiquidJS" },
+];
+
 export const TEMPLATE_EXAMPLES: Record<MarkdownComposerEngine, string> = {
   handlebars: `# Hello {{name}}
 
