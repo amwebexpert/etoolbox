@@ -1,13 +1,22 @@
-name: CI
+name: Validate
 
+# Shared validation job: install, lint, typecheck, test.
+# - Runs directly on PRs targeting main, so a broken build is caught
+#   before merge instead of during the release run.
+# - Also called by release.yml as a gate before publishing, so the release
+#   pipeline runs the exact same checks (no drift between the two).
 on:
   pull_request:
     branches:
       - main
+  workflow_call:
+
+permissions:
+  contents: read
 
 jobs:
-  ci:
-    name: CI
+  validate:
+    name: Lint, Typecheck & Test
     runs-on: ubuntu-latest
 
     steps:
