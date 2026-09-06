@@ -4,9 +4,9 @@ The AI orchestrator drives a multi-issue implementation plan from an external pl
 
 Skills to run in order to produce the plan file:
 
-- grill-with-docs
-- to-prd
-- to-issues-as-json
+- `/mattpocock-skills:grilling`
+- `/mattpocock-skills:to-spec`
+- `/to-issues-as-json`
 
 ## Running
 
@@ -62,12 +62,12 @@ After the loop, if there are **no remaining AFK issues** (`remainingAfkIssues.le
 
 ## Agents
 
-| Phase     | Prompt                               | Model             | Working directory | When |
-| --------- | ------------------------------------ | ----------------- | ----------------- | ---- |
-| Plan      | [plan.md](prompts/plan.md)           | claude-opus-4-7   | repo root         | Each iteration with unplanned issues |
+| Phase     | Prompt                               | Model             | Working directory | When                                      |
+| --------- | ------------------------------------ | ----------------- | ----------------- | ----------------------------------------- |
+| Plan      | [plan.md](prompts/plan.md)           | claude-opus-4-7   | repo root         | Each iteration with unplanned issues      |
 | Implement | [implement.md](prompts/implement.md) | claude-opus-4-7   | worktree          | Per unblocked issue (up to 2 in parallel) |
-| Merge     | [merge.md](prompts/merge.md)         | claude-sonnet-4-6 | repo root         | After each iteration with commits |
-| Review    | [review.md](prompts/review.md)       | claude-sonnet-4-6 | repo root         | Once, after all AFK issues pass |
+| Merge     | [merge.md](prompts/merge.md)         | claude-sonnet-4-6 | repo root         | After each iteration with commits         |
+| Review    | [review.md](prompts/review.md)       | claude-sonnet-4-6 | repo root         | Once, after all AFK issues pass           |
 
 Agent execution uses the Claude Agent SDK in [agent.utils.ts](utils/agent.utils.ts). Per-agent logs are written under `logs/` via [agent-logger.utils.ts](utils/agent-logger.utils.ts).
 
