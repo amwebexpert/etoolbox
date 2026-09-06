@@ -4,6 +4,10 @@ import { CompressorToolbar } from "./compressor-toolbar";
 
 describe("CompressorToolbar", () => {
   it("is an exported React component", () => {
-    expect(typeof CompressorToolbar).toBe("function");
+    // act
+    const componentType = typeof CompressorToolbar;
+
+    // assert
+    expect(componentType).toBe("function");
   });
 });

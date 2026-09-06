@@ -4,10 +4,18 @@ import { ImageOcrCompressor } from "./image-compressor";
 
 describe("ImageOcrCompressor", () => {
   it("is an exported React component", () => {
-    expect(typeof ImageOcrCompressor).toBe("function");
+    // act
+    const componentType = typeof ImageOcrCompressor;
+
+    // assert
+    expect(componentType).toBe("function");
   });
 
   it("uses the ImageOcrCompressor function name", () => {
-    expect(ImageOcrCompressor.name).toBe("ImageOcrCompressor");
+    // act
+    const componentName = ImageOcrCompressor.name;
+
+    // assert
+    expect(componentName).toBe("ImageOcrCompressor");
   });
 });

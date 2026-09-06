@@ -4,6 +4,10 @@ import { DataUriMetadata } from "./data-uri-metadata";
 
 describe("DataUriMetadata", () => {
   it("is an exported React component", () => {
-    expect(typeof DataUriMetadata).toBe("function");
+    // act
+    const componentType = typeof DataUriMetadata;
+
+    // assert
+    expect(componentType).toBe("function");
   });
 });

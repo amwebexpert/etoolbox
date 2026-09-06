@@ -15,57 +15,139 @@ import {
 
 describe("formatFileSize", () => {
   it("returns '1.00 KB' for 1024 bytes", () => {
-    expect(formatFileSize(1024)).toBe("1.00 KB");
+    // arrange
+    const bytes = 1024;
+
+    // act
+    const result = formatFileSize(bytes);
+
+    // assert
+    expect(result).toBe("1.00 KB");
   });
 
   it("returns '1.00 MB' for 1048576 bytes", () => {
-    expect(formatFileSize(1024 * 1024)).toBe("1.00 MB");
+    // arrange
+    const bytes = 1024 * 1024;
+
+    // act
+    const result = formatFileSize(bytes);
+
+    // assert
+    expect(result).toBe("1.00 MB");
   });
 
   it("returns bytes for values smaller than 1 KB", () => {
-    expect(formatFileSize(512)).toBe("512 B");
+    // arrange
+    const bytes = 512;
+
+    // act
+    const result = formatFileSize(bytes);
+
+    // assert
+    expect(result).toBe("512 B");
   });
 
   it("returns GB for very large values", () => {
-    expect(formatFileSize(1024 * 1024 * 1024)).toBe("1.00 GB");
+    // arrange
+    const bytes = 1024 * 1024 * 1024;
+
+    // act
+    const result = formatFileSize(bytes);
+
+    // assert
+    expect(result).toBe("1.00 GB");
   });
 });
 
 describe("computeCompressionRatio", () => {
   it("returns '-50%' when compressed is half of original", () => {
-    expect(computeCompressionRatio({ originalBytes: 1000, compressedBytes: 500 })).toBe("-50%");
+    // arrange
+    const args = { originalBytes: 1000, compressedBytes: 500 };
+
+    // act
+    const result = computeCompressionRatio(args);
+
+    // assert
+    expect(result).toBe("-50%");
   });
 
   it("returns '0%' when compressed equals original", () => {
-    expect(computeCompressionRatio({ originalBytes: 1000, compressedBytes: 1000 })).toBe("0%");
+    // arrange
+    const args = { originalBytes: 1000, compressedBytes: 1000 };
+
+    // act
+    const result = computeCompressionRatio(args);
+
+    // assert
+    expect(result).toBe("0%");
   });
 
   it("returns positive percentage when compressed is larger than original", () => {
-    expect(computeCompressionRatio({ originalBytes: 100, compressedBytes: 150 })).toBe("50%");
+    // arrange
+    const args = { originalBytes: 100, compressedBytes: 150 };
+
+    // act
+    const result = computeCompressionRatio(args);
+
+    // assert
+    expect(result).toBe("50%");
   });
 
   it("returns '0%' when original is zero (avoids division by zero)", () => {
-    expect(computeCompressionRatio({ originalBytes: 0, compressedBytes: 100 })).toBe("0%");
+    // arrange
+    const args = { originalBytes: 0, compressedBytes: 100 };
+
+    // act
+    const result = computeCompressionRatio(args);
+
+    // assert
+    expect(result).toBe("0%");
   });
 });
 
 describe("buildExportFilename", () => {
   it("returns 'photo_compressed.webp' for ('photo.png', 'image/webp')", () => {
-    expect(buildExportFilename({ originalName: "photo.png", mimeType: "image/webp" })).toBe("photo_compressed.webp");
+    // arrange
+    const args = { originalName: "photo.png", mimeType: "image/webp" };
+
+    // act
+    const result = buildExportFilename(args);
+
+    // assert
+    expect(result).toBe("photo_compressed.webp");
   });
 
   it("preserves the original base name when extension differs", () => {
-    expect(buildExportFilename({ originalName: "my-image.jpg", mimeType: "image/png" })).toBe(
-      "my-image_compressed.png"
-    );
+    // arrange
+    const args = { originalName: "my-image.jpg", mimeType: "image/png" };
+
+    // act
+    const result = buildExportFilename(args);
+
+    // assert
+    expect(result).toBe("my-image_compressed.png");
   });
 
   it("handles filenames without an extension", () => {
-    expect(buildExportFilename({ originalName: "photo", mimeType: "image/jpeg" })).toBe("photo_compressed.jpg");
+    // arrange
+    const args = { originalName: "photo", mimeType: "image/jpeg" };
+
+    // act
+    const result = buildExportFilename(args);
+
+    // assert
+    expect(result).toBe("photo_compressed.jpg");
   });
 
   it("strips only the final extension when name has multiple dots", () => {
-    expect(buildExportFilename({ originalName: "a.b.png", mimeType: "image/webp" })).toBe("a.b_compressed.webp");
+    // arrange
+    const args = { originalName: "a.b.png", mimeType: "image/webp" };
+
+    // act
+    const result = buildExportFilename(args);
+
+    // assert
+    expect(result).toBe("a.b_compressed.webp");
   });
 });
 
@@ -86,10 +168,13 @@ describe("isImageFile", () => {
     ${"application/pdf"} | ${false}
     ${""}                | ${false}
   `("returns $expected for type $type", ({ type, expected }: IsImageFileCase) => {
+    // arrange
     const file = makeFile(type);
 
+    // act
     const result = isImageFile(file);
 
+    // assert
     expect(result).toBe(expected);
   });
 });
@@ -113,33 +198,47 @@ const makeItem = ({ type, file }: MakeItemArgs): FakeClipboardItem => ({
 
 describe("extractImageFromClipboardItems", () => {
   it("returns the first image file from items", () => {
+    // arrange
     const imageFile = makeFile("image/png");
     const items = [makeItem({ type: "text/plain", file: null }), makeItem({ type: "image/png", file: imageFile })];
 
+    // act
     const result = extractImageFromClipboardItems(items);
 
+    // assert
     expect(result).toBe(imageFile);
   });
 
   it("returns null when no image item exists", () => {
+    // arrange
     const items = [makeItem({ type: "text/plain", file: null }), makeItem({ type: "text/html", file: null })];
 
+    // act
     const result = extractImageFromClipboardItems(items);
 
+    // assert
     expect(result).toBeNull();
   });
 
   it("returns null when items list is empty", () => {
-    const result = extractImageFromClipboardItems([]);
+    // arrange
+    const items: FakeClipboardItem[] = [];
 
+    // act
+    const result = extractImageFromClipboardItems(items);
+
+    // assert
     expect(result).toBeNull();
   });
 
   it("ignores image items whose getAsFile returns null", () => {
+    // arrange
     const items = [makeItem({ type: "image/png", file: null })];
 
+    // act
     const result = extractImageFromClipboardItems(items);
 
+    // assert
     expect(result).toBeNull();
   });
 });
@@ -160,20 +259,29 @@ const BASE_SETTINGS: CompressorSettings = {
 
 describe("buildCompressorOptions", () => {
   it("omits mimeType when set to 'auto'", () => {
+    // act
     const result = buildCompressorOptions(BASE_SETTINGS);
 
+    // assert
     expect(result.mimeType).toBeUndefined();
   });
 
   it("forwards explicit mimeType", () => {
-    const result = buildCompressorOptions({ ...BASE_SETTINGS, mimeType: "image/webp" });
+    // arrange
+    const settings = { ...BASE_SETTINGS, mimeType: "image/webp" };
 
+    // act
+    const result = buildCompressorOptions(settings);
+
+    // assert
     expect(result.mimeType).toBe("image/webp");
   });
 
   it("omits zero width / height / minWidth / minHeight", () => {
+    // act
     const result = buildCompressorOptions(BASE_SETTINGS);
 
+    // assert
     expect(result.width).toBeUndefined();
     expect(result.height).toBeUndefined();
     expect(result.minWidth).toBeUndefined();
@@ -181,14 +289,19 @@ describe("buildCompressorOptions", () => {
   });
 
   it("forwards positive width / height / minWidth / minHeight", () => {
-    const result = buildCompressorOptions({
+    // arrange
+    const settings = {
       ...BASE_SETTINGS,
       width: 800,
       height: 600,
       minWidth: 100,
       minHeight: 50,
-    });
+    };
 
+    // act
+    const result = buildCompressorOptions(settings);
+
+    // assert
     expect(result.width).toBe(800);
     expect(result.height).toBe(600);
     expect(result.minWidth).toBe(100);
@@ -196,16 +309,21 @@ describe("buildCompressorOptions", () => {
   });
 
   it("forwards quality, resize, convertSize, checkOrientation, maxWidth, maxHeight", () => {
-    const result = buildCompressorOptions({
+    // arrange
+    const settings = {
       ...BASE_SETTINGS,
       quality: 0.5,
-      resize: "cover",
+      resize: "cover" as const,
       convertSize: 1_000_000,
       checkOrientation: false,
       maxWidth: 1280,
       maxHeight: 720,
-    });
+    };
 
+    // act
+    const result = buildCompressorOptions(settings);
+
+    // assert
     expect(result.quality).toBe(0.5);
     expect(result.resize).toBe("cover");
     expect(result.convertSize).toBe(1_000_000);
@@ -217,10 +335,13 @@ describe("buildCompressorOptions", () => {
 
 describe("compressImage", () => {
   it("returns a Promise", () => {
+    // arrange
     const stub = new File([new Uint8Array([0])], "stub.png", { type: "image/png" });
 
+    // act
     const result = compressImage({ file: stub, options: {} });
 
+    // assert
     expect(result).toBeInstanceOf(Promise);
     result.catch(() => undefined);
   });
@@ -233,10 +354,13 @@ interface CanEnableDownloadCase {
 
 describe("canEnableDownload", () => {
   it("returns true when not compressing and a compressed blob exists", () => {
+    // arrange
     const blob = new Blob(["x"], { type: "image/webp" });
 
+    // act
     const result = canEnableDownload({ isCompressing: false, compressedBlob: blob });
 
+    // assert
     expect(result).toBe(true);
   });
 
@@ -246,8 +370,10 @@ describe("canEnableDownload", () => {
     ${"finished but no blob"}           | ${false}      | ${null}
     ${"still compressing without blob"} | ${true}       | ${null}
   `("returns false when $scenario", ({ isCompressing, compressedBlob }: CanEnableDownloadCase) => {
+    // arrange & act
     const result = canEnableDownload({ isCompressing, compressedBlob });
 
+    // assert
     expect(result).toBe(false);
   });
 });
@@ -273,6 +399,7 @@ describe("triggerDownload", () => {
   });
 
   it("creates an anchor with the given filename and a Blob object URL, clicks it, then cleans up", () => {
+    // arrange
     const anchor = makeFakeAnchor();
     const appendChild = vi.fn();
     const createElement = vi.fn((tag: string) => {
@@ -285,8 +412,10 @@ describe("triggerDownload", () => {
     vi.stubGlobal("URL", { createObjectURL, revokeObjectURL });
     const blob = new Blob(["data"], { type: "image/webp" });
 
+    // act
     triggerDownload({ blob, filename: "photo_compressed.webp" as const });
 
+    // assert
     expect(createObjectURL).toHaveBeenCalledWith(blob);
     expect(anchor.href).toBe("blob:fake-url");
     expect(anchor.download).toBe("photo_compressed.webp");

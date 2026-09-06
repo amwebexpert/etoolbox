@@ -22,14 +22,14 @@ interface ImageDownloadFilenameCase {
 describe("data-uri.utils", () => {
   describe("getImageMetadata", () => {
     it("returns mime, extension, size in bytes, and pretty-formatted size for a valid PNG data URI", () => {
-      // Arrange
+      // arrange
       const base64 = "iVBORw0KGgo="; // 12 chars -> ~9 bytes
       const input = `data:image/png;base64,${base64}`;
 
-      // Act
+      // act
       const result = getImageMetadata(input);
 
-      // Assert
+      // assert
       expect(result).toEqual({
         mimeType: "image/png",
         ext: "png",
@@ -40,14 +40,14 @@ describe("data-uri.utils", () => {
     });
 
     it("returns mime, extension and size for a valid JPEG data URI", () => {
-      // Arrange
+      // arrange
       const base64 = "/9j/4AAQSkZJRg==";
       const input = `data:image/jpeg;base64,${base64}`;
 
-      // Act
+      // act
       const result = getImageMetadata(input);
 
-      // Assert
+      // assert
       expect(result).toMatchObject({
         mimeType: "image/jpeg",
         ext: "jpg",
@@ -65,10 +65,10 @@ describe("data-uri.utils", () => {
       ${"data:application/pdf;base64,JVBERi0xLjQK"}
       ${"data:audio/mp3;base64,SUQzAw=="}
     `("returns null for empty, malformed, or non-image input ($input)", ({ input }: InvalidImageInputCase) => {
-      // Arrange / Act
+      // arrange & act
       const result = getImageMetadata(input);
 
-      // Assert
+      // assert
       expect(result).toBeNull();
     });
   });
@@ -81,10 +81,10 @@ describe("data-uri.utils", () => {
       ${"data:text/plain;base64,aGVsbG8="}
       ${"data:application/json;base64,eyJhIjoxfQ=="}
     `("returns the input data URI for a parseable non-image data URI ($input)", ({ input }: NonImageDataUriCase) => {
-      // Arrange / Act
+      // arrange & act
       const result = getNonImageDataUri(input);
 
-      // Assert
+      // assert
       expect(result).toBe(input);
     });
 
@@ -102,10 +102,10 @@ describe("data-uri.utils", () => {
       ${"data:image/bmp;base64,Qk0eAAAAAAAAAB4A"}
       ${"data:image/svg+xml;base64,PHN2Zy8+"}
     `("returns null for empty, malformed, or image data URI ($input)", ({ input }: InvalidNonImageDataUriCase) => {
-      // Arrange / Act
+      // arrange & act
       const result = getNonImageDataUri(input);
 
-      // Assert
+      // assert
       expect(result).toBeNull();
     });
   });
@@ -119,10 +119,10 @@ describe("data-uri.utils", () => {
       ${"webp"} | ${"image.webp"}
       ${"bmp"}  | ${"image.bmp"}
     `("builds image.$ext for extension $ext", ({ ext, expected }: ImageDownloadFilenameCase) => {
-      // Arrange / Act
+      // arrange & act
       const result = getImageDownloadFilename(ext);
 
-      // Assert
+      // assert
       expect(result).toBe(expected);
     });
   });

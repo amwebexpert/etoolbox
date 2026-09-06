@@ -48,3 +48,4 @@ ai-orchestrator/logs/
 package-lock.json
 yarn.lock
 public/screen-captures/Thumbs.db
+.vitest/json/output.json

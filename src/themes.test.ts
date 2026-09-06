@@ -11,7 +11,14 @@ interface ThemeKeyCase {
 
 describe("THEMES", () => {
   it("contains exactly the five expected theme keys", () => {
-    expect(Object.keys(THEMES).sort()).toEqual([...EXPECTED_KEYS].sort());
+    // arrange
+    const expectedKeys = [...EXPECTED_KEYS].sort();
+
+    // act
+    const actualKeys = Object.keys(THEMES).sort();
+
+    // assert
+    expect(actualKeys).toEqual(expectedKeys);
   });
 
   it.each`
@@ -22,9 +29,18 @@ describe("THEMES", () => {
     ${"blue"}
     ${"pink"}
   `("theme '$key' exposes valid primary, secondary, and label", ({ key }: ThemeKeyCase) => {
-    expect(THEMES[key].primary).toMatch(HEX_PATTERN);
-    expect(THEMES[key].secondary).toMatch(HEX_PATTERN);
-    expect(THEMES[key].label).toBeTruthy();
-    expect(typeof THEMES[key].label).toBe("string");
+    // arrange
+    const theme = THEMES[key];
+
+    // act
+    const primary = theme.primary;
+    const secondary = theme.secondary;
+    const label = theme.label;
+
+    // assert
+    expect(primary).toMatch(HEX_PATTERN);
+    expect(secondary).toMatch(HEX_PATTERN);
+    expect(label).toBeTruthy();
+    expect(typeof label).toBe("string");
   });
 });

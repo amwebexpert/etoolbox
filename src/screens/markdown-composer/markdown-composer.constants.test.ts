@@ -4,12 +4,25 @@ import { getTemplateExample, TEMPLATE_EXAMPLES } from "./markdown-composer.const
 
 describe("markdown-composer.constants", () => {
   it("provides a template example for each engine", () => {
-    expect(TEMPLATE_EXAMPLES.handlebars).toContain("{{name}}");
-    expect(TEMPLATE_EXAMPLES.eta).toContain("<%= it.name %>");
-    expect(TEMPLATE_EXAMPLES.liquidjs).toContain("{{ name | capitalize }}");
+    // act
+    const handlebarsExample = TEMPLATE_EXAMPLES.handlebars;
+    const etaExample = TEMPLATE_EXAMPLES.eta;
+    const liquidjsExample = TEMPLATE_EXAMPLES.liquidjs;
+
+    // assert
+    expect(handlebarsExample).toContain("{{name}}");
+    expect(etaExample).toContain("<%= it.name %>");
+    expect(liquidjsExample).toContain("{{ name | capitalize }}");
   });
 
   it("returns the example for the requested engine", () => {
-    expect(getTemplateExample("eta")).toBe(TEMPLATE_EXAMPLES.eta);
+    // arrange
+    const engine = "eta" as const;
+
+    // act
+    const example = getTemplateExample(engine);
+
+    // assert
+    expect(example).toBe(TEMPLATE_EXAMPLES.eta);
   });
 });

@@ -15,11 +15,22 @@ describe("qualityToPercent", () => {
     ${0.8}  | ${80}
     ${1}    | ${100}
   `("maps quality $quality to $expected", ({ quality, expected }: QualityToPercentCase) => {
-    expect(qualityToPercent(quality)).toBe(expected);
+    // arrange & act
+    const percent = qualityToPercent(quality);
+
+    // assert
+    expect(percent).toBe(expected);
   });
 
   it("rounds fractional percents", () => {
-    expect(qualityToPercent(0.756)).toBe(76);
+    // arrange
+    const quality = 0.756;
+
+    // act
+    const percent = qualityToPercent(quality);
+
+    // assert
+    expect(percent).toBe(76);
   });
 });
 
@@ -36,14 +47,20 @@ describe("percentToQuality", () => {
     ${80}   | ${0.8}
     ${100}  | ${1}
   `("maps percent $percent to $expected", ({ percent, expected }: PercentToQualityCase) => {
-    expect(percentToQuality(percent)).toBeCloseTo(expected);
+    // arrange & act
+    const quality = percentToQuality(percent);
+
+    // assert
+    expect(quality).toBeCloseTo(expected);
   });
 });
 
 describe("MIME_TYPE_OPTIONS", () => {
   it("includes JPEG, WebP, and PNG entries", () => {
+    // act
     const values = MIME_TYPE_OPTIONS.map((option) => option.value);
 
+    // assert
     expect(values).toContain("image/jpeg");
     expect(values).toContain("image/webp");
     expect(values).toContain("image/png");
@@ -52,8 +69,10 @@ describe("MIME_TYPE_OPTIONS", () => {
 
 describe("RESIZE_OPTIONS", () => {
   it("exposes none, contain, and cover strategies", () => {
+    // act
     const values = RESIZE_OPTIONS.map((option) => option.value);
 
+    // assert
     expect(values).toEqual(["none", "contain", "cover"]);
   });
 });

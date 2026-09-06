@@ -4,8 +4,10 @@ import { TAB_ITEMS } from "./base64.constants";
 
 describe("base64 TAB_ITEMS", () => {
   it("includes a Data URI tab keyed to /base64/data-uri", () => {
+    // act
     const dataUriTab = TAB_ITEMS.find((item) => item.key === "/base64/data-uri");
 
+    // assert
     expect(dataUriTab).toBeDefined();
     expect(dataUriTab?.label).toBe("Data URI");
   });

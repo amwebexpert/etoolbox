@@ -4,6 +4,10 @@ import { CompressorSettings } from "./compressor-settings";
 
 describe("CompressorSettings", () => {
   it("is an exported React component", () => {
-    expect(typeof CompressorSettings).toBe("function");
+    // act
+    const componentType = typeof CompressorSettings;
+
+    // assert
+    expect(componentType).toBe("function");
   });
 });

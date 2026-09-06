@@ -4,6 +4,10 @@ import { DataUri } from "./data-uri";
 
 describe("DataUri", () => {
   it("is an exported React component", () => {
-    expect(typeof DataUri).toBe("function");
+    // act
+    const componentType = typeof DataUri;
+
+    // assert
+    expect(componentType).toBe("function");
   });
 });

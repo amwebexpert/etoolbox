@@ -14,6 +14,10 @@ const { MarkdownComposerScreen } = await import("./markdown-composer");
 
 describe("MarkdownComposerScreen", () => {
   it("is an exported React component", () => {
-    expect(typeof MarkdownComposerScreen).toBe("function");
+    // act
+    const componentType = typeof MarkdownComposerScreen;
+
+    // assert
+    expect(componentType).toBe("function");
   });
 });
