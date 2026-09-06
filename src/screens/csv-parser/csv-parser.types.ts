@@ -1,6 +1,5 @@
 import type { ParseMeta } from "papaparse";
 
-// Types
 export interface CsvParseResult {
   data: unknown[];
   meta: ParseMeta;
@@ -19,7 +18,6 @@ export interface FileEncoding {
   name: string;
 }
 
-// Simplified parser options for UI usage
 export interface CsvParserOptions {
   delimiter: string;
   quoteChar: string;
@@ -40,7 +38,6 @@ export interface FileInfo {
   size: number;
 }
 
-// Constants
 export const DEFAULT_CSV_OPTIONS: CsvParserOptions = {
   delimiter: "", // auto-detect
   quoteChar: '"',
@@ -53,7 +50,6 @@ export const DEFAULT_CSV_OPTIONS: CsvParserOptions = {
 
 export const PAPA_PARSE_OPTIONS_DOC_URL = "https://www.papaparse.com/docs#config";
 
-// Common file encodings (sorted by label)
 export const FILE_ENCODING_OPTIONS: FileEncoding[] = [
   { label: "UTF-8", name: "UTF-8" },
   { label: "ASCII", name: "windows-1252" },
@@ -75,7 +71,6 @@ export const FILE_ENCODING_OPTIONS: FileEncoding[] = [
 
 export const DEFAULT_ENCODING = "UTF-8";
 
-// Delimiter options for manual selection
 export const DELIMITER_OPTIONS = [
   { value: "", label: "Auto-detect" },
   { value: ",", label: "Comma (,)" },
@@ -85,5 +80,4 @@ export const DELIMITER_OPTIONS = [
   { value: ":", label: "Colon (:)" },
 ];
 
-// View modes
 export type ViewMode = "json" | "table";

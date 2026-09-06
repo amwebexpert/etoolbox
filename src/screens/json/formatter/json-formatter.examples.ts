@@ -1,16 +1,5 @@
-/**
- * JSON Formatter - Configuration Examples
- *
- * This file contains example configurations for the ReactJson viewer.
- * Developers can use these as templates for common use cases.
- */
-
 import type { ReactJsonViewConfig } from "./json-formatter.types";
 
-/**
- * Default Configuration
- * Balanced settings for general use
- */
 export const DEFAULT_CONFIG: ReactJsonViewConfig = {
   theme: "monokai",
   iconStyle: "triangle",
@@ -25,10 +14,6 @@ export const DEFAULT_CONFIG: ReactJsonViewConfig = {
   sortKeys: false,
 };
 
-/**
- * Minimal View Configuration
- * Clean, compact view with minimal visual clutter
- */
 export const MINIMAL_CONFIG: ReactJsonViewConfig = {
   theme: "rjv-default",
   iconStyle: "circle",
@@ -43,10 +28,6 @@ export const MINIMAL_CONFIG: ReactJsonViewConfig = {
   sortKeys: false,
 };
 
-/**
- * Developer View Configuration
- * Shows all available information for debugging
- */
 export const DEVELOPER_CONFIG: ReactJsonViewConfig = {
   theme: "monokai",
   iconStyle: "triangle",
@@ -61,10 +42,6 @@ export const DEVELOPER_CONFIG: ReactJsonViewConfig = {
   sortKeys: true,
 };
 
-/**
- * Presentation Mode Configuration
- * Clean look for demos and presentations
- */
 export const PRESENTATION_CONFIG: ReactJsonViewConfig = {
   theme: "bright",
   iconStyle: "square",
@@ -79,10 +56,6 @@ export const PRESENTATION_CONFIG: ReactJsonViewConfig = {
   sortKeys: true,
 };
 
-/**
- * Dark Mode Configuration
- * Optimized for dark theme environments
- */
 export const DARK_MODE_CONFIG: ReactJsonViewConfig = {
   theme: "ocean",
   iconStyle: "triangle",
@@ -97,10 +70,6 @@ export const DARK_MODE_CONFIG: ReactJsonViewConfig = {
   sortKeys: false,
 };
 
-/**
- * Light Mode Configuration
- * Optimized for light theme environments
- */
 export const LIGHT_MODE_CONFIG: ReactJsonViewConfig = {
   theme: "google",
   iconStyle: "circle",
@@ -115,10 +84,6 @@ export const LIGHT_MODE_CONFIG: ReactJsonViewConfig = {
   sortKeys: false,
 };
 
-/**
- * Compact View Configuration
- * For large JSON files where space is at a premium
- */
 export const COMPACT_CONFIG: ReactJsonViewConfig = {
   theme: "grayscale",
   iconStyle: "circle",
@@ -133,10 +98,6 @@ export const COMPACT_CONFIG: ReactJsonViewConfig = {
   sortKeys: false,
 };
 
-/**
- * API Documentation View
- * Ideal for viewing API responses
- */
 export const API_DOC_CONFIG: ReactJsonViewConfig = {
   theme: "solarized",
   iconStyle: "triangle",
@@ -150,13 +111,3 @@ export const API_DOC_CONFIG: ReactJsonViewConfig = {
   groupArraysAfterLength: 100,
   sortKeys: true,
 };
-
-/**
- * How to use these configurations:
- *
- * import { useJsonFormatterStore } from './json-formatter.store';
- * import { DEVELOPER_CONFIG } from './json-formatter.examples';
- *
- * const { setReactJsonConfig } = useJsonFormatterStore();
- * setReactJsonConfig(DEVELOPER_CONFIG);
- */

@@ -1,5 +1,5 @@
 import { getBase64ApproxSize, PeriodsInMS } from "@lichens-innovation/ts-common";
-import { isImageMimeType, mimeToExt, parseDataUri } from "@lichens-innovation/ts-common/mime";
+import { isImageMimeType, parseDataUri } from "@lichens-innovation/ts-common/mime";
 import { base64ToBlob, downloadDataUrl } from "@lichens-innovation/ts-common/web";
 import prettyBytes from "pretty-bytes";
 
@@ -55,5 +55,3 @@ interface DownloadImageDataUriArgs {
 export const downloadImageDataUri = ({ dataUri, ext }: DownloadImageDataUriArgs): void => {
   downloadDataUrl({ dataUrl: dataUri, fileName: getImageDownloadFilename(ext) });
 };
-
-export { mimeToExt };

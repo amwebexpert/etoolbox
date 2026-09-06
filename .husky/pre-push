@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+
+# exit immediately if any command fails
+set -e
+
+# Git feeds this hook one line per ref being pushed on stdin:
+#   <local ref> <local sha> <remote ref> <remote sha>
+# (knip above uses </dev/null so it cannot steal that stdin.)
+#
+# All-zero SHA = remote ref does not exist yet (first push of a branch).
+zero="0000000000000000000000000000000000000000"
+while read -r local_ref local_sha remote_ref remote_sha; do
+  # Baseline for "what this push introduces":
+  # - existing remote branch → its current tip (only new commits vs last push)
+  # - new branch → merge-base with origin/main (only commits unique vs main)
+  if [ "$remote_sha" != "$zero" ]; then
+    since="$remote_sha"
+  else
+    since=$(git merge-base "$local_sha" origin/main 2>/dev/null) || since=""
+  fi
+
+  # Vitest --changed runs tests related to files changed since $since.
+  # --run = one-shot (no watch). No baseline (e.g. no origin/main) → full suite.
+  if [ -n "$since" ]; then
+    echo "Running tests for changed files since $since"
+    bun run test -- --run --changed "$since"
+  else
+    echo "No merge-base found — running full test suite"
+    bun run test -- --run
+  fi
+  echo "✅ Tests completed"
+done

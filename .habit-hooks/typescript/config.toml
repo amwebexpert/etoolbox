@@ -1,0 +1,17 @@
+language = "typescript"
+# Project override of the plugin default: adds an exclusion for
+# src/components/ui/** (vendored shadcn/Radix primitives, not hand-authored —
+# splitting them to satisfy oversized-file would break the shadcn update
+# convention). Everything else restates the plugin default verbatim, since
+# a project override replaces it wholesale rather than merging.
+files = ["**/*.ts", "**/*.tsx", "!**/node_modules/**", "!dist/**", "!docs/**", "!src/stubs/**", "!.claude/**", "!.yarn/**", "!src/api/generated/**"]
+sensors = ["eslint", "knip", "comment"]
+transformers = []
+
+detectors = [
+  { name = "node", kind = "command", install = "brew install node" },
+  { name = "eslint", kind = "command", install = "npm install --save-dev eslint" },
+  { name = "knip", kind = "command", install = "npm install --save-dev knip" },
+  { name = "ts-morph", kind = "node-module", install = "npm install --save-dev ts-morph" },
+  { name = "jq", kind = "command", install = "brew install jq" },
+]

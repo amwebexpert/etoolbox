@@ -1,23 +1,25 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
-import type { CsvParseResult, CsvParserOptions, FileInfo, ViewMode } from "./csv-parser.types";
-import { DEFAULT_CSV_OPTIONS, DEFAULT_ENCODING } from "./csv-parser.types";
+import {
+  type CsvParseResult,
+  type CsvParserOptions,
+  DEFAULT_CSV_OPTIONS,
+  DEFAULT_ENCODING,
+  type FileInfo,
+  type ViewMode,
+} from "./csv-parser.types";
 
 interface CsvParserState {
-  // Input state
   csvInput: string;
   fileEncoding: string;
   parserOptions: CsvParserOptions;
   fileInfo: FileInfo | null;
 
-  // View state
   viewMode: ViewMode;
 
-  // Result state (non-persisted, but managed by store)
   parseResult: CsvParseResult | null;
 
-  // Actions
   setCsvInput: (input: string) => void;
   setFileEncoding: (encoding: string) => void;
   setParserOptions: (options: Partial<CsvParserOptions>) => void;
@@ -66,15 +68,12 @@ const persistedStateCreator = persist<CsvParserState>(stateCreator, {
   name: PERSISTED_STORE_NAME,
   storage: createJSONStorage(() => localStorage),
   partialize: (state) => ({
-    // Only persist these fields
     csvInput: state.csvInput,
     fileEncoding: state.fileEncoding,
     parserOptions: state.parserOptions,
     viewMode: state.viewMode,
-    // Don't persist fileInfo and parseResult
     fileInfo: null,
     parseResult: null,
-    // Include actions (they will be overwritten by the stateCreator)
     setCsvInput: state.setCsvInput,
     setFileEncoding: state.setFileEncoding,
     setParserOptions: state.setParserOptions,

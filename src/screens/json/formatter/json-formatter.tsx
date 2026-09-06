@@ -40,7 +40,7 @@ export const JsonFormatter = () => {
   };
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: formattedJson, successMessage: "JSON copied to clipboard!" });
+    void copyTextToClipboard({ text: formattedJson, successMessage: "JSON copied to clipboard!" });
   };
 
   const handleSaveAs = () => {

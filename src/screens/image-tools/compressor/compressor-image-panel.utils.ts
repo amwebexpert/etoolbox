@@ -17,11 +17,6 @@ export interface PanelStatsInput {
   compressionRatio?: string;
 }
 
-/**
- * Build the label/value rows shown beneath an image preview panel.
- * Includes Size, Dimensions, and Type for every panel; appends a Ratio
- * row only when a compressionRatio is provided (compressed panel).
- */
 export const buildPanelStats = (input: PanelStatsInput): PanelStat[] => {
   const dimensions =
     isNullish(input.width) || isNullish(input.height) ? MISSING_VALUE_PLACEHOLDER : `${input.width} × ${input.height}`;

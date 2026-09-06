@@ -3,36 +3,32 @@ import { startTransition, useEffect, useRef } from "react";
 
 import type { LoadingIndicatorProps } from "./canvas.types";
 
-/**
- * Loading indicator component that tracks Three.js loading progress
- * Uses subscription pattern to avoid "Cannot update component while rendering" error
- */
+// Uses subscription pattern to avoid "Cannot update component while rendering" error habit-hooks-disable non-essential-comment
 export const LoadingIndicator = ({ onProgress }: LoadingIndicatorProps) => {
   const onProgressRef = useRef(onProgress);
 
-  // Keep ref updated with latest callback
   useEffect(() => {
     onProgressRef.current = onProgress;
   }, [onProgress]);
 
   useEffect(() => {
-    // Subscribe to progress changes using the zustand store API
-    // This avoids reactive re-renders that can conflict with Three.js loader render cycles
+    // This avoids reactive re-renders that can conflict with Three.js loader render cycles habit-hooks-disable non-essential-comment
     const unsubscribe = useProgress.subscribe((state) => {
-      // Use startTransition to mark this as a non-urgent update
-      // This prevents "Cannot update component while rendering" errors
+      // Use startTransition to mark this as a non-urgent update habit-hooks-disable non-essential-comment
+      // This prevents "Cannot update component while rendering" errors habit-hooks-disable non-essential-comment
       startTransition(() => {
         onProgressRef.current(state.progress);
       });
     });
 
-    // Get initial progress
     const initialProgress = useProgress.getState().progress;
     startTransition(() => {
       onProgressRef.current(initialProgress);
     });
 
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return null;

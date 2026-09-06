@@ -10,6 +10,11 @@ import {
   DEFAULT_PAGE_SIZE,
 } from "./html-entities.utils";
 
+interface HandlePageChangeArgs {
+  page: number;
+  pageSize: number;
+}
+
 interface HtmlEntitiesState {
   category: HtmlEntityCategory;
   filter: string;
@@ -19,7 +24,7 @@ interface HtmlEntitiesState {
   setCategory: (category: HtmlEntityCategory) => void;
   setFilter: (filter: string) => void;
   setFilterField: (filterField: HtmlEntityFilterField) => void;
-  handlePageChange: (page: number, pageSize: number) => void;
+  handlePageChange: ({ page, pageSize }: HandlePageChangeArgs) => void;
   hasFilters: () => boolean;
   resetFilters: () => void;
 }
@@ -36,7 +41,7 @@ const stateCreator = (
   setCategory: (category) => set({ category, page: DEFAULT_PAGE }),
   setFilter: (filter) => set({ filter, page: DEFAULT_PAGE }),
   setFilterField: (filterField) => set({ filterField, page: DEFAULT_PAGE }),
-  handlePageChange: (page, pageSize) => {
+  handlePageChange: ({ page, pageSize }) => {
     const currentPageSize = get().pageSize;
     if (pageSize !== currentPageSize) {
       set({ page: DEFAULT_PAGE, pageSize });

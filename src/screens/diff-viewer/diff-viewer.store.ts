@@ -11,11 +11,7 @@ interface DiffViewerState {
   swapTexts: () => void;
 }
 
-type SetState = (
-  partial:
-    | Partial<DiffViewerState>
-    | ((state: DiffViewerState) => Partial<DiffViewerState>)
-) => void;
+type SetState = (partial: Partial<DiffViewerState> | ((state: DiffViewerState) => Partial<DiffViewerState>)) => void;
 
 const stateCreator = (set: SetState): DiffViewerState => ({
   originalText: "",

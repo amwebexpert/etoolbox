@@ -1,0 +1,2 @@
+# Drop AAA section markers in unit tests. Pass every other finding through.
+command = "${python} ${dir}/allow-aaa.py"

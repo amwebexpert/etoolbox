@@ -29,20 +29,12 @@ export const DiffViewerControls = ({
   return (
     <Row align="middle" gutter={[16, 8]} className={styles.row}>
       <Col>
-        <Checkbox
-          checked={ignoreWhitespace}
-          onChange={handleIgnoreWhitespaceChange}
-          aria-label="Ignore whitespace"
-        >
+        <Checkbox checked={ignoreWhitespace} onChange={handleIgnoreWhitespaceChange} aria-label="Ignore whitespace">
           Ignore whitespace
         </Checkbox>
       </Col>
       <Col>
-        <Button
-          icon={<SwapOutlined />}
-          onClick={onSwap}
-          aria-label="Swap original and modified"
-        >
+        <Button icon={<SwapOutlined />} onClick={onSwap} aria-label="Swap original and modified">
           Swap
         </Button>
       </Col>

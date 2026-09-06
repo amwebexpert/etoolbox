@@ -1,5 +1,4 @@
-import { countWords, getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
-import { formatDuration } from "@lichens-innovation/ts-common";
+import { countWords, formatDuration, getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
 import { Buffer } from "buffer";
 import Tesseract from "tesseract.js";
 
@@ -20,7 +19,6 @@ export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promi
   const startTime = performance.now();
 
   try {
-    // Extract base64 data from data URL
     const base64Data = imageDataUrl.split(",")[1];
     if (!base64Data) {
       throw new Error("Invalid image data URL format");
@@ -59,7 +57,12 @@ export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promi
 
 export const formatProcessingTime = formatDuration;
 
-export const getProgressStatus = (progress: number, status: string): string => {
+interface GetProgressStatusArgs {
+  progress: number;
+  status: string;
+}
+
+export const getProgressStatus = ({ progress, status }: GetProgressStatusArgs): string => {
   const percentage = Math.round(progress * 100);
   if (status === "recognizing text") {
     return `Recognizing text... ${percentage}%`;
@@ -124,7 +127,12 @@ export const isValidImageFile = (file: File): boolean => {
   return file.type.startsWith("image/");
 };
 
-export const downloadTextFile = (text: string, filename = "extracted-text.txt"): void => {
+interface DownloadTextFileArgs {
+  text: string;
+  filename?: string;
+}
+
+export const downloadTextFile = ({ text, filename = "extracted-text.txt" }: DownloadTextFileArgs): void => {
   const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");

@@ -1,2 +1,5 @@
 #!/usr/bin/env sh
-npx --no-install commitlint --edit "$1"
+echo "________________________________________________________"
+echo "Running commitlint to ensure the commit message is valid…"
+bunx --no-install commitlint --edit "$1"
+echo "✅ Commitlint completed"

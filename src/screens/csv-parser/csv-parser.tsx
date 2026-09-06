@@ -1,6 +1,5 @@
 import { TableOutlined } from "@ant-design/icons";
-import { isNotBlank } from "@lichens-innovation/ts-common";
-import { safeJsonStringify } from "@lichens-innovation/ts-common";
+import { isNotBlank, safeJsonStringify } from "@lichens-innovation/ts-common";
 import { downloadJson } from "@lichens-innovation/ts-common/web";
 import { Flex, Form } from "antd";
 import { createStyles } from "antd-style";
@@ -10,10 +9,9 @@ import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 
 import { CsvAdvancedOptions } from "./components/csv-advanced-options";
-import { CsvFileUpload } from "./components/csv-file-upload";
+import { CsvFileUpload, type OnFileLoadedArgs } from "./components/csv-file-upload";
 import { CsvInputArea } from "./components/csv-input-area";
 import { useCsvParserStore } from "./csv-parser.store";
-import type { FileInfo } from "./csv-parser.types";
 import { CsvParserErrors } from "./csv-parser-errors";
 import { CsvParserResult } from "./csv-parser-result";
 import { CsvParserStats } from "./csv-parser-stats";
@@ -41,7 +39,7 @@ export const CsvParser = () => {
 
   const { parseCsv, isParsingCsv, resetCsvParseResult } = useCsvParse();
 
-  const handleFileLoaded = (content: string, loadedFileInfo: FileInfo) => {
+  const handleFileLoaded = ({ content, fileInfo: loadedFileInfo }: OnFileLoadedArgs) => {
     setCsvInput(content);
     setFileInfo(loadedFileInfo);
   };
@@ -58,7 +56,7 @@ export const CsvParser = () => {
   const handleCopy = () => {
     if (!parseResult) return;
     const jsonOutput = safeJsonStringify(parseResult.data);
-    copyTextToClipboard({ text: jsonOutput, successMessage: "Result copied to clipboard!" });
+    void copyTextToClipboard({ text: jsonOutput, successMessage: "Result copied to clipboard!" });
   };
 
   const handleDownload = () => {
@@ -111,10 +109,10 @@ export const CsvParser = () => {
         />
 
         {/* Parse errors/warnings */}
-        {parseResult && <CsvParserErrors errors={parseResult.errors} />}
+        {!!parseResult && <CsvParserErrors errors={parseResult.errors} />}
 
         {/* Statistics */}
-        {parseResult && <CsvParserStats result={parseResult} />}
+        {!!parseResult && <CsvParserStats result={parseResult} />}
 
         {/* Results */}
         <CsvParserResult result={parseResult} viewMode={viewMode} />

@@ -1,5 +1,4 @@
-import { getErrorMessage, isBlank, isNullish } from "@lichens-innovation/ts-common";
-import { escapeHtml, safeJsonStringify } from "@lichens-innovation/ts-common";
+import { escapeHtml, getErrorMessage, isBlank, isNullish, safeJsonStringify } from "@lichens-innovation/ts-common";
 
 export interface RegexTestResult {
   highlightedHtml: string;
@@ -26,7 +25,7 @@ interface ParseRegexArgs {
   flags: string[];
 }
 
-export const parseRegex = ({ pattern, flags }: ParseRegexArgs): RegExp | null => {
+const parseRegex = ({ pattern, flags }: ParseRegexArgs): RegExp | null => {
   if (isBlank(pattern)) return null;
 
   try {
@@ -55,7 +54,7 @@ const escapeAndBreak = (text: string): string => {
   return escapeHtml(text).replace(/\n/g, "<br />");
 };
 
-export const transformWithHighlights = ({ pattern, inputText, flags }: TransformArgs): string => {
+const transformWithHighlights = ({ pattern, inputText, flags }: TransformArgs): string => {
   if (isBlank(pattern) || isBlank(inputText)) {
     return escapeAndBreak(inputText ?? "");
   }
@@ -79,6 +78,23 @@ export const transformWithHighlights = ({ pattern, inputText, flags }: Transform
   }
 };
 
+interface CollectRegexMatchesArgs {
+  regex: RegExp;
+  inputText: string;
+}
+
+const collectRegexMatches = ({ regex, inputText }: CollectRegexMatchesArgs): string[] => {
+  const matches: string[] = [];
+  let result: RegExpExecArray | null;
+
+  while ((result = regex.exec(inputText)) !== null) {
+    matches.push(result[0]);
+    if (result[0].length === 0) regex.lastIndex++;
+  }
+
+  return matches;
+};
+
 export const extractMatches = ({ pattern, inputText, flags }: TransformArgs): string[] => {
   if (isBlank(pattern) || isBlank(inputText)) {
     return [];
@@ -92,17 +108,7 @@ export const extractMatches = ({ pattern, inputText, flags }: TransformArgs): st
   }
 
   try {
-    const matches: string[] = [];
-    let result: RegExpExecArray | null;
-
-    while ((result = regex.exec(inputText)) !== null) {
-      matches.push(result[0]);
-      if (result[0].length === 0) {
-        regex.lastIndex++;
-      }
-    }
-
-    return matches;
+    return collectRegexMatches({ regex, inputText });
   } catch {
     return [];
   }

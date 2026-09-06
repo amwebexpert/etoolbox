@@ -64,7 +64,7 @@ export const ImageOcrCompressor = () => {
 
         {!selectedFile && <CompressorImageUpload onFileSelect={setSelectedFile} />}
 
-        {selectedFile && (
+        {!!selectedFile && (
           <>
             <CompressorSettings />
 

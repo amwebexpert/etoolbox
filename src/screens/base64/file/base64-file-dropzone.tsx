@@ -1,6 +1,5 @@
 import { InboxOutlined } from "@ant-design/icons";
-import type { UploadFile } from "antd";
-import { Upload } from "antd";
+import { Upload, type UploadFile } from "antd";
 import { createStyles } from "antd-style";
 
 const { Dragger } = Upload;

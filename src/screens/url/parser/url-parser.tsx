@@ -55,7 +55,7 @@ export const UrlParser = () => {
           className={styles.textArea}
         />
 
-        {inputUrl && (
+        {!!inputUrl && (
           <Link href={inputUrl} target="_blank" rel="noreferrer">
             Click the link to open the URL in a new tab
           </Link>

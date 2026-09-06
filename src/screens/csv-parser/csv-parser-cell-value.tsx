@@ -1,3 +1,4 @@
+import { isNullish } from "@lichens-innovation/ts-common";
 import { Typography } from "antd";
 
 interface CsvParserCellValueProps {
@@ -5,7 +6,7 @@ interface CsvParserCellValueProps {
 }
 
 export const CsvParserCellValue = ({ value }: CsvParserCellValueProps) => {
-  if (value === null || value === undefined) {
+  if (isNullish(value)) {
     return <Typography.Text type="secondary">—</Typography.Text>;
   }
 

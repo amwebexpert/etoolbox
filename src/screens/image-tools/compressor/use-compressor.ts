@@ -7,7 +7,7 @@ import type { CompressorStoreState } from "./compressor.store";
 import type { CompressorSettings } from "./compressor.types";
 import { buildCompressorOptions, compressImage } from "./compressor.utils";
 
-export interface CompressInput {
+interface CompressInput {
   file: File;
   settings: CompressorSettings;
 }

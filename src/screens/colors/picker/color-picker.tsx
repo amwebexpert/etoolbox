@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
+import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { useColorPickerStore } from "./color-picker.store";
 import { clipboardToDataURL, fileToDataURL, rgbaColorToRgbaString } from "./color-picker.utils";
@@ -19,6 +20,7 @@ const { Text } = Typography;
 export const ColorPicker = () => {
   const { styles } = useStyles();
   const { isMobile, isDesktop } = useResponsive();
+  const messageApi = useToastMessage();
 
   const { imageDataUrl, color, setImageDataUrl, setColor, clearImage } = useColorPickerStore();
 
@@ -38,7 +40,7 @@ export const ColorPicker = () => {
       const dataUrl = await fileToDataURL(file);
       setImageDataUrl(dataUrl);
     } catch {
-      // Silently ignore file read errors
+      messageApi.error("Failed to read the image file");
     }
   };
 
@@ -58,7 +60,11 @@ export const ColorPicker = () => {
           description="Pick colors from images or use the color picker. Click on any color format to copy."
         />
 
-        <ColorPickerToolbar hasImage={!!imageDataUrl} onClear={clearImage} onFileSelect={handleFileSelect} />
+        <ColorPickerToolbar
+          hasImage={!!imageDataUrl}
+          onClear={clearImage}
+          onFileSelect={(file) => void handleFileSelect(file)}
+        />
 
         <Row gutter={[24, 24]}>
           <Col xs={24} lg={14}>
@@ -86,7 +92,7 @@ export const ColorPicker = () => {
           </Col>
         </Row>
 
-        {isDesktop && <div className={styles.spacer} />}
+        {isDesktop ? <div className={styles.spacer} /> : null}
       </Flex>
     </ScreenContainer>
   );

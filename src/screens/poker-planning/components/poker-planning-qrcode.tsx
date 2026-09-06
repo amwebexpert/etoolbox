@@ -13,7 +13,7 @@ export const PokerPlanningQRCode = () => {
 
   const handleCopyQRCode = () => {
     if (qrCodeDataUrl) {
-      copyImageToClipboard({
+      void copyImageToClipboard({
         dataUrl: qrCodeDataUrl,
         successMessage: "QR Code copied to clipboard!",
       });
@@ -42,20 +42,35 @@ export const PokerPlanningQRCode = () => {
       }
     >
       <div className={styles.container}>
-        {isLoadingQRCode ? (
-          <Spin size="large" />
-        ) : qrCodeDataUrl ? (
-          <>
-            <img src={qrCodeDataUrl} alt="Room QR Code" className={styles.qrImage} />
-            <Typography.Text type="secondary" className={styles.hint}>
-              Scan to join the room
-            </Typography.Text>
-          </>
-        ) : (
-          <Typography.Text type="secondary">Failed to generate QR code</Typography.Text>
-        )}
+        <QrCodeContent isLoadingQRCode={isLoadingQRCode} qrCodeDataUrl={qrCodeDataUrl} />
       </div>
     </Card>
+  );
+};
+
+interface QrCodeContentProps {
+  isLoadingQRCode: boolean;
+  qrCodeDataUrl: string | null;
+}
+
+const QrCodeContent = ({ isLoadingQRCode, qrCodeDataUrl }: QrCodeContentProps) => {
+  const { styles } = useStyles();
+
+  if (isLoadingQRCode) {
+    return <Spin size="large" />;
+  }
+
+  if (!qrCodeDataUrl) {
+    return <Typography.Text type="secondary">Failed to generate QR code</Typography.Text>;
+  }
+
+  return (
+    <>
+      <img src={qrCodeDataUrl} alt="Room QR Code" className={styles.qrImage} />
+      <Typography.Text type="secondary" className={styles.hint}>
+        Scan to join the room
+      </Typography.Text>
+    </>
   );
 };
 

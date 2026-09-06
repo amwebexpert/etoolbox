@@ -1,4 +1,4 @@
-export interface GithubProjectOwner {
+interface GithubProjectOwner {
   avatar_url: string;
   html_url: string;
   id: number;

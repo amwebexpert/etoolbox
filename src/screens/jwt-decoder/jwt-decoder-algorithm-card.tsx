@@ -16,7 +16,7 @@ export const JwtDecoderAlgorithmCard = ({ header }: JwtDecoderAlgorithmCardProps
       <Row gutter={[16, 8]}>
         <Col xs={24} sm={12}>
           <Typography.Text type="secondary">Algorithm:</Typography.Text>{" "}
-          <Typography.Text strong>{header?.alg || "Unknown"}</Typography.Text>
+          <Typography.Text strong>{header?.alg ?? "Unknown"}</Typography.Text>
           <br />
           <Typography.Text type="secondary" className={styles.algorithmDesc}>
             {algDescription}
@@ -25,8 +25,8 @@ export const JwtDecoderAlgorithmCard = ({ header }: JwtDecoderAlgorithmCardProps
 
         <Col xs={24} sm={12}>
           <Typography.Text type="secondary">Token Type:</Typography.Text>{" "}
-          <Typography.Text strong>{header?.typ || "JWT"}</Typography.Text>
-          {header?.kid && (
+          <Typography.Text strong>{header?.typ ?? "JWT"}</Typography.Text>
+          {!!header?.kid && (
             <>
               <br />
               <Typography.Text type="secondary">Key ID:</Typography.Text>{" "}

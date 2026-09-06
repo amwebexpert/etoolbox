@@ -16,9 +16,6 @@ export interface CompressImageArgs {
   options: Compressor.Options;
 }
 
-/**
- * Promise-based wrapper around the imperative compressorjs constructor.
- */
 export const compressImage = ({ file, options }: CompressImageArgs): Promise<File | Blob> =>
   new Promise((resolve, reject) => {
     new Compressor(file, {
@@ -28,10 +25,6 @@ export const compressImage = ({ file, options }: CompressImageArgs): Promise<Fil
     });
   });
 
-/**
- * Human-readable byte count using binary (1024) units with two decimals.
- * Example: formatFileSize(1024) === "1.00 KB".
- */
 export const formatFileSize = (bytes: number): string => {
   if (bytes >= BYTES_PER_GB) return `${(bytes / BYTES_PER_GB).toFixed(TWO_DECIMALS)} GB`;
   if (bytes >= BYTES_PER_MB) return `${(bytes / BYTES_PER_MB).toFixed(TWO_DECIMALS)} MB`;
@@ -44,10 +37,6 @@ export interface ComputeCompressionRatioArgs {
   compressedBytes: number;
 }
 
-/**
- * Signed compression ratio as a percentage string.
- * Example: computeCompressionRatio(1000, 500) === "-50%".
- */
 export const computeCompressionRatio = ({ originalBytes, compressedBytes }: ComputeCompressionRatioArgs): string => {
   if (originalBytes <= 0) return "0%";
   const ratio = ((compressedBytes - originalBytes) / originalBytes) * 100;
@@ -59,10 +48,6 @@ export interface BuildExportFilenameArgs {
   mimeType: string;
 }
 
-/**
- * Build an export filename from the source name and the target MIME type.
- * Example: buildExportFilename("photo.png", "image/webp") === "photo_compressed.webp".
- */
 export const buildExportFilename = ({ originalName, mimeType }: BuildExportFilenameArgs): string => {
   const lastDot = originalName.lastIndexOf(".");
   const baseName = lastDot > 0 ? originalName.slice(0, lastDot) : originalName;
@@ -70,11 +55,8 @@ export const buildExportFilename = ({ originalName, mimeType }: BuildExportFilen
   return `${baseName}_compressed.${ext}`;
 };
 
-/**
- * Map persisted CompressorSettings to a runtime compressorjs Options object.
- * Drops sentinel values ("auto" mimeType, zero width/height bounds) so the
- * underlying library falls back to its own defaults rather than clamping to 0.
- */
+// Drops sentinel values ("auto" mimeType, zero width/height bounds) so the habit-hooks-disable non-essential-comment
+// underlying library falls back to its own defaults rather than clamping to 0. habit-hooks-disable non-essential-comment
 export const buildCompressorOptions = (settings: CompressorSettings): Compressor.Options => {
   const options: Compressor.Options = {
     quality: settings.quality,
@@ -94,9 +76,6 @@ export const buildCompressorOptions = (settings: CompressorSettings): Compressor
   return options;
 };
 
-/**
- * Type guard accepting any browser File whose MIME type denotes an image.
- */
 export const isImageFile = (file: File): boolean => file.type.startsWith("image/");
 
 interface ClipboardLikeItem {
@@ -105,10 +84,6 @@ interface ClipboardLikeItem {
   getAsFile: () => File | null;
 }
 
-/**
- * Extract the first image File from a clipboard DataTransferItemList.
- * Returns null when no image item is present or getAsFile() returns null.
- */
 export const extractImageFromClipboardItems = (items: ReadonlyArray<ClipboardLikeItem>): File | null => {
   for (const item of items) {
     if (!item.type.startsWith("image/")) continue;
@@ -125,10 +100,6 @@ interface CanEnableDownloadArgs {
   compressedBlob: Blob | null;
 }
 
-/**
- * Pure predicate: the download action is enabled only when a compressed blob
- * is available and no compression is currently running.
- */
 export const canEnableDownload = ({ isCompressing, compressedBlob }: CanEnableDownloadArgs): boolean =>
   !isCompressing && !isNullish(compressedBlob);
 
@@ -137,11 +108,7 @@ interface TriggerDownloadArgs {
   filename: string;
 }
 
-/**
- * Trigger a browser file-save for the given blob using a synthetic anchor
- * element. The object URL is revoked immediately after the click so the
- * browser does not retain the blob in memory.
- */
+// Revoke the object URL right after the click so the browser doesn't retain the blob in memory. habit-hooks-disable non-essential-comment
 export const triggerDownload = ({ blob, filename }: TriggerDownloadArgs): void => {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");

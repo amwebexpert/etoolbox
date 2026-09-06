@@ -29,9 +29,4 @@ export const decodeFromFile = async ({ file }: DecodeFromFileContext): Promise<Q
   }
 };
 
-export const formatDecodeResult = (result: QRCodeDecodeResult): string => {
-  const { text, format, timestamp } = result;
-  return JSON.stringify({ text, format, timestamp: timestamp.toISOString() }, null, 2);
-};
-
 export const isValidImageFile = isValidImage;

@@ -4,9 +4,9 @@ import { createStyles } from "antd-style";
 
 const { Text } = Typography;
 
-type ColumnBranchProps = {
+interface ColumnBranchProps {
   branch: string;
-};
+}
 
 export const ColumnBranch = ({ branch }: ColumnBranchProps) => {
   const { styles } = useStyles();

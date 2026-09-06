@@ -1,8 +1,7 @@
 import { Col, Collapse, Form, Row, Select, Switch, Tooltip, Typography } from "antd";
 import { createStyles } from "antd-style";
 
-import type { CsvParserOptions } from "../csv-parser.types";
-import { DELIMITER_OPTIONS, PAPA_PARSE_OPTIONS_DOC_URL } from "../csv-parser.types";
+import { type CsvParserOptions, DELIMITER_OPTIONS, PAPA_PARSE_OPTIONS_DOC_URL } from "../csv-parser.types";
 
 interface CsvAdvancedOptionsProps {
   options: CsvParserOptions;

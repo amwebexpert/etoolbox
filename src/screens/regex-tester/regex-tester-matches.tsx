@@ -1,6 +1,8 @@
 import { Typography } from "antd";
 import { createStyles } from "antd-style";
 
+import { ResultSection } from "~/components/ui/result-section";
+
 interface RegexTesterMatchesProps {
   highlightedHtml: string;
   matchCount: number;
@@ -12,56 +14,41 @@ export const RegexTesterMatches = ({ highlightedHtml, matchCount, error }: Regex
 
   if (error) {
     return (
-      <div className={styles.section}>
-        <Typography.Text type="secondary" className={styles.label}>
-          Error
-        </Typography.Text>
+      <ResultSection label="Error">
         <div className={styles.errorBox}>
           <Typography.Text type="danger">{error}</Typography.Text>
         </div>
-      </div>
+      </ResultSection>
     );
   }
 
   return (
-    <div className={styles.section}>
-      <div className={styles.labelRow}>
-        <Typography.Text type="secondary" className={styles.label}>
-          Matches Preview
-        </Typography.Text>
-        {matchCount > 0 && (
+    <ResultSection
+      label="Matches Preview"
+      trailing={
+        matchCount > 0 ? (
           <Typography.Text type="secondary" className={styles.count}>
             {matchCount} match{matchCount !== 1 ? "es" : ""} found
           </Typography.Text>
-        )}
-      </div>
-
+        ) : undefined
+      }
+    >
       <div
         className={styles.matchesBox}
+        // highlightedHtml is built in regex-tester.utils.ts via transformWithHighlights, which runs the raw
+        // text through escapeHtml() before wrapping matches in static <span> tags; the only literal markup
+        // here is that hardcoded wrapper and the static placeholder below, so no unescaped user input ever
+        // reaches the DOM.
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
           __html: highlightedHtml || '<span class="placeholder">Matches will be highlighted here</span>',
         }}
       />
-    </div>
+    </ResultSection>
   );
 };
 
 const useStyles = createStyles(({ token }) => ({
-  section: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 8,
-  },
-  labelRow: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: 8,
-  },
-  label: {
-    fontWeight: 500,
-  },
   count: {
     fontSize: 12,
   },

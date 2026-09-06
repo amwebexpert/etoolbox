@@ -4,7 +4,13 @@ import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
-import { ColumnBranch, ColumnLanguage, ColumnRepository, ColumnStats, ColumnUpdatedAt } from "./columns";
+import {
+  ColumnBranch,
+  ColumnLanguage,
+  ColumnRepository,
+  ColumnStats,
+  ColumnUpdatedAt,
+} from "./columns/github-user-projects-columns.index";
 import type { GithubUserProject } from "./github-user-projects.types";
 
 export const useGithubUserProjectsColumns = (): ColumnsType<GithubUserProject> => {
@@ -26,7 +32,6 @@ export const useGithubUserProjectsColumns = (): ColumnsType<GithubUserProject> =
     },
   ];
 
-  // Language column (hidden on mobile)
   if (!isMobile) {
     baseColumns.push({
       title: "Language",
@@ -42,7 +47,6 @@ export const useGithubUserProjectsColumns = (): ColumnsType<GithubUserProject> =
     });
   }
 
-  // Stats column (stars, forks, watchers)
   baseColumns.push({
     title: isMobile ? "Stats" : "Stars / Forks",
     key: "stats",
@@ -55,7 +59,6 @@ export const useGithubUserProjectsColumns = (): ColumnsType<GithubUserProject> =
     ),
   });
 
-  // Updated column
   baseColumns.push({
     title: "Updated",
     dataIndex: "updated_at",
@@ -66,7 +69,6 @@ export const useGithubUserProjectsColumns = (): ColumnsType<GithubUserProject> =
     render: (updatedAt: string) => <ColumnUpdatedAt updatedAt={updatedAt} />,
   });
 
-  // Branch column (hidden on mobile and tablet)
   if (!isMobile && !isTablet) {
     baseColumns.push({
       title: "Branch",

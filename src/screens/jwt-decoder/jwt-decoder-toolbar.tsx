@@ -1,13 +1,11 @@
 import { ClearOutlined, CopyOutlined, FileTextOutlined, UnlockOutlined } from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Button, Dropdown, Space, Tooltip } from "antd";
-import { createStyles } from "antd-style";
+import { Button, Dropdown, type MenuProps, Space, Tooltip } from "antd";
 
+import { ScreenToolbar } from "~/components/ui/screen-toolbar";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
 
-import type { DecodedJwt } from "./jwt-decoder.utils";
-import { formatJson, SAMPLE_JWT_TOKENS } from "./jwt-decoder.utils";
+import { type DecodedJwt, formatJson, SAMPLE_JWT_TOKENS } from "./jwt-decoder.utils";
 
 interface JwtDecoderToolbarProps {
   hasToken: boolean;
@@ -18,18 +16,17 @@ interface JwtDecoderToolbarProps {
 
 export const JwtDecoderToolbar = ({ hasToken, decoded, onLoadSample, onClear }: JwtDecoderToolbarProps) => {
   const { isMobile } = useResponsive();
-  const { styles } = useStyles();
   const { copyTextToClipboard } = useClipboardCopy();
 
   const handleCopyHeader = () => {
-    copyTextToClipboard({
+    void copyTextToClipboard({
       text: formatJson(decoded.header),
       successMessage: "Header copied to clipboard!",
     });
   };
 
   const handleCopyPayload = () => {
-    copyTextToClipboard({
+    void copyTextToClipboard({
       text: formatJson(decoded.payload),
       successMessage: "Payload copied to clipboard!",
     });
@@ -40,7 +37,7 @@ export const JwtDecoderToolbar = ({ hasToken, decoded, onLoadSample, onClear }: 
       header: decoded.header,
       payload: decoded.payload,
     };
-    copyTextToClipboard({
+    void copyTextToClipboard({
       text: formatJson(combined),
       successMessage: "Decoded JWT copied to clipboard!",
     });
@@ -84,48 +81,37 @@ export const JwtDecoderToolbar = ({ hasToken, decoded, onLoadSample, onClear }: 
   ];
 
   return (
-    <div className={styles.toolbar}>
-      <Space size="small" wrap>
-        <Dropdown menu={{ items: sampleMenuItems }} placement="bottomLeft">
-          <Button icon={<FileTextOutlined />}>{!isMobile && "Load Sample"}</Button>
-        </Dropdown>
-      </Space>
-
-      <div className={styles.spacer} />
-
-      <Space size="small" wrap>
-        <Tooltip title="Clear token">
-          <Button icon={<ClearOutlined />} disabled={!hasToken} onClick={onClear}>
-            {!isMobile && "Clear"}
-          </Button>
-        </Tooltip>
-
-        <Dropdown menu={{ items: copyMenuItems }} placement="bottomRight" disabled={!decoded.isValid}>
-          <Tooltip title="Copy decoded JWT">
-            <Button icon={<CopyOutlined />} disabled={!decoded.isValid}>
-              {!isMobile && "Copy"}
+    <ScreenToolbar
+      leading={
+        <Space size="small" wrap>
+          <Dropdown menu={{ items: sampleMenuItems }} placement="bottomLeft">
+            <Button icon={<FileTextOutlined />}>{!isMobile && "Load Sample"}</Button>
+          </Dropdown>
+        </Space>
+      }
+      actions={
+        <Space size="small" wrap>
+          <Tooltip title="Clear token">
+            <Button icon={<ClearOutlined />} disabled={!hasToken} onClick={onClear}>
+              {!isMobile && "Clear"}
             </Button>
           </Tooltip>
-        </Dropdown>
 
-        <Tooltip title="Token is automatically decoded as you type">
-          <Button type="primary" icon={<UnlockOutlined />} disabled={!hasToken || decoded.isValid}>
-            {decoded.isValid ? "Decoded" : "Decode"}
-          </Button>
-        </Tooltip>
-      </Space>
-    </div>
+          <Dropdown menu={{ items: copyMenuItems }} placement="bottomRight" disabled={!decoded.isValid}>
+            <Tooltip title="Copy decoded JWT">
+              <Button icon={<CopyOutlined />} disabled={!decoded.isValid}>
+                {!isMobile && "Copy"}
+              </Button>
+            </Tooltip>
+          </Dropdown>
+
+          <Tooltip title="Token is automatically decoded as you type">
+            <Button type="primary" icon={<UnlockOutlined />} disabled={!hasToken || decoded.isValid}>
+              {decoded.isValid ? "Decoded" : "Decode"}
+            </Button>
+          </Tooltip>
+        </Space>
+      }
+    />
   );
 };
-
-const useStyles = createStyles(() => ({
-  toolbar: {
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    flexWrap: "wrap",
-  },
-  spacer: {
-    flex: 1,
-  },
-}));

@@ -2,7 +2,12 @@ import similarity from "compute-cosine-similarity";
 
 import type { EmbeddingVector } from "../coding-standards.types";
 
-export const cosineSimilarity = (vecA: EmbeddingVector, vecB: EmbeddingVector): number => {
+interface CosineSimilarityArgs {
+  vecA: EmbeddingVector;
+  vecB: EmbeddingVector;
+}
+
+export const cosineSimilarity = ({ vecA, vecB }: CosineSimilarityArgs): number => {
   if (!vecA?.length || !vecB?.length) {
     return 0;
   }

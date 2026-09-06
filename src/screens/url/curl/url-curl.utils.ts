@@ -2,7 +2,7 @@ import { getErrorMessage } from "@lichens-innovation/ts-common";
 import { type HarRequest, HTTPSnippet } from "httpsnippet";
 import parseCurl from "parse-curl";
 
-// HTTPSnippet target IDs - must match httpsnippet's internal types
+// HTTPSnippet target IDs - must match httpsnippet's internal types habit-hooks-disable non-essential-comment
 type TargetId =
   | "c"
   | "clojure"
@@ -29,9 +29,8 @@ interface CurlConverterType {
   client: string;
 }
 
-// Map display names to HTTPSnippet target/client pairs
-// See: https://github.com/Kong/httpsnippet#targets
-export const CONVERTERS: Map<string, CurlConverterType> = new Map([
+// See: https://github.com/Kong/httpsnippet#targets habit-hooks-disable non-essential-comment
+const CONVERTERS: Map<string, CurlConverterType> = new Map([
   ["C (libcurl)", { syntaxLanguage: "c", target: "c", client: "libcurl" }],
   ["Clojure", { syntaxLanguage: "clojure", target: "clojure", client: "clj_http" }],
   ["C#", { syntaxLanguage: "csharp", target: "csharp", client: "httpclient" }],
@@ -86,14 +85,26 @@ export const CONVERTERS: Map<string, CurlConverterType> = new Map([
 
 export const CONVERTERS_LIST = [...CONVERTERS.keys()];
 
-/**
- * Converts a parsed cURL command to HAR (HTTP Archive) format
- * required by HTTPSnippet
+const parseQueryStringFromUrl = (url: string): Array<{ name: string; value: string }> => {
+  try {
+    const urlObj = new URL(url);
+    const queryString: Array<{ name: string; value: string }> = [];
+    urlObj.searchParams.forEach((value, name) => {
+      queryString.push({ name, value });
+    });
+    return queryString;
+  } catch {
+    // URL parsing failed, continue without query params habit-hooks-disable non-essential-comment
+    return [];
+  }
+};
+
+/** habit-hooks-disable non-essential-comment
+ * Converts a parsed cURL command to HAR (HTTP Archive) format required by HTTPSnippet.
  */
 const curlToHar = (curlCommand: string): HarRequest => {
   const parsed = parseCurl(curlCommand);
 
-  // Build headers array from parsed headers object
   const headers: Array<{ name: string; value: string }> = [];
   if (parsed.header) {
     Object.entries(parsed.header).forEach(([name, value]) => {
@@ -101,22 +112,11 @@ const curlToHar = (curlCommand: string): HarRequest => {
     });
   }
 
-  // Parse URL to extract query string
-  const queryString: Array<{ name: string; value: string }> = [];
-  try {
-    const urlObj = new URL(parsed.url);
-    urlObj.searchParams.forEach((value, name) => {
-      queryString.push({ name, value });
-    });
-  } catch {
-    // URL parsing failed, continue without query params
-  }
+  const queryString = parseQueryStringFromUrl(parsed.url);
 
-  // Build postData if body is present
   let postData: HarRequest["postData"] = undefined;
   if (parsed.body) {
-    // Try to find content-type from headers
-    const contentType = parsed.header?.["Content-Type"] || parsed.header?.["content-type"] || "application/json";
+    const contentType = parsed.header?.["Content-Type"] ?? parsed.header?.["content-type"] ?? "application/json";
 
     postData = {
       mimeType: String(contentType),
@@ -124,7 +124,6 @@ const curlToHar = (curlCommand: string): HarRequest => {
     };
   }
 
-  // Build the HAR request object
   const harRequest: HarRequest = {
     method: parsed.method || "GET",
     url: parsed.url,
@@ -140,28 +139,29 @@ const curlToHar = (curlCommand: string): HarRequest => {
   return harRequest;
 };
 
-export const transformCurl = (value?: string, targetLanguage = "JavaScript (Fetch)"): string => {
+interface TransformCurlArgs {
+  value?: string;
+  targetLanguage?: string;
+}
+
+export const transformCurl = ({ value, targetLanguage = "JavaScript (Fetch)" }: TransformCurlArgs): string => {
   if (!value) {
     return "";
   }
 
   try {
-    // Normalize the cURL command (remove line breaks but keep backslash continuations)
+    // parse-curl fails on line breaks; keep backslash continuations as spaces habit-hooks-disable non-essential-comment
     const curlCommand = value
-      .replaceAll(/\\\s*[\r\n]+/g, " ") // Remove backslash + newline continuations
-      .replaceAll(/[\r\n]+/g, " ") // Remove remaining newlines
+      .replaceAll(/\\\s*[\r\n]+/g, " ")
+      .replaceAll(/[\r\n]+/g, " ")
       .trim();
 
-    // Get converter configuration
     const converter = CONVERTERS.get(targetLanguage);
     if (!converter) {
       return `Warning: no converter found matching "${targetLanguage}"`;
     }
 
-    // Parse cURL to HAR format
     const harRequest = curlToHar(curlCommand);
-
-    // Create HTTPSnippet and generate code
     const snippet = new HTTPSnippet(harRequest);
     const result = snippet.convert(converter.target, converter.client);
 
@@ -169,7 +169,7 @@ export const transformCurl = (value?: string, targetLanguage = "JavaScript (Fetc
       return `Error: Failed to convert to ${targetLanguage}`;
     }
 
-    // HTTPSnippet returns an array of strings for some targets
+    // HTTPSnippet returns an array of strings for some targets habit-hooks-disable non-essential-comment
     return Array.isArray(result) ? result.join("\n") : String(result);
   } catch (e: unknown) {
     return `Error converting cURL command: ${getErrorMessage(e)}`;

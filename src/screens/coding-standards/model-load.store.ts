@@ -9,7 +9,7 @@ import {
 } from "./model-load.store.type";
 import { mutateEntryFromProgress } from "./model-load.store.utils";
 
-export type ModelLoadStore = {
+export interface ModelLoadStore {
   fileLoads: ModelFileLoadMap;
   globalStatus: ModelLoadGlobalStatus;
   globalErrorMessage: string;
@@ -18,7 +18,7 @@ export type ModelLoadStore = {
   setGlobalReady: () => void;
   setGlobalError: (message: string) => void;
   ingestHubEvent: (event: ModelLoadHubProgressEvent) => void;
-};
+}
 
 export const useModelLoadStore = create<ModelLoadStore>()(
   immer((set) => ({
@@ -54,7 +54,7 @@ export const useModelLoadStore = create<ModelLoadStore>()(
     ingestHubEvent: (event: ModelLoadHubProgressEvent) =>
       set((state) => {
         const file = event.file ?? "";
-        const key = buildModelFileKey(event.name, file);
+        const key = buildModelFileKey({ modelId: event.name, file });
         if (!state.fileLoads[key]) {
           state.fileLoads[key] = {
             modelId: event.name,

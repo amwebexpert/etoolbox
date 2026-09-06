@@ -1,14 +1,15 @@
-import { safeJsonStringify } from "@lichens-innovation/ts-common";
 import Papa, { type ParseConfig, type ParseResult } from "papaparse";
 import prettyBytes from "pretty-bytes";
 
-import type { CsvParseResult, CsvParserOptions, FileInfo, ParseCsvArgs } from "./csv-parser.types";
-import { DEFAULT_CSV_OPTIONS } from "./csv-parser.types";
+import {
+  type CsvParseResult,
+  type CsvParserOptions,
+  DEFAULT_CSV_OPTIONS,
+  type FileInfo,
+  type ParseCsvArgs,
+} from "./csv-parser.types";
 
-/**
- * Parse CSV data using PapaParse
- * @see https://www.papaparse.com/docs#config
- */
+// @see https://www.papaparse.com/docs#config habit-hooks-disable non-essential-comment
 export const parseCsv = ({ csvData, options = {} }: ParseCsvArgs): Promise<CsvParseResult> => {
   return new Promise((resolve, reject) => {
     try {
@@ -17,7 +18,7 @@ export const parseCsv = ({ csvData, options = {} }: ParseCsvArgs): Promise<CsvPa
         ...options,
       };
 
-      // Convert our simplified options to PapaParse config
+      // Convert our simplified options to PapaParse config habit-hooks-disable non-essential-comment
       const papaConfig: ParseConfig = {
         delimiter: mergedOptions.delimiter || undefined, // empty string means auto-detect
         quoteChar: mergedOptions.quoteChar,
@@ -47,17 +48,11 @@ export const parseCsv = ({ csvData, options = {} }: ParseCsvArgs): Promise<CsvPa
   });
 };
 
-/**
- * Format file info for display
- */
 export const formatFileInfo = (fileInfo: FileInfo | null): string => {
   if (!fileInfo) return "";
   return `${fileInfo.name} (${prettyBytes(fileInfo.size)})`;
 };
 
-/**
- * Read a file as text with specified encoding
- */
 interface ReadFileAsTextWithEncodingArgs {
   file: File;
   encoding: string;
@@ -79,9 +74,6 @@ export const readFileAsTextWithEncoding = ({ file, encoding }: ReadFileAsTextWit
   });
 };
 
-/**
- * Get statistics from parsed CSV data
- */
 interface CsvStats {
   rowCount: number;
   columnCount: number;
@@ -106,41 +98,7 @@ export const getCsvStats = (result: CsvParseResult | null): CsvStats | null => {
   };
 };
 
-/**
- * Export CSV data to different formats
- */
-export const convertToFormat = (data: unknown[], format: "json" | "csv"): string => {
-  if (format === "json") {
-    return safeJsonStringify(data);
-  }
-
-  // Convert back to CSV
-  return Papa.unparse(data);
-};
-
-/**
- * Detect if a string might be CSV content
- */
-export const looksLikeCsv = (text: string): boolean => {
-  if (!text || text.trim().length === 0) return false;
-
-  const lines = text.trim().split(/\r?\n/);
-  if (lines.length < 2) return false;
-
-  // Check for common delimiters
-  const firstLine = lines[0];
-  const delimiters = [",", ";", "\t", "|"];
-
-  return delimiters.some((d) => {
-    const count = (firstLine.match(new RegExp(d.replace(/[|]/g, "\\$&"), "g")) || []).length;
-    return count >= 1;
-  });
-};
-
-/**
- * Format line break for display
- */
-export const formatLineBreak = (linebreak: string | undefined): string => {
+export const formatLineBreak = (linebreak?: string): string => {
   if (!linebreak) return "Unknown";
   if (linebreak === "\r\n") return "CRLF (Windows)";
   if (linebreak === "\n") return "LF (Unix/Mac)";

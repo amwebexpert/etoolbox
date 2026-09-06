@@ -10,7 +10,11 @@ export interface DateFormat {
   showCode?: boolean;
 }
 
-// Constants
+export interface CopyHandlerArgs {
+  value: string;
+  label: string;
+}
+
 export const DEFAULT_EPOCH_VALUE = "";
 export const DEFAULT_EPOCH_UNIT: EpochUnit = "milliseconds";
 

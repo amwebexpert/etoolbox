@@ -1,8 +1,8 @@
 import { ClearOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Row, Select, Space, Typography } from "antd";
-import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { useListFilterToolbarStyles } from "~/styles/list-filter-toolbar.styles";
 
 import { CATEGORY_OPTIONS, FILTER_FIELD_OPTIONS, HTML_ENTITIES } from "./html-entities.constants";
 import { useHtmlEntitiesStore } from "./html-entities.store";
@@ -15,7 +15,7 @@ interface HtmlEntitiesToolbarProps {
 }
 
 export const HtmlEntitiesToolbar = ({ filteredCount }: HtmlEntitiesToolbarProps) => {
-  const { styles } = useStyles();
+  const { styles } = useListFilterToolbarStyles();
   const { isDesktop } = useResponsive();
 
   const { category, filter, filterField, setCategory, setFilter, setFilterField, hasFilters, resetFilters } =
@@ -83,24 +83,3 @@ export const HtmlEntitiesToolbar = ({ filteredCount }: HtmlEntitiesToolbarProps)
     </Row>
   );
 };
-
-const useStyles = createStyles(() => ({
-  toolbar: {
-    marginBottom: 16,
-  },
-  select: {
-    width: "100%",
-  },
-  input: {
-    width: "100%",
-  },
-  count: {
-    fontFamily: "monospace",
-    whiteSpace: "nowrap",
-  },
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end",
-    width: "100%",
-  },
-}));

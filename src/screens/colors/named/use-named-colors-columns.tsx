@@ -25,7 +25,9 @@ export const useNamedColorsColumns = (): ColumnsType<ColorInfo> => {
         <Tooltip title="Click to copy name">
           <div
             className={styles.nameCell}
-            onClick={() => copyTextToClipboard({ text: name, successMessage: `Copied: ${name}` })}
+            onClick={() => {
+              void copyTextToClipboard({ text: name, successMessage: `Copied: ${name}` });
+            }}
           >
             <Text strong className={styles.colorName}>
               {name}

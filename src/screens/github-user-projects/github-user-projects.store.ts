@@ -14,26 +14,26 @@ import {
 } from "./github-user-projects.constants";
 import type { SortField, SortOrder } from "./github-user-projects.types";
 
+interface HandlePageChangeArgs {
+  page: number;
+  pageSize: number;
+}
+
 interface GithubUserProjectsState {
-  // Search state
   username: string;
   lastSearchedUsername: string;
 
-  // Filter state
   filter: string;
   language: string;
   showForks: boolean;
   showArchived: boolean;
 
-  // Sort state
   sortField: SortField;
   sortOrder: SortOrder;
 
-  // Pagination state
   page: number;
   pageSize: number;
 
-  // Actions
   setUsername: (username: string) => void;
   setLastSearchedUsername: (username: string) => void;
   setFilter: (filter: string) => void;
@@ -44,13 +44,12 @@ interface GithubUserProjectsState {
   setSortOrder: (sortOrder: SortOrder) => void;
   toggleSortOrder: () => void;
   setPage: (page: number) => void;
-  handlePageChange: (page: number, pageSize: number) => void;
+  handlePageChange: ({ page, pageSize }: HandlePageChangeArgs) => void;
   resetFilters: () => void;
   resetAll: () => void;
 }
 
 const stateCreator: StateCreator<GithubUserProjectsState> = (set, get) => ({
-  // Initial state
   username: DEFAULT_USERNAME,
   lastSearchedUsername: DEFAULT_USERNAME,
   filter: DEFAULT_FILTER,
@@ -62,7 +61,6 @@ const stateCreator: StateCreator<GithubUserProjectsState> = (set, get) => ({
   page: DEFAULT_PAGE,
   pageSize: DEFAULT_PAGE_SIZE,
 
-  // Actions
   setUsername: (username) => set({ username }),
   setLastSearchedUsername: (lastSearchedUsername) => set({ lastSearchedUsername, username: lastSearchedUsername }),
   setFilter: (filter) => set({ filter, page: DEFAULT_PAGE }),
@@ -76,7 +74,7 @@ const stateCreator: StateCreator<GithubUserProjectsState> = (set, get) => ({
       sortOrder: state.sortOrder === "asc" ? "desc" : "asc",
     })),
   setPage: (page) => set({ page }),
-  handlePageChange: (page, pageSize) => {
+  handlePageChange: ({ page, pageSize }) => {
     const currentPageSize = get().pageSize;
     if (pageSize !== currentPageSize) {
       set({ page: DEFAULT_PAGE, pageSize });

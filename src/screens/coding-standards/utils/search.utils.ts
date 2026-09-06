@@ -7,10 +7,25 @@ import { buildOrderedNodes, cloneAndRemoveAllParents } from "./markdown-parser";
 const normalizeForSearch = (search: string): string => search.toLowerCase().replaceAll("`", "").trim();
 
 const hasDescendentMatching = (node: GuidelineNode): boolean =>
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- boolean OR: an explicit `false` must still fall through to check descendants, `??` would not
   node.isMatching || node.children.some((child) => child.isMatching) || node.children.some(hasDescendentMatching);
 
 const isParentOfAvoidPreferSection = (node: GuidelineNode): boolean =>
   node.children.some((child) => AVOID_PREFER_PREFIXES.some((prefix) => child.title.toLowerCase().startsWith(prefix)));
+
+const buildRuleFromNode = (node: GuidelineNode): Rule => {
+  const content = node.markdownLines.join("\n");
+  return {
+    title: node.title,
+    content: `${node.title}\n${content}`,
+    href: node.href,
+    category: "general", // Will be set by embeddings engine
+  };
+};
+
+// Extract rules from a matching node: its children (Avoid/Prefer sections) if it has any, else itself directly habit-hooks-disable non-essential-comment
+const extractRulesFromNode = (node: GuidelineNode): Rule[] =>
+  node.children.length > 0 ? node.children.map(buildRuleFromNode) : [buildRuleFromNode(node)];
 
 interface FilterGuidelinesArgs {
   search: string;
@@ -23,7 +38,6 @@ export const filterGuidelines = ({ search, rootNode }: FilterGuidelinesArgs): Ru
   const normalizedSearch = normalizeForSearch(search);
   if (!normalizedSearch) return [];
 
-  // traverse the tree and mark nodes that match the search inside its markdownLines
   const clonedRoot = cloneAndRemoveAllParents(rootNode);
   const allOrderedNodes = buildOrderedNodes({ node: clonedRoot });
   for (const node of allOrderedNodes) {
@@ -32,42 +46,16 @@ export const filterGuidelines = ({ search, rootNode }: FilterGuidelinesArgs): Ru
       node.markdownLines.some((line) => normalizeForSearch(line).includes(normalizedSearch));
   }
 
-  // traverse the tree and determine which nodes to show
   for (const node of allOrderedNodes) {
     if (!isParentOfAvoidPreferSection(node)) continue;
 
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing -- boolean OR: an explicit `false` must still fall through to check descendants, `??` would not
     node.shouldDisplayNode = node.isMatching || hasDescendentMatching(node);
   }
 
   const matchingNodes = allOrderedNodes.filter((node) => node.shouldDisplayNode);
 
-  // Convert GuidelineNodes to Rules
-  const rules: Rule[] = [];
-  for (const node of matchingNodes) {
-    if (node.children.length > 0) {
-      // Extract rules from children (Avoid/Prefer sections)
-      for (const child of node.children) {
-        const content = child.markdownLines.join("\n");
-        rules.push({
-          title: child.title,
-          content: `${child.title}\n${content}`,
-          href: child.href,
-          category: "general", // Will be set by embeddings engine
-        });
-      }
-    } else {
-      // Direct rule
-      const content = node.markdownLines.join("\n");
-      rules.push({
-        title: node.title,
-        content: `${node.title}\n${content}`,
-        href: node.href,
-        category: "general",
-      });
-    }
-  }
-
-  return rules;
+  return matchingNodes.flatMap(extractRulesFromNode);
 };
 
 interface CombineSearchResultsArgs {

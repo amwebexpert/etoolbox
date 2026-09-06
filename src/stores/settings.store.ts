@@ -3,7 +3,7 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
 import type { ColorTheme } from "~/themes";
 
-export type ThemeMode = "light" | "dark";
+type ThemeMode = "light" | "dark";
 
 interface SettingsState {
   themeMode: ThemeMode;
@@ -33,12 +33,10 @@ const persistedStateCreator = persist<SettingsState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useSettingsStore = create<SettingsState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
-);
+const useSettingsStore = create<SettingsState>()(devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }));
 
 export const useThemeMode = () => useSettingsStore((state) => state.themeMode);
-export const useToggleThemeMode = () => useSettingsStore((state) => state.toggleThemeMode);
+const useToggleThemeMode = () => useSettingsStore((state) => state.toggleThemeMode);
 
 export const useColorTheme = () => useSettingsStore((state) => state.colorTheme);
 export const useSetColorTheme = () => useSettingsStore((state) => state.setColorTheme);

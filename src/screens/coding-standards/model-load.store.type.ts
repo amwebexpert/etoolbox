@@ -1,39 +1,39 @@
-/** Payloads emitted by `@xenova/transformers` `getModelFile` → `progress_callback`. */
+/** Payloads emitted by `@xenova/transformers` `getModelFile` → `progress_callback`. habit-hooks-disable non-essential-comment */
 export type ModelLoadHubProgressEvent =
   | ModelLoadHubProgressInitiate
   | ModelLoadHubProgressDownload
   | ModelLoadHubProgressProgress
   | ModelLoadHubProgressDone;
 
-type HubBase = {
+interface HubBase {
   name: string;
   file: string;
-};
+}
 
-export type ModelLoadHubProgressInitiate = HubBase & {
+type ModelLoadHubProgressInitiate = HubBase & {
   status: "initiate";
 };
 
-export type ModelLoadHubProgressDownload = HubBase & {
+type ModelLoadHubProgressDownload = HubBase & {
   status: "download";
 };
 
-export type ModelLoadHubProgressProgress = HubBase & {
+type ModelLoadHubProgressProgress = HubBase & {
   status: "progress";
   progress: number;
   loaded?: number;
   total?: number;
 };
 
-export type ModelLoadHubProgressDone = HubBase & {
+type ModelLoadHubProgressDone = HubBase & {
   status: "done";
 };
 
 export type ModelLoadGlobalStatus = "idle" | "loading" | "ready" | "error";
 
-export type ModelFileLoadStatus = "pending" | "downloading" | "done" | "error";
+type ModelFileLoadStatus = "pending" | "downloading" | "done" | "error";
 
-export type ModelFileLoadEntry = {
+export interface ModelFileLoadEntry {
   modelId: string;
   file: string;
   status: ModelFileLoadStatus;
@@ -41,8 +41,13 @@ export type ModelFileLoadEntry = {
   total?: number;
   percent?: number;
   errorMessage?: string;
-};
+}
 
 export type ModelFileLoadMap = Record<string, ModelFileLoadEntry>;
 
-export const buildModelFileKey = (modelId: string, file: string): string => `${modelId}::${file}`;
+interface BuildModelFileKeyArgs {
+  modelId: string;
+  file: string;
+}
+
+export const buildModelFileKey = ({ modelId, file }: BuildModelFileKeyArgs): string => `${modelId}::${file}`;

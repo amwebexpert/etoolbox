@@ -1,12 +1,11 @@
 import { Table } from "antd";
-import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { useCompactListTableStyles } from "~/styles/list-table.styles";
 import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { useNamedColorsStore } from "./named-colors.store";
-import type { ColorInfo } from "./named-colors.utils";
-import { PAGE_SIZE_OPTIONS } from "./named-colors.utils";
+import { type ColorInfo, PAGE_SIZE_OPTIONS } from "./named-colors.utils";
 import { useNamedColorsColumns } from "./use-named-colors-columns";
 
 interface NamedColorsTableProps {
@@ -14,7 +13,7 @@ interface NamedColorsTableProps {
 }
 
 export const NamedColorsTable = ({ filteredColors }: NamedColorsTableProps) => {
-  const { styles } = useStyles();
+  const { styles } = useCompactListTableStyles();
   const { isMobile } = useResponsive();
   const columns = useNamedColorsColumns();
 
@@ -33,7 +32,7 @@ export const NamedColorsTable = ({ filteredColors }: NamedColorsTableProps) => {
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} colors`,
         size: smallSizeOnMobile(isMobile),
-        onChange: handlePageChange,
+        onChange: (page, pageSize) => handlePageChange({ page, pageSize }),
       }}
       size="small"
       scroll={{ x: "max-content" }}
@@ -41,16 +40,3 @@ export const NamedColorsTable = ({ filteredColors }: NamedColorsTableProps) => {
     />
   );
 };
-
-const useStyles = createStyles(({ token }) => ({
-  table: {
-    ".ant-table-thead > tr > th": {
-      backgroundColor: token.colorPrimaryBg,
-    },
-    ".ant-table-tbody > tr > td": {
-      borderBottom: "none",
-      paddingBlock: 0,
-      paddingInline: 8,
-    },
-  },
-}));

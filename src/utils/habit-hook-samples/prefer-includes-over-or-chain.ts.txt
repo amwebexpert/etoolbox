@@ -1,0 +1,7 @@
+/** habit-hooks-disable non-essential-comment
+ * This is a "Demo" example that should trigger the prefer-includes-over-or-chain rule.
+ */
+
+export const isPrimaryColor = (color: string): boolean => {
+  return color === "red" || color === "green" || color === "blue";
+};

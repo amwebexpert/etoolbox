@@ -7,11 +7,11 @@ import type { GithubUserProject } from "../github-user-projects.types";
 
 const { Text } = Typography;
 
-type ColumnStatsProps = {
+interface ColumnStatsProps {
   record: GithubUserProject;
   isMobile: boolean;
   isTablet: boolean;
-};
+}
 
 export const ColumnStats = ({ record, isMobile, isTablet }: ColumnStatsProps) => {
   const { styles } = useStyles();

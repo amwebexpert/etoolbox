@@ -1,22 +1,28 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Row, Select, Typography } from "antd";
 import { createStyles } from "antd-style";
-import { useRef } from "react";
+import { type ComponentRef, useRef } from "react";
 
-import type { FileInfo } from "../csv-parser.types";
-import { FILE_ENCODING_OPTIONS } from "../csv-parser.types";
+import { logger } from "~/utils/logger";
+
+import { FILE_ENCODING_OPTIONS, type FileInfo } from "../csv-parser.types";
 import { formatFileInfo, readFileAsTextWithEncoding } from "../csv-parser.utils";
+
+export interface OnFileLoadedArgs {
+  content: string;
+  fileInfo: FileInfo;
+}
 
 interface CsvFileUploadProps {
   fileEncoding: string;
   fileInfo: FileInfo | null;
   onEncodingChange: (encoding: string) => void;
-  onFileLoaded: (content: string, fileInfo: FileInfo) => void;
+  onFileLoaded: (args: OnFileLoadedArgs) => void;
 }
 
 export const CsvFileUpload = ({ fileEncoding, fileInfo, onEncodingChange, onFileLoaded }: CsvFileUploadProps) => {
   const { styles } = useStyles();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<ComponentRef<"input">>(null);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -27,12 +33,12 @@ export const CsvFileUpload = ({ fileEncoding, fileInfo, onEncodingChange, onFile
         file,
         encoding: fileEncoding,
       });
-      onFileLoaded(content, { name: file.name, size: file.size });
+      onFileLoaded({ content, fileInfo: { name: file.name, size: file.size } });
     } catch (error) {
-      console.error("Failed to read file:", error);
+      logger.error({ error }, "Failed to read file");
     }
 
-    // Reset file input so the same file can be selected again
+    // Reset file input so the same file can be selected again habit-hooks-disable non-essential-comment
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -63,7 +69,7 @@ export const CsvFileUpload = ({ fileEncoding, fileInfo, onEncodingChange, onFile
             ref={fileInputRef}
             type="file"
             accept=".csv,text/csv,application/csv"
-            onChange={handleFileSelect}
+            onChange={(e) => void handleFileSelect(e)}
             style={{ display: "none" }}
           />
           <Button
@@ -73,7 +79,7 @@ export const CsvFileUpload = ({ fileEncoding, fileInfo, onEncodingChange, onFile
           >
             Select CSV File
           </Button>
-          {fileInfoText && (
+          {!!fileInfoText && (
             <Typography.Text type="secondary" className={styles.fileInfo}>
               {fileInfoText}
             </Typography.Text>

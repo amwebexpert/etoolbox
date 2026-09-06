@@ -1,0 +1,18 @@
+# eslint-plugin-react@7.37.5 — ESLint 10 compatibility
+# context.getFilename() was removed in ESLint 10 (use context.filename instead).
+# This patch uses context.filename ?? context.getFilename?.() in resolveBasedir()
+# so the plugin works with both ESLint 8/9 and ESLint 10. Remove when upstream
+# supports ESLint 10.
+diff --git a/node_modules/eslint-plugin-react/lib/util/version.js b/node_modules/eslint-plugin-react/lib/util/version.js
+index c9dc683..5b8f184 100644
+--- a/node_modules/eslint-plugin-react/lib/util/version.js
++++ b/node_modules/eslint-plugin-react/lib/util/version.js
+@@ -28,7 +28,7 @@ function resetDetectedVersion() {
+ 
+ function resolveBasedir(contextOrFilename) {
+   if (contextOrFilename) {
+-    const filename = typeof contextOrFilename === 'string' ? contextOrFilename : contextOrFilename.getFilename();
++    const filename = typeof contextOrFilename === 'string' ? contextOrFilename : (contextOrFilename.filename ?? contextOrFilename.getFilename?.());
+     const dirname = path.dirname(filename);
+     try {
+       if (fs.statSync(filename).isFile()) {

@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow, formatISO } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 
 import {
   type DateFormat,
@@ -8,17 +8,14 @@ import {
   SAMPLE_DATEFNS_TZ_CONVERT,
 } from "./date-converter.constants";
 
-// Helper to safely get timezone offset in hours
 const getTimezoneOffsetHours = (date: Date): number => {
   return date.getTimezoneOffset() / 60;
 };
 
-// Helper to get timezone name
 const getTimezoneName = (): string => {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 };
 
-// All available date formats for display
 export const DATE_FORMATS: DateFormat[] = [
   {
     id: "iso",
@@ -85,7 +82,9 @@ export const DATE_FORMATS: DateFormat[] = [
     id: "js-epoch",
     label: "JavaScript (epoch)",
     description: "JavaScript code using epoch timestamp",
+    // eslint-disable-next-line coding-guide/max-params-project -- shared `DateFormat.getValue`/`getCode` strategy signature, called uniformly across every entry in this array
     getValue: (_date, epochValue) => `new Date(${epochValue})`,
+    // eslint-disable-next-line coding-guide/max-params-project -- shared `DateFormat.getValue`/`getCode` strategy signature, called uniformly across every entry in this array
     getCode: (_date, epochValue) => `const date = new Date(${epochValue});`,
     showCode: true,
   },
@@ -99,7 +98,6 @@ export const DATE_FORMATS: DateFormat[] = [
   },
 ];
 
-// Code example type
 export interface CodeExample {
   id: string;
   label: string;
@@ -107,7 +105,6 @@ export interface CodeExample {
   getCode: (date: Date) => string;
 }
 
-// Code examples for syntax highlighting
 export const CODE_EXAMPLES: CodeExample[] = [
   {
     id: "datefns-tz",
@@ -147,7 +144,6 @@ export const parseEpochToDate = ({ epochValue, epochUnit }: ParseEpochArgs): Dat
   const milliseconds = epochUnit === "seconds" ? numValue * 1000 : numValue;
   const date = new Date(milliseconds);
 
-  // Validate the date is valid
   if (isNaN(date.getTime())) {
     return null;
   }
@@ -211,24 +207,6 @@ export const getStartOfYear = (epochUnit: EpochUnit): string => {
   now.setMonth(0, 1);
   now.setHours(0, 0, 0, 0);
   return dateToEpoch({ date: now, epochUnit });
-};
-
-interface FormatDateForInputArgs {
-  date: Date;
-  type: "date" | "time" | "datetime";
-}
-
-export const formatDateForInput = ({ date, type }: FormatDateForInputArgs): string => {
-  switch (type) {
-    case "date":
-      return format(date, "yyyy-MM-dd");
-    case "time":
-      return format(date, "HH:mm:ss");
-    case "datetime":
-      return formatISO(date, { representation: "complete" });
-    default:
-      return date.toISOString();
-  }
 };
 
 interface ExportAllFormatsArgs {

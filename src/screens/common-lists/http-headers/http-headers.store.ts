@@ -4,6 +4,11 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import type { HttpHeaderCategoryFilter, HttpHeaderTypeFilter } from "./http-headers.types";
 import { DEFAULT_CATEGORY, DEFAULT_FILTER, DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_TYPE } from "./http-headers.utils";
 
+interface HandlePageChangeArgs {
+  page: number;
+  pageSize: number;
+}
+
 interface HttpHeadersState {
   category: HttpHeaderCategoryFilter;
   type: HttpHeaderTypeFilter;
@@ -14,7 +19,7 @@ interface HttpHeadersState {
   setCategory: (category: HttpHeaderCategoryFilter) => void;
   setType: (type: HttpHeaderTypeFilter) => void;
   setFilter: (filter: string) => void;
-  handlePageChange: (page: number, pageSize: number) => void;
+  handlePageChange: ({ page, pageSize }: HandlePageChangeArgs) => void;
   resetFilters: () => void;
 }
 
@@ -32,7 +37,7 @@ const stateCreator = (
   setCategory: (category) => set({ category, page: DEFAULT_PAGE }),
   setType: (type) => set({ type, page: DEFAULT_PAGE }),
   setFilter: (filter) => set({ filter, page: DEFAULT_PAGE }),
-  handlePageChange: (page, pageSize) => {
+  handlePageChange: ({ page, pageSize }) => {
     const currentPageSize = get().pageSize;
     if (pageSize !== currentPageSize) {
       set({ page: DEFAULT_PAGE, pageSize });

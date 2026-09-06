@@ -1,22 +1,25 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
-import type { CameraSettings, ModelFileInfo, SceneSettings, ViewMode } from "./vr-3d-viewer.types";
-import { DEFAULT_CAMERA_SETTINGS, DEFAULT_SCENE_SETTINGS } from "./vr-3d-viewer.types";
+import {
+  type CameraSettings,
+  DEFAULT_CAMERA_SETTINGS,
+  DEFAULT_SCENE_SETTINGS,
+  type ModelFileInfo,
+  type SceneSettings,
+  type ViewMode,
+} from "./vr-3d-viewer.types";
 
 interface Vr3dViewerState {
-  // Model state (not persisted)
   modelFile: ModelFileInfo | null;
   isLoading: boolean;
   loadProgress: number;
   error: string | null;
 
-  // Settings (persisted)
   sceneSettings: SceneSettings;
   cameraSettings: CameraSettings;
   viewMode: ViewMode;
 
-  // Actions
   setModelFile: (file: ModelFileInfo | null) => void;
   setIsLoading: (loading: boolean) => void;
   setLoadProgress: (progress: number) => void;
@@ -81,17 +84,15 @@ const PERSISTED_STORE_NAME = "etoolbox-vr-3d-viewer";
 const persistedStateCreator = persist<Vr3dViewerState>(stateCreator, {
   name: PERSISTED_STORE_NAME,
   storage: createJSONStorage(() => localStorage),
+  // Model state is not persisted — only viewer settings habit-hooks-disable non-essential-comment
   partialize: (state) => ({
-    // Only persist settings, not model data
     sceneSettings: state.sceneSettings,
     cameraSettings: state.cameraSettings,
     viewMode: state.viewMode,
-    // Don't persist these
     modelFile: null,
     isLoading: false,
     loadProgress: 0,
     error: null,
-    // Actions are automatically handled
     setModelFile: state.setModelFile,
     setIsLoading: state.setIsLoading,
     setLoadProgress: state.setLoadProgress,

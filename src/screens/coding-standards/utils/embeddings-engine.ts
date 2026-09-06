@@ -1,34 +1,41 @@
 import { isNullish } from "@lichens-innovation/ts-common";
 import { env, type FeatureExtractionPipeline, pipeline, type Tensor } from "@xenova/transformers";
 
+import { logger } from "~/utils/logger";
+
 import type { EmbeddingVector, GuidelineNode, Rule } from "../coding-standards.types";
 import type { ModelLoadHubProgressEvent } from "../model-load.store.type";
 import { cosineSimilarity } from "./cosine-similarity";
 import { loadAllRulesWithCategory } from "./markdown-parser";
 import { loadEmbedding, saveEmbedding } from "./storage.utils";
 
-// Skip initial check for local models, since we are not loading any local models.
 env.allowLocalModels = false;
 
-// TODO Ticket-001 Due to a bug in onnxruntime-web, we must disable multithreading for now.
-// @see https://github.com/microsoft/onnxruntime/issues/14445 for more information.
+// TODO Ticket-001 Due to a bug in onnxruntime-web, we must disable multithreading for now. habit-hooks-disable non-essential-comment
+// @see https://github.com/microsoft/onnxruntime/issues/14445 for more information. habit-hooks-disable non-essential-comment
 env.backends.onnx.wasm.numThreads = 1;
 
 const LlmModel = {
   all_minilm_l6_v2: "Xenova/all-MiniLM-L6-v2",
 };
 
-type RelevantDocumentsArgs = {
+interface RelevantDocumentsArgs {
   queryText: string;
   maxResults?: number;
-};
+}
 
-type ComputedEmbeddingsStats = {
+interface InitArgs {
+  rootNode: GuidelineNode | null;
+  baseUrl: string;
+  onModelLoadProgress: (event: ModelLoadHubProgressEvent) => void;
+}
+
+interface ComputedEmbeddingsStats {
   isCompleted: boolean;
   total: number;
   completed: number;
   nextRuleTitle: string;
-};
+}
 
 const tensorToEmbeddingVector = (tensor: Tensor): EmbeddingVector =>
   Array.from(tensor.data as number[]).map((v) => Number.parseFloat(v.toFixed(7)));
@@ -70,13 +77,9 @@ export class EmbeddingsEngine {
       await this.computeRuleEmbedding(rule);
       saveEmbedding(rule);
     }
-
-    //console.info(`[EmbeddingsEngine] Computed embedding for: ${rule.title}`);
   }
 
   async computeRuleEmbedding(rule: Rule): Promise<void> {
-    // console.info(`[EmbeddingsEngine] Computing rule embeddings: ${rule.title}`);
-
     if (isNullish(this.featureExtractionEmbeddings)) return;
     const createEmbedding = this.featureExtractionEmbeddings;
 
@@ -88,34 +91,33 @@ export class EmbeddingsEngine {
   async computeAllEmbeddings(): Promise<void> {
     if (isNullish(this.featureExtractionEmbeddings)) throw Error("Model should be loaded first");
 
-    // @see Ticket-001 regarding multiple threads
-    // const embeddingPromises = this.rules.map((rule) => this.computeRuleEmbedding(rule))
-    // await Promise.all(embeddingPromises)
+    /** habit-hooks-disable non-essential-comment
+     *
+     * @see Ticket-001 regarding multiple threads habit-hooks-disable non-essential-comment
+     * const embeddingPromises = this.rules.map((rule) => this.computeRuleEmbedding(rule))
+     * await Promise.all(embeddingPromises)
+     */
     while (this.nextRuleToCompute) {
       await this.computeNextRuleEmbedding();
     }
 
-    console.info("[EmbeddingsEngine] Computed embeddings for all rules. END.");
+    logger.info("[EmbeddingsEngine] Computed embeddings for all rules. END.");
   }
 
-  async init(
-    rootNode: GuidelineNode | null,
-    baseUrl: string,
-    onModelLoadProgress: (event: ModelLoadHubProgressEvent) => void
-  ): Promise<void> {
+  async init({ rootNode, baseUrl, onModelLoadProgress }: InitArgs): Promise<void> {
     if (isNullish(rootNode) || !rootNode.children?.length) throw Error("Guidelines should be loaded first");
 
-    this.rules = loadAllRulesWithCategory(rootNode, baseUrl).map((rule) => ({
+    this.rules = loadAllRulesWithCategory({ rootNode, baseUrl }).map((rule) => ({
       ...rule,
       embedding: undefined,
       similarity: undefined,
     }));
 
-    console.info(`[EmbeddingsEngine] Initializing with ${this.rules.length} rules`);
+    logger.info(`[EmbeddingsEngine] Initializing with ${this.rules.length} rules`);
     this.featureExtractionEmbeddings = await pipeline("feature-extraction", LlmModel.all_minilm_l6_v2, {
       progress_callback: (data: unknown) => onModelLoadProgress(data as ModelLoadHubProgressEvent),
     });
-    // TODO Ticket-001: await this.computeEmbeddings()
+    // TODO Ticket-001: await this.computeEmbeddings() habit-hooks-disable non-essential-comment
   }
 
   async findRelevantDocuments(configs: RelevantDocumentsArgs): Promise<Rule[]> {
@@ -132,7 +134,7 @@ export class EmbeddingsEngine {
     const rules: Rule[] = this.rules
       .map((rule) => ({
         ...rule,
-        similarity: cosineSimilarity(queryTextEmbedding, rule.embedding ?? []),
+        similarity: cosineSimilarity({ vecA: queryTextEmbedding, vecB: rule.embedding ?? [] }),
       }))
       .sort((a, b) => (b.similarity ?? 0) - (a.similarity ?? 0))
       .slice(0, maxResults);

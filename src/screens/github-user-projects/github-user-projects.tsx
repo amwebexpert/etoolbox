@@ -46,7 +46,6 @@ export const GithubUserProjects = () => {
     username: lastSearchedUsername,
   });
 
-  // Apply filtering and sorting
   const processedProjects = useMemo(() => {
     const filtered = applyFiltering({
       projects,
@@ -63,7 +62,6 @@ export const GithubUserProjects = () => {
     });
   }, [projects, filter, language, showForks, showArchived, sortField, sortOrder]);
 
-  // Show error toast when fetch fails
   useEffect(() => {
     if (isProjectsError && projectsError) {
       messageApi.error(projectsError.message);
@@ -78,7 +76,7 @@ export const GithubUserProjects = () => {
   };
 
   const handleRefresh = () => {
-    refetchProjects();
+    void refetchProjects();
     messageApi.info("Refreshing repositories...");
   };
 
@@ -104,18 +102,18 @@ export const GithubUserProjects = () => {
           onRefresh={handleRefresh}
         />
 
-        {hasProjects && <GithubUserProjectsStats projects={projects} />}
+        {hasProjects ? <GithubUserProjectsStats projects={projects} /> : null}
 
-        {showEmpty && (
+        {showEmpty ? (
           <GithubUserProjectsEmpty
             hasSearched={hasSearched}
             username={lastSearchedUsername}
             isError={isProjectsError}
             errorMessage={projectsError?.message}
           />
-        )}
+        ) : null}
 
-        {showTable && <GithubUserProjectsTable projects={processedProjects} isLoading={isFetchingProjects} />}
+        {showTable ? <GithubUserProjectsTable projects={processedProjects} isLoading={isFetchingProjects} /> : null}
       </Flex>
     </ScreenContainer>
   );

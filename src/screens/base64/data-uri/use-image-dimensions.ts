@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export type ImageDimensionsStatus = "idle" | "loading" | "loaded" | "error";
+type ImageDimensionsStatus = "idle" | "loading" | "loaded" | "error";
 
 export interface ImageDimensionsState {
   status: ImageDimensionsStatus;

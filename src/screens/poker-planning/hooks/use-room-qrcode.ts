@@ -11,7 +11,7 @@ export const useRoomQRCode = () => {
   const isSessionActive = !isBlank(roomUUID);
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: PokerPlanningQueryKey.qrcode(hostName, roomUUID, roomName),
+    queryKey: PokerPlanningQueryKey.qrcode({ hostName, roomUUID, roomName }),
     queryFn: async () => {
       const url = buildFullRouteURL({ hostName, roomUUID, roomName });
       return generateQRCodeDataUrl({ data: url, width: 200 });

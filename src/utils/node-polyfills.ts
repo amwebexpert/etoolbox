@@ -1,4 +1,4 @@
-/**
+/** habit-hooks-disable non-essential-comment
  * Node.js polyfills for browser compatibility
  *
  * Required by httpsnippet library used in the cURL converter feature.
@@ -10,7 +10,7 @@ if (typeof window !== "undefined") {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const win = window as any;
 
-  win.process = win.process || {
+  win.process = win.process ?? {
     env: {},
     version: "",
     platform: "browser",
@@ -18,7 +18,7 @@ if (typeof window !== "undefined") {
     nextTick: (fn: () => void) => setTimeout(fn, 0),
   };
 
-  win.global = win.global || window;
+  win.global = win.global ?? window;
 }
 
 export {};

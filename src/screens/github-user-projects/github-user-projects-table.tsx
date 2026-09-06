@@ -35,7 +35,7 @@ export const GithubUserProjectsTable = ({ projects, isLoading }: GithubUserProje
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} repositories`,
         size: smallSizeOnMobile(isMobile),
-        onChange: handlePageChange,
+        onChange: (page, pageSize) => handlePageChange({ page, pageSize }),
         responsive: true,
       }}
       size={smallSizeOnMobile(isMobile)}

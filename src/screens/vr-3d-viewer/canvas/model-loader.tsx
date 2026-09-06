@@ -6,12 +6,8 @@ import { GltfModel } from "./gltf-model";
 import { ObjModel } from "./obj-model";
 import { StlModel } from "./stl-model";
 
-/**
- * Dynamic model loader that selects the appropriate loader based on file format
- */
 export const ModelLoader = ({ modelFile, scale, onLoaded, onError }: ModelLoaderProps) => {
   useEffect(() => {
-    // Error boundary for unsupported formats
     if (modelFile.format === "unknown") {
       onError("Unsupported model format");
     }

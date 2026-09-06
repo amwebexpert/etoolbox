@@ -1,8 +1,6 @@
 import { InboxOutlined, ScanOutlined } from "@ant-design/icons";
 import { clipboardImageToFile } from "@lichens-innovation/ts-common/web";
-import type { UploadFile } from "antd";
-import { Card, Flex, Typography, Upload } from "antd";
-import { createStyles } from "antd-style";
+import { Card, Flex, Typography, Upload, type UploadFile } from "antd";
 import { useCallback, useEffect, useState } from "react";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
@@ -10,6 +8,7 @@ import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
+import { useStyles } from "./qrcode-decoder.styles";
 import { isValidImageFile } from "./qrcode-decoder.utils";
 import { QRCodeDecoderResult } from "./qrcode-decoder-result";
 import { QRCodeDecoderToolbar } from "./qrcode-decoder-toolbar";
@@ -22,7 +21,7 @@ export const QrcodeDecoder = () => {
   const messageApi = useToastMessage();
   const { copyTextToClipboard } = useClipboardCopy();
 
-  // Local state for file handling (File objects don't serialize well in Zustand)
+  // Local state for file handling (File objects don't serialize well in Zustand) habit-hooks-disable non-essential-comment
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -49,7 +48,6 @@ export const QrcodeDecoder = () => {
     [messageApi, previewUrl, resetDecode]
   );
 
-  // Handle clipboard paste
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
       const { items } = e.clipboardData ?? {};
@@ -77,7 +75,7 @@ export const QrcodeDecoder = () => {
 
   const handleCopyResult = () => {
     if (decodeResult) {
-      copyTextToClipboard({ text: decodeResult.text, successMessage: "Decoded text copied to clipboard!" });
+      void copyTextToClipboard({ text: decodeResult.text, successMessage: "Decoded text copied to clipboard!" });
     }
   };
 
@@ -148,37 +146,3 @@ export const QrcodeDecoder = () => {
     </ScreenContainer>
   );
 };
-
-const useStyles = createStyles(({ token }) => ({
-  fullWidth: {
-    width: "100%",
-  },
-  uploadCard: {
-    width: "100%",
-  },
-  dragger: {
-    ".ant-upload-drag": {
-      padding: 0,
-    },
-  },
-  uploadPlaceholder: {
-    padding: 24,
-  },
-  previewContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: 12,
-    padding: 16,
-  },
-  previewImage: {
-    maxWidth: "100%",
-    maxHeight: 300,
-    objectFit: "contain",
-    borderRadius: token.borderRadius,
-  },
-  fileName: {
-    fontSize: 12,
-    fontFamily: "monospace",
-  },
-}));

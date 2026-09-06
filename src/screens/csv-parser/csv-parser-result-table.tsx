@@ -1,8 +1,10 @@
-import { Table, Typography } from "antd";
+import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { createStyles } from "antd-style";
 
+import { ResultSection } from "~/components/ui/result-section";
 import { useResponsive } from "~/hooks/use-responsive";
+import { getResultMaxHeight } from "~/utils/responsive.utils";
 
 import type { CsvParseResult } from "./csv-parser.types";
 import { CsvParserCellValue } from "./csv-parser-cell-value";
@@ -15,7 +17,7 @@ export const CsvParserResultTable = ({ result }: CsvParserResultTableProps) => {
   const { styles } = useStyles();
   const { isMobile, isTablet } = useResponsive();
 
-  const maxHeight = isMobile ? 300 : isTablet ? 400 : 500;
+  const maxHeight = getResultMaxHeight({ isMobile, isTablet });
 
   const tableColumns: ColumnsType<Record<string, unknown>> =
     result.meta.fields?.map((field) => ({
@@ -33,11 +35,7 @@ export const CsvParserResultTable = ({ result }: CsvParserResultTableProps) => {
   }));
 
   return (
-    <div className={styles.resultSection}>
-      <Typography.Text type="secondary" className={styles.resultLabel}>
-        Parsed Data ({result.data.length} rows)
-      </Typography.Text>
-
+    <ResultSection label={`Parsed Data (${result.data.length} rows)`}>
       <div className={styles.tableContainer}>
         <Table
           columns={tableColumns}
@@ -51,19 +49,11 @@ export const CsvParserResultTable = ({ result }: CsvParserResultTableProps) => {
           }}
         />
       </div>
-    </div>
+    </ResultSection>
   );
 };
 
 const useStyles = createStyles(() => ({
-  resultSection: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 8,
-  },
-  resultLabel: {
-    fontWeight: 500,
-  },
   tableContainer: {
     width: "100%",
     overflow: "auto",

@@ -1,9 +1,7 @@
 import { Col, ColorPicker, Form } from "antd";
-import type { Color } from "antd/es/color-picker";
 
+import { type ColorUpdater, createColorChangeHandler } from "./option-colors.utils";
 import { useOptionsStyles } from "./use-options-styles";
-
-type ColorUpdater = (color: string) => void;
 
 interface OptionColorsProps {
   foreground: string;
@@ -15,17 +13,13 @@ interface OptionColorsProps {
 export const OptionColors = ({ foreground, background, onForegroundChange, onBackgroundChange }: OptionColorsProps) => {
   const { styles } = useOptionsStyles();
 
-  const handleColorChange = (onChange: ColorUpdater) => (color: Color) => {
-    onChange(color.toHexString());
-  };
-
   return (
     <>
       <Col xs={12} sm={8} md={6}>
         <Form.Item label="Foreground Color" className={styles.formItem}>
           <ColorPicker
             value={foreground}
-            onChange={handleColorChange(onForegroundChange)}
+            onChange={createColorChangeHandler(onForegroundChange)}
             showText
             format="hex"
             className={styles.colorPicker}
@@ -37,7 +31,7 @@ export const OptionColors = ({ foreground, background, onForegroundChange, onBac
         <Form.Item label="Background Color" className={styles.formItem}>
           <ColorPicker
             value={background}
-            onChange={handleColorChange(onBackgroundChange)}
+            onChange={createColorChangeHandler(onBackgroundChange)}
             showText
             format="hex"
             className={styles.colorPicker}

@@ -1,7 +1,7 @@
 import { Table } from "antd";
-import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
+import { useListTableStyles } from "~/styles/list-table.styles";
 import { smallSizeOnMobile } from "~/utils/responsive.utils";
 
 import { useMimeTypesStore } from "./mime-types.store";
@@ -14,7 +14,7 @@ interface MimeTypesTableProps {
 }
 
 export const MimeTypesTable = ({ filteredMimeTypes }: MimeTypesTableProps) => {
-  const { styles } = useStyles();
+  const { styles } = useListTableStyles();
   const { isMobile } = useResponsive();
   const columns = useMimeTypesColumns();
 
@@ -33,7 +33,7 @@ export const MimeTypesTable = ({ filteredMimeTypes }: MimeTypesTableProps) => {
         pageSizeOptions: PAGE_SIZE_OPTIONS.map(String),
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} MIME types`,
         size: smallSizeOnMobile(isMobile),
-        onChange: handlePageChange,
+        onChange: (page, pageSize) => handlePageChange({ page, pageSize }),
       }}
       size="small"
       scroll={{ x: "max-content" }}
@@ -41,16 +41,3 @@ export const MimeTypesTable = ({ filteredMimeTypes }: MimeTypesTableProps) => {
     />
   );
 };
-
-const useStyles = createStyles(({ token }) => ({
-  table: {
-    ".ant-table-thead > tr > th": {
-      backgroundColor: token.colorPrimaryBg,
-    },
-    ".ant-table-tbody > tr > td": {
-      borderBottom: "none",
-      paddingBlock: 4,
-      paddingInline: 8,
-    },
-  },
-}));

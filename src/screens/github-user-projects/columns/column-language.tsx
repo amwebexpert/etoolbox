@@ -3,7 +3,6 @@ import { createStyles } from "antd-style";
 
 const { Text } = Typography;
 
-// Language color mapping (GitHub-inspired)
 const LANGUAGE_COLORS: Record<string, string> = {
   javascript: "#f1e05a",
   typescript: "#3178c6",
@@ -26,9 +25,9 @@ const LANGUAGE_COLORS: Record<string, string> = {
   dart: "#00B4AB",
 };
 
-type ColumnLanguageProps = {
+interface ColumnLanguageProps {
   language: string | null;
-};
+}
 
 export const ColumnLanguage = ({ language }: ColumnLanguageProps) => {
   const { styles } = useStyles();

@@ -1,22 +1,18 @@
-// Supported 3D model file formats
 export type ModelFormat = "gltf" | "glb" | "obj" | "fbx" | "stl" | "unknown";
 
-// Model file information
 export interface ModelFileInfo {
   name: string;
   size: number;
   format: ModelFormat;
   url: string;
-  /** Optional material URL for OBJ files with MTL materials */
+  /** Optional material URL for OBJ files with MTL materials habit-hooks-disable non-essential-comment */
   materialUrl?: string;
-  /** Suggested scale for this model (used for demo models with known dimensions) */
+  /** Suggested scale for this model (used for demo models with known dimensions) habit-hooks-disable non-essential-comment */
   suggestedScale?: number;
 }
 
-// Lighting presets
 export type LightingPreset = "studio" | "outdoor" | "dramatic" | "soft";
 
-// Camera controls settings
 export interface CameraSettings {
   autoRotate: boolean;
   autoRotateSpeed: number;
@@ -26,7 +22,6 @@ export interface CameraSettings {
   maxDistance: number;
 }
 
-// Scene settings
 export interface SceneSettings {
   backgroundColor: string;
   showGrid: boolean;
@@ -36,30 +31,8 @@ export interface SceneSettings {
   modelScale: number;
 }
 
-// View mode for the 3D viewer
 export type ViewMode = "normal" | "wireframe";
 
-// 3D Vector type for positions/coordinates
-export interface Vector3D {
-  x: number;
-  y: number;
-  z: number;
-}
-
-// Bounding box with min/max corners
-export interface BoundingBox {
-  min: Vector3D;
-  max: Vector3D;
-}
-
-// RGB color values normalized to 0-1 range (for Three.js)
-export interface NormalizedRgb {
-  r: number;
-  g: number;
-  b: number;
-}
-
-// Constants
 export const DEFAULT_CAMERA_SETTINGS: CameraSettings = {
   autoRotate: false,
   autoRotateSpeed: 2,
@@ -116,7 +89,7 @@ export const MODEL_SCALE_OPTIONS = [
   { value: 100, label: "100x" },
 ];
 
-// Default demo model (R2-D2 from learnthreejs)
+// Default demo model (R2-D2 from learnthreejs) habit-hooks-disable non-essential-comment
 const DEFAULT_MODEL_BASE_URL =
   "https://raw.githubusercontent.com/learnthreejs/three-js-boilerplate/master/public/examples/3d-obj-loader/assets";
 

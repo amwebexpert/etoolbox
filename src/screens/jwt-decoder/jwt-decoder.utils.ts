@@ -6,15 +6,13 @@ import {
   isBlank,
   isExpiredTimestamp,
   isNotBlank,
+  safeJsonStringify,
 } from "@lichens-innovation/ts-common";
-import { safeJsonStringify } from "@lichens-innovation/ts-common";
 import { jwtDecode, type JwtPayload } from "jwt-decode";
 
 import { getResultMaxHeight as getResponsiveMaxHeight, type ResponsiveContext } from "~/utils/responsive.utils";
 
-export interface ExtendedJwtPayload extends JwtPayload {
-  [key: string]: unknown;
-}
+export type ExtendedJwtPayload = JwtPayload & Record<string, unknown>;
 
 export interface JwtHeader {
   alg: string;
@@ -75,17 +73,12 @@ export const formatJson = (obj: unknown): string => {
   return safeJsonStringify(obj);
 };
 
-export const getTokenParts = (token: string): string[] => {
-  if (isBlank(token)) return [];
-  return token.trim().split(".");
-};
-
 export const isTokenExpired = (payload: ExtendedJwtPayload | null): boolean => {
   if (!payload?.exp) return false;
   return isExpiredTimestamp(payload.exp);
 };
 
-export const formatTimestamp = (timestamp: number | undefined): string => {
+const formatTimestamp = (timestamp?: number): string => {
   if (!timestamp) return "N/A";
   return formatUnixTimestamp(timestamp);
 };
@@ -162,7 +155,7 @@ const algorithms: Record<string, string> = {
   PS512: "RSASSA-PSS using SHA-512",
 };
 
-export const getAlgorithmDescription = (alg: string | undefined): string => {
+export const getAlgorithmDescription = (alg?: string): string => {
   return alg ? (algorithms[alg] ?? "Unknown algorithm") : "Unknown algorithm";
 };
 
@@ -170,7 +163,7 @@ export const getResultMaxHeight = (ctx: ResponsiveContext): number => {
   return getResponsiveMaxHeight(ctx);
 };
 
-export const getSampleJwt = (): string => {
+const getSampleJwt = (): string => {
   const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
   const now = getCurrentUnixTimestamp();
   const payload = btoa(

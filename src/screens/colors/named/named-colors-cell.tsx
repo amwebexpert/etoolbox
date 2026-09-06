@@ -19,7 +19,7 @@ export const NamedColorsCell = ({ value, hexCode, tooltip }: NamedColorsCellProp
   const textColor = getContrastTextColor(hexCode);
 
   const handleCopy = () => {
-    copyTextToClipboard({ text: value, successMessage: `Copied: ${value}` });
+    void copyTextToClipboard({ text: value, successMessage: `Copied: ${value}` });
   };
 
   return (

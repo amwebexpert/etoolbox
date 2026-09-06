@@ -33,16 +33,16 @@ export const ModelLoadingProgressContent = ({
           </Text>
         )}
 
-        {isBusyLoading && hasFileEntries && <ModelLoadingProgressFileList entries={fileEntries} />}
+        {isBusyLoading && hasFileEntries ? <ModelLoadingProgressFileList entries={fileEntries} /> : null}
 
-        {isBusyLoading && !hasFileEntries && (
+        {isBusyLoading && !hasFileEntries ? (
           <Flex vertical gap={8}>
             <Progress percent={undefined} status="active" showInfo={false} />
             <Text type="secondary" style={{ margin: 0, fontSize: 12, fontStyle: "italic" }}>
               Preparing download. This may take 30–60 seconds on first load; files are cached afterward.
             </Text>
           </Flex>
-        )}
+        ) : null}
       </Flex>
     </>
   );

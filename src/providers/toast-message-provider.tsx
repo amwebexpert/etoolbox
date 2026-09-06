@@ -1,13 +1,9 @@
 import { message } from "antd";
-import type { ReactNode } from "react";
+import type { PropsWithChildren } from "react";
 
 import { ToastMessageContext } from "./toast-message-context";
 
-type ToastMessageProviderProps = {
-  children: ReactNode;
-};
-
-export const ToastMessageProvider = ({ children }: ToastMessageProviderProps) => {
+export const ToastMessageProvider = ({ children }: PropsWithChildren) => {
   const [messageApi, contextHolder] = message.useMessage();
 
   return (

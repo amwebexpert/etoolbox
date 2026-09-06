@@ -2,7 +2,7 @@ import { Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { Tabs } from "antd";
 import { createStyles } from "antd-style";
 
-export interface TabItem {
+interface TabItem {
   key: string;
   label: string;
 }
@@ -21,7 +21,9 @@ export const AppLayoutTabs = ({ items }: AppLayoutTabsProps) => {
       <Tabs
         activeKey={location.pathname}
         items={items}
-        onChange={(to: string) => navigate({ to })}
+        onChange={(to: string) => {
+          void navigate({ to });
+        }}
         className={styles.tabs}
       />
 

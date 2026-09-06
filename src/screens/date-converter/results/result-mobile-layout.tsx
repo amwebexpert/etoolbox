@@ -4,6 +4,7 @@ import { createStyles } from "antd-style";
 
 import { useSyntaxHighlightTheme } from "~/hooks/use-syntax-highlight-theme";
 
+import type { CopyHandlerArgs } from "../date-converter.constants";
 import { CODE_EXAMPLES, DATE_FORMATS } from "../date-converter.utils";
 import { CodeExampleCard } from "./code-example-card";
 import { DateFormatCard } from "./date-format-card";
@@ -12,7 +13,7 @@ interface ResultMobileLayoutProps {
   date: Date;
   epochValue: number;
   showCodeExamples: boolean;
-  onCopy: (value: string, label: string) => void;
+  onCopy: (args: CopyHandlerArgs) => void;
 }
 
 export const ResultMobileLayout = ({ date, epochValue, showCodeExamples, onCopy }: ResultMobileLayoutProps) => {
@@ -25,7 +26,7 @@ export const ResultMobileLayout = ({ date, epochValue, showCodeExamples, onCopy 
         <DateFormatCard key={format.id} format={format} date={date} epochValue={epochValue} onCopy={onCopy} />
       ))}
 
-      {showCodeExamples && (
+      {showCodeExamples ? (
         <Collapse
           className={styles.codeExamplesCollapse}
           items={[
@@ -52,7 +53,7 @@ export const ResultMobileLayout = ({ date, epochValue, showCodeExamples, onCopy 
             },
           ]}
         />
-      )}
+      ) : null}
     </div>
   );
 };

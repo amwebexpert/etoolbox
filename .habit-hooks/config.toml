@@ -1,0 +1,209 @@
+plugins = ["typescript", "generic"]
+transformers = ["allow-aaa", "snooze", "habit-hooks-disable"]
+
+# Generic line-count (raw 200) duplicates ESLint max-lines (oversized-file).
+# ESLint remains the file-length detector: .ts 400, .tsx 150.
+[sensors.line-count]
+disabled = true
+
+[smells."oversized-file"]
+severity = "enforced"
+guide = "oversized-file.md"
+
+[smells."sonarjs/cognitive-complexity"]
+severity = "enforced"
+guide = "sonarjs-cognitive-complexity.md"
+
+[smells.non-essential-comment]
+severity = "enforced"
+
+[smells.duplicated-code]
+severity = "enforced"
+
+[smells."coding-guide/max-params-project"]
+severity = "enforced"
+guide = "max-params-project.md"
+
+[smells."coding-guide/no-explicit-undefined-optional"]
+severity = "enforced"
+guide = "no-explicit-undefined-optional.md"
+
+[smells."coding-guide/todo-ticket-ref"]
+severity = "suggested"
+guide = "ticket-ref.md"
+
+[smells."@typescript-eslint/no-floating-promises"]
+severity = "enforced"
+guide = "no-floating-promises.md"
+
+[smells."@typescript-eslint/no-misused-promises"]
+severity = "enforced"
+guide = "no-misused-promises.md"
+
+[smells."@typescript-eslint/only-throw-error"]
+severity = "enforced"
+guide = "only-throw-error.md"
+
+[smells."@typescript-eslint/consistent-type-definitions"]
+severity = "enforced"
+guide = "consistent-type-definitions.md"
+
+[smells."func-style"]
+severity = "enforced"
+guide = "func-style.md"
+
+[smells."no-restricted-imports"]
+severity = "enforced"
+guide = "no-restricted-imports.md"
+
+[smells."no-restricted-syntax"]
+severity = "enforced"
+guide = "no-restricted-syntax.md"
+
+[smells."react/destructuring-assignment"]
+severity = "enforced"
+guide = "destructuring-assignment.md"
+
+[smells."react/jsx-curly-brace-presence"]
+severity = "enforced"
+guide = "jsx-curly-brace-presence.md"
+
+[smells."coding-guide/prefer-jsx-short-circuit"]
+severity = "enforced"
+guide = "prefer-jsx-short-circuit.md"
+
+[smells."react/no-array-index-key"]
+severity = "enforced"
+guide = "no-array-index-key.md"
+
+[smells."no-eval"]
+severity = "enforced"
+guide = "no-eval.md"
+
+[smells."no-new-func"]
+severity = "enforced"
+guide = "no-eval.md"
+
+[smells."react/no-danger"]
+severity = "enforced"
+guide = "no-danger.md"
+
+[smells."unicorn/filename-case"]
+severity = "enforced"
+guide = "filename-case.md"
+
+[smells."coding-guide/require-numeric-enum-initializer"]
+severity = "enforced"
+guide = "require-numeric-enum-initializer.md"
+
+[smells."coding-guide/no-unguarded-json-parse"]
+severity = "enforced"
+guide = "no-unguarded-json-parse.md"
+
+[smells."coding-guide/prefer-some-over-find-check"]
+severity = "enforced"
+guide = "prefer-some-over-find-check.md"
+
+[smells."coding-guide/prefer-positive-condition"]
+severity = "enforced"
+guide = "prefer-positive-condition.md"
+
+[smells."coding-guide/prefer-includes-over-or-chain"]
+severity = "enforced"
+guide = "prefer-includes-over-or-chain.md"
+
+[smells."coding-guide/no-nested-try"]
+severity = "enforced"
+guide = "no-nested-try.md"
+
+[smells."coding-guide/no-exported-mutable-state"]
+severity = "enforced"
+guide = "no-exported-mutable-state.md"
+
+[smells."coding-guide/no-inline-object-param-type"]
+severity = "enforced"
+guide = "no-inline-object-param-type.md"
+
+[smells."coding-guide/prefer-nullish-helpers"]
+severity = "enforced"
+guide = "prefer-nullish-helpers.md"
+
+[smells."coding-guide/require-fallback-on-deep-chain"]
+severity = "enforced"
+guide = "require-fallback-on-deep-chain.md"
+
+[smells."coding-guide/no-inline-render-function"]
+severity = "enforced"
+guide = "no-inline-render-function.md"
+
+[smells."coding-guide/no-jsx-in-variable"]
+severity = "enforced"
+guide = "no-jsx-in-variable.md"
+
+[smells."coding-guide/no-inline-array-chain-in-jsx"]
+severity = "enforced"
+guide = "no-inline-array-chain-in-jsx.md"
+
+[smells."coding-guide/no-hook-returning-jsx"]
+severity = "enforced"
+guide = "no-hook-returning-jsx.md"
+
+[smells."coding-guide/no-render-fn-in-usecallback"]
+severity = "enforced"
+guide = "no-render-fn-in-usecallback.md"
+
+[smells."coding-guide/no-trivial-usememo"]
+severity = "enforced"
+guide = "no-trivial-usememo.md"
+
+[smells."coding-guide/no-non-hook-use-prefix"]
+severity = "enforced"
+guide = "no-non-hook-use-prefix.md"
+
+[smells."coding-guide/no-inline-curried-handler"]
+severity = "enforced"
+guide = "no-inline-curried-handler.md"
+
+[smells."coding-guide/no-inline-guard-chain-handler"]
+severity = "enforced"
+guide = "no-inline-guard-chain-handler.md"
+
+[smells."coding-guide/prefer-reactnode-over-jsxelement-union"]
+severity = "enforced"
+guide = "prefer-reactnode-over-jsxelement-union.md"
+
+[smells."coding-guide/prefer-props-with-children"]
+severity = "enforced"
+guide = "prefer-props-with-children.md"
+
+[smells."coding-guide/hoist-static-component-constants"]
+severity = "enforced"
+guide = "hoist-static-component-constants.md"
+
+[smells."coding-guide/require-effect-cleanup"]
+severity = "enforced"
+guide = "require-effect-cleanup.md"
+
+[smells."coding-guide/prefer-state-updater-form"]
+severity = "enforced"
+guide = "prefer-state-updater-form.md"
+
+[smells."coding-guide/require-usestate-useref-generic"]
+severity = "enforced"
+guide = "require-usestate-useref-generic.md"
+
+[smells."coding-guide/prefer-element-ref-type"]
+severity = "enforced"
+guide = "prefer-element-ref-type.md"
+
+[smells."coding-guide/prefer-role-query-over-testid"]
+severity = "enforced"
+guide = "prefer-role-query-over-testid.md"
+
+[smells."coding-guide/no-tests-in-dunder-folder"]
+severity = "enforced"
+guide = "no-tests-in-dunder-folder.md"
+
+[smells."coding-guide/filename-convention-by-export-shape"]
+severity = "enforced"
+guide = "filename-convention-by-export-shape.md"

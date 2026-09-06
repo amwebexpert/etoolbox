@@ -66,17 +66,17 @@ export const DataUri = () => {
           className={styles.textArea}
         />
 
-        {imagePreviewSrc && <img src={imagePreviewSrc} alt="Decoded preview" className={styles.preview} />}
+        {!!imagePreviewSrc && <img src={imagePreviewSrc} alt="Decoded preview" className={styles.preview} />}
 
-        {metadata && imagePreviewSrc && (
+        {!!metadata && !!imagePreviewSrc && (
           <DataUriMetadata dataUri={imagePreviewSrc} metadata={metadata} dimensions={dimensions} />
         )}
 
-        {nonImageDataUri && (
+        {!!nonImageDataUri && (
           <Alert
             type="info"
             showIcon
-            message={
+            title={
               <a
                 href="#"
                 onClick={(e) => {

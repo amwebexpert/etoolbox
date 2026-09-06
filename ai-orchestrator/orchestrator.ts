@@ -29,7 +29,7 @@ interface DeleteImplementationBranchesResult {
   failed: string[];
 }
 
-// parallelization limit since this is getting costly to run in parallel
+// parallelization limit since this is getting costly to run in parallel habit-hooks-disable non-essential-comment
 const MAX_PARALLEL_UNBLOCKED_IMPLEMENTERS = 2;
 
 export class Orchestrator {

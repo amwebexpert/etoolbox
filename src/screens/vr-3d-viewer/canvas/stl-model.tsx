@@ -6,9 +6,6 @@ import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
 
 import type { ModelComponentProps } from "./canvas.types";
 
-/**
- * Model loader component for STL files
- */
 export const StlModel = ({ url, scale, onLoaded }: ModelComponentProps) => {
   const geometry = useLoader(STLLoader, url);
   const meshRef = useRef<THREE.Mesh>(null);
@@ -17,7 +14,7 @@ export const StlModel = ({ url, scale, onLoaded }: ModelComponentProps) => {
     if (geometry) {
       geometry.center();
       geometry.computeVertexNormals();
-      // Use requestAnimationFrame to defer callback until after the current render cycle
+      // Use requestAnimationFrame to defer callback until after the current render cycle habit-hooks-disable non-essential-comment
       const frameId = requestAnimationFrame(onLoaded);
       return () => cancelAnimationFrame(frameId);
     }

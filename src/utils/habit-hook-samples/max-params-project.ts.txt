@@ -1,0 +1,5 @@
+/** habit-hooks-disable non-essential-comment
+ * This is a "Demo" example that should trigger the max-params-project rule.
+ */
+
+export const buildLabel = (prefix: string, suffix: string): string => `${prefix}-${suffix}`;

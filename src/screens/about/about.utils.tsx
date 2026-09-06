@@ -1,6 +1,6 @@
 import React from "react";
 
-import { APP_VERSION_INFO } from "~/constants";
+import { APP_VERSION_INFO } from "~/version.constants";
 
 const PRIVACY_POLICY_URL = "https://amwebexpert.github.io/etoolbox/privacy-policy.html";
 const ICON_CREDITS_URL = "https://therealjerrylow.com/";
