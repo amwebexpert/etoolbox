@@ -40,8 +40,9 @@ e2e/test-results/
 
 .sandcastle-original
 
-# ai-orchestrator agent logs
+# ai-orchestrator agent logs and worktrees
 ai-orchestrator/logs/
+.orchestrator-worktrees/
 
 # Since we use bun, we don't need other package manager lockfiles
 package-lock.json

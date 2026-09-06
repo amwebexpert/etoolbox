@@ -2,7 +2,7 @@ import { isNotBlank } from "@lichens-innovation/ts-common";
 import { logger } from "@lichens-innovation/ts-common/logger";
 import { z } from "zod";
 
-import { loadPrompt, runAgent, runTypedAgent } from "./utils/agent.utils.ts";
+import { AgentFailureError, loadPrompt, runAgent, runTypedAgent } from "./utils/agent.utils.ts";
 import { setAgentLogDir } from "./utils/agent-logger.utils.ts";
 import type { Issue, IssueWorktreeResult, OrchestratorOptions } from "./utils/orchestrator.types.ts";
 import { Plan } from "./utils/plan.ts";
@@ -32,10 +32,39 @@ interface DeleteImplementationBranchesResult {
 // parallelization limit since this is getting costly to run in parallel habit-hooks-disable non-essential-comment
 const MAX_PARALLEL_UNBLOCKED_IMPLEMENTERS = 2;
 
+const DEFAULT_IMPLEMENT_MAX_TURNS = 150;
+
+const IMPLEMENT_TOOLS = ["Read", "Write", "Edit", "Bash", "Glob", "Grep"] as const;
+const IMPLEMENT_DISALLOWED_TOOLS = ["Task", "WebFetch", "WebSearch", "Skill"] as const;
+
+const PLANNER_TOOLS = ["Read", "Bash", "Glob", "Grep", "StructuredOutput"] as const;
+const PLANNER_DISALLOWED_TOOLS = ["Task", "WebFetch", "WebSearch", "Skill", "Write", "Edit"] as const;
+
+const MERGE_REVIEW_TOOLS = ["Read", "Write", "Edit", "Bash", "Glob", "Grep"] as const;
+const MERGE_REVIEW_DISALLOWED_TOOLS = ["Task", "WebFetch", "WebSearch", "Skill"] as const;
+
+const parsePositiveIntEnv = (name: string, fallback: number): number => {
+  const raw = process.env[name];
+  if (raw === undefined || raw.trim() === "") {
+    return fallback;
+  }
+
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    logger.warn(`Invalid ${name}="${raw}", using default ${fallback}`);
+    return fallback;
+  }
+
+  return parsed;
+};
+
+const shouldKeepFailedWorktrees = (): boolean => process.env.ORCHESTRATOR_KEEP_FAILED_WORKTREES === "1";
+
 export class Orchestrator {
   private readonly planFile: string;
   private readonly repoDir: string;
   private readonly maxIterations: number;
+  private readonly implementMaxTurns: number;
   private readonly plan: Plan;
 
   constructor({ planFile, repoDir, logDir, maxIterations = 20 }: OrchestratorOptions) {
@@ -43,6 +72,7 @@ export class Orchestrator {
     this.planFile = planFile;
     this.repoDir = repoDir;
     this.maxIterations = maxIterations;
+    this.implementMaxTurns = parsePositiveIntEnv("ORCHESTRATOR_MAX_IMPLEMENT_TURNS", DEFAULT_IMPLEMENT_MAX_TURNS);
     this.plan = new Plan(planFile);
   }
 
@@ -117,6 +147,10 @@ export class Orchestrator {
         model: "claude-opus-4-7",
         maxTurns: 20,
         permissionMode: "bypassPermissions",
+        settingSources: [],
+        strictMcpConfig: true,
+        tools: [...PLANNER_TOOLS],
+        disallowedTools: [...PLANNER_DISALLOWED_TOOLS],
       },
     });
 
@@ -133,6 +167,7 @@ export class Orchestrator {
     return withWorktree({
       name: branch,
       dir: this.repoDir,
+      keepOnFailure: shouldKeepFailedWorktrees(),
       fn: async (worktreePath) => {
         await this.runImplementAgent({ issue, branch, worktreePath });
 
@@ -155,14 +190,19 @@ export class Orchestrator {
           WHAT_TO_BUILD: issue.whatToBuild,
           ACCEPTANCE_CRITERIA: issue.acceptanceCriteria.map((c) => `- ${c}`).join("\n"),
           BRANCH: branch,
+          WORKTREE_PATH: worktreePath,
         },
       }),
       label: `impl:${issue.id}`,
       options: {
         cwd: worktreePath,
         model: "claude-opus-4-7",
-        maxTurns: 100,
+        maxTurns: this.implementMaxTurns,
         permissionMode: "bypassPermissions",
+        settingSources: [],
+        strictMcpConfig: true,
+        tools: [...IMPLEMENT_TOOLS],
+        disallowedTools: [...IMPLEMENT_DISALLOWED_TOOLS],
       },
     });
   }
@@ -185,6 +225,10 @@ export class Orchestrator {
         model: "claude-sonnet-4-6",
         maxTurns: 100,
         permissionMode: "bypassPermissions",
+        settingSources: [],
+        strictMcpConfig: true,
+        tools: [...MERGE_REVIEW_TOOLS],
+        disallowedTools: [...MERGE_REVIEW_DISALLOWED_TOOLS],
       },
     });
   }
@@ -195,7 +239,12 @@ export class Orchestrator {
     for (const [index, outcome] of settled.entries()) {
       if (outcome.status === "rejected") {
         const issueId = unblockedIssues[index]?.id ?? `index-${index}`;
-        logger.error(`  ✗ ${issueId} failed`, { err: outcome.reason });
+        const reason = outcome.reason;
+        if (reason instanceof AgentFailureError) {
+          logger.error(`  ✗ ${issueId} failed: ${reason.message}`, { details: reason.details });
+        } else {
+          logger.error(`  ✗ ${issueId} failed`, { err: reason });
+        }
       }
     }
 
@@ -226,6 +275,10 @@ export class Orchestrator {
         model: "claude-sonnet-4-6",
         maxTurns: 100,
         permissionMode: "bypassPermissions",
+        settingSources: [],
+        strictMcpConfig: true,
+        tools: [...MERGE_REVIEW_TOOLS],
+        disallowedTools: [...MERGE_REVIEW_DISALLOWED_TOOLS],
       },
     });
 

@@ -62,12 +62,16 @@ After the loop, if there are **no remaining AFK issues** (`remainingAfkIssues.le
 
 ## Agents
 
-| Phase     | Prompt                               | Model             | Working directory | When                                      |
-| --------- | ------------------------------------ | ----------------- | ----------------- | ----------------------------------------- |
-| Plan      | [plan.md](prompts/plan.md)           | claude-opus-4-7   | repo root         | Each iteration with unplanned issues      |
-| Implement | [implement.md](prompts/implement.md) | claude-opus-4-7   | worktree          | Per unblocked issue (up to 2 in parallel) |
-| Merge     | [merge.md](prompts/merge.md)         | claude-sonnet-4-6 | repo root         | After each iteration with commits         |
-| Review    | [review.md](prompts/review.md)       | claude-sonnet-4-6 | repo root         | Once, after all AFK issues pass           |
+| Phase     | Prompt                               | Model             | maxTurns | Working directory | When                                      |
+| --------- | ------------------------------------ | ----------------- | -------- | ----------------- | ----------------------------------------- |
+| Plan      | [plan.md](prompts/plan.md)           | claude-opus-4-7   | 20       | repo root         | Each iteration with unplanned issues      |
+| Implement | [implement.md](prompts/implement.md) | claude-opus-4-7   | 150\*    | worktree          | Per unblocked issue (up to 2 in parallel) |
+| Merge     | [merge.md](prompts/merge.md)         | claude-sonnet-4-6 | 100      | repo root         | After each iteration with commits         |
+| Review    | [review.md](prompts/review.md)       | claude-sonnet-4-6 | 100      | repo root         | Once, after all AFK issues pass           |
+
+\* Override with `ORCHESTRATOR_MAX_IMPLEMENT_TURNS`. Set `ORCHESTRATOR_KEEP_FAILED_WORKTREES=1` to keep a worktree after an implementer failure.
+
+Agents use a restricted tool set (`Read`/`Write`/`Edit`/`Bash`/`Glob`/`Grep`; planner is read-mostly) with `strictMcpConfig` and empty `settingSources` so project MCP servers (argent, chrome-devtools, etc.) are not loaded. Agent failures throw `AgentFailureError` instead of calling `process.exit`, so worktree cleanup still runs.
 
 Agent execution uses the Claude Agent SDK in [agent.utils.ts](utils/agent.utils.ts). Per-agent logs are written under `logs/` via [agent-logger.utils.ts](utils/agent-logger.utils.ts).
 

@@ -97,16 +97,27 @@ export interface WithWorktreeArgs<T> {
   name: string;
   dir: string;
   fn: (worktreePath: string) => Promise<T>;
+  keepOnFailure?: boolean;
 }
 
-export const withWorktree = async <T>({ name, dir, fn }: WithWorktreeArgs<T>): Promise<T> => {
+export const withWorktree = async <T>({ name, dir, fn, keepOnFailure = false }: WithWorktreeArgs<T>): Promise<T> => {
   const worktree = await createWorktree({ name, dir });
   const symlinkType = process.platform === "win32" ? "junction" : "dir";
   symlinkSync(path.join(dir, "node_modules"), path.join(worktree.path, "node_modules"), symlinkType);
+
+  let shouldKeep = false;
   try {
     return await fn(worktree.path);
+  } catch (error) {
+    shouldKeep = keepOnFailure;
+    if (shouldKeep) {
+      logger.warn(`Keeping failed worktree at "${worktree.path}" (ORCHESTRATOR_KEEP_FAILED_WORKTREES)`);
+    }
+    throw error;
   } finally {
-    await removeWorktree({ name, dir, force: true });
+    if (!shouldKeep) {
+      await removeWorktree({ name, dir, force: true });
+    }
   }
 };
 
