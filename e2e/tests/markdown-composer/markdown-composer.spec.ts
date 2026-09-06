@@ -62,6 +62,44 @@ test("invalid Handlebars template surfaces the library's template preview error 
   await expect(markdownComposerPage.templatePreviewErrorAlert()).toBeVisible();
 });
 
+test("selecting Eta and typing an Eta template renders a live preview reflecting both", async ({
+  markdownComposerPage,
+}) => {
+  // arrange
+  await markdownComposerPage.selectEngine("Eta");
+  await markdownComposerPage.jsonDataTextarea().fill('{"name":"Ada"}');
+
+  // act
+  await markdownComposerPage.setMarkdown("# Hello <%= it.name %>");
+
+  // assert
+  await expect(markdownComposerPage.jsonErrorAlert()).toHaveCount(0);
+  await expect(markdownComposerPage.previewRegion().getByRole("heading", { name: "Hello Ada" })).toBeVisible();
+});
+
+test("switching from Handlebars to Eta preserves the current markdown text", async ({ markdownComposerPage }) => {
+  // arrange
+  await markdownComposerPage.setMarkdown("# Hello {{name}}");
+
+  // act
+  await markdownComposerPage.selectEngine("Eta");
+
+  // assert
+  await expect(markdownComposerPage.editorContent()).toContainText("{{name}}");
+});
+
+test("invalid Eta template surfaces the library's template preview error alert", async ({ markdownComposerPage }) => {
+  // arrange
+  await markdownComposerPage.selectEngine("Eta");
+  await markdownComposerPage.jsonDataTextarea().fill('{"name":"Ada"}');
+
+  // act
+  await markdownComposerPage.setMarkdown("# Hello <%=");
+
+  // assert
+  await expect(markdownComposerPage.templatePreviewErrorAlert()).toBeVisible();
+});
+
 test("reloading the page restores the previously entered JSON data and markdown", async ({
   markdownComposerPage,
   page,

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
-type MarkdownComposerEngine = "handlebars";
+export type MarkdownComposerEngine = "handlebars" | "eta";
 
 export const DEFAULT_MARKDOWN = "# Hello {{name}}\n\nWelcome to the Markdown Composer.";
 export const DEFAULT_JSON_DATA_TEXT = `{
@@ -14,6 +14,7 @@ interface MarkdownComposerState {
   engine: MarkdownComposerEngine;
   setMarkdown: (markdown: string) => void;
   setJsonDataText: (text: string) => void;
+  setEngine: (engine: MarkdownComposerEngine) => void;
 }
 
 type SetState = (
@@ -26,6 +27,7 @@ const stateCreator = (set: SetState): MarkdownComposerState => ({
   engine: "handlebars",
   setMarkdown: (markdown) => set({ markdown }),
   setJsonDataText: (jsonDataText) => set({ jsonDataText }),
+  setEngine: (engine) => set({ engine }),
 });
 
 const PERSISTED_STORE_NAME = "etoolbox-markdown-composer";
@@ -39,6 +41,7 @@ const persistedStateCreator = persist<MarkdownComposerState>(stateCreator, {
     engine: state.engine,
     setMarkdown: state.setMarkdown,
     setJsonDataText: state.setJsonDataText,
+    setEngine: state.setEngine,
   }),
 });
 

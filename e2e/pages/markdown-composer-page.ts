@@ -39,6 +39,15 @@ export class MarkdownComposerPage {
     return this.page.getByRole("alert").filter({ hasText: "Template preview error" });
   }
 
+  engineSelect(): Locator {
+    return this.page.getByRole("combobox", { name: "Template engine" });
+  }
+
+  async selectEngine(label: "Handlebars" | "Eta"): Promise<void> {
+    await this.engineSelect().click();
+    await this.page.getByTitle(label).click();
+  }
+
   async setMarkdown(markdown: string): Promise<void> {
     const editor = this.editorContent();
     await editor.click();

@@ -70,6 +70,7 @@
     "date-fns": "4.4.0",
     "dayjs": "1.11.23",
     "diff": "9.0.0",
+    "eta": "3.5.0",
     "httpsnippet": "3.0.10",
     "immer": "11.1.18",
     "js-beautify": "2.0.3",

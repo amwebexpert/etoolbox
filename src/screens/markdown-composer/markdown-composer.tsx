@@ -1,6 +1,6 @@
 import { FileMarkdownOutlined } from "@ant-design/icons";
 import { MarkdownComposer } from "@lichens-innovation/react-markdown-composer";
-import { Alert, Col, Input, Row, Space, Typography } from "antd";
+import { Alert, Col, Input, Row, Select, Space, Typography } from "antd";
 import { createStyles } from "antd-style";
 import { useState } from "react";
 
@@ -8,8 +8,14 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
 
+import { getRenderTemplate } from "./markdown-composer.renderers";
 import { useMarkdownComposerStore } from "./markdown-composer.store";
 import { parseJsonDataText } from "./markdown-composer.utils";
+
+const ENGINE_OPTIONS = [
+  { value: "handlebars", label: "Handlebars" },
+  { value: "eta", label: "Eta" },
+] as const;
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -18,7 +24,8 @@ export const MarkdownComposerScreen = () => {
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
 
-  const { markdown, jsonDataText, setMarkdown, setJsonDataText } = useMarkdownComposerStore();
+  const { markdown, jsonDataText, engine, setMarkdown, setJsonDataText, setEngine } = useMarkdownComposerStore();
+  const renderTemplate = getRenderTemplate(engine);
 
   const parseResult = parseJsonDataText(jsonDataText);
   const jsonErrorMessage = parseResult.errorMessage;
@@ -47,7 +54,7 @@ export const MarkdownComposerScreen = () => {
         <ScreenHeader
           icon={<FileMarkdownOutlined />}
           title="Markdown Composer"
-          description="Compose Handlebars-powered markdown templates with a live JSON data preview"
+          description="Compose markdown templates with a live JSON data preview"
         />
 
         <Row gutter={[16, 16]}>
@@ -79,15 +86,23 @@ export const MarkdownComposerScreen = () => {
           <Col xs={24} md={12}>
             <Space orientation="vertical" size="small" className={styles.fullWidth}>
               <Text strong>Engine</Text>
-              <Text type="secondary" aria-label="Template engine">
-                Handlebars
-              </Text>
+              <Select
+                aria-label="Template engine"
+                value={engine}
+                onChange={setEngine}
+                options={ENGINE_OPTIONS.map(({ value, label }) => ({ value, label }))}
+              />
             </Space>
           </Col>
         </Row>
 
         <div className={styles.composerContainer}>
-          <MarkdownComposer inputData={inputData} markdown={markdown} onMarkdownChange={setMarkdown} />
+          <MarkdownComposer
+            inputData={inputData}
+            markdown={markdown}
+            onMarkdownChange={setMarkdown}
+            renderTemplate={renderTemplate}
+          />
         </div>
       </Space>
     </ScreenContainer>

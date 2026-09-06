@@ -23,6 +23,7 @@
         "date-fns": "4.4.0",
         "dayjs": "1.11.23",
         "diff": "9.0.0",
+        "eta": "3.5.0",
         "httpsnippet": "3.0.10",
         "immer": "11.1.18",
         "js-beautify": "2.0.3",
@@ -1332,6 +1333,8 @@
     "estree-walker": ["estree-walker@3.0.3", "", { "dependencies": { "@types/estree": "^1.0.0" } }, ""],
 
     "esutils": ["esutils@2.0.3", "", {}, ""],
+
+    "eta": ["eta@3.5.0", "", {}, "sha512-e3x3FBvGzeCIHhF+zhK8FZA2vC5uFn6b4HJjegUbIWrDb4mJ7JjTGMJY9VGIbRVpmSwHopNiaJibhjIr+HfLug=="],
 
     "etag": ["etag@1.8.1", "", {}, "sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg=="],
 

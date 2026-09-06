@@ -35,6 +35,12 @@ describe("useMarkdownComposerStore", () => {
     expect(useMarkdownComposerStore.getState().jsonDataText).toBe('{"a":1}');
   });
 
+  it("updates the engine via setEngine", () => {
+    useMarkdownComposerStore.getState().setEngine("eta");
+
+    expect(useMarkdownComposerStore.getState().engine).toBe("eta");
+  });
+
   it("keeps the markdown and JSON data independent", () => {
     useMarkdownComposerStore.getState().setMarkdown("body");
     useMarkdownComposerStore.getState().setJsonDataText('{"x":true}');
