@@ -28,13 +28,13 @@ export const CompressorToolbar = ({
       actions={
         <Space size="small" wrap>
           <Tooltip title="Clear selected image and compression result">
-            <Button icon={<ClearOutlined />} disabled={!hasFile && !hasResult} onClick={onClear}>
+            <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasFile && !hasResult} onClick={onClear}>
               {!isMobile && "Clear"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Download the compressed image">
-            <Button icon={<DownloadOutlined />} disabled={!hasResult} onClick={onDownload}>
+            <Button aria-label="Download" icon={<DownloadOutlined />} disabled={!hasResult} onClick={onDownload}>
               {!isMobile && "Download"}
             </Button>
           </Tooltip>

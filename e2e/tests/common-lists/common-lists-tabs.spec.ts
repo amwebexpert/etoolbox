@@ -53,25 +53,25 @@ test("can navigate between all common-lists tabs", async ({ page, commonListsPag
   await expect(commonListsPage.heading("MIME Types")).toBeVisible();
 
   // act & assert — html entities
-  await commonListsPage.htmlEntitiesTab.click();
+  await commonListsPage.clickTab(commonListsPage.htmlEntitiesTab);
   await expect(page).toHaveURL(/#\/common-lists\/html-entities$/);
   await expect(commonListsPage.htmlEntitiesTab).toHaveAttribute("aria-selected", "true");
   await expect(commonListsPage.heading("HTML Entities")).toBeVisible();
 
   // act & assert — http status codes
-  await commonListsPage.httpStatusCodesTab.click();
+  await commonListsPage.clickTab(commonListsPage.httpStatusCodesTab);
   await expect(page).toHaveURL(/#\/common-lists\/http-status-codes$/);
   await expect(commonListsPage.httpStatusCodesTab).toHaveAttribute("aria-selected", "true");
   await expect(commonListsPage.heading("HTTP Status Codes")).toBeVisible();
 
   // act & assert — http headers
-  await commonListsPage.httpHeadersTab.click();
+  await commonListsPage.clickTab(commonListsPage.httpHeadersTab);
   await expect(page).toHaveURL(/#\/common-lists\/http-headers$/);
   await expect(commonListsPage.httpHeadersTab).toHaveAttribute("aria-selected", "true");
   await expect(commonListsPage.heading("HTTP Headers")).toBeVisible();
 
   // act & assert — back to mime-types
-  await commonListsPage.mimeTypesTab.click();
+  await commonListsPage.clickTab(commonListsPage.mimeTypesTab);
   await expect(page).toHaveURL(/#\/common-lists\/mime-types$/);
   await expect(commonListsPage.mimeTypesTab).toHaveAttribute("aria-selected", "true");
   await expect(commonListsPage.heading("MIME Types")).toBeVisible();

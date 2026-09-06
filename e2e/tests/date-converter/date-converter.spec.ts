@@ -14,11 +14,11 @@ test("clicking Now populates the result table with date formats", async ({ page,
   // act
   await page.getByRole("button", { name: "Now" }).click();
 
-  // assert
+  // assert — labels render as table cells (desktop) or cards (mobile)
   await expect(dateConverterPage.heading("Date & Epoch Converter")).toBeVisible();
-  await expect(page.getByRole("cell", { name: "ISO 8601 / JSON" })).toBeVisible();
-  await expect(page.getByRole("cell", { name: "Epoch (milliseconds)" })).toBeVisible();
-  await expect(page.getByRole("cell", { name: "UTC String" })).toBeVisible();
+  await expect(page.getByText("ISO 8601 / JSON", { exact: true })).toBeVisible();
+  await expect(page.getByText("Epoch (milliseconds)", { exact: true })).toBeVisible();
+  await expect(page.getByText("UTC String", { exact: true })).toBeVisible();
 });
 
 test("non-numeric epoch value shows a validation error", async ({ page }) => {
@@ -38,7 +38,7 @@ test("quick dates sets the start of day", async ({ page }) => {
   await page.getByRole("menuitem", { name: "Start of Day (00:00)" }).click();
 
   // assert
-  await expect(page.getByRole("cell", { name: "Time Only (HH:mm:ss)" })).toBeVisible();
+  await expect(page.getByText("Time Only (HH:mm:ss)", { exact: true })).toBeVisible();
   const epochInput = page.getByPlaceholder("Enter epoch timestamp");
   await expect(epochInput).not.toHaveValue("");
 });
@@ -58,7 +58,7 @@ test("toggling code examples hides the code examples section", async ({ page }) 
 test("clear resets to the empty placeholder", async ({ page }) => {
   // arrange
   await page.getByRole("button", { name: "Now" }).click();
-  await expect(page.getByRole("cell", { name: "ISO 8601 / JSON" })).toBeVisible();
+  await expect(page.getByText("ISO 8601 / JSON", { exact: true })).toBeVisible();
 
   // act
   await page.getByRole("button", { name: "Clear" }).click();

@@ -116,16 +116,15 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
     });
   }
 
-  if (!isMobile) {
-    columns.push({
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      ellipsis: true,
-      sorter: (a, b) => a.description.localeCompare(b.description),
-      render: (description: string) => <Text className={styles.descriptionText}>{description}</Text>,
-    });
-  }
+  columns.push({
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+    ellipsis: true,
+    width: isMobile ? 100 : undefined,
+    sorter: (a, b) => a.description.localeCompare(b.description),
+    render: (description: string) => <Text className={styles.descriptionText}>{description}</Text>,
+  });
 
   if (!isMobile && !isTablet) {
     columns.push({

@@ -92,12 +92,18 @@ export const UrlCurl = () => {
           actions={
             <Space size="small" wrap>
               <Tooltip title="Copy result to clipboard">
-                <Button icon={<CopyOutlined />} disabled={!transformedResult} onClick={handleCopy}>
+                <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!transformedResult} onClick={handleCopy}>
                   {!isMobile && "Copy"}
                 </Button>
               </Tooltip>
 
-              <Button type="primary" icon={<CodeOutlined />} disabled={isBlank(inputCurl)} onClick={handleConvert}>
+              <Button
+                type="primary"
+                aria-label="Convert"
+                icon={<CodeOutlined />}
+                disabled={isBlank(inputCurl)}
+                onClick={handleConvert}
+              >
                 {isMobile ? "Conv." : "Convert"}
               </Button>
             </Space>

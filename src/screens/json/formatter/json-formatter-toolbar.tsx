@@ -36,18 +36,18 @@ export const JsonFormatterToolbar = ({
   return (
     <ScreenToolbar
       leading={
-        <Tooltip title="Choose how to display the formatted JSON">
+        <Tooltip title="Choose how to display the formatted JSON" trigger={isMobile ? [] : ["hover"]}>
           <Segmented
             value={viewMode}
             onChange={(value) => onViewModeChange(value as ViewMode)}
             options={[
               {
-                label: isMobile ? "Syntax" : "Syntax Highlight",
+                label: "Syntax Highlight",
                 value: "syntax-highlight",
                 icon: <FormatPainterOutlined />,
               },
               {
-                label: isMobile ? "Interactive" : "Interactive View",
+                label: "Interactive View",
                 value: "react-json-view",
                 icon: <EyeOutlined />,
               },
@@ -58,7 +58,10 @@ export const JsonFormatterToolbar = ({
       }
       actions={
         <Space size="small" wrap>
-          <Tooltip title={isMinified ? "Format JSON with indentation" : "Minify JSON (remove whitespace)"}>
+          <Tooltip
+            title={isMinified ? "Format JSON with indentation" : "Minify JSON (remove whitespace)"}
+            trigger={isMobile ? [] : ["hover"]}
+          >
             <Button
               type="primary"
               icon={isMinified ? <FormatPainterOutlined /> : <CompressOutlined />}
@@ -69,14 +72,14 @@ export const JsonFormatterToolbar = ({
             </Button>
           </Tooltip>
 
-          <Tooltip title="Copy formatted JSON to clipboard">
-            <Button icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopy}>
+          <Tooltip title="Copy formatted JSON to clipboard" trigger={isMobile ? [] : ["hover"]}>
+            <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopy}>
               {!isMobile && "Copy"}
             </Button>
           </Tooltip>
 
-          <Tooltip title="Save JSON to file">
-            <Button icon={<DownloadOutlined />} disabled={!hasContent} onClick={onSaveAs}>
+          <Tooltip title="Save JSON to file" trigger={isMobile ? [] : ["hover"]}>
+            <Button aria-label="Save As…" icon={<DownloadOutlined />} disabled={!hasContent} onClick={onSaveAs}>
               {isMobile ? "Save" : "Save As…"}
             </Button>
           </Tooltip>

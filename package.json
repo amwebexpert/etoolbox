@@ -36,6 +36,8 @@
     "test": "vitest",
     "test:e2e": "playwright test --config e2e/playwright.config.ts --project=chromium",
     "test:e2e:ui": "playwright test --config e2e/playwright.config.ts --ui --project=chromium",
+    "test:e2e:responsive": "playwright test --config e2e/playwright.config.ts --project=mobile-chrome --project=tablet",
+    "test:e2e:all": "playwright test --config e2e/playwright.config.ts",
     "test:e2e:report": "playwright show-report e2e/playwright-report",
     "test:e2e:report:open": "open e2e/playwright-report/index.html",
     "lint-staged": "lint-staged",

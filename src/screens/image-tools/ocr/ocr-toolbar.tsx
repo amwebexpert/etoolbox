@@ -42,19 +42,19 @@ export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onCl
       actions={
         <Space size="small" wrap>
           <Tooltip title="Clear image and result">
-            <Button icon={<ClearOutlined />} disabled={!hasImage && !hasResult} onClick={onClear}>
+            <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasImage && !hasResult} onClick={onClear}>
               {!isMobile && "Clear"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy extracted text to clipboard">
-            <Button icon={<CopyOutlined />} disabled={!hasResult} onClick={handleCopy}>
+            <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!hasResult} onClick={handleCopy}>
               {!isMobile && "Copy"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Download extracted text as file">
-            <Button icon={<DownloadOutlined />} disabled={!hasResult} onClick={handleDownload}>
+            <Button aria-label="Download" icon={<DownloadOutlined />} disabled={!hasResult} onClick={handleDownload}>
               {!isMobile && "Download"}
             </Button>
           </Tooltip>
@@ -62,6 +62,7 @@ export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onCl
           <Tooltip title="Run OCR to extract text from image">
             <Button
               type="primary"
+              aria-label="Run OCR"
               icon={<ScanOutlined />}
               disabled={!hasImage}
               loading={isProcessing}

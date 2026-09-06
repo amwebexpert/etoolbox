@@ -78,13 +78,13 @@ export const DateConverterToolbar = ({
       actions={
         <Space size="small" wrap>
           <Tooltip title="Clear all">
-            <Button icon={<ClearOutlined />} disabled={!hasDate} onClick={onClear}>
+            <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasDate} onClick={onClear}>
               {!isMobile && "Clear"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy all formats to clipboard">
-            <Button icon={<CopyOutlined />} disabled={!hasDate} onClick={onCopyAll}>
+            <Button aria-label="Copy All" icon={<CopyOutlined />} disabled={!hasDate} onClick={onCopyAll}>
               {!isMobile && "Copy All"}
             </Button>
           </Tooltip>

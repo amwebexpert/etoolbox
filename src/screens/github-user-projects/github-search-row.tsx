@@ -62,6 +62,7 @@ export const GithubSearchRow = ({
         <Space size="small" className={styles.searchActions}>
           <Button
             type="primary"
+            aria-label="Search"
             icon={<SearchOutlined />}
             onClick={onSearch}
             loading={isLoading}

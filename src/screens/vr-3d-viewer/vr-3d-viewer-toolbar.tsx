@@ -30,25 +30,40 @@ export const Vr3dViewerToolbar = ({
       actions={
         <Space size="small" wrap>
           <Tooltip title="Toggle settings panel">
-            <Button icon={<SettingOutlined />} type={showSettings ? "primary" : "default"} onClick={onToggleSettings}>
+            <Button
+              aria-label="Settings"
+              icon={<SettingOutlined />}
+              type={showSettings ? "primary" : "default"}
+              onClick={onToggleSettings}
+            >
               {!isMobile && "Settings"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Reset camera view">
-            <Button icon={<ReloadOutlined />} disabled={!hasModel || isLoading} onClick={onResetCamera}>
+            <Button
+              aria-label="Reset View"
+              icon={<ReloadOutlined />}
+              disabled={!hasModel || isLoading}
+              onClick={onResetCamera}
+            >
               {!isMobile && "Reset View"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Toggle fullscreen">
-            <Button icon={<ExpandOutlined />} disabled={!hasModel || isLoading} onClick={onFullscreen}>
+            <Button
+              aria-label="Fullscreen"
+              icon={<ExpandOutlined />}
+              disabled={!hasModel || isLoading}
+              onClick={onFullscreen}
+            >
               {!isMobile && "Fullscreen"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Clear current model">
-            <Button icon={<ClearOutlined />} disabled={!hasModel || isLoading} onClick={onClear}>
+            <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasModel || isLoading} onClick={onClear}>
               {!isMobile && "Clear"}
             </Button>
           </Tooltip>

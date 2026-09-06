@@ -28,13 +28,13 @@ export const JsonConverterToolbar = ({
       actions={
         <Space size="small" wrap>
           <Tooltip title="Clear all fields">
-            <Button icon={<ClearOutlined />} disabled={!hasContent && !hasResult} onClick={onClear}>
+            <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasContent && !hasResult} onClick={onClear}>
               {!isMobile && "Clear"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy converted result to clipboard">
-            <Button icon={<CopyOutlined />} disabled={!hasResult} onClick={onCopy}>
+            <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!hasResult} onClick={onCopy}>
               {!isMobile && "Copy"}
             </Button>
           </Tooltip>

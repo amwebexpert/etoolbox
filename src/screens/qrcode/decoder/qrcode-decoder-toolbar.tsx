@@ -28,13 +28,13 @@ export const QRCodeDecoderToolbar = ({
       actions={
         <Space size="small" wrap>
           <Tooltip title="Clear image and result">
-            <Button icon={<ClearOutlined />} disabled={!hasImage && !hasResult} onClick={onClear}>
+            <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasImage && !hasResult} onClick={onClear}>
               {!isMobile && "Clear"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy decoded text to clipboard">
-            <Button icon={<CopyOutlined />} disabled={!hasResult} onClick={onCopyResult}>
+            <Button aria-label="Copy Result" icon={<CopyOutlined />} disabled={!hasResult} onClick={onCopyResult}>
               {!isMobile && "Copy Result"}
             </Button>
           </Tooltip>

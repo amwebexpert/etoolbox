@@ -31,19 +31,25 @@ export const Base64FileToolbar = ({
       actions={
         <Space size="small" wrap>
           <Tooltip title="Copy raw Base64 to clipboard">
-            <Button icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopy}>
+            <Button aria-label="Copy Base64" icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopy}>
               {!isMobile && "Copy Base64"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy as Data URI (data:mime;base64,...)">
-            <Button icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopyDataUri}>
+            <Button aria-label="Copy Data URI" icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopyDataUri}>
               {!isMobile && "Copy Data URI"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Decode Base64 and download as file">
-            <Button type="primary" icon={<DownloadOutlined />} disabled={!hasContent} onClick={onDownload}>
+            <Button
+              type="primary"
+              aria-label="Download"
+              icon={<DownloadOutlined />}
+              disabled={!hasContent}
+              onClick={onDownload}
+            >
               {isMobile ? "DL" : "Download"}
             </Button>
           </Tooltip>
