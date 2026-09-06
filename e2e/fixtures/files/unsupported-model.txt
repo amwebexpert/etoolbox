@@ -1,0 +1,1 @@
+this is not a 3d model file, used to test the unsupported-file-format error path

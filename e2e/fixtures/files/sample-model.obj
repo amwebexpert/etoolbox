@@ -1,0 +1,5 @@
+# minimal single-triangle mesh for e2e upload tests
+v 0.0 0.0 0.0
+v 1.0 0.0 0.0
+v 0.0 1.0 0.0
+f 1 2 3
