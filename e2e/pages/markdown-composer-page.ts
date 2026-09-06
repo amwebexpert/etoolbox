@@ -43,7 +43,7 @@ export class MarkdownComposerPage {
     return this.page.getByRole("combobox", { name: "Template engine" });
   }
 
-  async selectEngine(label: "Handlebars" | "Eta"): Promise<void> {
+  async selectEngine(label: "Handlebars" | "Eta" | "LiquidJS"): Promise<void> {
     await this.engineSelect().click();
     await this.page.getByTitle(label).click();
   }

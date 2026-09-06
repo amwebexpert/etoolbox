@@ -100,6 +100,46 @@ test("invalid Eta template surfaces the library's template preview error alert",
   await expect(markdownComposerPage.templatePreviewErrorAlert()).toBeVisible();
 });
 
+test("selecting LiquidJS and typing a LiquidJS template renders a live preview reflecting both", async ({
+  markdownComposerPage,
+}) => {
+  // arrange
+  await markdownComposerPage.selectEngine("LiquidJS");
+  await markdownComposerPage.jsonDataTextarea().fill('{"name":"ada"}');
+
+  // act
+  await markdownComposerPage.setMarkdown("# Hello {{ name | capitalize }}");
+
+  // assert
+  await expect(markdownComposerPage.jsonErrorAlert()).toHaveCount(0);
+  await expect(markdownComposerPage.previewRegion().getByRole("heading", { name: "Hello Ada" })).toBeVisible();
+});
+
+test("switching from Handlebars to LiquidJS preserves the current markdown text", async ({ markdownComposerPage }) => {
+  // arrange
+  await markdownComposerPage.setMarkdown("# Hello {{name}}");
+
+  // act
+  await markdownComposerPage.selectEngine("LiquidJS");
+
+  // assert
+  await expect(markdownComposerPage.editorContent()).toContainText("{{name}}");
+});
+
+test("invalid LiquidJS template surfaces the library's template preview error alert", async ({
+  markdownComposerPage,
+}) => {
+  // arrange
+  await markdownComposerPage.selectEngine("LiquidJS");
+  await markdownComposerPage.jsonDataTextarea().fill('{"name":"Ada"}');
+
+  // act
+  await markdownComposerPage.setMarkdown("# Hello {% if %}");
+
+  // assert
+  await expect(markdownComposerPage.templatePreviewErrorAlert()).toBeVisible();
+});
+
 test("reloading the page restores the previously entered JSON data and markdown", async ({
   markdownComposerPage,
   page,

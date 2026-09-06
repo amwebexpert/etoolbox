@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 
-export type MarkdownComposerEngine = "handlebars" | "eta";
+export type MarkdownComposerEngine = "handlebars" | "eta" | "liquidjs";
 
 export const DEFAULT_MARKDOWN = "# Hello {{name}}\n\nWelcome to the Markdown Composer.";
 export const DEFAULT_JSON_DATA_TEXT = `{
