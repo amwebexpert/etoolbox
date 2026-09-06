@@ -12,6 +12,7 @@ import codingGuide, { configs as codingGuideConfigs } from "@lichens-innovation/
 import { globalIgnores } from "eslint/config";
 
 const testFiles = ["**/__tests__/**", "**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"];
+const unitTestFiles = ["src/**/__tests__/**", "src/**/*.test.{ts,tsx}"];
 
 export default tseslint.config(
   globalIgnores(["dist", "docs/**", "src/api/generated/**", ".yarn/**"]),
@@ -151,9 +152,17 @@ export default tseslint.config(
     },
   },
   {
-    files: testFiles,
+    files: unitTestFiles,
+    plugins: {
+      "testing-library": testingLibrary,
+    },
     rules: {
       "testing-library/prefer-screen-queries": "error",
+    },
+  },
+  {
+    files: testFiles,
+    rules: {
       "max-lines": "off",
       "max-lines-per-function": "off",
     },
