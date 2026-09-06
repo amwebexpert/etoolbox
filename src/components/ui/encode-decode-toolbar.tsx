@@ -27,22 +27,22 @@ export const EncodeDecodeToolbar = ({
     <ScreenToolbar
       leading={
         <Tooltip title="Swap: put result into input">
-          <Button icon={<SwapOutlined />} disabled={!hasOutput} onClick={onSwap} />
+          <Button aria-label="Swap" icon={<SwapOutlined />} disabled={!hasOutput} onClick={onSwap} />
         </Tooltip>
       }
       actions={
         <Space size="small" wrap>
           <Tooltip title="Copy result to clipboard">
-            <Button icon={<CopyOutlined />} disabled={!hasOutput} onClick={onCopy}>
+            <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!hasOutput} onClick={onCopy}>
               {!isMobile && "Copy"}
             </Button>
           </Tooltip>
 
-          <Button type="primary" icon={<CodeOutlined />} disabled={!hasInput} onClick={onEncode}>
+          <Button type="primary" aria-label="Encode" icon={<CodeOutlined />} disabled={!hasInput} onClick={onEncode}>
             {isMobile ? "Enc." : "Encode"}
           </Button>
 
-          <Button type="primary" icon={<UnlockOutlined />} disabled={!hasInput} onClick={onDecode}>
+          <Button type="primary" aria-label="Decode" icon={<UnlockOutlined />} disabled={!hasInput} onClick={onDecode}>
             {isMobile ? "Dec." : "Decode"}
           </Button>
         </Space>

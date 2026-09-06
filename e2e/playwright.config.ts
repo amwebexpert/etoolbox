@@ -14,7 +14,18 @@ export default defineConfig({
     screenshot: "only-on-failure",
     video: "retain-on-failure",
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "mobile-chrome", use: { ...devices["Pixel 7"] } },
+    {
+      name: "tablet",
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 768, height: 1024 },
+        hasTouch: true,
+      },
+    },
+  ],
   webServer: {
     command: "bun run dev",
     cwd: process.cwd(),

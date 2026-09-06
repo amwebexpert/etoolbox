@@ -24,6 +24,7 @@ export const DateFormatCard = ({ format, date, epochValue, onCopy }: DateFormatC
         <Button
           type="text"
           size="small"
+          aria-label={`Copy ${format.label}`}
           icon={<CopyOutlined />}
           onClick={() => onCopy({ value: displayValue, label: format.label })}
         />

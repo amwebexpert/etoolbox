@@ -39,6 +39,7 @@ export const PokerPlanningToolbar = ({ isUserMemberOfRoom, onClearVotes }: Poker
           <Tooltip title="Create a new room and start the session">
             <Button
               type="primary"
+              aria-label="New Room"
               icon={<PlusOutlined />}
               disabled={!canCreateRoom || isConnecting}
               loading={isConnecting}
@@ -49,13 +50,13 @@ export const PokerPlanningToolbar = ({ isUserMemberOfRoom, onClearVotes }: Poker
           </Tooltip>
 
           <Tooltip title="Join the current room">
-            <Button icon={<TeamOutlined />} disabled={!canJoin} onClick={joinRoom}>
+            <Button aria-label="Join" icon={<TeamOutlined />} disabled={!canJoin} onClick={joinRoom}>
               {!isMobile && "Join"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy room link to clipboard">
-            <Button icon={<CopyOutlined />} disabled={!canShareLink} onClick={handleCopyLink}>
+            <Button aria-label="Copy Link" icon={<CopyOutlined />} disabled={!canShareLink} onClick={handleCopyLink}>
               {!isMobile && "Copy Link"}
             </Button>
           </Tooltip>
@@ -64,14 +65,20 @@ export const PokerPlanningToolbar = ({ isUserMemberOfRoom, onClearVotes }: Poker
       actions={
         <Space size="small" wrap>
           <Tooltip title="Clear all votes">
-            <Button icon={<ClearOutlined />} danger disabled={!isUserMemberOfRoom} onClick={onClearVotes}>
+            <Button
+              aria-label="Clear Votes"
+              icon={<ClearOutlined />}
+              danger
+              disabled={!isUserMemberOfRoom}
+              onClick={onClearVotes}
+            >
               {!isMobile && "Clear Votes"}
             </Button>
           </Tooltip>
 
           {isConnected ? (
             <Tooltip title="Disconnect from the room">
-              <Button icon={<DisconnectOutlined />} onClick={disconnect}>
+              <Button aria-label="Disconnect" icon={<DisconnectOutlined />} onClick={disconnect}>
                 {!isMobile && "Disconnect"}
               </Button>
             </Tooltip>

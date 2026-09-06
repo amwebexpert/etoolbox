@@ -43,19 +43,30 @@ export const RegexTesterToolbar = () => {
       actions={
         <Space size="small" wrap>
           <Tooltip title="Clear all fields">
-            <Button icon={<ClearOutlined />} disabled={!hasPattern} onClick={clearAll}>
+            <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasPattern} onClick={clearAll}>
               {!isMobile && "Clear"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy regex pattern">
-            <Button icon={<CopyOutlined />} disabled={!hasPattern} onClick={handleCopyPattern}>
+            <Button
+              aria-label="Copy Pattern"
+              icon={<CopyOutlined />}
+              disabled={!hasPattern}
+              onClick={handleCopyPattern}
+            >
               {!isMobile && "Copy Pattern"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy extracted values">
-            <Button type="primary" icon={<CopyOutlined />} disabled={!hasExtracted} onClick={handleCopyExtracted}>
+            <Button
+              type="primary"
+              aria-label="Copy Extracted"
+              icon={<CopyOutlined />}
+              disabled={!hasExtracted}
+              onClick={handleCopyExtracted}
+            >
               {!isMobile && "Copy Extracted"}
             </Button>
           </Tooltip>

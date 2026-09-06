@@ -23,7 +23,13 @@ export const DataUriToolbar = ({ hasContent, canDownload, onClear, onDownload }:
       }
       actions={
         <Tooltip title="Download the decoded image">
-          <Button type="primary" icon={<DownloadOutlined />} disabled={!canDownload} onClick={onDownload}>
+          <Button
+            type="primary"
+            aria-label="Download"
+            icon={<DownloadOutlined />}
+            disabled={!canDownload}
+            onClick={onDownload}
+          >
             {isMobile ? "DL" : "Download"}
           </Button>
         </Tooltip>

@@ -34,18 +34,35 @@ export const AppLayoutTabs = ({ items }: AppLayoutTabsProps) => {
   );
 };
 
-const useStyles = createStyles(({ token }) => ({
+const useStyles = createStyles(({ token, css }) => ({
   container: {
     display: "flex",
     flexDirection: "column",
     height: "100%",
   },
-  tabs: {
-    marginBottom: 0,
-    "& .ant-tabs-nav": {
-      marginBottom: 0,
-    },
-  },
+  tabs: css`
+    margin-bottom: 0;
+
+    & .ant-tabs-nav {
+      margin-bottom: 0;
+    }
+
+    /* Keep all tabs reachable on narrow viewports (no off-screen overflow scroll). */
+    @media (max-width: 576px) {
+      & .ant-tabs-nav-wrap {
+        overflow: visible;
+      }
+
+      & .ant-tabs-nav-list {
+        flex-wrap: wrap;
+        transform: none !important;
+      }
+
+      & .ant-tabs-nav-operations {
+        display: none;
+      }
+    }
+  `,
   content: {
     flex: 1,
     borderTop: `1px solid ${token.colorBorderSecondary}`,

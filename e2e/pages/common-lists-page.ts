@@ -34,4 +34,12 @@ export class CommonListsPage {
   heading(title: string): Locator {
     return this.page.getByRole("heading", { name: title });
   }
+
+  /** Scroll overflowed Ant Design tabs into view before clicking (narrow viewports). habit-hooks-disable non-essential-comment */
+  async clickTab(tab: Locator): Promise<void> {
+    await tab.evaluate((element) => {
+      element.scrollIntoView({ block: "nearest", inline: "center" });
+    });
+    await tab.click({ force: true });
+  }
 }

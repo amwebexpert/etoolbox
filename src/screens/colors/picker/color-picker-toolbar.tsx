@@ -24,14 +24,14 @@ export const ColorPickerToolbar = ({ hasImage, onClear, onFileSelect }: ColorPic
       actions={
         <Space size="small" wrap>
           <Tooltip title="Clear image">
-            <Button icon={<ClearOutlined />} disabled={!hasImage} onClick={onClear}>
+            <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasImage} onClick={onClear}>
               {!isMobile && "Clear"}
             </Button>
           </Tooltip>
 
           <Upload accept="image/*" showUploadList={false} beforeUpload={handleBeforeUpload}>
             <Tooltip title="Select image from file">
-              <Button type="primary" icon={<UploadOutlined />}>
+              <Button type="primary" aria-label="Select Image" icon={<UploadOutlined />}>
                 {isMobile ? "Image" : "Select Image"}
               </Button>
             </Tooltip>

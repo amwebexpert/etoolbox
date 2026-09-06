@@ -30,19 +30,19 @@ export const JsonRepairToolbar = ({
       actions={
         <Space size="small" wrap>
           <Tooltip title="Clear input and result">
-            <Button icon={<ClearOutlined />} disabled={!hasInput && !hasResult} onClick={onClear}>
+            <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasInput && !hasResult} onClick={onClear}>
               {!isMobile && "Clear"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy repaired JSON to clipboard">
-            <Button icon={<CopyOutlined />} disabled={!hasResult} onClick={onCopy}>
+            <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!hasResult} onClick={onCopy}>
               {!isMobile && "Copy"}
             </Button>
           </Tooltip>
 
           <Tooltip title="Save repaired JSON to file">
-            <Button icon={<DownloadOutlined />} disabled={!hasResult} onClick={onSaveAs}>
+            <Button aria-label="Save As…" icon={<DownloadOutlined />} disabled={!hasResult} onClick={onSaveAs}>
               {isMobile ? "Save" : "Save As…"}
             </Button>
           </Tooltip>
