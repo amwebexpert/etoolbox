@@ -16,6 +16,7 @@ guide = "sonarjs-cognitive-complexity.md"
 
 [smells.non-essential-comment]
 severity = "enforced"
+guide = "non-essential-comment.md"
 
 [smells.duplicated-code]
 severity = "enforced"
