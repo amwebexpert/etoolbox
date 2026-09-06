@@ -10,6 +10,13 @@ export const existsSync = () => false;
 export const mkdirSync = () => {};
 export const readdirSync = () => [];
 export const statSync = () => ({});
+export const lstatSync = () => ({ isSymbolicLink: () => false });
+export const readlinkSync = () => {
+  throw new Error("fs.readlinkSync is not available in the browser");
+};
+export const createReadStream = () => {
+  throw new Error("fs.createReadStream is not available in the browser");
+};
 export const unlinkSync = () => {};
 export const rmdirSync = () => {};
 export const promises = {
