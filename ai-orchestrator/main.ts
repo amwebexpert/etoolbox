@@ -3,18 +3,21 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { Orchestrator } from "./orchestrator.ts";
+import { resolvePlanFile } from "./utils/plan-path.utils.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_DIR = path.resolve(__dirname, "..");
-const PLAN_FILE = path.join(__dirname, "plan.json");
 const LOG_DIR = path.join(__dirname, "logs");
 
 const main = async (): Promise<void> => {
-  const orchestrator = new Orchestrator({ planFile: PLAN_FILE, repoDir: REPO_DIR, logDir: LOG_DIR });
+  const planFile = resolvePlanFile();
+  logger.info(`Using plan file: ${planFile}`);
+
+  const orchestrator = new Orchestrator({ planFile, repoDir: REPO_DIR, logDir: LOG_DIR });
   await orchestrator.run();
 };
 
 void main().catch((error: unknown) => {
-  logger.error("Orchestrator failed", { error });
+  logger.error("Orchestrator failed", { err: error });
   process.exit(1);
 });

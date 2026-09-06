@@ -4,13 +4,13 @@ version: 0.1.0
 description: >
   This skill should be used when the user asks to "convert a plan to JSON",
   "create a prd.json", "serialize issues to JSON", "break down work into JSON issues",
-  "write issues to ai-orchestrator/plan.json", or "break a plan into a JSON file".
+  "write issues to PLAN_FILE", or "break a plan into a JSON file".
 allowed-tools: Read, Write, WebFetch, AskUserQuestion, Agent
 ---
 
 # To Issues as JSON
 
-Break a plan into independently-grabbable issues using vertical slices (tracer bullets) and write them to `ai-orchestrator/plan.json`.
+Break a plan into independently-grabbable issues using vertical slices (tracer bullets) and write them to the path in `PLAN_FILE` (outside the repo).
 
 ## Process
 
@@ -52,9 +52,23 @@ Request user feedback on:
 
 Iterate until the breakdown is approved.
 
-### 5. Write plans/prd.json
+### 5. Resolve PLAN_FILE and write the plan
 
-Once approved, write the full array to `ai-orchestrator/plan.json`, overwriting any existing content. Use the schema below. Publish slices in dependency order (blockers first).
+The plan lives **outside the repo**. Before writing:
+
+1. If `PLAN_FILE` is already set in the environment, use that path.
+2. Otherwise ask the user for the plan path. Suggest `~/ai-orchestrator-plans/<repo-slug>-<feature-slug>.json` (e.g. `~/ai-orchestrator-plans/etoolbox-compressor.json`). Derive `<repo-slug>` from the repo folder name.
+3. Expand `~` to the home directory. Create the parent directory if it does not exist (`mkdir -p`).
+
+Once approved, write the full array to that path, overwriting any existing content. Use the schema below. Publish slices in dependency order (blockers first).
+
+See [ai-orchestrator/plan.example.json](../../ai-orchestrator/plan.example.json) for a minimal template.
+
+Remind the user to run the orchestrator with the same path:
+
+```bash
+PLAN_FILE=~/ai-orchestrator-plans/<repo-slug>-<feature-slug>.json bun run ai:run:plan
+```
 
 <json-schema>
 [

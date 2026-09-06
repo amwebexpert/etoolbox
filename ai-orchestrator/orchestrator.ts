@@ -33,12 +33,14 @@ interface DeleteImplementationBranchesResult {
 const MAX_PARALLEL_UNBLOCKED_IMPLEMENTERS = 2;
 
 export class Orchestrator {
+  private readonly planFile: string;
   private readonly repoDir: string;
   private readonly maxIterations: number;
   private readonly plan: Plan;
 
   constructor({ planFile, repoDir, logDir, maxIterations = 20 }: OrchestratorOptions) {
     setAgentLogDir(logDir);
+    this.planFile = planFile;
     this.repoDir = repoDir;
     this.maxIterations = maxIterations;
     this.plan = new Plan(planFile);
@@ -171,7 +173,11 @@ export class Orchestrator {
     await runAgent({
       prompt: loadPrompt({
         name: "review.md",
-        substitutions: { BRANCH: "HEAD", SOURCE_BRANCH: initialHead },
+        substitutions: {
+          BRANCH: "HEAD",
+          SOURCE_BRANCH: initialHead,
+          PLAN_FILE: this.planFile,
+        },
       }),
       label: "review",
       options: {
