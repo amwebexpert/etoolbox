@@ -10,15 +10,12 @@ Thanks for your interest in contributing! This repository is a React (TypeScript
    ```bash
    git checkout -b feature/short-description
    ```
-2. **Install** dependencies:
+2. **Install [uv](https://docs.astral.sh/uv/)** (Python 3.11+, recommended for local lint coaching via habit-hooks).
+3. **Install** dependencies:
    ```bash
    bun install
    ```
-   This also wires up the git hooks (`prepare` script runs `husky`).
-3. **Install [habit-hooks](https://github.com/habit-hooks/habit-hooks)** (used by `bun run lint` and the pre-commit hook to coach code-quality findings):
-   ```bash
-   uv tool install "habit-hooks[typescript]"
-   ```
+   This also wires up git hooks (`prepare` → husky) and installs [habit-hooks](https://github.com/habit-hooks/habit-hooks) (`postinstall`, used by `bun run lint` and the pre-commit hook). If `uv` is not installed, `bun install` still succeeds — install `uv` and re-run `bun install`, or run `uv tool install "habit-hooks[typescript]"` manually.
 4. **Run** the app locally:
    ```bash
    bun start
