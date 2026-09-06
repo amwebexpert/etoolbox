@@ -1,0 +1,1 @@
+import{d as e,f as t,m as n,p as r,u as i}from"./index-BniplgLm.js";export{i as autoCloseTags,e as html,t as htmlCompletionSource,r as htmlCompletionSourceWith,n as htmlLanguage};
