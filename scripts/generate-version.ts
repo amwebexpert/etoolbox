@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@lichens-innovation/ts-common";
 import { logger } from "@lichens-innovation/ts-common/logger";
 import { readFileSync, writeFileSync } from "node:fs";
 import { createInterface } from "node:readline";
@@ -65,6 +66,13 @@ export const APP_VERSION_INFO = Object.freeze({
 `;
 };
 
+const writeConstantsFile = (packageMetadata: PackageMetadata): void => {
+  const data = generateConstantsFile(packageMetadata);
+  logger.info(`[generate-version] Writing file "${constantsFilename}"`, { version: packageMetadata.version });
+  writeFileSync(constantsFilename, data, { encoding: "utf8" });
+  logger.info(`[generate-version] File "${constantsFilename}" written successfully`);
+};
+
 interface CreateUpdatedPackageMetadataArgs {
   packageMetadata: PackageMetadata;
   newVersion: string;
@@ -82,29 +90,38 @@ const createUpdatedPackageMetadata = ({
   return newPackageMetadata;
 };
 
+const isSyncMode = (): boolean => {
+  return process.argv.includes("--sync") || process.env.CI === "true" || !process.stdin.isTTY;
+};
+
 const main = async (): Promise<void> => {
   logger.info("[generate-version] Version generator script");
 
-  try {
-    let packageMetadata = readPackageJson();
-    const currentVersion = packageMetadata.version;
+  const packageMetadata = readPackageJson();
 
-    const newVersion = await promptVersion(currentVersion);
-    if (newVersion !== currentVersion) {
-      packageMetadata = createUpdatedPackageMetadata({ packageMetadata, newVersion });
-    } else {
-      logger.info("[generate-version] Version unchanged", { version: currentVersion });
-    }
-
-    const data = generateConstantsFile(packageMetadata);
-    logger.info(`[generate-version] Writing file "${constantsFilename}"`, { version: packageMetadata.version });
-    writeFileSync(constantsFilename, data, { encoding: "utf8" });
-    logger.info(`[generate-version] File "${constantsFilename}" written successfully`);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    logger.error(`[generate-version] Error: ${message}`, { err });
-    process.exit(1);
+  if (isSyncMode()) {
+    logger.info("[generate-version] Sync mode — writing constants from package.json", {
+      version: packageMetadata.version,
+    });
+    writeConstantsFile(packageMetadata);
+    return;
   }
+
+  const currentVersion = packageMetadata.version;
+  const newVersion = await promptVersion(currentVersion);
+
+  let updatedMetadata = packageMetadata;
+  if (newVersion !== currentVersion) {
+    updatedMetadata = createUpdatedPackageMetadata({ packageMetadata, newVersion });
+  } else {
+    logger.info("[generate-version] Version unchanged", { version: currentVersion });
+  }
+
+  writeConstantsFile(updatedMetadata);
 };
 
-void main();
+main().catch((err: unknown) => {
+  const message = getErrorMessage(err);
+  logger.error(`[generate-version] Error: ${message}`, { err });
+  process.exit(1);
+});
