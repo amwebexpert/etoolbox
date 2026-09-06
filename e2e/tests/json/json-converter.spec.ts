@@ -1,5 +1,5 @@
-import { expect, test } from "../fixtures/pages.fixture";
-import { clearJsonPersistedStores } from "../helpers/storage";
+import { expect, test } from "../../fixtures/pages.fixture";
+import { clearJsonPersistedStores } from "../../helpers/storage";
 
 const SOURCE_JSON = '{ "firstName": "Chuck", "lastName": "Norris", "age": 880 }';
 

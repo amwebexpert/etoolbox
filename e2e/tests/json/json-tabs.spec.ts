@@ -1,6 +1,6 @@
-import { expect,test } from "../fixtures/pages.fixture";
-import { clearJsonPersistedStores } from "../helpers/storage";
-import type { JsonPage } from "../pages/json-page";
+import { expect, test } from "../../fixtures/pages.fixture";
+import { clearJsonPersistedStores } from "../../helpers/storage";
+import type { JsonPage } from "../../pages/json-page";
 
 const TAB_CASES: Array<{
   tabName: string;
