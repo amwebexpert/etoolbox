@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { getTemplateExample, TEMPLATE_EXAMPLES } from "./markdown-composer.constants";
+import { getTemplateExample, TEMPLATE_EXAMPLES } from "./composer.constants";
 
-describe("markdown-composer.constants", () => {
+describe("composer.constants", () => {
   it("provides a template example for each engine", () => {
     // act
     const handlebarsExample = TEMPLATE_EXAMPLES.handlebars;

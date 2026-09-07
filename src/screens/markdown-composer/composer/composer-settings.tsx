@@ -4,8 +4,8 @@ import { createStyles } from "antd-style";
 
 import { useResponsive } from "~/hooks/use-responsive";
 
-import { ENGINE_OPTIONS, getTemplateExample } from "./markdown-composer.constants";
-import { useMarkdownComposerStore } from "./markdown-composer.store";
+import { ENGINE_OPTIONS, getTemplateExample } from "./composer.constants";
+import { useMarkdownComposerStore } from "./composer.store";
 
 const CONFIGURATION_COLLAPSE_KEY = "configuration";
 

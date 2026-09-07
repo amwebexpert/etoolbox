@@ -1,8 +1,8 @@
 import { createHandlebarsRenderer, type RenderTemplate } from "@lichens-innovation/react-markdown-composer";
 
-import { createEtaRenderer } from "./markdown-composer.eta-renderer";
-import { createLiquidjsRenderer } from "./markdown-composer.liquidjs-renderer";
-import type { MarkdownComposerEngine } from "./markdown-composer.store";
+import { createEtaRenderer } from "./composer.eta-renderer";
+import { createLiquidjsRenderer } from "./composer.liquidjs-renderer";
+import type { MarkdownComposerEngine } from "./composer.store";
 
 const handlebarsRenderer = createHandlebarsRenderer();
 const etaRenderer = createEtaRenderer();

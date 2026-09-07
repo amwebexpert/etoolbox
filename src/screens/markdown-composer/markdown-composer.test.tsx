@@ -1,23 +1,14 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
-interface MockRenderTemplateArgs {
-  template: string;
-  data: unknown;
-}
+import { TAB_ITEMS } from "./markdown-composer.constants";
 
-vi.mock("@lichens-innovation/react-markdown-composer", () => ({
-  MarkdownComposer: () => null,
-  createHandlebarsRenderer: () => (args: MockRenderTemplateArgs) => args.template,
-}));
-
-const { MarkdownComposerScreen } = await import("./markdown-composer");
-
-describe("MarkdownComposerScreen", () => {
-  it("is an exported React component", () => {
+describe("markdown-composer TAB_ITEMS", () => {
+  it("includes a Markdown Composer tab keyed to /markdown-composer/composer", () => {
     // act
-    const componentType = typeof MarkdownComposerScreen;
+    const composerTab = TAB_ITEMS.find((item) => item.key === "/markdown-composer/composer");
 
     // assert
-    expect(componentType).toBe("function");
+    expect(composerTab).toBeDefined();
+    expect(composerTab?.label).toBe("Markdown Composer");
   });
 });

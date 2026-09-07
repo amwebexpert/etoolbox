@@ -7,7 +7,7 @@ test.beforeEach(async ({ page, markdownComposerPage }) => {
   await page.reload();
 });
 
-test("side menu Markdown Composer entry navigates to /markdown-composer", async ({ page }) => {
+test("side menu Markdown Composer entry navigates to the Markdown Composer tab", async ({ page }) => {
   // arrange
   await page.goto("/#/");
 
@@ -15,8 +15,17 @@ test("side menu Markdown Composer entry navigates to /markdown-composer", async 
   await page.getByRole("menuitem", { name: "Markdown Composer" }).click();
 
   // assert
-  await expect(page).toHaveURL(/#\/markdown-composer$/);
+  await expect(page).toHaveURL(/#\/markdown-composer\/composer$/);
   await expect(page.getByRole("heading", { name: "Markdown Composer" })).toBeVisible();
+});
+
+test("bare /markdown-composer index redirects to the Markdown Composer tab", async ({ page }) => {
+  // arrange & act
+  await page.goto("/#/markdown-composer");
+
+  // assert
+  await expect(page).toHaveURL(/#\/markdown-composer\/composer$/);
+  await expect(page.getByRole("tab", { name: "Markdown Composer" })).toHaveAttribute("aria-selected", "true");
 });
 
 test("typing JSON data and a Handlebars template renders a live preview reflecting both", async ({
