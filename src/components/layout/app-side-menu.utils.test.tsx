@@ -10,4 +10,12 @@ describe("app-side-menu MENU_ITEMS", () => {
     // assert
     expect(diffViewer).toBeDefined();
   });
+
+  it("includes a Markdown Tools entry keyed to /markdown-composer", () => {
+    // act
+    const markdownTools = MENU_ITEMS.find((item) => item?.key === "/markdown-composer");
+
+    // assert
+    expect(markdownTools).toBeDefined();
+  });
 });

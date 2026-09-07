@@ -4,6 +4,7 @@ import {
   CodeOutlined,
   CodeSandboxOutlined,
   DiffOutlined,
+  FileMarkdownOutlined,
   FileSearchOutlined,
   FileTextOutlined,
   GithubOutlined,
@@ -127,5 +128,11 @@ export const FEATURES: Feature[] = [
     name: "Diff Viewer",
     description: "Compare two texts side by side",
     path: "/diff",
+  },
+  {
+    icon: <FileMarkdownOutlined />,
+    name: "Markdown Tools",
+    description: "WYSIWYG editor & template composer",
+    path: "/markdown-composer",
   },
 ];
