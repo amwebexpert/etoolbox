@@ -131,7 +131,7 @@ export const FEATURES: Feature[] = [
   },
   {
     icon: <FileMarkdownOutlined />,
-    name: "Markdown Tools",
+    name: "Markdown",
     description: "WYSIWYG editor & template composer",
     path: "/markdown-composer",
   },
