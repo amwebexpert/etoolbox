@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { parseJsonDataText } from "./markdown-composer.utils";
+import { parseJsonDataText } from "./composer.utils";
 
 describe("parseJsonDataText", () => {
   it("returns undefined data with no error for empty input", () => {

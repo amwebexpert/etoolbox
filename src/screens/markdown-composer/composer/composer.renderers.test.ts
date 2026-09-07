@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createEtaRenderer } from "./markdown-composer.eta-renderer";
+import { createEtaRenderer } from "./composer.eta-renderer";
 
 describe("createEtaRenderer", () => {
   it("renders Eta interpolation syntax", () => {

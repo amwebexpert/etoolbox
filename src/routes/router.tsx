@@ -28,7 +28,9 @@ import { JsonFormatter } from "~/screens/json/formatter/json-formatter";
 import { Json } from "~/screens/json/json";
 import { JsonRepair } from "~/screens/json/repair/json-repair";
 import { JwtDecoder } from "~/screens/jwt-decoder/jwt-decoder";
-import { MarkdownComposerScreen } from "~/screens/markdown-composer/markdown-composer";
+import { MarkdownComposerScreen } from "~/screens/markdown-composer/composer/composer";
+import { MarkdownEditor } from "~/screens/markdown-composer/editor/editor";
+import { MarkdownComposer } from "~/screens/markdown-composer/markdown-composer";
 import { PokerPlanning } from "~/screens/poker-planning/poker-planning";
 import { QrcodeDecoder } from "~/screens/qrcode/decoder/qrcode-decoder";
 import { QrcodeGenerator } from "~/screens/qrcode/generator/qrcode-generator";
@@ -324,10 +326,37 @@ const diffViewerRoute = createRoute({
 const markdownComposerRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/markdown-composer",
+  component: MarkdownComposer,
+});
+
+const markdownComposerIndexRoute = createRoute({
+  getParentRoute: () => markdownComposerRoute,
+  path: "/",
+  component: () => <Navigate to="/markdown-composer/editor" replace />,
+});
+
+const markdownComposerEditorRoute = createRoute({
+  getParentRoute: () => markdownComposerRoute,
+  path: "/editor",
+  component: MarkdownEditor,
+});
+
+const markdownComposerComposerRoute = createRoute({
+  getParentRoute: () => markdownComposerRoute,
+  path: "/composer",
   component: MarkdownComposerScreen,
 });
 
-export const ROUTES_WITH_CHILDREN = ["/url", "/base64", "/json", "/colors", "/common-lists", "/qrcode", "/image-ocr"];
+export const ROUTES_WITH_CHILDREN = [
+  "/url",
+  "/base64",
+  "/json",
+  "/colors",
+  "/common-lists",
+  "/qrcode",
+  "/image-ocr",
+  "/markdown-composer",
+];
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
@@ -356,7 +385,11 @@ const routeTree = rootRoute.addChildren([
   vr3dViewerRoute,
   codingStandardsRoute,
   diffViewerRoute,
-  markdownComposerRoute,
+  markdownComposerRoute.addChildren([
+    markdownComposerIndexRoute,
+    markdownComposerEditorRoute,
+    markdownComposerComposerRoute,
+  ]),
 ]);
 
 const hashHistory = createHashHistory();

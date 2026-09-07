@@ -117,6 +117,6 @@ export const MENU_ITEMS: MenuItem[] = [
   {
     key: "/markdown-composer",
     icon: <FileMarkdownOutlined />,
-    label: <Link to="/markdown-composer">Markdown Composer</Link>,
+    label: <Link to="/markdown-composer">Markdown</Link>,
   },
 ];

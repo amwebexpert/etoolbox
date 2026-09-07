@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { DEFAULT_JSON_DATA_TEXT, DEFAULT_MARKDOWN, useMarkdownComposerStore } from "./markdown-composer.store";
+import { DEFAULT_JSON_DATA_TEXT, DEFAULT_MARKDOWN, useMarkdownComposerStore } from "./composer.store";
 
 describe("useMarkdownComposerStore", () => {
   beforeEach(() => {

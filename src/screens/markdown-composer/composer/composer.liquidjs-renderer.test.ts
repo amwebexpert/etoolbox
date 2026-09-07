@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createLiquidjsRenderer } from "./markdown-composer.liquidjs-renderer";
+import { createLiquidjsRenderer } from "./composer.liquidjs-renderer";
 
 describe("createLiquidjsRenderer", () => {
   it("renders LiquidJS output syntax with filters", async () => {

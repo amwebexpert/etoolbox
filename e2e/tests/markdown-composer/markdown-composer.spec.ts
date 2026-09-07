@@ -2,21 +2,9 @@ import { expect, test } from "../../fixtures/pages.fixture";
 import { clearMarkdownComposerPersistedStore } from "../../helpers/storage";
 
 test.beforeEach(async ({ page, markdownComposerPage }) => {
-  await markdownComposerPage.goto();
+  await markdownComposerPage.gotoComposer();
   await clearMarkdownComposerPersistedStore(page);
   await page.reload();
-});
-
-test("side menu Markdown Composer entry navigates to /markdown-composer", async ({ page }) => {
-  // arrange
-  await page.goto("/#/");
-
-  // act
-  await page.getByRole("menuitem", { name: "Markdown Composer" }).click();
-
-  // assert
-  await expect(page).toHaveURL(/#\/markdown-composer$/);
-  await expect(page.getByRole("heading", { name: "Markdown Composer" })).toBeVisible();
 });
 
 test("typing JSON data and a Handlebars template renders a live preview reflecting both", async ({

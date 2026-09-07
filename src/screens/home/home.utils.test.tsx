@@ -11,4 +11,13 @@ describe("home FEATURES", () => {
     expect(diffViewer).toBeDefined();
     expect(diffViewer?.name).toBe("Diff Viewer");
   });
+
+  it("includes a Markdown card pointing to /markdown-composer", () => {
+    // act
+    const markdown = FEATURES.find((feature) => feature.path === "/markdown-composer");
+
+    // assert
+    expect(markdown).toBeDefined();
+    expect(markdown?.name).toBe("Markdown");
+  });
 });
