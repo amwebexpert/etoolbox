@@ -83,4 +83,20 @@ export class MarkdownComposerPage {
     await this.page.keyboard.press("Delete");
     await editor.pressSequentially(markdown);
   }
+
+  importButton(): Locator {
+    return this.page.getByRole("button", { name: "Import" });
+  }
+
+  exportButton(): Locator {
+    return this.page.getByRole("button", { name: "Export" });
+  }
+
+  async importFile(filePath: string): Promise<void> {
+    await this.page.locator('input[type="file"]').setInputFiles(filePath);
+  }
+
+  replaceContentConfirmDialog(): Locator {
+    return this.page.getByRole("dialog").filter({ hasText: "Replace current content?" });
+  }
 }

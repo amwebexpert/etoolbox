@@ -58,6 +58,7 @@
     "@lichens-innovation/ts-common": "1.26.0",
     "@milkdown/crepe": "7.22.1",
     "@milkdown/react": "7.22.1",
+    "@milkdown/utils": "7.22.1",
     "@react-three/drei": "10.7.8",
     "@react-three/fiber": "9.7.0",
     "@tanstack/react-query": "5.102.8",

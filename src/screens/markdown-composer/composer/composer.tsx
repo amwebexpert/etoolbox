@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 
+import { MarkdownImportExportToolbar } from "../shared/markdown-import-export-toolbar";
 import { getRenderTemplate } from "./composer.renderers";
 import { useMarkdownComposerStore } from "./composer.store";
 import { parseJsonDataText } from "./composer.utils";
@@ -45,6 +46,8 @@ export const MarkdownComposerScreen = () => {
         />
 
         <MarkdownComposerSettings jsonErrorMessage={jsonErrorMessage} />
+
+        <MarkdownImportExportToolbar markdown={markdown} onImport={setMarkdown} />
 
         <div className={styles.composerContainer}>
           <MarkdownComposer
