@@ -16,6 +16,11 @@ const simpleHash = (str: string): string => {
 
 const buildStorageKey = (rule: Rule): string => `rule-${rule.href}`;
 
+export const hasStoredEmbeddingsData = (): boolean => {
+  const codingStdData = localStorage.getItem(STORAGE_KEY);
+  return codingStdData != undefined && codingStdData != null && codingStdData.length > 0;
+};
+
 const getStoredEmbeddings = (): Record<string, SerializedEmbedding> => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
