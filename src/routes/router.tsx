@@ -29,6 +29,7 @@ import { Json } from "~/screens/json/json";
 import { JsonRepair } from "~/screens/json/repair/json-repair";
 import { JwtDecoder } from "~/screens/jwt-decoder/jwt-decoder";
 import { MarkdownComposerScreen } from "~/screens/markdown-composer/composer/composer";
+import { MarkdownEditor } from "~/screens/markdown-composer/editor/editor";
 import { MarkdownComposer } from "~/screens/markdown-composer/markdown-composer";
 import { PokerPlanning } from "~/screens/poker-planning/poker-planning";
 import { QrcodeDecoder } from "~/screens/qrcode/decoder/qrcode-decoder";
@@ -331,7 +332,13 @@ const markdownComposerRoute = createRoute({
 const markdownComposerIndexRoute = createRoute({
   getParentRoute: () => markdownComposerRoute,
   path: "/",
-  component: () => <Navigate to="/markdown-composer/composer" replace />,
+  component: () => <Navigate to="/markdown-composer/editor" replace />,
+});
+
+const markdownComposerEditorRoute = createRoute({
+  getParentRoute: () => markdownComposerRoute,
+  path: "/editor",
+  component: MarkdownEditor,
 });
 
 const markdownComposerComposerRoute = createRoute({
@@ -378,7 +385,11 @@ const routeTree = rootRoute.addChildren([
   vr3dViewerRoute,
   codingStandardsRoute,
   diffViewerRoute,
-  markdownComposerRoute.addChildren([markdownComposerIndexRoute, markdownComposerComposerRoute]),
+  markdownComposerRoute.addChildren([
+    markdownComposerIndexRoute,
+    markdownComposerEditorRoute,
+    markdownComposerComposerRoute,
+  ]),
 ]);
 
 const hashHistory = createHashHistory();

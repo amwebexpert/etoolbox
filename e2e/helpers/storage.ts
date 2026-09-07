@@ -77,3 +77,7 @@ export const clearPokerPlanningPersistedStore = (page: Page): Promise<void> =>
 const MARKDOWN_COMPOSER_STORE_KEYS = ["etoolbox-markdown-composer"] as const;
 export const clearMarkdownComposerPersistedStore = (page: Page): Promise<void> =>
   clearPersistedStores(page, MARKDOWN_COMPOSER_STORE_KEYS);
+
+const MARKDOWN_EDITOR_STORE_KEYS = ["etoolbox-markdown-editor"] as const;
+export const clearMarkdownEditorPersistedStore = (page: Page): Promise<void> =>
+  clearPersistedStores(page, MARKDOWN_EDITOR_STORE_KEYS);
