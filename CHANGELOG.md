@@ -1,3 +1,9 @@
+# [4.10.0](https://github.com/amwebexpert/etoolbox/compare/v4.9.1...v4.10.0) (2026-09-07)
+
+
+### Features
+
+* markdown editor ([#149](https://github.com/amwebexpert/etoolbox/issues/149)) ([68de735](https://github.com/amwebexpert/etoolbox/commit/68de7357aabca6c6381c7114ccd6a8d00222f485)), closes [#146](https://github.com/amwebexpert/etoolbox/issues/146) [#147](https://github.com/amwebexpert/etoolbox/issues/147) [#148](https://github.com/amwebexpert/etoolbox/issues/148)
 ## [4.9.1](https://github.com/amwebexpert/etoolbox/compare/v4.9.0...v4.9.1) (2026-09-06)
 
 
