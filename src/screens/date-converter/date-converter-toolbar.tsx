@@ -78,7 +78,7 @@ export const DateConverterToolbar = ({
       actions={
         <Space size="small" wrap>
           <Tooltip title="Clear all">
-            <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasDate} onClick={onClear}>
+            <Button aria-label="Clear all" icon={<ClearOutlined />} disabled={!hasDate} onClick={onClear}>
               {!isMobile && "Clear"}
             </Button>
           </Tooltip>
