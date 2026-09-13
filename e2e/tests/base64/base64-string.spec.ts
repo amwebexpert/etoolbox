@@ -1,4 +1,5 @@
 import { expect, test } from "../../fixtures/pages.fixture";
+import { mainActionButton, mainContent } from "../../helpers/main-content";
 import { clearBase64PersistedStores } from "../../helpers/storage";
 
 const SEEDED_TEXT = "Chuck Norris can encode and decode Base64 with his mind.";
@@ -17,9 +18,11 @@ test("shows the seeded default text on first load", async ({ page }) => {
 test("encodes text, swaps result into input, and decodes it back", async ({ page, base64Page }) => {
   // arrange
   const input = page.getByPlaceholder("Paste or type the text to encode/decode here");
-  const encodeButton = page.getByRole("button", { name: "Encode" });
-  const decodeButton = page.getByRole("button", { name: "Decode" });
-  const swapButton = page.getByRole("button").filter({ has: page.getByRole("img", { name: "swap" }) });
+  const encodeButton = mainActionButton({ page, name: "Encode" });
+  const decodeButton = mainActionButton({ page, name: "Decode" });
+  const swapButton = mainContent(page)
+    .getByRole("button")
+    .filter({ has: page.getByRole("img", { name: "swap" }) });
 
   // act — encode
   await encodeButton.click();
@@ -44,7 +47,7 @@ test("decoding an invalid base64 string shows an error", async ({ page, base64Pa
 
   // act
   await input.fill("not-valid-base64-!!!");
-  await page.getByRole("button", { name: "Decode" }).click();
+  await mainActionButton({ page, name: "Decode" }).click();
 
   // assert
   await expect(base64Page.resultContent("Result")).toContainText("Error: Invalid Base64 string");

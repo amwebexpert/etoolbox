@@ -1,4 +1,5 @@
 import { expect, test } from "../../fixtures/pages.fixture";
+import { mainActionButton } from "../../helpers/main-content";
 import { clearUrlPersistedStores } from "../../helpers/storage";
 
 test.beforeEach(async ({ page, urlPage }) => {
@@ -15,7 +16,7 @@ test("shows the seeded default cURL command and converts it", async ({ page }) =
   await expect(input).toHaveValue(/curl -X POST https:\/\/api\.example\.com\/users/);
 
   // act
-  await page.getByRole("button", { name: "Convert" }).click();
+  await mainActionButton({ page, name: "Convert" }).click();
 
   // assert — default target language is JavaScript (Fetch)
   await expect(page.locator("pre")).toContainText("api.example.com/users");
@@ -23,7 +24,7 @@ test("shows the seeded default cURL command and converts it", async ({ page }) =
 
 test("changing the target language re-converts the result", async ({ page }) => {
   // arrange
-  await page.getByRole("button", { name: "Convert" }).click();
+  await mainActionButton({ page, name: "Convert" }).click();
   await expect(page.locator("pre")).toContainText("api.example.com/users");
 
   // act — switch target language to Python (Requests)
@@ -40,7 +41,7 @@ test("malformed cURL command shows a conversion error", async ({ page }) => {
 
   // act
   await input.fill("not a curl command at all");
-  await page.getByRole("button", { name: "Convert" }).click();
+  await mainActionButton({ page, name: "Convert" }).click();
 
   // assert
   await expect(page.getByText(/Error converting cURL command:|Error: Failed to convert/)).toBeVisible();

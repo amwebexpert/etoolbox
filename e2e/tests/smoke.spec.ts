@@ -7,5 +7,5 @@ test("app loads and renders the home page", async ({ page }) => {
   // assert
   await expect(page).toHaveTitle("Web Toolbox");
   await expect(page.getByText("Web Toolbox", { exact: true })).toBeVisible();
-  await expect(page.getByText("JSON Suite", { exact: true })).toBeVisible();
+  await expect(page.getByRole("main").getByText("JSON Suite", { exact: true })).toBeVisible();
 });

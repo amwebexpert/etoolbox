@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { expect, test } from "../../fixtures/pages.fixture";
+import { mainActionButton } from "../../helpers/main-content";
 import { clearCsvParserPersistedStore } from "../../helpers/storage";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -21,7 +22,7 @@ test("parses pasted CSV and shows stats and JSON result", async ({ page, csvPars
 
   // act
   await input.fill(SAMPLE_CSV);
-  await page.getByRole("button", { name: "Parse" }).click();
+  await mainActionButton({ page, name: "Parse" }).click();
 
   // assert — stats
   await expect(page.getByText("Rows", { exact: true })).toBeVisible();
@@ -36,7 +37,7 @@ test("parses pasted CSV and shows stats and JSON result", async ({ page, csvPars
 test("switching to Table view shows a table with the parsed columns", async ({ page, csvParserPage }) => {
   // arrange
   await page.getByPlaceholder("Paste or type your CSV data here, or upload a file above").fill(SAMPLE_CSV);
-  await page.getByRole("button", { name: "Parse" }).click();
+  await mainActionButton({ page, name: "Parse" }).click();
   await expect(csvParserPage.resultSection("Parsed Data (JSON)")).toBeVisible();
 
   // act
@@ -64,17 +65,17 @@ test("uploading a CSV file populates the source textarea", async ({ page }) => {
 
 test("Parse button is disabled until content exists", async ({ page }) => {
   // assert
-  await expect(page.getByRole("button", { name: "Parse" })).toBeDisabled();
+  await expect(mainActionButton({ page, name: "Parse" })).toBeDisabled();
 });
 
 test("Clear resets the textarea and result to the empty placeholder", async ({ page }) => {
   // arrange
   await page.getByPlaceholder("Paste or type your CSV data here, or upload a file above").fill(SAMPLE_CSV);
-  await page.getByRole("button", { name: "Parse" }).click();
+  await mainActionButton({ page, name: "Parse" }).click();
   await expect(page.getByText("Parsed result will appear here")).toBeHidden();
 
   // act
-  await page.getByRole("button", { name: "Clear" }).click();
+  await mainActionButton({ page, name: "Clear" }).click();
 
   // assert
   await expect(page.getByPlaceholder("Paste or type your CSV data here, or upload a file above")).toHaveValue("");

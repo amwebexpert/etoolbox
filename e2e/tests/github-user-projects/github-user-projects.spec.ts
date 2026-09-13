@@ -1,4 +1,5 @@
 import { expect, test } from "../../fixtures/pages.fixture";
+import { mainActionButton } from "../../helpers/main-content";
 import { clearGithubUserProjectsPersistedStore } from "../../helpers/storage";
 
 const GITHUB_REST_API_TIMEOUT_MS = 30_000;
@@ -21,7 +22,7 @@ test("searching a real username shows the stats card and repository table", asyn
 
   // act
   await usernameInput.fill("octocat");
-  await page.getByRole("button", { name: "Search" }).click();
+  await mainActionButton({ page, name: "Search" }).click();
 
   // assert
   await expect(page.getByText("Repositories", { exact: true })).toBeVisible({ timeout: 15_000 });
@@ -35,7 +36,7 @@ test("searching an unknown username shows a not-found message", async ({ page })
 
   // act
   await usernameInput.fill("this-username-should-not-exist-e2e-9999");
-  await page.getByRole("button", { name: "Search" }).click();
+  await mainActionButton({ page, name: "Search" }).click();
 
   // assert
   await expect(
@@ -48,7 +49,7 @@ test("searching an unknown username shows a not-found message", async ({ page })
 test("filters row appears after a search and filters the table by text", async ({ page }) => {
   // arrange
   await page.getByPlaceholder("Enter GitHub username...").fill("octocat");
-  await page.getByRole("button", { name: "Search" }).click();
+  await mainActionButton({ page, name: "Search" }).click();
   await expect(page.getByText(/of \d+ repositories/)).toBeVisible({ timeout: 15_000 });
   const filterInput = page.getByPlaceholder("Filter by name, description...");
   await expect(filterInput).toBeVisible();
