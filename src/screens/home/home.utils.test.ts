@@ -10,13 +10,25 @@ const TOOLS: Tool[] = [
   { icon: null, name: "QR Code", description: "Generate QR codes instantly", path: "/qrcode" },
 ];
 
+interface FilterToolsCase {
+  scenario: string;
+  query: string;
+  expectedPaths: string[];
+}
+
+interface EmptyQueryCase {
+  scenario: string;
+  query: string;
+}
+
 describe("filterTools", () => {
-  it.each([
-    { scenario: "matches on tool name", query: "json", expectedPaths: ["/json"] },
-    { scenario: "matches on description only", query: "encode", expectedPaths: ["/base64"] },
-    { scenario: "matches case-insensitively", query: "BASE64", expectedPaths: ["/base64"] },
-    { scenario: "returns an empty array when nothing matches", query: "nonexistent", expectedPaths: [] },
-  ])("$scenario (query: $query)", ({ query, expectedPaths }) => {
+  it.each`
+    scenario                                         | query            | expectedPaths
+    ${"matches on tool name"}                        | ${"json"}        | ${["/json"]}
+    ${"matches on description only"}                 | ${"encode"}      | ${["/base64"]}
+    ${"matches case-insensitively"}                  | ${"BASE64"}      | ${["/base64"]}
+    ${"returns an empty array when nothing matches"} | ${"nonexistent"} | ${[]}
+  `("$scenario (query: $query)", ({ query, expectedPaths }: FilterToolsCase) => {
     // act
     const result = filterTools({ tools: TOOLS, query });
 
@@ -24,10 +36,11 @@ describe("filterTools", () => {
     expect(result.map((tool) => tool.path)).toEqual(expectedPaths);
   });
 
-  it.each([
-    { scenario: "an empty query", query: "" },
-    { scenario: "a whitespace-only query", query: "   " },
-  ])("returns every tool for $scenario", ({ query }) => {
+  it.each`
+    scenario                     | query
+    ${"an empty query"}          | ${""}
+    ${"a whitespace-only query"} | ${"   "}
+  `("returns every tool for $scenario", ({ query }: EmptyQueryCase) => {
     // act
     const result = filterTools({ tools: TOOLS, query });
 

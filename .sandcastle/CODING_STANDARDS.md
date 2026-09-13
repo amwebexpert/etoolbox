@@ -79,4 +79,22 @@ ESLint enforces query style (`screen.*`, `*ByRole` over `*ByTestId`) and colocat
 | Tests without clear Arrange / Act / Assert | Distinct AAA sections                                  |
 | Mocking custom hooks without explicit spy  | `jest.spyOn` / `vi.spyOn` with explicit module imports |
 | Many similar individual `it` blocks        | `it.each` for parametrized cases                       |
+| `it.each([{ ... }, { ... }])` inline array | `` it.each` `` table (column headers + `` ${value} `` rows) |
 | Re-assignable object graph for mock data   | Mock factory with partial overrides                    |
+
+**Parametrized tests:** Prefer the tagged-template table so cases read as a data table and title placeholders (`$query`, `$expected`) stay obvious. Array form is OK for tiny one-off lists; default to backticks when adding or refactoring parametrized tests.
+
+```ts
+// Avoid — verbose array of objects
+it.each([
+  { query: "json", expectedPaths: ["/json"] },
+  { query: "encode", expectedPaths: ["/base64"] },
+])("$scenario", ({ query, expectedPaths }) => { ... });
+
+// Prefer — table + $column in title
+it.each`
+  query        | expectedPaths
+  ${"json"}    | ${["/json"]}
+  ${"encode"}  | ${["/base64"]}
+`("filters by $query", ({ query, expectedPaths }) => { ... });
+```
