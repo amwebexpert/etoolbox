@@ -1,32 +1,11 @@
 import { DownloadOutlined } from "@ant-design/icons";
-import { Descriptions, Spin, Typography } from "antd";
+import { Descriptions, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { getImageDownloadFilename, type ImageMetadata } from "~/utils/data-uri.utils";
 
+import { ResolutionValue } from "./resolution-value";
 import { type ImageDimensionsState } from "./use-image-dimensions";
-
-const DASH_FALLBACK = "—";
-
-interface ResolutionValueProps {
-  dimensions: ImageDimensionsState;
-}
-
-const ResolutionValue = ({ dimensions }: ResolutionValueProps) => {
-  if (dimensions.status === "loaded" && dimensions.width !== null && dimensions.height !== null) {
-    return (
-      <Typography.Text>
-        {dimensions.width} x {dimensions.height}
-      </Typography.Text>
-    );
-  }
-
-  if (dimensions.status === "error") {
-    return <Typography.Text>{DASH_FALLBACK}</Typography.Text>;
-  }
-
-  return <Spin size="small" />;
-};
 
 interface DataUriMetadataProps {
   dataUri: string;

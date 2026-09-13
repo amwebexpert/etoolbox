@@ -1,10 +1,11 @@
 import { CopyOutlined } from "@ant-design/icons";
-import { Button, Card, Spin, Tooltip, Typography } from "antd";
+import { Button, Card, Tooltip } from "antd";
 import { createStyles } from "antd-style";
 
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 
 import { useRoomQRCode } from "../hooks/use-room-qrcode";
+import { QrCodeContent } from "./qr-code-content";
 
 export const PokerPlanningQRCode = () => {
   const { styles } = useStyles();
@@ -48,32 +49,6 @@ export const PokerPlanningQRCode = () => {
   );
 };
 
-interface QrCodeContentProps {
-  isLoadingQRCode: boolean;
-  qrCodeDataUrl: string | null;
-}
-
-const QrCodeContent = ({ isLoadingQRCode, qrCodeDataUrl }: QrCodeContentProps) => {
-  const { styles } = useStyles();
-
-  if (isLoadingQRCode) {
-    return <Spin size="large" />;
-  }
-
-  if (!qrCodeDataUrl) {
-    return <Typography.Text type="secondary">Failed to generate QR code</Typography.Text>;
-  }
-
-  return (
-    <>
-      <img src={qrCodeDataUrl} alt="Room QR Code" className={styles.qrImage} />
-      <Typography.Text type="secondary" className={styles.hint}>
-        Scan to join the room
-      </Typography.Text>
-    </>
-  );
-};
-
 const useStyles = createStyles(({ token }) => ({
   card: {
     width: "fit-content",
@@ -95,15 +70,5 @@ const useStyles = createStyles(({ token }) => ({
     gap: 8,
     backgroundColor: token.colorBgLayout,
     borderRadius: token.borderRadius,
-  },
-  qrImage: {
-    maxWidth: "100%",
-    height: "auto",
-    imageRendering: "pixelated",
-    borderRadius: token.borderRadius,
-  },
-  hint: {
-    fontSize: 12,
-    textAlign: "center",
   },
 }));
