@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
   git \
   curl \
   jq \
+  unzip \
   && rm -rf /var/lib/apt/lists/*
 
 # Install GitHub CLI
@@ -28,8 +29,21 @@ USER ${AGENT_UID}:${AGENT_GID}
 # Install Claude Code CLI
 RUN curl -fsSL https://claude.ai/install.sh | bash
 
-# Add Claude to PATH
-ENV PATH="/home/agent/.local/bin:$PATH"
+# Install Bun (pinned to packageManager / CI version)
+RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.4.2"
+
+# Install uv (required for habit-hooks)
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Claude, Bun, and uv tool shims (habit-hooks) must be on PATH for non-login shells
+# (git hooks run via sh and do not source .bashrc).
+ENV PATH="/home/agent/.bun/bin:/home/agent/.local/bin:$PATH"
+
+# Pre-install habit-hooks so Husky pre-commit works before the first bun install
+RUN uv tool install "habit-hooks[typescript]"
+
+# Sanity check: bun, bunx, uv, and habit-hooks are available
+RUN bun --version && bunx --version && uv --version && command -v habit-hooks
 
 WORKDIR /home/agent
 

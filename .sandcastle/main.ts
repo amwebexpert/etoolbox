@@ -42,14 +42,16 @@ const planSchema = z.object({
 const MAX_ITERATIONS = 10;
 
 // Hooks run inside the sandbox before the agent starts each iteration.
-// npm install ensures the sandbox always has fresh dependencies.
+// bun install reconciles deps (and runs postinstall → habit-hooks / husky).
 const hooks = {
-  sandbox: { onSandboxReady: [{ command: "npm install" }] },
+  sandbox: {
+    onSandboxReady: [{ command: "bun install" }],
+  },
 };
 
 // Copy node_modules from the host into the worktree before each sandbox
-// starts. Avoids a full npm install from scratch; the hook above handles
-// platform-specific binaries and any packages added since the last copy.
+// starts. Avoids a full bun install from scratch; the hook above reconciles
+// lockfile deltas and re-runs postinstall when needed.
 const copyToWorktree = ["node_modules"];
 
 // ---------------------------------------------------------------------------

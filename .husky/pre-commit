@@ -15,6 +15,6 @@ if [ -n "$CI" ]; then
   echo "⏭️  CI detected — skipping habit-hooks (not required for CI lint:ci)"
 else
   echo "Running habit-hooks to catches structural smells…"
-  bun run habit:hooks
+  bun run habit:hooks:full
   echo "✅ Habit Hooks completed"
 fi
