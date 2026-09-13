@@ -2,39 +2,79 @@ import { describe, expect, it } from "vitest";
 
 import { TOOLS } from "~/tools/tools-registry";
 
-import { MENU_ITEMS } from "./app-side-menu.utils";
+import { buildMenuItems } from "./app-side-menu.utils";
 
-describe("app-side-menu MENU_ITEMS", () => {
+const noop = () => {};
+
+const findPinnedGroup = (items: unknown[]): Record<string, unknown> | undefined =>
+  items.find((item): item is Record<string, unknown> => (item as Record<string, unknown>)?.type === "group");
+
+const pinnedGroupChildKeys = (items: unknown[]): (string | undefined)[] => {
+  const children = (findPinnedGroup(items)?.children ?? []) as { key?: string }[];
+  return children.map((child) => child.key);
+};
+
+describe("buildMenuItems", () => {
   it("starts with the Home entry keyed to /", () => {
+    // act
+    const items = buildMenuItems({ pinnedPaths: [], onTogglePinned: noop });
+
     // assert
-    expect(MENU_ITEMS[0]?.key).toBe("/");
+    expect((items[0] as { key?: string })?.key).toBe("/");
   });
 
-  it("renders one entry per registry tool, keyed to the tool's path", () => {
+  it("renders one entry per registry tool when nothing is pinned", () => {
     // act
-    const toolItems = MENU_ITEMS.filter((item) => item?.key !== "/");
+    const items = buildMenuItems({ pinnedPaths: [], onTogglePinned: noop });
+    const toolItems = items.filter((item) => (item as { key?: string })?.key !== "/");
 
     // assert
     expect(toolItems).toHaveLength(TOOLS.length);
     for (const tool of TOOLS) {
-      const item = MENU_ITEMS.find((menuItem) => menuItem?.key === tool.path);
+      const item = items.find((menuItem) => (menuItem as { key?: string })?.key === tool.path);
       expect(item).toBeDefined();
     }
   });
 
-  it("includes a Diff Viewer entry keyed to /diff", () => {
+  it("adds no Pinned group or divider when nothing is pinned", () => {
     // act
-    const diffViewer = MENU_ITEMS.find((item) => item?.key === "/diff");
+    const items = buildMenuItems({ pinnedPaths: [], onTogglePinned: noop });
 
     // assert
-    expect(diffViewer).toBeDefined();
+    expect(items.some((item) => (item as { type?: string })?.type === "group")).toBe(false);
+    expect(items.some((item) => (item as { type?: string })?.type === "divider")).toBe(false);
   });
 
-  it("includes a Markdown entry keyed to /markdown-composer", () => {
+  it("groups pinned tools under a Pinned group in pinned order", () => {
     // act
-    const markdown = MENU_ITEMS.find((item) => item?.key === "/markdown-composer");
+    const items = buildMenuItems({ pinnedPaths: ["/base64", "/json"], onTogglePinned: noop });
 
     // assert
-    expect(markdown).toBeDefined();
+    expect(pinnedGroupChildKeys(items)).toEqual(["/base64", "/json"]);
+  });
+
+  it("adds a divider after the pinned group", () => {
+    // act
+    const items = buildMenuItems({ pinnedPaths: ["/json"], onTogglePinned: noop });
+
+    // assert
+    expect(items.some((item) => (item as { type?: string })?.type === "divider")).toBe(true);
+  });
+
+  it("removes a pinned tool from the flat list below so it is not duplicated", () => {
+    // act
+    const items = buildMenuItems({ pinnedPaths: ["/json"], onTogglePinned: noop });
+    const flatMatches = items.filter((item) => (item as { key?: string })?.key === "/json");
+
+    // assert
+    expect(flatMatches).toHaveLength(0);
+  });
+
+  it("includes a Diff Viewer entry keyed to /diff", () => {
+    // act
+    const items = buildMenuItems({ pinnedPaths: [], onTogglePinned: noop });
+
+    // assert
+    expect(items.some((item) => (item as { key?: string })?.key === "/diff")).toBe(true);
   });
 });
