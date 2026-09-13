@@ -11,51 +11,27 @@ const TOOLS: Tool[] = [
 ];
 
 describe("filterTools", () => {
-  it("matches on tool name (case-insensitive)", () => {
+  it.each([
+    { scenario: "matches on tool name", query: "json", expectedPaths: ["/json"] },
+    { scenario: "matches on description only", query: "encode", expectedPaths: ["/base64"] },
+    { scenario: "matches case-insensitively", query: "BASE64", expectedPaths: ["/base64"] },
+    { scenario: "returns an empty array when nothing matches", query: "nonexistent", expectedPaths: [] },
+  ])("$scenario (query: $query)", ({ query, expectedPaths }) => {
     // act
-    const result = filterTools({ tools: TOOLS, query: "json" });
+    const result = filterTools({ tools: TOOLS, query });
 
     // assert
-    expect(result.map((tool) => tool.path)).toEqual(["/json"]);
+    expect(result.map((tool) => tool.path)).toEqual(expectedPaths);
   });
 
-  it("matches on description only", () => {
+  it.each([
+    { scenario: "an empty query", query: "" },
+    { scenario: "a whitespace-only query", query: "   " },
+  ])("returns every tool for $scenario", ({ query }) => {
     // act
-    const result = filterTools({ tools: TOOLS, query: "encode" });
-
-    // assert
-    expect(result.map((tool) => tool.path)).toEqual(["/base64"]);
-  });
-
-  it("returns an empty array when nothing matches", () => {
-    // act
-    const result = filterTools({ tools: TOOLS, query: "nonexistent" });
-
-    // assert
-    expect(result).toEqual([]);
-  });
-
-  it("returns every tool for an empty query", () => {
-    // act
-    const result = filterTools({ tools: TOOLS, query: "" });
+    const result = filterTools({ tools: TOOLS, query });
 
     // assert
     expect(result).toEqual(TOOLS);
-  });
-
-  it("returns every tool for a whitespace-only query", () => {
-    // act
-    const result = filterTools({ tools: TOOLS, query: "   " });
-
-    // assert
-    expect(result).toEqual(TOOLS);
-  });
-
-  it("is case-insensitive", () => {
-    // act
-    const result = filterTools({ tools: TOOLS, query: "BASE64" });
-
-    // assert
-    expect(result.map((tool) => tool.path)).toEqual(["/base64"]);
   });
 });
