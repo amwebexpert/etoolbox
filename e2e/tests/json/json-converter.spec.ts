@@ -1,4 +1,5 @@
 import { expect, test } from "../../fixtures/pages.fixture";
+import { mainActionButton } from "../../helpers/main-content";
 import { clearJsonPersistedStores } from "../../helpers/storage";
 
 const SOURCE_JSON = '{ "firstName": "Chuck", "lastName": "Norris", "age": 880 }';
@@ -15,7 +16,7 @@ test("converts json source to typescript", async ({ page, jsonPage }) => {
   await page.getByPlaceholder("Paste or type the source JSON or JavaScript object here").fill(SOURCE_JSON);
 
   // act
-  await page.getByRole("button", { name: "Convert" }).click();
+  await mainActionButton({ page, name: "Convert" }).click();
 
   // assert
   await expect(jsonPage.resultSection("Converted Result")).toBeVisible();
@@ -34,14 +35,14 @@ test("can convert to another target language and clear the form", async ({ page,
   await page.getByTitle("Python").click();
 
   // act
-  await page.getByRole("button", { name: "Convert" }).click();
+  await mainActionButton({ page, name: "Convert" }).click();
 
   // assert — python-style output
   await expect(jsonPage.resultSection("Converted Result")).toBeVisible();
   await expect(jsonPage.resultContent("Converted Result")).toContainText("class Person");
 
   // act — clear
-  await page.getByRole("button", { name: "Clear" }).click();
+  await mainActionButton({ page, name: "Clear" }).click();
 
   // assert — source cleared, result placeholder restored
   await expect(page.getByPlaceholder("Paste or type the source JSON or JavaScript object here")).toHaveValue("");
@@ -54,5 +55,5 @@ test("convert button stays disabled until required fields are filled", async ({ 
   await page.getByPlaceholder("Paste or type the source JSON or JavaScript object here").fill("");
 
   // assert
-  await expect(page.getByRole("button", { name: "Convert" })).toBeDisabled();
+  await expect(mainActionButton({ page, name: "Convert" })).toBeDisabled();
 });

@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { expect, test } from "../../fixtures/pages.fixture";
+import { mainActionButton } from "../../helpers/main-content";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const SAMPLE_QRCODE_PATH = path.join(dirname, "../../fixtures/files/sample-qrcode.png");
@@ -16,7 +17,7 @@ test("decodes a QR code image and shows the decoded text, details and JSON tabs"
   await page.locator('input[type="file"]').setInputFiles(SAMPLE_QRCODE_PATH);
 
   // act
-  await page.getByRole("button", { name: "Decode" }).click();
+  await mainActionButton({ page, name: "Decode" }).click();
 
   // assert — decoded text tab
   await expect(page.getByText("E2E-TEST-QR-CONTENT")).toBeVisible();
@@ -35,7 +36,7 @@ test("uploading an image without a QR code shows a decoding-failed toast", async
   await page.locator('input[type="file"]').setInputFiles(SAMPLE_IMAGE_PATH);
 
   // act
-  await page.getByRole("button", { name: "Decode" }).click();
+  await mainActionButton({ page, name: "Decode" }).click();
 
   // assert
   await expect(page.getByText("Decoding failed: Failed to decode QR code: No QR code found in the image")).toBeVisible();
@@ -43,19 +44,19 @@ test("uploading an image without a QR code shows a decoding-failed toast", async
 
 test("Decode and Copy Result are disabled until an image is selected / decoded", async ({ page }) => {
   // assert — before selecting an image
-  await expect(page.getByRole("button", { name: "Decode" })).toBeDisabled();
-  await expect(page.getByRole("button", { name: "Copy Result" })).toBeDisabled();
+  await expect(mainActionButton({ page, name: "Decode" })).toBeDisabled();
+  await expect(mainActionButton({ page, name: "Copy Result" })).toBeDisabled();
 
   // act
   await page.locator('input[type="file"]').setInputFiles(SAMPLE_QRCODE_PATH);
 
   // assert — image selected, decode enabled, copy still disabled
-  await expect(page.getByRole("button", { name: "Decode" })).toBeEnabled();
-  await expect(page.getByRole("button", { name: "Copy Result" })).toBeDisabled();
+  await expect(mainActionButton({ page, name: "Decode" })).toBeEnabled();
+  await expect(mainActionButton({ page, name: "Copy Result" })).toBeDisabled();
 
   // act
-  await page.getByRole("button", { name: "Decode" }).click();
+  await mainActionButton({ page, name: "Decode" }).click();
 
   // assert — copy enabled after a successful decode
-  await expect(page.getByRole("button", { name: "Copy Result" })).toBeEnabled();
+  await expect(mainActionButton({ page, name: "Copy Result" })).toBeEnabled();
 });

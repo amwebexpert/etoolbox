@@ -1,4 +1,5 @@
 import { expect, test } from "../../fixtures/pages.fixture";
+import { mainActionButton } from "../../helpers/main-content";
 import { clearUrlPersistedStores } from "../../helpers/storage";
 
 const SEEDED_TEXT = "Chuck Norris can chuck more wood than a woodchuck could.";
@@ -17,9 +18,9 @@ test("shows the seeded default text on fresh load", async ({ page }) => {
 test("encodes special characters then swaps and decodes back", async ({ page, urlPage }) => {
   // arrange
   const input = page.getByPlaceholder("Paste or type the content to encode/decode here");
-  const swapButton = page.getByRole("button", { name: "swap" });
-  const encodeButton = page.getByRole("button", { name: "Encode" });
-  const decodeButton = page.getByRole("button", { name: "Decode" });
+  const swapButton = mainActionButton({ page, name: "Swap" });
+  const encodeButton = mainActionButton({ page, name: "Encode" });
+  const decodeButton = mainActionButton({ page, name: "Decode" });
 
   // act — encode
   await input.fill("a b&c=d");
@@ -48,7 +49,7 @@ test("decoding a malformed percent sequence returns it unchanged", async ({ page
 
   // act
   await input.fill("%");
-  await page.getByRole("button", { name: "Decode" }).click();
+  await mainActionButton({ page, name: "Decode" }).click();
 
   // assert
   await expect(urlPage.resultSection("Result")).toBeVisible();
