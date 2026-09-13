@@ -15,7 +15,7 @@ const HOME_MENU_ITEM: MenuItem = {
 export const MENU_ITEMS: MenuItem[] = [
   HOME_MENU_ITEM,
   ...TOOLS.map((tool): MenuItem => ({
-    key: tool.id,
+    key: tool.path,
     icon: tool.icon,
     label: <Link to={tool.path}>{tool.name}</Link>,
   })),

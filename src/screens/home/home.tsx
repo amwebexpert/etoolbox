@@ -19,7 +19,7 @@ export const Home = () => {
       <section className={styles.section}>
         <Row gutter={[16, 16]}>
           {TOOLS.map((tool) => (
-            <Col xs={12} sm={8} md={6} lg={4} key={tool.id}>
+            <Col xs={12} sm={8} md={6} lg={4} key={tool.path}>
               <Card
                 hoverable
                 className={styles.featureCard}

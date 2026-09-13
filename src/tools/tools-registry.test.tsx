@@ -3,19 +3,12 @@ import { describe, expect, it } from "vitest";
 import { TOOLS } from "./tools-registry";
 
 describe("TOOLS registry", () => {
-  it("uses the route path as each tool's stable id", () => {
-    // assert
-    for (const tool of TOOLS) {
-      expect(tool.id).toBe(tool.path);
-    }
-  });
-
-  it("exposes unique ids", () => {
+  it("exposes unique paths for stable keys", () => {
     // act
-    const ids = TOOLS.map((tool) => tool.id);
+    const paths = TOOLS.map((tool) => tool.path);
 
     // assert
-    expect(new Set(ids).size).toBe(ids.length);
+    expect(new Set(paths).size).toBe(paths.length);
   });
 
   it("includes a Diff Viewer tool pointing to /diff", () => {
