@@ -55,7 +55,7 @@
   "dependencies": {
     "@ant-design/icons": "6.3.4",
     "@lichens-innovation/react-markdown-composer": "1.4.0",
-    "@lichens-innovation/ts-common": "1.26.0",
+    "@lichens-innovation/ts-common": "1.26.1",
     "@milkdown/crepe": "7.22.1",
     "@milkdown/react": "7.22.1",
     "@milkdown/utils": "7.22.1",
