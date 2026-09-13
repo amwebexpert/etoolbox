@@ -3,8 +3,7 @@ import { Card, Col, Row, theme, Typography } from "antd";
 import { createStyles } from "antd-style";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
-
-import { FEATURES } from "./home.utils";
+import { TOOLS } from "~/tools/tools-registry";
 
 const { Text } = Typography;
 const { useToken } = theme;
@@ -19,24 +18,24 @@ export const Home = () => {
       {/* Features Grid */}
       <section className={styles.section}>
         <Row gutter={[16, 16]}>
-          {FEATURES.map((feature) => (
-            <Col xs={12} sm={8} md={6} lg={4} key={feature.name}>
+          {TOOLS.map((tool) => (
+            <Col xs={12} sm={8} md={6} lg={4} key={tool.path}>
               <Card
                 hoverable
                 className={styles.featureCard}
                 styles={{ body: { padding: 16, textAlign: "center" } }}
                 onClick={() => {
-                  void navigate({ to: feature.path });
+                  void navigate({ to: tool.path });
                 }}
               >
                 <div className={styles.featureIcon} style={{ color: token.colorPrimary }}>
-                  {feature.icon}
+                  {tool.icon}
                 </div>
                 <Text strong className={styles.featureName}>
-                  {feature.name}
+                  {tool.name}
                 </Text>
                 <Text type="secondary" className={styles.featureDesc}>
-                  {feature.description}
+                  {tool.description}
                 </Text>
               </Card>
             </Col>
