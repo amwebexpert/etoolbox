@@ -161,6 +161,10 @@ guide = "no-trivial-usememo.md"
 severity = "enforced"
 guide = "no-non-hook-use-prefix.md"
 
+[smells."coding-guide/one-component-per-tsx-file"]
+severity = "enforced"
+guide = "one-component-per-tsx-file.md"
+
 [smells."coding-guide/no-inline-curried-handler"]
 severity = "enforced"
 guide = "no-inline-curried-handler.md"
