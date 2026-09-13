@@ -11,6 +11,15 @@ Standards for React/TypeScript in this repo. The reviewer loads this via `@.sand
 - **Structure:** Follow the **react-single-responsibility** skill (decomposition, single responsibility). ESLint covers mechanical JSX/hook patterns (`no-jsx-in-variable`, `no-inline-render-function`, `hoist-static-component-constants`, etc.).
 - **One component per file:** Each `.tsx` file exports exactly one React component (filename matches that component). Split helpers into colocated utils or sibling files instead of stacking multiple components in one module — easier discovery, reuse, and DRY.
 - **Prop vs state naming:** When a prop seeds local state, use distinct names (e.g. prop `initialSortOrder`, state `sortOrder`). Do not reuse the same name for both.
+- **`useMemo` — default off:** Treat memoization as opt-in, not a default for “logic moved to `*.utils.ts`”. Recompute on render unless there is a proven bottleneck, a large/unbounded collection, or a **referential stability** requirement (memoized child, effect dependency on object/array identity). Cheap pure helpers (filter/map on small lists) do not need `useMemo` just because they are extracted.
+
+  | Avoid | Prefer |
+  | ----- | ------ |
+  | `useMemo(() => filterTools({ tools, query }), [query])` on a small static registry | `const filteredTools = filterTools({ tools: TOOLS, query })` |
+  | Memo because the computation lives in a util file | Plain `const` / inline pure call; utils stay testable without `useMemo` |
+  | Memo “just in case” typing or search changes | Profile or measure first; add `useMemo` only with a concrete reason |
+
+  If removing `useMemo` would not change behavior and cost is bounded (typical tool lists, short filters, simple maps), flag it.
 
 ---
 
