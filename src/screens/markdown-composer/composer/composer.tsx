@@ -17,7 +17,7 @@ export const MarkdownComposerScreen = () => {
   const { styles } = useStyles();
 
   const { markdown, jsonDataText, engine, setMarkdown } = useMarkdownComposerStore();
-  const renderTemplate = getRenderTemplate(engine);
+  const templateRenderer = getRenderTemplate(engine);
 
   const parseResult = parseJsonDataText(jsonDataText);
   const jsonErrorMessage = parseResult.errorMessage;
@@ -54,7 +54,7 @@ export const MarkdownComposerScreen = () => {
             inputData={inputData}
             markdown={markdown}
             onMarkdownChange={setMarkdown}
-            renderTemplate={renderTemplate}
+            renderTemplate={templateRenderer}
           />
         </div>
       </Space>
