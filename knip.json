@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "project": ["src/**/*.{ts,tsx}", "ai-orchestrator/**/*.ts", ".claude/hooks/**/*.ts"],
+  "project": ["src/**/*.{ts,tsx}", ".claude/hooks/**/*.ts"],
   "rules": {
     "exports": "warn",
     "types": "warn"

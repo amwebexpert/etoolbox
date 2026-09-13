@@ -36,7 +36,7 @@ export default tseslint.config(
   // Tooling scripts live outside tsconfig.app.json's "src" include, so they can't use
   // type-aware linting (projectService). Keep them on plain recommended + node globals.
   {
-    files: ["ai-orchestrator/**/*.ts", ".claude/hooks/**/*.ts", "scripts/**/*.js"],
+    files: [".claude/hooks/**/*.ts", "scripts/**/*.js"],
     languageOptions: {
       globals: { ...globals.node },
     },
