@@ -81,3 +81,7 @@ export const clearMarkdownComposerPersistedStore = (page: Page): Promise<void> =
 const MARKDOWN_EDITOR_STORE_KEYS = ["etoolbox-markdown-editor"] as const;
 export const clearMarkdownEditorPersistedStore = (page: Page): Promise<void> =>
   clearPersistedStores(page, MARKDOWN_EDITOR_STORE_KEYS);
+
+const PINNED_TOOLS_STORE_KEYS = ["etoolbox-pinned-tools"] as const;
+export const clearPinnedToolsPersistedStore = (page: Page): Promise<void> =>
+  clearPersistedStores(page, PINNED_TOOLS_STORE_KEYS);

@@ -1,76 +1,92 @@
-import { useNavigate } from "@tanstack/react-router";
-import { Card, Col, Row, theme, Typography } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import { Empty, Input, Row, Typography } from "antd";
 import { createStyles } from "antd-style";
+import { useState } from "react";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
+import { usePinnedPaths, useTogglePinned } from "~/stores/pinned-tools.store";
+import { type Tool, TOOLS } from "~/tools/tools-registry";
+import { selectPinnedTools } from "~/tools/tools-registry.utils";
 
-import { FEATURES } from "./home.utils";
+import { filterTools } from "./home.utils";
+import { ToolCard } from "./tool-card";
 
-const { Text } = Typography;
-const { useToken } = theme;
+const { Title } = Typography;
 
 export const Home = () => {
   const { styles } = useStyles();
-  const { token } = useToken();
-  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+  const pinnedPaths = usePinnedPaths();
+  const togglePinned = useTogglePinned();
+
+  const filteredTools: Tool[] = filterTools({ tools: TOOLS, query });
+  const pinnedTools: Tool[] = selectPinnedTools({ tools: TOOLS, pinnedPaths });
+  const filteredPinnedTools: Tool[] = filterTools({ tools: pinnedTools, query });
+
+  const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
 
   return (
     <ScreenContainer>
-      {/* Features Grid */}
       <section className={styles.section}>
-        <Row gutter={[16, 16]}>
-          {FEATURES.map((feature) => (
-            <Col xs={12} sm={8} md={6} lg={4} key={feature.name}>
-              <Card
-                hoverable
-                className={styles.featureCard}
-                styles={{ body: { padding: 16, textAlign: "center" } }}
-                onClick={() => {
-                  void navigate({ to: feature.path });
-                }}
-              >
-                <div className={styles.featureIcon} style={{ color: token.colorPrimary }}>
-                  {feature.icon}
-                </div>
-                <Text strong className={styles.featureName}>
-                  {feature.name}
-                </Text>
-                <Text type="secondary" className={styles.featureDesc}>
-                  {feature.description}
-                </Text>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+        <Input
+          value={query}
+          onChange={handleQueryChange}
+          placeholder="Search tools by name or description..."
+          prefix={<SearchOutlined />}
+          allowClear
+          className={styles.search}
+        />
+
+        {filteredPinnedTools.length > 0 && (
+          <div className={styles.pinnedSection}>
+            <Title level={5} className={styles.pinnedTitle}>
+              Pinned
+            </Title>
+            <Row gutter={[16, 16]}>
+              {filteredPinnedTools.map((tool) => (
+                <ToolCard
+                  key={tool.path}
+                  tool={tool}
+                  pinned={pinnedPaths.includes(tool.path)}
+                  onTogglePinned={togglePinned}
+                />
+              ))}
+            </Row>
+          </div>
+        )}
+
+        {filteredTools.length === 0 ? (
+          <Empty description="No tools found" />
+        ) : (
+          <Row gutter={[16, 16]}>
+            {filteredTools.map((tool) => (
+              <ToolCard
+                key={tool.path}
+                tool={tool}
+                pinned={pinnedPaths.includes(tool.path)}
+                onTogglePinned={togglePinned}
+              />
+            ))}
+          </Row>
+        )}
       </section>
     </ScreenContainer>
   );
 };
 
-const useStyles = createStyles(({ token }) => ({
+const useStyles = createStyles(() => ({
   section: {
     marginBottom: 48,
   },
-  featureCard: {
-    height: "100%",
-    transition: "all 0.3s ease",
-    "&:hover": {
-      transform: "translateY(-4px)",
-      boxShadow: token.boxShadowSecondary,
-    },
+  search: {
+    marginBottom: 24,
   },
-  featureIcon: {
-    fontSize: token.fontSizeHeading2,
-    marginBottom: 8,
+  pinnedSection: {
+    marginBottom: 32,
   },
-  featureName: {
-    display: "block",
-    fontSize: token.fontSizeSM,
-    marginBottom: 4,
-  },
-  featureDesc: {
-    display: "block",
-    fontSize: token.fontSizeSM - 1,
-    lineHeight: 1.3,
+  pinnedTitle: {
+    marginBottom: 16,
   },
 }));

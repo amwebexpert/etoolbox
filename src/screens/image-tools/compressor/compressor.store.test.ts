@@ -27,6 +27,16 @@ import { COMPRESSOR_DEFAULTS, useCompressorStore } from "./compressor.store";
 
 const makeImageFile = (): File => new File(["x"], "img.png", { type: "image/png" });
 
+type DimensionSetterName =
+  "setConvertSize" | "setMaxHeight" | "setMaxWidth" | "setMinHeight" | "setMinWidth" | "setHeight" | "setWidth";
+
+type DimensionStateKey = "convertSize" | "maxHeight" | "maxWidth" | "minHeight" | "minWidth" | "height" | "width";
+
+interface CoerceNullToZeroCase {
+  setterName: DimensionSetterName;
+  stateKey: DimensionStateKey;
+}
+
 describe("useCompressorStore", () => {
   beforeEach(() => {
     useCompressorStore.setState({ ...COMPRESSOR_DEFAULTS, selectedFile: null, showCompressionSettings: false });
@@ -169,15 +179,16 @@ describe("useCompressorStore", () => {
     expect(useCompressorStore.getState().convertSize).toBe(2_000_000);
   });
 
-  it.each([
-    ["setMaxWidth", "maxWidth"],
-    ["setMaxHeight", "maxHeight"],
-    ["setMinWidth", "minWidth"],
-    ["setMinHeight", "minHeight"],
-    ["setWidth", "width"],
-    ["setHeight", "height"],
-    ["setConvertSize", "convertSize"],
-  ] as const)("coerces null to 0 via %s", (setterName, stateKey) => {
+  it.each`
+    setterName          | stateKey
+    ${"setMaxWidth"}    | ${"maxWidth"}
+    ${"setMaxHeight"}   | ${"maxHeight"}
+    ${"setMinWidth"}    | ${"minWidth"}
+    ${"setMinHeight"}   | ${"minHeight"}
+    ${"setWidth"}       | ${"width"}
+    ${"setHeight"}      | ${"height"}
+    ${"setConvertSize"} | ${"convertSize"}
+  `("coerces null to 0 via $setterName", ({ setterName, stateKey }: CoerceNullToZeroCase) => {
     // arrange
     const store = useCompressorStore.getState();
 

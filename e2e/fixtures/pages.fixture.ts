@@ -8,6 +8,7 @@ import { CsvParserPage } from "../pages/csv-parser-page";
 import { DateConverterPage } from "../pages/date-converter-page";
 import { DiffViewerPage } from "../pages/diff-viewer-page";
 import { GithubUserProjectsPage } from "../pages/github-user-projects-page";
+import { HomePage } from "../pages/home-page";
 import { ImageOcrPage } from "../pages/image-ocr-page";
 import { JsonPage } from "../pages/json-page";
 import { JwtDecoderPage } from "../pages/jwt-decoder-page";
@@ -20,6 +21,7 @@ import { UuidGeneratorPage } from "../pages/uuid-generator-page";
 import { Vr3dViewerPage } from "../pages/vr-3d-viewer-page";
 
 interface PageFixtures {
+  homePage: HomePage;
   jsonPage: JsonPage;
   base64Page: Base64Page;
   urlPage: UrlPage;
@@ -41,6 +43,9 @@ interface PageFixtures {
 }
 
 export const test = base.extend<PageFixtures>({
+  homePage: async ({ page }, provideFixture) => {
+    await provideFixture(new HomePage(page));
+  },
   jsonPage: async ({ page }, provideFixture) => {
     await provideFixture(new JsonPage(page));
   },

@@ -49,13 +49,12 @@
     "habit:hooks:full": "habit-hooks",
     "habit:snoozed": "habit-snooze --list",
     "sandcastle": "npx tsx .sandcastle/main.ts",
-    "ai:run:plan": "npx tsx ai-orchestrator/main.ts",
     "postinstall": "patch-package && sh scripts/install-habit-hooks.sh"
   },
   "dependencies": {
     "@ant-design/icons": "6.3.4",
     "@lichens-innovation/react-markdown-composer": "1.4.0",
-    "@lichens-innovation/ts-common": "1.26.0",
+    "@lichens-innovation/ts-common": "1.26.1",
     "@milkdown/crepe": "7.22.1",
     "@milkdown/react": "7.22.1",
     "@milkdown/utils": "7.22.1",
@@ -112,11 +111,10 @@
   },
   "devDependencies": {
     "@ai-hero/sandcastle": "0.12.0",
-    "@anthropic-ai/claude-agent-sdk": "0.3.263",
     "@commitlint/cli": "21.2.2",
     "@commitlint/config-conventional": "21.2.2",
     "@eslint/js": "10.0.1",
-    "@lichens-innovation/eslint-plugin-coding-guide": "1.0.3",
+    "@lichens-innovation/eslint-plugin-coding-guide": "1.0.4",
     "@playwright/test": "1.63.0",
     "@testing-library/dom": "10.4.1",
     "@testing-library/react": "16.3.3",

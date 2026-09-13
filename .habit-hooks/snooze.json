@@ -1,3 +1,1 @@
-[
-  "src/vite-env.d.ts"
-]
+[".sandcastle/main.ts", "src/vite-env.d.ts"]

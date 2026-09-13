@@ -61,9 +61,9 @@ test("clear resets to the empty placeholder", async ({ page }) => {
   await expect(page.getByText("ISO 8601 / JSON", { exact: true })).toBeVisible();
 
   // act
-  await page.getByRole("button", { name: "Clear" }).click();
+  await page.getByRole("button", { name: "Clear all" }).click();
 
   // assert
   await expect(page.getByText('Enter an epoch value or click "Now" to see date conversions')).toBeVisible();
-  await expect(page.getByRole("button", { name: "Clear" })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Clear all" })).toBeDisabled();
 });

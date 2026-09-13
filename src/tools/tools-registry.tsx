@@ -19,14 +19,14 @@ import {
   UnorderedListOutlined,
 } from "@ant-design/icons";
 
-interface Feature {
+export interface Tool {
   icon: React.ReactNode;
   name: string;
   description: string;
   path: string;
 }
 
-export const FEATURES: Feature[] = [
+export const TOOLS: Tool[] = [
   {
     icon: <LinkOutlined />,
     name: "URL Tools",
@@ -101,7 +101,7 @@ export const FEATURES: Feature[] = [
   },
   {
     icon: <UnorderedListOutlined />,
-    name: "References",
+    name: "Web References",
     description: "MIME types & HTML entities",
     path: "/common-lists",
   },

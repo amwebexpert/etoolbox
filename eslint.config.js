@@ -15,7 +15,15 @@ const testFiles = ["**/__tests__/**", "**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}"
 const unitTestFiles = ["src/**/__tests__/**", "src/**/*.test.{ts,tsx}"];
 
 export default tseslint.config(
-  globalIgnores(["dist", "docs/**", "src/api/generated/**", ".yarn/**"]),
+  globalIgnores([
+    "dist",
+    "docs/**",
+    "src/api/generated/**",
+    ".yarn/**",
+    "**/.bun-cache/**",
+    "**/.tmp/**",
+    "**/.sandcastle/**",
+  ]),
   {
     languageOptions: {
       parserOptions: {
@@ -28,7 +36,7 @@ export default tseslint.config(
   // Tooling scripts live outside tsconfig.app.json's "src" include, so they can't use
   // type-aware linting (projectService). Keep them on plain recommended + node globals.
   {
-    files: ["ai-orchestrator/**/*.ts", ".claude/hooks/**/*.ts", "scripts/**/*.js"],
+    files: [".claude/hooks/**/*.ts", "scripts/**/*.js"],
     languageOptions: {
       globals: { ...globals.node },
     },
@@ -191,5 +199,5 @@ export default tseslint.config(
     // ~45 repetitive createRoute() declarations — data, not logic.
     files: ["src/routes/router.tsx"],
     rules: { "max-lines": "off" },
-  },
+  }
 );

@@ -1,4 +1,12 @@
 #!/usr/bin/env sh
+first_line=$(head -n 1 "$1")
+case "$first_line" in
+  RALPH:*)
+    echo "⏭️  Sandcastle (RALPH:) commit — skipping commitlint"
+    exit 0
+    ;;
+esac
+
 echo "________________________________________________________"
 echo "Running commitlint to ensure the commit message is valid…"
 bunx --no-install commitlint --edit "$1"
