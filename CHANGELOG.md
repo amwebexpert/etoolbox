@@ -1,3 +1,9 @@
+# [4.11.0](https://github.com/amwebexpert/etoolbox/compare/v4.10.0...v4.11.0) (2026-09-13)
+
+
+### Features
+
+* **favorite:** pin/favorite tools feature & AI orchestrator setup ([#152](https://github.com/amwebexpert/etoolbox/issues/152)) ([44b5d70](https://github.com/amwebexpert/etoolbox/commit/44b5d70a1809b09b63a9166228a75ac9fc99c3c9)), closes [#154](https://github.com/amwebexpert/etoolbox/issues/154) [#153](https://github.com/amwebexpert/etoolbox/issues/153) [#155](https://github.com/amwebexpert/etoolbox/issues/155) [#156](https://github.com/amwebexpert/etoolbox/issues/156) [#156](https://github.com/amwebexpert/etoolbox/issues/156) [#155](https://github.com/amwebexpert/etoolbox/issues/155) [#156](https://github.com/amwebexpert/etoolbox/issues/156) [#155](https://github.com/amwebexpert/etoolbox/issues/155) [#156](https://github.com/amwebexpert/etoolbox/issues/156) [#155](https://github.com/amwebexpert/etoolbox/issues/155) [#153](https://github.com/amwebexpert/etoolbox/issues/153) [#156](https://github.com/amwebexpert/etoolbox/issues/156)
 # [4.10.0](https://github.com/amwebexpert/etoolbox/compare/v4.9.1...v4.10.0) (2026-09-07)
 
 
