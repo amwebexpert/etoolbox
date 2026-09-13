@@ -1,11 +1,11 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { Empty, Input, Row, Typography } from "antd";
 import { createStyles } from "antd-style";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { usePinnedPaths, useTogglePinned } from "~/stores/pinned-tools.store";
-import { TOOLS } from "~/tools/tools-registry";
+import { type Tool, TOOLS } from "~/tools/tools-registry";
 import { selectPinnedTools } from "~/tools/tools-registry.utils";
 
 import { filterTools } from "./home.utils";
@@ -19,11 +19,9 @@ export const Home = () => {
   const pinnedPaths = usePinnedPaths();
   const togglePinned = useTogglePinned();
 
-  const filteredTools = useMemo(() => filterTools({ tools: TOOLS, query }), [query]);
-  const filteredPinnedTools = useMemo(
-    () => filterTools({ tools: selectPinnedTools({ tools: TOOLS, pinnedPaths }), query }),
-    [pinnedPaths, query]
-  );
+  const filteredTools: Tool[] = filterTools({ tools: TOOLS, query });
+  const pinnedTools: Tool[] = selectPinnedTools({ tools: TOOLS, pinnedPaths });
+  const filteredPinnedTools: Tool[] = filterTools({ tools: pinnedTools, query });
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
