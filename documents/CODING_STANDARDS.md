@@ -1,6 +1,6 @@
 # Coding Standards
 
-Standards for React/TypeScript in this repo. The reviewer loads this via `@.sandcastle/CODING_STANDARDS.md`.
+Standards for React/TypeScript in this repo. The reviewer loads this via `@documents/CODING_STANDARDS.md`.
 
 **ESLint baseline:** Mechanical rules are enforced by `@lichens-innovation/eslint-plugin-coding-guide` and [eslint.config.js](../eslint.config.js). Do not flag violations ESLint already catches; focus on the items below.
 
@@ -13,11 +13,11 @@ Standards for React/TypeScript in this repo. The reviewer loads this via `@.sand
 - **Prop vs state naming:** When a prop seeds local state, use distinct names (e.g. prop `initialSortOrder`, state `sortOrder`). Do not reuse the same name for both.
 - **`useMemo` — default off:** Treat memoization as opt-in, not a default for “logic moved to `*.utils.ts`”. Recompute on render unless there is a proven bottleneck, a large/unbounded collection, or a **referential stability** requirement (memoized child, effect dependency on object/array identity). Cheap pure helpers (filter/map on small lists) do not need `useMemo` just because they are extracted.
 
-  | Avoid | Prefer |
-  | ----- | ------ |
-  | `useMemo(() => filterTools({ tools, query }), [query])` on a small static registry | `const filteredTools = filterTools({ tools: TOOLS, query })` |
-  | Memo because the computation lives in a util file | Plain `const` / inline pure call; utils stay testable without `useMemo` |
-  | Memo “just in case” typing or search changes | Profile or measure first; add `useMemo` only with a concrete reason |
+  | Avoid                                                                              | Prefer                                                                  |
+  | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+  | `useMemo(() => filterTools({ tools, query }), [query])` on a small static registry | `const filteredTools = filterTools({ tools: TOOLS, query })`            |
+  | Memo because the computation lives in a util file                                  | Plain `const` / inline pure call; utils stay testable without `useMemo` |
+  | Memo “just in case” typing or search changes                                       | Profile or measure first; add `useMemo` only with a concrete reason     |
 
   If removing `useMemo` would not change behavior and cost is bounded (typical tool lists, short filters, simple maps), flag it.
 
@@ -83,13 +83,13 @@ ESLint blocks `eval`, `new Function`, and raw `dangerouslySetInnerHTML`. If disa
 
 ESLint enforces query style (`screen.*`, `*ByRole` over `*ByTestId`) and colocated tests (no `__tests__/` folders). Review structure and quality:
 
-| Avoid                                      | Prefer                                                 |
-| ------------------------------------------ | ------------------------------------------------------ |
-| Tests without clear Arrange / Act / Assert | Distinct AAA sections                                  |
-| Mocking custom hooks without explicit spy  | `jest.spyOn` / `vi.spyOn` with explicit module imports |
-| Many similar individual `it` blocks        | `it.each` for parametrized cases                       |
-| `it.each([{ ... }, { ... }])` inline array | `` it.each` `` table (column headers + `` ${value} `` rows) |
-| Re-assignable object graph for mock data   | Mock factory with partial overrides                    |
+| Avoid                                      | Prefer                                                  |
+| ------------------------------------------ | ------------------------------------------------------- |
+| Tests without clear Arrange / Act / Assert | Distinct AAA sections                                   |
+| Mocking custom hooks without explicit spy  | `jest.spyOn` / `vi.spyOn` with explicit module imports  |
+| Many similar individual `it` blocks        | `it.each` for parametrized cases                        |
+| `it.each([{ ... }, { ... }])` inline array | `` it.each` `` table (column headers + `${value}` rows) |
+| Re-assignable object graph for mock data   | Mock factory with partial overrides                     |
 
 **Parametrized tests:** Prefer the tagged-template table so cases read as a data table and title placeholders (`$query`, `$expected`) stay obvious. Array form is OK for tiny one-off lists; default to backticks when adding or refactoring parametrized tests.
 
