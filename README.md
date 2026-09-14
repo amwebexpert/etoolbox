@@ -99,7 +99,7 @@ Playwright starts the Vite dev server automatically via [e2e/playwright.config.t
 
 ## Technical Notes
 
-- [Technical notes](./TECH_NOTES.md)
+- [Technical notes](./documents/TECH_NOTES.md)
 
 ## License
 
@@ -111,7 +111,7 @@ We value **technical excellence and human respect equally**. To ensure a welcomi
 
 | Resource                                                                                                                                                       | Description                                                           |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| [Code of Conduct](./CODE_OF_CONDUCT.md)                                                                                                                        | Our pledge for a respectful, inclusive, and collaborative environment |
+| [Code of Conduct](./documents/CODE_OF_CONDUCT.md)                                                                                                              | Our pledge for a respectful, inclusive, and collaborative environment |
 | [Contributing Guide](./CONTRIBUTING.md)                                                                                                                        | How to get started, project conventions, and pull request guidelines  |
 | [Coding Guidelines](https://github.com/amwebexpert/chrome-extensions-collection/blob/master/packages/coding-guide-helper/public/markdowns/table-of-content.md) | Best practices for clean, maintainable, and scalable code             |
 

@@ -109,7 +109,7 @@ Please include:
 
 By participating, you agree to uphold a respectful, inclusive environment:
 
-- [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md) file
+- [`CODE_OF_CONDUCT.md`](./documents/CODE_OF_CONDUCT.md) file
 
 ---
 
