@@ -62,6 +62,7 @@ ESLint enforces kebab-case filenames, `use-*` hooks, `*-page` / `*-dialog` / `*-
 | In-place mutation then `setState` (e.g. `user.age += 1; setUser(user)`) | Immutable updates (`setUser({ ...user, age: user.age + 1 })`)                    |
 | Magic ms literals (e.g. `5 * 60 * 1000`)                                | `5 * PeriodsInMS.oneMinute` from `@lichens-innovation/ts-common`                 |
 | Long templates with deep optional chains                                | Pre-compute named locals, then interpolate                                       |
+| `ReturnType<typeof someFn>` when the library already exports a named type (e.g. `ReturnType<typeof getInstanceByDom>`) | The library's named type (e.g. `EChartsType`) — check exports/`.d.ts` first |
 
 ---
 
