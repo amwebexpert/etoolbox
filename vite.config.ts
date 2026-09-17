@@ -49,5 +49,11 @@ export default defineConfig(({ mode }) => ({
   test: {
     include: ["src/**/*.{test,spec}.{ts,tsx}"],
     exclude: ["e2e/**"],
+    server: {
+      // @sucoza/zustand-devtools-plugin has a CJS/ESM mismatch that crashes Node's native loader unless Vite transforms it first habit-hooks-disable non-essential-comment
+      deps: {
+        inline: ["@sucoza/zustand-devtools-plugin"],
+      },
+    },
   },
 }));
