@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import type { HttpHeaderCategoryFilter, HttpHeaderTypeFilter } from "./http-headers.types";
 import { DEFAULT_CATEGORY, DEFAULT_FILTER, DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_TYPE } from "./http-headers.utils";
@@ -61,6 +62,6 @@ const persistedStateCreator = persist<HttpHeadersState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useHttpHeadersStore = create<HttpHeadersState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useHttpHeadersStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<HttpHeadersState>()(persistedStateCreator)
 );

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import { DEFAULT_QUANTITY, DEFAULT_VERSION, type UuidVersion } from "./uuid-generator.utils";
 
@@ -35,8 +36,8 @@ const persistedStateCreator = persist<UuidGeneratorState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useUuidGeneratorStore = create<UuidGeneratorState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useUuidGeneratorStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<UuidGeneratorState>()(persistedStateCreator)
 );
 
 export const useGeneratedUuids = () => useUuidGeneratorStore((state) => state.generated);

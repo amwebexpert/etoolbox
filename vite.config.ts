@@ -1,5 +1,6 @@
 /// <reference types="vitest/config" /> // habit-hooks-disable non-essential-comment
 
+import { devtools } from "@tanstack/devtools-vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -10,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(({ mode }) => ({
   base: mode === "production" ? "/etoolbox/" : "/",
-  plugins: [react(), viteTsconfigPaths()],
+  plugins: [devtools(), react(), viteTsconfigPaths()],
   server: {
     // Proxy WebSocket connections for Poker Planning habit-hooks-disable non-essential-comment
     proxy: {

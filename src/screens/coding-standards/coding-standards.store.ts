@@ -1,7 +1,8 @@
 import { isNullish, yieldToMainThread } from "@lichens-innovation/ts-common";
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import type { Draft } from "immer";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
 import { logger } from "~/utils/logger";
@@ -241,8 +242,8 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
 
 const PERSISTED_STORE_NAME = "etoolbox-coding-standards";
 
-export const useCodingStandardsStore = create<CodingStandardsState>()(
-  devtools(
+export const useCodingStandardsStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<CodingStandardsState>()(
     persist(stateCreator, {
       name: PERSISTED_STORE_NAME,
       storage: createJSONStorage(() => localStorage),
@@ -250,8 +251,7 @@ export const useCodingStandardsStore = create<CodingStandardsState>()(
         searchQuery: state.searchQuery,
         guidelineSources: state.guidelineSources,
       }),
-    }),
-    { name: PERSISTED_STORE_NAME }
+    })
   )
 );
 

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import { DEFAULT_REACT_JSON_VIEW_CONFIG, type ReactJsonViewConfig, type ViewMode } from "./json-formatter.types";
 
@@ -38,6 +39,6 @@ const persistedStateCreator = persist<JsonFormatterState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useJsonFormatterStore = create<JsonFormatterState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useJsonFormatterStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<JsonFormatterState>()(persistedStateCreator)
 );

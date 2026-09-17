@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface PinnedToolsState {
   pinnedPaths: string[];
@@ -25,8 +26,8 @@ const persistedStateCreator = persist<PinnedToolsState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const usePinnedToolsStore = create<PinnedToolsState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const usePinnedToolsStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<PinnedToolsState>()(persistedStateCreator)
 );
 
 export const usePinnedPaths = (): string[] => usePinnedToolsStore((state) => state.pinnedPaths);

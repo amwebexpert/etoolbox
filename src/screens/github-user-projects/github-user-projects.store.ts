@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create, type StateCreator } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import {
   DEFAULT_FILTER,
@@ -114,6 +115,6 @@ const persistedStateCreator = persist<GithubUserProjectsState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useGithubUserProjectsStore = create<GithubUserProjectsState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useGithubUserProjectsStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<GithubUserProjectsState>()(persistedStateCreator)
 );

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import { createPaginatedFilterState } from "~/utils/paginated-filter-store.utils";
 
@@ -37,6 +38,6 @@ const persistedStateCreator = persist<HttpStatusCodesState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useHttpStatusCodesStore = create<HttpStatusCodesState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useHttpStatusCodesStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<HttpStatusCodesState>()(persistedStateCreator)
 );

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface UrlEncoderState {
   inputText: string;
@@ -30,6 +31,6 @@ const persistedStateCreator = persist<UrlEncoderState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useUrlEncoderStore = create<UrlEncoderState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useUrlEncoderStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<UrlEncoderState>()(persistedStateCreator)
 );

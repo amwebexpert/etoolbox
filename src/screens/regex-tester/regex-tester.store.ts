@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
 import { DEFAULT_INPUT_TEXT, DEFAULT_REGEX, type ExtractFormat } from "./regex-tester.utils";
@@ -58,12 +59,11 @@ const stateCreator = immer<RegexTesterState>((set) => ({
 
 const PERSISTED_STORE_NAME = "etoolbox-regex-tester";
 
-export const useRegexTesterStore = create<RegexTesterState>()(
-  devtools(
+export const useRegexTesterStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<RegexTesterState>()(
     persist(stateCreator, {
       name: PERSISTED_STORE_NAME,
       storage: createJSONStorage(() => localStorage),
-    }),
-    { name: PERSISTED_STORE_NAME }
+    })
   )
 );

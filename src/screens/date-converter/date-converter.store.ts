@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import { DEFAULT_EPOCH_UNIT, DEFAULT_EPOCH_VALUE, type EpochUnit } from "./date-converter.constants";
 
@@ -38,6 +39,6 @@ const persistedStateCreator = persist<DateConverterState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useDateConverterStore = create<DateConverterState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useDateConverterStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<DateConverterState>()(persistedStateCreator)
 );

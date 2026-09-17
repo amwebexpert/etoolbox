@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface Base64StringState {
   inputText: string;
@@ -30,6 +31,6 @@ const persistedStateCreator = persist<Base64StringState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useBase64StringStore = create<Base64StringState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useBase64StringStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<Base64StringState>()(persistedStateCreator)
 );

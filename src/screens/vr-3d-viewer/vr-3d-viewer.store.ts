@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import {
   type CameraSettings,
@@ -105,6 +106,6 @@ const persistedStateCreator = persist<Vr3dViewerState>(stateCreator, {
   }),
 });
 
-export const useVr3dViewerStore = create<Vr3dViewerState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useVr3dViewerStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<Vr3dViewerState>()(persistedStateCreator)
 );

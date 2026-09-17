@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface JwtDecoderState {
   token: string;
@@ -20,6 +21,6 @@ const persistedStateCreator = persist<JwtDecoderState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useJwtDecoderStore = create<JwtDecoderState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useJwtDecoderStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<JwtDecoderState>()(persistedStateCreator)
 );
