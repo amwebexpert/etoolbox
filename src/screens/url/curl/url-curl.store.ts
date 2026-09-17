@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface UrlCurlState {
   inputCurl: string;
@@ -31,4 +32,6 @@ const persistedStateCreator = persist<UrlCurlState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useUrlCurlStore = create<UrlCurlState>()(devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }));
+export const useUrlCurlStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<UrlCurlState>()(persistedStateCreator)
+);

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface DataUriState {
   inputText: string;
@@ -18,4 +19,6 @@ const persistedStateCreator = persist<DataUriState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useDataUriStore = create<DataUriState>()(devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }));
+export const useDataUriStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<DataUriState>()(persistedStateCreator)
+);

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import {
   DEFAULT_EXTRACTED_TEXT,
@@ -62,6 +63,6 @@ const persistedStateCreator = persist<OcrState>(stateCreator, {
     }) as OcrState,
 });
 
-export const useOcrStore = create<OcrState>()(devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }));
+export const useOcrStore = createDevToolsStore(PERSISTED_STORE_NAME, () => create<OcrState>()(persistedStateCreator));
 
 export const useSetWorkerStatus = () => useOcrStore((state) => state.setWorkerStatus);

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 export type MarkdownComposerEngine = "handlebars" | "eta" | "liquidjs";
 
@@ -45,6 +46,6 @@ const persistedStateCreator = persist<MarkdownComposerState>(stateCreator, {
   }),
 });
 
-export const useMarkdownComposerStore = create<MarkdownComposerState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useMarkdownComposerStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<MarkdownComposerState>()(persistedStateCreator)
 );

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import type { CompressorResizeMode, CompressorSettings } from "./compressor.types";
 
@@ -83,8 +84,8 @@ const persistedStateCreator = persist<CompressorStoreState, [], [], CompressorSe
   }),
 });
 
-export const useCompressorStore = create<CompressorStoreState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useCompressorStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<CompressorStoreState>()(persistedStateCreator)
 );
 
 export const useCompressorQuality = () => useCompressorStore((state) => state.quality);

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import {
   type CsvParseResult,
@@ -85,8 +86,8 @@ const persistedStateCreator = persist<CsvParserState>(stateCreator, {
   }),
 });
 
-export const useCsvParserStore = create<CsvParserState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useCsvParserStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<CsvParserState>()(persistedStateCreator)
 );
 
 export const useSetParseResult = () => useCsvParserStore((state) => state.setParseResult);

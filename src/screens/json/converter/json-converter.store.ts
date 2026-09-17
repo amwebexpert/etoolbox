@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import {
   DEFAULT_ROOT_CLASS_NAME,
@@ -46,6 +47,6 @@ const persistedStateCreator = persist<JsonConverterState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useJsonConverterStore = create<JsonConverterState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useJsonConverterStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<JsonConverterState>()(persistedStateCreator)
 );

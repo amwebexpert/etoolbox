@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface JsonRepairState {
   inputText: string;
@@ -22,6 +23,6 @@ const persistedStateCreator = persist<JsonRepairState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useJsonRepairStore = create<JsonRepairState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useJsonRepairStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<JsonRepairState>()(persistedStateCreator)
 );

@@ -1,7 +1,8 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { v4 as uuidv4 } from "uuid";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import { DEFAULT_CARDS_LISTING_CATEGORY } from "./poker-planning.constants";
 import type { CardsListingCategoryName, PokerPlanningSession, SocketState, UserMessage } from "./poker-planning.types";
@@ -261,8 +262,8 @@ const persistedStateCreator = persist<PokerPlanningState>(stateCreator, {
     }) as PokerPlanningState,
 });
 
-export const usePokerPlanningStore = create<PokerPlanningState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const usePokerPlanningStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<PokerPlanningState>()(persistedStateCreator)
 );
 
 export const useClearSocket = () => usePokerPlanningStore((state) => state.clearSocket);

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import type { ColorTheme } from "~/themes";
 
@@ -33,7 +34,9 @@ const persistedStateCreator = persist<SettingsState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-const useSettingsStore = create<SettingsState>()(devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME }));
+const useSettingsStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<SettingsState>()(persistedStateCreator)
+);
 
 export const useThemeMode = () => useSettingsStore((state) => state.themeMode);
 const useToggleThemeMode = () => useSettingsStore((state) => state.toggleThemeMode);

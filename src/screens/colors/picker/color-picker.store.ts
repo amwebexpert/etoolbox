@@ -1,6 +1,7 @@
 import type { RgbaColor } from "@lichens-innovation/ts-common";
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface ColorPickerState {
   imageDataUrl: string;
@@ -29,6 +30,6 @@ const persistedStateCreator = persist<ColorPickerState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useColorPickerStore = create<ColorPickerState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useColorPickerStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<ColorPickerState>()(persistedStateCreator)
 );

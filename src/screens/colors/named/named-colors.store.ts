@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import { DEFAULT_FAMILY, DEFAULT_FILTER, DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "./named-colors.utils";
 
@@ -54,6 +55,6 @@ const persistedStateCreator = persist<NamedColorsState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useNamedColorsStore = create<NamedColorsState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useNamedColorsStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<NamedColorsState>()(persistedStateCreator)
 );

@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 export const DEFAULT_MARKDOWN = "# Hello\n\nStart writing...";
 
@@ -28,6 +29,6 @@ const persistedStateCreator = persist<MarkdownEditorState>(stateCreator, {
   }),
 });
 
-export const useMarkdownEditorStore = create<MarkdownEditorState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useMarkdownEditorStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<MarkdownEditorState>()(persistedStateCreator)
 );

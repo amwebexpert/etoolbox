@@ -1,5 +1,6 @@
+import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 import { DEFAULT_INPUT_TEXT, DEFAULT_QR_OPTIONS, type QRCodeOptions } from "./qrcode-generator.types";
 
@@ -44,6 +45,6 @@ const persistedStateCreator = persist<QRCodeGeneratorState>(stateCreator, {
   storage: createJSONStorage(() => localStorage),
 });
 
-export const useQRCodeGeneratorStore = create<QRCodeGeneratorState>()(
-  devtools(persistedStateCreator, { name: PERSISTED_STORE_NAME })
+export const useQRCodeGeneratorStore = createDevToolsStore(PERSISTED_STORE_NAME, () =>
+  create<QRCodeGeneratorState>()(persistedStateCreator)
 );

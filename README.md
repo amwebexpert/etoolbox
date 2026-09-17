@@ -70,6 +70,8 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for full contributor setup and conventi
 
 Playwright starts the Vite dev server automatically via [e2e/playwright.config.ts](./e2e/playwright.config.ts). E2E tests run locally only (not in CI).
 
+TanStack Devtools source inspector: hold `Shift + Option + Cmd` (mac) / `Shift + Alt + Ctrl` (win/linux) while hovering an element to highlight it and show its source file path.
+
 ## Frameworks & Dependencies
 
 | Package                                                                                      | Description                                        |
