@@ -73,7 +73,7 @@ export class MarkdownComposerPage {
 
   async selectEngine(label: "Handlebars" | "Eta" | "LiquidJS"): Promise<void> {
     await this.engineSelect().click();
-    await this.page.getByTitle(label).click();
+    await this.page.getByTitle(label, { exact: true }).click();
   }
 
   async setMarkdown(markdown: string): Promise<void> {
@@ -89,7 +89,11 @@ export class MarkdownComposerPage {
   }
 
   exportButton(): Locator {
-    return this.page.getByRole("button", { name: "Export" });
+    return this.page.getByRole("button", { name: "Export", exact: true });
+  }
+
+  exportPdfButton(): Locator {
+    return this.page.getByRole("button", { name: "Export as PDF", exact: true });
   }
 
   async importFile(filePath: string): Promise<void> {

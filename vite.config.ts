@@ -26,6 +26,14 @@ export default defineConfig(({ mode }) => ({
   build: {
     target: "esnext",
   },
+  optimizeDeps: {
+    /** habit-hooks-disable non-essential-comment
+     wasm-bindgen "target web" output fetches its .wasm binary via a URL relative to
+     its own module location; Vite's dep pre-bundler copies the JS but not that sibling
+     .wasm file, which breaks the fetch. Exclude so it's served straight from node_modules.
+     */
+    exclude: ["@amwebexpert/md2pdf-wasm"],
+  },
   resolve: {
     // Node.js polyfills for browser compatibility (required by httpsnippet in the cURL converter) habit-hooks-disable non-essential-comment
     alias: {

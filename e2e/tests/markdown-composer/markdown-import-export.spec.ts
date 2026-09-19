@@ -60,6 +60,23 @@ for (const tabCase of TAB_CASES) {
       expect(content).toContain("Exported content");
     });
 
+    test("exporting as PDF downloads a PDF file", async ({ page, markdownComposerPage }) => {
+      // arrange
+      await tabCase.typeContent(markdownComposerPage, "# Exported content");
+      await expect(tabCase.content(markdownComposerPage)).toContainText("Exported content");
+
+      // act
+      const downloadPromise = page.waitForEvent("download");
+      await markdownComposerPage.exportPdfButton().click();
+      const download = await downloadPromise;
+      const downloadPath = await download.path();
+
+      // assert
+      expect(download.suggestedFilename()).toBe("document.pdf");
+      const magicBytes = downloadPath ? fs.readFileSync(downloadPath).subarray(0, 4).toString("utf-8") : "";
+      expect(magicBytes).toBe("%PDF");
+    });
+
     test("importing over empty content applies immediately with no confirmation", async ({ markdownComposerPage }) => {
       // arrange — clear the default content and wait for the toolbar to observe it
       await tabCase.typeContent(markdownComposerPage, "");

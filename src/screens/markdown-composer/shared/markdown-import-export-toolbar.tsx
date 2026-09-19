@@ -1,15 +1,17 @@
-import { DownloadOutlined, UploadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, FilePdfOutlined, UploadOutlined } from "@ant-design/icons";
 import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
 import { downloadText, readFileAsText } from "@lichens-innovation/ts-common/web";
 import { Button, Modal, Space } from "antd";
-import { type ComponentRef, useRef } from "react";
+import { type ComponentRef, useRef, useState } from "react";
 
 import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { shouldConfirmBeforeImport } from "./markdown-import-export.utils";
+import { exportMarkdownAsPdf } from "./markdown-pdf-export.utils";
 
 const EXPORT_FILE_NAME = "document.md";
 const EXPORT_MIME_TYPE = "text/markdown";
+const EXPORT_PDF_FILE_NAME = "document.pdf";
 
 interface MarkdownImportExportToolbarProps {
   markdown: string;
@@ -20,9 +22,21 @@ export const MarkdownImportExportToolbar = ({ markdown, onImport }: MarkdownImpo
   const messageApi = useToastMessage();
   const [modal, contextHolder] = Modal.useModal();
   const fileInputRef = useRef<ComponentRef<"input">>(null);
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
 
   const handleExport = () => {
     downloadText({ content: markdown, fileName: EXPORT_FILE_NAME, mimeType: EXPORT_MIME_TYPE });
+  };
+
+  const handleExportPdf = async () => {
+    setIsExportingPdf(true);
+    try {
+      await exportMarkdownAsPdf({ markdown, fileName: EXPORT_PDF_FILE_NAME });
+    } catch (e: unknown) {
+      messageApi.error("Failed to export PDF: " + getErrorMessage(e));
+    } finally {
+      setIsExportingPdf(false);
+    }
   };
 
   const handleImportClick = () => {
@@ -74,6 +88,15 @@ export const MarkdownImportExportToolbar = ({ markdown, onImport }: MarkdownImpo
       </Button>
       <Button icon={<DownloadOutlined />} aria-label="Export" disabled={isBlank(markdown)} onClick={handleExport}>
         Export
+      </Button>
+      <Button
+        icon={<FilePdfOutlined />}
+        aria-label="Export as PDF"
+        loading={isExportingPdf}
+        disabled={isBlank(markdown)}
+        onClick={() => void handleExportPdf()}
+      >
+        Export as PDF
       </Button>
     </Space>
   );
