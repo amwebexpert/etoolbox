@@ -146,8 +146,7 @@ export const Vr3dViewer = () => {
             title="Error Loading Model"
             description={error}
             showIcon
-            closable
-            onClose={() => setError(null)}
+            closable={{ onClose: () => setError(null) }}
           />
         )}
 
