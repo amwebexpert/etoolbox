@@ -1,3 +1,9 @@
+# [4.12.0](https://github.com/amwebexpert/etoolbox/compare/v4.11.0...v4.12.0) (2026-09-19)
+
+
+### Features
+
+* **markdown:** export as pdf ([#164](https://github.com/amwebexpert/etoolbox/issues/164)) ([67dca41](https://github.com/amwebexpert/etoolbox/commit/67dca41dd886f1a5e4dbccda11290fa9ec339681))
 # [4.11.0](https://github.com/amwebexpert/etoolbox/compare/v4.10.0...v4.11.0) (2026-09-13)
 
 
