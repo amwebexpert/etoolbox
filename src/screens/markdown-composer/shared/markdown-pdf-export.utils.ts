@@ -1,8 +1,7 @@
 import { downloadBlob } from "@lichens-innovation/ts-common/web";
+import { v4 as uuidv4 } from "uuid";
 
 import { getOpfsRoot, readBlobFromOpfs, removeOpfsEntry, writeTextFileToOpfs } from "~/utils/opfs.utils";
-
-const MARKDOWN_OPFS_PATH = "document.md";
 
 interface ConvertWorkerResponse {
   pdfPath?: string;
@@ -14,7 +13,7 @@ interface ExportMarkdownAsPdfArgs {
   fileName?: string;
 }
 
-const convertMarkdownInWorker = (mdPath: string): Promise<string> =>
+const convertMarkdownInWorker = (mdFilename: string): Promise<string> =>
   new Promise((resolve, reject) => {
     const worker = new Worker(new URL("./markdown-pdf-export.worker.ts", import.meta.url), { type: "module" });
 
@@ -32,7 +31,7 @@ const convertMarkdownInWorker = (mdPath: string): Promise<string> =>
       reject(new Error(event.message));
     };
 
-    worker.postMessage({ mdPath });
+    worker.postMessage({ mdPath: mdFilename });
   });
 
 export const exportMarkdownAsPdf = async ({
@@ -40,13 +39,14 @@ export const exportMarkdownAsPdf = async ({
   fileName = "document.pdf",
 }: ExportMarkdownAsPdfArgs): Promise<void> => {
   const root = await getOpfsRoot();
+  const mdFilename = `markdown-pdf-export-${uuidv4()}.md`;
 
-  await writeTextFileToOpfs({ root, path: MARKDOWN_OPFS_PATH, text: markdown });
-  const pdfPath = await convertMarkdownInWorker(MARKDOWN_OPFS_PATH);
-  const blob = await readBlobFromOpfs({ root, path: pdfPath, mimeType: "application/pdf" });
+  await writeTextFileToOpfs({ root, path: mdFilename, text: markdown });
+  const pdfFilename = await convertMarkdownInWorker(mdFilename);
+  const blob = await readBlobFromOpfs({ root, path: pdfFilename, mimeType: "application/pdf" });
 
-  await removeOpfsEntry({ root, path: MARKDOWN_OPFS_PATH });
-  await removeOpfsEntry({ root, path: pdfPath });
+  await removeOpfsEntry({ root, path: mdFilename });
+  await removeOpfsEntry({ root, path: pdfFilename });
 
   downloadBlob({ blob, fileName });
 };

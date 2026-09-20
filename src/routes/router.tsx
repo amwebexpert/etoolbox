@@ -18,6 +18,7 @@ import { MimeTypes } from "~/screens/common-lists/mime-types/mime-types";
 import { CsvParser } from "~/screens/csv-parser/csv-parser";
 import { DateConverter } from "~/screens/date-converter/date-converter";
 import { DiffViewer } from "~/screens/diff-viewer/diff-viewer";
+import { FileSystemExplorer } from "~/screens/file-system/file-system";
 import { GithubUserProjects } from "~/screens/github-user-projects/github-user-projects";
 import { Home } from "~/screens/home/home";
 import { ImageOcrCompressor } from "~/screens/image-tools/compressor/image-compressor";
@@ -323,6 +324,12 @@ const diffViewerRoute = createRoute({
   component: DiffViewer,
 });
 
+const fileSystemRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/file-system",
+  component: FileSystemExplorer,
+});
+
 const markdownComposerRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/markdown-composer",
@@ -385,6 +392,7 @@ const routeTree = rootRoute.addChildren([
   vr3dViewerRoute,
   codingStandardsRoute,
   diffViewerRoute,
+  fileSystemRoute,
   markdownComposerRoute.addChildren([
     markdownComposerIndexRoute,
     markdownComposerEditorRoute,

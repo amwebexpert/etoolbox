@@ -22,7 +22,7 @@ const createFakeRoot = ({ pdfContent }: CreateFakeRootArgs) => {
   const pdfFile = { arrayBuffer: vi.fn().mockResolvedValue(new TextEncoder().encode(pdfContent).buffer) };
   const pdfFileHandle: FakeFileHandle = { getFile: vi.fn().mockResolvedValue(pdfFile) };
 
-  const getFileHandle = vi.fn((path: string) => (path === "document.md" ? mdFileHandle : pdfFileHandle));
+  const getFileHandle = vi.fn((path: string) => (path.endsWith(".md") ? mdFileHandle : pdfFileHandle));
   const removeEntry = vi.fn().mockResolvedValue(undefined);
 
   return { getFileHandle, removeEntry, writable };
@@ -87,7 +87,7 @@ describe("exportMarkdownAsPdf", () => {
     // assert
     expect(root.writable.write).toHaveBeenCalledWith("# hello");
     expect(root.writable.close).toHaveBeenCalledTimes(1);
-    expect(root.removeEntry).toHaveBeenCalledWith("document.md");
+    expect(root.removeEntry).toHaveBeenCalledWith(expect.stringMatching(/^[\w-]+\.md$/));
     expect(root.removeEntry).toHaveBeenCalledWith("document.pdf");
     expect(downloadBlob).toHaveBeenCalledTimes(1);
     const call = vi.mocked(downloadBlob).mock.calls[0][0];

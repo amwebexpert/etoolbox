@@ -1,3 +1,4 @@
+import { NO_OP } from "@lichens-innovation/ts-common";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import type { CompressorSettings } from "./compressor.types";
@@ -343,7 +344,7 @@ describe("compressImage", () => {
 
     // assert
     expect(result).toBeInstanceOf(Promise);
-    result.catch(() => undefined);
+    result.catch(NO_OP);
   });
 });
 
