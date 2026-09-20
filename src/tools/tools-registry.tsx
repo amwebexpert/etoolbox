@@ -7,6 +7,7 @@ import {
   FileMarkdownOutlined,
   FileSearchOutlined,
   FileTextOutlined,
+  FolderOutlined,
   GithubOutlined,
   LinkOutlined,
   LockOutlined,
@@ -134,5 +135,11 @@ export const TOOLS: Tool[] = [
     name: "Markdown",
     description: "WYSIWYG editor & template composer",
     path: "/markdown-composer",
+  },
+  {
+    icon: <FolderOutlined />,
+    name: "OPFS Explorer",
+    description: "Browse, create, and manage files and folders in the browser's private file system",
+    path: "/file-system",
   },
 ];
