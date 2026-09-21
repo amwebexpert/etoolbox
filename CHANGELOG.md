@@ -1,3 +1,9 @@
+# [4.13.0](https://github.com/amwebexpert/etoolbox/compare/v4.12.0...v4.13.0) (2026-09-20)
+
+
+### Features
+
+* **opfs:** add OPFS Explorer screen ([#167](https://github.com/amwebexpert/etoolbox/issues/167)) ([1360ae0](https://github.com/amwebexpert/etoolbox/commit/1360ae0424969233bf79fe26446773d48cd2d918))
 # [4.12.0](https://github.com/amwebexpert/etoolbox/compare/v4.11.0...v4.12.0) (2026-09-19)
 
 
