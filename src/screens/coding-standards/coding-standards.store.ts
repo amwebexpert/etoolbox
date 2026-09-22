@@ -61,6 +61,7 @@ interface CodingStandardsState {
   disposeEmbeddings: () => void;
   redownloadModel: (args: RecomputeEmbeddingsArgs) => Promise<void>;
   recomputeAllEmbeddings: (args: RecomputeEmbeddingsArgs) => Promise<void>;
+  clearModelCache: () => void;
 }
 
 type CodingStandardsSet = (recipe: (state: Draft<CodingStandardsState>) => void) => void;
@@ -131,6 +132,7 @@ const createEmbeddingsSlice = ({
   | "disposeEmbeddings"
   | "recomputeAllEmbeddings"
   | "redownloadModel"
+  | "clearModelCache"
 > => ({
   setIsClearingModelCache: (isClearingModelCache) =>
     set((state) => {
@@ -208,6 +210,15 @@ const createEmbeddingsSlice = ({
     });
   },
 
+  clearModelCache: async () => {
+    try {
+      get().setIsClearingModelCache(true);
+      clearCache();
+    } finally {
+      get().setIsClearingModelCache(false);
+    }
+  },
+
   redownloadModel: async ({ rootNode, baseUrl }) => {
     if (!isValidRootNode(rootNode)) return;
 
@@ -258,7 +269,7 @@ export const useCodingStandardsStore = createDevToolsStore(PERSISTED_STORE_NAME,
 export const useRedownloadModel = () => useCodingStandardsStore((state) => state.redownloadModel);
 export const useRecomputeAllEmbeddings = () => useCodingStandardsStore((state) => state.recomputeAllEmbeddings);
 export const useIsClearingModelCache = () => useCodingStandardsStore((state) => state.isClearingModelCache);
-
+export const useClearModelCache = () => useCodingStandardsStore((state) => state.clearModelCache);
 export const useGetEmbeddingsEngine = () => useCodingStandardsStore((state) => state.embeddingsEngine);
 export const useIsEngineAvailable = () => {
   const engine = useGetEmbeddingsEngine();
