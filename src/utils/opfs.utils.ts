@@ -97,7 +97,9 @@ export const readBlobFromOpfs = async ({
     );
   }
 
-  return file.slice(0, file.size, mimeType); // Blob.slice = view, no byte copy
+  // copy into memory: an OPFS-backed slice becomes unreadable once the entry is removed/modified (callers delete right after) habit-hooks-disable non-essential-comment
+  // TODO GH-172 (github issue #172): stream OPFS → disk via showSaveFilePicker + file.stream().pipeTo() (no copy, no size cap); keep this as Firefox/Safari fallback habit-hooks-disable non-essential-comment
+  return new Blob([await file.arrayBuffer()], { type: mimeType });
 };
 
 export interface RemoveOpfsEntryArgs extends OpfsRootPathArgs {
