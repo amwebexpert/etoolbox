@@ -1,7 +1,13 @@
-`useState()` with no argument, or `useRef(null)`, gives TypeScript nothing to infer a useful type from — the binding ends up typed as `undefined` or `null` forever, which means every later assignment either needs an unsafe cast or silently widens the type to `any`-adjacent territory the first time someone assigns a real value.
+`useState()` with no argument, or `useState(null)`, gives TypeScript nothing to infer a useful type from — the binding ends up typed as `undefined` or `null` forever, so every later assignment needs an unsafe cast or fails to type-check.
 
-**Fix**: say what the value will eventually be — `useState<Item[]>([])`, `useRef<ComponentRef<"div">>(null)`. The initial value can still be empty/null; the generic is what makes every later read and write type-checked against the real shape.
+**What triggers**: a bare `useState(...)`/`useRef(...)` call with no type argument whose initial value is missing, `null` or `undefined`. Calls with an inferable initial value (`useState(0)`, `useState<Item[]>([])`, `useState([])`) aren't flagged. No autofix.
 
-**AVOID**: reaching for `useState<any>()` to silence this quickly — that satisfies the rule's letter while giving up exactly the type safety it exists to protect; write the real type.
+**Fix**: add the real eventual type as a generic, keeping the empty initial value:
+
+- `useState(null)` → `useState<User | null>(null)`
+- `useState()` → `useState<string>()`
+- `useRef(null)` → `useRef<ComponentRef<"div">>(null)` for DOM refs, or `useRef<number | null>(null)` for a timer id.
+
+**AVOID**: `useState<any>()` or `useRef<any>(null)` to silence it quickly — that satisfies the rule's letter while giving up exactly the type safety it exists to protect.
 
 {% include "includes/line_level_issues.md" %}

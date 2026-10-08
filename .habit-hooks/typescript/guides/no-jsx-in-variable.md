@@ -1,7 +1,12 @@
 `const labelNode = <span>{label}</span>;` followed by `{labelNode}` in the return gives a piece of markup a variable name instead of a component name — it can't take its own props, can't be tested alone, and the reader has to mentally substitute the variable back into the JSX to see the actual shape of what's rendered.
 
-**Fix**: declare a small named component instead — `const Label = ({ label }: LabelProps) => <span>{label}</span>;` then use `<Label label={label} />`. If it's genuinely a one-off with no reuse potential and the surrounding JSX is small, inlining the JSX directly (no intermediate variable at all) is often simpler than either option.
+**What triggers**: any variable declaration whose initializer is directly a JSX element or fragment, in any scope (module, component body, callback). No autofix.
 
-**AVOID**: renaming the variable to look more component-like (e.g. `LabelNode` in PascalCase) without actually converting it into a function — that doesn't grant it any of the real benefits of being a component.
+**Fix**:
+
+1. Small, used once? Inline the JSX directly where `{labelNode}` was. Write a conditional inline as `{isVisible && <span>{label}</span>}`.
+2. Otherwise extract a component in its own `.tsx` file (`label.tsx`, kebab-case) with a named `LabelProps` interface — `export const Label = ({ label }: LabelProps) => <span>{label}</span>;` — and render `<Label label={label} />`.
+
+**AVOID**: dodges the rule doesn't see but that keep the same smell — `const node = cond ? <A /> : null`, `const node = isOpen && <A />`, `const nodes = [<A />]`. Also avoid PascalCase-renaming the variable (`LabelNode`) without making it a function, and declaring the component inside the parent's body.
 
 {% include "includes/line_level_issues.md" %}

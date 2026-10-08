@@ -1,7 +1,9 @@
 `value !== null && value !== undefined` says "isn't nullish" in the longest possible way, and it's easy to get subtly wrong (typo one side into `===`, or compare against the wrong variable on the second clause) without it looking obviously broken.
 
-**Fix**: use the project's own `isNullish`/`isNotBlank`-style helpers from `@lichens-innovation/ts-common` — `!isNullish(value)` instead of the `&&` pair, `isNullish(value)` instead of the `||` pair. One call, one obviously-correct meaning, and the same helper is already used elsewhere in the codebase so a reader recognizes it instantly.
+**What triggers**: `x !== null && x !== undefined` and `x === null || x === undefined` (either order, same left-hand expression, `null`/`undefined` on the right). No autofix.
 
-**AVOID**: applying this pattern to a check that isn't actually a nullish check — `value === "" || value === undefined` (a blank-or-missing check) is a different concept (`isBlank`), not the same helper.
+**Fix**: `import { isNullish } from "@lichens-innovation/ts-common";` then replace the `&&` pair with `!isNullish(value)` and the `||` pair with `isNullish(value)`. There is no `isNotNullish` helper, so use `!isNullish(...)`.
+
+**AVOID**: inventing an `isNotNullish` helper, or using this helper for a check that isn't purely nullish — `value === "" || value === undefined` is a blank-or-missing check, so use `isBlank`/`isNotBlank` from the same package.
 
 {% include "includes/line_level_issues.md" %}

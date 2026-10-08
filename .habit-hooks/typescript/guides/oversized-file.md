@@ -4,6 +4,7 @@ A file over this repo's ESLint `max-lines` limit is a cohesion problem, not a co
 - **`.tsx` 150 max lines**
 
 **Fix:**
+
 1. Identify the seams — which exports, types, or helper clusters actually belong together? Typical clean splits: a data type and its operations, one feature pipeline, or one concern per file (`*.utils.ts`, a hook, a screen section).
 2. Move each seam to a module whose name describes that one responsibility. Update imports.
 3. If the structure resists splitting, responsibilities are tangled — look for the missing abstraction (a focused module with a small interface) that lets related pieces move together.

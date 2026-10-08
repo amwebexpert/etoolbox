@@ -1,6 +1,7 @@
 `throw`ing a string, a plain object, or `null` loses everything a catch site relies on: no stack trace, no `.message`, no `instanceof Error` narrowing. Whoever catches it has to special-case a value shape instead of a type.
 
 **Throw a real `Error` (or a typed subclass):**
+
 1. Plain failure: `throw new Error("message")`.
 2. A failure callers need to branch on: a dedicated `class FooError extends Error { ... }` they can `instanceof`-check.
 3. Re-throwing something caught as `unknown`: check `error instanceof Error` first, don't assume the shape.
