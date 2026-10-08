@@ -11,11 +11,15 @@ interface MenuNode {
   type?: string;
 }
 
+interface MenuGroupChild {
+  key?: string;
+}
+
 const buildNodes = (pinnedPaths: string[]): MenuNode[] =>
   buildMenuItems({ pinnedPaths, onTogglePinned: noop }) as MenuNode[];
 
 const pinnedGroupChildKeys = (nodes: MenuNode[]): (string | undefined)[] => {
-  const pinnedGroup = nodes.find((node) => node.type === "group") as { children?: { key?: string }[] } | undefined;
+  const pinnedGroup = nodes.find((node) => node.type === "group") as { children?: MenuGroupChild[] } | undefined;
   return (pinnedGroup?.children ?? []).map((child) => child.key);
 };
 

@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { createStyles } from "antd-style";
 import ReactJsonImport from "react-json-view";
 
@@ -23,7 +24,7 @@ export const JsonFormatterResult = ({ formattedJson }: JsonFormatterResultProps)
   const { viewMode, reactJsonConfig } = useJsonFormatterStore();
   const fontSize = isMobile ? 12 : 14;
 
-  if (!formattedJson) {
+  if (isBlank(formattedJson)) {
     return <ResultPlaceholder message="Formatted JSON will appear here" />;
   }
 

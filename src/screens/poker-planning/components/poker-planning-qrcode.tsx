@@ -1,4 +1,5 @@
 import { CopyOutlined } from "@ant-design/icons";
+import { isBlank } from "@lichens-innovation/ts-common";
 import { Button, Card, Tooltip } from "antd";
 import { createStyles } from "antd-style";
 
@@ -36,7 +37,7 @@ export const PokerPlanningQRCode = () => {
             type="text"
             size="small"
             icon={<CopyOutlined />}
-            disabled={!qrCodeDataUrl || isLoadingQRCode}
+            disabled={isBlank(qrCodeDataUrl) || isLoadingQRCode}
             onClick={handleCopyQRCode}
           />
         </Tooltip>

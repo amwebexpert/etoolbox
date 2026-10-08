@@ -44,7 +44,7 @@ export const JsonRepair = () => {
   };
 
   const handleSaveAs = () => {
-    if (!repairedJson) return;
+    if (isBlank(repairedJson)) return;
 
     try {
       downloadJson({ content: repairedJson });
@@ -60,7 +60,7 @@ export const JsonRepair = () => {
   };
 
   const hasInput = isNotBlank(inputText);
-  const hasResult = !!repairedJson;
+  const hasResult = isNotBlank(repairedJson);
 
   return (
     <ScreenContainer>

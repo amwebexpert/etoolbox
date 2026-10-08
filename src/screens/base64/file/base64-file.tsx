@@ -1,5 +1,5 @@
 import { FileOutlined } from "@ant-design/icons";
-import { formatDataUri, getErrorMessage } from "@lichens-innovation/ts-common";
+import { formatDataUri, getErrorMessage, isBlank, isNotBlank } from "@lichens-innovation/ts-common";
 import { Input, Space, Typography, type UploadFile } from "antd";
 import { createStyles } from "antd-style";
 import { useState } from "react";
@@ -57,13 +57,13 @@ export const Base64File = () => {
   };
 
   const handleDownload = () => {
-    if (!base64Output) return;
+    if (isBlank(base64Output)) return;
 
     try {
       downloadBase64AsFile({
         base64: base64Output,
         mimeType,
-        fileName: fileName || "decoded-file",
+        fileName: isBlank(fileName) ? "decoded-file" : fileName,
       });
       messageApi.success("File downloaded!");
     } catch (e: unknown) {
@@ -74,7 +74,7 @@ export const Base64File = () => {
   const handleBase64Input = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value ?? "";
     setBase64Output(value);
-    if (!fileName) {
+    if (isBlank(fileName)) {
       setFileName("decoded-file");
       setMimeType("application/octet-stream");
     }
@@ -114,7 +114,7 @@ export const Base64File = () => {
         <Base64FileInfo fileName={fileName} mimeType={mimeType} base64Output={base64Output} />
 
         <Base64FileToolbar
-          hasContent={!!base64Output || !!fileName}
+          hasContent={isNotBlank(base64Output) || isNotBlank(fileName)}
           onClear={handleClear}
           onCopy={handleCopy}
           onCopyDataUri={handleCopyDataUri}

@@ -1,5 +1,5 @@
 import { ReloadOutlined, SearchOutlined } from "@ant-design/icons";
-import { isNotBlank } from "@lichens-innovation/ts-common";
+import { isBlank, isNotBlank } from "@lichens-innovation/ts-common";
 import { Button, Col, Input, Row, Space, Tooltip, Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -66,31 +66,30 @@ export const GithubSearchRow = ({
             icon={<SearchOutlined />}
             onClick={onSearch}
             loading={isLoading}
-            disabled={!isNotBlank(username)}
+            disabled={isBlank(username)}
           >
             {isMobile ? "" : "Search"}
           </Button>
 
-          {hasProjects ? (
+          {hasProjects && (
             <Tooltip title="Refresh data">
               <Button
-                // eslint-disable-next-line react/jsx-no-leaked-render -- isFetching/isLoading are both `boolean` props, not JSX children; no leak risk
                 icon={<ReloadOutlined spin={isFetching && !isLoading} />}
                 onClick={onRefresh}
                 disabled={isFetching}
               />
             </Tooltip>
-          ) : null}
+          )}
         </Space>
       </Col>
 
-      {hasProjects ? (
+      {hasProjects && (
         <Col xs={12} sm={8} md={6} lg={4}>
           <Text type="secondary" className={styles.count}>
             {filteredCount} / {totalCount} repos
           </Text>
         </Col>
-      ) : null}
+      )}
     </Row>
   );
 };

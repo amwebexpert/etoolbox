@@ -1,3 +1,5 @@
+import { isNotBlank } from "@lichens-innovation/ts-common";
+
 import { HTML_ENTITIES } from "./html-entities.constants";
 import type { HtmlEntity, HtmlEntityCategory, HtmlEntityFilterField } from "./html-entities.types";
 
@@ -21,7 +23,7 @@ export const applyFiltering = ({ category, filter, filterField }: ApplyFiltering
   }
 
   if (filterField === "named-only") {
-    results = results.filter((entity) => entity.entityName !== "");
+    results = results.filter((entity) => isNotBlank(entity.entityName));
   }
 
   if (filter) {

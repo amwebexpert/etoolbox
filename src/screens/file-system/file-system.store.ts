@@ -1,3 +1,4 @@
+import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
 import { downloadBlob } from "@lichens-innovation/ts-common/web";
 import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { downloadZip } from "client-zip";
@@ -160,7 +161,7 @@ const createNavigationSlice = ({
       await getOpfsRoot();
     } catch (error) {
       set((state) => {
-        state.unsupportedError = error instanceof Error ? error.message : String(error);
+        state.unsupportedError = getErrorMessage(error);
       });
       return;
     }
@@ -306,7 +307,7 @@ const createEntryWriteSlice = ({
 
   renameEntry: async (newName) => {
     const { modal, currentPath } = get();
-    if (modal.mode !== "rename" || !modal.targetKind) {
+    if (modal.mode !== "rename" || isBlank(modal.targetKind)) {
       throw new Error("No rename target selected.");
     }
 

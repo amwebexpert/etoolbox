@@ -26,7 +26,7 @@ export const ResultMobileLayout = ({ date, epochValue, showCodeExamples, onCopy 
         <DateFormatCard key={format.id} format={format} date={date} epochValue={epochValue} onCopy={onCopy} />
       ))}
 
-      {showCodeExamples ? (
+      {showCodeExamples && (
         <div className={styles.codeExamplesSection}>
           <Typography.Title level={5} className={styles.codeExamplesTitle}>
             <CodeOutlined /> Code Examples
@@ -35,7 +35,7 @@ export const ResultMobileLayout = ({ date, epochValue, showCodeExamples, onCopy 
             <CodeExampleCard key={example.id} example={example} date={date} onCopy={onCopy} syntaxTheme={syntaxTheme} />
           ))}
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

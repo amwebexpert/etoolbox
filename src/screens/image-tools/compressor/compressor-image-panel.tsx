@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { Card, Descriptions, Skeleton } from "antd";
 import { createStyles } from "antd-style";
 
@@ -30,7 +31,7 @@ export const CompressorImagePanel = ({
   return (
     <Card title={title} className={styles.card} styles={{ body: { padding: 16 } }}>
       <div className={styles.imageContainer}>
-        {isLoading || !src ? (
+        {isLoading || isBlank(src) ? (
           <Skeleton.Image active={isLoading} className={styles.skeleton} />
         ) : (
           <img src={src} alt={title} className={styles.image} />

@@ -45,7 +45,7 @@ export const UrlCurl = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value ?? "";
     setInputCurl(value);
-    if (!value) {
+    if (isBlank(value)) {
       setTransformedResult("");
     }
   };
@@ -92,7 +92,12 @@ export const UrlCurl = () => {
           actions={
             <Space size="small" wrap>
               <Tooltip title="Copy result to clipboard">
-                <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!transformedResult} onClick={handleCopy}>
+                <Button
+                  aria-label="Copy"
+                  icon={<CopyOutlined />}
+                  disabled={isBlank(transformedResult)}
+                  onClick={handleCopy}
+                >
                   {!isMobile && "Copy"}
                 </Button>
               </Tooltip>
@@ -110,7 +115,7 @@ export const UrlCurl = () => {
           }
         />
 
-        {!!transformedResult && (
+        {isNotBlank(transformedResult) && (
           <SyntaxHighlightBlock
             code={`\n${transformedResult}`}
             language={syntaxLanguage}

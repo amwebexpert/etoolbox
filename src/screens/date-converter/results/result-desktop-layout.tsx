@@ -85,7 +85,7 @@ export const ResultDesktopLayout = ({ date, epochValue, showCodeExamples, onCopy
         className={styles.table}
       />
 
-      {showCodeExamples ? (
+      {showCodeExamples && (
         <div className={styles.codeExamplesSection}>
           <Typography.Title level={5} className={styles.codeExamplesTitle}>
             <CodeOutlined /> Code Examples
@@ -125,7 +125,7 @@ export const ResultDesktopLayout = ({ date, epochValue, showCodeExamples, onCopy
             ))}
           </Row>
         </div>
-      ) : null}
+      )}
     </div>
   );
 };

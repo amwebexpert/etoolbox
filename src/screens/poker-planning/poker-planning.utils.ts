@@ -1,4 +1,4 @@
-import { isNumber } from "@lichens-innovation/ts-common";
+import { isNotBlank, isNumber } from "@lichens-innovation/ts-common";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { v4 as uuidv4 } from "uuid";
 
@@ -77,7 +77,7 @@ interface ParseEstimatesParams {
 export const parseEstimates = ({ estimates, username }: ParseEstimatesParams): EstimatesStats => {
   const values = estimates
     .map((e) => e.estimate)
-    .filter((e): e is string => !!e)
+    .filter((e): e is string => isNotBlank(e))
     .filter(isNumber)
     .map((e) => Number(e));
 
@@ -85,7 +85,7 @@ export const parseEstimates = ({ estimates, username }: ParseEstimatesParams): E
   const average = values.length > 0 ? estimatesSum / values.length : 0;
   const estimatesAverage = Math.round(average * 10 + Number.EPSILON) / 10;
   const isEstimatesCleared = estimates.length > 0 && estimates.every((e) => e.estimate === undefined);
-  const isUsernameProvided = !!username?.trim();
+  const isUsernameProvided = isNotBlank(username);
   const isUserMemberOfRoom = isUsernameProvided && estimates.some((e) => e.username === username);
 
   return {

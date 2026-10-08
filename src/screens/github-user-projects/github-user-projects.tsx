@@ -102,18 +102,18 @@ export const GithubUserProjects = () => {
           onRefresh={handleRefresh}
         />
 
-        {hasProjects ? <GithubUserProjectsStats projects={projects} /> : null}
+        {hasProjects && <GithubUserProjectsStats projects={projects} />}
 
-        {showEmpty ? (
+        {showEmpty && (
           <GithubUserProjectsEmpty
             hasSearched={hasSearched}
             username={lastSearchedUsername}
             isError={isProjectsError}
             errorMessage={projectsError?.message}
           />
-        ) : null}
+        )}
 
-        {showTable ? <GithubUserProjectsTable projects={processedProjects} isLoading={isFetchingProjects} /> : null}
+        {showTable && <GithubUserProjectsTable projects={processedProjects} isLoading={isFetchingProjects} />}
       </Flex>
     </ScreenContainer>
   );

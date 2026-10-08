@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { format, formatDistanceToNow } from "date-fns";
 
 import {
@@ -132,7 +133,7 @@ interface ParseEpochArgs {
 }
 
 export const parseEpochToDate = ({ epochValue, epochUnit }: ParseEpochArgs): Date | null => {
-  if (!epochValue || epochValue.trim() === "") {
+  if (isBlank(epochValue) || isBlank(epochValue)) {
     return null;
   }
 
@@ -162,7 +163,7 @@ export const dateToEpoch = ({ date, epochUnit }: DateToEpochArgs): string => {
 };
 
 export const isValidEpochInput = (value: string): boolean => {
-  if (!value || value.trim() === "") {
+  if (isBlank(value) || isBlank(value)) {
     return true; // Empty is considered valid (just not set)
   }
   const numValue = Number(value);

@@ -1,4 +1,5 @@
 import { ClearOutlined, CopyOutlined, DownloadOutlined, ScanOutlined } from "@ant-design/icons";
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Button, Space, Tooltip } from "antd";
 
 import { ScreenToolbar } from "~/components/ui/screen-toolbar";
@@ -21,7 +22,7 @@ export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onCl
   const { copyTextToClipboard } = useClipboardCopy();
   const messageApi = useToastMessage();
 
-  const hasResult = !!resultText;
+  const hasResult = isNotBlank(resultText);
 
   const handleCopy = () => {
     void copyTextToClipboard({

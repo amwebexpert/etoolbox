@@ -1,4 +1,5 @@
 import { CodeOutlined, FileImageOutlined } from "@ant-design/icons";
+import { isBlank } from "@lichens-innovation/ts-common";
 import { Card, Input, Tabs, Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -17,7 +18,7 @@ export const QRCodeGeneratorResult = ({ dataUrl }: QRCodeGeneratorResultProps) =
   const { styles } = useStyles();
   const { isMobile } = useResponsive();
 
-  if (!dataUrl) {
+  if (isBlank(dataUrl)) {
     return (
       <div className={styles.placeholder}>
         <Typography.Text type="secondary">Generated QR code will appear here</Typography.Text>

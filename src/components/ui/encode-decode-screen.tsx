@@ -1,3 +1,4 @@
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Input, Space } from "antd";
 import type { ChangeEvent, ReactNode } from "react";
 
@@ -56,15 +57,15 @@ export const EncodeDecodeScreen = ({
         />
 
         <EncodeDecodeToolbar
-          hasInput={!!inputText}
-          hasOutput={!!outputText}
+          hasInput={isNotBlank(inputText)}
+          hasOutput={isNotBlank(outputText)}
           onSwap={onSwap}
           onCopy={onCopy}
           onEncode={onEncode}
           onDecode={onDecode}
         />
 
-        {!!outputText && (
+        {isNotBlank(outputText) && (
           <ResultSection label="Result">
             <ResultBox variant="padded">
               <CopyableResultText text={outputText} />

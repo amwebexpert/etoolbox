@@ -1,4 +1,5 @@
 import { UploadOutlined } from "@ant-design/icons";
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Button, Col, Form, Row, Select, Typography } from "antd";
 import { createStyles } from "antd-style";
 import { type ComponentRef, useRef } from "react";
@@ -79,7 +80,7 @@ export const CsvFileUpload = ({ fileEncoding, fileInfo, onEncodingChange, onFile
           >
             Select CSV File
           </Button>
-          {!!fileInfoText && (
+          {isNotBlank(fileInfoText) && (
             <Typography.Text type="secondary" className={styles.fileInfo}>
               {fileInfoText}
             </Typography.Text>

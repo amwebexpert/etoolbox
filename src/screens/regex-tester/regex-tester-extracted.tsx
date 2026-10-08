@@ -28,11 +28,11 @@ export const RegexTesterExtracted = ({
       label="Extracted Values"
       trailing={
         <div className={styles.controls}>
-          {hasMatches ? (
+          {hasMatches && (
             <Typography.Text type="secondary" className={styles.count}>
               {matches.length} total, {uniqueCount} unique
             </Typography.Text>
-          ) : null}
+          )}
 
           <Select
             size="small"

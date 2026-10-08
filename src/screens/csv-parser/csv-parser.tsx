@@ -1,5 +1,5 @@
 import { TableOutlined } from "@ant-design/icons";
-import { isNotBlank, safeJsonStringify } from "@lichens-innovation/ts-common";
+import { isBlank, isNotBlank, safeJsonStringify } from "@lichens-innovation/ts-common";
 import { downloadJson } from "@lichens-innovation/ts-common/web";
 import { Flex, Form } from "antd";
 import { createStyles } from "antd-style";
@@ -45,7 +45,7 @@ export const CsvParser = () => {
   };
 
   const handleParse = () => {
-    if (!csvInput) return;
+    if (isBlank(csvInput)) return;
 
     parseCsv({
       csvData: csvInput,

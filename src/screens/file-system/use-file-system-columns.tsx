@@ -1,4 +1,5 @@
 import { DeleteOutlined, DownloadOutlined, EditOutlined, FolderOutlined } from "@ant-design/icons";
+import { getErrorMessage } from "@lichens-innovation/ts-common";
 import { Button, Space, Tooltip, Typography } from "antd";
 import type { HookAPI } from "antd/es/modal/useModal";
 import type { ColumnsType } from "antd/es/table";
@@ -37,7 +38,7 @@ export const useFileSystemColumns = (modal: HookAPI): ColumnsType<OpfsEntryMeta>
         try {
           await deleteEntry(entry);
         } catch (error) {
-          messageApi.error(error instanceof Error ? error.message : "Failed to delete.");
+          messageApi.error(getErrorMessage(error));
         }
       },
     });
@@ -47,7 +48,7 @@ export const useFileSystemColumns = (modal: HookAPI): ColumnsType<OpfsEntryMeta>
     try {
       await downloadEntry(entry);
     } catch (error) {
-      messageApi.error(error instanceof Error ? error.message : "Failed to download.");
+      messageApi.error(getErrorMessage(error));
     }
   };
 

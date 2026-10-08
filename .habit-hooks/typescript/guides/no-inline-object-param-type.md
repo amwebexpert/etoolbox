@@ -10,6 +10,8 @@ interface BuildFooKeyArgs {
 const buildFooKey = ({ siteSlug, equipmentSlug }: BuildFooKeyArgs) => { ... };
 ```
 
+The same applies to an object type nested inside an interface or type member (property, index signature, method — including inside arrays, unions, generics and function types): `viewBox?: { x?: number; y?: number }` → extract `interface PumpChartViewBox` and reference it. Only the outermost nested literal is reported; deeper ones surface once it is extracted.
+
 **Known, deliberate exception**: a parameter shape genuinely imposed by an external library's callback signature (e.g. a snake_case event object from a third-party component) still deserves a named local interface — extract it too, even though you didn't design the shape; it still gives the parameter a name a reader can look up.
 
 **AVOID**: naming the extracted interface something generic (`Args`, `Params`, `Props` with no prefix) when multiple functions in the same file would each want their own — collisions force an awkward rename later.

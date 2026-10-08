@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { Input, Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -17,7 +18,7 @@ export const UuidGeneratorResult = ({ result }: UuidGeneratorResultProps) => {
 
   const maxRows = getRows({ isMobile, isTablet });
 
-  if (!result) {
+  if (isBlank(result)) {
     return (
       <div className={styles.placeholder}>
         <Typography.Text type="secondary">Generated UUIDs will appear here</Typography.Text>

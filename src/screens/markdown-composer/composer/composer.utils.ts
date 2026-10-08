@@ -1,16 +1,17 @@
+import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
 export interface JsonDataParseResult {
   data?: unknown;
   errorMessage?: string;
 }
 
 export const parseJsonDataText = (text: string): JsonDataParseResult => {
-  if (text.trim() === "") {
+  if (isBlank(text)) {
     return { data: undefined };
   }
 
   try {
     return { data: JSON.parse(text) as unknown };
   } catch (error) {
-    return { errorMessage: error instanceof Error ? error.message : String(error) };
+    return { errorMessage: getErrorMessage(error) };
   }
 };

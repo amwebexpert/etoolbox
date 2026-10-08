@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -32,7 +33,7 @@ interface ColumnLanguageProps {
 export const ColumnLanguage = ({ language }: ColumnLanguageProps) => {
   const { styles } = useStyles();
 
-  if (!language) {
+  if (isBlank(language)) {
     return <Text type="secondary">—</Text>;
   }
 

@@ -1,4 +1,5 @@
 import { CopyOutlined, ForkOutlined, LockOutlined } from "@ant-design/icons";
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Tag, Tooltip, Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -29,26 +30,26 @@ export const ColumnRepository = ({ record, isMobile }: ColumnRepositoryProps) =>
         <Link href={record.html_url} target="_blank" rel="noreferrer noopener" className={styles.repoName}>
           {record.name}
         </Link>
-        {record.private ? (
+        {record.private && (
           <Tooltip title="Private repository">
             <LockOutlined className={styles.privateIcon} />
           </Tooltip>
-        ) : null}
-        {record.fork ? (
+        )}
+        {record.fork && (
           <Tooltip title="Forked repository">
             <ForkOutlined className={styles.forkIcon} />
           </Tooltip>
-        ) : null}
-        {record.archived ? (
+        )}
+        {record.archived && (
           <Tag color="orange" className={styles.archivedTag}>
             Archived
           </Tag>
-        ) : null}
+        )}
         <Tooltip title="Copy repository URL">
           <CopyOutlined className={styles.copyIcon} onClick={handleCopyUrl} />
         </Tooltip>
       </div>
-      {!!record.description && !isMobile && (
+      {isNotBlank(record.description) && !isMobile && (
         <Text type="secondary" ellipsis className={styles.description}>
           {record.description}
         </Text>

@@ -1,4 +1,5 @@
 import { PictureOutlined } from "@ant-design/icons";
+import { isBlank, isNotBlank } from "@lichens-innovation/ts-common";
 import { getImagePreviewSrc } from "@lichens-innovation/ts-common/mime";
 import { Alert, Input, Space } from "antd";
 import { createStyles } from "antd-style";
@@ -40,7 +41,7 @@ export const DataUri = () => {
   };
 
   const handleDownload = () => {
-    if (!imagePreviewSrc || !metadata) return;
+    if (isBlank(imagePreviewSrc) || !metadata) return;
     downloadImageDataUri({ dataUri: imagePreviewSrc, ext: metadata.ext });
   };
 
@@ -66,13 +67,13 @@ export const DataUri = () => {
           className={styles.textArea}
         />
 
-        {!!imagePreviewSrc && <img src={imagePreviewSrc} alt="Decoded preview" className={styles.preview} />}
+        {isNotBlank(imagePreviewSrc) && <img src={imagePreviewSrc} alt="Decoded preview" className={styles.preview} />}
 
-        {!!metadata && !!imagePreviewSrc && (
+        {!!metadata && isNotBlank(imagePreviewSrc) && (
           <DataUriMetadata dataUri={imagePreviewSrc} metadata={metadata} dimensions={dimensions} />
         )}
 
-        {!!nonImageDataUri && (
+        {isNotBlank(nonImageDataUri) && (
           <Alert
             type="info"
             showIcon

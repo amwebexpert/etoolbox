@@ -1,4 +1,5 @@
 import { FileImageOutlined } from "@ant-design/icons";
+import { isBlank } from "@lichens-innovation/ts-common";
 import { Flex } from "antd";
 import { createStyles } from "antd-style";
 import { useEffect } from "react";
@@ -47,7 +48,7 @@ export const ImageOcrCompressor = () => {
   };
 
   useEffect(() => {
-    if (!compressedObjectUrl) {
+    if (isBlank(compressedObjectUrl)) {
       return;
     }
 

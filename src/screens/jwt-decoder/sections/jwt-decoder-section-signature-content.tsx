@@ -1,4 +1,5 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
+import { isBlank } from "@lichens-innovation/ts-common";
 import { Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -17,7 +18,7 @@ export const JwtDecoderSectionSignatureContent = ({ signature }: JwtDecoderSecti
       </Typography.Paragraph>
 
       <Typography.Text code className={styles.signature}>
-        {signature || "No signature"}
+        {isBlank(signature) ? "No signature" : signature}
       </Typography.Text>
     </div>
   );

@@ -1,4 +1,4 @@
-import type { RgbaColor } from "@lichens-innovation/ts-common";
+import { isBlank, type RgbaColor } from "@lichens-innovation/ts-common";
 import { Typography } from "antd";
 import { createStyles } from "antd-style";
 import { type ComponentRef, type MouseEvent, useRef } from "react";
@@ -26,7 +26,7 @@ export const ColorPickerImage = ({ imageDataUrl, onColorPicked }: ColorPickerIma
     }
   };
 
-  if (!imageDataUrl) {
+  if (isBlank(imageDataUrl)) {
     return (
       <div className={styles.placeholder}>
         <Text type="secondary">Paste an image (Ctrl+V / Cmd+V) or select a file</Text>

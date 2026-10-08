@@ -1,7 +1,8 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 export const parseUrl = (value?: string): Map<string, string> => {
   const fragments: Map<string, string> = new Map();
 
-  if (!value) {
+  if (isBlank(value)) {
     return fragments;
   }
 
@@ -24,7 +25,7 @@ export const parseUrl = (value?: string): Map<string, string> => {
 export const parseUrlParams = (value?: string): Map<string, string> => {
   const params: Map<string, string> = new Map();
 
-  if (!value) {
+  if (isBlank(value)) {
     return params;
   }
 

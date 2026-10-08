@@ -1,5 +1,7 @@
 import { NO_OP } from "@lichens-innovation/ts-common";
 
+const MAX_READABLE_OPFS_BLOB_SIZE_BYTES = 200 * 1024 * 1024; // 200 MB
+
 export const getOpfsRoot = async (): Promise<FileSystemDirectoryHandle> => {
   if (!navigator.storage?.getDirectory) {
     throw new Error("This feature requires a browser with Origin Private File System support.");
@@ -76,13 +78,26 @@ export const writeFileToOpfs = async ({ root, path, file }: WriteFileToOpfsArgs)
 
 export interface ReadBlobFromOpfsArgs extends OpfsRootPathArgs {
   mimeType: string;
+  maxSizeBytes?: number;
 }
 
-export const readBlobFromOpfs = async ({ root, path, mimeType }: ReadBlobFromOpfsArgs): Promise<Blob> => {
+export const readBlobFromOpfs = async ({
+  root,
+  path,
+  mimeType,
+  maxSizeBytes = MAX_READABLE_OPFS_BLOB_SIZE_BYTES,
+}: ReadBlobFromOpfsArgs): Promise<Blob> => {
   const { parent, name } = await resolveOpfsParent({ root, path });
   const fileHandle = await parent.getFileHandle(name);
   const file = await fileHandle.getFile();
-  return new Blob([await file.arrayBuffer()], { type: mimeType });
+
+  if (file.size > maxSizeBytes) {
+    throw new Error(
+      `Refusing to read "${path}" (${file.size}) into memory: exceeds ${maxSizeBytes} limit. Use a streaming/worker approach for large files instead.`
+    );
+  }
+
+  return file.slice(0, file.size, mimeType); // Blob.slice = view, no byte copy
 };
 
 export interface RemoveOpfsEntryArgs extends OpfsRootPathArgs {

@@ -1,3 +1,4 @@
+import { isBlank, isNotBlank } from "@lichens-innovation/ts-common";
 import { Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -12,21 +13,21 @@ interface Base64FileInfoProps {
 export const Base64FileInfo = ({ fileName, mimeType, base64Output }: Base64FileInfoProps) => {
   const { styles } = useStyles();
 
-  if (!fileName && !base64Output) return null;
+  if (isBlank(fileName) && isBlank(base64Output)) return null;
 
   return (
     <div className={styles.infoSection}>
-      {!!fileName && (
+      {isNotBlank(fileName) && (
         <Typography.Text>
           <strong>File:</strong> {fileName}
         </Typography.Text>
       )}
-      {!!mimeType && (
+      {isNotBlank(mimeType) && (
         <Typography.Text>
           <strong>Type:</strong> {mimeType}
         </Typography.Text>
       )}
-      {!!base64Output && (
+      {isNotBlank(base64Output) && (
         <Typography.Text>
           <strong>Size: ≈</strong> {formatBase64Size(base64Output)}
         </Typography.Text>

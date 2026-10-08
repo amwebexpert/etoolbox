@@ -1,3 +1,4 @@
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Card, Col, Row, Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -26,7 +27,7 @@ export const JwtDecoderAlgorithmCard = ({ header }: JwtDecoderAlgorithmCardProps
         <Col xs={24} sm={12}>
           <Typography.Text type="secondary">Token Type:</Typography.Text>{" "}
           <Typography.Text strong>{header?.typ ?? "JWT"}</Typography.Text>
-          {!!header?.kid && (
+          {isNotBlank(header?.kid) && (
             <>
               <br />
               <Typography.Text type="secondary">Key ID:</Typography.Text>{" "}

@@ -1,4 +1,5 @@
 import { LinkOutlined } from "@ant-design/icons";
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Card, Input, Space, Table, Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -55,7 +56,7 @@ export const UrlParser = () => {
           className={styles.textArea}
         />
 
-        {!!inputUrl && (
+        {isNotBlank(inputUrl) && (
           <Link href={inputUrl} target="_blank" rel="noreferrer">
             Click the link to open the URL in a new tab
           </Link>

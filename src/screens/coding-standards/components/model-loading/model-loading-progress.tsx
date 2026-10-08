@@ -38,7 +38,7 @@ export const ModelLoadingProgress = ({ isLoading }: ModelLoadingProgressProps) =
           />
         </Flex>
 
-        {isError ? <ModelLoadingProgressErrorAlert globalErrorMessage={globalErrorMessage} /> : null}
+        {isError && <ModelLoadingProgressErrorAlert globalErrorMessage={globalErrorMessage} />}
       </Flex>
     </Card>
   );

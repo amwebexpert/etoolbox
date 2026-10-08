@@ -76,13 +76,13 @@ export const PokerPlanningToolbar = ({ isUserMemberOfRoom, onClearVotes }: Poker
             </Button>
           </Tooltip>
 
-          {isConnected ? (
+          {isConnected && (
             <Tooltip title="Disconnect from the room">
               <Button aria-label="Disconnect" icon={<DisconnectOutlined />} onClick={disconnect}>
                 {!isMobile && "Disconnect"}
               </Button>
             </Tooltip>
-          ) : null}
+          )}
         </Space>
       }
     />

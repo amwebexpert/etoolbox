@@ -1,5 +1,6 @@
 import {
   getErrorMessage,
+  isBlank,
   minifyJson as minifyJsonUtil,
   prettifyJson as prettifyJsonUtil,
 } from "@lichens-innovation/ts-common";
@@ -91,7 +92,7 @@ interface GetFormattedJsonArgs {
 }
 
 export const getFormattedJson = ({ inputText, isMinifiedMode }: GetFormattedJsonArgs): string => {
-  if (!inputText) return "";
+  if (isBlank(inputText)) return "";
   if (isMinifiedMode) return minifyJson({ value: inputText });
 
   return prettifyJson({ value: inputText });
