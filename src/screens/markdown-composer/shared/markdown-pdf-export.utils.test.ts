@@ -19,7 +19,7 @@ interface CreateFakeRootArgs {
 const createFakeRoot = ({ pdfContent }: CreateFakeRootArgs) => {
   const writable = { write: vi.fn(), close: vi.fn() };
   const mdFileHandle: FakeFileHandle = { createWritable: vi.fn().mockResolvedValue(writable) };
-  const pdfFile = { arrayBuffer: vi.fn().mockResolvedValue(new TextEncoder().encode(pdfContent).buffer) };
+  const pdfFile = new File([pdfContent], "output.pdf");
   const pdfFileHandle: FakeFileHandle = { getFile: vi.fn().mockResolvedValue(pdfFile) };
 
   const getFileHandle = vi.fn((path: string) => (path.endsWith(".md") ? mdFileHandle : pdfFileHandle));

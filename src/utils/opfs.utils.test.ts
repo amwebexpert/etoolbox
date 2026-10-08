@@ -27,7 +27,7 @@ interface CreateFakeRootArgs {
 const createFakeRoot = ({ fileContent }: CreateFakeRootArgs) => {
   const writable = { write: vi.fn(), close: vi.fn() };
   const writeFileHandle: FakeFileHandle = { createWritable: vi.fn().mockResolvedValue(writable) };
-  const file = { arrayBuffer: vi.fn().mockResolvedValue(new TextEncoder().encode(fileContent).buffer) };
+  const file = new File([fileContent], "read.txt");
   const readFileHandle: FakeFileHandle = { getFile: vi.fn().mockResolvedValue(file) };
 
   const getFileHandle = vi.fn((path: string) => (path === "write.txt" ? writeFileHandle : readFileHandle));

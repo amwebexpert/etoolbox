@@ -56,13 +56,7 @@ const wrapFakeFile = (node: FakeFsNode): FileSystemFileHandle => {
   const handle = {
     kind: "file" as const,
     name: node.name,
-    getFile: vi.fn(async () => ({
-      name: node.name,
-      size: node.content?.length ?? 0,
-      lastModified: node.lastModified ?? 0,
-      arrayBuffer: async () => new TextEncoder().encode(node.content ?? "").buffer,
-      text: async () => node.content ?? "",
-    })),
+    getFile: vi.fn(async () => new File([node.content ?? ""], node.name, { lastModified: node.lastModified ?? 0 })),
     createWritable: vi.fn(async () => ({
       write: vi.fn(async (data: string | Blob) => {
         node.content = typeof data === "string" ? data : await data.text();
