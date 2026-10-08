@@ -45,19 +45,19 @@ export const PokerPlanningToolbar = ({ isUserMemberOfRoom, onClearVotes }: Poker
               loading={isConnecting}
               onClick={createRoom}
             >
-              {!isMobile && "New Room"}
+              {!isMobile && <>New Room</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Join the current room">
             <Button aria-label="Join" icon={<TeamOutlined />} disabled={!canJoin} onClick={joinRoom}>
-              {!isMobile && "Join"}
+              {!isMobile && <>Join</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy room link to clipboard">
             <Button aria-label="Copy Link" icon={<CopyOutlined />} disabled={!canShareLink} onClick={handleCopyLink}>
-              {!isMobile && "Copy Link"}
+              {!isMobile && <>Copy Link</>}
             </Button>
           </Tooltip>
         </Space>
@@ -72,17 +72,17 @@ export const PokerPlanningToolbar = ({ isUserMemberOfRoom, onClearVotes }: Poker
               disabled={!isUserMemberOfRoom}
               onClick={onClearVotes}
             >
-              {!isMobile && "Clear Votes"}
+              {!isMobile && <>Clear Votes</>}
             </Button>
           </Tooltip>
 
-          {isConnected ? (
+          {isConnected && (
             <Tooltip title="Disconnect from the room">
               <Button aria-label="Disconnect" icon={<DisconnectOutlined />} onClick={disconnect}>
-                {!isMobile && "Disconnect"}
+                {!isMobile && <>Disconnect</>}
               </Button>
             </Tooltip>
-          ) : null}
+          )}
         </Space>
       }
     />

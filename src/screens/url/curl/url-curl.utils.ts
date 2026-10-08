@@ -1,4 +1,4 @@
-import { getErrorMessage } from "@lichens-innovation/ts-common";
+import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
 import { type HarRequest, HTTPSnippet } from "httpsnippet";
 import parseCurl from "parse-curl";
 
@@ -125,7 +125,7 @@ const curlToHar = (curlCommand: string): HarRequest => {
   }
 
   const harRequest: HarRequest = {
-    method: parsed.method || "GET",
+    method: isBlank(parsed.method) ? "GET" : parsed.method,
     url: parsed.url,
     httpVersion: "HTTP/1.1",
     cookies: [],
@@ -145,7 +145,7 @@ interface TransformCurlArgs {
 }
 
 export const transformCurl = ({ value, targetLanguage = "JavaScript (Fetch)" }: TransformCurlArgs): string => {
-  if (!value) {
+  if (isBlank(value)) {
     return "";
   }
 

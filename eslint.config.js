@@ -137,12 +137,6 @@ export default tseslint.config(
       ],
       "react/destructuring-assignment": ["error", "always"],
       "react/jsx-curly-brace-presence": "error",
-      // coding-guide/prefer-jsx-short-circuit@1.0.3 misfires on `{cond && "text"}` — it flags the
-      // plain-string *render content* on the right of && as needing `!!()` too, and its autofix
-      // wraps the string in `!!(...)`, turning it into the literal `true` (so React renders
-      // nothing instead of the label). Disabled in favor of the standard, narrower rule below.
-      "coding-guide/prefer-jsx-short-circuit": "off",
-      "react/jsx-no-leaked-render": "error",
       "no-eval": "error",
       "no-new-func": "error",
       "react/no-danger": "error",

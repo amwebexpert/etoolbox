@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import type { ChangeEvent } from "react";
 
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
@@ -36,7 +37,7 @@ export const useEncodeDecodeHandlers = ({
   const onInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value ?? "";
     setInputText(value);
-    if (!value) {
+    if (isBlank(value)) {
       setOutputText("");
     }
   };

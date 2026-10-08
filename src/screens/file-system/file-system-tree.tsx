@@ -1,4 +1,5 @@
 import { FolderOpenOutlined, FolderOutlined } from "@ant-design/icons";
+import { getErrorMessage } from "@lichens-innovation/ts-common";
 import { Tree } from "antd";
 import type { EventDataNode } from "antd/es/tree";
 import { createStyles } from "antd-style";
@@ -31,7 +32,7 @@ export const FileSystemTree = () => {
   // eslint-disable-next-line coding-guide/max-params-project
   const handleSelect = (_selectedKeys: unknown, info: TreeSelectInfo): void => {
     navigateTo(info.node.path).catch((error: unknown) => {
-      messageApi.error(error instanceof Error ? error.message : "Failed to open folder.");
+      messageApi.error(getErrorMessage(error));
     });
   };
 

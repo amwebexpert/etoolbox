@@ -44,7 +44,7 @@ export const RegexTesterToolbar = () => {
         <Space size="small" wrap>
           <Tooltip title="Clear all fields">
             <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasPattern} onClick={clearAll}>
-              {!isMobile && "Clear"}
+              {!isMobile && <>Clear</>}
             </Button>
           </Tooltip>
 
@@ -55,7 +55,7 @@ export const RegexTesterToolbar = () => {
               disabled={!hasPattern}
               onClick={handleCopyPattern}
             >
-              {!isMobile && "Copy Pattern"}
+              {!isMobile && <>Copy Pattern</>}
             </Button>
           </Tooltip>
 
@@ -67,7 +67,7 @@ export const RegexTesterToolbar = () => {
               disabled={!hasExtracted}
               onClick={handleCopyExtracted}
             >
-              {!isMobile && "Copy Extracted"}
+              {!isMobile && <>Copy Extracted</>}
             </Button>
           </Tooltip>
         </Space>

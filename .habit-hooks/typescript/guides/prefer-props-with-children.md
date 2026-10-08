@@ -1,7 +1,13 @@
 Hand-adding `children: ReactNode` to a props interface duplicates a pattern React's own types already name — every component that accepts children needs the exact same field, spelled the same way, and `PropsWithChildren` exists specifically so nobody has to retype it.
 
-**Fix**: remove the `children` field from the interface and wrap the props type at the point of use instead — `FunctionComponent<PropsWithChildren<FooProps>>`. If `children` was the *only* field, drop the interface entirely and use `FunctionComponent<PropsWithChildren>` (its default generic already covers "no other props").
+**What triggers**: any `interface` that declares a `children` member, whatever its type or optionality. No autofix.
 
-**AVOID**: making `children` optional by hand (`children?: ReactNode`) to match `PropsWithChildren`'s optionality — just use `PropsWithChildren`, which already declares `children` as optional; there's no need to hand-replicate that either.
+**Fix**:
+
+1. Remove `children` from the interface and wrap the props type at the point of use — `FunctionComponent<PropsWithChildren<FooProps>>` (or `({ title, children }: PropsWithChildren<FooProps>)`).
+2. `children` was the only field? Drop the interface and use `FunctionComponent<PropsWithChildren>`.
+3. `children` is a render function (`children: (state: State) => ReactNode`)? `PropsWithChildren` doesn't fit — rename the prop to say what it is (`renderContent: (state: State) => ReactNode`) and pass it explicitly.
+
+**AVOID**: hand-writing `children?: ReactNode` to mimic `PropsWithChildren`'s optionality, or switching to a `type` alias just to escape the rule.
 
 {% include "includes/line_level_issues.md" %}

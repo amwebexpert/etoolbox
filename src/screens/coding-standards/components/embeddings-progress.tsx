@@ -1,3 +1,4 @@
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Flex, Progress } from "antd";
 import { createStyles } from "antd-style";
 import type { FunctionComponent } from "react";
@@ -24,7 +25,7 @@ export const EmbeddingsProgress: FunctionComponent<EmbeddingsProgressProps> = ({
     <Flex gap="middle" vertical align="center" className={styles.wrapper}>
       <p className={styles.intro}>Computing semantic index for guidelines for the very first time...</p>
       <Progress type="circle" size={80} percent={percent} />
-      {!!progress.currentRule && (
+      {isNotBlank(progress.currentRule) && (
         <div className={styles.ruleMarkdown}>
           <MarkdownContent content={progress.currentRule} />
         </div>

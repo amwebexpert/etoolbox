@@ -1,4 +1,5 @@
 import { BgColorsOutlined } from "@ant-design/icons";
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Col, ColorPicker as AntColorPicker, Flex, Row, Typography } from "antd";
 import type { Color } from "antd/es/color-picker";
 import { createStyles } from "antd-style";
@@ -61,7 +62,7 @@ export const ColorPicker = () => {
         />
 
         <ColorPickerToolbar
-          hasImage={!!imageDataUrl}
+          hasImage={isNotBlank(imageDataUrl)}
           onClear={clearImage}
           onFileSelect={(file) => void handleFileSelect(file)}
         />
@@ -92,7 +93,7 @@ export const ColorPicker = () => {
           </Col>
         </Row>
 
-        {isDesktop ? <div className={styles.spacer} /> : null}
+        {isDesktop && <div className={styles.spacer} />}
       </Flex>
     </ScreenContainer>
   );

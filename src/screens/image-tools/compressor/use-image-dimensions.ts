@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { useEffect, useState } from "react";
 
 export interface ImageDimensions {
@@ -15,7 +16,7 @@ export const useImageDimensions = (src: string | null): ImageDimensions | null =
   const [result, setResult] = useState<DimensionsResult | null>(null);
 
   useEffect(() => {
-    if (!src) return;
+    if (isBlank(src)) return;
 
     let cancelled = false;
     const image = new Image();
@@ -39,7 +40,7 @@ export const useImageDimensions = (src: string | null): ImageDimensions | null =
     };
   }, [src]);
 
-  if (!src) return null;
+  if (isBlank(src)) return null;
   if (!result || result.src !== src) return null;
   return { width: result.width, height: result.height };
 };

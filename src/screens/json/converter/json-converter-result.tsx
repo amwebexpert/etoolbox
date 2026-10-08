@@ -1,3 +1,5 @@
+import { isBlank } from "@lichens-innovation/ts-common";
+
 import { ResultBox, ResultPlaceholder, ResultSection } from "~/components/ui/result-section";
 import { SyntaxHighlightBlock } from "~/components/ui/syntax-highlight-block";
 import { useResponsive } from "~/hooks/use-responsive";
@@ -16,7 +18,7 @@ export const JsonConverterResult = ({ result, targetLanguage }: JsonConverterRes
   const maxHeight = getResultMaxHeightPx({ isMobile, isTablet });
   const syntaxLanguage = getSyntaxHighlighterLanguage(targetLanguage);
 
-  if (!result) {
+  if (isBlank(result)) {
     return <ResultPlaceholder message="Converted result will appear here" />;
   }
 

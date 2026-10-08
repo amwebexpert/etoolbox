@@ -1,5 +1,5 @@
 import { ScanOutlined } from "@ant-design/icons";
-import { isNotBlank } from "@lichens-innovation/ts-common";
+import { isBlank, isNotBlank } from "@lichens-innovation/ts-common";
 import { Card, Col, Flex, Form, Row, Select } from "antd";
 import { createStyles } from "antd-style";
 import { useCallback, useEffect } from "react";
@@ -44,7 +44,7 @@ export const Ocr = () => {
   };
 
   const handleProcess = () => {
-    if (!imageDataUrl) {
+    if (isBlank(imageDataUrl)) {
       messageApi.warning("Please select an image first");
       return;
     }

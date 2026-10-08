@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -41,7 +42,9 @@ export const RegexTesterMatches = ({ highlightedHtml, matchCount, error }: Regex
         // reaches the DOM.
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
-          __html: highlightedHtml || '<span class="placeholder">Matches will be highlighted here</span>',
+          __html: isBlank(highlightedHtml)
+            ? '<span class="placeholder">Matches will be highlighted here</span>'
+            : highlightedHtml,
         }}
       />
     </ResultSection>

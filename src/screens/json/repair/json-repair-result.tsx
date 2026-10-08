@@ -1,3 +1,5 @@
+import { isBlank } from "@lichens-innovation/ts-common";
+
 import { ResultBox, ResultPlaceholder, ResultSection } from "~/components/ui/result-section";
 import { SyntaxHighlightBlock } from "~/components/ui/syntax-highlight-block";
 import { useResponsive } from "~/hooks/use-responsive";
@@ -12,7 +14,7 @@ export const JsonRepairResult = ({ repairedJson }: JsonRepairResultProps) => {
 
   const maxHeight = getResultMaxHeightPx({ isMobile, isTablet });
 
-  if (!repairedJson) {
+  if (isBlank(repairedJson)) {
     return <ResultPlaceholder message="Repaired JSON will appear here" />;
   }
 

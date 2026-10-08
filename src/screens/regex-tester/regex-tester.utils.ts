@@ -89,7 +89,7 @@ const collectRegexMatches = ({ regex, inputText }: CollectRegexMatchesArgs): str
 
   while ((result = regex.exec(inputText)) !== null) {
     matches.push(result[0]);
-    if (result[0].length === 0) regex.lastIndex++;
+    if (result.index === regex.lastIndex) regex.lastIndex++;
   }
 
   return matches;

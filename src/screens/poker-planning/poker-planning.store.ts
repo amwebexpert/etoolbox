@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { v4 as uuidv4 } from "uuid";
@@ -108,7 +109,7 @@ const createSocketSlice = ({
 }: PokerPlanningSliceArgs): Pick<PokerPlanningState, "connect" | "sendMessage" | "clearSocket"> => ({
   connect: () => {
     const { hostName, roomUUID, socketState } = get();
-    if (!hostName || !roomUUID || socketState === "open" || socketState === "connecting") {
+    if (isBlank(hostName) || isBlank(roomUUID) || socketState === "open" || socketState === "connecting") {
       return;
     }
 
@@ -161,7 +162,7 @@ const createActionsSlice = ({
 > => ({
   createRoom: () => {
     const { hostName, roomName, setRoomUUID, connect } = get();
-    if (!hostName || !roomName) return;
+    if (isBlank(hostName) || isBlank(roomName)) return;
 
     const newRoomUUID = uuidv4();
     setRoomUUID(newRoomUUID);
@@ -171,7 +172,7 @@ const createActionsSlice = ({
 
   joinRoom: () => {
     const { username, sendMessage } = get();
-    if (!username) return;
+    if (isBlank(username)) return;
     sendMessage(buildVoteMessage({ username }));
   },
 

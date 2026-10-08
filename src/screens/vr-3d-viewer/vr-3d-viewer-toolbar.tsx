@@ -36,7 +36,7 @@ export const Vr3dViewerToolbar = ({
               type={showSettings ? "primary" : "default"}
               onClick={onToggleSettings}
             >
-              {!isMobile && "Settings"}
+              {!isMobile && <>Settings</>}
             </Button>
           </Tooltip>
 
@@ -47,7 +47,7 @@ export const Vr3dViewerToolbar = ({
               disabled={!hasModel || isLoading}
               onClick={onResetCamera}
             >
-              {!isMobile && "Reset View"}
+              {!isMobile && <>Reset View</>}
             </Button>
           </Tooltip>
 
@@ -58,13 +58,13 @@ export const Vr3dViewerToolbar = ({
               disabled={!hasModel || isLoading}
               onClick={onFullscreen}
             >
-              {!isMobile && "Fullscreen"}
+              {!isMobile && <>Fullscreen</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Clear current model">
             <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasModel || isLoading} onClick={onClear}>
-              {!isMobile && "Clear"}
+              {!isMobile && <>Clear</>}
             </Button>
           </Tooltip>
         </Space>

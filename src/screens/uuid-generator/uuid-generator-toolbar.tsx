@@ -28,13 +28,13 @@ export const UuidGeneratorToolbar = ({ hasResult, onGenerate, onClear }: UuidGen
         <Space size="small" wrap>
           <Tooltip title="Clear generated UUIDs">
             <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasResult} onClick={onClear}>
-              {!isMobile && "Clear"}
+              {!isMobile && <>Clear</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy UUIDs to clipboard">
             <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!hasResult} onClick={handleCopy}>
-              {!isMobile && "Copy"}
+              {!isMobile && <>Copy</>}
             </Button>
           </Tooltip>
 

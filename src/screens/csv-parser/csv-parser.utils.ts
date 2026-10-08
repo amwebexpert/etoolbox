@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import Papa, { type ParseConfig, type ParseResult } from "papaparse";
 import prettyBytes from "pretty-bytes";
 
@@ -20,7 +21,7 @@ export const parseCsv = ({ csvData, options = {} }: ParseCsvArgs): Promise<CsvPa
 
       // Convert our simplified options to PapaParse config habit-hooks-disable non-essential-comment
       const papaConfig: ParseConfig = {
-        delimiter: mergedOptions.delimiter || undefined, // empty string means auto-detect
+        delimiter: mergedOptions.delimiter, // empty string means auto-detect
         quoteChar: mergedOptions.quoteChar,
         escapeChar: mergedOptions.escapeChar,
         header: mergedOptions.header,
@@ -99,10 +100,10 @@ export const getCsvStats = (result: CsvParseResult | null): CsvStats | null => {
 };
 
 export const formatLineBreak = (linebreak?: string): string => {
-  if (!linebreak) return "Unknown";
   if (linebreak === "\r\n") return "CRLF (Windows)";
   if (linebreak === "\n") return "LF (Unix/Mac)";
   if (linebreak === "\r") return "CR (Old Mac)";
+  if (isBlank(linebreak)) return "Unknown";
 
   return linebreak;
 };

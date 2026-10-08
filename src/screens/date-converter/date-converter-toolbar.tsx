@@ -79,13 +79,13 @@ export const DateConverterToolbar = ({
         <Space size="small" wrap>
           <Tooltip title="Clear all">
             <Button aria-label="Clear all" icon={<ClearOutlined />} disabled={!hasDate} onClick={onClear}>
-              {!isMobile && "Clear"}
+              {!isMobile && <>Clear</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy all formats to clipboard">
             <Button aria-label="Copy All" icon={<CopyOutlined />} disabled={!hasDate} onClick={onCopyAll}>
-              {!isMobile && "Copy All"}
+              {!isMobile && <>Copy All</>}
             </Button>
           </Tooltip>
         </Space>

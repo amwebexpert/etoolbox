@@ -1,5 +1,7 @@
 import { NO_OP } from "@lichens-innovation/ts-common";
 
+const MAX_READABLE_OPFS_BLOB_SIZE_BYTES = 200 * 1024 * 1024; // 200 MB
+
 export const getOpfsRoot = async (): Promise<FileSystemDirectoryHandle> => {
   if (!navigator.storage?.getDirectory) {
     throw new Error("This feature requires a browser with Origin Private File System support.");
@@ -76,12 +78,27 @@ export const writeFileToOpfs = async ({ root, path, file }: WriteFileToOpfsArgs)
 
 export interface ReadBlobFromOpfsArgs extends OpfsRootPathArgs {
   mimeType: string;
+  maxSizeBytes?: number;
 }
 
-export const readBlobFromOpfs = async ({ root, path, mimeType }: ReadBlobFromOpfsArgs): Promise<Blob> => {
+export const readBlobFromOpfs = async ({
+  root,
+  path,
+  mimeType,
+  maxSizeBytes = MAX_READABLE_OPFS_BLOB_SIZE_BYTES,
+}: ReadBlobFromOpfsArgs): Promise<Blob> => {
   const { parent, name } = await resolveOpfsParent({ root, path });
   const fileHandle = await parent.getFileHandle(name);
   const file = await fileHandle.getFile();
+
+  if (file.size > maxSizeBytes) {
+    throw new Error(
+      `Refusing to read "${path}" (${file.size}) into memory: exceeds ${maxSizeBytes} limit. Use a streaming/worker approach for large files instead.`
+    );
+  }
+
+  // copy into memory: an OPFS-backed slice becomes unreadable once the entry is removed/modified (callers delete right after) habit-hooks-disable non-essential-comment
+  // TODO GH-172 (github issue #172): stream OPFS → disk via showSaveFilePicker + file.stream().pipeTo() (no copy, no size cap); keep this as Firefox/Safari fallback habit-hooks-disable non-essential-comment
   return new Blob([await file.arrayBuffer()], { type: mimeType });
 };
 

@@ -1,4 +1,5 @@
 import { ClearOutlined, CopyOutlined, DownloadOutlined, ScanOutlined } from "@ant-design/icons";
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Button, Space, Tooltip } from "antd";
 
 import { ScreenToolbar } from "~/components/ui/screen-toolbar";
@@ -21,7 +22,7 @@ export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onCl
   const { copyTextToClipboard } = useClipboardCopy();
   const messageApi = useToastMessage();
 
-  const hasResult = !!resultText;
+  const hasResult = isNotBlank(resultText);
 
   const handleCopy = () => {
     void copyTextToClipboard({
@@ -43,19 +44,19 @@ export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onCl
         <Space size="small" wrap>
           <Tooltip title="Clear image and result">
             <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasImage && !hasResult} onClick={onClear}>
-              {!isMobile && "Clear"}
+              {!isMobile && <>Clear</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy extracted text to clipboard">
             <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!hasResult} onClick={handleCopy}>
-              {!isMobile && "Copy"}
+              {!isMobile && <>Copy</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Download extracted text as file">
             <Button aria-label="Download" icon={<DownloadOutlined />} disabled={!hasResult} onClick={handleDownload}>
-              {!isMobile && "Download"}
+              {!isMobile && <>Download</>}
             </Button>
           </Tooltip>
 

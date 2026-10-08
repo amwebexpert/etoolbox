@@ -32,13 +32,13 @@ export const Base64FileToolbar = ({
         <Space size="small" wrap>
           <Tooltip title="Copy raw Base64 to clipboard">
             <Button aria-label="Copy Base64" icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopy}>
-              {!isMobile && "Copy Base64"}
+              {!isMobile && <>Copy Base64</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy as Data URI (data:mime;base64,...)">
             <Button aria-label="Copy Data URI" icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopyDataUri}>
-              {!isMobile && "Copy Data URI"}
+              {!isMobile && <>Copy Data URI</>}
             </Button>
           </Tooltip>
 

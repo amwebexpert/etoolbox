@@ -74,7 +74,7 @@ export const JsonFormatterToolbar = ({
 
           <Tooltip title="Copy formatted JSON to clipboard" trigger={isMobile ? [] : ["hover"]}>
             <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!hasContent} onClick={onCopy}>
-              {!isMobile && "Copy"}
+              {!isMobile && <>Copy</>}
             </Button>
           </Tooltip>
 

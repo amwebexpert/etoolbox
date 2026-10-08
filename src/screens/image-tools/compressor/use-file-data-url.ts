@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { useEffect, useState } from "react";
 
 interface DataUrlResult {
@@ -17,7 +18,7 @@ export const useFileDataUrl = (file: File | null): string | null => {
     reader.onload = (): void => {
       if (cancelled) return;
       const url = typeof reader.result === "string" ? reader.result : null;
-      if (!url) return;
+      if (isBlank(url)) return;
       setResult({ file, url });
     };
 

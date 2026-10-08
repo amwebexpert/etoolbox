@@ -1,5 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+interface PersistedCompressorSettings {
+  quality: number;
+  mimeType: string;
+}
+
+interface PersistedCompressorState {
+  state: PersistedCompressorSettings;
+}
+
 vi.hoisted(() => {
   if (typeof globalThis.localStorage !== "undefined") return;
   const store = new Map<string, string>();
@@ -252,9 +261,9 @@ describe("useCompressorStore", () => {
     // assert
     expect(raw).not.toBeNull();
 
-    let parsed: { state: { quality: number; mimeType: string } };
+    let parsed: PersistedCompressorState;
     try {
-      parsed = JSON.parse(raw as string) as { state: { quality: number; mimeType: string } };
+      parsed = JSON.parse(raw as string) as PersistedCompressorState;
     } catch (error) {
       throw new Error(`Failed to parse persisted compressor state: ${String(error)}`, { cause: error });
     }

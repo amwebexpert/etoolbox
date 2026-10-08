@@ -6,6 +6,13 @@ interface GithubProjectOwner {
   type: string;
 }
 
+interface GithubProjectLicense {
+  key: string;
+  name: string;
+  spdx_id: string;
+  url: string | null;
+}
+
 export interface GithubUserProject {
   id: number;
   name: string;
@@ -30,12 +37,7 @@ export interface GithubUserProject {
   private: boolean;
   owner: GithubProjectOwner;
   topics: string[];
-  license: {
-    key: string;
-    name: string;
-    spdx_id: string;
-    url: string | null;
-  } | null;
+  license: GithubProjectLicense | null;
 }
 
 export type SortField = "name" | "updated_at" | "stargazers_count" | "watchers_count" | "forks_count";

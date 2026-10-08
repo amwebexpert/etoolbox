@@ -1,4 +1,5 @@
 import { CodeSandboxOutlined } from "@ant-design/icons";
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Alert, Flex } from "antd";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -130,17 +131,17 @@ export const Vr3dViewer = () => {
         />
 
         {/* Settings Panel */}
-        {showSettings ? (
+        {showSettings && (
           <Vr3dViewerSettings
             sceneSettings={sceneSettings}
             cameraSettings={cameraSettings}
             onSceneSettingsChange={setSceneSettings}
             onCameraSettingsChange={setCameraSettings}
           />
-        ) : null}
+        )}
 
         {/* Error Display */}
-        {!!error && (
+        {isNotBlank(error) && (
           <Alert
             type="error"
             title="Error Loading Model"
@@ -151,7 +152,7 @@ export const Vr3dViewer = () => {
         )}
 
         {/* Loading Indicator */}
-        {isLoading ? <Vr3dViewerLoading progress={loadProgress} fileName={modelFile?.name} /> : null}
+        {isLoading && <Vr3dViewerLoading progress={loadProgress} fileName={modelFile?.name} />}
 
         {/* 3D Canvas */}
         <Vr3dViewerCanvas

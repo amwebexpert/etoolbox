@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { Spin, Typography } from "antd";
 import { createStyles } from "antd-style";
 
@@ -13,7 +14,7 @@ export const QrCodeContent = ({ isLoadingQRCode, qrCodeDataUrl }: QrCodeContentP
     return <Spin size="large" />;
   }
 
-  if (!qrCodeDataUrl) {
+  if (isBlank(qrCodeDataUrl)) {
     return <Typography.Text type="secondary">Failed to generate QR code</Typography.Text>;
   }
 

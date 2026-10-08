@@ -6,6 +6,7 @@ import {
   ReloadOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
+import { getErrorMessage } from "@lichens-innovation/ts-common";
 import { Button, Modal, Space, Upload } from "antd";
 
 import { useToastMessage } from "~/hooks/use-toast-message";
@@ -28,7 +29,7 @@ export const FileSystemToolbar = () => {
 
   const handleRefresh = (): void => {
     refresh().catch((error: unknown) => {
-      messageApi.error(error instanceof Error ? error.message : "Failed to refresh.");
+      messageApi.error(getErrorMessage(error));
     });
   };
 
@@ -43,7 +44,7 @@ export const FileSystemToolbar = () => {
         }
       })
       .catch((error: unknown) => {
-        messageApi.error(error instanceof Error ? error.message : "Failed to upload.");
+        messageApi.error(getErrorMessage(error));
       });
   };
 
@@ -67,7 +68,7 @@ export const FileSystemToolbar = () => {
         try {
           await deleteSelected();
         } catch (error) {
-          messageApi.error(error instanceof Error ? error.message : "Failed to delete selected items.");
+          messageApi.error(getErrorMessage(error));
         }
       },
     });
@@ -75,7 +76,7 @@ export const FileSystemToolbar = () => {
 
   const handleBulkDownload = (): void => {
     downloadSelected().catch((error: unknown) => {
-      messageApi.error(error instanceof Error ? error.message : "Failed to download selected items.");
+      messageApi.error(getErrorMessage(error));
     });
   };
 

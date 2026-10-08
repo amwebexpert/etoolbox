@@ -79,7 +79,7 @@ export const JsonConverter = () => {
   };
 
   const hasContent = isNotBlank(sourceText) && isNotBlank(rootClassName);
-  const hasResult = !!result;
+  const hasResult = isNotBlank(result);
 
   return (
     <ScreenContainer>

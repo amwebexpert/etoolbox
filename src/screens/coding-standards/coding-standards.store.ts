@@ -1,4 +1,4 @@
-import { isNullish, yieldToMainThread } from "@lichens-innovation/ts-common";
+import { getErrorMessage, isNullish, yieldToMainThread } from "@lichens-innovation/ts-common";
 import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import type { Draft } from "immer";
 import { create } from "zustand";
@@ -180,7 +180,7 @@ const createEmbeddingsSlice = ({
       });
     } catch (error) {
       logger.error({ error }, "[coding-standards.store] Failed to initialize embeddings engine");
-      useModelLoadStore.getState().setGlobalError(error instanceof Error ? error.message : "Failed to load model");
+      useModelLoadStore.getState().setGlobalError(getErrorMessage(error));
       set((state) => {
         state.isLoadingModel = false;
       });

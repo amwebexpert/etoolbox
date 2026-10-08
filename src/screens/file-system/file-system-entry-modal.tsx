@@ -1,3 +1,4 @@
+import { getErrorMessage } from "@lichens-innovation/ts-common";
 import { Form, Input, Modal } from "antd";
 import { useEffect } from "react";
 
@@ -47,7 +48,7 @@ export const FileSystemEntryModal = () => {
         await renameEntry(values.name);
       }
     } catch (error) {
-      messageApi.error(error instanceof Error ? error.message : "Something went wrong.");
+      messageApi.error(getErrorMessage(error));
     }
   };
 

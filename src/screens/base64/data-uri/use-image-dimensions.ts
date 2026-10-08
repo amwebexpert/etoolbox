@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { useEffect, useState } from "react";
 
 type ImageDimensionsStatus = "idle" | "loading" | "loaded" | "error";
@@ -22,7 +23,7 @@ export const useImageDimensions = (src: string | null): ImageDimensionsState => 
   const [result, setResult] = useState<LoadResult | null>(null);
 
   useEffect(() => {
-    if (!src) return;
+    if (isBlank(src)) return;
 
     let cancelled = false;
     const img = new Image();
@@ -46,7 +47,7 @@ export const useImageDimensions = (src: string | null): ImageDimensionsState => 
     };
   }, [src]);
 
-  if (!src) return IDLE_STATE;
+  if (isBlank(src)) return IDLE_STATE;
   if (!result || result.src !== src) return LOADING_STATE;
   if (result.hasError) return { status: "error", width: null, height: null };
   return { status: "loaded", width: result.width, height: result.height };

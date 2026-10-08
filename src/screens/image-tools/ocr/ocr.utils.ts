@@ -20,7 +20,7 @@ export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promi
 
   try {
     const base64Data = imageDataUrl.split(",")[1];
-    if (!base64Data) {
+    if (isBlank(base64Data)) {
       throw new Error("Invalid image data URL format");
     }
 

@@ -108,7 +108,7 @@ export const Vr3dViewerSettings = ({
           </Col>
 
           {/* Auto Rotate Speed */}
-          {cameraSettings.autoRotate ? (
+          {cameraSettings.autoRotate && (
             <Col xs={24} sm={12} md={6} lg={4}>
               <Form.Item label="Rotation speed" className={styles.formItem}>
                 <Slider
@@ -120,7 +120,7 @@ export const Vr3dViewerSettings = ({
                 />
               </Form.Item>
             </Col>
-          ) : null}
+          )}
         </Row>
       </Form>
     </div>

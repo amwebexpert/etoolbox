@@ -1,5 +1,5 @@
 import { FormatPainterOutlined } from "@ant-design/icons";
-import { getErrorMessage } from "@lichens-innovation/ts-common";
+import { getErrorMessage, isBlank, isNotBlank } from "@lichens-innovation/ts-common";
 import { downloadJson } from "@lichens-innovation/ts-common/web";
 import { Flex, Input } from "antd";
 import { createStyles } from "antd-style";
@@ -44,7 +44,7 @@ export const JsonFormatter = () => {
   };
 
   const handleSaveAs = () => {
-    if (!formattedJson) return;
+    if (isBlank(formattedJson)) return;
 
     try {
       downloadJson({ content: formattedJson });
@@ -76,7 +76,7 @@ export const JsonFormatter = () => {
 
         <JsonFormatterToolbar
           isMinified={isMinifiedMode}
-          hasContent={!!formattedJson}
+          hasContent={isNotBlank(formattedJson)}
           viewMode={viewMode}
           onToggleFormat={handleToggleFormat}
           onCopy={handleCopy}

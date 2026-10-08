@@ -56,14 +56,14 @@ export const CodingStandards = () => {
 
         <CodingStandardsAdvancedOptions rootNode={rootNode} />
 
-        {guidelinesError ? (
+        {!!guidelinesError && (
           <Alert type="error" showIcon title={`Error loading guidelines: ${guidelinesError.message}`} />
-        ) : null}
-        {isLoadingGuidelines ? (
+        )}
+        {isLoadingGuidelines && (
           <Flex justify="center" align="center" style={{ padding: 24 }}>
             <Spin description="Loading guidelines from sources..." />
           </Flex>
-        ) : null}
+        )}
 
         <SearchInput
           value={inputValue}
@@ -73,10 +73,10 @@ export const CodingStandards = () => {
           placeholder="Search for coding standards and best practices..."
         />
 
-        {isReadyForSemanticSearch ? <ResultsList results={searchResults} isLoading={isSearching} /> : null}
+        {isReadyForSemanticSearch && <ResultsList results={searchResults} isLoading={isSearching} />}
 
         <ModelLoadingProgress isLoading={isLoadingModel} />
-        {shouldShowEmbeddingsProgress ? <EmbeddingsProgress progress={embeddingsProgress} /> : null}
+        {shouldShowEmbeddingsProgress && <EmbeddingsProgress progress={embeddingsProgress} />}
       </Flex>
     </ScreenContainer>
   );

@@ -1,3 +1,5 @@
+import { isBlank } from "@lichens-innovation/ts-common";
+
 import type { Tool } from "~/tools/tools-registry";
 
 interface FilterToolsArgs {
@@ -7,7 +9,7 @@ interface FilterToolsArgs {
 
 export const filterTools = ({ tools, query }: FilterToolsArgs): Tool[] => {
   const normalizedQuery = query.trim().toLowerCase();
-  if (normalizedQuery.length === 0) {
+  if (isBlank(normalizedQuery)) {
     return tools;
   }
 

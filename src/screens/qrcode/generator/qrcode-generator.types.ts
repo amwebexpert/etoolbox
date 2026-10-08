@@ -7,16 +7,18 @@ export interface SelectOption<T = string> {
 export type QRCodeImgMimeType = "image/png" | "image/jpeg" | "image/webp";
 export type QRCodeErrorCorrectionLevel = "L" | "M" | "Q" | "H";
 
+interface QRCodeColors {
+  dark: string;
+  light: string;
+}
+
 export interface QRCodeOptions {
   errorCorrectionLevel: QRCodeErrorCorrectionLevel;
   type: QRCodeImgMimeType;
   width: number;
   quality: number;
   margin: number;
-  color: {
-    dark: string;
-    light: string;
-  };
+  color: QRCodeColors;
 }
 
 export interface GenerateQRCodeContext {

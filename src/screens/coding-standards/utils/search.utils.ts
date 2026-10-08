@@ -1,4 +1,4 @@
-import { isNullish } from "@lichens-innovation/ts-common";
+import { isBlank, isNullish } from "@lichens-innovation/ts-common";
 
 import { AVOID_PREFER_PREFIXES } from "../coding-standards.constants";
 import type { GuidelineNode, Rule } from "../coding-standards.types";
@@ -36,7 +36,7 @@ export const filterGuidelines = ({ search, rootNode }: FilterGuidelinesArgs): Ru
   if (isNullish(rootNode)) return [];
 
   const normalizedSearch = normalizeForSearch(search);
-  if (!normalizedSearch) return [];
+  if (isBlank(normalizedSearch)) return [];
 
   const clonedRoot = cloneAndRemoveAllParents(rootNode);
   const allOrderedNodes = buildOrderedNodes({ node: clonedRoot });

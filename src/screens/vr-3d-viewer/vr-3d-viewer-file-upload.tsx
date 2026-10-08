@@ -1,4 +1,5 @@
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Button, Typography, Upload, type UploadProps } from "antd";
 import { createStyles } from "antd-style";
 import { type ComponentRef, useRef } from "react";
@@ -70,7 +71,7 @@ export const Vr3dViewerFileUpload = ({ modelFile, onFileLoaded }: Vr3dViewerFile
         <Button icon={<UploadOutlined />} onClick={() => fileInputRef.current?.click()} className={styles.uploadButton}>
           Select 3D Model
         </Button>
-        {!!fileInfoText && (
+        {isNotBlank(fileInfoText) && (
           <Typography.Text type="secondary" className={styles.fileInfo}>
             {fileInfoText}
           </Typography.Text>
@@ -88,7 +89,7 @@ export const Vr3dViewerFileUpload = ({ modelFile, onFileLoaded }: Vr3dViewerFile
         <p className="ant-upload-text">Click or drag a 3D model file here</p>
         <p className="ant-upload-hint">Supports: {SUPPORTED_EXTENSIONS.join(", ")}</p>
       </Dragger>
-      {!!fileInfoText && (
+      {isNotBlank(fileInfoText) && (
         <Typography.Text type="secondary" className={styles.fileInfoDesktop}>
           Current: {fileInfoText}
         </Typography.Text>

@@ -1,3 +1,4 @@
+import { isBlank } from "@lichens-innovation/ts-common";
 import { Tag, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
@@ -29,7 +30,7 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
       width: isMobile ? 50 : 70,
       align: "center",
       render: (character: string) => {
-        const displayChar = character.trim() === "" ? "␣" : character;
+        const displayChar = isBlank(character) ? "␣" : character;
         return (
           <HtmlEntityCopyableCell
             displayValue={<Text className={styles.characterText}>{displayChar}</Text>}
@@ -49,7 +50,7 @@ export const useHtmlEntitiesColumns = (): ColumnsType<HtmlEntity> => {
       width: isMobile ? 100 : 140,
       sorter: (a, b) => a.entityName.localeCompare(b.entityName),
       render: (entityName: string) => {
-        if (!entityName) {
+        if (isBlank(entityName)) {
           return <Text type="secondary">—</Text>;
         }
         return (

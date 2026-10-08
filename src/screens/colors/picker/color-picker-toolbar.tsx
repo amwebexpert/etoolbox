@@ -25,7 +25,7 @@ export const ColorPickerToolbar = ({ hasImage, onClear, onFileSelect }: ColorPic
         <Space size="small" wrap>
           <Tooltip title="Clear image">
             <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasImage} onClick={onClear}>
-              {!isMobile && "Clear"}
+              {!isMobile && <>Clear</>}
             </Button>
           </Tooltip>
 

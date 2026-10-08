@@ -1,11 +1,14 @@
-`| undefined` on a parameter, property, or class field says the same thing TypeScript's `?` already says, in a second syntax the reader has to parse separately. Worse, the two aren't quite identical: `?` means "may be omitted", while an explicit `| undefined` union still requires the key to be present with the literal value `undefined` under `exactOptionalPropertyTypes` — spelling it out as a union invites that mismatch instead of just declaring the thing optional.
+`| undefined` on a parameter, property, or class field says the same thing TypeScript's `?` already says, in a second syntax the reader has to parse separately. Say "optional" once, with `?`.
 
-**Say "optional" once, with `?`:**
-1. On a function/method parameter: drop `| undefined` from the type and add `?` after the name — `(a: string | undefined) =>` becomes `(a?: string) =>`.
-2. On an interface/type-literal property or class field: same swap — `age: number | undefined` becomes `age?: number`.
-3. Already `age?: number | undefined`? The `| undefined` is now redundant noise next to the `?` — delete it, keep the `?`.
-4. Variable declarations and return types have no `?` equivalent — leave `| undefined` alone there; this rule (and its autofix) only touches params and properties.
+**What triggers**: a `T | undefined` union annotating a function/method/constructor parameter, an interface/type-literal property, or a class field — and `?: T | undefined`, where the `| undefined` is redundant. Default-valued, destructured and rest parameters are exempt; variables and return types are never touched. Autofix only when a single type remains once `undefined` is removed (`string | number | undefined` must be fixed by hand).
 
-**AVOID**: reaching for this fix without checking whether the value is optional at all. If every real caller already always supplies it, the honest fix is dropping the union entirely, not marking a required value as optional just to satisfy the rule.
+**Fix**:
+
+1. Drop `| undefined` and add `?` — `(a: string | undefined) =>` → `(a?: string) =>`; `age: number | undefined` → `age?: number`.
+2. Already `age?: number | undefined`? Delete the `| undefined`, keep the `?`.
+3. A parameter followed by a required one can't take `?` (TS error). Fold the params into a single args object with a named interface (`interface LoadArgs { id?: string; force: boolean }`) — the house one-param shape — or reorder so optional params come last.
+4. If the project enables `exactOptionalPropertyTypes` and callers explicitly assign `undefined`, `?: T` alone rejects that — keep `?: T | undefined` and add `// eslint-disable-next-line coding-guide/no-explicit-undefined-optional -- exactOptionalPropertyTypes: callers assign undefined`.
+
+**AVOID**: marking a value optional that every real caller always supplies — the honest fix there is dropping the union entirely.
 
 {% include "includes/line_level_issues.md" %}

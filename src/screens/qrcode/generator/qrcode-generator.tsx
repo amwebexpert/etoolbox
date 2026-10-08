@@ -61,7 +61,7 @@ export const QrcodeGenerator = () => {
   };
 
   const hasContent = isNotBlank(inputText);
-  const hasResult = !!qrCodeDataUrl;
+  const hasResult = isNotBlank(qrCodeDataUrl);
 
   return (
     <ScreenContainer>

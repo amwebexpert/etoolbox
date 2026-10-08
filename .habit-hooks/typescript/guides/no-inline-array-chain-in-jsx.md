@@ -1,7 +1,13 @@
-`{items.filter(isActive).sort(byName).map(renderRow)}` runs three passes over the list on every render, inline in the template, where the filtering/sorting logic can't be named, tested, or reused — and where a reader scanning the JSX has to parse a data pipeline before they even get to what's rendered.
+`{items.filter(isActive).sort(byName).map((item) => <Row key={item.id} item={item} />)}` runs a whole data pipeline inline in the template, on every render, where the filtering/sorting step can't be named, tested, or reused — and a reader scanning the JSX has to parse it before they even get to what's rendered.
 
-**Fix**: precompute the list above the `return`, using named helpers imported from `*.utils.ts` (`canDisplayFilter`, `comparator`) — `const visibleRows = items.filter(canDisplayFilter).sort(comparator);` then `{visibleRows.map(renderRow)}` in the JSX. The JSX now shows only "map this list to rows"; the filtering/sorting logic has a name and a home.
+**What triggers**: a JSX expression (child or attribute value) whose expression ends in 2+ chained `.filter`/`.sort`/`.map`/`.reduce` calls. A single `.map(...)` is fine. No autofix.
 
-**Not the same thing (won't fire here)**: a single `.map(...)` to render a list — that's the normal, idiomatic way to render a collection in JSX and isn't itself a smell; this rule only targets *chains* of 2+ array methods squeezed into one JSX expression.
+**Fix**:
+
+1. Compute the list in a named variable above the `return`: `const visibleItems = items.filter(isActive).sort(byName);` (move reusable predicates/comparators to a `*.utils.ts` file).
+2. Render with a single map: `{visibleItems.map((item) => <Row key={item.id} item={item} />)}`.
+3. Write the map callback inline as above. `.map(renderRow)` with a locally declared `renderRow` trips `no-inline-render-function`.
+
+**AVOID**: moving the chain into a local `render*` helper or a JSX-holding variable — both are flagged by sibling rules (`no-inline-render-function`, `no-jsx-in-variable`).
 
 {% include "includes/line_level_issues.md" %}
