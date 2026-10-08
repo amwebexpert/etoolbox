@@ -34,7 +34,7 @@ export const EncodeDecodeToolbar = ({
         <Space size="small" wrap>
           <Tooltip title="Copy result to clipboard">
             <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!hasOutput} onClick={onCopy}>
-              {!isMobile && "Copy"}
+              {!isMobile && <>Copy</>}
             </Button>
           </Tooltip>
 

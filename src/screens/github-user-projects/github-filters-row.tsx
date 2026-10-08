@@ -121,7 +121,7 @@ export const GithubFiltersRow = ({ projects }: GithubFiltersRowProps) => {
         <Col xs={6} sm={4} md={3} lg={2}>
           <Tooltip title="Clear all filters">
             <Button aria-label="Clear" icon={<ClearOutlined />} onClick={resetFilters} size="small">
-              {!isMobile && "Clear"}
+              {!isMobile && <>Clear</>}
             </Button>
           </Tooltip>
         </Col>

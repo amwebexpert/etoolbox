@@ -98,7 +98,7 @@ export const UrlCurl = () => {
                   disabled={isBlank(transformedResult)}
                   onClick={handleCopy}
                 >
-                  {!isMobile && "Copy"}
+                  {!isMobile && <>Copy</>}
                 </Button>
               </Tooltip>
 

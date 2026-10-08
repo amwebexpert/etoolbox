@@ -86,7 +86,7 @@ export const JwtDecoderToolbar = ({ hasToken, decoded, onLoadSample, onClear }: 
         <Space size="small" wrap>
           <Dropdown menu={{ items: sampleMenuItems }} placement="bottomLeft">
             <Button aria-label="Load Sample" icon={<FileTextOutlined />}>
-              {!isMobile && "Load Sample"}
+              {!isMobile && <>Load Sample</>}
             </Button>
           </Dropdown>
         </Space>
@@ -95,14 +95,14 @@ export const JwtDecoderToolbar = ({ hasToken, decoded, onLoadSample, onClear }: 
         <Space size="small" wrap>
           <Tooltip title="Clear token">
             <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasToken} onClick={onClear}>
-              {!isMobile && "Clear"}
+              {!isMobile && <>Clear</>}
             </Button>
           </Tooltip>
 
           <Dropdown menu={{ items: copyMenuItems }} placement="bottomRight" disabled={!decoded.isValid}>
             <Tooltip title="Copy decoded JWT">
               <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!decoded.isValid}>
-                {!isMobile && "Copy"}
+                {!isMobile && <>Copy</>}
               </Button>
             </Tooltip>
           </Dropdown>

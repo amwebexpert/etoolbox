@@ -52,19 +52,19 @@ export const CsvParserToolbar = ({
         <Space size="small" wrap>
           <Tooltip title="Clear all fields">
             <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasContent && !hasResult} onClick={onClear}>
-              {!isMobile && "Clear"}
+              {!isMobile && <>Clear</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy parsed result to clipboard">
             <Button aria-label="Copy" icon={<CopyOutlined />} disabled={!hasResult} onClick={onCopy}>
-              {!isMobile && "Copy"}
+              {!isMobile && <>Copy</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Download as JSON file">
             <Button aria-label="Save" icon={<DownloadOutlined />} disabled={!hasResult} onClick={onDownload}>
-              {!isMobile && "Save"}
+              {!isMobile && <>Save</>}
             </Button>
           </Tooltip>
 

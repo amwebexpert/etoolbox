@@ -33,25 +33,25 @@ export const QRCodeGeneratorToolbar = ({
         <Space size="small" wrap>
           <Tooltip title="Clear all fields">
             <Button aria-label="Clear" icon={<ClearOutlined />} disabled={!hasContent && !hasResult} onClick={onClear}>
-              {!isMobile && "Clear"}
+              {!isMobile && <>Clear</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy QR code data URL to clipboard">
             <Button aria-label="Copy URL" icon={<CopyOutlined />} disabled={!hasResult} onClick={onCopyDataUrl}>
-              {!isMobile && "Copy URL"}
+              {!isMobile && <>Copy URL</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Copy QR code image to clipboard">
             <Button aria-label="Copy Image" icon={<PictureOutlined />} disabled={!hasResult} onClick={onCopyImage}>
-              {!isMobile && "Copy Image"}
+              {!isMobile && <>Copy Image</>}
             </Button>
           </Tooltip>
 
           <Tooltip title="Download QR code image">
             <Button aria-label="Download" icon={<DownloadOutlined />} disabled={!hasResult} onClick={onDownload}>
-              {!isMobile && "Download"}
+              {!isMobile && <>Download</>}
             </Button>
           </Tooltip>
 
