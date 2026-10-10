@@ -1,4 +1,5 @@
 import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
+import type { Draft } from "immer";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -18,11 +19,13 @@ interface RegexTesterState {
   clearAll: () => void;
 }
 
-const stateCreator = immer<RegexTesterState>((set) => ({
-  pattern: DEFAULT_REGEX,
-  inputText: DEFAULT_INPUT_TEXT,
-  flags: ["g"],
-  extractFormat: "comma",
+type RegexTesterSet = (recipe: (state: Draft<RegexTesterState>) => void) => void;
+
+interface RegexTesterSliceArgs {
+  set: RegexTesterSet;
+}
+
+const createInputSlice = ({ set }: RegexTesterSliceArgs): Pick<RegexTesterState, "setPattern" | "setInputText"> => ({
   setPattern: (pattern) =>
     set((state) => {
       state.pattern = pattern;
@@ -31,6 +34,11 @@ const stateCreator = immer<RegexTesterState>((set) => ({
     set((state) => {
       state.inputText = text;
     }),
+});
+
+const createOptionsSlice = ({
+  set,
+}: RegexTesterSliceArgs): Pick<RegexTesterState, "setFlags" | "toggleFlag" | "setExtractFormat"> => ({
   setFlags: (flags) =>
     set((state) => {
       state.flags = flags;
@@ -48,6 +56,15 @@ const stateCreator = immer<RegexTesterState>((set) => ({
     set((state) => {
       state.extractFormat = format;
     }),
+});
+
+const stateCreator = immer<RegexTesterState>((set) => ({
+  pattern: DEFAULT_REGEX,
+  inputText: DEFAULT_INPUT_TEXT,
+  flags: ["g"],
+  extractFormat: "comma",
+  ...createInputSlice({ set }),
+  ...createOptionsSlice({ set }),
   clearAll: () =>
     set((state) => {
       state.pattern = "";

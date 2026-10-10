@@ -1,5 +1,5 @@
 import { ClearOutlined, CopyOutlined, DisconnectOutlined, PlusOutlined, TeamOutlined } from "@ant-design/icons";
-import { isBlank } from "@lichens-innovation/ts-common";
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { Button, Space, Tooltip } from "antd";
 
 import { ScreenToolbar } from "~/components/ui/screen-toolbar";
@@ -23,9 +23,9 @@ export const PokerPlanningToolbar = ({ isUserMemberOfRoom, onClearVotes }: Poker
 
   const isConnected = socketState === "open";
   const isConnecting = socketState === "connecting";
-  const canCreateRoom = !isBlank(hostName) && !isBlank(roomName);
-  const canJoin = isConnected && !isBlank(username) && !isUserMemberOfRoom;
-  const canShareLink = isConnected && !isBlank(roomUUID);
+  const canCreateRoom = isNotBlank(hostName) && isNotBlank(roomName);
+  const canJoin = isConnected && isNotBlank(username) && !isUserMemberOfRoom;
+  const canShareLink = isConnected && isNotBlank(roomUUID);
 
   const handleCopyLink = () => {
     const url = buildFullRouteURL({ hostName, roomUUID, roomName });

@@ -30,26 +30,24 @@ interface HtmlEntitiesState {
   resetFilters: () => void;
 }
 
-const stateCreator = (
-  set: (partial: Partial<HtmlEntitiesState>) => void,
-  get: () => HtmlEntitiesState
-): HtmlEntitiesState => ({
-  category: DEFAULT_CATEGORY,
-  filter: DEFAULT_FILTER,
-  filterField: DEFAULT_FILTER_FIELD,
-  page: DEFAULT_PAGE,
-  pageSize: DEFAULT_PAGE_SIZE,
+type HtmlEntitiesSet = (partial: Partial<HtmlEntitiesState>) => void;
+type HtmlEntitiesGet = () => HtmlEntitiesState;
+
+interface HtmlEntitiesSliceArgs {
+  set: HtmlEntitiesSet;
+  get: HtmlEntitiesGet;
+}
+
+const createFiltersSlice = ({
+  set,
+  get,
+}: HtmlEntitiesSliceArgs): Pick<
+  HtmlEntitiesState,
+  "setCategory" | "setFilter" | "setFilterField" | "hasFilters" | "resetFilters"
+> => ({
   setCategory: (category) => set({ category, page: DEFAULT_PAGE }),
   setFilter: (filter) => set({ filter, page: DEFAULT_PAGE }),
   setFilterField: (filterField) => set({ filterField, page: DEFAULT_PAGE }),
-  handlePageChange: ({ page, pageSize }) => {
-    const currentPageSize = get().pageSize;
-    if (pageSize !== currentPageSize) {
-      set({ page: DEFAULT_PAGE, pageSize });
-    } else {
-      set({ page });
-    }
-  },
   hasFilters: () =>
     get().category !== DEFAULT_CATEGORY ||
     get().filter !== DEFAULT_FILTER ||
@@ -61,6 +59,27 @@ const stateCreator = (
       filterField: DEFAULT_FILTER_FIELD,
       page: DEFAULT_PAGE,
     }),
+});
+
+const createPaginationSlice = ({ set, get }: HtmlEntitiesSliceArgs): Pick<HtmlEntitiesState, "handlePageChange"> => ({
+  handlePageChange: ({ page, pageSize }) => {
+    const currentPageSize = get().pageSize;
+    if (pageSize !== currentPageSize) {
+      set({ page: DEFAULT_PAGE, pageSize });
+    } else {
+      set({ page });
+    }
+  },
+});
+
+const stateCreator = (set: HtmlEntitiesSet, get: HtmlEntitiesGet): HtmlEntitiesState => ({
+  category: DEFAULT_CATEGORY,
+  filter: DEFAULT_FILTER,
+  filterField: DEFAULT_FILTER_FIELD,
+  page: DEFAULT_PAGE,
+  pageSize: DEFAULT_PAGE_SIZE,
+  ...createFiltersSlice({ set, get }),
+  ...createPaginationSlice({ set, get }),
 });
 
 const PERSISTED_STORE_NAME = "etoolbox-html-entities";

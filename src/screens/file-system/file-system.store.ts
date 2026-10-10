@@ -1,74 +1,32 @@
 import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
-import { downloadBlob } from "@lichens-innovation/ts-common/web";
 import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
-import { downloadZip } from "client-zip";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 import {
-  collectOpfsFilesRecursive,
   countOpfsDirectoryContents,
   createOpfsDirectory,
   getOpfsRoot,
-  listOpfsDirectoryEntries,
-  opfsEntryExists,
-  type OpfsEntryKind,
   type OpfsEntryMeta,
-  readBlobFromOpfs,
-  removeOpfsEntry,
   renameOpfsEntry,
-  writeFileToOpfs,
   writeTextFileToOpfs,
 } from "~/utils/opfs.utils";
 
-import type { FileSystemModalState, FileSystemTreeNode } from "./file-system.types";
 import {
-  buildTreeNode,
-  compareEntriesFoldersFirst,
-  findTreeNodeByKey,
-  joinOpfsPath,
-  resolveOpfsMimeType,
-  ROOT_KEY,
-  ROOT_PATH,
-} from "./file-system.utils";
-
-interface FileSystemEntryTarget {
-  name: string;
-  kind: OpfsEntryKind;
-}
-
-interface ZipEntry {
-  input: File | Blob;
-  name: string;
-}
-
-interface BuildZipEntriesForTargetArgs {
-  root: FileSystemDirectoryHandle;
-  basePath: string;
-  target: FileSystemEntryTarget;
-}
-
-const buildZipEntriesForTarget = async ({
-  root,
-  basePath,
-  target,
-}: BuildZipEntriesForTargetArgs): Promise<ZipEntry[]> => {
-  const path = joinOpfsPath({ parentPath: basePath, name: target.name });
-
-  if (target.kind === "file") {
-    const mimeType = resolveOpfsMimeType(target.name);
-    const blob = await readBlobFromOpfs({ root, path, mimeType });
-    return [{ input: blob, name: target.name }];
-  }
-
-  const files = await collectOpfsFilesRecursive({ root, path });
-  return files.map((entry) => ({ input: entry.file, name: `${target.name}/${entry.path}` }));
-};
-
-interface UploadFilesResult {
-  uploaded: string[];
-  skipped: string[];
-}
+  assertOpfsEntryAvailable,
+  buildZipEntriesForTarget,
+  countOpfsEntriesContents,
+  downloadOpfsFile,
+  downloadZipArchive,
+  type FileSystemEntryTarget,
+  listOpfsTreeChildren,
+  listSortedOpfsEntries,
+  removeOpfsEntries,
+  type UploadFilesResult,
+  writeNewFilesToOpfs,
+} from "./file-system.store.utils";
+import type { FileSystemModalState, FileSystemTreeNode } from "./file-system.types";
+import { findTreeNodeByKey, joinOpfsPath, ROOT_KEY, ROOT_PATH } from "./file-system.utils";
 
 interface LoadTreeNodeChildrenArgs {
   path: string;
@@ -80,43 +38,70 @@ interface CreateFileArgs {
   content: string;
 }
 
-interface FileSystemState {
+interface SupportSlice {
   unsupportedError: string | null;
+  init: () => Promise<void>;
+}
+
+interface DirectorySlice {
   currentPath: string;
   entries: OpfsEntryMeta[];
   loading: boolean;
-  selectedNames: string[];
-  treeData: FileSystemTreeNode[];
-  modal: FileSystemModalState;
-
-  init: () => Promise<void>;
   navigateTo: (path: string) => Promise<void>;
   refresh: () => Promise<void>;
-  loadTreeNodeChildren: (args: LoadTreeNodeChildrenArgs) => Promise<void>;
+}
 
+interface TreeSlice {
+  treeData: FileSystemTreeNode[];
+  loadTreeNodeChildren: (args: LoadTreeNodeChildrenArgs) => Promise<void>;
+}
+
+interface SelectionSlice {
+  selectedNames: string[];
   toggleSelected: (name: string) => void;
   setSelectedNames: (names: string[]) => void;
   clearSelection: () => void;
+}
 
+interface ModalSlice {
+  modal: FileSystemModalState;
   openCreateFolderModal: () => void;
   openCreateFileModal: () => void;
   openRenameModal: (target: FileSystemEntryTarget) => void;
   closeModal: () => void;
+}
 
+interface EntryCreationSlice {
   createFolder: (name: string) => Promise<void>;
   createFile: (args: CreateFileArgs) => Promise<void>;
-  renameEntry: (newName: string) => Promise<void>;
+  uploadFiles: (files: File[]) => Promise<UploadFilesResult>;
+}
 
+interface EntryRenameSlice {
+  renameEntry: (newName: string) => Promise<void>;
+}
+
+interface EntryDeleteSlice {
   countEntryContents: (target: FileSystemEntryTarget) => Promise<number>;
   countManyEntriesContents: (names: string[]) => Promise<number>;
   deleteEntry: (target: FileSystemEntryTarget) => Promise<void>;
   deleteSelected: () => Promise<void>;
+}
 
-  uploadFiles: (files: File[]) => Promise<UploadFilesResult>;
-
+interface DownloadSlice {
   downloadEntry: (target: FileSystemEntryTarget) => Promise<void>;
   downloadSelected: () => Promise<void>;
 }
+
+type FileSystemState = SupportSlice &
+  DirectorySlice &
+  TreeSlice &
+  SelectionSlice &
+  ModalSlice &
+  EntryCreationSlice &
+  EntryRenameSlice &
+  EntryDeleteSlice &
+  DownloadSlice;
 
 const INITIAL_MODAL_STATE: FileSystemModalState = {
   mode: "create-folder",
@@ -135,26 +120,8 @@ interface FileSystemSliceArgs {
   get: GetFileSystemState;
 }
 
-const createNavigationSlice = ({
-  set,
-  get,
-}: FileSystemSliceArgs): Pick<
-  FileSystemState,
-  | "currentPath"
-  | "entries"
-  | "init"
-  | "loadTreeNodeChildren"
-  | "loading"
-  | "navigateTo"
-  | "refresh"
-  | "treeData"
-  | "unsupportedError"
-> => ({
+const createSupportSlice = ({ set, get }: FileSystemSliceArgs): SupportSlice => ({
   unsupportedError: null,
-  currentPath: ROOT_PATH,
-  entries: [],
-  loading: false,
-  treeData: INITIAL_TREE_DATA,
 
   init: async () => {
     try {
@@ -169,6 +136,12 @@ const createNavigationSlice = ({
     await get().loadTreeNodeChildren({ path: ROOT_PATH, force: true });
     await get().navigateTo(ROOT_PATH);
   },
+});
+
+const createDirectorySlice = ({ set, get }: FileSystemSliceArgs): DirectorySlice => ({
+  currentPath: ROOT_PATH,
+  entries: [],
+  loading: false,
 
   navigateTo: async (path) => {
     set((state) => {
@@ -179,8 +152,7 @@ const createNavigationSlice = ({
 
     try {
       const root = await getOpfsRoot();
-      const rawEntries = await listOpfsDirectoryEntries({ root, path });
-      const entries = rawEntries.sort(compareEntriesFoldersFirst);
+      const entries = await listSortedOpfsEntries({ root, path });
       set((state) => {
         state.entries = entries;
       });
@@ -196,6 +168,10 @@ const createNavigationSlice = ({
     await get().navigateTo(currentPath);
     await get().loadTreeNodeChildren({ path: currentPath, force: true });
   },
+});
+
+const createTreeSlice = ({ set, get }: FileSystemSliceArgs): TreeSlice => ({
+  treeData: INITIAL_TREE_DATA,
 
   loadTreeNodeChildren: async ({ path, force }) => {
     const key = path === ROOT_PATH ? ROOT_KEY : path;
@@ -203,11 +179,7 @@ const createNavigationSlice = ({
     if (!force && existing?.children) return;
 
     const root = await getOpfsRoot();
-    const entries = await listOpfsDirectoryEntries({ root, path });
-    const children = entries
-      .filter((entry) => entry.kind === "directory")
-      .map((entry) => buildTreeNode({ path: joinOpfsPath({ parentPath: path, name: entry.name }), name: entry.name }))
-      .sort((a, b) => a.title.localeCompare(b.title));
+    const children = await listOpfsTreeChildren({ root, path });
 
     set((state) => {
       const node = findTreeNodeByKey({ nodes: state.treeData, key });
@@ -216,12 +188,7 @@ const createNavigationSlice = ({
   },
 });
 
-const createSelectionSlice = ({
-  set,
-}: FileSystemSliceArgs): Pick<
-  FileSystemState,
-  "clearSelection" | "selectedNames" | "setSelectedNames" | "toggleSelected"
-> => ({
+const createSelectionSlice = ({ set }: FileSystemSliceArgs): SelectionSlice => ({
   selectedNames: [],
 
   toggleSelected: (name) =>
@@ -242,12 +209,7 @@ const createSelectionSlice = ({
     }),
 });
 
-const createModalSlice = ({
-  set,
-}: FileSystemSliceArgs): Pick<
-  FileSystemState,
-  "closeModal" | "modal" | "openCreateFileModal" | "openCreateFolderModal" | "openRenameModal"
-> => ({
+const createModalSlice = ({ set }: FileSystemSliceArgs): ModalSlice => ({
   modal: INITIAL_MODAL_STATE,
 
   openCreateFolderModal: () =>
@@ -271,40 +233,36 @@ const createModalSlice = ({
     }),
 });
 
-const createEntryWriteSlice = ({
-  set,
-  get,
-}: FileSystemSliceArgs): Pick<FileSystemState, "createFile" | "createFolder" | "renameEntry" | "uploadFiles"> => ({
+const createEntryCreationSlice = ({ get }: FileSystemSliceArgs): EntryCreationSlice => ({
   createFolder: async (name) => {
     const root = await getOpfsRoot();
     const path = joinOpfsPath({ parentPath: get().currentPath, name });
-
-    if (await opfsEntryExists({ root, path })) {
-      throw new Error(`"${name}" already exists in this folder.`);
-    }
+    await assertOpfsEntryAvailable({ root, path, name });
 
     await createOpfsDirectory({ root, path });
-    set((state) => {
-      state.modal.open = false;
-    });
+    get().closeModal();
     await get().refresh();
   },
 
   createFile: async ({ name, content }) => {
     const root = await getOpfsRoot();
     const path = joinOpfsPath({ parentPath: get().currentPath, name });
-
-    if (await opfsEntryExists({ root, path })) {
-      throw new Error(`"${name}" already exists in this folder.`);
-    }
+    await assertOpfsEntryAvailable({ root, path, name });
 
     await writeTextFileToOpfs({ root, path, text: content });
-    set((state) => {
-      state.modal.open = false;
-    });
+    get().closeModal();
     await get().refresh();
   },
 
+  uploadFiles: async (files) => {
+    const root = await getOpfsRoot();
+    const result = await writeNewFilesToOpfs({ root, parentPath: get().currentPath, files });
+    await get().refresh();
+    return result;
+  },
+});
+
+const createEntryRenameSlice = ({ get }: FileSystemSliceArgs): EntryRenameSlice => ({
   renameEntry: async (newName) => {
     const { modal, currentPath } = get();
     if (modal.mode !== "rename" || isBlank(modal.targetKind)) {
@@ -315,8 +273,8 @@ const createEntryWriteSlice = ({
     const hasNameChanged = newName !== modal.targetName;
     const newPath = joinOpfsPath({ parentPath: currentPath, name: newName });
 
-    if (hasNameChanged && (await opfsEntryExists({ root, path: newPath }))) {
-      throw new Error(`"${newName}" already exists in this folder.`);
+    if (hasNameChanged) {
+      await assertOpfsEntryAvailable({ root, path: newPath, name: newName });
     }
 
     await renameOpfsEntry({
@@ -325,68 +283,28 @@ const createEntryWriteSlice = ({
       kind: modal.targetKind,
       newName,
     });
-    set((state) => {
-      state.modal.open = false;
-    });
+    get().closeModal();
     await get().refresh();
-  },
-
-  uploadFiles: async (files) => {
-    const root = await getOpfsRoot();
-    const { currentPath } = get();
-    const uploaded: string[] = [];
-    const skipped: string[] = [];
-
-    for (const file of files) {
-      const path = joinOpfsPath({ parentPath: currentPath, name: file.name });
-      if (await opfsEntryExists({ root, path })) {
-        skipped.push(file.name);
-        continue;
-      }
-
-      await writeFileToOpfs({ root, path, file });
-      uploaded.push(file.name);
-    }
-
-    await get().refresh();
-    return { uploaded, skipped };
   },
 });
 
-const createEntryDeleteSlice = ({
-  set,
-  get,
-}: FileSystemSliceArgs): Pick<
-  FileSystemState,
-  "countEntryContents" | "countManyEntriesContents" | "deleteEntry" | "deleteSelected"
-> => ({
+const createEntryDeleteSlice = ({ set, get }: FileSystemSliceArgs): EntryDeleteSlice => ({
   countEntryContents: async (target) => {
     if (target.kind === "file") return 0;
     const root = await getOpfsRoot();
-    return countOpfsDirectoryContents({
-      root,
-      path: joinOpfsPath({ parentPath: get().currentPath, name: target.name }),
-    });
+    const path = joinOpfsPath({ parentPath: get().currentPath, name: target.name });
+    return countOpfsDirectoryContents({ root, path });
   },
 
   countManyEntriesContents: async (names) => {
     const root = await getOpfsRoot();
     const { currentPath, entries } = get();
-
-    let total = 0;
-    for (const name of names) {
-      const entry = entries.find((candidate) => candidate.name === name);
-      if (entry?.kind === "directory") {
-        total += await countOpfsDirectoryContents({ root, path: joinOpfsPath({ parentPath: currentPath, name }) });
-      }
-    }
-    return total;
+    return countOpfsEntriesContents({ root, parentPath: currentPath, entries, names });
   },
 
   deleteEntry: async (target) => {
     const root = await getOpfsRoot();
-    const path = joinOpfsPath({ parentPath: get().currentPath, name: target.name });
-    await removeOpfsEntry({ root, path, recursive: target.kind === "directory" });
+    await removeOpfsEntries({ root, parentPath: get().currentPath, targets: [target] });
 
     set((state) => {
       state.selectedNames = state.selectedNames.filter((selected) => selected !== target.name);
@@ -398,44 +316,26 @@ const createEntryDeleteSlice = ({
     const root = await getOpfsRoot();
     const { currentPath, selectedNames, entries } = get();
     const targets = entries.filter((entry) => selectedNames.includes(entry.name));
+    await removeOpfsEntries({ root, parentPath: currentPath, targets });
 
-    for (const target of targets) {
-      await removeOpfsEntry({
-        root,
-        path: joinOpfsPath({ parentPath: currentPath, name: target.name }),
-        recursive: target.kind === "directory",
-      });
-    }
-
-    set((state) => {
-      state.selectedNames = [];
-    });
+    get().clearSelection();
     await get().refresh();
   },
 });
 
-const createDownloadSlice = ({
-  get,
-}: FileSystemSliceArgs): Pick<FileSystemState, "downloadEntry" | "downloadSelected"> => ({
+const createDownloadSlice = ({ get }: FileSystemSliceArgs): DownloadSlice => ({
   downloadEntry: async (target) => {
     const root = await getOpfsRoot();
     const { currentPath, entries } = get();
 
     if (target.kind === "file") {
-      const mimeType = resolveOpfsMimeType(target.name);
-      const blob = await readBlobFromOpfs({
-        root,
-        path: joinOpfsPath({ parentPath: currentPath, name: target.name }),
-        mimeType,
-      });
-      downloadBlob({ blob, fileName: target.name });
+      await downloadOpfsFile({ root, parentPath: currentPath, name: target.name });
       return;
     }
 
     const resolvedTarget = entries.find((entry) => entry.name === target.name) ?? target;
     const zipEntries = await buildZipEntriesForTarget({ root, basePath: currentPath, target: resolvedTarget });
-    const zipBlob = await downloadZip(zipEntries).blob();
-    downloadBlob({ blob: zipBlob, fileName: `${target.name}.zip` });
+    await downloadZipArchive({ zipEntries, fileName: `${target.name}.zip` });
   },
 
   downloadSelected: async () => {
@@ -451,16 +351,18 @@ const createDownloadSlice = ({
     const zipEntryLists = await Promise.all(
       targets.map((target) => buildZipEntriesForTarget({ root, basePath: currentPath, target }))
     );
-    const zipBlob = await downloadZip(zipEntryLists.flat()).blob();
-    downloadBlob({ blob: zipBlob, fileName: "download.zip" });
+    await downloadZipArchive({ zipEntries: zipEntryLists.flat(), fileName: "download.zip" });
   },
 });
 
 const stateCreator = (set: SetFileSystemState, get: GetFileSystemState): FileSystemState => ({
-  ...createNavigationSlice({ set, get }),
+  ...createSupportSlice({ set, get }),
+  ...createDirectorySlice({ set, get }),
+  ...createTreeSlice({ set, get }),
   ...createSelectionSlice({ set, get }),
   ...createModalSlice({ set, get }),
-  ...createEntryWriteSlice({ set, get }),
+  ...createEntryCreationSlice({ set, get }),
+  ...createEntryRenameSlice({ set, get }),
   ...createEntryDeleteSlice({ set, get }),
   ...createDownloadSlice({ set, get }),
 });

@@ -35,22 +35,29 @@ export interface JwtClaimInfo {
   type: "date" | "text" | "expired" | "valid";
 }
 
+const buildInvalidJwt = (error: string): DecodedJwt => ({
+  header: null,
+  payload: null,
+  signature: "",
+  isValid: false,
+  error,
+});
+
+const extractSignature = (token: string): string => {
+  const parts = token.split(".");
+  return parts.length >= 3 ? parts[2] : "";
+};
+
 export const decodeJwt = (token: string): DecodedJwt => {
   if (isBlank(token)) {
-    return {
-      header: null,
-      payload: null,
-      signature: "",
-      isValid: false,
-      error: "No token provided",
-    };
+    return buildInvalidJwt("No token provided");
   }
 
   try {
-    const header = jwtDecode<JwtHeader>(token.trim(), { header: true });
-    const payload = jwtDecode<ExtendedJwtPayload>(token.trim());
-    const parts = token.trim().split(".");
-    const signature = parts.length >= 3 ? parts[2] : "";
+    const trimmedToken = token.trim();
+    const header = jwtDecode<JwtHeader>(trimmedToken, { header: true });
+    const payload = jwtDecode<ExtendedJwtPayload>(trimmedToken);
+    const signature = extractSignature(trimmedToken);
 
     return {
       header,
@@ -59,13 +66,7 @@ export const decodeJwt = (token: string): DecodedJwt => {
       isValid: true,
     };
   } catch (e: unknown) {
-    return {
-      header: null,
-      payload: null,
-      signature: "",
-      isValid: false,
-      error: getErrorMessage(e),
-    };
+    return buildInvalidJwt(getErrorMessage(e));
   }
 };
 
@@ -83,9 +84,7 @@ const formatTimestamp = (timestamp?: number): string => {
   return formatUnixTimestamp(timestamp);
 };
 
-export const getClaimsInfo = (payload: ExtendedJwtPayload | null): JwtClaimInfo[] => {
-  if (!payload) return [];
-
+const getTimeClaims = (payload: ExtendedJwtPayload): JwtClaimInfo[] => {
   const claims: JwtClaimInfo[] = [];
 
   if (payload.iat) {
@@ -111,6 +110,12 @@ export const getClaimsInfo = (payload: ExtendedJwtPayload | null): JwtClaimInfo[
       type: isActiveTimestamp(payload.nbf) ? "valid" : "expired",
     });
   }
+
+  return claims;
+};
+
+const getIdentityClaims = (payload: ExtendedJwtPayload): JwtClaimInfo[] => {
+  const claims: JwtClaimInfo[] = [];
 
   if (isNotBlank(payload.sub)) {
     claims.push({
@@ -138,6 +143,11 @@ export const getClaimsInfo = (payload: ExtendedJwtPayload | null): JwtClaimInfo[
   }
 
   return claims;
+};
+
+export const getClaimsInfo = (payload: ExtendedJwtPayload | null): JwtClaimInfo[] => {
+  if (!payload) return [];
+  return [...getTimeClaims(payload), ...getIdentityClaims(payload)];
 };
 
 const algorithms: Record<string, string> = {

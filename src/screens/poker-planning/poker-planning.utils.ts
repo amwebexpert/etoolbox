@@ -128,6 +128,15 @@ export const buildVoteMessage = ({ username = "", value }: BuildVoteMessageArgs 
   },
 });
 
+interface CanConnectArgs {
+  hostName: string;
+  roomUUID: string;
+  socketState: SocketState;
+}
+
+export const canConnect = ({ hostName, roomUUID, socketState }: CanConnectArgs): boolean =>
+  isNotBlank(hostName) && isNotBlank(roomUUID) && socketState !== "open" && socketState !== "connecting";
+
 export const buildResetMessage = (): UserMessage => ({ type: "reset" });
 
 export const buildRemoveUserMessage = (username = ""): UserMessage<string> => ({

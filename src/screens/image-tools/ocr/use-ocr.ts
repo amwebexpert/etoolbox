@@ -5,7 +5,7 @@ import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { useSetWorkerStatus } from "./ocr.store";
 import type { OcrContext, OcrResult, WorkerStatus } from "./ocr.types";
-import { processOcr } from "./ocr.utils";
+import { getOcrSuccessMessage, processOcr } from "./ocr.utils";
 
 interface UseOcrArgs {
   onProgress?: (status: WorkerStatus) => void;
@@ -20,17 +20,10 @@ export const useOcr = ({ onProgress }: UseOcrArgs = {}) => {
     onProgress?.(status);
   };
 
-  const mutationFn = async (context: OcrContext): Promise<OcrResult> => {
-    return processOcr({
-      context,
-      onProgress: handleProgress,
-    });
-  };
-
   const { data, mutate, isPending, isError, error, isSuccess, reset } = useMutation({
-    mutationFn,
+    mutationFn: (context: OcrContext): Promise<OcrResult> => processOcr({ context, onProgress: handleProgress }),
     onSuccess: (result) => {
-      messageApi.success(`Text extracted successfully! Found ${result.wordCount} words in ${result.processingTime}ms`);
+      messageApi.success(getOcrSuccessMessage(result));
     },
   });
 

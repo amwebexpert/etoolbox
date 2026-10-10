@@ -9,6 +9,7 @@ import { logger } from "~/utils/logger";
 
 import { DEFAULT_GUIDELINE_SOURCES } from "./coding-standards.constants";
 import {
+  createInitializedEmbeddingsEngine,
   INITIAL_EMBEDDINGS_PROGRESS,
   isValidRootNode,
   runProgressiveEmbeddingComputation,
@@ -17,7 +18,7 @@ import {
 import type { EmbeddingsProgress, GuidelineNode, GuidelineSource, Rule } from "./coding-standards.types";
 import { useModelLoadStore } from "./model-load.store";
 import type { ModelLoadHubProgressEvent } from "./model-load.store.type";
-import { EmbeddingsEngine } from "./utils/embeddings-engine";
+import type { EmbeddingsEngine } from "./utils/embeddings-engine";
 import { clearCache } from "./utils/storage.utils";
 import { clearTransformersBrowserCache } from "./utils/transformers-cache.utils";
 
@@ -71,13 +72,18 @@ interface CodingStandardsSliceArgs {
   get: CodingStandardsGet;
 }
 
-const createSearchSlice = ({
-  set,
-  get,
-}: CodingStandardsSliceArgs): Pick<
+type SettersSlice = Pick<
   CodingStandardsState,
-  "setSearchQuery" | "setSearchResults" | "setIsSearching" | "performSearch"
-> => ({
+  "setSearchQuery" | "setSearchResults" | "setIsSearching" | "setIsClearingModelCache" | "setEmbeddingsProgress"
+>;
+type SearchSlice = Pick<CodingStandardsState, "performSearch">;
+type EmbeddingsLoadSlice = Pick<CodingStandardsState, "initializeEmbeddings">;
+type EmbeddingsResetSlice = Pick<
+  CodingStandardsState,
+  "disposeEmbeddings" | "recomputeAllEmbeddings" | "redownloadModel"
+>;
+
+const createSettersSlice = ({ set }: CodingStandardsSliceArgs): SettersSlice => ({
   setSearchQuery: (query) =>
     set((state) => {
       state.searchQuery = query;
@@ -93,45 +99,6 @@ const createSearchSlice = ({
       state.isSearching = isSearching;
     }),
 
-  performSearch: async ({ query, rootNode }) => {
-    set((state) => {
-      state.isSearching = true;
-    });
-
-    try {
-      const results = await runSearch({
-        query,
-        rootNode,
-        embeddingsEngine: get().embeddingsEngine,
-      });
-      set((state) => {
-        state.searchResults = results;
-      });
-    } catch (error) {
-      logger.error({ error }, "[coding-standards.store] Search error");
-      set((state) => {
-        state.searchResults = [];
-      });
-    } finally {
-      set((state) => {
-        state.isSearching = false;
-      });
-    }
-  },
-});
-
-const createEmbeddingsSlice = ({
-  set,
-  get,
-}: CodingStandardsSliceArgs): Pick<
-  CodingStandardsState,
-  | "setIsClearingModelCache"
-  | "setEmbeddingsProgress"
-  | "initializeEmbeddings"
-  | "disposeEmbeddings"
-  | "recomputeAllEmbeddings"
-  | "redownloadModel"
-> => ({
   setIsClearingModelCache: (isClearingModelCache) =>
     set((state) => {
       state.isClearingModelCache = isClearingModelCache;
@@ -141,25 +108,37 @@ const createEmbeddingsSlice = ({
     set((state) => {
       state.embeddingsProgress = progress;
     }),
+});
 
-  initializeEmbeddings: async ({ rootNode, baseUrl, onModelLoadProgress }) => {
-    if (!isValidRootNode(rootNode)) return;
-    if (!isNullish(get().embeddingsEngine)) return;
+const createSearchSlice = ({ get }: CodingStandardsSliceArgs): SearchSlice => ({
+  performSearch: async ({ query, rootNode }) => {
+    const { setIsSearching, setSearchResults } = get();
+    setIsSearching(true);
 
     try {
-      const modelLoad = useModelLoadStore.getState();
+      setSearchResults(await runSearch({ query, rootNode, embeddingsEngine: get().embeddingsEngine }));
+    } catch (error) {
+      logger.error({ error }, "[coding-standards.store] Search error");
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  },
+});
+
+const createEmbeddingsLoadSlice = ({ set, get }: CodingStandardsSliceArgs): EmbeddingsLoadSlice => ({
+  initializeEmbeddings: async ({ rootNode, baseUrl, onModelLoadProgress }) => {
+    if (!isValidRootNode(rootNode) || !isNullish(get().embeddingsEngine)) return;
+
+    const modelLoad = useModelLoadStore.getState();
+    try {
       modelLoad.reset();
       modelLoad.setGlobalLoading();
-
       set((state) => {
         state.isLoadingModel = true;
       });
 
-      const engine = new EmbeddingsEngine();
-      await yieldToMainThread();
-
-      await engine.init({ rootNode, baseUrl, onModelLoadProgress });
-
+      const engine = await createInitializedEmbeddingsEngine({ rootNode, baseUrl, onModelLoadProgress });
       set((state) => {
         state.embeddingsEngine = engine;
         state.isLoadingModel = false;
@@ -167,26 +146,21 @@ const createEmbeddingsSlice = ({
       modelLoad.setGlobalReady();
       await yieldToMainThread();
 
-      await runProgressiveEmbeddingComputation({
-        engine,
-        onProgress: (progress) =>
-          set((state) => {
-            state.embeddingsProgress = progress;
-          }),
-      });
-
+      await runProgressiveEmbeddingComputation({ engine, onProgress: get().setEmbeddingsProgress });
       set((state) => {
         state.isInitialized = true;
       });
     } catch (error) {
       logger.error({ error }, "[coding-standards.store] Failed to initialize embeddings engine");
-      useModelLoadStore.getState().setGlobalError(getErrorMessage(error));
+      modelLoad.setGlobalError(getErrorMessage(error));
       set((state) => {
         state.isLoadingModel = false;
       });
     }
   },
+});
 
+const createEmbeddingsResetSlice = ({ set, get }: CodingStandardsSliceArgs): EmbeddingsResetSlice => ({
   disposeEmbeddings: () => {
     useModelLoadStore.getState().reset();
     set((state) => {
@@ -201,11 +175,8 @@ const createEmbeddingsSlice = ({
     if (!isValidRootNode(rootNode)) return;
     clearCache();
     get().disposeEmbeddings();
-    await get().initializeEmbeddings({
-      rootNode,
-      baseUrl,
-      onModelLoadProgress: useModelLoadStore.getState().ingestHubEvent,
-    });
+    const { ingestHubEvent } = useModelLoadStore.getState();
+    await get().initializeEmbeddings({ rootNode, baseUrl, onModelLoadProgress: ingestHubEvent });
   },
 
   redownloadModel: async ({ rootNode, baseUrl }) => {
@@ -236,8 +207,10 @@ const stateCreator = immer<CodingStandardsState>((set, get) => ({
   isLoadingModel: false,
   isClearingModelCache: false,
 
+  ...createSettersSlice({ set, get }),
   ...createSearchSlice({ set, get }),
-  ...createEmbeddingsSlice({ set, get }),
+  ...createEmbeddingsLoadSlice({ set, get }),
+  ...createEmbeddingsResetSlice({ set, get }),
 }));
 
 const PERSISTED_STORE_NAME = "etoolbox-coding-standards";
