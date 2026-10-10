@@ -17,13 +17,9 @@ import {
   MINIMAL_CONFIG,
   PRESENTATION_CONFIG,
 } from "./json-formatter.examples";
-import type { ReactJsonViewConfig } from "./json-formatter.types";
+import type { PresetOption } from "./json-formatter.types";
 
-export const PRESET_OPTIONS: Array<{
-  label: string;
-  value: string;
-  config: ReactJsonViewConfig;
-}> = [
+export const PRESET_OPTIONS: PresetOption[] = [
   { label: "Default", value: "default", config: DEFAULT_CONFIG },
   { label: "Minimal", value: "minimal", config: MINIMAL_CONFIG },
   { label: "Developer", value: "developer", config: DEVELOPER_CONFIG },

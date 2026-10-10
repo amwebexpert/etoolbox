@@ -1,4 +1,4 @@
-import type { SortField, SortOrder } from "./github-user-projects.types";
+import type { SortField, SortFieldOption, SortOrder } from "./github-user-projects.types";
 
 export const GithubProjectsQueryKey = {
   all: ["github-projects"] as const,
@@ -17,7 +17,7 @@ export const DEFAULT_SHOW_ARCHIVED = true;
 
 export const PAGE_SIZE_OPTIONS = [5, 10, 25, 50, 100];
 
-export const SORT_FIELD_OPTIONS: Array<{ value: SortField; label: string }> = [
+export const SORT_FIELD_OPTIONS: SortFieldOption[] = [
   { value: "updated_at", label: "Last updated" },
   { value: "name", label: "Name" },
   { value: "stargazers_count", label: "Stars" },

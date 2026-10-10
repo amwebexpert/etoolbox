@@ -4,12 +4,18 @@ import { getResultRows, type ResponsiveContext } from "~/utils/responsive.utils"
 
 export type UuidVersion = 1 | 4 | 6 | 7;
 
+export interface UuidVersionOption {
+  value: UuidVersion;
+  label: string;
+  description: string;
+}
+
 export const DEFAULT_VERSION: UuidVersion = 4;
 export const DEFAULT_QUANTITY = 5;
 export const MIN_QUANTITY = 1;
 export const MAX_QUANTITY = 9999;
 
-export const UUID_VERSION_OPTIONS: Array<{ value: UuidVersion; label: string; description: string }> = [
+export const UUID_VERSION_OPTIONS: UuidVersionOption[] = [
   { value: 1, label: "v1", description: "Time-based (MAC address + timestamp)" },
   { value: 4, label: "v4", description: "Random (cryptographically secure)" },
   { value: 6, label: "v6", description: "Time-ordered (reordered v1)" },

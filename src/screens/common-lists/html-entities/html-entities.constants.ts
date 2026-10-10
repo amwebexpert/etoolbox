@@ -1,4 +1,9 @@
-import type { HtmlEntity, HtmlEntityCategory, HtmlEntityFilterField } from "./html-entities.types";
+import type {
+  HtmlEntity,
+  HtmlEntityCategory,
+  HtmlEntityCategoryOption,
+  HtmlEntityFilterFieldOption,
+} from "./html-entities.types";
 
 interface EntityCategoryInput {
   character: string;
@@ -617,7 +622,7 @@ export const CATEGORY_LABELS: Record<HtmlEntityCategory, string> = {
   whitespace: "Whitespace",
 };
 
-export const CATEGORY_OPTIONS: { value: HtmlEntityCategory; label: string }[] = [
+export const CATEGORY_OPTIONS: HtmlEntityCategoryOption[] = [
   { value: "all", label: CATEGORY_LABELS.all },
   { value: "letters", label: CATEGORY_LABELS.letters },
   { value: "letters-accented", label: CATEGORY_LABELS["letters-accented"] },
@@ -631,7 +636,7 @@ export const CATEGORY_OPTIONS: { value: HtmlEntityCategory; label: string }[] = 
   { value: "whitespace", label: CATEGORY_LABELS.whitespace },
 ];
 
-export const FILTER_FIELD_OPTIONS: { value: HtmlEntityFilterField; label: string }[] = [
+export const FILTER_FIELD_OPTIONS: HtmlEntityFilterFieldOption[] = [
   { value: "all", label: "All entities" },
   { value: "named-only", label: "Named only" },
 ];
