@@ -120,28 +120,29 @@ interface TestRegexArgs {
   flags: string[];
 }
 
+interface BuildNoMatchResultArgs {
+  inputText: string;
+  error: string | null;
+}
+
+const buildNoMatchResult = ({ inputText, error }: BuildNoMatchResultArgs): RegexTestResult => ({
+  highlightedHtml: escapeAndBreak(inputText ?? ""),
+  extractedValues: "",
+  matchCount: 0,
+  uniqueCount: 0,
+  error,
+});
+
 export const testRegex = ({ pattern, inputText, flags }: TestRegexArgs): RegexTestResult => {
   if (isBlank(pattern)) {
-    return {
-      highlightedHtml: escapeAndBreak(inputText ?? ""),
-      extractedValues: "",
-      matchCount: 0,
-      uniqueCount: 0,
-      error: null,
-    };
+    return buildNoMatchResult({ inputText, error: null });
   }
 
   try {
     const regex = parseRegex({ pattern, flags });
 
     if (isNullish(regex)) {
-      return {
-        highlightedHtml: escapeAndBreak(inputText ?? ""),
-        extractedValues: "",
-        matchCount: 0,
-        uniqueCount: 0,
-        error: "Invalid regular expression",
-      };
+      return buildNoMatchResult({ inputText, error: "Invalid regular expression" });
     }
 
     const highlightedHtml = transformWithHighlights({ pattern, inputText, flags });
@@ -156,13 +157,7 @@ export const testRegex = ({ pattern, inputText, flags }: TestRegexArgs): RegexTe
       error: null,
     };
   } catch (e: unknown) {
-    return {
-      highlightedHtml: escapeAndBreak(inputText ?? ""),
-      extractedValues: "",
-      matchCount: 0,
-      uniqueCount: 0,
-      error: getErrorMessage(e),
-    };
+    return buildNoMatchResult({ inputText, error: getErrorMessage(e) });
   }
 };
 

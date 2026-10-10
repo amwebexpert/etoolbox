@@ -10,43 +10,60 @@ import {
   type ParseCsvArgs,
 } from "./csv-parser.types";
 
+// Convert our simplified options to PapaParse config habit-hooks-disable non-essential-comment
+const toPapaConfig = (options: Partial<CsvParserOptions>): ParseConfig => {
+  const mergedOptions: CsvParserOptions = {
+    ...DEFAULT_CSV_OPTIONS,
+    ...options,
+  };
+
+  return {
+    delimiter: mergedOptions.delimiter, // empty string means auto-detect
+    quoteChar: mergedOptions.quoteChar,
+    escapeChar: mergedOptions.escapeChar,
+    header: mergedOptions.header,
+    dynamicTyping: mergedOptions.dynamicTyping,
+    skipEmptyLines: mergedOptions.skipEmptyLines,
+    comments: mergedOptions.comments ? "#" : false,
+    transformHeader: (header: string) => header?.trim(),
+  };
+};
+
+const toCsvParseResult = (result: ParseResult<unknown>): CsvParseResult => ({
+  data: result.data as unknown[],
+  meta: result.meta,
+  errors: result.errors.map((err) => ({
+    type: err.type,
+    code: err.code,
+    message: err.message,
+    row: err.row,
+  })),
+});
+
 // @see https://www.papaparse.com/docs#config habit-hooks-disable non-essential-comment
 export const parseCsv = ({ csvData, options = {} }: ParseCsvArgs): Promise<CsvParseResult> => {
   return new Promise((resolve, reject) => {
     try {
-      const mergedOptions: CsvParserOptions = {
-        ...DEFAULT_CSV_OPTIONS,
-        ...options,
-      };
-
-      // Convert our simplified options to PapaParse config habit-hooks-disable non-essential-comment
-      const papaConfig: ParseConfig = {
-        delimiter: mergedOptions.delimiter, // empty string means auto-detect
-        quoteChar: mergedOptions.quoteChar,
-        escapeChar: mergedOptions.escapeChar,
-        header: mergedOptions.header,
-        dynamicTyping: mergedOptions.dynamicTyping,
-        skipEmptyLines: mergedOptions.skipEmptyLines,
-        comments: mergedOptions.comments ? "#" : false,
-        transformHeader: (header: string) => header?.trim(),
-      };
-
-      const result: ParseResult<unknown> = Papa.parse(csvData, papaConfig);
-
-      resolve({
-        data: result.data as unknown[],
-        meta: result.meta,
-        errors: result.errors.map((err) => ({
-          type: err.type,
-          code: err.code,
-          message: err.message,
-          row: err.row,
-        })),
-      });
+      const result: ParseResult<unknown> = Papa.parse(csvData, toPapaConfig(options));
+      resolve(toCsvParseResult(result));
     } catch (error) {
       reject(error instanceof Error ? error : new Error(String(error)));
     }
   });
+};
+
+interface ParseResultToast {
+  level: "success" | "warning";
+  content: string;
+}
+
+export const getParseResultToast = (result: CsvParseResult): ParseResultToast => {
+  const errorCount = result.errors.length;
+  if (errorCount > 0) {
+    return { level: "warning", content: `Parsed with ${errorCount} warning(s)` };
+  }
+
+  return { level: "success", content: `Parsed ${result.data.length} rows successfully!` };
 };
 
 export const formatFileInfo = (fileInfo: FileInfo | null): string => {

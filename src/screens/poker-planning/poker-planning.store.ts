@@ -7,7 +7,13 @@ import { createJSONStorage, persist } from "zustand/middleware";
 
 import { DEFAULT_CARDS_LISTING_CATEGORY } from "./poker-planning.constants";
 import type { CardsListingCategoryName, PokerPlanningSession, SocketState, UserMessage } from "./poker-planning.types";
-import { buildRemoveUserMessage, buildResetMessage, buildVoteMessage, createSocket } from "./poker-planning.utils";
+import {
+  buildRemoveUserMessage,
+  buildResetMessage,
+  buildVoteMessage,
+  canConnect,
+  createSocket,
+} from "./poker-planning.utils";
 
 interface PokerPlanningState {
   hostName: string;
@@ -60,20 +66,23 @@ interface PokerPlanningSliceArgs {
   get: PokerPlanningGet;
 }
 
-const createSettersSlice = ({
+const INITIAL_SESSION_STATE: Pick<
+  PokerPlanningState,
+  "roomUUID" | "socketState" | "myEstimate" | "isEstimatesVisible" | "session"
+> = {
+  roomUUID: "",
+  socketState: "closed",
+  myEstimate: undefined,
+  isEstimatesVisible: false,
+  session: undefined,
+};
+
+const createPreferencesSlice = ({
   set,
   get,
 }: PokerPlanningSliceArgs): Pick<
   PokerPlanningState,
-  | "setHostName"
-  | "setRoomName"
-  | "setUsername"
-  | "setCardsCategory"
-  | "setRoomUUID"
-  | "setSocketState"
-  | "setMyEstimate"
-  | "setIsEstimatesVisible"
-  | "setSession"
+  "setHostName" | "setRoomName" | "setUsername" | "setCardsCategory"
 > => ({
   setHostName: (hostName) => {
     if (get().hostName !== hostName) set({ hostName });
@@ -87,7 +96,20 @@ const createSettersSlice = ({
   setCardsCategory: (cardsCategory) => {
     if (get().cardsCategory !== cardsCategory) set({ cardsCategory });
   },
+});
 
+const createSessionStateSlice = ({
+  set,
+  get,
+}: PokerPlanningSliceArgs): Pick<
+  PokerPlanningState,
+  | "setRoomUUID"
+  | "setSocketState"
+  | "setMyEstimate"
+  | "setIsEstimatesVisible"
+  | "setSession"
+  | "toggleEstimatesVisibility"
+> => ({
   setRoomUUID: (roomUUID) => {
     if (get().roomUUID !== roomUUID) set({ roomUUID });
   },
@@ -101,17 +123,17 @@ const createSettersSlice = ({
     if (get().isEstimatesVisible !== isVisible) set({ isEstimatesVisible: isVisible });
   },
   setSession: (session) => set({ session }),
+
+  toggleEstimatesVisibility: () => set({ isEstimatesVisible: !get().isEstimatesVisible }),
 });
 
-const createSocketSlice = ({
+const createConnectionSlice = ({
   set,
   get,
-}: PokerPlanningSliceArgs): Pick<PokerPlanningState, "connect" | "sendMessage" | "clearSocket"> => ({
+}: PokerPlanningSliceArgs): Pick<PokerPlanningState, "connect" | "clearSocket"> => ({
   connect: () => {
     const { hostName, roomUUID, socketState } = get();
-    if (isBlank(hostName) || isBlank(roomUUID) || socketState === "open" || socketState === "connecting") {
-      return;
-    }
+    if (!canConnect({ hostName, roomUUID, socketState })) return;
 
     const socket = createSocket({
       hostName,
@@ -130,15 +152,6 @@ const createSocketSlice = ({
     set({ socket });
   },
 
-  sendMessage: (message: UserMessage) => {
-    const { socket, socketState } = get();
-    if (socket && socketState === "open") {
-      socket.send(JSON.stringify(message));
-    } else {
-      set({ postponedMessage: message });
-    }
-  },
-
   clearSocket: () => {
     const { socket } = get();
     socket?.close();
@@ -146,20 +159,10 @@ const createSocketSlice = ({
   },
 });
 
-const createActionsSlice = ({
+const createRoomLifecycleSlice = ({
   set,
   get,
-}: PokerPlanningSliceArgs): Pick<
-  PokerPlanningState,
-  | "createRoom"
-  | "joinRoom"
-  | "vote"
-  | "clearVotes"
-  | "removeUser"
-  | "toggleEstimatesVisibility"
-  | "disconnect"
-  | "resetSession"
-> => ({
+}: PokerPlanningSliceArgs): Pick<PokerPlanningState, "createRoom" | "joinRoom" | "disconnect" | "resetSession"> => ({
   createRoom: () => {
     const { hostName, roomName, setRoomUUID, connect } = get();
     if (isBlank(hostName) || isBlank(roomName)) return;
@@ -176,15 +179,33 @@ const createActionsSlice = ({
     sendMessage(buildVoteMessage({ username }));
   },
 
+  disconnect: () => {
+    const { socket } = get();
+    socket?.close();
+    set({ socket: null, postponedMessage: null, ...INITIAL_SESSION_STATE });
+  },
+
+  resetSession: () => set({ ...INITIAL_SESSION_STATE }),
+});
+
+const createMessagingSlice = ({
+  set,
+  get,
+}: PokerPlanningSliceArgs): Pick<PokerPlanningState, "sendMessage" | "vote" | "clearVotes" | "removeUser"> => ({
+  sendMessage: (message: UserMessage) => {
+    const { socket, socketState } = get();
+    if (socket && socketState === "open") {
+      socket.send(JSON.stringify(message));
+    } else {
+      set({ postponedMessage: message });
+    }
+  },
+
   vote: (value: string) => {
     const { myEstimate, username, sendMessage, setMyEstimate } = get();
-    if (value !== myEstimate) {
-      setMyEstimate(value);
-      sendMessage(buildVoteMessage({ username, value }));
-    } else {
-      setMyEstimate(undefined);
-      sendMessage(buildVoteMessage({ username }));
-    }
+    const nextEstimate = value === myEstimate ? undefined : value;
+    setMyEstimate(nextEstimate);
+    sendMessage(buildVoteMessage({ username, value: nextEstimate }));
   },
 
   clearVotes: () => {
@@ -196,36 +217,6 @@ const createActionsSlice = ({
     const { sendMessage } = get();
     sendMessage(buildRemoveUserMessage(userToRemove));
   },
-
-  toggleEstimatesVisibility: () => {
-    const { isEstimatesVisible } = get();
-    set({ isEstimatesVisible: !isEstimatesVisible });
-  },
-
-  disconnect: () => {
-    const { socket } = get();
-    if (socket) {
-      socket.close();
-    }
-    set({
-      socket: null,
-      postponedMessage: null,
-      roomUUID: "",
-      socketState: "closed",
-      myEstimate: undefined,
-      isEstimatesVisible: false,
-      session: undefined,
-    });
-  },
-
-  resetSession: () =>
-    set({
-      roomUUID: "",
-      socketState: "closed",
-      myEstimate: undefined,
-      isEstimatesVisible: false,
-      session: undefined,
-    }),
 });
 
 const stateCreator = (set: PokerPlanningSet, get: PokerPlanningGet): PokerPlanningState => ({
@@ -234,18 +225,16 @@ const stateCreator = (set: PokerPlanningSet, get: PokerPlanningGet): PokerPlanni
   username: "",
   cardsCategory: DEFAULT_CARDS_LISTING_CATEGORY,
 
-  roomUUID: "",
-  socketState: "closed",
-  myEstimate: undefined,
-  isEstimatesVisible: false,
-  session: undefined,
+  ...INITIAL_SESSION_STATE,
 
   socket: null,
   postponedMessage: null,
 
-  ...createSettersSlice({ set, get }),
-  ...createSocketSlice({ set, get }),
-  ...createActionsSlice({ set, get }),
+  ...createPreferencesSlice({ set, get }),
+  ...createSessionStateSlice({ set, get }),
+  ...createConnectionSlice({ set, get }),
+  ...createRoomLifecycleSlice({ set, get }),
+  ...createMessagingSlice({ set, get }),
 });
 
 const PERSISTED_STORE_NAME = "etoolbox-poker-planning";

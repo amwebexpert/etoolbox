@@ -1,13 +1,18 @@
 import { isNullish } from "@lichens-innovation/ts-common";
 
-import type { ModelFileLoadEntry, ModelLoadHubProgressEvent } from "./model-load.store.type";
+import {
+  buildModelFileKey,
+  type ModelFileLoadEntry,
+  type ModelFileLoadMap,
+  type ModelLoadHubProgressEvent,
+} from "./model-load.store.type";
 
 interface MutateEntryFromProgressArgs {
   event: ModelLoadHubProgressEvent;
   entry: ModelFileLoadEntry;
 }
 
-export const mutateEntryFromProgress = ({ event, entry }: MutateEntryFromProgressArgs): void => {
+const mutateEntryFromProgress = ({ event, entry }: MutateEntryFromProgressArgs): void => {
   if (event.status === "initiate") {
     entry.status = "pending";
     return;
@@ -28,4 +33,23 @@ export const mutateEntryFromProgress = ({ event, entry }: MutateEntryFromProgres
 
   entry.status = "done";
   entry.percent = 100;
+};
+
+interface IngestHubEventArgs {
+  fileLoads: ModelFileLoadMap;
+  event: ModelLoadHubProgressEvent;
+}
+
+export const ingestHubEventIntoFileLoads = ({ fileLoads, event }: IngestHubEventArgs): void => {
+  const file = event.file ?? "";
+  const key = buildModelFileKey({ modelId: event.name, file });
+  if (!fileLoads[key]) {
+    fileLoads[key] = {
+      modelId: event.name,
+      file,
+      status: "pending",
+    };
+  }
+
+  mutateEntryFromProgress({ event, entry: fileLoads[key] });
 };

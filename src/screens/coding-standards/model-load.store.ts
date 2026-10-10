@@ -1,13 +1,8 @@
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
-import {
-  buildModelFileKey,
-  type ModelFileLoadMap,
-  type ModelLoadGlobalStatus,
-  type ModelLoadHubProgressEvent,
-} from "./model-load.store.type";
-import { mutateEntryFromProgress } from "./model-load.store.utils";
+import type { ModelFileLoadMap, ModelLoadGlobalStatus, ModelLoadHubProgressEvent } from "./model-load.store.type";
+import { ingestHubEventIntoFileLoads } from "./model-load.store.utils";
 
 export interface ModelLoadStore {
   fileLoads: ModelFileLoadMap;
@@ -53,17 +48,7 @@ export const useModelLoadStore = create<ModelLoadStore>()(
 
     ingestHubEvent: (event: ModelLoadHubProgressEvent) =>
       set((state) => {
-        const file = event.file ?? "";
-        const key = buildModelFileKey({ modelId: event.name, file });
-        if (!state.fileLoads[key]) {
-          state.fileLoads[key] = {
-            modelId: event.name,
-            file,
-            status: "pending",
-          };
-        }
-
-        mutateEntryFromProgress({ event, entry: state.fileLoads[key] });
+        ingestHubEventIntoFileLoads({ fileLoads: state.fileLoads, event });
       }),
   }))
 );

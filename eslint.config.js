@@ -181,13 +181,18 @@ export default tseslint.config(
     ignores: testFiles,
     rules: {
       "max-lines": ["error", { max: 400, skipBlankLines: true, skipComments: true }],
-      "max-lines-per-function": ["error", { max: 90, skipBlankLines: true, skipComments: true }],
+      "max-lines-per-function": ["error", { max: 30, skipBlankLines: true, skipComments: true }],
     },
   },
   {
     // Pure data tables, not logic — splitting them for line-count adds no value.
     files: ["src/**/*.constants.ts", "src/screens/colors/named/named-colors.utils.ts"],
     rules: { "max-lines": "off", "max-lines-per-function": "off" },
+  },
+  {
+    // createStyles() callbacks return style objects — declarative data, not logic.
+    files: ["src/**/*.styles.ts", "src/**/use-*-styles.ts"],
+    rules: { "max-lines-per-function": "off" },
   },
   {
     // ~45 repetitive createRoute() declarations — data, not logic.

@@ -1,4 +1,4 @@
-import { isBlank } from "@lichens-innovation/ts-common";
+import { isNotBlank } from "@lichens-innovation/ts-common";
 import { useQuery } from "@tanstack/react-query";
 
 import { PokerPlanningQueryKey } from "../poker-planning.constants";
@@ -8,7 +8,7 @@ import { buildFullRouteURL, generateQRCodeDataUrl } from "../poker-planning.util
 export const useRoomQRCode = () => {
   const { hostName, roomName, roomUUID } = usePokerPlanningStore();
 
-  const isSessionActive = !isBlank(roomUUID);
+  const isSessionActive = isNotBlank(roomUUID);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: PokerPlanningQueryKey.qrcode({ hostName, roomUUID, roomName }),

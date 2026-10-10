@@ -9,6 +9,41 @@ interface ProcessOcrArgs {
   onProgress?: (status: WorkerStatus) => void;
 }
 
+const toImageBuffer = (imageDataUrl: string): Buffer => {
+  const base64Data = imageDataUrl.split(",")[1];
+  if (isBlank(base64Data)) {
+    throw new Error("Invalid image data URL format");
+  }
+
+  return Buffer.from(base64Data, "base64");
+};
+
+const toWorkerStatus = (log: Tesseract.LoggerMessage): WorkerStatus => ({
+  workerId: log.workerId ?? "",
+  jobId: log.jobId ?? "",
+  status: log.status ?? "",
+  progress: log.progress ?? 0,
+});
+
+interface ToOcrResultArgs {
+  recognized: Tesseract.RecognizeResult;
+  startTime: number;
+}
+
+const toOcrResult = ({ recognized, startTime }: ToOcrResultArgs): OcrResult => {
+  const text = recognized.data.text.trim();
+  const confidence = recognized.data.confidence;
+  const endTime = performance.now();
+
+  return {
+    text,
+    confidence,
+    wordCount: countWords(text),
+    characterCount: text.length,
+    processingTime: Math.round(endTime - startTime),
+  };
+};
+
 export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promise<OcrResult> => {
   const { imageDataUrl, language } = context;
 
@@ -19,41 +54,19 @@ export const processOcr = async ({ context, onProgress }: ProcessOcrArgs): Promi
   const startTime = performance.now();
 
   try {
-    const base64Data = imageDataUrl.split(",")[1];
-    if (isBlank(base64Data)) {
-      throw new Error("Invalid image data URL format");
-    }
-
-    const imageBuffer = Buffer.from(base64Data, "base64");
-
-    const result = await Tesseract.recognize(imageBuffer, language, {
-      logger: (log) => {
-        if (onProgress) {
-          onProgress({
-            workerId: log.workerId ?? "",
-            jobId: log.jobId ?? "",
-            status: log.status ?? "",
-            progress: log.progress ?? 0,
-          });
-        }
-      },
+    const imageBuffer = toImageBuffer(imageDataUrl);
+    const recognized = await Tesseract.recognize(imageBuffer, language, {
+      logger: (log) => onProgress?.(toWorkerStatus(log)),
     });
 
-    const text = result.data.text.trim();
-    const confidence = result.data.confidence;
-    const endTime = performance.now();
-
-    return {
-      text,
-      confidence,
-      wordCount: countWords(text),
-      characterCount: text.length,
-      processingTime: Math.round(endTime - startTime),
-    };
+    return toOcrResult({ recognized, startTime });
   } catch (e: unknown) {
     throw new Error(`OCR processing failed: ${getErrorMessage(e)}`, { cause: e });
   }
 };
+
+export const getOcrSuccessMessage = ({ wordCount, processingTime }: OcrResult): string =>
+  `Text extracted successfully! Found ${wordCount} words in ${processingTime}ms`;
 
 export const formatProcessingTime = formatDuration;
 

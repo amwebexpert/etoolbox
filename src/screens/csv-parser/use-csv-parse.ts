@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { useSetParseResult } from "./csv-parser.store";
-import { parseCsv } from "./csv-parser.utils";
+import { getParseResultToast, parseCsv } from "./csv-parser.utils";
 
 export const useCsvParse = () => {
   const messageApi = useToastMessage();
@@ -14,12 +14,8 @@ export const useCsvParse = () => {
     mutationFn: parseCsv,
     onSuccess: (result) => {
       setParseResult(result);
-      const errorCount = result.errors.length;
-      if (errorCount > 0) {
-        messageApi.warning(`Parsed with ${errorCount} warning(s)`);
-      } else {
-        messageApi.success(`Parsed ${result.data.length} rows successfully!`);
-      }
+      const { level, content } = getParseResultToast(result);
+      messageApi[level](content);
     },
   });
 
