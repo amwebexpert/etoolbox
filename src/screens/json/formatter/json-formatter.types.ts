@@ -66,3 +66,9 @@ export const DEFAULT_REACT_JSON_VIEW_CONFIG: ReactJsonViewConfig = {
 };
 
 export type ViewMode = "syntax-highlight" | "react-json-view";
+
+export interface PresetOption {
+  label: string;
+  value: string;
+  config: ReactJsonViewConfig;
+}

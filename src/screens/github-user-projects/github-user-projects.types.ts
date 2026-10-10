@@ -43,6 +43,11 @@ export interface GithubUserProject {
 export type SortField = "name" | "updated_at" | "stargazers_count" | "watchers_count" | "forks_count";
 export type SortOrder = "asc" | "desc";
 
+export interface SortFieldOption {
+  value: SortField;
+  label: string;
+}
+
 export interface ProjectStats {
   totalProjects: number;
   totalStars: number;

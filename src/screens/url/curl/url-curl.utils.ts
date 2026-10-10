@@ -85,10 +85,10 @@ const CONVERTERS: Map<string, CurlConverterType> = new Map([
 
 export const CONVERTERS_LIST = [...CONVERTERS.keys()];
 
-const parseQueryStringFromUrl = (url: string): Array<{ name: string; value: string }> => {
+const parseQueryStringFromUrl = (url: string): HarRequest["queryString"] => {
   try {
     const urlObj = new URL(url);
-    const queryString: Array<{ name: string; value: string }> = [];
+    const queryString: HarRequest["queryString"] = [];
     urlObj.searchParams.forEach((value, name) => {
       queryString.push({ name, value });
     });
@@ -105,7 +105,7 @@ const parseQueryStringFromUrl = (url: string): Array<{ name: string; value: stri
 const curlToHar = (curlCommand: string): HarRequest => {
   const parsed = parseCurl(curlCommand);
 
-  const headers: Array<{ name: string; value: string }> = [];
+  const headers: HarRequest["headers"] = [];
   if (parsed.header) {
     Object.entries(parsed.header).forEach(([name, value]) => {
       headers.push({ name, value: String(value) });

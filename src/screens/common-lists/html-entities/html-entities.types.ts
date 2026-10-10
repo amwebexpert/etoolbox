@@ -20,3 +20,13 @@ export type HtmlEntityCategory =
   | "whitespace";
 
 export type HtmlEntityFilterField = "all" | "named-only";
+
+export interface HtmlEntityCategoryOption {
+  value: HtmlEntityCategory;
+  label: string;
+}
+
+export interface HtmlEntityFilterFieldOption {
+  value: HtmlEntityFilterField;
+  label: string;
+}
