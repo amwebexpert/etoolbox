@@ -66,11 +66,25 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for full contributor setup and conventi
 | `bun run clean:node`          | Removes `node_modules` and `bun.lock` for a fresh install                               |
 | `bun run generate:version`    | Generates version information file                                                      |
 | `bun run generate:api:client` | Generates API client from OpenAPI specification                                         |
+| `bun run security:check`      | Audits all deps for new CVEs vs baseline, fails on high severity (`cve-lite-cli`)       |
 | `bun run postinstall`         | Runs after install: applies patches and installs habit-hooks                            |
 
 Playwright starts the Vite dev server automatically via [e2e/playwright.config.ts](./e2e/playwright.config.ts). E2E tests run locally only (not in CI).
 
 TanStack Devtools source inspector: hold `Shift + Option + Cmd` (mac) / `Shift + Alt + Ctrl` (win/linux) while hovering an element to highlight it and show its source file path.
+
+## Dependency patches
+
+Patches in `patches/` are applied on install by [patch-package](https://github.com/ds300/patch-package) (`postinstall`).
+
+| Package                      | Why                                                                                                                                                                                                                                                      |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `braces@3.0.3`               | [CVE-2026-93687](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) (stack-overflow DoS), no fixed release yet ([braces#70](https://github.com/micromatch/braces/issues/70)). Patch backports [braces#88](https://github.com/micromatch/braces/pull/88). |
+| `eslint-plugin-react@7.37.5` | ESLint 10 compatibility (`context.getFilename()` removed). Remove when upstream supports ESLint 10.                                                                                                                                                      |
+
+`cve-lite-cli` matches by version only, so patched findings stay accepted in `.cve-lite/baseline.json` (`security:check` runs with `--ratchet`). Once a fixed release ships: upgrade, delete the patch and its baseline entry. The baseline also accepts findings with no safe upgrade path (`protobufjs@6` and `sharp@0.32` via `@xenova/transformers`, `katex@0.16` via `@milkdown/crepe`).
+
+Vulnerable transitive deps without a parent fix are pinned via `overrides` in `package.json`.
 
 ## Frameworks & Dependencies
 

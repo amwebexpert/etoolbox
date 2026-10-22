@@ -45,6 +45,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
     "lint:package": "npmPkgJsonLint .",
+    "security:check": "npx --yes cve-lite-cli@latest . --fail-on high --ratchet --verbose",
     "habit:hooks": "habit-hooks --branch main",
     "habit:hooks:full": "habit-hooks",
     "habit:snoozed": "habit-snooze --list",
@@ -108,7 +109,7 @@
     "three": "0.186.0",
     "url": "0.11.4",
     "uuid": "14.0.2",
-    "vitest": "5.0.1",
+    "vitest": "5.0.5",
     "zustand": "5.0.15"
   },
   "devDependencies": {
@@ -166,6 +167,9 @@
     "zod": "4.6.5"
   },
   "overrides": {
+    "form-data": "4.0.6",
+    "handlebars": "4.7.10",
+    "seroval": "1.6.3",
     "vite": "npm:rolldown-vite@7.3.1"
   },
   "lint-staged": {
