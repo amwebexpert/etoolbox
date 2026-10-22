@@ -1,4 +1,5 @@
 import { expect, test } from "../../fixtures/pages.fixture";
+import { selectOption } from "../../helpers/select";
 import { clearUuidGeneratorPersistedStore } from "../../helpers/storage";
 
 test.beforeEach(async ({ page, uuidGeneratorPage }) => {
@@ -22,8 +23,7 @@ test("generates UUIDs with default settings", async ({ page }) => {
 
 test("changing version and quantity regenerates a different count", async ({ page }) => {
   // arrange
-  await page.getByRole("combobox").first().click();
-  await page.locator(".ant-select-item-option").filter({ hasText: /^v1 -/ }).click();
+  await selectOption({ page, trigger: page.getByRole("combobox").first(), option: /^v1 -/ });
   await page.getByRole("spinbutton").fill("3");
 
   // act

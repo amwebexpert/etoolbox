@@ -1,4 +1,5 @@
 import { expect, test } from "../../fixtures/pages.fixture";
+import { selectOption } from "../../helpers/select";
 import { clearColorsPersistedStores } from "../../helpers/storage";
 
 test.beforeEach(async ({ page, colorsPage }) => {
@@ -12,8 +13,7 @@ test("family select filters the table to fewer rows", async ({ page }) => {
   await expect(page.getByText(/of \d+ colors/)).toBeVisible();
 
   // act — filter to the Blue family
-  await page.getByRole("combobox").first().click();
-  await page.locator(".ant-select-item-option").filter({ hasText: "Blue" }).first().click();
+  await selectOption({ page, trigger: page.getByRole("combobox").first(), option: "Blue" });
 
   // assert — total count reduced to the 15 blue entries
   await expect(page.getByText("1-5 of 15 colors", { exact: true })).toBeVisible();

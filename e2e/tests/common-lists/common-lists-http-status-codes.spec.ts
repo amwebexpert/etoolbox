@@ -1,4 +1,5 @@
 import { expect, test } from "../../fixtures/pages.fixture";
+import { selectOption } from "../../helpers/select";
 import { clearCommonListsPersistedStores } from "../../helpers/storage";
 
 const parseCount = (text: string): number => Number(text.split("/")[0]?.trim());
@@ -15,8 +16,7 @@ test("category select filters the table to fewer rows", async ({ page }) => {
   const initialCount = parseCount(await countText.innerText());
 
   // act
-  await page.getByRole("combobox").first().click();
-  await page.locator(".ant-select-item-option").filter({ hasText: "4xx Client Error" }).click();
+  await selectOption({ page, trigger: page.getByRole("combobox").first(), option: "4xx Client Error" });
 
   // assert
   await expect(async () => {

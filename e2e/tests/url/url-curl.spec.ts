@@ -1,5 +1,6 @@
 import { expect, test } from "../../fixtures/pages.fixture";
 import { mainActionButton } from "../../helpers/main-content";
+import { selectOption } from "../../helpers/select";
 import { clearUrlPersistedStores } from "../../helpers/storage";
 
 test.beforeEach(async ({ page, urlPage }) => {
@@ -28,8 +29,7 @@ test("changing the target language re-converts the result", async ({ page }) => 
   await expect(page.locator("pre")).toContainText("api.example.com/users");
 
   // act — switch target language to Python (Requests)
-  await page.locator(".ant-select").first().click();
-  await page.locator(".ant-select-item-option").filter({ hasText: "Python (Requests)" }).click();
+  await selectOption({ page, trigger: page.locator(".ant-select").first(), option: "Python (Requests)" });
 
   // assert — result re-converts automatically to python
   await expect(page.locator("pre")).toContainText(/requests\.(post|request)/);
