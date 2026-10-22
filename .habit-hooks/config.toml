@@ -2,7 +2,7 @@ plugins = ["typescript", "generic"]
 transformers = ["allow-aaa", "snooze", "habit-hooks-disable"]
 
 # Generic line-count (raw 200) duplicates ESLint max-lines (oversized-file).
-# ESLint remains the file-length detector: .ts 400, .tsx 150.
+# ESLint remains the file-length detector, typical examples: .ts 400, .tsx 150.
 [sensors.line-count]
 disabled = true
 

@@ -18,3 +18,10 @@ else
   bun run habit:hooks:full
   echo "✅ Habit Hooks completed"
 fi
+
+# Scan for known CVEs only when dependencies change.
+if git diff --cached --name-only | grep -qE '^(package\.json|bun\.lock)$'; then
+  echo "Running security check to detect known CVEs in dependencies…"
+  bun run security:check
+  echo "✅ Security check completed"
+fi
