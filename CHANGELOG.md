@@ -1,3 +1,9 @@
+## [4.13.1](https://github.com/amwebexpert/etoolbox/compare/v4.13.0...v4.13.1) (2026-10-22)
+
+
+### Bug Fixes
+
+* **security:** add cve-lite-cli check with ratchet baseline and fix CVEs ([#176](https://github.com/amwebexpert/etoolbox/issues/176)) ([b5c6dce](https://github.com/amwebexpert/etoolbox/commit/b5c6dceb18157153770d4d19ac4bf9e9068c0834))
 # [4.13.0](https://github.com/amwebexpert/etoolbox/compare/v4.12.0...v4.13.0) (2026-09-20)
 
 
