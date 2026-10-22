@@ -9,9 +9,9 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue.svg?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Ant Design](https://img.shields.io/badge/Ant_Design-6-0170FE.svg?style=flat-square&logo=antdesign)](https://ant.design/)
 [![Vite](<https://img.shields.io/badge/Vite_(Rolldown)-7.3-646CFF.svg?style=flat-square&logo=vite>)](https://rolldown.rs/)
-[![Bun](https://img.shields.io/badge/Bun-1.3.14-000000.svg?style=flat-square&logo=bun)](https://bun.sh/)
-[![Vitest](https://img.shields.io/badge/Vitest-4.1-6E9F18.svg?style=flat-square&logo=vitest)](https://vitest.dev/)
-[![Playwright](https://img.shields.io/badge/Playwright-1.62-2EAD33.svg?style=flat-square&logo=playwright)](https://playwright.dev/)
+[![Bun](https://img.shields.io/badge/Bun-1.4.4-000000.svg?style=flat-square&logo=bun)](https://bun.sh/)
+[![Vitest](https://img.shields.io/badge/Vitest-5.0-6E9F18.svg?style=flat-square&logo=vitest)](https://vitest.dev/)
+[![Playwright](https://img.shields.io/badge/Playwright-1.64-2EAD33.svg?style=flat-square&logo=playwright)](https://playwright.dev/)
 
 Open source collection of web developer utilities.
 The web application has been deployed and you can use it [just here!](https://amwebexpert.github.io/etoolbox)
@@ -38,7 +38,7 @@ The web application has been deployed and you can use it [just here!](https://am
 
 ## Getting Started
 
-1. Install [uv](https://docs.astral.sh/uv/) (Python 3.11+, required for local lint coaching)
+1. Install [uv](https://docs.astral.sh/uv/) (Python 3.11+, recommended for local lint coaching; `bun install` still succeeds without it)
 2. Install dependencies: `bun install` (also installs [habit-hooks](https://github.com/habit-hooks/habit-hooks) automatically)
 3. Start the dev server: `bun start` (http://localhost:5173)
 
@@ -58,8 +58,13 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for full contributor setup and conventi
 | `bun run test:e2e:ui`         | Runs e2e tests in Playwright UI mode                                                    |
 | `bun run test:e2e:responsive` | Runs e2e tests on mobile and tablet viewports                                           |
 | `bun run test:e2e:all`        | Runs e2e tests across all Playwright projects                                           |
-| `bun run test:e2e:report`     | Opens the HTML test report                                                              |
+| `bun run test:e2e:report`     | Serves the HTML test report (`playwright show-report`)                                  |
 | `bun run lint`                | Runs habit-hooks code-quality coaching on the codebase                                  |
+| `bun run lint:ci`             | Runs ESLint on the whole codebase (used in CI)                                          |
+| `bun run lint:package`        | Lints `package.json` (exact versions, via npm-package-json-lint)                        |
+| `bun run lint:unused`         | Detects unused files, exports and dependencies with Knip                                |
+| `bun run habit:hooks`         | Runs habit-hooks on files changed vs `main`                                             |
+| `bun run habit:snoozed`       | Lists snoozed habit-hooks findings                                                      |
 | `bun run typecheck`           | Runs TypeScript type checking without emitting files                                    |
 | `bun run format`              | Formats code with Prettier                                                              |
 | `bun run format:check`        | Checks code formatting without making changes                                           |
@@ -109,6 +114,7 @@ Vulnerable transitive deps without a parent fix are pinned via `overrides` in `p
 | [Playwright](https://playwright.dev/)                     | End-to-end browser testing                    |
 | [ESLint](https://eslint.org/)                             | JavaScript/TypeScript linting                 |
 | [habit-hooks](https://github.com/habit-hooks/habit-hooks) | Code-quality coaching (powers `bun run lint`) |
+| [Knip](https://knip.dev/)                                 | Unused files, exports and dependencies        |
 | [Prettier](https://prettier.io/)                          | Code formatting                               |
 | [Husky](https://typicode.github.io/husky/)                | Git hooks management                          |
 | [Commitlint](https://commitlint.js.org/)                  | Commit message linting                        |
