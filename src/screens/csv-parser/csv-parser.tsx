@@ -1,12 +1,13 @@
 import { TableOutlined } from "@ant-design/icons";
 import { isBlank, isNotBlank, safeJsonStringify } from "@lichens-innovation/ts-common";
-import { downloadJson } from "@lichens-innovation/ts-common/web";
 import { Flex, Form } from "antd";
 import { createStyles } from "antd-style";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
+import { saveJsonWithPicker } from "~/utils/save-file.utils";
 
 import { CsvAdvancedOptions } from "./components/csv-advanced-options";
 import { CsvFileUpload, type OnFileLoadedArgs } from "./components/csv-file-upload";
@@ -21,6 +22,7 @@ import { useCsvParse } from "./use-csv-parse";
 export const CsvParser = () => {
   const { styles } = useStyles();
   const { copyTextToClipboard } = useClipboardCopy();
+  const { notifySavedFile } = useSavedFileToast();
 
   const {
     csvInput,
@@ -59,11 +61,11 @@ export const CsvParser = () => {
     void copyTextToClipboard({ text: jsonOutput, successMessage: "Result copied to clipboard!" });
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (!parseResult) return;
     const jsonOutput = safeJsonStringify(parseResult.data);
     const fileName = fileInfo?.name ? fileInfo.name.replace(/\.csv$/i, ".json") : "parsed-data.json";
-    downloadJson({ content: jsonOutput, fileName });
+    notifySavedFile(await saveJsonWithPicker({ content: jsonOutput, fileName }));
   };
 
   const handleClear = () => {
@@ -103,7 +105,7 @@ export const CsvParser = () => {
           viewMode={viewMode}
           onParse={handleParse}
           onCopy={handleCopy}
-          onDownload={handleDownload}
+          onDownload={() => void handleDownload()}
           onClear={handleClear}
           onViewModeChange={setViewMode}
         />

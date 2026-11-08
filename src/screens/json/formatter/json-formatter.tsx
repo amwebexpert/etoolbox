@@ -1,6 +1,5 @@
 import { FormatPainterOutlined } from "@ant-design/icons";
 import { getErrorMessage, isBlank, isNotBlank } from "@lichens-innovation/ts-common";
-import { downloadJson } from "@lichens-innovation/ts-common/web";
 import { Flex, Input } from "antd";
 import { createStyles } from "antd-style";
 import { useState } from "react";
@@ -9,7 +8,9 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
 import { useToastMessage } from "~/hooks/use-toast-message";
+import { saveJsonWithPicker } from "~/utils/save-file.utils";
 
 import { useJsonFormatterStore } from "./json-formatter.store";
 import { getFormattedJson } from "./json-formatter.utils";
@@ -23,6 +24,7 @@ export const JsonFormatter = () => {
   const { styles } = useStyles();
   const { isDesktop, isMobile } = useResponsive();
   const messageApi = useToastMessage();
+  const { notifySavedFile } = useSavedFileToast();
   const { copyTextToClipboard } = useClipboardCopy();
 
   const { inputText, setInputText, viewMode, setViewMode } = useJsonFormatterStore();
@@ -43,12 +45,12 @@ export const JsonFormatter = () => {
     void copyTextToClipboard({ text: formattedJson, successMessage: "JSON copied to clipboard!" });
   };
 
-  const handleSaveAs = () => {
+  const handleSaveAs = async () => {
     if (isBlank(formattedJson)) return;
 
     try {
-      downloadJson({ content: formattedJson });
-      messageApi.success("JSON file saved!");
+      const result = await saveJsonWithPicker({ content: formattedJson });
+      notifySavedFile(result);
     } catch (e: unknown) {
       messageApi.error("Failed to save file: " + getErrorMessage(e));
     }
@@ -80,7 +82,7 @@ export const JsonFormatter = () => {
           viewMode={viewMode}
           onToggleFormat={handleToggleFormat}
           onCopy={handleCopy}
-          onSaveAs={handleSaveAs}
+          onSaveAs={() => void handleSaveAs()}
           onViewModeChange={setViewMode}
         />
 

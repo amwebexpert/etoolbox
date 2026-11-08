@@ -1,7 +1,9 @@
 import { getBase64ApproxSize, PeriodsInMS } from "@lichens-innovation/ts-common";
 import { isImageMimeType, parseDataUri } from "@lichens-innovation/ts-common/mime";
-import { base64ToBlob, downloadDataUrl } from "@lichens-innovation/ts-common/web";
+import { base64ToBlob, type SaveBlobResult } from "@lichens-innovation/ts-common/web";
 import prettyBytes from "pretty-bytes";
+
+import { saveDataUriWithPicker } from "./save-file.utils";
 
 export interface ImageMetadata {
   mimeType: string;
@@ -47,11 +49,10 @@ export const openNonImageDataUri = (dataUri: string): void => {
 
 export const getImageDownloadFilename = (ext: string): string => `image.${ext}`;
 
-interface DownloadImageDataUriArgs {
+interface SaveImageDataUriArgs {
   dataUri: string;
   ext: string;
 }
 
-export const downloadImageDataUri = ({ dataUri, ext }: DownloadImageDataUriArgs): void => {
-  downloadDataUrl({ dataUrl: dataUri, fileName: getImageDownloadFilename(ext) });
-};
+export const saveImageDataUri = ({ dataUri, ext }: SaveImageDataUriArgs): Promise<SaveBlobResult | null> =>
+  saveDataUriWithPicker({ dataUri, fileName: getImageDownloadFilename(ext) });

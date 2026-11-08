@@ -7,11 +7,12 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { OptionsContainer as QRCodeGeneratorOptions } from "./options/options-container";
 import { useQRCodeGeneratorStore } from "./qrcode-generator.store";
-import { downloadQRCode } from "./qrcode-generator.utils";
+import { saveQRCode } from "./qrcode-generator.utils";
 import { QRCodeGeneratorResult } from "./qrcode-generator-result";
 import { QRCodeGeneratorToolbar } from "./qrcode-generator-toolbar";
 import { useQRCodeGenerate } from "./use-qrcode-generate";
@@ -22,6 +23,7 @@ export const QrcodeGenerator = () => {
   const { styles } = useStyles();
   const { isDesktop, isMobile } = useResponsive();
   const messageApi = useToastMessage();
+  const { notifySavedFile } = useSavedFileToast();
   const { copyTextToClipboard, copyImageToClipboard } = useClipboardCopy();
 
   const { inputText, options, showAdvancedOptions, setInputText, setOptions, setShowAdvancedOptions, clearAll } =
@@ -50,9 +52,9 @@ export const QrcodeGenerator = () => {
     void copyImageToClipboard({ dataUrl: qrCodeDataUrl, successMessage: "QR code image copied to clipboard!" });
   };
 
-  const handleDownload = () => {
-    downloadQRCode({ dataUrl: qrCodeDataUrl, filename: "qrcode" });
-    messageApi.success("QR code downloaded!");
+  const handleDownload = async () => {
+    const result = await saveQRCode({ dataUrl: qrCodeDataUrl, filename: "qrcode" });
+    notifySavedFile(result);
   };
 
   const handleClear = () => {
@@ -110,7 +112,7 @@ export const QrcodeGenerator = () => {
           onGenerate={handleGenerate}
           onCopyDataUrl={handleCopyDataUrl}
           onCopyImage={handleCopyImage}
-          onDownload={handleDownload}
+          onDownload={() => void handleDownload()}
           onClear={handleClear}
         />
 

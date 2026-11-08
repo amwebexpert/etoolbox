@@ -1,5 +1,5 @@
 import { NO_OP } from "@lichens-innovation/ts-common";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { CompressorSettings } from "./compressor.types";
 import {
@@ -11,7 +11,6 @@ import {
   extractImageFromClipboardItems,
   formatFileSize,
   isImageFile,
-  triggerDownload,
 } from "./compressor.utils";
 
 describe("formatFileSize", () => {
@@ -376,53 +375,5 @@ describe("canEnableDownload", () => {
 
     // assert
     expect(result).toBe(false);
-  });
-});
-
-interface FakeAnchor {
-  href: string;
-  download: string;
-  click: ReturnType<typeof vi.fn>;
-  remove: ReturnType<typeof vi.fn>;
-}
-
-const makeFakeAnchor = (): FakeAnchor => ({
-  href: "",
-  download: "",
-  click: vi.fn(),
-  remove: vi.fn(),
-});
-
-describe("triggerDownload", () => {
-  afterEach(() => {
-    vi.unstubAllGlobals();
-    vi.restoreAllMocks();
-  });
-
-  it("creates an anchor with the given filename and a Blob object URL, clicks it, then cleans up", () => {
-    // arrange
-    const anchor = makeFakeAnchor();
-    const appendChild = vi.fn();
-    const createElement = vi.fn((tag: string) => {
-      if (tag !== "a") throw new Error(`unexpected tag ${tag}`);
-      return anchor as unknown as HTMLAnchorElement;
-    });
-    const createObjectURL = vi.fn(() => "blob:fake-url");
-    const revokeObjectURL = vi.fn();
-    vi.stubGlobal("document", { createElement, body: { appendChild } });
-    vi.stubGlobal("URL", { createObjectURL, revokeObjectURL });
-    const blob = new Blob(["data"], { type: "image/webp" });
-
-    // act
-    triggerDownload({ blob, filename: "photo_compressed.webp" as const });
-
-    // assert
-    expect(createObjectURL).toHaveBeenCalledWith(blob);
-    expect(anchor.href).toBe("blob:fake-url");
-    expect(anchor.download).toBe("photo_compressed.webp");
-    expect(appendChild).toHaveBeenCalledWith(anchor);
-    expect(anchor.click).toHaveBeenCalledTimes(1);
-    expect(anchor.remove).toHaveBeenCalledTimes(1);
-    expect(revokeObjectURL).toHaveBeenCalledWith("blob:fake-url");
   });
 });

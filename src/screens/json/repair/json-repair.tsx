@@ -1,6 +1,5 @@
 import { ToolOutlined } from "@ant-design/icons";
 import { getErrorMessage, isBlank, isNotBlank } from "@lichens-innovation/ts-common";
-import { downloadJson } from "@lichens-innovation/ts-common/web";
 import { Flex, Input } from "antd";
 import { createStyles } from "antd-style";
 
@@ -8,7 +7,9 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
 import { useToastMessage } from "~/hooks/use-toast-message";
+import { saveJsonWithPicker } from "~/utils/save-file.utils";
 
 import { useJsonRepairStore } from "./json-repair.store";
 import { JsonRepairResult } from "./json-repair-result";
@@ -21,6 +22,7 @@ export const JsonRepair = () => {
   const { styles } = useStyles();
   const { isDesktop, isMobile } = useResponsive();
   const messageApi = useToastMessage();
+  const { notifySavedFile } = useSavedFileToast();
   const { copyTextToClipboard } = useClipboardCopy();
 
   const { inputText, setInputText, clearInput } = useJsonRepairStore();
@@ -43,12 +45,12 @@ export const JsonRepair = () => {
     void copyTextToClipboard({ text: repairedJson, successMessage: "Repaired JSON copied to clipboard!" });
   };
 
-  const handleSaveAs = () => {
+  const handleSaveAs = async () => {
     if (isBlank(repairedJson)) return;
 
     try {
-      downloadJson({ content: repairedJson });
-      messageApi.success("JSON file saved!");
+      const result = await saveJsonWithPicker({ content: repairedJson });
+      notifySavedFile(result);
     } catch (e: unknown) {
       messageApi.error("Failed to save file: " + getErrorMessage(e));
     }
@@ -88,7 +90,7 @@ export const JsonRepair = () => {
           isRepairing={isRepairing}
           onRepair={handleRepair}
           onCopy={handleCopy}
-          onSaveAs={handleSaveAs}
+          onSaveAs={() => void handleSaveAs()}
           onClear={handleClear}
         />
 

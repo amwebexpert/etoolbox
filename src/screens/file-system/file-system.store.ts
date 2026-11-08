@@ -1,4 +1,5 @@
 import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
+import type { SaveBlobResult } from "@lichens-innovation/ts-common/web";
 import { createDevToolsStore } from "@sucoza/zustand-devtools-plugin";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -11,13 +12,13 @@ import {
   renameOpfsEntry,
   writeTextFileToOpfs,
 } from "~/utils/opfs.utils";
+import { requestSaveTarget } from "~/utils/save-file.utils";
 
 import {
   assertOpfsEntryAvailable,
-  buildZipEntriesForTarget,
   countOpfsEntriesContents,
   downloadOpfsFile,
-  downloadZipArchive,
+  downloadTargetsAsZip,
   type FileSystemEntryTarget,
   listOpfsTreeChildren,
   listSortedOpfsEntries,
@@ -89,8 +90,8 @@ interface EntryDeleteSlice {
 }
 
 interface DownloadSlice {
-  downloadEntry: (target: FileSystemEntryTarget) => Promise<void>;
-  downloadSelected: () => Promise<void>;
+  downloadEntry: (target: FileSystemEntryTarget) => Promise<SaveBlobResult | null>;
+  downloadSelected: () => Promise<SaveBlobResult | null>;
 }
 
 type FileSystemState = SupportSlice &
@@ -325,17 +326,20 @@ const createEntryDeleteSlice = ({ set, get }: FileSystemSliceArgs): EntryDeleteS
 
 const createDownloadSlice = ({ get }: FileSystemSliceArgs): DownloadSlice => ({
   downloadEntry: async (target) => {
+    const fileName = target.kind === "file" ? target.name : `${target.name}.zip`;
+    const saveTarget = await requestSaveTarget(fileName);
+    if (saveTarget.isCancelled) return null;
+    const { fileHandle } = saveTarget;
+
     const root = await getOpfsRoot();
     const { currentPath, entries } = get();
 
     if (target.kind === "file") {
-      await downloadOpfsFile({ root, parentPath: currentPath, name: target.name });
-      return;
+      return downloadOpfsFile({ root, parentPath: currentPath, name: target.name, fileHandle });
     }
 
     const resolvedTarget = entries.find((entry) => entry.name === target.name) ?? target;
-    const zipEntries = await buildZipEntriesForTarget({ root, basePath: currentPath, target: resolvedTarget });
-    await downloadZipArchive({ zipEntries, fileName: `${target.name}.zip` });
+    return downloadTargetsAsZip({ root, basePath: currentPath, targets: [resolvedTarget], fileName, fileHandle });
   },
 
   downloadSelected: async () => {
@@ -343,15 +347,15 @@ const createDownloadSlice = ({ get }: FileSystemSliceArgs): DownloadSlice => ({
     const targets = entries.filter((entry) => selectedNames.includes(entry.name));
 
     if (targets.length === 1) {
-      await get().downloadEntry({ name: targets[0].name, kind: targets[0].kind });
-      return;
+      return get().downloadEntry({ name: targets[0].name, kind: targets[0].kind });
     }
 
+    const fileName = "download.zip";
+    const saveTarget = await requestSaveTarget(fileName);
+    if (saveTarget.isCancelled) return null;
+
     const root = await getOpfsRoot();
-    const zipEntryLists = await Promise.all(
-      targets.map((target) => buildZipEntriesForTarget({ root, basePath: currentPath, target }))
-    );
-    await downloadZipArchive({ zipEntries: zipEntryLists.flat(), fileName: "download.zip" });
+    return downloadTargetsAsZip({ root, basePath: currentPath, targets, fileName, fileHandle: saveTarget.fileHandle });
   },
 });
 

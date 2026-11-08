@@ -56,6 +56,7 @@ for (const tabCase of TAB_CASES) {
 
       // assert
       expect(download.suggestedFilename()).toBe("document.md");
+      await expect(page.getByText("File downloaded: document.md")).toBeVisible();
       const content = downloadPath ? fs.readFileSync(downloadPath, "utf-8") : "";
       expect(content).toContain("Exported content");
     });
@@ -73,6 +74,7 @@ for (const tabCase of TAB_CASES) {
 
       // assert
       expect(download.suggestedFilename()).toBe("document.pdf");
+      await expect(page.getByText("File downloaded: document.pdf")).toBeVisible();
       const magicBytes = downloadPath ? fs.readFileSync(downloadPath).subarray(0, 4).toString("utf-8") : "";
       expect(magicBytes).toBe("%PDF");
     });

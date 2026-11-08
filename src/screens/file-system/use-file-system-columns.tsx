@@ -4,6 +4,7 @@ import { Button, Space, Tooltip, Typography } from "antd";
 import type { HookAPI } from "antd/es/modal/useModal";
 import type { ColumnsType } from "antd/es/table";
 
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
 import { useToastMessage } from "~/hooks/use-toast-message";
 import type { OpfsEntryMeta } from "~/utils/opfs.utils";
 
@@ -20,6 +21,7 @@ const { Text } = Typography;
 
 export const useFileSystemColumns = (modal: HookAPI): ColumnsType<OpfsEntryMeta> => {
   const messageApi = useToastMessage();
+  const { notifySavedFile } = useSavedFileToast();
   const { openRenameModal, countEntryContents, deleteEntry, downloadEntry } = useFileSystemStore();
 
   const handleDelete = async (entry: OpfsEntryMeta): Promise<void> => {
@@ -46,7 +48,7 @@ export const useFileSystemColumns = (modal: HookAPI): ColumnsType<OpfsEntryMeta>
 
   const handleDownload = async (entry: OpfsEntryMeta): Promise<void> => {
     try {
-      await downloadEntry(entry);
+      notifySavedFile(await downloadEntry(entry));
     } catch (error) {
       messageApi.error(getErrorMessage(error));
     }

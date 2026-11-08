@@ -1,4 +1,4 @@
-import { downloadBlob } from "@lichens-innovation/ts-common/web";
+import { saveBlob } from "@lichens-innovation/ts-common/web";
 import { downloadZip } from "client-zip";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -8,7 +8,8 @@ import { useFileSystemStore } from "./file-system.store";
 import { ROOT_KEY, ROOT_PATH } from "./file-system.utils";
 
 vi.mock("@lichens-innovation/ts-common/web", () => ({
-  downloadBlob: vi.fn(),
+  requestSaveFileHandle: vi.fn(async () => ({ status: "unsupported" })),
+  saveBlob: vi.fn(),
 }));
 
 vi.mock("client-zip", () => ({
@@ -277,8 +278,8 @@ describe("useFileSystemStore", () => {
 
       // assert
       expect(downloadZip).not.toHaveBeenCalled();
-      expect(downloadBlob).toHaveBeenCalledTimes(1);
-      expect(vi.mocked(downloadBlob).mock.calls[0][0].fileName).toBe("note.txt");
+      expect(saveBlob).toHaveBeenCalledTimes(1);
+      expect(vi.mocked(saveBlob).mock.calls[0][0].fileName).toBe("note.txt");
     });
 
     it("downloads a folder as a zip archive", async () => {
@@ -291,8 +292,8 @@ describe("useFileSystemStore", () => {
 
       // assert
       expect(downloadZip).toHaveBeenCalledTimes(1);
-      expect(downloadBlob).toHaveBeenCalledTimes(1);
-      expect(vi.mocked(downloadBlob).mock.calls[0][0].fileName).toBe("docs.zip");
+      expect(saveBlob).toHaveBeenCalledTimes(1);
+      expect(vi.mocked(saveBlob).mock.calls[0][0].fileName).toBe("docs.zip");
     });
 
     it("downloads multiple selected items as a single zip archive", async () => {
@@ -307,8 +308,8 @@ describe("useFileSystemStore", () => {
 
       // assert
       expect(downloadZip).toHaveBeenCalledTimes(1);
-      expect(downloadBlob).toHaveBeenCalledTimes(1);
-      expect(vi.mocked(downloadBlob).mock.calls[0][0].fileName).toBe("download.zip");
+      expect(saveBlob).toHaveBeenCalledTimes(1);
+      expect(vi.mocked(saveBlob).mock.calls[0][0].fileName).toBe("download.zip");
     });
   });
 

@@ -9,12 +9,14 @@ import {
 import { getErrorMessage } from "@lichens-innovation/ts-common";
 import { Button, Modal, Space, Upload } from "antd";
 
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
 import { useFileSystemStore } from "./file-system.store";
 
 export const FileSystemToolbar = () => {
   const messageApi = useToastMessage();
+  const { notifySavedFile } = useSavedFileToast();
   const [modal, contextHolder] = Modal.useModal();
   const {
     selectedNames,
@@ -49,7 +51,7 @@ export const FileSystemToolbar = () => {
   };
 
   // antd's Upload beforeUpload callback signature requires these two positional arguments. habit-hooks-disable non-essential-comment
-  // eslint-disable-next-line coding-guide/max-params-project
+
   const handleBeforeUpload = (file: File, fileList: File[]): boolean => {
     if (file === fileList[0]) handleUpload(fileList);
     return false;
@@ -75,9 +77,11 @@ export const FileSystemToolbar = () => {
   };
 
   const handleBulkDownload = (): void => {
-    downloadSelected().catch((error: unknown) => {
-      messageApi.error(getErrorMessage(error));
-    });
+    downloadSelected()
+      .then(notifySavedFile)
+      .catch((error: unknown) => {
+        messageApi.error(getErrorMessage(error));
+      });
   };
 
   return (

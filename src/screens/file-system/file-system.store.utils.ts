@@ -1,4 +1,4 @@
-import { downloadBlob } from "@lichens-innovation/ts-common/web";
+import { saveBlob, type SaveBlobResult } from "@lichens-innovation/ts-common/web";
 import { downloadZip } from "client-zip";
 
 import {
@@ -132,7 +132,7 @@ interface BuildZipEntriesForTargetArgs {
   target: FileSystemEntryTarget;
 }
 
-export const buildZipEntriesForTarget = async ({
+const buildZipEntriesForTarget = async ({
   root,
   basePath,
   target,
@@ -153,20 +153,38 @@ interface DownloadOpfsFileArgs {
   root: FileSystemDirectoryHandle;
   parentPath: string;
   name: string;
+  fileHandle?: FileSystemFileHandle | null;
 }
 
-export const downloadOpfsFile = async ({ root, parentPath, name }: DownloadOpfsFileArgs): Promise<void> => {
+export const downloadOpfsFile = async ({
+  root,
+  parentPath,
+  name,
+  fileHandle,
+}: DownloadOpfsFileArgs): Promise<SaveBlobResult> => {
   const mimeType = resolveOpfsMimeType(name);
   const blob = await readBlobFromOpfs({ root, path: joinOpfsPath({ parentPath, name }), mimeType });
-  downloadBlob({ blob, fileName: name });
+  return saveBlob({ blob, fileName: name, handle: fileHandle });
 };
 
-interface DownloadZipArchiveArgs {
-  zipEntries: ZipEntry[];
+interface DownloadTargetsAsZipArgs {
+  root: FileSystemDirectoryHandle;
+  basePath: string;
+  targets: FileSystemEntryTarget[];
   fileName: string;
+  fileHandle?: FileSystemFileHandle | null;
 }
 
-export const downloadZipArchive = async ({ zipEntries, fileName }: DownloadZipArchiveArgs): Promise<void> => {
-  const zipBlob = await downloadZip(zipEntries).blob();
-  downloadBlob({ blob: zipBlob, fileName });
+export const downloadTargetsAsZip = async ({
+  root,
+  basePath,
+  targets,
+  fileName,
+  fileHandle,
+}: DownloadTargetsAsZipArgs): Promise<SaveBlobResult> => {
+  const zipEntryLists = await Promise.all(
+    targets.map((target) => buildZipEntriesForTarget({ root, basePath, target }))
+  );
+  const zipBlob = await downloadZip(zipEntryLists.flat()).blob();
+  return saveBlob({ blob: zipBlob, fileName, handle: fileHandle });
 };
