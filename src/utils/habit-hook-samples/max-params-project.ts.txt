@@ -2,4 +2,5 @@
  * This is a "Demo" example that should trigger the max-params-project rule.
  */
 
-export const buildLabel = (prefix: string, suffix: string): string => `${prefix}-${suffix}`;
+export const buildLabel = (prefix: string, middle: string, suffix: string, separator: string): string =>
+  `${prefix}${separator}${middle}${separator}${suffix}`;

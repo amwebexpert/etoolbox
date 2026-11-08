@@ -27,7 +27,7 @@ export const CsvParserErrors = ({ errors }: CsvParserErrorsProps) => {
       children: (
         <div className={styles.errorList}>
           {errors.map((error, index) => (
-            // No stable id on a parse error entry; the list is fully rebuilt on every parse and never reordered/filtered in place.
+            // No stable id on a parse error entry; the list is fully rebuilt on every parse and never reordered/filtered in place. habit-hooks-disable non-essential-comment
             // eslint-disable-next-line react/no-array-index-key
             <div key={index} className={styles.errorItem}>
               <Typography.Text strong>Row {error.row !== undefined ? error.row + 1 : "Unknown"}:</Typography.Text>{" "}

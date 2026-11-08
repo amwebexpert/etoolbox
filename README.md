@@ -38,9 +38,8 @@ The web application has been deployed and you can use it [just here!](https://am
 
 ## Getting Started
 
-1. Install [uv](https://docs.astral.sh/uv/) (Python 3.11+, recommended for local lint coaching; `bun install` still succeeds without it)
-2. Install dependencies: `bun install` (also installs [habit-hooks](https://github.com/habit-hooks/habit-hooks) automatically)
-3. Start the dev server: `bun start` (http://localhost:5173)
+1. Install dependencies: `bun install`
+2. Start the dev server: `bun start` (http://localhost:5173)
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for full contributor setup and conventions.
 
@@ -59,12 +58,12 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for full contributor setup and conventi
 | `bun run test:e2e:responsive` | Runs e2e tests on mobile and tablet viewports                                           |
 | `bun run test:e2e:all`        | Runs e2e tests across all Playwright projects                                           |
 | `bun run test:e2e:report`     | Serves the HTML test report (`playwright show-report`)                                  |
-| `bun run lint`                | Runs habit-hooks code-quality coaching on the codebase                                  |
+| `bun run lint`                | Runs coding-guide code-quality coaching on the codebase                                 |
 | `bun run lint:ci`             | Runs ESLint on the whole codebase (used in CI)                                          |
 | `bun run lint:package`        | Lints `package.json` (exact versions, via npm-package-json-lint)                        |
 | `bun run lint:unused`         | Detects unused files, exports and dependencies with Knip                                |
-| `bun run habit:hooks`         | Runs habit-hooks on files changed vs `main`                                             |
-| `bun run habit:snoozed`       | Lists snoozed habit-hooks findings                                                      |
+| `bun run habit:hooks`         | Runs coding-guide on files changed vs `main`                                            |
+| `bun run habit:snoozed`       | Lists snoozed coding-guide findings                                                     |
 | `bun run typecheck`           | Runs TypeScript type checking without emitting files                                    |
 | `bun run format`              | Formats code with Prettier                                                              |
 | `bun run format:check`        | Checks code formatting without making changes                                           |
@@ -72,7 +71,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for full contributor setup and conventi
 | `bun run generate:version`    | Generates version information file                                                      |
 | `bun run generate:api:client` | Generates API client from OpenAPI specification                                         |
 | `bun run security:check`      | Audits all deps for new CVEs vs baseline, fails on high severity (`cve-lite-cli`)       |
-| `bun run postinstall`         | Runs after install: applies patches and installs habit-hooks                            |
+| `bun run postinstall`         | Runs after install: applies patches                                                     |
 
 Playwright starts the Vite dev server automatically via [e2e/playwright.config.ts](./e2e/playwright.config.ts). E2E tests run locally only (not in CI).
 
@@ -107,17 +106,17 @@ Vulnerable transitive deps without a parent fix are pinned via `overrides` in `p
 
 ## Development Tools
 
-| Package                                                   | Description                                   |
-| --------------------------------------------------------- | --------------------------------------------- |
-| [Vite (Rolldown)](https://rolldown.rs/)                   | Next-generation fast build tool               |
-| [Vitest](https://vitest.dev/)                             | Unit testing framework                        |
-| [Playwright](https://playwright.dev/)                     | End-to-end browser testing                    |
-| [ESLint](https://eslint.org/)                             | JavaScript/TypeScript linting                 |
-| [habit-hooks](https://github.com/habit-hooks/habit-hooks) | Code-quality coaching (powers `bun run lint`) |
-| [Knip](https://knip.dev/)                                 | Unused files, exports and dependencies        |
-| [Prettier](https://prettier.io/)                          | Code formatting                               |
-| [Husky](https://typicode.github.io/husky/)                | Git hooks management                          |
-| [Commitlint](https://commitlint.js.org/)                  | Commit message linting                        |
+| Package                                                                                 | Description                                   |
+| --------------------------------------------------------------------------------------- | --------------------------------------------- |
+| [Vite (Rolldown)](https://rolldown.rs/)                                                 | Next-generation fast build tool               |
+| [Vitest](https://vitest.dev/)                                                           | Unit testing framework                        |
+| [Playwright](https://playwright.dev/)                                                   | End-to-end browser testing                    |
+| [ESLint](https://eslint.org/)                                                           | JavaScript/TypeScript linting                 |
+| [coding-guide](https://github.com/Lichens-Innovation/eslint-plugin-coding-guide#readme) | Code-quality coaching (powers `bun run lint`) |
+| [Knip](https://knip.dev/)                                                               | Unused files, exports and dependencies        |
+| [Prettier](https://prettier.io/)                                                        | Code formatting                               |
+| [Husky](https://typicode.github.io/husky/)                                              | Git hooks management                          |
+| [Commitlint](https://commitlint.js.org/)                                                | Commit message linting                        |
 
 ## Technical Notes
 

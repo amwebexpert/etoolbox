@@ -74,7 +74,7 @@ Run in order, stopping on the first failure — mirrors `.github/workflows/ci.ym
 - Ignore as pre-existing, not a regression: the "chunks larger than 500 kB" build warning from Vite/Rolldown.
 - Any other failure: trivial fix (type signature, import path) → apply and continue. Real API break → stop, report, never downgrade unilaterally to route around it.
 
-`bun run lint` (habit-hooks coaching) is optional local feedback — CI gates on `lint:ci`, not habit-hooks.
+`bun run lint` (coding-guide coaching) is optional local feedback — CI gates on `lint:ci`, not coding-guide.
 
 Done when: all seven scripts exit 0.
 

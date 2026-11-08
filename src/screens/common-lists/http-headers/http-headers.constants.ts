@@ -18,7 +18,6 @@ const createEntry = ({ name, description, type, category }: CreateEntryArgs): Ht
 });
 
 export const HTTP_HEADERS: HttpHeaderEntry[] = [
-  // Authentication
   createEntry({
     name: "WWW-Authenticate",
     description: "Defines the authentication method that should be used to access a resource.",
@@ -44,7 +43,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "authentication",
   }),
 
-  // Caching
   createEntry({
     name: "Age",
     description: "The time, in seconds, that the object has been in a proxy cache.",
@@ -76,7 +74,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "caching",
   }),
 
-  // Conditionals
   createEntry({
     name: "Last-Modified",
     description: "The last modification date of the resource, used to compare several versions of the same resource.",
@@ -126,7 +123,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "conditionals",
   }),
 
-  // Connection management
   createEntry({
     name: "Connection",
     description: "Controls whether the network connection stays open after the current transaction finishes.",
@@ -140,7 +136,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "connection",
   }),
 
-  // Content negotiation
   createEntry({
     name: "Accept",
     description: "Informs the server about the types of data that can be sent back.",
@@ -160,7 +155,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "content-negotiation",
   }),
 
-  // Controls
   createEntry({
     name: "Expect",
     description: "Indicates expectations that need to be fulfilled by the server to properly handle the request.",
@@ -175,7 +169,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "controls",
   }),
 
-  // Cookies
   createEntry({
     name: "Cookie",
     description: "Contains stored HTTP cookies previously sent by the server with the Set-Cookie header.",
@@ -189,7 +182,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "cookies",
   }),
 
-  // CORS
   createEntry({
     name: "Access-Control-Allow-Credentials",
     description: "Indicates whether the response to the request can be exposed when the credentials flag is true.",
@@ -256,7 +248,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "cors",
   }),
 
-  // Downloads
   createEntry({
     name: "Content-Disposition",
     description:
@@ -265,7 +256,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "downloads",
   }),
 
-  // Message body information
   createEntry({
     name: "Content-Length",
     description: "The size of the resource, in decimal number of bytes.",
@@ -297,7 +287,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "message-body",
   }),
 
-  // Proxies
   createEntry({
     name: "Forwarded",
     description:
@@ -313,7 +302,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "proxies",
   }),
 
-  // Redirects
   createEntry({
     name: "Location",
     description: "Indicates the URL to redirect a page to.",
@@ -328,7 +316,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "redirects",
   }),
 
-  // Request context
   createEntry({
     name: "From",
     description: "Contains an Internet email address for a human user who controls the requesting user agent.",
@@ -361,7 +348,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "request-context",
   }),
 
-  // Response context
   createEntry({
     name: "Allow",
     description: "Lists the set of HTTP request methods supported by a resource.",
@@ -375,7 +361,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "response-context",
   }),
 
-  // Range requests
   createEntry({
     name: "Accept-Ranges",
     description: "Indicates if the server supports range requests, and if so in which unit the range can be expressed.",
@@ -402,7 +387,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "range-requests",
   }),
 
-  // Security
   createEntry({
     name: "Cross-Origin-Embedder-Policy",
     description: "Allows a server to declare an embedder policy for a given document.",
@@ -472,7 +456,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "security",
   }),
 
-  // Transfer coding
   createEntry({
     name: "Transfer-Encoding",
     description: "Specifies the form of encoding used to safely transfer the resource to the user.",
@@ -492,7 +475,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "transfer-coding",
   }),
 
-  // WebSockets
   createEntry({
     name: "Sec-WebSocket-Accept",
     description: "The server's response to a WebSocket handshake.",
@@ -524,7 +506,6 @@ export const HTTP_HEADERS: HttpHeaderEntry[] = [
     category: "websockets",
   }),
 
-  // Other
   createEntry({
     name: "Alt-Svc",
     description: "Used to list alternate ways to reach this service.",

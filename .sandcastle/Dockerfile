@@ -32,18 +32,12 @@ RUN curl -fsSL https://claude.ai/install.sh | bash
 # Install Bun (pinned to packageManager / CI version)
 RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.4.2"
 
-# Install uv (required for habit-hooks)
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Claude, Bun, and uv tool shims (habit-hooks) must be on PATH for non-login shells
+# Claude and Bun must be on PATH for non-login shells
 # (git hooks run via sh and do not source .bashrc).
 ENV PATH="/home/agent/.bun/bin:/home/agent/.local/bin:$PATH"
 
-# Pre-install habit-hooks so Husky pre-commit works before the first bun install
-RUN uv tool install "habit-hooks[typescript]"
-
-# Sanity check: bun, bunx, uv, and habit-hooks are available
-RUN bun --version && bunx --version && uv --version && command -v habit-hooks
+# Sanity check: bun and bunx are available
+RUN bun --version && bunx --version
 
 WORKDIR /home/agent
 

@@ -11,13 +11,9 @@ echo "Running lint-staged to apply automatic fixes to staged files…"
 bunx lint-staged
 echo "✅ Lint staged completed"
 
-if [ -n "$CI" ]; then
-  echo "⏭️  CI detected — skipping habit-hooks (not required for CI lint:ci)"
-else
-  echo "Running habit-hooks to catches structural smells…"
-  bun run habit:hooks:full
-  echo "✅ Habit Hooks completed"
-fi
+echo "Running coding-guide on staged files…"
+bunx coding-guide check --staged
+echo "✅ coding-guide completed"
 
 # Scan for known CVEs only when dependencies change.
 if git diff --cached --name-only | grep -qE '^(package\.json|bun\.lock)$'; then
