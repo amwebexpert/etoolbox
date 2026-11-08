@@ -1,20 +1,25 @@
 import { getBase64ApproxSize } from "@lichens-innovation/ts-common";
 import {
   base64ToBlob,
-  downloadBlob,
   readFileAsBase64 as readFileAsBase64Util,
+  type SaveBlobResult,
+  saveBlobWithPicker,
 } from "@lichens-innovation/ts-common/web";
 import prettyBytes from "pretty-bytes";
 
-interface DownloadBase64AsFileArgs {
+interface SaveBase64AsFileArgs {
   base64: string;
   mimeType: string;
   fileName: string;
 }
 
-export const downloadBase64AsFile = ({ base64, mimeType, fileName }: DownloadBase64AsFileArgs): void => {
+export const saveBase64AsFile = ({
+  base64,
+  mimeType,
+  fileName,
+}: SaveBase64AsFileArgs): Promise<SaveBlobResult | null> => {
   const blob = base64ToBlob({ base64, mimeType });
-  downloadBlob({ blob, fileName });
+  return saveBlobWithPicker({ blob, fileName });
 };
 
 export const formatBase64Size = (base64: string): string => {

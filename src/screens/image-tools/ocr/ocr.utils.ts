@@ -139,20 +139,3 @@ export const fileToDataUrl = (file: File): Promise<string> => {
 export const isValidImageFile = (file: File): boolean => {
   return file.type.startsWith("image/");
 };
-
-interface DownloadTextFileArgs {
-  text: string;
-  filename?: string;
-}
-
-export const downloadTextFile = ({ text, filename = "extracted-text.txt" }: DownloadTextFileArgs): void => {
-  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-};

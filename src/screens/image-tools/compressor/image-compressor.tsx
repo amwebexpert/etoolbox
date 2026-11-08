@@ -1,14 +1,16 @@
 import { FileImageOutlined } from "@ant-design/icons";
 import { isBlank } from "@lichens-innovation/ts-common";
+import { saveBlobWithPicker } from "@lichens-innovation/ts-common/web";
 import { Flex } from "antd";
 import { createStyles } from "antd-style";
 import { useEffect } from "react";
 
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
 
 import { useCompressorStore } from "./compressor.store";
-import { buildExportFilename, triggerDownload } from "./compressor.utils";
+import { buildExportFilename } from "./compressor.utils";
 import { CompressorImageUpload } from "./compressor-image-upload";
 import { CompressorPreview } from "./compressor-preview";
 import { CompressorSettings } from "./compressor-settings";
@@ -21,6 +23,7 @@ const SCREEN_DESCRIPTION =
 
 export const ImageOcrCompressor = () => {
   const { styles } = useStyles();
+  const { notifySavedFile } = useSavedFileToast();
   const selectedFile = useCompressorStore((state) => state.selectedFile);
   const setSelectedFile = useCompressorStore((state) => state.setSelectedFile);
   const clearSelectedFile = useCompressorStore((state) => state.clearSelectedFile);
@@ -35,11 +38,11 @@ export const ImageOcrCompressor = () => {
     });
   };
 
-  const handleDownload = (): void => {
+  const handleDownload = async (): Promise<void> => {
     if (!compressedBlob || !selectedFile) return;
 
-    const filename = buildExportFilename({ originalName: selectedFile.name, mimeType: compressedBlob.type });
-    triggerDownload({ blob: compressedBlob, filename });
+    const fileName = buildExportFilename({ originalName: selectedFile.name, mimeType: compressedBlob.type });
+    notifySavedFile(await saveBlobWithPicker({ blob: compressedBlob, fileName }));
   };
 
   const handleClear = (): void => {
@@ -74,7 +77,7 @@ export const ImageOcrCompressor = () => {
               hasResult={hasResult}
               isCompressing={isCompressing}
               onCompress={handleCompress}
-              onDownload={handleDownload}
+              onDownload={() => void handleDownload()}
               onClear={handleClear}
             />
 

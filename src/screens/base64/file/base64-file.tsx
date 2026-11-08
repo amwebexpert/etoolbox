@@ -8,9 +8,10 @@ import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
 import { useToastMessage } from "~/hooks/use-toast-message";
 
-import { downloadBase64AsFile, readFileAsBase64 } from "./base64-file.utils";
+import { readFileAsBase64, saveBase64AsFile } from "./base64-file.utils";
 import { Base64FileDropzone } from "./base64-file-dropzone";
 import { Base64FileInfo } from "./base64-file-info";
 import { Base64FileToolbar } from "./base64-file-toolbar";
@@ -21,6 +22,7 @@ export const Base64File = () => {
   const { styles } = useStyles();
   const { isDesktop, isMobile } = useResponsive();
   const messageApi = useToastMessage();
+  const { notifySavedFile } = useSavedFileToast();
   const { copyTextToClipboard } = useClipboardCopy();
 
   const [base64Output, setBase64Output] = useState<string>("");
@@ -56,18 +58,18 @@ export const Base64File = () => {
     });
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (isBlank(base64Output)) return;
 
     try {
-      downloadBase64AsFile({
+      const result = await saveBase64AsFile({
         base64: base64Output,
         mimeType,
         fileName: isBlank(fileName) ? "decoded-file" : fileName,
       });
-      messageApi.success("File downloaded!");
+      notifySavedFile(result);
     } catch (e: unknown) {
-      messageApi.error("Failed to decode and download: " + getErrorMessage(e));
+      messageApi.error("Failed to decode and save: " + getErrorMessage(e));
     }
   };
 
@@ -118,7 +120,7 @@ export const Base64File = () => {
           onClear={handleClear}
           onCopy={handleCopy}
           onCopyDataUri={handleCopyDataUri}
-          onDownload={handleDownload}
+          onDownload={() => void handleDownload()}
         />
       </Space>
     </ScreenContainer>

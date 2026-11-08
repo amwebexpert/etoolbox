@@ -1,10 +1,10 @@
-import { downloadBlob } from "@lichens-innovation/ts-common/web";
+import { saveBlob } from "@lichens-innovation/ts-common/web";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { exportMarkdownAsPdf } from "./markdown-pdf-export.utils";
 
 vi.mock("@lichens-innovation/ts-common/web", () => ({
-  downloadBlob: vi.fn(),
+  saveBlob: vi.fn(),
 }));
 
 interface FakeFileHandle {
@@ -75,7 +75,7 @@ describe("exportMarkdownAsPdf", () => {
     await expect(exportMarkdownAsPdf({ markdown: "# hello" })).rejects.toThrow(/Origin Private File System/);
   });
 
-  it("writes markdown to OPFS, converts via the worker, downloads the resulting PDF, and cleans up OPFS entries", async () => {
+  it("writes markdown to OPFS, converts via the worker, saves the resulting PDF, and cleans up OPFS entries", async () => {
     // arrange
     const root = createFakeRoot({ pdfContent: "%PDF-fake" });
     vi.stubGlobal("navigator", { storage: { getDirectory: vi.fn().mockResolvedValue(root) } });
@@ -89,8 +89,8 @@ describe("exportMarkdownAsPdf", () => {
     expect(root.writable.close).toHaveBeenCalledTimes(1);
     expect(root.removeEntry).toHaveBeenCalledWith(expect.stringMatching(/^[\w-]+\.md$/));
     expect(root.removeEntry).toHaveBeenCalledWith("document.pdf");
-    expect(downloadBlob).toHaveBeenCalledTimes(1);
-    const call = vi.mocked(downloadBlob).mock.calls[0][0];
+    expect(saveBlob).toHaveBeenCalledTimes(1);
+    const call = vi.mocked(saveBlob).mock.calls[0][0];
     expect(call.fileName).toBe("document.pdf");
     expect(call.blob.type).toBe("application/pdf");
   });
@@ -103,6 +103,6 @@ describe("exportMarkdownAsPdf", () => {
 
     // act & assert
     await expect(exportMarkdownAsPdf({ markdown: "# hello" })).rejects.toThrow("conversion failed");
-    expect(downloadBlob).not.toHaveBeenCalled();
+    expect(saveBlob).not.toHaveBeenCalled();
   });
 });

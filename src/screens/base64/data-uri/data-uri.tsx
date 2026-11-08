@@ -7,12 +7,8 @@ import { createStyles } from "antd-style";
 import { ScreenContainer } from "~/components/ui/screen-container";
 import { ScreenHeader } from "~/components/ui/screen-header";
 import { useResponsive } from "~/hooks/use-responsive";
-import {
-  downloadImageDataUri,
-  getImageMetadata,
-  getNonImageDataUri,
-  openNonImageDataUri,
-} from "~/utils/data-uri.utils";
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
+import { getImageMetadata, getNonImageDataUri, openNonImageDataUri, saveImageDataUri } from "~/utils/data-uri.utils";
 
 import { useDataUriStore } from "./data-uri.store";
 import { DataUriMetadata } from "./data-uri-metadata";
@@ -24,6 +20,7 @@ const { TextArea } = Input;
 export const DataUri = () => {
   const { styles } = useStyles();
   const { isDesktop, isMobile } = useResponsive();
+  const { notifySavedFile } = useSavedFileToast();
 
   const { inputText, setInputText } = useDataUriStore();
 
@@ -40,9 +37,9 @@ export const DataUri = () => {
     setInputText("");
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (isBlank(imagePreviewSrc) || !metadata) return;
-    downloadImageDataUri({ dataUri: imagePreviewSrc, ext: metadata.ext });
+    notifySavedFile(await saveImageDataUri({ dataUri: imagePreviewSrc, ext: metadata.ext }));
   };
 
   const hasContent = inputText.length > 0;
@@ -95,7 +92,7 @@ export const DataUri = () => {
           hasContent={hasContent}
           canDownload={canDownload}
           onClear={handleClear}
-          onDownload={handleDownload}
+          onDownload={() => void handleDownload()}
         />
       </Space>
     </ScreenContainer>

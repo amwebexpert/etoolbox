@@ -1,13 +1,12 @@
 import { ClearOutlined, CopyOutlined, DownloadOutlined, ScanOutlined } from "@ant-design/icons";
-import { isNotBlank } from "@lichens-innovation/ts-common";
+import { isBlank, isNotBlank } from "@lichens-innovation/ts-common";
 import { Button, Space, Tooltip } from "antd";
 
 import { ScreenToolbar } from "~/components/ui/screen-toolbar";
 import { useClipboardCopy } from "~/hooks/use-clipboard-copy";
 import { useResponsive } from "~/hooks/use-responsive";
-import { useToastMessage } from "~/hooks/use-toast-message";
-
-import { downloadTextFile } from "./ocr.utils";
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
+import { saveTextWithPicker } from "~/utils/save-file.utils";
 
 interface OcrToolbarProps {
   hasImage: boolean;
@@ -20,7 +19,7 @@ interface OcrToolbarProps {
 export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onClear }: OcrToolbarProps) => {
   const { isMobile } = useResponsive();
   const { copyTextToClipboard } = useClipboardCopy();
-  const messageApi = useToastMessage();
+  const { notifySavedFile } = useSavedFileToast();
 
   const hasResult = isNotBlank(resultText);
 
@@ -31,11 +30,15 @@ export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onCl
     });
   };
 
-  const handleDownload = () => {
-    if (resultText) {
-      downloadTextFile({ text: resultText, filename: "extracted-text.txt" });
-      messageApi.success("Text file downloaded!");
-    }
+  const handleDownload = async () => {
+    if (isBlank(resultText)) return;
+
+    const result = await saveTextWithPicker({
+      content: resultText,
+      fileName: "extracted-text.txt",
+      mimeType: "text/plain;charset=utf-8",
+    });
+    notifySavedFile(result);
   };
 
   return (
@@ -55,7 +58,12 @@ export const OcrToolbar = ({ hasImage, resultText, isProcessing, onProcess, onCl
           </Tooltip>
 
           <Tooltip title="Download extracted text as file">
-            <Button aria-label="Download" icon={<DownloadOutlined />} disabled={!hasResult} onClick={handleDownload}>
+            <Button
+              aria-label="Download"
+              icon={<DownloadOutlined />}
+              disabled={!hasResult}
+              onClick={() => void handleDownload()}
+            >
               {!isMobile && <>Download</>}
             </Button>
           </Tooltip>

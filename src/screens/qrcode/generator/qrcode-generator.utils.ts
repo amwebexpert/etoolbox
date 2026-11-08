@@ -1,7 +1,9 @@
 import { getErrorMessage, isBlank } from "@lichens-innovation/ts-common";
 import { getExtensionFromDataUri } from "@lichens-innovation/ts-common/mime";
-import { downloadDataUrl } from "@lichens-innovation/ts-common/web";
+import type { SaveBlobResult } from "@lichens-innovation/ts-common/web";
 import QRCode from "qrcode";
+
+import { saveDataUriWithPicker } from "~/utils/save-file.utils";
 
 import type { GenerateQRCodeContext, QRCodeOptions } from "./qrcode-generator.types";
 
@@ -22,14 +24,14 @@ export const generateImgTag = (dataUrl: string): string => {
   return `<img alt="QR Code" src="${dataUrl}"/>`;
 };
 
-interface DownloadQRCodeArgs {
+interface SaveQRCodeArgs {
   dataUrl: string;
   filename?: string;
 }
 
-export const downloadQRCode = ({ dataUrl, filename = "qrcode" }: DownloadQRCodeArgs): void => {
+export const saveQRCode = ({ dataUrl, filename = "qrcode" }: SaveQRCodeArgs): Promise<SaveBlobResult | null> => {
   const extension = getExtensionFromDataUri(dataUrl);
-  downloadDataUrl({ dataUrl, fileName: `${filename}.${extension}` });
+  return saveDataUriWithPicker({ dataUri: dataUrl, fileName: `${filename}.${extension}` });
 };
 
 interface GetCapacityInfoArgs {

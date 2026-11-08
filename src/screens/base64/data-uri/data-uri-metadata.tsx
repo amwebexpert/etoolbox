@@ -2,7 +2,8 @@ import { DownloadOutlined } from "@ant-design/icons";
 import { Descriptions, Typography } from "antd";
 import { createStyles } from "antd-style";
 
-import { getImageDownloadFilename, type ImageMetadata } from "~/utils/data-uri.utils";
+import { useSavedFileToast } from "~/hooks/use-saved-file-toast";
+import { getImageDownloadFilename, type ImageMetadata, saveImageDataUri } from "~/utils/data-uri.utils";
 
 import { ResolutionValue } from "./resolution-value";
 import { type ImageDimensionsState } from "./use-image-dimensions";
@@ -15,7 +16,12 @@ interface DataUriMetadataProps {
 
 export const DataUriMetadata = ({ dataUri, metadata, dimensions }: DataUriMetadataProps) => {
   const { styles } = useStyles();
+  const { notifySavedFile } = useSavedFileToast();
   const downloadFileName = getImageDownloadFilename(metadata.ext);
+
+  const handleDownload = async () => {
+    notifySavedFile(await saveImageDataUri({ dataUri, ext: metadata.ext }));
+  };
 
   return (
     <Descriptions bordered size="small" column={1} className={styles.descriptions}>
@@ -26,7 +32,7 @@ export const DataUriMetadata = ({ dataUri, metadata, dimensions }: DataUriMetada
       <Descriptions.Item label="Extension">{metadata.ext}</Descriptions.Item>
       <Descriptions.Item label="Size">{metadata.sizeFormatted}</Descriptions.Item>
       <Descriptions.Item label="Download">
-        <Typography.Link href={dataUri} download={downloadFileName}>
+        <Typography.Link onClick={() => void handleDownload()}>
           <DownloadOutlined /> {downloadFileName}
         </Typography.Link>
       </Descriptions.Item>

@@ -102,20 +102,3 @@ interface CanEnableDownloadArgs {
 
 export const canEnableDownload = ({ isCompressing, compressedBlob }: CanEnableDownloadArgs): boolean =>
   !isCompressing && !isNullish(compressedBlob);
-
-interface TriggerDownloadArgs {
-  blob: Blob;
-  filename: string;
-}
-
-// Revoke the object URL right after the click so the browser doesn't retain the blob in memory. habit-hooks-disable non-essential-comment
-export const triggerDownload = ({ blob, filename }: TriggerDownloadArgs): void => {
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = filename;
-  document.body.appendChild(anchor);
-  anchor.click();
-  anchor.remove();
-  URL.revokeObjectURL(url);
-};

@@ -1,4 +1,4 @@
-import { downloadBlob } from "@lichens-innovation/ts-common/web";
+import { saveBlob, type SaveBlobResult } from "@lichens-innovation/ts-common/web";
 import { v4 as uuidv4 } from "uuid";
 
 import { getOpfsRoot, readBlobFromOpfs, removeOpfsEntry, writeTextFileToOpfs } from "~/utils/opfs.utils";
@@ -11,6 +11,7 @@ interface ConvertWorkerResponse {
 interface ExportMarkdownAsPdfArgs {
   markdown: string;
   fileName?: string;
+  fileHandle?: FileSystemFileHandle | null;
 }
 
 const convertMarkdownInWorker = (mdFilename: string): Promise<string> =>
@@ -37,7 +38,8 @@ const convertMarkdownInWorker = (mdFilename: string): Promise<string> =>
 export const exportMarkdownAsPdf = async ({
   markdown,
   fileName = "document.pdf",
-}: ExportMarkdownAsPdfArgs): Promise<void> => {
+  fileHandle,
+}: ExportMarkdownAsPdfArgs): Promise<SaveBlobResult> => {
   const root = await getOpfsRoot();
   const mdFilename = `markdown-pdf-export-${uuidv4()}.md`;
 
@@ -48,5 +50,5 @@ export const exportMarkdownAsPdf = async ({
   await removeOpfsEntry({ root, path: mdFilename });
   await removeOpfsEntry({ root, path: pdfFilename });
 
-  downloadBlob({ blob, fileName });
+  return saveBlob({ blob, fileName, handle: fileHandle });
 };

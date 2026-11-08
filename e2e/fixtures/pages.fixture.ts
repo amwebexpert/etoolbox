@@ -1,5 +1,6 @@
 import { expect, test as base } from "@playwright/test";
 
+import { disableSaveFilePicker } from "../helpers/save-file-picker";
 import { Base64Page } from "../pages/base64-page";
 import { CodingStandardsPage } from "../pages/coding-standards-page";
 import { ColorsPage } from "../pages/colors-page";
@@ -43,6 +44,10 @@ interface PageFixtures {
 }
 
 export const test = base.extend<PageFixtures>({
+  page: async ({ page }, provideFixture) => {
+    await disableSaveFilePicker(page);
+    await provideFixture(page);
+  },
   homePage: async ({ page }, provideFixture) => {
     await provideFixture(new HomePage(page));
   },
