@@ -5,7 +5,6 @@
  * This file must be imported FIRST in main.tsx before any other imports.
  */
 
-// Polyfill for Node.js process object
 if (typeof window !== "undefined") {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const win = window as any;

@@ -8,7 +8,6 @@
   "ignore": [".claude/**", "src/stubs/util.ts", "src/stubs/fs.ts"],
   "ignoreDependencies": [
     "buffer",
-    "jscpd",
     "path-browserify",
     "querystring-es3",
     "stream-browserify",
@@ -16,8 +15,6 @@
     "url",
     "@ai-hero/sandcastle",
     "@testing-library/dom",
-    "@testing-library/react",
-    "ts-morph"
-  ],
-  "ignoreBinaries": ["habit-hooks", "habit-snooze"]
+    "@testing-library/react"
+  ]
 }

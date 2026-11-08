@@ -42,7 +42,7 @@ const planSchema = z.object({
 const MAX_ITERATIONS = 10;
 
 // Hooks run inside the sandbox before the agent starts each iteration.
-// bun install reconciles deps (and runs postinstall → habit-hooks / husky).
+// bun install reconciles deps (and runs postinstall → patch-package / husky).
 const hooks = {
   sandbox: {
     onSandboxReady: [{ command: "bun install" }],

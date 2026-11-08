@@ -20,7 +20,6 @@ const createEntry = ({ code, name, description }: CreateEntryArgs): HttpStatusCo
 };
 
 export const HTTP_STATUS_CODES: HttpStatusCodeEntry[] = [
-  // 1xx Informational responses
   createEntry({
     code: 100,
     name: "Continue",
@@ -46,7 +45,6 @@ export const HTTP_STATUS_CODES: HttpStatusCodeEntry[] = [
       "Used to return some response headers before final HTTP message. Primarily intended for use with the Link header, letting the user agent start preloading resources while the server prepares a response.",
   }),
 
-  // 2xx Success
   createEntry({
     code: 200,
     name: "OK",
@@ -108,7 +106,6 @@ export const HTTP_STATUS_CODES: HttpStatusCodeEntry[] = [
       "The server has fulfilled a GET request for the resource, and the response is a representation of the result of one or more instance-manipulations applied to the current instance. (HTTP Delta encoding; RFC 3229)",
   }),
 
-  // 3xx Redirection
   createEntry({
     code: 300,
     name: "Multiple Choices",
@@ -164,7 +161,6 @@ export const HTTP_STATUS_CODES: HttpStatusCodeEntry[] = [
       "This means that the resource is now permanently located at another URI, specified by the Location header. Unlike 301, the request method is not allowed to change from POST to GET.",
   }),
 
-  // 4xx Client errors
   createEntry({
     code: 400,
     name: "Bad Request",
@@ -340,7 +336,6 @@ export const HTTP_STATUS_CODES: HttpStatusCodeEntry[] = [
       "The user agent requested a resource that cannot legally be provided, such as a web page censored by a government. The number 451 is a reference to the novel Fahrenheit 451.",
   }),
 
-  // 5xx Server errors
   createEntry({
     code: 500,
     name: "Internal Server Error",

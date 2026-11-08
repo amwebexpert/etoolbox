@@ -36,10 +36,11 @@ export const RegexTesterMatches = ({ highlightedHtml, matchCount, error }: Regex
     >
       <div
         className={styles.matchesBox}
-        // highlightedHtml is built in regex-tester.utils.ts via transformWithHighlights, which runs the raw
-        // text through escapeHtml() before wrapping matches in static <span> tags; the only literal markup
-        // here is that hardcoded wrapper and the static placeholder below, so no unescaped user input ever
-        // reaches the DOM.
+        /* habit-hooks-disable non-essential-comment
+         * highlightedHtml is built in regex-tester.utils.ts via transformWithHighlights, which runs the raw
+         * text through escapeHtml() before wrapping matches in static <span> tags; the only literal markup
+         * here is that hardcoded wrapper and the static placeholder below, so no unescaped user input ever
+         * reaches the DOM. */
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
           __html: isBlank(highlightedHtml)

@@ -1,0 +1,18 @@
+{
+  "$schema": "../node_modules/@lichens-innovation/eslint-plugin-coding-guide/schema/config.schema.json",
+  "files": [
+    "**/*.ts",
+    "**/*.tsx",
+    "!**/node_modules/**",
+    "!**/.sandcastle/**",
+    "!**/.bun-cache/**",
+    "!**/.tmp/**",
+    "!dist/**",
+    "!docs/**",
+    "!src/stubs/**",
+    "!.claude/**",
+    "!.yarn/**",
+    "!src/api/generated/**"
+  ],
+  "transformers": ["allow-aaa", "snooze", "habit-hooks-disable"]
+}

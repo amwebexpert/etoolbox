@@ -91,7 +91,7 @@ export const CsvParserStats = ({ result }: CsvParserStatsProps) => {
           </Typography.Text>
           <div className={styles.columnTags}>
             {stats.columnNames.map((col, index) => (
-              // Column names aren't guaranteed unique (a CSV can have duplicate headers); index is the only stable key.
+              // Column names aren't guaranteed unique (a CSV can have duplicate headers); index is the only stable key. habit-hooks-disable non-essential-comment
               // eslint-disable-next-line react/no-array-index-key
               <Tooltip key={index} title={`Column ${index + 1}`}>
                 <Tag className={styles.columnTag}>{col}</Tag>
