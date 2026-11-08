@@ -1,3 +1,9 @@
+# [4.14.0](https://github.com/amwebexpert/etoolbox/compare/v4.13.1...v4.14.0) (2026-11-08)
+
+
+### Features
+
+* **export:** save files with native "Save as" picker ([#181](https://github.com/amwebexpert/etoolbox/issues/181)) ([77118c7](https://github.com/amwebexpert/etoolbox/commit/77118c7f82583771235a7411e799565f1eca1ce8))
 ## [4.13.1](https://github.com/amwebexpert/etoolbox/compare/v4.13.0...v4.13.1) (2026-10-22)
 
 
