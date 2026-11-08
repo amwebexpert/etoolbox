@@ -43,7 +43,7 @@ test("search input filters the table by text", async ({ page }) => {
 test("clear button resets category and search", async ({ page }) => {
   // arrange
   const searchInput = page.getByPlaceholder("Search entity, name, number...");
-  const clearButton = page.getByRole("button", { name: "Clear" });
+  const clearButton = page.getByRole("button", { name: "Clear" }).filter({ hasText: "Clear" });
   const countText = page.getByText(/^\d+ \/ \d+$/);
   const initialCount = parseCount(await countText.innerText());
 

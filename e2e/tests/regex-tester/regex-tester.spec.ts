@@ -57,7 +57,7 @@ test("Clear button resets pattern, content and flags to empty defaults", async (
   const testContent = page.getByPlaceholder("Paste or type the content to test the regular expression against");
   await patternInput.fill("abc");
   await testContent.fill("abc");
-  const clearButton = page.getByRole("button", { name: "Clear" });
+  const clearButton = page.getByRole("button", { name: "Clear" }).filter({ hasText: "Clear" });
   await expect(clearButton).toBeEnabled();
 
   // act
