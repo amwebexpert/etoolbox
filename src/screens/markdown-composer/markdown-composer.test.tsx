@@ -21,11 +21,24 @@ describe("markdown-composer TAB_ITEMS", () => {
     expect(editorTab?.label).toBe("Markdown Editor");
   });
 
-  it("lists the Markdown Editor tab before the Markdown Composer tab", () => {
+  it("includes a PDF to Markdown tab keyed to /markdown-composer/pdf-to-markdown", () => {
+    // act
+    const pdfTab = TAB_ITEMS.find((item) => item.key === "/markdown-composer/pdf-to-markdown");
+
+    // assert
+    expect(pdfTab).toBeDefined();
+    expect(pdfTab?.label).toBe("PDF to Markdown");
+  });
+
+  it("lists the Markdown Editor, Markdown Composer, then PDF to Markdown tabs", () => {
     // act
     const keys = TAB_ITEMS.map((item) => item.key);
 
     // assert
-    expect(keys).toEqual(["/markdown-composer/editor", "/markdown-composer/composer"]);
+    expect(keys).toEqual([
+      "/markdown-composer/editor",
+      "/markdown-composer/composer",
+      "/markdown-composer/pdf-to-markdown",
+    ]);
   });
 });
