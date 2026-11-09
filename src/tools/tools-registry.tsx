@@ -133,7 +133,7 @@ export const TOOLS: Tool[] = [
   {
     icon: <FileMarkdownOutlined />,
     name: "Markdown",
-    description: "WYSIWYG editor & template composer",
+    description: "WYSIWYG editor, template composer & PDF to Markdown",
     path: "/markdown-composer",
   },
   {

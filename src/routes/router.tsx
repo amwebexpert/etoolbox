@@ -32,6 +32,7 @@ import { JwtDecoder } from "~/screens/jwt-decoder/jwt-decoder";
 import { MarkdownComposerScreen } from "~/screens/markdown-composer/composer/composer";
 import { MarkdownEditor } from "~/screens/markdown-composer/editor/editor";
 import { MarkdownComposer } from "~/screens/markdown-composer/markdown-composer";
+import { PdfToMarkdown } from "~/screens/markdown-composer/pdf-to-markdown/pdf-to-markdown";
 import { PokerPlanning } from "~/screens/poker-planning/poker-planning";
 import { QrcodeDecoder } from "~/screens/qrcode/decoder/qrcode-decoder";
 import { QrcodeGenerator } from "~/screens/qrcode/generator/qrcode-generator";
@@ -354,6 +355,12 @@ const markdownComposerComposerRoute = createRoute({
   component: MarkdownComposerScreen,
 });
 
+const markdownComposerPdfToMarkdownRoute = createRoute({
+  getParentRoute: () => markdownComposerRoute,
+  path: "/pdf-to-markdown",
+  component: PdfToMarkdown,
+});
+
 export const ROUTES_WITH_CHILDREN = [
   "/url",
   "/base64",
@@ -397,6 +404,7 @@ const routeTree = rootRoute.addChildren([
     markdownComposerIndexRoute,
     markdownComposerEditorRoute,
     markdownComposerComposerRoute,
+    markdownComposerPdfToMarkdownRoute,
   ]),
 ]);
 

@@ -5,7 +5,7 @@
     "": {
       "name": "web-toolbox",
       "dependencies": {
-        "@amwebexpert/md2pdf-wasm": "0.1.3",
+        "@amwebexpert/md2pdf-wasm": "0.3.0",
         "@ant-design/icons": "6.3.4",
         "@lichens-innovation/react-markdown-composer": "1.6.2",
         "@lichens-innovation/ts-common": "1.29.0",
@@ -147,7 +147,7 @@
   "packages": {
     "@ai-hero/sandcastle": ["@ai-hero/sandcastle@0.14.0", "", { "dependencies": { "@clack/prompts": "^1.1.0" }, "peerDependencies": { "@daytona/sdk": ">=0.164.0 <1.0.0", "@fly/sprites": ">=0.2.4 <1.0.0", "@vercel/sandbox": ">=1.0.0", "e2b": ">=2.62.0 <3.0.0", "modal": ">=0.11.0 <1.0.0" }, "optionalPeers": ["@daytona/sdk", "@fly/sprites", "@vercel/sandbox", "e2b", "modal"], "bin": { "sandcastle": "dist/main.js" } }, "sha512-s9B/23nPWL6y2sZkVxksqTge0MqGWr2HtjneGDf/V1npReiqDRlUJUvQ4+7K0oWORLqgHU5wLK0pfukg+UqTqQ=="],
 
-    "@amwebexpert/md2pdf-wasm": ["@amwebexpert/md2pdf-wasm@0.1.3", "", {}, "sha512-NsCL4SWvRLTQiOKYpbBinDZXmO34k70nQMIxTmW5u5pBWE1GvJdraYK+FpP67j4iWIdSU7anBFRP9u8eP3edww=="],
+    "@amwebexpert/md2pdf-wasm": ["@amwebexpert/md2pdf-wasm@0.3.0", "", {}, "sha512-MiwxSkh7nGryxbHm2gTLgqoNmVP1kiVN4syZH9TaR1OLiLS6iXADLWFfZ3fcCszlh/Qb/MLloF2zPnQ1ilFDpw=="],
 
     "@ant-design/colors": ["@ant-design/colors@8.0.1", "", { "dependencies": { "@ant-design/fast-color": "^3.0.0" } }, ""],
 
